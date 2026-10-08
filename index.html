@@ -334,10 +334,9 @@ function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function renderSchool(s){
   const info = catInfo(s.school_id);
   const b = blended(s.school_id);
-  const catChip = info ? `<span class="chip ${info.category.toLowerCase()}">${info.category}</span>` : (s.is_custom?`<span class="chip">Custom</span>`:"");
+  const catChip = s.is_custom ? `<span class="chip">Custom</span>` : "";
   const facts = info ? `<div class="facts">
-      <span>size <b>${esc(info.sizeApprox)}</b></span><span>cost <b>${esc(info.costApprox)}</b></span>
-      <span>from home <b>${esc(info.distanceFromBoston)}</b></span></div>
+      <span>size <b>${esc(info.sizeApprox)}</b></span><span>cost <b>${esc(info.costApprox)}</b></span></div>
     <div class="facts"><span>early <b>${esc(info.earlyDeadline)}</b></span><span>regular <b>${esc(info.regularDeadline)}</b></span>
       ${info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener">admissions ↗</a>`:""}</div>` : "";
   const raters = state.members.map(m => {
@@ -410,7 +409,7 @@ function renderPicklist(q){
     .slice(0, 40);
   $("picklist").innerHTML = list.map(c =>
     `<div class="pick" data-pick="${esc(c.id)}">
-       <div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city)}, ${esc(c.state)} · ${esc(c.category)}</div></div>
+       <div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city)}, ${esc(c.state)}</div></div>
        <button class="small primary add">Add</button>
      </div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
