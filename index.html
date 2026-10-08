@@ -173,11 +173,23 @@ a{color:var(--teal)}
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row">
-        <button id="btn-invite" class="small">My family code</button>
-        <button id="btn-share" class="small">Invite a family</button>
-        <button id="btn-refresh" class="small ghost">↻ Refresh</button>
+        <button id="btn-invite" class="small primary">+ Add my family</button>
+        <button id="btn-share" class="small ghost">Tell another family</button>
       </div>
     </div>
+    <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <b style="font-size:15px">How Zoe's Colleges works</b>
+        <button id="howto-x" class="small ghost" style="padding:2px 8px">Got it ✕</button>
+      </div>
+      <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
+        <li><b>Add schools</b> — anyone in the family can add or remove them.</li>
+        <li><b>Rate with stars</b> — tap your row of stars on each school. You only control your own stars; you can see everyone's.</li>
+        <li><b>Invite your family</b> — share your code so Usha and Zoe rate too.</li>
+        <li><b>Watch the family average</b> — schools sort by it, so your shared favorites rise to the top.</li>
+      </ol>
+    </div>
+    <div id="nextstep" class="msg hidden"></div>
     <div id="board-msg" class="msg"></div>
     <div id="schools"></div>
     <button id="fab-add" class="fab">+ Add school</button>
@@ -203,7 +215,15 @@ a{color:var(--teal)}
 
 <!-- ===== SHARE-WITH-A-FAMILY DIALOG ===== -->
 <dialog id="dlg-share">
-  <h2 style="margin-top:0">Invite a family</h2>
+  <h2 style="margin-top:0">Tell another family</h2>
+  <div class="card" style="background:color-mix(in srgb,var(--amber) 10%,var(--surface));border-color:var(--amber);margin-top:0">
+    <b style="font-size:14px">Your reward</b>
+    <p style="font-size:13px;margin:4px 0 8px">Every family that signs up with your personal link gets you <b>one free month</b> once paid plans begin after the beta.</p>
+    <div class="row" style="justify-content:space-between">
+      <span class="mono" style="font-size:12px">Your code: <b id="sh-refcode">—</b></span>
+      <span class="counter">Joined with your code: <b id="sh-refcount">0</b></span>
+    </div>
+  </div>
   <label for="shto">Their email (optional)</label>
   <input id="shto" type="email" placeholder="friend@example.com" autocapitalize="off">
   <label for="shmsg">Message — edit anything</label>
@@ -288,7 +308,8 @@ $("go-create").onclick = async () => {
   const fam = $("famname").value.trim(), name = $("myname1").value.trim(), role = $("myrole1").value;
   if (!fam || !name) return msg("onboard-msg","Family name and your name, please.");
   $("go-create").disabled = true;
-  const { error } = await sb.rpc("create_family",{ family_name:fam, my_name:name });
+  const refCode = new URLSearchParams(location.search).get("ref") || localStorage.getItem("zc_ref") || null;
+  const { error } = await sb.rpc("create_family",{ family_name:fam, my_name:name, ref_code: refCode });
   $("go-create").disabled = false;
   if (error) return msg("onboard-msg", error.message);
   if (role === "student") await fixRole("student");
@@ -483,20 +504,31 @@ $("inv-close").onclick = () => $("dlg-invite").close();
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(location.origin + location.pathname); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link to this app",1500);}catch(e){} };
 
-/* ========== INVITE A FAMILY (share hub) ========== */
+/* ========== TELL ANOTHER FAMILY (referral share hub) ========== */
 const APP_LINK = "https://oarthur-dotcom.github.io/zoescolleges-app/";
+function refLink(){
+  const code = state.family && state.family.referral_code;
+  return code ? `${APP_LINK}?ref=${code}` : APP_LINK;
+}
 function shareText(){
   const from = state.family ? state.family.name : "our family";
   return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).
 
 Getting started takes 2 minutes:
-1. Open ${APP_LINK}
+1. Open ${refLink()}
 2. Create an account (one parent goes first)
 3. Tap "Start a new family", then share your family code so everyone else can join your board
 
 — ${from}`;
 }
-$("btn-share").onclick = () => { $("shmsg").value = shareText(); $("shto").value=""; $("dlg-share").showModal(); };
+$("btn-share").onclick = async () => {
+  $("shmsg").value = shareText(); $("shto").value="";
+  $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—";
+  $("sh-refcount").textContent = "…";
+  $("dlg-share").showModal();
+  try { const { data } = await sb.rpc("my_referral_count"); $("sh-refcount").textContent = (data ?? 0); }
+  catch(e){ $("sh-refcount").textContent = "0"; }
+};
 $("sh-close").onclick = () => $("dlg-share").close();
 $("sh-share").onclick = async () => {
   const text = $("shmsg").value;
@@ -512,7 +544,6 @@ $("sh-email").onclick = () => {
 $("sh-copy").onclick = async () => { try { await navigator.clipboard.writeText($("shmsg").value); $("sh-copy").textContent="Copied ✓"; setTimeout(()=>$("sh-copy").textContent="Copy message",1500);}catch(e){} };
 
 /* ========== MISC ========== */
-$("btn-refresh").onclick = async () => { await Promise.all([loadSchools(), loadRatings()]); renderBoard(); };
 document.addEventListener("visibilitychange", async () => {
   if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); }
 });
@@ -535,6 +566,8 @@ function route(session){
 sb.auth.onAuthStateChange((_event, session) => route(session));
 // Initial load: read the current session once, outside any callback lock.
 (async () => {
+  const ref = new URLSearchParams(location.search).get("ref");
+  if (ref) { try { localStorage.setItem("zc_ref", ref); } catch(e){} }
   setAuthMode("signin");
   const { data } = await sb.auth.getSession();
   route(data.session);
