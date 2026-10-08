@@ -110,6 +110,8 @@ dialog::backdrop{background:rgba(10,14,25,.55)}
 .counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .counter b{color:var(--amber)}
 a{color:var(--teal)}
+.plan-btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px}
+.plan-btn:hover{opacity:.9}
 </style>
 </head>
 <body>
@@ -198,6 +200,7 @@ a{color:var(--teal)}
       <div class="row">
         <button id="btn-invite" class="small primary">+ Add my family</button>
         <button id="btn-share" class="small ghost">Tell another family</button>
+        <button id="btn-plans" class="small ghost">Plans</button>
       </div>
     </div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
@@ -275,6 +278,28 @@ a{color:var(--teal)}
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="sh-close" class="small">Close</button></div>
 </dialog>
 
+<!-- ===== PLANS DIALOG ===== -->
+<dialog id="dlg-plans">
+  <h2 style="margin-top:0">Plans</h2>
+  <p class="muted" style="font-size:13px;margin-top:0">During the beta every family is on <b>Family+ free</b>. These are the plans for when the beta ends — you can try the checkout now in test mode.</p>
+  <div class="card" style="margin:10px 0">
+    <div class="row" style="justify-content:space-between"><b>Free</b><span class="mono">$0</span></div>
+    <div class="muted" style="font-size:13px">2 seats · 3 schools</div>
+  </div>
+  <div class="card" style="margin:10px 0">
+    <div class="row" style="justify-content:space-between"><b>Family</b><span class="mono">$12/mo</span></div>
+    <div class="muted" style="font-size:13px;margin-bottom:8px">Up to 25 schools · visit days · dossiers</div>
+    <a class="plan-btn" href="https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00" target="_blank" rel="noopener">Choose Family</a>
+  </div>
+  <div class="card" style="margin:10px 0;border-color:var(--teal)">
+    <div class="row" style="justify-content:space-between"><b>Family+</b><span class="mono">$20/mo</span></div>
+    <div class="muted" style="font-size:13px;margin-bottom:8px">Unlimited schools · everything in Family</div>
+    <a class="plan-btn" href="https://buy.stripe.com/test_aFabJ03Xj1Jb4ekeg39ws00" target="_blank" rel="noopener">Choose Family+</a>
+  </div>
+  <p class="muted" style="font-size:12px">Test mode — use card 4242 4242 4242 4242, any future date and CVC. No real charge.</p>
+  <div class="row" style="justify-content:flex-end"><button id="plans-close" class="small">Close</button></div>
+</dialog>
+
 <!-- ===== INVITE DIALOG ===== -->
 <dialog id="dlg-invite">
   <h2 style="margin-top:0">Invite your family</h2>
@@ -291,6 +316,11 @@ const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@main/colleges.json";
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
+// Stripe TEST-mode Payment Links (Zoe's Colleges test account). No real charges — swap for live links at launch.
+const PLAN_LINKS = {
+  family: "https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00",
+  family_plus: "https://buy.stripe.com/test_aFabJ03Xj1Jb4ekeg39ws00"
+};
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
@@ -649,6 +679,8 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
+$("btn-plans").onclick = () => $("dlg-plans").showModal();
+$("plans-close").onclick = () => $("dlg-plans").close();
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(location.origin + location.pathname); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link to this app",1500);}catch(e){} };
 
