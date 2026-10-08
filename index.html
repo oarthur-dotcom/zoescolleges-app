@@ -185,7 +185,7 @@ a{color:var(--teal)}
       <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
         <li><b>Add schools</b> — anyone in the family can add or remove them.</li>
         <li><b>Rate with stars</b> — tap your row of stars on each school. You only control your own stars; you can see everyone's.</li>
-        <li><b>Invite your family</b> — share your code so Usha and Zoe rate too.</li>
+        <li><b>Invite your family</b> — share your code so the rest of your family can rate too.</li>
         <li><b>Watch the family average</b> — schools sort by it, so your shared favorites rise to the top.</li>
       </ol>
     </div>
@@ -399,7 +399,7 @@ function renderGuidance(sorted){
   const soloFamily = state.members.length < 2;
   let tip = "";
   if (!state.schools.length) tip = `👋 Start by adding schools you're considering — search the list or add your own. You'll see info, deadlines, and tracking right away.`;
-  else if (soloFamily) tip = `⭐ Rate any school whenever you like — tap your stars, and change them anytime, before or after a visit. Then tap <b>+ Add my family</b> so Usha and Zoe can add their stars too.`;
+  else if (soloFamily) tip = `⭐ Rate any school whenever you like — tap your stars, and change them anytime, before or after a visit. Then tap <b>+ Add my family</b> so the rest of your family can add their stars too.`;
   else {
     const top = sorted.find(s => blended(s.school_id)!==null);
     tip = top ? `🏆 Your family's top pick so far: <b>${esc(top.name)}</b> (${blended(top.school_id).toFixed(1)} avg). Rate or re-rate any school anytime — the list re-sorts itself.` : `⭐ Everyone can rate now — tap your stars on any school. Change them anytime; the list sorts by your family average.`;
