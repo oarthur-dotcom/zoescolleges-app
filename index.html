@@ -107,6 +107,17 @@ a{color:var(--teal)}
 
 <div class="wrap">
 
+  <!-- ===== LOADING ===== -->
+  <section id="v-loading" class="hidden">
+    <div class="card" style="text-align:center;margin-top:60px"><span class="spin"></span> <span class="muted">Loading your board…</span>
+      <div id="loading-slow" class="hidden" style="margin-top:14px">
+        <p class="muted" style="font-size:13px">Taking longer than usual.</p>
+        <button id="loading-retry" class="small primary">Try again</button>
+        <button id="loading-out" class="small ghost">Sign out</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== AUTH ===== -->
   <section id="v-auth" class="hidden">
     <h1>The college search, as a family.</h1>
@@ -229,7 +240,7 @@ let state = { session:null, family:null, members:[], schools:[], ratings:[], cat
 
 /* ========== VIEW SWITCH ========== */
 function show(view){
-  for (const v of ["v-auth","v-onboard","v-board"]) $(v).classList.toggle("hidden", v!==view);
+  for (const v of ["v-auth","v-onboard","v-board","v-loading"]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", view==="v-auth");
 }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.textContent = text; }
@@ -299,16 +310,27 @@ async function fixRole(role){
 
 /* ========== DATA ========== */
 async function loadFamily(){
-  const uid = state.session.user.id;
-  const { data: mem } = await sb.from("members").select("*").order("created_at");
-  if (!mem || !mem.length){ show("v-onboard"); return; }
-  state.members = mem;
-  state.me = mem.find(m => m.user_id === uid);
-  const { data: fams } = await sb.from("families").select("*").limit(1);
-  state.family = fams && fams[0];
-  await Promise.all([loadSchools(), loadRatings(), loadCatalog()]);
-  renderBoard(); show("v-board");
+  show("v-loading");
+  const slow = setTimeout(()=>$("loading-slow").classList.remove("hidden"), 6000);
+  try {
+    const uid = state.session.user.id;
+    const { data: mem, error: memErr } = await sb.from("members").select("*").order("created_at");
+    if (memErr) throw memErr;
+    if (!mem || !mem.length){ clearTimeout(slow); show("v-onboard"); return; }
+    state.members = mem;
+    state.me = mem.find(m => m.user_id === uid);
+    const { data: fams } = await sb.from("families").select("*").limit(1);
+    state.family = fams && fams[0];
+    await Promise.all([loadSchools(), loadRatings(), loadCatalog()]);
+    renderBoard(); show("v-board");
+  } catch(e){
+    msg("board-msg", "Couldn't load your board: " + (e.message||e) + " — tap Try again.");
+    show("v-board");
+    $("schools").innerHTML = `<div class="card"><span class="muted">Something went wrong loading your board.</span><div class="row" style="margin-top:10px"><button class="small primary" onclick="location.reload()">Try again</button></div></div>`;
+  } finally { clearTimeout(slow); $("loading-slow").classList.add("hidden"); }
 }
+$("loading-retry").onclick = () => location.reload();
+$("loading-out").onclick = async () => { await sb.auth.signOut(); location.reload(); };
 async function loadSchools(){
   const { data } = await sb.from("family_schools").select("*").order("position").order("created_at");
   state.schools = data || [];
