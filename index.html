@@ -162,7 +162,8 @@ a{color:var(--teal)}
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row">
-        <button id="btn-invite" class="small">Invite family</button>
+        <button id="btn-invite" class="small">My family code</button>
+        <button id="btn-share" class="small">Invite a family</button>
         <button id="btn-refresh" class="small ghost">↻ Refresh</button>
       </div>
     </div>
@@ -187,6 +188,22 @@ a{color:var(--teal)}
     <div class="row" style="margin-top:10px"><button id="go-custom" class="small primary">Add it</button></div>
   </details>
   <div class="row" style="margin-top:14px;justify-content:flex-end"><button id="dlg-close" class="small">Done</button></div>
+</dialog>
+
+<!-- ===== SHARE-WITH-A-FAMILY DIALOG ===== -->
+<dialog id="dlg-share">
+  <h2 style="margin-top:0">Invite a family</h2>
+  <label for="shto">Their email (optional)</label>
+  <input id="shto" type="email" placeholder="friend@example.com" autocapitalize="off">
+  <label for="shmsg">Message — edit anything</label>
+  <textarea id="shmsg" style="min-height:190px"></textarea>
+  <div class="row" style="margin-top:12px">
+    <button id="sh-share" class="small primary">Share…</button>
+    <button id="sh-email" class="small">Open in email</button>
+    <button id="sh-copy" class="small">Copy message</button>
+  </div>
+  <p class="muted" style="font-size:12px;margin-bottom:0">They sign up and start their own family — full product, free during the beta.</p>
+  <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="sh-close" class="small">Close</button></div>
 </dialog>
 
 <!-- ===== INVITE DIALOG ===== -->
@@ -443,6 +460,34 @@ $("btn-invite").onclick = () => {
 $("inv-close").onclick = () => $("dlg-invite").close();
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(location.origin + location.pathname); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link to this app",1500);}catch(e){} };
+
+/* ========== INVITE A FAMILY (share hub) ========== */
+const APP_LINK = "https://oarthur-dotcom.github.io/zoescolleges-app/";
+function shareText(){
+  const from = state.family ? state.family.name : "our family";
+  return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).
+
+Getting started takes 2 minutes:
+1. Open ${APP_LINK}
+2. Create an account (one parent goes first)
+3. Tap "Start a new family", then share your family code so everyone else can join your board
+
+— ${from}`;
+}
+$("btn-share").onclick = () => { $("shmsg").value = shareText(); $("shto").value=""; $("dlg-share").showModal(); };
+$("sh-close").onclick = () => $("dlg-share").close();
+$("sh-share").onclick = async () => {
+  const text = $("shmsg").value;
+  if (navigator.share) { try { await navigator.share({ title:"Zoe's Colleges beta", text }); } catch(e){} }
+  else { try { await navigator.clipboard.writeText(text); $("sh-share").textContent="Copied ✓"; setTimeout(()=>$("sh-share").textContent="Share…",1500);}catch(e){} }
+};
+$("sh-email").onclick = () => {
+  const to = encodeURIComponent($("shto").value.trim());
+  const su = encodeURIComponent("You're invited: Zoe's Colleges beta");
+  const bo = encodeURIComponent($("shmsg").value);
+  location.href = `mailto:${to}?subject=${su}&body=${bo}`;
+};
+$("sh-copy").onclick = async () => { try { await navigator.clipboard.writeText($("shmsg").value); $("sh-copy").textContent="Copied ✓"; setTimeout(()=>$("sh-copy").textContent="Copy message",1500);}catch(e){} };
 
 /* ========== MISC ========== */
 $("btn-refresh").onclick = async () => { await Promise.all([loadSchools(), loadRatings()]); renderBoard(); };
