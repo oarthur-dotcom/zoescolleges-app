@@ -389,7 +389,26 @@ function renderBoard(){
   $("schools").innerHTML = sorted.map(renderSchool).join("") ||
     `<div class="card muted">No schools yet. Tap <b>+ Add school</b> to start the board.</div>`;
   bindStars();
+  renderGuidance(sorted);
 }
+function renderGuidance(sorted){
+  // "How it works" strip — shows until dismissed
+  let dismissed = false; try { dismissed = localStorage.getItem("zc_howto")==="1"; } catch(e){}
+  $("howto").classList.toggle("hidden", dismissed);
+  // Dynamic next step — the single most useful thing to do now
+  const myRatings = state.ratings.filter(r => r.user_id===state.me.user_id && r.rating);
+  const soloFamily = state.members.length < 2;
+  let tip = "";
+  if (!state.schools.length) tip = `👋 <b>Step 1:</b> add a few schools — tap <b>+ Add school</b> at the bottom right.`;
+  else if (!myRatings.length) tip = `⭐ <b>Step 2:</b> rate your schools — tap the stars on your row. Only you can set your own stars; everyone sees them.`;
+  else if (soloFamily) tip = `👨‍👩‍👧 <b>Step 3:</b> invite the family — tap <b>+ Add my family</b> so Usha and Zoe rate too. Schools sort by your shared average.`;
+  else {
+    const top = sorted.find(s => blended(s.school_id)!==null);
+    tip = top ? `🏆 Your family's top pick so far: <b>${esc(top.name)}</b> (${blended(top.school_id).toFixed(1)} avg). Keep rating as you visit.` : `⭐ Rate your schools — tap the stars on each one.`;
+  }
+  const n = $("nextstep"); n.className = "msg ok"; n.innerHTML = tip; n.classList.remove("hidden");
+}
+$("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function renderSchool(s){
   const info = catInfo(s.school_id);
