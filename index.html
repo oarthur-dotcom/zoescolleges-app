@@ -305,10 +305,13 @@ a{color:var(--teal)}
   <h2 style="margin-top:0">Invite your family</h2>
   <p class="muted" style="font-size:14px">Have them create an account here, choose <b>Join with an invite code</b>, and enter:</p>
   <div class="card" style="text-align:center"><span id="invcode" class="mono" style="font-size:22px;letter-spacing:.08em"></span></div>
-  <div class="row"><button id="copy-inv" class="small primary">Copy code</button><button id="copy-link" class="small">Copy link to this app</button></div>
-  <label for="invto" style="margin-top:14px">Or email the invite</label>
-  <input id="invto" type="email" placeholder="their@email.com" autocapitalize="off">
-  <div class="row" style="margin-top:8px"><button id="inv-email" class="small primary">Email the invite</button></div>
+  <p class="muted" style="font-size:13px;margin:12px 0 6px">Send it (link + code together):</p>
+  <div class="row">
+    <button id="inv-share" class="small primary">Share…</button>
+    <button id="inv-text" class="small">Text</button>
+    <button id="inv-mail" class="small">Email</button>
+  </div>
+  <div class="row" style="margin-top:8px"><button id="copy-inv" class="small ghost">Copy code</button><button id="copy-link" class="small ghost">Copy link</button></div>
   <p class="muted" style="font-size:12px" id="seatnote"></p>
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="inv-close" class="small">Close</button></div>
 </dialog>
@@ -682,20 +685,23 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
-$("inv-email").onclick = () => {
+function inviteMsg(){
   const code = state.family.invite_code;
-  const to = encodeURIComponent($("invto").value.trim());
-  const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`);
-  const body = encodeURIComponent(
-`You're invited to our family's college board on Zoe's Colleges.
+  return `You're invited to our ${state.family.name} board on Zoe's Colleges.
 
-To join:
 1. Open ${APP_LINK}
 2. Create an account (email + password)
-3. Choose "Join with an invite code" and enter:  ${code}
-
-That's it — you'll see our shared list and can add your own star ratings.`);
-  location.href = `mailto:${to}?subject=${su}&body=${body}`;
+3. Choose "Join with an invite code" and enter: ${code}`;
+}
+$("inv-share").onclick = async () => {
+  const text = inviteMsg();
+  if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} }
+  else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} }
+};
+$("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
+$("inv-mail").onclick = () => {
+  const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`);
+  location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`;
 };
 $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();
