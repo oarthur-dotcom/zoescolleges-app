@@ -27,8 +27,25 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto;padding:0 16px 80px}
-header.app{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:10px}
-header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em}
+header.app{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px}
+header.app .hrow{display:flex;align-items:center;gap:10px}
+header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
+.appnav{display:flex;gap:4px;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+.appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:15px;padding:7px 12px;border-radius:9px;cursor:pointer}
+.appnav .navbtn.active{background:var(--sunk);color:var(--ink)}
+.backbtn{background:transparent;border:none;color:var(--teal);font-family:var(--disp);font-weight:600;font-size:14px;padding:10px 0;cursor:pointer}
+.openlink{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.openlink:hover{border-color:var(--teal);color:var(--teal)}
+.d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
+.d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
+.d-cell{background:var(--surface);padding:11px 13px}
+.d-cell .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.d-cell .v{font-size:16px;font-weight:600;margin-top:2px}
+.d-cell .v.dim{color:var(--muted);font-weight:400;font-size:13px}
+.srow{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:8px 0}
+.srow .sn{font-weight:600;font-size:15px}
+.srow .sl{color:var(--muted);font-size:12px;font-family:var(--mono)}
 header.app .logo span{color:var(--teal)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
@@ -97,12 +114,18 @@ a{color:var(--teal)}
 </head>
 <body>
 <header class="app">
-  <div class="logo">Zoe's <span>Colleges</span></div>
-  <span class="beta">Beta</span>
-  <div class="right">
-    <span id="whoami" class="mono muted" style="font-size:12px"></span>
-    <button id="signout" class="small ghost hidden">Sign out</button>
+  <div class="hrow">
+    <div class="logo" id="logo-home">Zoe's <span>Colleges</span></div>
+    <span class="beta">Beta</span>
+    <div class="right">
+      <span id="whoami" class="mono muted" style="font-size:12px"></span>
+      <button id="signout" class="small ghost hidden">Sign out</button>
+    </div>
   </div>
+  <nav class="appnav hidden" id="appnav">
+    <button class="navbtn" data-nav="board">My Board</button>
+    <button class="navbtn" data-nav="explore">Explore schools</button>
+  </nav>
 </header>
 
 <div class="wrap">
@@ -195,6 +218,21 @@ a{color:var(--teal)}
     <button id="fab-add" class="fab">+ Add school</button>
   </section>
 
+  <!-- ===== EXPLORE ===== -->
+  <section id="v-explore" class="hidden">
+    <h1>Explore schools</h1>
+    <p class="sub">Browse every school in the catalog. Open one to see the detail, or add it to your family board.</p>
+    <input id="exsearch" type="text" placeholder="Search by name, city, or state…">
+    <div id="excount" class="counter" style="margin-top:10px"></div>
+    <div id="exlist" style="margin-top:8px"></div>
+  </section>
+
+  <!-- ===== SCHOOL DETAIL ===== -->
+  <section id="v-detail" class="hidden">
+    <button class="backbtn" id="detail-back">← Back</button>
+    <div id="detail-body"></div>
+  </section>
+
 </div>
 
 <!-- ===== ADD SCHOOL DIALOG ===== -->
@@ -258,10 +296,29 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin" };
 
-/* ========== VIEW SWITCH ========== */
+/* ========== VIEW SWITCH + NAV ========== */
+const APP_VIEWS = ["v-board","v-explore","v-detail"];
 function show(view){
-  for (const v of ["v-auth","v-onboard","v-board","v-loading"]) $(v).classList.toggle("hidden", v!==view);
+  for (const v of ["v-auth","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", view==="v-auth");
+  $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  window.scrollTo(0,0);
+}
+let currentView = "board", currentDetailId = null, detailFrom = "board";
+function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab)); }
+function goto(view){
+  currentView = view;
+  if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
+  else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
+}
+function openDetail(id, from){
+  detailFrom = from||"board"; currentView="detail"; currentDetailId=id;
+  setNavActive(detailFrom); show("v-detail"); renderDetail(id);
+}
+function refreshCurrent(){
+  if (currentView==="board") renderBoard();
+  else if (currentView==="explore") renderExList($("exsearch").value||"");
+  else if (currentView==="detail") renderDetail(currentDetailId);
 }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.textContent = text; }
 function clearmsg(id){ $(id).className = "msg"; }
@@ -343,7 +400,7 @@ async function loadFamily(){
     const { data: fams } = await sb.from("families").select("*").limit(1);
     state.family = fams && fams[0];
     await Promise.all([loadSchools(), loadRatings(), loadCatalog()]);
-    renderBoard(); show("v-board");
+    goto("board");
   } catch(e){
     msg("board-msg", "Couldn't load your board: " + (e.message||e) + " — tap Try again.");
     show("v-board");
@@ -387,8 +444,9 @@ function renderBoard(){
     return bb - ba;
   });
   $("schools").innerHTML = sorted.map(renderSchool).join("") ||
-    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> to start the board.</div>`;
-  bindStars();
+    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore schools</b> up top to browse the full list.</div>`;
+  bindStars($("schools"));
+  wireOpen($("schools"));
   renderGuidance(sorted);
 }
 function renderGuidance(sorted){
@@ -416,28 +474,17 @@ function renderSchool(s){
       <span>size <b>${esc(info.sizeApprox)}</b></span><span>cost <b>${esc(info.costApprox)}</b></span></div>
     <div class="facts"><span>early <b>${esc(info.earlyDeadline)}</b></span><span>regular <b>${esc(info.regularDeadline)}</b></span>
       ${info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener">admissions ↗</a>`:""}</div>` : "";
-  const raters = state.members.map(m => {
-    const r = state.ratings.find(x => x.school_id===s.school_id && x.user_id===m.user_id);
-    const mine = m.user_id === state.me.user_id;
-    const stars = [1,2,3,4,5].map(n =>
-      `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${s.school_id}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
-    return `<div class="rater ${mine?"me":""}">
-      <span class="who">${esc(m.display_name)}</span>
-      <span class="stars ${mine?"mine":""}">${stars}</span>
-      ${mine?"":'<span class="lock">theirs</span>'}
-    </div>`;
-  }).join("");
-  const myNote = state.ratings.find(x => x.school_id===s.school_id && x.user_id===state.me.user_id)?.note || "";
   return `<div class="school" data-school="${esc(s.school_id)}">
     <div class="top">
       <div><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
+      <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings yet</div>`}</div>
     </div>
     ${facts}
-    <div class="raters">${raters}</div>
+    <div class="raters">${ratersHtml(s.school_id)}</div>
     <details class="extra"><summary>My note · remove school</summary>
-      <textarea data-note="${esc(s.school_id)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>
+      ${noteHtml(s.school_id)}
       <div class="row" style="margin-top:8px;justify-content:space-between">
         <button class="small" data-savenote="${esc(s.school_id)}">Save note</button>
         <button class="small ghost" style="color:var(--warn)" data-remove="${esc(s.school_id)}">Remove from board</button>
@@ -445,29 +492,113 @@ function renderSchool(s){
     </details>
   </div>`;
 }
-function bindStars(){
-  document.querySelectorAll("[data-rate]").forEach(el => el.onclick = async () => {
+function ratersHtml(schoolId){
+  return state.members.map(m => {
+    const r = state.ratings.find(x => x.school_id===schoolId && x.user_id===m.user_id);
+    const mine = m.user_id === state.me.user_id;
+    const stars = [1,2,3,4,5].map(n =>
+      `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${schoolId}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
+    return `<div class="rater ${mine?"me":""}">
+      <span class="who">${esc(m.display_name)}</span>
+      <span class="stars ${mine?"mine":""}">${stars}</span>
+      ${mine?"":'<span class="lock">theirs</span>'}
+    </div>`;
+  }).join("");
+}
+function noteHtml(schoolId){
+  const myNote = state.ratings.find(x => x.school_id===schoolId && x.user_id===state.me.user_id)?.note || "";
+  return `<textarea data-note="${esc(schoolId)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>`;
+}
+
+/* ========== EXPLORE ========== */
+function renderExplore(){ renderExList($("exsearch").value||""); }
+function renderExList(q){
+  const have = new Set(state.schools.map(s=>s.school_id));
+  const list = state.catalog.filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase()));
+  $("excount").innerHTML = `<b>${list.length}</b> school${list.length===1?"":"s"}${state.catalog.length?"":" — catalog still loading"}`;
+  $("exlist").innerHTML = list.slice(0,200).map(c => {
+    const added = have.has(c.id);
+    return `<div class="srow">
+      <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div><div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div></div>
+      <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
+      <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
+    </div>`;
+  }).join("") || `<div class="card muted">No matches.</div>`;
+  wireOpen($("exlist"));
+  $("exlist").querySelectorAll("[data-exadd]").forEach(el => el.onclick = async () => { await addFromCatalog(el.dataset.exadd); renderExList($("exsearch").value||""); });
+}
+function wireOpen(root){ root.querySelectorAll("[data-open]").forEach(el => el.onclick = () => openDetail(el.dataset.open, currentView==="detail"?detailFrom:currentView)); }
+
+/* ========== SCHOOL DETAIL ========== */
+function renderDetail(id){
+  const info = catInfo(id);
+  const onBoard = state.schools.find(s=>s.school_id===id);
+  const rec = onBoard || (info ? {school_id:id, name:info.name, city:info.city, state:info.state} : null);
+  if (!rec){ $("detail-body").innerHTML = `<div class="card muted">School not found.</div>`; return; }
+  const b = blended(id);
+  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v?"":"dim"}">${v?esc(v):"—"}</div></div>`;
+  const facts = info ? `<div class="d-grid">
+      ${cell("Size", info.sizeApprox)}
+      ${cell("Est. cost / yr", info.costApprox)}
+      ${cell("Early deadline", info.earlyDeadline)}
+      ${cell("Regular deadline", info.regularDeadline)}
+    </div>` : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school — richer data arrives with the next data refresh.</div>`;
+  const link = info && info.link ? `<p><a href="${esc(info.link)}" target="_blank" rel="noopener">Official admissions page ↗</a></p>` : "";
+  let rateBlock;
+  if (onBoard){
+    rateBlock = `<h2>Family ratings</h2><div class="raters" style="border-top:none;padding-top:0">${ratersHtml(id)}</div>
+      <h2>My note</h2>${noteHtml(id)}
+      <div class="row" style="margin-top:8px"><button class="small primary" data-savenote="${esc(id)}">Save note</button></div>`;
+  } else {
+    rateBlock = `<div class="card">Add this school to your board to rate it with your family.
+      <div class="row" style="margin-top:10px"><button class="small primary" data-detailadd="${esc(id)}">+ Add to board</button></div></div>`;
+  }
+  $("detail-body").innerHTML = `
+    <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
+      ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
+    <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
+    ${facts}${link}${rateBlock}
+    ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
+  bindStars($("detail-body"));
+  const addBtn = $("detail-body").querySelector("[data-detailadd]");
+  if (addBtn) addBtn.onclick = async () => { await addFromCatalog(id); renderDetail(id); };
+  const rmBtn = $("detail-body").querySelector("[data-detailremove]");
+  if (rmBtn) rmBtn.onclick = async () => {
+    const r = state.schools.find(x=>x.school_id===id);
+    if (!confirm(`Remove ${r?r.name:"this school"} from the board? Everyone's ratings stay saved.`)) return;
+    await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", id);
+    await loadSchools(); goto(detailFrom);
+  };
+}
+function bindStars(root){
+  root = root || document;
+  root.querySelectorAll("[data-rate]").forEach(el => el.onclick = async () => {
     const [sid, n] = el.dataset.rate.split("|");
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
     const rating = (cur && cur.rating === +n) ? null : +n;   // tap same star to clear
     await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating, updated_at: new Date().toISOString() });
-    await loadRatings(); renderBoard();
+    await loadRatings(); refreshCurrent();
   });
-  document.querySelectorAll("[data-savenote]").forEach(el => el.onclick = async () => {
+  root.querySelectorAll("[data-savenote]").forEach(el => el.onclick = async () => {
     const sid = el.dataset.savenote;
-    const note = document.querySelector(`[data-note="${CSS.escape(sid)}"]`).value;
+    const ta = root.querySelector(`[data-note="${CSS.escape(sid)}"]`); if (!ta) return;
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
-    await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating: cur?cur.rating:null, note, updated_at: new Date().toISOString() });
-    await loadRatings(); renderBoard();
+    await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating: cur?cur.rating:null, note: ta.value, updated_at: new Date().toISOString() });
+    await loadRatings(); el.textContent="Saved ✓"; setTimeout(()=>{el.textContent="Save note";},1200);
   });
-  document.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
+  root.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
     const sid = el.dataset.remove;
     const s = state.schools.find(x=>x.school_id===sid);
     if (!confirm(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`)) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", sid);
-    await loadSchools(); renderBoard();
+    await loadSchools(); refreshCurrent();
   });
 }
+/* nav + routing wiring */
+document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => goto(b.dataset.nav));
+$("logo-home").onclick = () => { if (state.family) goto("board"); };
+$("detail-back").onclick = () => goto(detailFrom);
+$("exsearch").oninput = e => renderExList(e.target.value);
 
 /* ========== ADD SCHOOL ========== */
 $("fab-add").onclick = () => {
