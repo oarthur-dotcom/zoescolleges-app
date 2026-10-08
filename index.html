@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><!-- Beta: remove at public launch -->
+<title>Zoe's Colleges — Beta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --paper:#f3f5f1;--surface:#ffffff;--sunk:#e9ece7;--ink:#101c2e;--muted:#79839c;
+  --line:#dbdfe6;--teal:#0b7f81;--amber:#b06f0c;--plum:#8e3b7a;--warn:#c2410c;
+  --disp:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
+  --star:#d99a06;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
+  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;
+}}
+:root[data-theme="dark"]{
+  --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
+  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 80px}
+header.app{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:10px}
+header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em}
+header.app .logo span{color:var(--teal)}
+header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
+header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:22px 0 6px}
+h2{font-size:18px;font-weight:700;margin:18px 0 8px}
+p.sub{color:var(--muted);margin:0 0 18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+label{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
+input[type=email],input[type=password],input[type=text],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px}
+input:focus,select:focus{outline:2px solid var(--teal);outline-offset:0;border-color:transparent}
+button{font-family:var(--disp);font-size:15px;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;cursor:pointer}
+button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+button.ghost{background:transparent}
+button.small{padding:6px 10px;font-size:13px;border-radius:8px}
+button:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.msg{border-radius:10px;padding:10px 12px;font-size:14px;margin:10px 0;display:none}
+.msg.err{display:block;background:color-mix(in srgb,var(--warn) 12%,var(--surface));color:var(--warn);border:1px solid var(--warn)}
+.msg.ok{display:block;background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal);border:1px solid var(--teal)}
+.chip{font-family:var(--mono);font-size:11px;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.reach{color:var(--plum);border-color:var(--plum)}
+.chip.target{color:var(--amber);border-color:var(--amber)}
+.chip.likely{color:var(--teal);border-color:var(--teal)}
+.school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+.school .top{display:flex;gap:10px;align-items:baseline}
+.school .name{font-weight:700;font-size:17px;letter-spacing:-.01em}
+.school .loc{color:var(--muted);font-size:13px}
+.school .facts{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 2px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.school .facts b{color:var(--ink);font-weight:500}
+.blend{margin-left:auto;text-align:right}
+.blend .n{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--star)}
+.blend .l{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--muted)}
+.raters{border-top:1px dashed var(--line);margin-top:10px;padding-top:10px;display:grid;gap:6px}
+.rater{display:flex;align-items:center;gap:10px}
+.rater .who{font-family:var(--mono);font-size:12px;width:72px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rater.me .who{color:var(--teal);font-weight:500}
+.stars{display:flex;gap:2px}
+.stars .s{font-size:20px;line-height:1;color:var(--line);cursor:default;user-select:none;background:none;border:none;padding:2px}
+.stars .s.on{color:var(--star)}
+.stars.mine .s{cursor:pointer}
+.stars.mine .s:hover{transform:scale(1.15)}
+.lock{font-size:11px;color:var(--muted);font-family:var(--mono)}
+details.extra{margin-top:8px}
+details.extra summary{font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer}
+textarea{width:100%;min-height:60px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:14px}
+.fab{position:fixed;right:18px;bottom:18px;z-index:6;background:var(--teal);color:#fff;border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:18px;max-width:560px;width:calc(100vw - 32px)}
+dialog::backdrop{background:rgba(10,14,25,.55)}
+.picklist{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.pick{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.pick:hover{background:var(--sunk)}
+.pick .pn{font-weight:600;font-size:14px}
+.pick .pl{color:var(--muted);font-size:12px}
+.pick .add{margin-left:auto}
+.fam{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.avatar{width:28px;height:28px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--teal)}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-3px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+.counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.counter b{color:var(--amber)}
+a{color:var(--teal)}
+</style>
+</head>
+<body>
+<header class="app">
+  <div class="logo">Zoe's <span>Colleges</span></div>
+  <span class="beta">Beta</span>
+  <div class="right">
+    <span id="whoami" class="mono muted" style="font-size:12px"></span>
+    <button id="signout" class="small ghost hidden">Sign out</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===== AUTH ===== -->
+  <section id="v-auth" class="hidden">
+    <h1>The college search, as a family.</h1>
+    <p class="sub">Everyone rates. Everyone sees. Nobody can touch anyone else's stars.</p>
+    <div class="card">
+      <div class="row" style="margin-bottom:4px">
+        <button id="t-signin" class="small primary">Sign in</button>
+        <button id="t-signup" class="small">Create account</button>
+      </div>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" autocomplete="current-password" placeholder="At least 8 characters">
+      <div id="auth-msg" class="msg"></div>
+      <div class="row" style="margin-top:14px">
+        <button id="go-auth" class="primary" style="flex:1">Sign in</button>
+      </div>
+      <p class="muted" style="font-size:12px;margin-top:12px">Invite-only beta. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
+    </div>
+  </section>
+
+  <!-- ===== ONBOARD ===== -->
+  <section id="v-onboard" class="hidden">
+    <h1>Set up your family</h1>
+    <p class="sub">One person starts the family. Everyone else joins with the invite code.</p>
+    <div class="card">
+      <h2 style="margin-top:0">Start a new family</h2>
+      <label for="famname">Family name</label>
+      <input id="famname" type="text" placeholder="e.g. Team Zoe">
+      <label for="myname1">Your first name</label>
+      <input id="myname1" type="text" placeholder="e.g. Dad, Mom, Zoe" autocomplete="given-name">
+      <label for="myrole1">You are</label>
+      <select id="myrole1"><option value="parent">A parent</option><option value="student">The student</option></select>
+      <div class="row" style="margin-top:14px"><button id="go-create" class="primary" style="flex:1">Create family</button></div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Join with an invite code</h2>
+      <label for="code">Invite code</label>
+      <input id="code" type="text" class="mono" placeholder="e.g. 3fa92c1b04d7" autocapitalize="off">
+      <label for="myname2">Your first name</label>
+      <input id="myname2" type="text" placeholder="e.g. Zoe" autocomplete="given-name">
+      <label for="myrole2">You are</label>
+      <select id="myrole2"><option value="student">The student</option><option value="parent">A parent</option></select>
+      <div class="row" style="margin-top:14px"><button id="go-join" class="primary" style="flex:1">Join family</button></div>
+    </div>
+    <div id="onboard-msg" class="msg"></div>
+  </section>
+
+  <!-- ===== BOARD ===== -->
+  <section id="v-board" class="hidden">
+    <h1 id="famtitle"></h1>
+    <div class="fam" id="famrow"></div>
+    <div class="row" style="justify-content:space-between">
+      <span class="counter" id="schoolcount"></span>
+      <div class="row">
+        <button id="btn-invite" class="small">Invite family</button>
+        <button id="btn-refresh" class="small ghost">↻ Refresh</button>
+      </div>
+    </div>
+    <div id="board-msg" class="msg"></div>
+    <div id="schools"></div>
+    <button id="fab-add" class="fab">+ Add school</button>
+  </section>
+
+</div>
+
+<!-- ===== ADD SCHOOL DIALOG ===== -->
+<dialog id="dlg-add">
+  <h2 style="margin-top:0">Add a school</h2>
+  <input id="search" type="text" placeholder="Search the list…">
+  <div class="picklist" id="picklist"></div>
+  <details class="extra" style="margin-top:12px">
+    <summary>Not in the list? Add your own</summary>
+    <label for="cname">School name</label>
+    <input id="cname" type="text">
+    <label for="ccity">City, State</label>
+    <input id="ccity" type="text" placeholder="e.g. Boston, MA">
+    <div class="row" style="margin-top:10px"><button id="go-custom" class="small primary">Add it</button></div>
+  </details>
+  <div class="row" style="margin-top:14px;justify-content:flex-end"><button id="dlg-close" class="small">Done</button></div>
+</dialog>
+
+<!-- ===== INVITE DIALOG ===== -->
+<dialog id="dlg-invite">
+  <h2 style="margin-top:0">Invite your family</h2>
+  <p class="muted" style="font-size:14px">Have them create an account here, choose <b>Join with an invite code</b>, and enter:</p>
+  <div class="card" style="text-align:center"><span id="invcode" class="mono" style="font-size:22px;letter-spacing:.08em"></span></div>
+  <div class="row"><button id="copy-inv" class="small primary">Copy code</button><button id="copy-link" class="small">Copy link to this app</button></div>
+  <p class="muted" style="font-size:12px" id="seatnote"></p>
+  <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="inv-close" class="small">Close</button></div>
+</dialog>
+
+<script>
+/* ========== CONFIG ========== */
+const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
+const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@main/colleges.json";
+const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = id => document.getElementById(id);
+let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin" };
+
+/* ========== VIEW SWITCH ========== */
+function show(view){
+  for (const v of ["v-auth","v-onboard","v-board"]) $(v).classList.toggle("hidden", v!==view);
+  $("signout").classList.toggle("hidden", view==="v-auth");
+}
+function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.textContent = text; }
+function clearmsg(id){ $(id).className = "msg"; }
+
+/* ========== AUTH ========== */
+$("t-signin").onclick = () => setAuthMode("signin");
+$("t-signup").onclick = () => setAuthMode("signup");
+function setAuthMode(m){
+  state.authMode = m; clearmsg("auth-msg");
+  $("t-signin").className = "small " + (m==="signin"?"primary":"");
+  $("t-signup").className = "small " + (m==="signup"?"primary":"");
+  $("go-auth").textContent = m==="signin" ? "Sign in" : "Create account";
+  $("pw").autocomplete = m==="signin" ? "current-password" : "new-password";
+}
+$("go-auth").onclick = async () => {
+  clearmsg("auth-msg");
+  const email = $("email").value.trim(), password = $("pw").value;
+  if (!email || password.length < 8) return msg("auth-msg","Enter your email and a password of at least 8 characters.");
+  $("go-auth").disabled = true;
+  try {
+    if (state.authMode === "signup") {
+      const { data, error } = await sb.auth.signUp({ email, password });
+      if (error) throw error;
+      if (!data.session) return msg("auth-msg","Check your email for a confirmation link, then come back and sign in.","ok");
+    } else {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+    }
+  } catch(e){ msg("auth-msg", friendly(e)); }
+  finally { $("go-auth").disabled = false; }
+};
+$("signout").onclick = async () => { await sb.auth.signOut(); };
+function friendly(e){
+  const m = (e && e.message) || String(e);
+  if (/invalid login/i.test(m)) return "That email and password don't match an account here.";
+  if (/already registered/i.test(m)) return "That email already has an account — try signing in instead.";
+  if (/confirm/i.test(m)) return "Check your email for the confirmation link first, then sign in.";
+  return m;
+}
+
+/* ========== ONBOARD ========== */
+$("go-create").onclick = async () => {
+  clearmsg("onboard-msg");
+  const fam = $("famname").value.trim(), name = $("myname1").value.trim(), role = $("myrole1").value;
+  if (!fam || !name) return msg("onboard-msg","Family name and your name, please.");
+  $("go-create").disabled = true;
+  const { error } = await sb.rpc("create_family",{ family_name:fam, my_name:name });
+  $("go-create").disabled = false;
+  if (error) return msg("onboard-msg", error.message);
+  if (role === "student") await fixRole("student");
+  await loadFamily();
+};
+$("go-join").onclick = async () => {
+  clearmsg("onboard-msg");
+  const code = $("code").value.trim().toLowerCase(), name = $("myname2").value.trim(), role = $("myrole2").value;
+  if (!code || !name) return msg("onboard-msg","Invite code and your name, please.");
+  $("go-join").disabled = true;
+  const { error } = await sb.rpc("join_family",{ code, my_name:name, my_role:role });
+  $("go-join").disabled = false;
+  if (error) return msg("onboard-msg", error.message);
+  await loadFamily();
+};
+async function fixRole(role){
+  await sb.from("members").update({ role }).eq("user_id", state.session.user.id);
+}
+
+/* ========== DATA ========== */
+async function loadFamily(){
+  const uid = state.session.user.id;
+  const { data: mem } = await sb.from("members").select("*").order("created_at");
+  if (!mem || !mem.length){ show("v-onboard"); return; }
+  state.members = mem;
+  state.me = mem.find(m => m.user_id === uid);
+  const { data: fams } = await sb.from("families").select("*").limit(1);
+  state.family = fams && fams[0];
+  await Promise.all([loadSchools(), loadRatings(), loadCatalog()]);
+  renderBoard(); show("v-board");
+}
+async function loadSchools(){
+  const { data } = await sb.from("family_schools").select("*").order("position").order("created_at");
+  state.schools = data || [];
+}
+async function loadRatings(){
+  const { data } = await sb.from("ratings").select("*");
+  state.ratings = data || [];
+}
+async function loadCatalog(){
+  if (state.catalog.length) return;
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = j.colleges || []; }
+  catch(e){ state.catalog = []; }
+}
+
+/* ========== BOARD ========== */
+function plan(){ return PLAN_LIMITS[state.family?.plan] || PLAN_LIMITS.free; }
+function blended(schoolId){
+  const rs = state.ratings.filter(r => r.school_id === schoolId && r.rating);
+  if (!rs.length) return null;
+  return (rs.reduce((a,r)=>a+r.rating,0) / rs.length);
+}
+function renderBoard(){
+  $("famtitle").textContent = state.family ? state.family.name : "Your board";
+  $("famrow").innerHTML = state.members.map(m =>
+    `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
+  ).join("");
+  const p = plan();
+  $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
+  const sorted = [...state.schools].sort((a,b)=>{
+    const ba = blended(a.school_id), bb = blended(b.school_id);
+    if (ba===null && bb===null) return a.name.localeCompare(b.name);
+    if (ba===null) return 1; if (bb===null) return -1;
+    return bb - ba;
+  });
+  $("schools").innerHTML = sorted.map(renderSchool).join("") ||
+    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> to start the board.</div>`;
+  bindStars();
+}
+function catInfo(id){ return state.catalog.find(c => c.id === id); }
+function renderSchool(s){
+  const info = catInfo(s.school_id);
+  const b = blended(s.school_id);
+  const catChip = info ? `<span class="chip ${info.category.toLowerCase()}">${info.category}</span>` : (s.is_custom?`<span class="chip">Custom</span>`:"");
+  const facts = info ? `<div class="facts">
+      <span>size <b>${esc(info.sizeApprox)}</b></span><span>cost <b>${esc(info.costApprox)}</b></span>
+      <span>from home <b>${esc(info.distanceFromBoston)}</b></span></div>
+    <div class="facts"><span>early <b>${esc(info.earlyDeadline)}</b></span><span>regular <b>${esc(info.regularDeadline)}</b></span>
+      ${info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener">admissions ↗</a>`:""}</div>` : "";
+  const raters = state.members.map(m => {
+    const r = state.ratings.find(x => x.school_id===s.school_id && x.user_id===m.user_id);
+    const mine = m.user_id === state.me.user_id;
+    const stars = [1,2,3,4,5].map(n =>
+      `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${s.school_id}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
+    return `<div class="rater ${mine?"me":""}">
+      <span class="who">${esc(m.display_name)}</span>
+      <span class="stars ${mine?"mine":""}">${stars}</span>
+      ${mine?"":'<span class="lock">theirs</span>'}
+    </div>`;
+  }).join("");
+  const myNote = state.ratings.find(x => x.school_id===s.school_id && x.user_id===state.me.user_id)?.note || "";
+  return `<div class="school" data-school="${esc(s.school_id)}">
+    <div class="top">
+      <div><div class="name">${esc(s.name)}</div>
+      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
+      <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings yet</div>`}</div>
+    </div>
+    ${facts}
+    <div class="raters">${raters}</div>
+    <details class="extra"><summary>My note · remove school</summary>
+      <textarea data-note="${esc(s.school_id)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>
+      <div class="row" style="margin-top:8px;justify-content:space-between">
+        <button class="small" data-savenote="${esc(s.school_id)}">Save note</button>
+        <button class="small ghost" style="color:var(--warn)" data-remove="${esc(s.school_id)}">Remove from board</button>
+      </div>
+    </details>
+  </div>`;
+}
+function bindStars(){
+  document.querySelectorAll("[data-rate]").forEach(el => el.onclick = async () => {
+    const [sid, n] = el.dataset.rate.split("|");
+    const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
+    const rating = (cur && cur.rating === +n) ? null : +n;   // tap same star to clear
+    await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating, updated_at: new Date().toISOString() });
+    await loadRatings(); renderBoard();
+  });
+  document.querySelectorAll("[data-savenote]").forEach(el => el.onclick = async () => {
+    const sid = el.dataset.savenote;
+    const note = document.querySelector(`[data-note="${CSS.escape(sid)}"]`).value;
+    const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
+    await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating: cur?cur.rating:null, note, updated_at: new Date().toISOString() });
+    await loadRatings(); renderBoard();
+  });
+  document.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
+    const sid = el.dataset.remove;
+    const s = state.schools.find(x=>x.school_id===sid);
+    if (!confirm(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`)) return;
+    await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", sid);
+    await loadSchools(); renderBoard();
+  });
+}
+
+/* ========== ADD SCHOOL ========== */
+$("fab-add").onclick = () => {
+  if (state.schools.length >= plan().schools)
+    return msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err");
+  clearmsg("board-msg");
+  renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
+};
+$("dlg-close").onclick = () => $("dlg-add").close();
+$("search").oninput = e => renderPicklist(e.target.value);
+function renderPicklist(q){
+  const have = new Set(state.schools.map(s=>s.school_id));
+  const list = state.catalog
+    .filter(c => !have.has(c.id))
+    .filter(c => (c.name+" "+c.city+" "+c.state).toLowerCase().includes(q.toLowerCase()))
+    .slice(0, 40);
+  $("picklist").innerHTML = list.map(c =>
+    `<div class="pick" data-pick="${esc(c.id)}">
+       <div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city)}, ${esc(c.state)} · ${esc(c.category)}</div></div>
+       <button class="small primary add">Add</button>
+     </div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
+  $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
+}
+async function addFromCatalog(id){
+  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
+  const c = state.catalog.find(x=>x.id===id); if (!c) return;
+  const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: c.id, name: c.name, city: c.city, state: c.state, url: c.link, is_custom:false, added_by: state.me.user_id });
+  if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
+  await loadSchools(); renderBoard(); renderPicklist($("search").value);
+}
+$("go-custom").onclick = async () => {
+  const name = $("cname").value.trim(); let cs = $("ccity").value.trim();
+  if (!name) return;
+  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
+  const [city, st] = cs.includes(",") ? [cs.split(",")[0].trim(), cs.split(",")[1].trim()] : [cs, ""];
+  const sid = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: sid, name, city, state: st, is_custom:true, added_by: state.me.user_id });
+  if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
+  $("cname").value=""; $("ccity").value="";
+  await loadSchools(); renderBoard(); $("dlg-add").close();
+};
+
+/* ========== INVITE ========== */
+$("btn-invite").onclick = () => {
+  $("invcode").textContent = state.family.invite_code;
+  const p = plan(); const seatsLeft = p.seats - state.members.length;
+  $("seatnote").textContent = p.seats < 99 ? `${Math.max(seatsLeft,0)} seat${seatsLeft===1?"":"s"} left on the ${p.label} plan.` : "";
+  $("dlg-invite").showModal();
+};
+$("inv-close").onclick = () => $("dlg-invite").close();
+$("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
+$("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(location.origin + location.pathname); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link to this app",1500);}catch(e){} };
+
+/* ========== MISC ========== */
+$("btn-refresh").onclick = async () => { await Promise.all([loadSchools(), loadRatings()]); renderBoard(); };
+document.addEventListener("visibilitychange", async () => {
+  if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); }
+});
+function esc(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ========== BOOT ========== */
+sb.auth.onAuthStateChange(async (_event, session) => {
+  state.session = session;
+  $("whoami").textContent = session ? (session.user.email||"") : "";
+  if (!session){ state.family=null; show("v-auth"); return; }
+  await loadFamily();
+});
+setAuthMode("signin");
+</script>
+</body>
+</html>
