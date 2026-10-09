@@ -61,6 +61,8 @@ button:disabled{opacity:.5;cursor:default}
 .chip.likely{color:var(--good);border-color:var(--good)}
 .chip.match{color:var(--teal);border-color:var(--teal)}
 .school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+#schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;align-items:start}
+#schools.as-tiles .school{margin:0}
 .school .top{display:flex;gap:10px;align-items:baseline}
 .school .name{font-weight:700;font-size:17px;letter-spacing:-.01em}
 .school .loc{color:var(--muted);font-size:13px}
@@ -185,7 +187,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <!-- AUTH -->
   <section id="v-auth" class="hidden">
     <h1>The college search, as a family.</h1>
-    <p class="sub">Everyone rates. Everyone's voice counts. Nobody can touch anyone else's stars.</p>
+    <p class="sub">A roommate-style match for colleges: grounded academic research + what you care about beyond class + cost. Everyone rates; nobody can touch anyone else's stars.</p>
     <div class="card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -253,23 +255,31 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
         <button id="btn-plans" class="small ghost">Plans</button>
       </div>
     </div>
-    <div class="row" style="margin-top:8px">
-      <label style="margin:0;align-self:center">Sort</label>
-      <select id="board-sort" style="width:auto">
-        <option value="blend">Family star average</option>
-        <option value="match">My match %</option>
-        <option value="chance">Admission chance</option>
-        <option value="name">Name (A–Z)</option>
-      </select>
+    <div class="row" style="margin-top:8px;justify-content:space-between;align-items:center">
+      <div class="row" style="align-items:center">
+        <label style="margin:0;align-self:center">Sort</label>
+        <select id="board-sort" style="width:auto">
+          <option value="blend">Family star average</option>
+          <option value="match">My match %</option>
+          <option value="chance">Admission chance</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </div>
+      <div class="row" style="align-items:center">
+        <label style="margin:0;align-self:center">View</label>
+        <button id="view-stacked" class="small primary" title="Stacked list">☰</button>
+        <button id="view-tiles" class="small ghost" title="Tiles">▦</button>
+      </div>
     </div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
       <div class="row" style="justify-content:space-between;align-items:flex-start">
         <b style="font-size:15px">How Zoe's Colleges works</b>
         <button id="howto-x" class="small ghost" style="padding:2px 8px">Got it ✕</button>
       </div>
-      <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
-        <li><b>Add schools</b> — anyone in the family can add or remove them.</li>
-        <li><b>Set your profile &amp; sliders</b> — tap <b>My Profile</b> so the app can show each school's <b>match</b> and <b>admission chance</b> for you.</li>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict.</p>
+      <ol style="margin:10px 0 0;padding-left:20px;line-height:1.7">
+        <li><b>Build your profile first</b> — tap <b>My Profile</b> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
+        <li><b>Add schools</b> — anyone in the family can add or remove them; matches fill in automatically.</li>
         <li><b>Rate with stars</b> — tap your row of stars. You only control your own; you see everyone's.</li>
         <li><b>Invite your family</b> — share your code so everyone rates together.</li>
       </ol>
@@ -752,17 +762,28 @@ function renderBoard(){
     if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
   });
   $("schools").innerHTML = withMeta.map(renderSchool).join("") ||
-    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all 308.</div>`;
+    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all schools.</div>`;
+  applyBoardView();
   bindStars($("schools")); wireOpen($("schools")); renderGuidance(withMeta);
 }
+function boardView(){ try{ return localStorage.getItem("zc_boardview")||"stacked"; }catch(e){ return "stacked"; } }
+function applyBoardView(){
+  const v=boardView();
+  $("schools").classList.toggle("as-tiles", v==="tiles");
+  $("view-stacked").className="small "+(v==="stacked"?"primary":"ghost");
+  $("view-tiles").className="small "+(v==="tiles"?"primary":"ghost");
+}
+function setBoardView(v){ try{ localStorage.setItem("zc_boardview",v); }catch(e){} applyBoardView(); }
+$("view-stacked").onclick=()=>setBoardView("stacked");
+$("view-tiles").onclick=()=>setBoardView("tiles");
 function renderGuidance(meta){
   let dismissed=false; try{ dismissed=localStorage.getItem("zc_howto")==="1"; }catch(e){}
   $("howto").classList.toggle("hidden", dismissed);
   const soloFamily = state.members.length < 2;
   const hasProfile = !!studentProfile();
   let tip="";
-  if(!state.schools.length) tip=`👋 Start by adding schools you're considering — search 308 schools or add your own.`;
-  else if(!hasProfile) tip=`🎯 Fill in <b>My Profile</b> (just takes a minute) so each school shows your <b>match %</b> and <b>admission chance</b>.`;
+  if(!hasProfile) tip=`🎯 Start with <b>My Profile</b> (about a minute) — set it first and every school you add shows your <b>match %</b> and <b>admission chance</b> right away.`;
+  else if(!state.schools.length) tip=`👋 Now add schools you're considering — search the catalog or add your own, and your match fills in automatically.`;
   else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>+ Add my family</b> so everyone rates too.`;
   else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
   const n=$("nextstep"); n.className="msg ok"; n.innerHTML=tip; n.classList.remove("hidden");
