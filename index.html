@@ -595,8 +595,12 @@ function computeNorms(){
   };
 }
 function nrm(v,range){ if(typeof v!=="number"||!range||range.max===range.min) return 0.5; return (v-range.min)/(range.max-range.min); }
+// Robust size scale: small LAC (~1000) → big university (~40000), clamped so a
+// single huge online school can't flatten everyone else. Returns 0..1.
+function sizeScale(size){ if(typeof size!=="number"||size<=0) return null; return Math.max(0,Math.min(1,(size-1000)/(40000-1000))); }
 function localeUrban(c){ // Scorecard locale: 11-13 city, 21-23 suburb, 31-33 town, 41-43 rural
-  const l = c.locale; if(typeof l!=="number") return 0.5;
+  const l = (typeof c.locale==="number")?c.locale:(c.scorecard&&typeof c.scorecard.locale==="number"?c.scorecard.locale:null);
+  if(l===null) return null;
   if(l<20) return 1; if(l<30) return 0.7; if(l<40) return 0.35; return 0.1;
 }
 /* personal match 0..100 for a catalog school given a prefs object */
@@ -616,10 +620,10 @@ function matchScore(c, w){
   comps.push({v:spirit, wt:w.spirit});
   // prestige (importance): more selective = higher
   if(typeof s.admissionRate==="number") comps.push({v:1-s.admissionRate, wt:w.prestige});
-  // size (preference): closeness to preferred
-  const sizePref=(w.size||5)/10; comps.push({v:1-Math.abs(nrm(s.size,N.size)-sizePref), wt:6});
-  // setting (preference): closeness to preferred urbanness
-  const setPref=(w.setting||5)/10; comps.push({v:1-Math.abs(localeUrban(c)-setPref), wt:6});
+  // size (preference): closeness to preferred, on a robust fixed scale
+  const ss=sizeScale(s.size); if(ss!==null){ const sizePref=(w.size||5)/10; comps.push({v:1-Math.abs(ss-sizePref), wt:6}); }
+  // setting (preference): closeness to preferred urbanness (skip if we have no locale, so it's not a dead anchor)
+  const lu=localeUrban(c); if(lu!==null){ const setPref=(w.setting||5)/10; comps.push({v:1-Math.abs(lu-setPref), wt:6}); }
   let tw=0, acc=0; comps.forEach(x=>{ const ww=Math.max(0,x.wt); tw+=ww; acc+=ww*Math.max(0,Math.min(1,x.v)); });
   if(tw<=0) return 50;
   return Math.round(100*acc/tw);
@@ -631,21 +635,31 @@ function studentProfile(){
   // fall back to current user's profile if no student yet
   return (state.me && state.profiles[state.me.user_id]) || null;
 }
+// Official ACT→SAT concordance (ACT/College Board, rounded to nearest composite).
+const ACT_SAT = {36:1590,35:1540,34:1500,33:1460,32:1430,31:1400,30:1370,29:1340,28:1310,27:1280,26:1240,25:1210,24:1180,23:1140,22:1110,21:1080,20:1040,19:1010,18:970,17:930,16:890,15:850,14:800,13:760,12:710,11:670,10:630};
+function actToSat(act){ const a=Math.round(parseFloat(act)); if(!a) return 0; if(ACT_SAT[a]) return ACT_SAT[a]; if(a>36) return 1590; if(a<10) return 630; return 0; }
+function studentSat(p){ if(!p) return 0; const s=parseInt(p.sat); if(s) return s; if(p.act) return actToSat(p.act); return 0; }
 function chanceFor(c){
   const s = c && c.scorecard; if(!s || typeof s.admissionRate!=="number") return null;
   let band = s.admissionRate>0.7?"likely" : s.admissionRate>=0.4?"target" : s.admissionRate>=0.2?"reach":"reach";
-  // adjust by student SAT vs school SAT
   const p = studentProfile();
-  let sat = p && (parseInt(p.sat)|| (p.act? Math.round((parseInt(p.act))*ACT_TO_SAT):0));
+  // adjust by student SAT (or ACT→SAT) vs school average
+  const sat = studentSat(p);
   if(sat && typeof s.satAvg==="number"){
     const d = sat - s.satAvg;
     if(d>=70){ band = band==="reach"?"target": "likely"; }
     else if(d<=-90){ band = band==="likely"?"target":"reach"; }
   }
+  // nudge by GPA (unweighted 4.0 scale): strong GPA eases a reach, weak GPA stiffens a likely
+  const gpa = p && parseFloat(p.gpa);
+  if(gpa && gpa>0 && gpa<=5){
+    const g = gpa>4.3? gpa/5*4 : gpa; // tolerate a weighted-scale entry
+    if(g>=3.9 && band==="reach") band="target";
+    else if(g<=2.8 && band==="likely") band="target";
+  }
   const labels={reach:"Reach",target:"Target",likely:"Likely"};
   return {band, label:labels[band]};
 }
-const ACT_TO_SAT = 40; // rough ACT->SAT multiplier for a crude equivalence (e.g. 30*40=1200-ish ballpark); only used directionally
 function pct(x){ return (typeof x==="number")? Math.round(x*100)+"%" : "—"; }
 function money(x){ return (typeof x==="number")? "$"+Math.round(x).toLocaleString() : "—"; }
 function museSection(info){
