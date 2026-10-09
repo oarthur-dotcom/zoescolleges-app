@@ -133,6 +133,12 @@ a{color:var(--teal)}
 .proxchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
 .proxchip.on{background:color-mix(in srgb,var(--teal) 16%,var(--surface));border-color:var(--teal);color:var(--ink);font-weight:600}
 .proxchip input{display:none}
+.act-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
+.act-row .a-name{flex:2;min-width:140px}
+.act-row .a-cat,.act-row .a-lvl{flex:1;min-width:120px;width:auto}
+.act-row .a-hrs,.act-row .a-yrs{width:74px}
+.act-row .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;cursor:pointer;padding:6px 10px}
+.act-row .a-rm:hover{border-color:var(--warn);color:var(--warn)}
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
@@ -337,9 +343,22 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
         <div><label>Class rank</label><input id="pf-rank" type="text" placeholder="if your school ranks"></div>
         <div><label>Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2"></div>
       </div>
+      <div class="sl-subhead" style="margin-top:14px">Course rigor</div>
+      <p class="muted" style="font-size:12px;margin:0 0 8px">How colleges recalculate GPA: Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (core courses). We'll show your rigor-adjusted GPA.</p>
+      <div class="pf-grid">
+        <div><label>Honors courses</label><input id="pf-honors" type="number" min="0" placeholder="0"></div>
+        <div><label>AP / IB courses</label><input id="pf-ap" type="number" min="0" placeholder="0"></div>
+        <div><label>Dual-enrollment</label><input id="pf-dual" type="number" min="0" placeholder="0"></div>
+        <div><label>Rigor-adjusted GPA</label><input id="pf-adjgpa" type="text" readonly placeholder="—" style="background:var(--sunk)"></div>
+      </div>
       <label>Interests / what you want from college</label>
       <textarea id="pf-notes" placeholder="Clubs, sports, vibe, distance from home, anything…"></textarea>
-      <div class="row" style="margin-top:10px"><button id="pf-save" class="small primary">Save profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
+      <div class="sl-subhead" style="margin-top:14px">Activities &amp; work</div>
+      <p class="muted" style="font-size:12px;margin:0 0 8px">Up to 10, Common App style. We auto-rate each on the widely-used 4-tier scale (you can change it). Depth beats a long list — guidance, not a score colleges see.</p>
+      <div id="pf-acts"></div>
+      <button id="pf-act-add" class="small ghost" style="margin-top:8px" type="button">+ Add activity</button>
+      <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
+      <div class="row" style="margin-top:12px"><button id="pf-save" class="small primary">Save profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
     </div>
     <div class="card">
       <h2 style="margin-top:0">What matters to you</h2>
@@ -651,6 +670,8 @@ async function loadProfiles(){
   }
   // fallback: only own, from localStorage
   const p = lsGet("profile"); if(p && state.me) state.profiles[state.me.user_id]=p;
+  // rigor + activities live on this device for now (full family sync lands with migration-003)
+  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); const r=lsGet("rigor"); const a=lsGet("activities"); if(r)prof.rigor=r; if(Array.isArray(a))prof.activities=a; }
 }
 async function loadPrefs(){
   state.prefs = {};
@@ -751,15 +772,43 @@ function chanceFor(c){
     if(d>=70){ band = band==="reach"?"target": "likely"; }
     else if(d<=-90){ band = band==="likely"?"target":"reach"; }
   }
-  // nudge by GPA (unweighted 4.0 scale): strong GPA eases a reach, weak GPA stiffens a likely
-  const gpa = p && parseFloat(p.gpa);
+  // nudge by GPA (rigor-adjusted when we have course rigor): strong GPA eases a reach, weak stiffens a likely
+  const gpa = rigorAdjustedGpa(p);
   if(gpa && gpa>0 && gpa<=5){
     const g = gpa>4.3? gpa/5*4 : gpa; // tolerate a weighted-scale entry
     if(g>=3.9 && band==="reach") band="target";
     else if(g<=2.8 && band==="likely") band="target";
   }
+  // activities nudge — selectivity-scaled, capped at one step (honest): strong profile eases a reach
+  // at selective schools; thin profile stiffens a likely. Minimal effect at open-admission schools.
+  const astr = activityStrength(p && p.activities);
+  if(astr!=null && s.admissionRate<0.4){
+    if(astr>=0.7 && band==="reach") band="target";
+    else if(astr<=0.25 && band==="likely") band="target";
+  }
   const labels={reach:"Reach",target:"Target",likely:"Likely"};
   return {band, label:labels[band]};
+}
+// Rigor-adjusted GPA (approx., transparent): Honors +0.5, AP/IB +1.0, dual +0.5 over ~16 core courses.
+function rigorAdjustedGpa(p){
+  const base = p && parseFloat(p.gpa); if(!base || base<=0) return base||0;
+  const r = (p && p.rigor) || {};
+  const bonus = ((+r.honors||0)*0.5 + (+r.ap||0)*1.0 + (+r.dual||0)*0.5)/16;
+  return Math.min(5, Math.round((base + Math.min(1.0, bonus))*100)/100);
+}
+const ACT_LEVELS = [
+  {v:"4", t:"Participant / member", tier:4},
+  {v:"3", t:"School leadership / multi-year", tier:3},
+  {v:"2", t:"State/Regional award or major leadership", tier:2},
+  {v:"1", t:"National / International honor", tier:1},
+];
+const ACT_POINTS = {1:10,2:6,3:3,4:1};
+// 0..1 strength: points for best ~6, diminishing; depth beats a long list.
+function activityStrength(acts){
+  if(!Array.isArray(acts) || !acts.length) return null;
+  const pts = acts.map(a=>ACT_POINTS[+(a.tier||4)]||1).sort((x,y)=>y-x).slice(0,6);
+  const sum = pts.reduce((x,y)=>x+y,0);
+  return Math.max(0, Math.min(1, sum/18));
 }
 function pct(x){ return (typeof x==="number")? Math.round(x*100)+"%" : "—"; }
 function money(x){ return (typeof x==="number")? "$"+Math.round(x).toLocaleString() : "—"; }
@@ -1098,6 +1147,13 @@ function renderProfile(){
   const p = (state.me && state.profiles[state.me.user_id]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
   $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
+  // rigor
+  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||"";
+  const recalc=()=>{ const prof={gpa:$("pf-gpa").value.trim(), rigor:{honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0}}; const adj=rigorAdjustedGpa(prof); $("pf-adjgpa").value=adj?adj.toFixed(2):"—"; };
+  ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); recalc();
+  // activities
+  profActs = Array.isArray(p.activities)? p.activities.slice() : [];
+  renderActs();
   // sliders
   const w = myPrefs();
   $("sliders").innerHTML = SLIDERS.map(s=>`
@@ -1116,8 +1172,44 @@ function renderProfile(){
 $("pf-save").onclick = async () => {
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
-  await saveProfile(p); $("pf-savemsg").textContent="Saved ✓"; setTimeout(()=>$("pf-savemsg").textContent="",1500);
+  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
+  const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs}));
+  await saveProfile(p);
+  // rigor + activities persist on this device for now (sync lands with migration-003)
+  lsSet("rigor", rigor); lsSet("activities", acts);
+  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; }
+  profActs = acts.slice();
+  $("pf-savemsg").textContent="Saved ✓ — chances updated"; setTimeout(()=>$("pf-savemsg").textContent="",1800);
 };
+let profActs = [];
+const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Club/JV","Career / Pre-professional","Community service / Volunteer","Cultural","Debate / Speech","Environmental","Family responsibilities","Internship","Journalism / Media","Music","Religious","Research","Robotics / Engineering","School spirit / Government","Science / Math","Theater / Drama","Work (paid)","Other"];
+function renderActs(){
+  const el=$("pf-acts"); if(!el) return;
+  el.innerHTML = profActs.length ? profActs.map((a,i)=>`
+    <div class="act-row" data-i="${i}">
+      <input class="a-name" placeholder="Activity, team, job…" value="${esc(a.name||"")}">
+      <select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select>
+      <select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select>
+      <input class="a-hrs" type="number" min="0" placeholder="hrs/wk" value="${esc(a.hrs||"")}">
+      <input class="a-yrs" type="number" min="0" max="4" placeholder="yrs" value="${esc(a.yrs||"")}">
+      <button class="a-rm" title="Remove" type="button">✕</button>
+    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — add clubs, sports, work, volunteering, research…</p>`;
+  el.querySelectorAll(".act-row").forEach(row=>{ const i=+row.dataset.i;
+    row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
+    row.querySelector(".a-cat").onchange=e=>profActs[i].category=e.target.value;
+    row.querySelector(".a-lvl").onchange=e=>{ profActs[i].tier=+e.target.value; updateActStrength(); };
+    row.querySelector(".a-hrs").oninput=e=>profActs[i].hrs=e.target.value;
+    row.querySelector(".a-yrs").oninput=e=>profActs[i].yrs=e.target.value;
+    row.querySelector(".a-rm").onclick=()=>{ profActs.splice(i,1); renderActs(); };
+  });
+  updateActStrength();
+}
+function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; const s=activityStrength(profActs);
+  if(s==null){ el.textContent=""; return; }
+  const lvl = s>=0.7?"strong" : s>=0.4?"solid" : "light";
+  el.innerHTML = `Activity profile: <b>${lvl}</b> (depth-weighted, best few count most). At more selective schools this can nudge a Reach toward Target — it never overrides your grades.`;
+}
+$("pf-act-add").onclick = () => { if(profActs.length>=10){ $("pf-act-strength").textContent="That's the Common App max of 10."; return; } profActs.push({name:"",category:ACT_CATS[0],tier:4,hrs:"",yrs:""}); renderActs(); const rows=$("pf-acts").querySelectorAll(".a-name"); if(rows.length) rows[rows.length-1].focus(); };
 async function saveProfile(p){
   state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
   if(BACKEND.profiles){ try{ const {error}=await sb.from("profiles").upsert({user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()}); if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
