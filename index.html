@@ -187,20 +187,30 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <h1>The college search, as a family.</h1>
     <p class="sub">Everyone rates. Everyone's voice counts. Nobody can touch anyone else's stars.</p>
     <div class="card">
-      <div class="row" style="margin-bottom:4px">
+      <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
         <button id="t-signup" class="small">Create account</button>
       </div>
-      <label for="email">Email</label>
-      <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
-      <label for="pw">Password</label>
-      <input id="pw" type="password" autocomplete="current-password" placeholder="At least 8 characters">
+      <p id="auth-title" class="hidden" style="font-weight:700;margin:2px 0 6px"></p>
+      <div id="email-wrap">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div id="pw-wrap">
+        <label for="pw" id="pw-label">Password</label>
+        <input id="pw" type="password" autocomplete="current-password" placeholder="At least 8 characters">
+      </div>
       <div id="code-wrap" class="hidden"><label for="accesscode">Beta access code</label><input id="accesscode" type="text" placeholder="Enter your invite code" autocapitalize="characters" autocomplete="off"></div>
       <div id="auth-msg" class="msg"></div>
       <div class="row" style="margin-top:14px">
         <button id="go-auth" class="primary" style="flex:1">Sign in</button>
       </div>
-      <p class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
+      <div class="row" id="auth-links" style="margin-top:10px;justify-content:space-between;align-items:center">
+        <a href="#" id="forgot-link" class="muted" style="font-size:12px">Forgot password?</a>
+        <a href="#" id="back-link" class="muted hidden" style="font-size:12px">← Back to sign in</a>
+      </div>
+      <p id="newhere" class="muted" style="font-size:12px;margin-top:8px">New here? <a href="#" id="newhere-link"><b>Create your account</b></a> with your beta access code.</p>
+      <p id="auth-fine" class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
     </div>
   </section>
 
@@ -461,23 +471,55 @@ function clearmsg(id){ $(id).className = "msg"; }
 /* ========== AUTH ========== */
 $("t-signin").onclick = () => setAuthMode("signin");
 $("t-signup").onclick = () => setAuthMode("signup");
+$("forgot-link").onclick = (e) => { e.preventDefault(); setAuthMode("reset"); };
+$("back-link").onclick = (e) => { e.preventDefault(); setAuthMode("signin"); };
+$("newhere-link").onclick = (e) => { e.preventDefault(); setAuthMode("signup"); $("email").focus(); };
 function setAuthMode(m){
   state.authMode = m; clearmsg("auth-msg");
-  $("t-signin").className = "small " + (m==="signin"?"primary":"");
-  $("t-signup").className = "small " + (m==="signup"?"primary":"");
-  $("go-auth").textContent = m==="signin" ? "Sign in" : "Create account";
-  $("pw").autocomplete = m==="signin" ? "current-password" : "new-password";
-  $("code-wrap").classList.toggle("hidden", m!=="signup");
+  const isIn=m==="signin", isUp=m==="signup", isReset=m==="reset", isRec=m==="recovery";
+  $("t-signin").className = "small " + (isIn?"primary":"");
+  $("t-signup").className = "small " + (isUp?"primary":"");
+  $("auth-tabs").classList.toggle("hidden", isReset||isRec);
+  $("auth-title").classList.toggle("hidden", !(isReset||isRec));
+  if(isReset) $("auth-title").textContent = "Reset your password";
+  if(isRec)   $("auth-title").textContent = "Choose a new password";
+  $("email-wrap").classList.toggle("hidden", isRec);        // recovery already knows who you are
+  $("pw-wrap").classList.toggle("hidden", isReset);         // reset only needs email
+  $("pw-label").textContent = isRec ? "New password" : "Password";
+  $("pw").autocomplete = (isIn? "current-password" : "new-password");
+  $("code-wrap").classList.toggle("hidden", !isUp);
+  $("forgot-link").classList.toggle("hidden", !isIn);
+  $("back-link").classList.toggle("hidden", !isReset);      // recovery has no going back
+  $("newhere").classList.toggle("hidden", !isIn);
+  $("auth-fine").classList.toggle("hidden", isReset||isRec);
+  $("go-auth").textContent = isUp ? "Create account" : isReset ? "Send reset link" : isRec ? "Update password" : "Sign in";
 }
 $("go-auth").onclick = async () => {
   clearmsg("auth-msg");
+  const mode = state.authMode;
   const email = $("email").value.trim(), password = $("pw").value;
-  if (!email || password.length < 8) return msg("auth-msg","Enter your email and a password of at least 8 characters.");
   $("go-auth").disabled = true;
   try {
-    if (state.authMode === "signup") {
+    if (mode === "reset") {
+      if (!email) { msg("auth-msg","Enter your email and we'll send a reset link."); return; }
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: APP_LINK });
+      if (error) throw error;
+      msg("auth-msg","Check your email for a link to reset your password. It can take a minute.","ok");
+      return;
+    }
+    if (mode === "recovery") {
+      if (password.length < 8) { msg("auth-msg","Enter a new password of at least 8 characters."); return; }
+      const { error } = await sb.auth.updateUser({ password });
+      if (error) throw error;
+      recovering = false;
+      msg("auth-msg","Password updated — signing you in…","ok");
+      const { data } = await sb.auth.getSession(); lastUserId = undefined; route(data.session);
+      return;
+    }
+    if (!email || password.length < 8) { msg("auth-msg","Enter your email and a password of at least 8 characters."); return; }
+    if (mode === "signup") {
       const code = ($("accesscode").value||"").trim().toUpperCase();
-      if (code !== ACCESS_CODE) { $("go-auth").disabled=false; return msg("auth-msg","That beta access code isn't right — ask whoever invited you for the current code."); }
+      if (code !== ACCESS_CODE) { msg("auth-msg","That beta access code isn't right — ask whoever invited you for the current code."); return; }
       const { data, error } = await sb.auth.signUp({ email, password });
       if (error) throw error;
       if (!data.session) return msg("auth-msg","Check your email for a confirmation link, then come back and sign in.","ok");
@@ -491,8 +533,9 @@ $("go-auth").onclick = async () => {
 $("signout").onclick = async () => { await sb.auth.signOut(); };
 function friendly(e){
   const m = (e && e.message) || String(e);
-  if (/invalid login/i.test(m)) return "That email and password don't match an account here.";
+  if (/invalid login/i.test(m)) return "That email and password don't match an account here. New here? Tap “Create your account.”";
   if (/already registered/i.test(m)) return "That email already has an account — try signing in instead.";
+  if (/rate limit|too many|for security/i.test(m)) return "Too many attempts just now — wait a minute and try again.";
   if (/confirm/i.test(m)) return "Check your email for the confirmation link first, then sign in.";
   return m;
 }
@@ -1122,12 +1165,20 @@ function route(session){
   if (!session){ state.family=null; show("v-auth"); return; }
   setTimeout(() => { loadFamily(); }, 0);
 }
-sb.auth.onAuthStateChange((_event, session) => route(session));
+let recovering = false;
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === "PASSWORD_RECOVERY") { recovering = true; state.session = session; show("v-auth"); setAuthMode("recovery"); return; }
+  if (recovering) return; // stay on the set-new-password screen until they submit
+  route(session);
+});
 (async () => {
   const ref = new URLSearchParams(location.search).get("ref");
   if (ref) { try { localStorage.setItem("zc_ref", ref); } catch(e){} }
-  setAuthMode("signin");
+  // if arriving from a reset email, show the new-password screen instead of the board
+  if (/type=recovery/.test(location.hash||"")) recovering = true;
+  setAuthMode(recovering ? "recovery" : "signin");
   const { data } = await sb.auth.getSession();
+  if (recovering) { show("v-auth"); return; }
   route(data.session);
 })();
 </script>
