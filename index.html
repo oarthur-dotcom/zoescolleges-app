@@ -124,6 +124,14 @@ a{color:var(--teal)}
 .sl input[type=range]{width:100%;accent-color:var(--teal)}
 .sl b{font-family:var(--mono);font-size:.85rem;color:var(--teal);text-align:right}
 .ends{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);font-family:var(--mono);margin-top:-4px}
+.sl-subhead{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:4px 0 8px}
+.lp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.lp-row label{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.lp-row select{width:100%}
+.proxwrap{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.proxchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
+.proxchip.on{background:color-mix(in srgb,var(--teal) 16%,var(--surface));border-color:var(--teal);color:var(--ink);font-weight:600}
+.proxchip input{display:none}
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
@@ -327,9 +335,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
     <div class="card">
       <h2 style="margin-top:0">What matters to you</h2>
-      <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts. Match % re-scores every school for you instantly.</p>
+      <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts, then set your lifestyle preferences. Match % re-scores every school for you instantly.</p>
+      <div class="sl-subhead">How much each counts</div>
       <div id="sliders"></div>
-      <div class="row" style="margin-top:10px"><button id="sl-save" class="small primary">Save sliders</button><button id="sl-reset" class="small ghost">Reset</button><span id="sl-savemsg" class="muted" style="font-size:12px"></span></div>
+      <div class="sl-subhead" style="margin-top:14px">Your lifestyle preferences</div>
+      <p class="muted" style="font-size:12px;margin:0 0 8px">Area-level context (state political lean, gun & LGBTQ policy, nearby beaches/mountains/city). Sources below — treat as context, not a verdict.</p>
+      <div id="lifeprefs"></div>
+      <div id="proxprefs" class="proxwrap"></div>
+      <p class="muted" style="font-size:11px;margin-top:8px">Context sources: presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education.</p>
+      <div class="row" style="margin-top:10px"><button id="sl-save" class="small primary">Save priorities</button><button id="sl-reset" class="small ghost">Reset</button><span id="sl-savemsg" class="muted" style="font-size:12px"></span></div>
     </div>
   </section>
 
@@ -447,14 +461,24 @@ function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e
 
 /* slider definitions */
 const SLIDERS = [
-  {key:"afford",   nm:"Affordability",  sub:"lower cost matters",          lo:"meh", hi:"crucial", def:5, kind:"importance"},
-  {key:"outcomes", nm:"Outcomes",       sub:"grad rate & earnings",        lo:"meh", hi:"crucial", def:5, kind:"importance"},
-  {key:"spirit",   nm:"Spirit & sports", sub:"big games, school pride",     lo:"meh", hi:"love it", def:5, kind:"importance"},
-  {key:"prestige", nm:"Selectivity",    sub:"prefer more selective",        lo:"no",  hi:"yes",     def:4, kind:"importance"},
-  {key:"size",     nm:"Size",           sub:"how big",                      lo:"small LAC", hi:"big university", def:5, kind:"pref"},
-  {key:"setting",  nm:"Setting",        sub:"where",                        lo:"town/rural", hi:"big city", def:5, kind:"pref"},
+  {key:"afford",   nm:"Value / affordability", sub:"lower cost matters",     lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"outcomes", nm:"Education & outcomes",   sub:"grad rate & earnings",   lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"prestige", nm:"Selectivity",           sub:"prefer more selective",  lo:"no",  hi:"yes",     def:4, kind:"importance"},
+  {key:"spirit",   nm:"Spirit & sports",       sub:"big games, school pride", lo:"meh", hi:"love it", def:5, kind:"importance"},
+  {key:"proximity",nm:"Proximity / location",  sub:"beach, mountains, city nearby", lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"lifestyle",nm:"Lifestyle & vibe",      sub:"area culture, policy, fit", lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"size",     nm:"Size",                  sub:"how big",                lo:"small LAC", hi:"big university", def:5, kind:"pref"},
+  {key:"setting",  nm:"Setting",               sub:"where",                  lo:"town/rural", hi:"big city", def:5, kind:"pref"},
 ];
-function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); return o; }
+// lifestyle preference controls (what you want; feeds the Lifestyle/Proximity importance)
+const LIFEPREFS = [
+  {key:"lp_political", nm:"Area political lean", opts:[["","No preference"],["Lean Democrat","Lean Democrat"],["Swing / mixed","Swing / mixed"],["Lean Republican","Lean Republican"]]},
+  {key:"lp_guns",      nm:"Gun laws",           opts:[["","No preference"],["Stricter gun laws","Stricter"],["Moderate gun laws","Moderate"],["Permissive gun laws","Permissive"]]},
+  {key:"lp_lgbtq",     nm:"LGBTQ policy",       opts:[["","No preference"],["Strong LGBTQ protections","Strong protections"],["Moderate LGBTQ protections","Moderate"],["Limited LGBTQ protections","Limited"]]},
+  {key:"lp_religion",  nm:"Religious affiliation", opts:[["","No preference"],["secular","Secular / nonsectarian"],["religious","Religiously affiliated"]]},
+];
+const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 Lake"],["mountains","⛰ Mountains"],["major city","🏙 Major city"]];
+function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
 const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile"];
@@ -682,6 +706,17 @@ function matchScore(c, w){
   const ss=sizeScale(s.size); if(ss!==null){ const sizePref=(w.size||5)/10; comps.push({v:1-Math.abs(ss-sizePref), wt:6}); }
   // setting (preference): closeness to preferred urbanness (skip if we have no locale, so it's not a dead anchor)
   const lu=localeUrban(c); if(lu!==null){ const setPref=(w.setting||5)/10; comps.push({v:1-Math.abs(lu-setPref), wt:6}); }
+  // lifestyle fit (preference → weighted by Lifestyle importance): share of stated area prefs this school meets
+  const L=c.lifestyle||{}; const lp=[];
+  if(w.lp_political) lp.push(L.politicalLean===w.lp_political);
+  if(w.lp_guns)      lp.push(L.gunLaws===w.lp_guns);
+  if(w.lp_lgbtq)     lp.push(L.lgbtqPolicy===w.lp_lgbtq);
+  if(w.lp_religion==="secular")   lp.push((L.religion||"").indexOf("Secular")===0);
+  else if(w.lp_religion==="religious") lp.push(!!L.religion && (L.religion||"").indexOf("Secular")!==0);
+  if(lp.length){ comps.push({v:lp.filter(Boolean).length/lp.length, wt:(w.lifestyle!=null?w.lifestyle:5)}); }
+  // proximity (preference → weighted by Proximity importance)
+  const want=Array.isArray(w.lp_prox)?w.lp_prox:[];
+  if(want.length){ const have=new Set(L.proximity||[]); comps.push({v:want.filter(t=>have.has(t)).length/want.length, wt:(w.proximity!=null?w.proximity:5)}); }
   let tw=0, acc=0; comps.forEach(x=>{ const ww=Math.max(0,x.wt); tw+=ww; acc+=ww*Math.max(0,Math.min(1,x.v)); });
   if(tw<=0) return 50;
   return Math.round(100*acc/tw);
@@ -1037,6 +1072,13 @@ function renderProfile(){
       <div><input type="range" min="0" max="10" value="${w[s.key]??s.def}" data-sl="${s.key}"><div class="ends"><span>${s.lo}</span><span>${s.hi}</span></div></div>
       <b data-slv="${s.key}">${w[s.key]??s.def}</b></div>`).join("");
   $("sliders").querySelectorAll("[data-sl]").forEach(el=>el.oninput=()=>{ $("sliders").querySelector(`[data-slv="${el.dataset.sl}"]`).textContent=el.value; });
+  // lifestyle preference selects
+  $("lifeprefs").innerHTML = `<div class="lp-grid">`+LIFEPREFS.map(p=>`
+    <div class="lp-row"><label>${p.nm}</label><select data-lp="${p.key}">${p.opts.map(o=>`<option value="${esc(o[0])}" ${String(w[p.key]||"")===o[0]?"selected":""}>${esc(o[1])}</option>`).join("")}</select></div>`).join("")+`</div>`;
+  // proximity chips
+  const prox = Array.isArray(w.lp_prox)?w.lp_prox:[];
+  $("proxprefs").innerHTML = PROX_TAGS.map(t=>`<label class="proxchip ${prox.includes(t[0])?"on":""}"><input type="checkbox" data-prox="${t[0]}" ${prox.includes(t[0])?"checked":""}>${t[1]}</label>`).join("");
+  $("proxprefs").querySelectorAll("[data-prox]").forEach(cb=>cb.onchange=()=>cb.closest(".proxchip").classList.toggle("on",cb.checked));
 }
 $("pf-save").onclick = async () => {
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
@@ -1050,6 +1092,8 @@ async function saveProfile(p){
 }
 $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
+  $("lifeprefs").querySelectorAll("[data-lp]").forEach(el=>w[el.dataset.lp]=el.value);
+  w.lp_prox=[...$("proxprefs").querySelectorAll("[data-prox]")].filter(cb=>cb.checked).map(cb=>cb.dataset.prox);
   await savePrefs(w); $("sl-savemsg").textContent="Saved ✓ — match % updated"; setTimeout(()=>$("sl-savemsg").textContent="",1800);
 };
 $("sl-reset").onclick = async () => { await savePrefs(defaultPrefs()); renderProfile(); };
