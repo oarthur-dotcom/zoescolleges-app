@@ -117,6 +117,7 @@ a{color:var(--teal)}
 .srow .sn{font-weight:600;font-size:15px}
 .srow .sl{color:var(--muted);font-size:12px;font-family:var(--mono)}
 .srow .scl{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
+.srow .scl.life span{background:var(--sunk);border-radius:999px;padding:1px 8px}
 /* sliders / profile */
 .sl{display:grid;grid-template-columns:140px 1fr 42px;gap:10px;align-items:center;padding:7px 0}
 .sl .nm{font-size:.9rem;font-weight:600}
@@ -301,13 +302,20 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <!-- EXPLORE -->
   <section id="v-explore" class="hidden">
     <h1>Explore schools</h1>
-    <p class="sub">308 schools with official federal data. Filter, open one for detail, or add it to your board.</p>
+    <p class="sub">Every school with official federal data, plus area context. Filter, open one for detail, or add it to your board.</p>
     <input id="exsearch" type="text" placeholder="Search by name, city, or state…">
     <div class="row" style="margin-top:8px">
       <select id="ex-size" style="width:auto"><option value="">Any size</option><option value="s">Small (&lt;5k)</option><option value="m">Medium (5–15k)</option><option value="l">Large (15k+)</option></select>
       <select id="ex-sel" style="width:auto"><option value="">Any selectivity</option><option value="r">Most selective (&lt;25%)</option><option value="t">Selective (25–60%)</option><option value="k">Accessible (60%+)</option></select>
       <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
       <select id="ex-sort2" style="width:auto"><option value="match">Sort: My match</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <select id="ex-pol" style="width:auto"><option value="">Any political lean</option><option value="Lean Democrat">Lean Democrat</option><option value="Swing / mixed">Swing / mixed</option><option value="Lean Republican">Lean Republican</option></select>
+      <select id="ex-guns" style="width:auto"><option value="">Any gun laws</option><option value="Stricter gun laws">Stricter</option><option value="Moderate gun laws">Moderate</option><option value="Permissive gun laws">Permissive</option></select>
+      <select id="ex-lgbtq" style="width:auto"><option value="">Any LGBTQ policy</option><option value="Strong LGBTQ protections">Strong protections</option><option value="Moderate LGBTQ protections">Moderate</option><option value="Limited LGBTQ protections">Limited</option></select>
+      <select id="ex-relig" style="width:auto"><option value="">Any affiliation</option><option value="secular">Secular</option><option value="religious">Religious</option></select>
+      <select id="ex-prox" style="width:auto"><option value="">Anywhere</option><option value="beach">Near beach</option><option value="skiing">Near skiing</option><option value="lake">Near a lake</option><option value="mountains">Near mountains</option><option value="major city">In a major city</option></select>
     </div>
     <div id="excount" class="counter" style="margin-top:10px"></div>
     <div id="exlist" style="margin-top:8px"></div>
@@ -867,16 +875,23 @@ function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id=
 
 /* ========== EXPLORE ========== */
 function renderExplore(){ renderExList($("exsearch").value||""); }
-["ex-size","ex-sel","ex-cost","ex-sort2"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
+["ex-size","ex-sel","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
 function renderExList(q){
   const have = new Set(state.schools.map(s=>s.school_id));
   const w = myPrefs();
   const fSize=$("ex-size").value, fSel=$("ex-sel").value, fCost=$("ex-cost").value, sort=$("ex-sort2").value;
+  const fPol=$("ex-pol").value, fGuns=$("ex-guns").value, fLgbtq=$("ex-lgbtq").value, fRelig=$("ex-relig").value, fProx=$("ex-prox").value;
   let list = state.catalog.filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase()));
-  list = list.filter(c=>{ const sc=c.scorecard||{};
+  list = list.filter(c=>{ const sc=c.scorecard||{}, L=c.lifestyle||{};
     if(fSize){ const z=sc.size||0; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
     if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
     if(fCost){ const n=(typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg; if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
+    if(fPol && L.politicalLean!==fPol) return false;
+    if(fGuns && L.gunLaws!==fGuns) return false;
+    if(fLgbtq && L.lgbtqPolicy!==fLgbtq) return false;
+    if(fRelig==="secular" && !((L.religion||"").indexOf("Secular")===0)) return false;
+    if(fRelig==="religious" && !(L.religion && (L.religion||"").indexOf("Secular")!==0)) return false;
+    if(fProx && !((L.proximity||[]).includes(fProx))) return false;
     return true;
   });
   const withM = list.map(c=>({c, m:matchScore(c,w)}));
@@ -891,10 +906,12 @@ function renderExList(q){
   $("excount").innerHTML = `<b>${withM.length}</b> school${withM.length===1?"":"s"}${state.catalog.length?"":" — catalog still loading"}`;
   $("exlist").innerHTML = withM.slice(0,250).map(({c,m}) => {
     const added = have.has(c.id); const sc=c.scorecard||{};
+    const L=c.lifestyle||{}; const lifeBits=[L.politicalLean, L.gunLaws&&L.gunLaws.replace(" gun laws",""), (L.proximity||[]).length?("near "+L.proximity.join("/")):"", (L.religion&&L.religion.indexOf("Secular")!==0)?L.religion:""].filter(Boolean);
     return `<div class="srow">
       <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
         <div class="scl"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span>${m!=null?`<span style="color:var(--teal)">★ ${m}% match</span>`:""}</div>
+        ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
@@ -905,6 +922,21 @@ function renderExList(q){
 }
 function wireOpen(root){ root.querySelectorAll("[data-open]").forEach(el => el.onclick = () => openDetail(el.dataset.open, currentView==="detail"?detailFrom:currentView)); }
 
+function lifestyleSection(info){
+  const L = info && info.lifestyle; if(!L) return "";
+  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"?"":"dim"}">${v||"—"}</div></div>`;
+  const prox = (L.proximity||[]).length ? L.proximity.map(p=>({beach:"🏖 beach",skiing:"⛷ skiing",lake:"🚣 lake",mountains:"⛰ mountains","major city":"🏙 major city"}[p]||p)).join(" · ") : "—";
+  return `<h2 style="margin-top:14px">Area &amp; lifestyle context</h2>
+    <div class="d-grid">
+      ${cell("Political lean", L.politicalLean)}
+      ${cell("Gun laws", L.gunLaws)}
+      ${cell("LGBTQ policy", L.lgbtqPolicy)}
+      ${cell("Religious affiliation", L.religion)}
+      ${cell("Nearby", prox)}
+      ${cell("Colleges in state", typeof L.collegesInState==="number"?String(L.collegesInState):"—")}
+    </div>
+    <p class="muted" style="font-size:11px">State/area-level context (not a judgment about this school): presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education. Use as context, not certainty.</p>`;
+}
 /* ========== SCHOOL DETAIL ========== */
 function renderDetail(id){
   const info = catInfo(id);
@@ -936,6 +968,7 @@ function renderDetail(id){
       ${cell("Early deadline", info.earlyDeadline)}
       ${cell("Regular deadline", info.regularDeadline)}
     </div>
+    ${lifestyleSection(info)}
     <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Deadlines: confirm on the school's site.</p>`
     : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school.</div>`;
   const link = info && info.link ? `<p><a href="${esc(info.link)}" target="_blank" rel="noopener">Official site ↗</a></p>` : "";
