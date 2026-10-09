@@ -1,0 +1,8 @@
+# Generated video build artifacts — not committed (keeps the repo light).
+# The finished MP4 is delivered to the user, not stored in git.
+frames/
+clips/
+*.mp4
+*.mp3
+silent.mp4
+list.txt
