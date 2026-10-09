@@ -63,6 +63,9 @@ button:disabled{opacity:.5;cursor:default}
 .school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
 #schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;align-items:start}
 #schools.as-tiles .school{margin:0}
+.rankbox{flex:0 0 auto}
+.rankbox input{width:48px;text-align:center;font-weight:700;font-size:16px;padding:6px 4px;border:1px solid var(--teal);border-radius:9px;background:var(--surface);color:var(--ink)}
+.rankbox input:focus{outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 30%,transparent)}
 .school .top{display:flex;gap:10px;align-items:baseline}
 .school .name{font-weight:700;font-size:17px;letter-spacing:-.01em}
 .school .loc{color:var(--muted);font-size:13px}
@@ -281,11 +284,14 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
         </select>
       </div>
       <div class="row" style="align-items:center">
-        <label style="margin:0;align-self:center">View</label>
+        <button id="rank-toggle" class="small ghost" title="Drag your own ranking (ties allowed)">⇅ My ranking</button>
+        <button id="rank-color" class="small ghost hidden" title="Color by rank">🎨 Color</button>
+        <label style="margin:0 0 0 6px;align-self:center">View</label>
         <button id="view-stacked" class="small primary" title="Stacked list">☰</button>
         <button id="view-tiles" class="small ghost" title="Tiles">▦</button>
       </div>
     </div>
+    <div id="rank-hint" class="muted hidden" style="font-size:12px;margin-top:6px">Your personal ranking — type a number on each school. Give the same number to tie schools (three can share 3rd). Saved on this device.</div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
       <div class="row" style="justify-content:space-between;align-items:flex-start">
         <b style="font-size:15px">How Zoe's Colleges works</b>
@@ -845,19 +851,40 @@ function renderBoard(){
   $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
   const sortBy = $("board-sort").value;
   const w = myPrefs();
-  const withMeta = state.schools.map(s=>{ const info=catInfo(s.school_id); return {s, info, b:blended(s.school_id), m:info?matchScore(info,w):null, ch:info?chanceFor(info):null}; });
+  const ranks = getRanks();
+  const withMeta = state.schools.map(s=>{ const info=catInfo(s.school_id); return {s, info, b:blended(s.school_id), m:info?matchScore(info,w):null, ch:info?chanceFor(info):null, rank:ranks[s.school_id]}; });
   withMeta.sort((a,b)=>{
+    if(rankMode){ const ra=(a.rank??9999), rb=(b.rank??9999); if(ra!==rb) return ra-rb; return (b.b??-1)-(a.b??-1); }
     if(sortBy==="name") return a.s.name.localeCompare(b.s.name);
     if(sortBy==="match") return (b.m??-1)-(a.m??-1);
     if(sortBy==="chance"){ const o={likely:0,target:1,reach:2}; return (o[a.ch&&a.ch.band]??3)-(o[b.ch&&b.ch.band]??3); }
     if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
     if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
   });
+  const maxRank = Math.max(1, ...withMeta.map(x=>x.rank||0));
+  withMeta.forEach(x=>x._maxRank=maxRank);
   $("schools").innerHTML = withMeta.map(renderSchool).join("") ||
     `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all schools.</div>`;
   applyBoardView();
-  bindStars($("schools")); wireOpen($("schools")); renderGuidance(withMeta);
+  bindStars($("schools")); wireOpen($("schools")); wireRanks(); renderGuidance(withMeta);
 }
+let rankMode=false;
+function getRanks(){ return lsGet("ranks")||{}; }
+function rankColorOn(){ try{ return localStorage.getItem("zc_rankcolor")==="1"; }catch(e){ return false; } }
+function wireRanks(){
+  $("schools").querySelectorAll("[data-rankin]").forEach(inp=>{
+    inp.onchange=()=>{ const id=inp.dataset.rankin, v=inp.value.trim(); const r=getRanks();
+      if(v==="") delete r[id]; else r[id]=Math.max(1,parseInt(v)||1); lsSet("ranks",r); renderBoard(); };
+  });
+}
+$("rank-toggle").onclick=()=>{ rankMode=!rankMode;
+  $("rank-toggle").className="small "+(rankMode?"primary":"ghost");
+  $("rank-color").classList.toggle("hidden", !rankMode);
+  $("rank-hint").classList.toggle("hidden", !rankMode);
+  renderBoard();
+};
+$("rank-color").onclick=()=>{ try{ localStorage.setItem("zc_rankcolor", rankColorOn()?"0":"1"); }catch(e){}
+  $("rank-color").className="small "+(rankColorOn()?"primary":"ghost"); renderBoard(); };
 function boardView(){ try{ return localStorage.getItem("zc_boardview")||"stacked"; }catch(e){ return "stacked"; } }
 function applyBoardView(){
   const v=boardView();
@@ -893,9 +920,13 @@ function renderSchool(x){
       <span>admit <b>${pct(sc.admissionRate)}</b></span>
       <span>net <b>${money(sc.netPrice)}</b></span>
       <span>grad <b>${pct(sc.gradRate)}</b></span></div>` : "";
-  return `<div class="school" data-school="${esc(s.school_id)}">
+  let tint="";
+  if(rankMode && rankColorOn() && x.rank){ const pctm=Math.max(6, 30-(x.rank-1)*(24/Math.max(1,(x._maxRank-1)))); tint=` style="background:color-mix(in srgb,var(--teal) ${Math.round(pctm)}%,var(--surface));border-color:color-mix(in srgb,var(--teal) 40%,var(--line))"`; }
+  const rankBox = rankMode ? `<div class="rankbox"><input type="number" min="1" inputmode="numeric" data-rankin="${esc(s.school_id)}" value="${x.rank||""}" placeholder="#" aria-label="Your rank"></div>` : "";
+  return `<div class="school" data-school="${esc(s.school_id)}"${tint}>
     <div class="top">
-      <div><div class="name">${esc(s.name)}</div>
+      ${rankBox}
+      <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
