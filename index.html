@@ -643,6 +643,24 @@ function chanceFor(c){
 const ACT_TO_SAT = 40; // rough ACT->SAT multiplier for a crude equivalence (e.g. 30*40=1200-ish ballpark); only used directionally
 function pct(x){ return (typeof x==="number")? Math.round(x*100)+"%" : "—"; }
 function money(x){ return (typeof x==="number")? "$"+Math.round(x).toLocaleString() : "—"; }
+function museSection(info){
+  const mu = info && info.muse; if(!mu) return "";
+  const rows=[];
+  const dl=mu.deadlines;
+  if(dl){ const p=[]; if(dl.early_type||dl.early_date) p.push(esc(((dl.early_type?dl.early_type+" ":"")+(dl.early_date||"")).trim())); if(dl.regular_date) p.push("Regular "+esc(dl.regular_date));
+    let v=p.join(" · "); if(dl.deadlines_url) v+=` <a href="${esc(dl.deadlines_url)}" target="_blank" rel="noopener">source ↗</a>`; if(v) rows.push(["Deadlines", v]); }
+  if(mu.athletics){ const a=mu.athletics; const v=[a.division,a.conference,a.football,a.mascot].filter(Boolean).map(esc).join(" · "); if(v) rows.push(["Athletics", v]); }
+  if(mu.clubs){ const c=mu.clubs; const v=[c.fieldHockey?("field hockey: "+c.fieldHockey):"", c.womensRugby?("women's rugby: "+c.womensRugby):""].filter(Boolean).map(esc).join(" · "); if(v) rows.push(["Club sports", v]); }
+  if(mu.greek && (mu.greek.men||mu.greek.women)){ const v=[mu.greek.men?mu.greek.men+" men":"",mu.greek.women?mu.greek.women+" women":""].filter(Boolean).map(esc).join(" · "); rows.push(["Greek life", v]); }
+  if(mu.studentFacultyRatio){ const r=esc(mu.studentFacultyRatio); rows.push(["Student–faculty ratio", /^\d+$/.test(mu.studentFacultyRatio)?r+":1":r]); }
+  if(mu.nearby && mu.nearby.length){ rows.push(["Nearby", mu.nearby.map(n=>esc(n.place)+" ("+esc(n.miles)+" mi)").join(" · ")]); }
+  if(mu.januaryTempF && (mu.januaryTempF.high||mu.januaryTempF.low)){ const v=[mu.januaryTempF.high?("high "+mu.januaryTempF.high+"°F"):"",mu.januaryTempF.low?("low "+mu.januaryTempF.low+"°F"):""].filter(Boolean).map(esc).join(" · "); rows.push(["January weather", v]); }
+  if(mu.ecRating||mu.rigorRating){ const v=[mu.ecRating?("activities: "+mu.ecRating):"",mu.rigorRating?("academic rigor: "+mu.rigorRating):""].filter(Boolean).map(esc).join(" · "); rows.push(["How admissions weighs you", v]); }
+  if(!rows.length) return "";
+  return `<h2>Researched details</h2><div class="d-grid" style="grid-template-columns:1fr">
+    ${rows.map(r=>`<div class="d-cell"><div class="k">${esc(r[0])}</div><div class="v" style="font-weight:500;font-size:14px">${r[1]}</div></div>`).join("")}
+  </div><p class="muted" style="font-size:11px">Researched by Muse · verify deadlines on the school's official site.</p>`;
+}
 
 /* ========== BOARD ========== */
 function plan(){ return PLAN_LIMITS[state.family?.plan] || PLAN_LIMITS.free; }
@@ -813,7 +831,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}</div>
-    ${facts}${link}${rateBlock}
+    ${facts}${museSection(info)}${link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
