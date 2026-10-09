@@ -1021,7 +1021,7 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
-function inviteMsg(){ const code = state.family.invite_code; return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\n1. Open ${APP_LINK}\n2. Create an account (email + password)\n3. Choose "Join with an invite code" and enter: ${code}`; }
+function inviteMsg(){ const code = state.family.invite_code; return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\n1. Open ${APP_LINK}\n2. Create an account — beta access code: ${ACCESS_CODE}\n3. Choose "Join with an invite code" and enter: ${code}`; }
 $("inv-share").onclick = async () => { const text = inviteMsg(); if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} } };
 $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
 $("inv-mail").onclick = () => { const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`); location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`; };
@@ -1030,7 +1030,7 @@ $("plans-close").onclick = () => $("dlg-plans").close();
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
-function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first)\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
+function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — beta access code: ${ACCESS_CODE}\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
   $("shmsg").value = shareText(); $("shto").value="";
   $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—"; $("sh-refcount").textContent = "…";
