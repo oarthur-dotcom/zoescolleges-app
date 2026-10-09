@@ -190,11 +190,12 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
       <label for="pw">Password</label>
       <input id="pw" type="password" autocomplete="current-password" placeholder="At least 8 characters">
+      <div id="code-wrap" class="hidden"><label for="accesscode">Beta access code</label><input id="accesscode" type="text" placeholder="Enter your invite code" autocapitalize="characters" autocomplete="off"></div>
       <div id="auth-msg" class="msg"></div>
       <div class="row" style="margin-top:14px">
         <button id="go-auth" class="primary" style="flex:1">Sign in</button>
       </div>
-      <p class="muted" style="font-size:12px;margin-top:12px">Invite-only beta. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
+      <p class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
     </div>
   </section>
 
@@ -407,6 +408,7 @@ const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@main/colleges.json";
 const APP_LINK = "https://oarthur-dotcom.github.io/zoescolleges-app/";
+const ACCESS_CODE = "ZOE2027"; // beta sign-up gate — change here anytime
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -460,6 +462,7 @@ function setAuthMode(m){
   $("t-signup").className = "small " + (m==="signup"?"primary":"");
   $("go-auth").textContent = m==="signin" ? "Sign in" : "Create account";
   $("pw").autocomplete = m==="signin" ? "current-password" : "new-password";
+  $("code-wrap").classList.toggle("hidden", m!=="signup");
 }
 $("go-auth").onclick = async () => {
   clearmsg("auth-msg");
@@ -468,6 +471,8 @@ $("go-auth").onclick = async () => {
   $("go-auth").disabled = true;
   try {
     if (state.authMode === "signup") {
+      const code = ($("accesscode").value||"").trim().toUpperCase();
+      if (code !== ACCESS_CODE) { $("go-auth").disabled=false; return msg("auth-msg","That beta access code isn't right — ask whoever invited you for the current code."); }
       const { data, error } = await sb.auth.signUp({ email, password });
       if (error) throw error;
       if (!data.session) return msg("auth-msg","Check your email for a confirmation link, then come back and sign in.","ok");
