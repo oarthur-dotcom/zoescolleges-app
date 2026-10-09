@@ -14,47 +14,37 @@
   --line:#dbdfe6;--teal:#0b7f81;--amber:#b06f0c;--plum:#8e3b7a;--warn:#c2410c;
   --disp:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
   --mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
-  --star:#d99a06;
+  --star:#d99a06;--good:#15803d;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
-  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;
+  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
 }}
 :root[data-theme="dark"]{
   --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
-  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;
+  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
-.wrap{max-width:720px;margin:0 auto;padding:0 16px 80px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 96px}
 header.app{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px}
 header.app .hrow{display:flex;align-items:center;gap:10px}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
+header.app .logo span{color:var(--teal)}
+header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
+header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .appnav{display:flex;gap:4px;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
 .appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:15px;padding:7px 12px;border-radius:9px;cursor:pointer}
 .appnav .navbtn.active{background:var(--sunk);color:var(--ink)}
 .backbtn{background:transparent;border:none;color:var(--teal);font-family:var(--disp);font-weight:600;font-size:14px;padding:10px 0;cursor:pointer}
-.openlink{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.openlink{background:transparent;border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
 .openlink:hover{border-color:var(--teal);color:var(--teal)}
-.d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
-.d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
-.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
-.d-cell{background:var(--surface);padding:11px 13px}
-.d-cell .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.d-cell .v{font-size:16px;font-weight:600;margin-top:2px}
-.d-cell .v.dim{color:var(--muted);font-weight:400;font-size:13px}
-.srow{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:8px 0}
-.srow .sn{font-weight:600;font-size:15px}
-.srow .sl{color:var(--muted);font-size:12px;font-family:var(--mono)}
-header.app .logo span{color:var(--teal)}
-header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
-header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:22px 0 6px}
 h2{font-size:18px;font-weight:700;margin:18px 0 8px}
 p.sub{color:var(--muted);margin:0 0 18px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
 label{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
-input[type=email],input[type=password],input[type=text],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px}
+input[type=email],input[type=password],input[type=text],input[type=number],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px}
 input:focus,select:focus{outline:2px solid var(--teal);outline-offset:0;border-color:transparent}
 button{font-family:var(--disp);font-size:15px;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;cursor:pointer}
 button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
@@ -68,13 +58,15 @@ button:disabled{opacity:.5;cursor:default}
 .chip{font-family:var(--mono);font-size:11px;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .chip.reach{color:var(--plum);border-color:var(--plum)}
 .chip.target{color:var(--amber);border-color:var(--amber)}
-.chip.likely{color:var(--teal);border-color:var(--teal)}
+.chip.likely{color:var(--good);border-color:var(--good)}
+.chip.match{color:var(--teal);border-color:var(--teal)}
 .school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
 .school .top{display:flex;gap:10px;align-items:baseline}
 .school .name{font-weight:700;font-size:17px;letter-spacing:-.01em}
 .school .loc{color:var(--muted);font-size:13px}
 .school .facts{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 2px;font-family:var(--mono);font-size:12px;color:var(--muted)}
 .school .facts b{color:var(--ink);font-weight:500}
+.school .chiprow{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 0}
 .blend{margin-left:auto;text-align:right}
 .blend .n{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--star)}
 .blend .l{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--muted)}
@@ -111,7 +103,48 @@ dialog::backdrop{background:rgba(10,14,25,.55)}
 .counter b{color:var(--amber)}
 a{color:var(--teal)}
 .plan-btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px}
-.plan-btn:hover{opacity:.9}
+/* detail */
+.d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
+.d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
+.d-cell{background:var(--surface);padding:11px 13px}
+.d-cell .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.d-cell .v{font-size:16px;font-weight:600;margin-top:2px}
+.d-cell .v.dim{color:var(--muted);font-weight:400;font-size:13px}
+.srow{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:8px 0}
+.srow .sn{font-weight:600;font-size:15px}
+.srow .sl{color:var(--muted);font-size:12px;font-family:var(--mono)}
+.srow .scl{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
+/* sliders / profile */
+.sl{display:grid;grid-template-columns:140px 1fr 42px;gap:10px;align-items:center;padding:7px 0}
+.sl .nm{font-size:.9rem;font-weight:600}
+.sl .nm small{display:block;color:var(--muted);font-weight:400;font-size:.76rem}
+.sl input[type=range]{width:100%;accent-color:var(--teal)}
+.sl b{font-family:var(--mono);font-size:.85rem;color:var(--teal);text-align:right}
+.ends{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);font-family:var(--mono);margin-top:-4px}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+/* photos */
+.photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
+.photo{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1/1;background:var(--sunk)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:10px;padding:10px 6px 4px}
+.photo .rm{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:999px;width:22px;height:22px;padding:0;font-size:12px;cursor:pointer}
+/* zoe helper */
+#zoe-fab{position:fixed;left:18px;bottom:18px;z-index:7;background:var(--ink);color:var(--paper);border:none;border-radius:999px;padding:13px 18px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.28);display:flex;gap:8px;align-items:center}
+#zoe-panel{position:fixed;left:14px;right:14px;bottom:14px;max-width:460px;margin:0 auto;z-index:8;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.3);display:flex;flex-direction:column;max-height:72vh}
+#zoe-panel .zhead{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+#zoe-panel .zhead b{font-size:15px}
+#zoe-log{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.zmsg{font-size:14px;line-height:1.45}
+.zmsg.me{align-self:flex-end;background:var(--teal);color:#fff;border-radius:12px 12px 2px 12px;padding:8px 11px;max-width:85%}
+.zmsg.z{align-self:flex-start;background:var(--sunk);border-radius:12px 12px 12px 2px;padding:8px 11px;max-width:92%}
+.zmsg.z b{color:var(--ink)}
+.zsugg{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
+.zsugg button{font-size:12px;padding:5px 9px;border-radius:999px;background:transparent}
+#zoe-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+#zoe-form input{flex:1}
+.callout{border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,var(--surface));padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.9rem}
+footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);font-size:.82rem;margin-top:30px}
 </style>
 </head>
 <body>
@@ -126,13 +159,14 @@ a{color:var(--teal)}
   </div>
   <nav class="appnav hidden" id="appnav">
     <button class="navbtn" data-nav="board">My Board</button>
-    <button class="navbtn" data-nav="explore">Explore schools</button>
+    <button class="navbtn" data-nav="explore">Explore</button>
+    <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
 </header>
 
 <div class="wrap">
 
-  <!-- ===== LOADING ===== -->
+  <!-- LOADING -->
   <section id="v-loading" class="hidden">
     <div class="card" style="text-align:center;margin-top:60px"><span class="spin"></span> <span class="muted">Loading your board…</span>
       <div id="loading-slow" class="hidden" style="margin-top:14px">
@@ -143,10 +177,10 @@ a{color:var(--teal)}
     </div>
   </section>
 
-  <!-- ===== AUTH ===== -->
+  <!-- AUTH -->
   <section id="v-auth" class="hidden">
     <h1>The college search, as a family.</h1>
-    <p class="sub">Everyone rates. Everyone sees. Nobody can touch anyone else's stars.</p>
+    <p class="sub">Everyone rates. Everyone's voice counts. Nobody can touch anyone else's stars.</p>
     <div class="card">
       <div class="row" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -164,7 +198,7 @@ a{color:var(--teal)}
     </div>
   </section>
 
-  <!-- ===== ONBOARD ===== -->
+  <!-- ONBOARD -->
   <section id="v-onboard" class="hidden">
     <h1>Set up your family</h1>
     <p class="sub">One person starts the family. Everyone else joins with the invite code.</p>
@@ -191,7 +225,7 @@ a{color:var(--teal)}
     <div id="onboard-msg" class="msg"></div>
   </section>
 
-  <!-- ===== BOARD ===== -->
+  <!-- BOARD -->
   <section id="v-board" class="hidden">
     <h1 id="famtitle"></h1>
     <div class="fam" id="famrow"></div>
@@ -203,6 +237,15 @@ a{color:var(--teal)}
         <button id="btn-plans" class="small ghost">Plans</button>
       </div>
     </div>
+    <div class="row" style="margin-top:8px">
+      <label style="margin:0;align-self:center">Sort</label>
+      <select id="board-sort" style="width:auto">
+        <option value="blend">Family star average</option>
+        <option value="match">My match %</option>
+        <option value="chance">Admission chance</option>
+        <option value="name">Name (A–Z)</option>
+      </select>
+    </div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
       <div class="row" style="justify-content:space-between;align-items:flex-start">
         <b style="font-size:15px">How Zoe's Colleges works</b>
@@ -210,9 +253,9 @@ a{color:var(--teal)}
       </div>
       <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
         <li><b>Add schools</b> — anyone in the family can add or remove them.</li>
-        <li><b>Rate with stars</b> — tap your row of stars on each school. You only control your own stars; you can see everyone's.</li>
-        <li><b>Invite your family</b> — share your code so the rest of your family can rate too.</li>
-        <li><b>Watch the family average</b> — schools sort by it, so your shared favorites rise to the top.</li>
+        <li><b>Set your profile &amp; sliders</b> — tap <b>My Profile</b> so the app can show each school's <b>match</b> and <b>admission chance</b> for you.</li>
+        <li><b>Rate with stars</b> — tap your row of stars. You only control your own; you see everyone's.</li>
+        <li><b>Invite your family</b> — share your code so everyone rates together.</li>
       </ol>
     </div>
     <div id="nextstep" class="msg hidden"></div>
@@ -221,16 +264,50 @@ a{color:var(--teal)}
     <button id="fab-add" class="fab">+ Add school</button>
   </section>
 
-  <!-- ===== EXPLORE ===== -->
+  <!-- EXPLORE -->
   <section id="v-explore" class="hidden">
     <h1>Explore schools</h1>
-    <p class="sub">Browse every school in the catalog. Open one to see the detail, or add it to your family board.</p>
+    <p class="sub">308 schools with official federal data. Filter, open one for detail, or add it to your board.</p>
     <input id="exsearch" type="text" placeholder="Search by name, city, or state…">
+    <div class="row" style="margin-top:8px">
+      <select id="ex-size" style="width:auto"><option value="">Any size</option><option value="s">Small (&lt;5k)</option><option value="m">Medium (5–15k)</option><option value="l">Large (15k+)</option></select>
+      <select id="ex-sel" style="width:auto"><option value="">Any selectivity</option><option value="r">Most selective (&lt;25%)</option><option value="t">Selective (25–60%)</option><option value="k">Accessible (60%+)</option></select>
+      <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
+      <select id="ex-sort2" style="width:auto"><option value="match">Sort: My match</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
+    </div>
     <div id="excount" class="counter" style="margin-top:10px"></div>
     <div id="exlist" style="margin-top:8px"></div>
   </section>
 
-  <!-- ===== SCHOOL DETAIL ===== -->
+  <!-- PROFILE + SLIDERS -->
+  <section id="v-profile" class="hidden">
+    <h1>My profile &amp; priorities</h1>
+    <p class="sub">Your profile powers <b>admission chance</b>; your sliders power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
+    <div id="profile-scope" class="callout"></div>
+    <div class="card">
+      <h2 style="margin-top:0">Academic profile</h2>
+      <p class="muted" style="font-size:13px;margin-top:0">The student's profile is what drives admission-chance labels. Parents can fill their own too — it's just not used for chances.</p>
+      <div class="pf-grid">
+        <div><label>GPA (unweighted)</label><input id="pf-gpa" type="text" inputmode="decimal" placeholder="e.g. 3.4"></div>
+        <div><label>SAT total</label><input id="pf-sat" type="number" placeholder="e.g. 1280"></div>
+        <div><label>ACT composite</label><input id="pf-act" type="number" placeholder="e.g. 27"></div>
+        <div><label>Intended major</label><input id="pf-major" type="text" placeholder="undecided is fine"></div>
+        <div><label>Class rank</label><input id="pf-rank" type="text" placeholder="if your school ranks"></div>
+        <div><label>Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2"></div>
+      </div>
+      <label>Interests / what you want from college</label>
+      <textarea id="pf-notes" placeholder="Clubs, sports, vibe, distance from home, anything…"></textarea>
+      <div class="row" style="margin-top:10px"><button id="pf-save" class="small primary">Save profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">What matters to you</h2>
+      <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts. Match % re-scores every school for you instantly.</p>
+      <div id="sliders"></div>
+      <div class="row" style="margin-top:10px"><button id="sl-save" class="small primary">Save sliders</button><button id="sl-reset" class="small ghost">Reset</button><span id="sl-savemsg" class="muted" style="font-size:12px"></span></div>
+    </div>
+  </section>
+
+  <!-- DETAIL -->
   <section id="v-detail" class="hidden">
     <button class="backbtn" id="detail-back">← Back</button>
     <div id="detail-body"></div>
@@ -238,7 +315,7 @@ a{color:var(--teal)}
 
 </div>
 
-<!-- ===== ADD SCHOOL DIALOG ===== -->
+<!-- ADD SCHOOL DIALOG -->
 <dialog id="dlg-add">
   <h2 style="margin-top:0">Add a school</h2>
   <input id="search" type="text" placeholder="Search the list…">
@@ -254,7 +331,7 @@ a{color:var(--teal)}
   <div class="row" style="margin-top:14px;justify-content:flex-end"><button id="dlg-close" class="small">Done</button></div>
 </dialog>
 
-<!-- ===== SHARE-WITH-A-FAMILY DIALOG ===== -->
+<!-- SHARE DIALOG -->
 <dialog id="dlg-share">
   <h2 style="margin-top:0">Tell another family</h2>
   <div class="card" style="background:color-mix(in srgb,var(--amber) 10%,var(--surface));border-color:var(--amber);margin-top:0">
@@ -274,11 +351,10 @@ a{color:var(--teal)}
     <button id="sh-email" class="small">Open in email</button>
     <button id="sh-copy" class="small">Copy message</button>
   </div>
-  <p class="muted" style="font-size:12px;margin-bottom:0">They sign up and start their own family — full product, free during the beta.</p>
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="sh-close" class="small">Close</button></div>
 </dialog>
 
-<!-- ===== PLANS DIALOG ===== -->
+<!-- PLANS DIALOG -->
 <dialog id="dlg-plans">
   <h2 style="margin-top:0">Plans</h2>
   <p class="muted" style="font-size:13px;margin-top:0">During the beta every family is on <b>Family+ free</b>. These are the plans for when the beta ends — you can try the checkout now in test mode.</p>
@@ -288,7 +364,7 @@ a{color:var(--teal)}
   </div>
   <div class="card" style="margin:10px 0">
     <div class="row" style="justify-content:space-between"><b>Family</b><span class="mono">$12/mo</span></div>
-    <div class="muted" style="font-size:13px;margin-bottom:8px">Up to 25 schools · visit days · dossiers</div>
+    <div class="muted" style="font-size:13px;margin-bottom:8px">Up to 25 schools · visit days · photos · dossiers</div>
     <a class="plan-btn" href="https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00" target="_blank" rel="noopener">Choose Family</a>
   </div>
   <div class="card" style="margin:10px 0;border-color:var(--teal)">
@@ -300,7 +376,7 @@ a{color:var(--teal)}
   <div class="row" style="justify-content:flex-end"><button id="plans-close" class="small">Close</button></div>
 </dialog>
 
-<!-- ===== INVITE DIALOG ===== -->
+<!-- INVITE DIALOG -->
 <dialog id="dlg-invite">
   <h2 style="margin-top:0">Invite your family</h2>
   <p class="muted" style="font-size:14px">Have them create an account here, choose <b>Join with an invite code</b>, and enter:</p>
@@ -316,28 +392,50 @@ a{color:var(--teal)}
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="inv-close" class="small">Close</button></div>
 </dialog>
 
+<!-- ZOE HELPER -->
+<button id="zoe-fab" class="hidden">✦ Ask Zoe</button>
+<div id="zoe-panel" class="hidden">
+  <div class="zhead"><b>✦ Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-close" class="small ghost" style="margin-left:auto;padding:2px 8px">✕</button></div>
+  <div id="zoe-log"></div>
+  <div class="zsugg" id="zoe-sugg"></div>
+  <form id="zoe-form"><input id="zoe-in" type="text" placeholder="Ask about the app or the schools…" autocomplete="off"><button class="primary small" type="submit">Ask</button></form>
+</div>
+
 <script>
 /* ========== CONFIG ========== */
 const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@main/colleges.json";
+const APP_LINK = "https://oarthur-dotcom.github.io/zoescolleges-app/";
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
-// Stripe TEST-mode Payment Links (Zoe's Colleges test account). No real charges — swap for live links at launch.
-const PLAN_LINKS = {
-  family: "https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00",
-  family_plus: "https://buy.stripe.com/test_aFabJ03Xj1Jb4ekeg39ws00"
-};
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
-let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin" };
+let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
+              profiles:{}, prefs:{}, photos:[], norm:null };
+// which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
+let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true };
+function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
+  return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
+
+/* slider definitions */
+const SLIDERS = [
+  {key:"afford",   nm:"Affordability",  sub:"lower cost matters",          lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"outcomes", nm:"Outcomes",       sub:"grad rate & earnings",        lo:"meh", hi:"crucial", def:5, kind:"importance"},
+  {key:"spirit",   nm:"Spirit & sports", sub:"big games, school pride",     lo:"meh", hi:"love it", def:5, kind:"importance"},
+  {key:"prestige", nm:"Selectivity",    sub:"prefer more selective",        lo:"no",  hi:"yes",     def:4, kind:"importance"},
+  {key:"size",     nm:"Size",           sub:"how big",                      lo:"small LAC", hi:"big university", def:5, kind:"pref"},
+  {key:"setting",  nm:"Setting",        sub:"where",                        lo:"town/rural", hi:"big city", def:5, kind:"pref"},
+];
+function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile"];
 function show(view){
   for (const v of ["v-auth","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", view==="v-auth");
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view));
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
@@ -346,17 +444,11 @@ function goto(view){
   currentView = view;
   if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
+  else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
 }
-function openDetail(id, from){
-  detailFrom = from||"board"; currentView="detail"; currentDetailId=id;
-  setNavActive(detailFrom); show("v-detail"); renderDetail(id);
-}
-function refreshCurrent(){
-  if (currentView==="board") renderBoard();
-  else if (currentView==="explore") renderExList($("exsearch").value||"");
-  else if (currentView==="detail") renderDetail(currentDetailId);
-}
-function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.textContent = text; }
+function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
+function refreshCurrent(){ if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
+function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.innerHTML = text; }
 function clearmsg(id){ $(id).className = "msg"; }
 
 /* ========== AUTH ========== */
@@ -402,7 +494,10 @@ $("go-create").onclick = async () => {
   if (!fam || !name) return msg("onboard-msg","Family name and your name, please.");
   $("go-create").disabled = true;
   const refCode = new URLSearchParams(location.search).get("ref") || localStorage.getItem("zc_ref") || null;
-  const { error } = await sb.rpc("create_family",{ family_name:fam, my_name:name, ref_code: refCode });
+  let error;
+  try { const r = await sb.rpc("create_family",{ family_name:fam, my_name:name, ref_code: refCode }); error=r.error; }
+  catch(e){ error=e; }
+  if (error && /ref_code/.test(error.message||"")) { const r2 = await sb.rpc("create_family",{ family_name:fam, my_name:name }); error=r2.error; }
   $("go-create").disabled = false;
   if (error) return msg("onboard-msg", error.message);
   if (role === "student") await fixRole("student");
@@ -418,9 +513,7 @@ $("go-join").onclick = async () => {
   if (error) return msg("onboard-msg", error.message);
   await loadFamily();
 };
-async function fixRole(role){
-  await sb.from("members").update({ role }).eq("user_id", state.session.user.id);
-}
+async function fixRole(role){ await sb.from("members").update({ role }).eq("user_id", state.session.user.id); }
 
 /* ========== DATA ========== */
 async function loadFamily(){
@@ -435,7 +528,8 @@ async function loadFamily(){
     state.me = mem.find(m => m.user_id === uid);
     const { data: fams } = await sb.from("families").select("*").limit(1);
     state.family = fams && fams[0];
-    await Promise.all([loadSchools(), loadRatings(), loadCatalog()]);
+    await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos()]);
+    computeNorms();
     goto("board");
   } catch(e){
     msg("board-msg", "Couldn't load your board: " + (e.message||e) + " — tap Try again.");
@@ -445,27 +539,116 @@ async function loadFamily(){
 }
 $("loading-retry").onclick = () => location.reload();
 $("loading-out").onclick = async () => { await sb.auth.signOut(); location.reload(); };
-async function loadSchools(){
-  const { data } = await sb.from("family_schools").select("*").order("position").order("created_at");
-  state.schools = data || [];
-}
-async function loadRatings(){
-  const { data } = await sb.from("ratings").select("*");
-  state.ratings = data || [];
-}
+async function loadSchools(){ const { data } = await sb.from("family_schools").select("*").order("position").order("created_at"); state.schools = data || []; }
+async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
   try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = j.colleges || []; }
   catch(e){ state.catalog = []; }
 }
+/* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
+async function loadProfiles(){
+  state.profiles = {};
+  if (BACKEND.profiles){
+    try { const { data, error } = await sb.from("profiles").select("*"); if(error) throw error;
+      (data||[]).forEach(p=>state.profiles[p.user_id]=p); return; }
+    catch(e){ if(isMissing(e)) BACKEND.profiles=false; }
+  }
+  // fallback: only own, from localStorage
+  const p = lsGet("profile"); if(p && state.me) state.profiles[state.me.user_id]=p;
+}
+async function loadPrefs(){
+  state.prefs = {};
+  if (BACKEND.preferences){
+    try { const { data, error } = await sb.from("preferences").select("*"); if(error) throw error;
+      (data||[]).forEach(p=>state.prefs[p.user_id]=p.weights||defaultPrefs()); }
+    catch(e){ if(isMissing(e)) BACKEND.preferences=false; }
+  }
+  if(!BACKEND.preferences){ const w=lsGet("prefs"); if(state.me) state.prefs[state.me.user_id]= w||defaultPrefs(); }
+  if(state.me && !state.prefs[state.me.user_id]) state.prefs[state.me.user_id]=defaultPrefs();
+}
+async function loadPhotos(){
+  state.photos=[];
+  if (BACKEND.photos){
+    try { const { data, error } = await sb.from("photos").select("*").order("created_at",{ascending:false}); if(error) throw error; state.photos=data||[]; return; }
+    catch(e){ if(isMissing(e)) BACKEND.photos=false; }
+  }
+  state.photos = lsGet("photos") || [];
+}
+function lsKey(kind){ return `zc_${kind}_${(state.family&&state.family.id)||'nf'}_${(state.me&&state.me.user_id)||'me'}`; }
+function lsGet(kind){ try{ return JSON.parse(localStorage.getItem(lsKey(kind))||"null"); }catch(e){ return null; } }
+function lsSet(kind,val){ try{ localStorage.setItem(lsKey(kind), JSON.stringify(val)); }catch(e){} }
+
+/* ========== NORMALIZATION FOR MATCH ========== */
+function computeNorms(){
+  const nums = k => state.catalog.map(c=>c.scorecard && c.scorecard[k]).filter(v=>typeof v==="number");
+  const mm = arr => arr.length? {min:Math.min(...arr), max:Math.max(...arr)} : {min:0,max:1};
+  state.norm = {
+    net: mm(nums("netPrice").length?nums("netPrice"):nums("costAvg")),
+    earn: mm(nums("medianEarnings10yr")),
+    size: mm(nums("size")),
+  };
+}
+function nrm(v,range){ if(typeof v!=="number"||!range||range.max===range.min) return 0.5; return (v-range.min)/(range.max-range.min); }
+function localeUrban(c){ // Scorecard locale: 11-13 city, 21-23 suburb, 31-33 town, 41-43 rural
+  const l = c.locale; if(typeof l!=="number") return 0.5;
+  if(l<20) return 1; if(l<30) return 0.7; if(l<40) return 0.35; return 0.1;
+}
+/* personal match 0..100 for a catalog school given a prefs object */
+function matchScore(c, w){
+  if(!c || !c.scorecard) return null;
+  w = w || defaultPrefs();
+  const s=c.scorecard, N=state.norm||{net:{min:0,max:1},earn:{min:0,max:1},size:{min:0,max:1}};
+  const comps=[]; // {val 0..1, weight}
+  // affordability (importance)
+  const net = (typeof s.netPrice==="number")?s.netPrice:s.costAvg;
+  if(typeof net==="number") comps.push({v:1-nrm(net,N.net), wt:w.afford});
+  // outcomes (importance): blend earnings + grad rate
+  const out = (typeof s.medianEarnings10yr==="number"?nrm(s.medianEarnings10yr,N.earn):0.5)*0.6 + (typeof s.gradRate==="number"?s.gradRate:0.5)*0.4;
+  comps.push({v:out, wt:w.outcomes});
+  // spirit (importance)
+  const spirit = ((/national/i.test(c.athleticsNetwork||"")?1:(/regional/i.test(c.athleticsNetwork||"")?0.6:0.4)) + (/present/i.test(c.greekLife||"")?1:0.6) + Math.min(1,(s.size||0)/25000))/3;
+  comps.push({v:spirit, wt:w.spirit});
+  // prestige (importance): more selective = higher
+  if(typeof s.admissionRate==="number") comps.push({v:1-s.admissionRate, wt:w.prestige});
+  // size (preference): closeness to preferred
+  const sizePref=(w.size||5)/10; comps.push({v:1-Math.abs(nrm(s.size,N.size)-sizePref), wt:6});
+  // setting (preference): closeness to preferred urbanness
+  const setPref=(w.setting||5)/10; comps.push({v:1-Math.abs(localeUrban(c)-setPref), wt:6});
+  let tw=0, acc=0; comps.forEach(x=>{ const ww=Math.max(0,x.wt); tw+=ww; acc+=ww*Math.max(0,Math.min(1,x.v)); });
+  if(tw<=0) return 50;
+  return Math.round(100*acc/tw);
+}
+/* admission chance for the STUDENT: Reach/Target/Likely */
+function studentProfile(){
+  const stu = state.members.find(m=>m.role==="student");
+  if(stu && state.profiles[stu.user_id]) return state.profiles[stu.user_id];
+  // fall back to current user's profile if no student yet
+  return (state.me && state.profiles[state.me.user_id]) || null;
+}
+function chanceFor(c){
+  const s = c && c.scorecard; if(!s || typeof s.admissionRate!=="number") return null;
+  let band = s.admissionRate>0.7?"likely" : s.admissionRate>=0.4?"target" : s.admissionRate>=0.2?"reach":"reach";
+  // adjust by student SAT vs school SAT
+  const p = studentProfile();
+  let sat = p && (parseInt(p.sat)|| (p.act? Math.round((parseInt(p.act))*ACT_TO_SAT):0));
+  if(sat && typeof s.satAvg==="number"){
+    const d = sat - s.satAvg;
+    if(d>=70){ band = band==="reach"?"target": "likely"; }
+    else if(d<=-90){ band = band==="likely"?"target":"reach"; }
+  }
+  const labels={reach:"Reach",target:"Target",likely:"Likely"};
+  return {band, label:labels[band]};
+}
+const ACT_TO_SAT = 40; // rough ACT->SAT multiplier for a crude equivalence (e.g. 30*40=1200-ish ballpark); only used directionally
+function pct(x){ return (typeof x==="number")? Math.round(x*100)+"%" : "—"; }
+function money(x){ return (typeof x==="number")? "$"+Math.round(x).toLocaleString() : "—"; }
 
 /* ========== BOARD ========== */
 function plan(){ return PLAN_LIMITS[state.family?.plan] || PLAN_LIMITS.free; }
-function blended(schoolId){
-  const rs = state.ratings.filter(r => r.school_id === schoolId && r.rating);
-  if (!rs.length) return null;
-  return (rs.reduce((a,r)=>a+r.rating,0) / rs.length);
-}
+function blended(schoolId){ const rs = state.ratings.filter(r => r.school_id === schoolId && r.rating); if(!rs.length) return null; return (rs.reduce((a,r)=>a+r.rating,0)/rs.length); }
+function myPrefs(){ return (state.me && state.prefs[state.me.user_id]) || defaultPrefs(); }
+function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function renderBoard(){
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
   $("famrow").innerHTML = state.members.map(m =>
@@ -473,50 +656,53 @@ function renderBoard(){
   ).join("");
   const p = plan();
   $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
-  const sorted = [...state.schools].sort((a,b)=>{
-    const ba = blended(a.school_id), bb = blended(b.school_id);
-    if (ba===null && bb===null) return a.name.localeCompare(b.name);
-    if (ba===null) return 1; if (bb===null) return -1;
-    return bb - ba;
+  const sortBy = $("board-sort").value;
+  const w = myPrefs();
+  const withMeta = state.schools.map(s=>{ const info=catInfo(s.school_id); return {s, info, b:blended(s.school_id), m:info?matchScore(info,w):null, ch:info?chanceFor(info):null}; });
+  withMeta.sort((a,b)=>{
+    if(sortBy==="name") return a.s.name.localeCompare(b.s.name);
+    if(sortBy==="match") return (b.m??-1)-(a.m??-1);
+    if(sortBy==="chance"){ const o={likely:0,target:1,reach:2}; return (o[a.ch&&a.ch.band]??3)-(o[b.ch&&b.ch.band]??3); }
+    if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
+    if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
   });
-  $("schools").innerHTML = sorted.map(renderSchool).join("") ||
-    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore schools</b> up top to browse the full list.</div>`;
-  bindStars($("schools"));
-  wireOpen($("schools"));
-  renderGuidance(sorted);
+  $("schools").innerHTML = withMeta.map(renderSchool).join("") ||
+    `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all 308.</div>`;
+  bindStars($("schools")); wireOpen($("schools")); renderGuidance(withMeta);
 }
-function renderGuidance(sorted){
-  // "How it works" strip — shows until dismissed
-  let dismissed = false; try { dismissed = localStorage.getItem("zc_howto")==="1"; } catch(e){}
+function renderGuidance(meta){
+  let dismissed=false; try{ dismissed=localStorage.getItem("zc_howto")==="1"; }catch(e){}
   $("howto").classList.toggle("hidden", dismissed);
-  // Dynamic next step — the single most useful thing to do now
   const soloFamily = state.members.length < 2;
-  let tip = "";
-  if (!state.schools.length) tip = `👋 Start by adding schools you're considering — search the list or add your own. You'll see info, deadlines, and tracking right away.`;
-  else if (soloFamily) tip = `⭐ Rate any school whenever you like — tap your stars, and change them anytime, before or after a visit. Then tap <b>+ Add my family</b> so the rest of your family can add their stars too.`;
-  else {
-    const top = sorted.find(s => blended(s.school_id)!==null);
-    tip = top ? `🏆 Your family's top pick so far: <b>${esc(top.name)}</b> (${blended(top.school_id).toFixed(1)} avg). Rate or re-rate any school anytime — the list re-sorts itself.` : `⭐ Everyone can rate now — tap your stars on any school. Change them anytime; the list sorts by your family average.`;
-  }
-  const n = $("nextstep"); n.className = "msg ok"; n.innerHTML = tip; n.classList.remove("hidden");
+  const hasProfile = !!studentProfile();
+  let tip="";
+  if(!state.schools.length) tip=`👋 Start by adding schools you're considering — search 308 schools or add your own.`;
+  else if(!hasProfile) tip=`🎯 Fill in <b>My Profile</b> (just takes a minute) so each school shows your <b>match %</b> and <b>admission chance</b>.`;
+  else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>+ Add my family</b> so everyone rates too.`;
+  else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
+  const n=$("nextstep"); n.className="msg ok"; n.innerHTML=tip; n.classList.remove("hidden");
 }
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
-function catInfo(id){ return state.catalog.find(c => c.id === id); }
-function renderSchool(s){
-  const info = catInfo(s.school_id);
-  const b = blended(s.school_id);
+$("board-sort").onchange = renderBoard;
+function chanceChip(ch){ return ch? `<span class="chip ${ch.band}">${ch.label}</span>` : ""; }
+function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
+function renderSchool(x){
+  const s=x.s, info=x.info, b=x.b;
   const catChip = s.is_custom ? `<span class="chip">Custom</span>` : "";
+  const sc = info && info.scorecard || {};
   const facts = info ? `<div class="facts">
-      <span>size <b>${esc(info.sizeApprox)}</b></span><span>cost <b>${esc(info.costApprox)}</b></span></div>
-    <div class="facts"><span>early <b>${esc(info.earlyDeadline)}</b></span><span>regular <b>${esc(info.regularDeadline)}</b></span>
-      ${info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener">admissions ↗</a>`:""}</div>` : "";
+      <span>size <b>${esc(info.sizeApprox||(sc.size?sc.size.toLocaleString():"—"))}</b></span>
+      <span>admit <b>${pct(sc.admissionRate)}</b></span>
+      <span>net <b>${money(sc.netPrice)}</b></span>
+      <span>grad <b>${pct(sc.gradRate)}</b></span></div>` : "";
   return `<div class="school" data-school="${esc(s.school_id)}">
     <div class="top">
       <div><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
-      <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings yet</div>`}</div>
+      <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
+    <div class="chiprow">${chanceChip(x.ch)}${matchChip(x.m)}</div>
     ${facts}
     <div class="raters">${ratersHtml(s.school_id)}</div>
     <details class="extra"><summary>My note · remove school</summary>
@@ -532,30 +718,43 @@ function ratersHtml(schoolId){
   return state.members.map(m => {
     const r = state.ratings.find(x => x.school_id===schoolId && x.user_id===m.user_id);
     const mine = m.user_id === state.me.user_id;
-    const stars = [1,2,3,4,5].map(n =>
-      `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${schoolId}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
-    return `<div class="rater ${mine?"me":""}">
-      <span class="who">${esc(m.display_name)}</span>
-      <span class="stars ${mine?"mine":""}">${stars}</span>
-      ${mine?"":'<span class="lock">theirs</span>'}
-    </div>`;
+    const stars = [1,2,3,4,5].map(n => `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${schoolId}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
+    return `<div class="rater ${mine?"me":""}"><span class="who">${esc(m.display_name)}</span><span class="stars ${mine?"mine":""}">${stars}</span>${mine?"":'<span class="lock">theirs</span>'}</div>`;
   }).join("");
 }
-function noteHtml(schoolId){
-  const myNote = state.ratings.find(x => x.school_id===schoolId && x.user_id===state.me.user_id)?.note || "";
-  return `<textarea data-note="${esc(schoolId)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>`;
-}
+function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id===schoolId && x.user_id===state.me.user_id)?.note || ""; return `<textarea data-note="${esc(schoolId)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>`; }
 
 /* ========== EXPLORE ========== */
 function renderExplore(){ renderExList($("exsearch").value||""); }
+["ex-size","ex-sel","ex-cost","ex-sort2"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
 function renderExList(q){
   const have = new Set(state.schools.map(s=>s.school_id));
-  const list = state.catalog.filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase()));
-  $("excount").innerHTML = `<b>${list.length}</b> school${list.length===1?"":"s"}${state.catalog.length?"":" — catalog still loading"}`;
-  $("exlist").innerHTML = list.slice(0,200).map(c => {
-    const added = have.has(c.id);
+  const w = myPrefs();
+  const fSize=$("ex-size").value, fSel=$("ex-sel").value, fCost=$("ex-cost").value, sort=$("ex-sort2").value;
+  let list = state.catalog.filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase()));
+  list = list.filter(c=>{ const sc=c.scorecard||{};
+    if(fSize){ const z=sc.size||0; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
+    if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
+    if(fCost){ const n=(typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg; if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
+    return true;
+  });
+  const withM = list.map(c=>({c, m:matchScore(c,w)}));
+  withM.sort((a,b)=>{
+    const sa=a.c.scorecard||{}, sb2=b.c.scorecard||{};
+    if(sort==="name") return a.c.name.localeCompare(b.c.name);
+    if(sort==="sel") return (sa.admissionRate??2)-(sb2.admissionRate??2);
+    if(sort==="cost"){ const na=(sa.netPrice??sa.costAvg??9e9), nb=(sb2.netPrice??sb2.costAvg??9e9); return na-nb; }
+    if(sort==="earn") return (sb2.medianEarnings10yr??-1)-(sa.medianEarnings10yr??-1);
+    return (b.m??-1)-(a.m??-1);
+  });
+  $("excount").innerHTML = `<b>${withM.length}</b> school${withM.length===1?"":"s"}${state.catalog.length?"":" — catalog still loading"}`;
+  $("exlist").innerHTML = withM.slice(0,250).map(({c,m}) => {
+    const added = have.has(c.id); const sc=c.scorecard||{};
     return `<div class="srow">
-      <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div><div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div></div>
+      <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div>
+        <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
+        <div class="scl"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span>${m!=null?`<span style="color:var(--teal)">★ ${m}% match</span>`:""}</div>
+      </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
@@ -571,31 +770,52 @@ function renderDetail(id){
   const onBoard = state.schools.find(s=>s.school_id===id);
   const rec = onBoard || (info ? {school_id:id, name:info.name, city:info.city, state:info.state} : null);
   if (!rec){ $("detail-body").innerHTML = `<div class="card muted">School not found.</div>`; return; }
-  const b = blended(id);
-  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v?"":"dim"}">${v?esc(v):"—"}</div></div>`;
+  const b = blended(id); const w=myPrefs();
+  const sc = info && info.scorecard || {};
+  const ch = info?chanceFor(info):null; const m = info?matchScore(info,w):null;
+  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"?"":"dim"}">${v||"—"}</div></div>`;
   const facts = info ? `<div class="d-grid">
-      ${cell("Size", info.sizeApprox)}
-      ${cell("Est. cost / yr", info.costApprox)}
+      ${cell("Admission rate", pct(sc.admissionRate))}
+      ${cell("SAT avg / ACT mid", (sc.satAvg?sc.satAvg:"—")+" / "+(sc.actMid?sc.actMid:"—"))}
+      ${cell("Net price / yr", money(sc.netPrice))}
+      ${cell("Sticker cost / yr", money(sc.costAvg))}
+      ${cell("In-state tuition", money(sc.tuitionInState))}
+      ${cell("Out-of-state tuition", money(sc.tuitionOutState))}
+      ${cell("Grad rate (4yr)", pct(sc.gradRate))}
+      ${cell("Median earnings (10yr)", money(sc.medianEarnings10yr))}
+      ${cell("Undergrads", sc.size?sc.size.toLocaleString():"—")}
+      ${cell("Type", info.ownership||"—")}
+    </div>
+    <div class="facts" style="margin-top:4px">
+      ${info.vibe?`<span>${esc(info.vibe)}</span>`:""}
+      ${info.greekLife?`<span>Greek: <b>${esc(info.greekLife)}</b></span>`:""}
+      ${info.athleticsNetwork?`<span>Athletics: <b>${esc(info.athleticsNetwork)}</b></span>`:""}
+    </div>
+    <div class="d-grid" style="grid-template-columns:1fr 1fr">
       ${cell("Early deadline", info.earlyDeadline)}
       ${cell("Regular deadline", info.regularDeadline)}
-    </div>` : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school — richer data arrives with the next data refresh.</div>`;
-  const link = info && info.link ? `<p><a href="${esc(info.link)}" target="_blank" rel="noopener">Official admissions page ↗</a></p>` : "";
+    </div>
+    <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Deadlines: confirm on the school's site.</p>`
+    : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school.</div>`;
+  const link = info && info.link ? `<p><a href="${esc(info.link)}" target="_blank" rel="noopener">Official site ↗</a></p>` : "";
   let rateBlock;
-  if (onBoard){
+  if(onBoard){
     rateBlock = `<h2>Family ratings</h2><div class="raters" style="border-top:none;padding-top:0">${ratersHtml(id)}</div>
       <h2>My note</h2>${noteHtml(id)}
-      <div class="row" style="margin-top:8px"><button class="small primary" data-savenote="${esc(id)}">Save note</button></div>`;
+      <div class="row" style="margin-top:8px"><button class="small primary" data-savenote="${esc(id)}">Save note</button></div>
+      <h2>Campus photos</h2>${photoSection(id)}`;
   } else {
-    rateBlock = `<div class="card">Add this school to your board to rate it with your family.
+    rateBlock = `<div class="card">Add this school to your board to rate it and save photos with your family.
       <div class="row" style="margin-top:10px"><button class="small primary" data-detailadd="${esc(id)}">+ Add to board</button></div></div>`;
   }
   $("detail-body").innerHTML = `
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
+    <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}</div>
     ${facts}${link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
-  bindStars($("detail-body"));
+  bindStars($("detail-body")); wirePhotos(id);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
   if (addBtn) addBtn.onclick = async () => { await addFromCatalog(id); renderDetail(id); };
   const rmBtn = $("detail-body").querySelector("[data-detailremove]");
@@ -611,26 +831,129 @@ function bindStars(root){
   root.querySelectorAll("[data-rate]").forEach(el => el.onclick = async () => {
     const [sid, n] = el.dataset.rate.split("|");
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
-    const rating = (cur && cur.rating === +n) ? null : +n;   // tap same star to clear
+    const rating = (cur && cur.rating === +n) ? null : +n;
     await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating, updated_at: new Date().toISOString() });
     await loadRatings(); refreshCurrent();
   });
   root.querySelectorAll("[data-savenote]").forEach(el => el.onclick = async () => {
-    const sid = el.dataset.savenote;
-    const ta = root.querySelector(`[data-note="${CSS.escape(sid)}"]`); if (!ta) return;
+    const sid = el.dataset.savenote; const ta = root.querySelector(`[data-note="${CSS.escape(sid)}"]`); if (!ta) return;
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
     await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating: cur?cur.rating:null, note: ta.value, updated_at: new Date().toISOString() });
     await loadRatings(); el.textContent="Saved ✓"; setTimeout(()=>{el.textContent="Save note";},1200);
   });
   root.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
-    const sid = el.dataset.remove;
-    const s = state.schools.find(x=>x.school_id===sid);
+    const sid = el.dataset.remove; const s = state.schools.find(x=>x.school_id===sid);
     if (!confirm(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`)) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", sid);
     await loadSchools(); refreshCurrent();
   });
 }
-/* nav + routing wiring */
+
+/* ========== PHOTOS ========== */
+function photosFor(id){ return state.photos.filter(p=>p.school_id===id); }
+function photoSection(id){
+  const ps = photosFor(id);
+  const note = BACKEND.photostore ? "" : `<p class="muted" style="font-size:12px">Photos are saved on this device during setup. They'll sync to your family once storage is switched on.</p>`;
+  const grid = ps.length ? `<div class="photogrid">${ps.map((p,i)=>`<div class="photo"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||'')}">${p.caption?`<div class="cap">${esc(p.caption)}</div>`:""}<button class="rm" data-rmphoto="${esc(p.id)}">✕</button></div>`).join("")}</div>` : `<p class="muted" style="font-size:13px">No photos yet — add one from your visit.</p>`;
+  return `${grid}
+    <div class="row" style="margin-top:10px">
+      <input type="file" accept="image/*" capture="environment" id="photo-input-${esc(id)}" style="display:none">
+      <button class="small primary" data-addphoto="${esc(id)}">📷 Add photo</button>
+      <input type="text" id="photo-cap-${esc(id)}" placeholder="Caption (optional)" style="flex:1;min-width:120px">
+    </div>${note}`;
+}
+function wirePhotos(id){
+  const root=$("detail-body");
+  const addBtn=root.querySelector(`[data-addphoto="${CSS.escape(id)}"]`);
+  const fileInput=root.querySelector(`#photo-input-${CSS.escape(id)}`);
+  if(addBtn&&fileInput){ addBtn.onclick=()=>fileInput.click();
+    fileInput.onchange=async()=>{ const f=fileInput.files[0]; if(!f) return; addBtn.disabled=true; addBtn.textContent="Uploading…";
+      try{ const cap=(root.querySelector(`#photo-cap-${CSS.escape(id)}`)||{}).value||""; await addPhoto(id, f, cap); await loadPhotos(); renderDetail(id); }
+      catch(e){ alert("Couldn't add photo: "+(e.message||e)); addBtn.disabled=false; addBtn.textContent="📷 Add photo"; } };
+  }
+  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!confirm("Remove this photo?"))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
+}
+function resizeImage(file, maxDim, quality){
+  return new Promise((resolve,reject)=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{ URL.revokeObjectURL(url); let {width:w,height:h}=img; const scale=Math.min(1, maxDim/Math.max(w,h)); w=Math.round(w*scale); h=Math.round(h*scale);
+      const cv=document.createElement("canvas"); cv.width=w; cv.height=h; cv.getContext("2d").drawImage(img,0,0,w,h);
+      cv.toBlob(bl=>{ if(!bl) return reject(new Error("resize failed")); resolve(bl); }, "image/jpeg", quality||0.8); };
+    img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error("not an image")); }; img.src=url;
+  });
+}
+async function addPhoto(schoolId, file, caption){
+  const blob = await resizeImage(file, 1400, 0.82);        // cap longest side 1400px
+  // try Supabase Storage first
+  if(BACKEND.photos && BACKEND.photostore){
+    try{
+      const path=`${state.family.id}/${schoolId}/${Date.now()}_${Math.random().toString(36).slice(2,7)}.jpg`;
+      const up=await sb.storage.from("campus-photos").upload(path, blob, {contentType:"image/jpeg",upsert:false});
+      if(up.error) throw up.error;
+      const pub=sb.storage.from("campus-photos").getPublicUrl(path);
+      const url=pub.data.publicUrl;
+      const ins=await sb.from("photos").insert({family_id:state.family.id, school_id:schoolId, user_id:state.me.user_id, path, url, caption});
+      if(ins.error) throw ins.error;
+      return;
+    }catch(e){ if(isMissing(e)){ BACKEND.photostore=false; } else throw e; }
+  }
+  // fallback: base64 thumbnail on this device (cap count + size to protect localStorage)
+  const small = await resizeImage(file, 640, 0.7);
+  const data = await blobToDataURL(small);
+  const arr = lsGet("photos")||[];
+  arr.unshift({id:"ls-"+Date.now(), school_id:schoolId, user_id:state.me.user_id, caption, data, created_at:new Date().toISOString()});
+  // keep newest ~24 to stay well under localStorage limits
+  while(arr.length>24) arr.pop();
+  lsSet("photos", arr); state.photos=arr;
+}
+async function removePhoto(pid){
+  if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return; }
+  const p = state.photos.find(x=>x.id===pid);
+  try{ if(p&&p.path) await sb.storage.from("campus-photos").remove([p.path]); }catch(e){}
+  try{ await sb.from("photos").delete().eq("id", pid); }catch(e){}
+}
+function blobToDataURL(b){ return new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(b); }); }
+
+/* ========== PROFILE + SLIDERS ========== */
+function renderProfile(){
+  // scope note
+  const shared = BACKEND.profiles && BACKEND.preferences;
+  $("profile-scope").innerHTML = shared
+    ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
+    : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
+  const p = (state.me && state.profiles[state.me.user_id]) || {};
+  $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
+  $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
+  // sliders
+  const w = myPrefs();
+  $("sliders").innerHTML = SLIDERS.map(s=>`
+    <div class="sl"><div class="nm">${s.nm}<small>${s.sub}</small></div>
+      <div><input type="range" min="0" max="10" value="${w[s.key]??s.def}" data-sl="${s.key}"><div class="ends"><span>${s.lo}</span><span>${s.hi}</span></div></div>
+      <b data-slv="${s.key}">${w[s.key]??s.def}</b></div>`).join("");
+  $("sliders").querySelectorAll("[data-sl]").forEach(el=>el.oninput=()=>{ $("sliders").querySelector(`[data-slv="${el.dataset.sl}"]`).textContent=el.value; });
+}
+$("pf-save").onclick = async () => {
+  const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
+    major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
+  await saveProfile(p); $("pf-savemsg").textContent="Saved ✓"; setTimeout(()=>$("pf-savemsg").textContent="",1500);
+};
+async function saveProfile(p){
+  state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
+  if(BACKEND.profiles){ try{ const {error}=await sb.from("profiles").upsert({user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()}); if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
+  lsSet("profile", p);
+}
+$("sl-save").onclick = async () => {
+  const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
+  await savePrefs(w); $("sl-savemsg").textContent="Saved ✓ — match % updated"; setTimeout(()=>$("sl-savemsg").textContent="",1800);
+};
+$("sl-reset").onclick = async () => { await savePrefs(defaultPrefs()); renderProfile(); };
+async function savePrefs(w){
+  state.prefs[state.me.user_id]=w;
+  if(BACKEND.preferences){ try{ const {error}=await sb.from("preferences").upsert({user_id:state.me.user_id, family_id:state.family.id, weights:w, updated_at:new Date().toISOString()}); if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.preferences=false; else { alert("Save failed: "+(e.message||e)); return; } } }
+  lsSet("prefs", w);
+}
+
+/* nav wiring */
 document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => goto(b.dataset.nav));
 $("logo-home").onclick = () => { if (state.family) goto("board"); };
 $("detail-back").onclick = () => goto(detailFrom);
@@ -638,24 +961,16 @@ $("exsearch").oninput = e => renderExList(e.target.value);
 
 /* ========== ADD SCHOOL ========== */
 $("fab-add").onclick = () => {
-  if (state.schools.length >= plan().schools)
-    return msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err");
-  clearmsg("board-msg");
-  renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
+  if (state.schools.length >= plan().schools) return msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err");
+  clearmsg("board-msg"); renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
 };
 $("dlg-close").onclick = () => $("dlg-add").close();
 $("search").oninput = e => renderPicklist(e.target.value);
 function renderPicklist(q){
   const have = new Set(state.schools.map(s=>s.school_id));
-  const list = state.catalog
-    .filter(c => !have.has(c.id))
-    .filter(c => (c.name+" "+c.city+" "+c.state).toLowerCase().includes(q.toLowerCase()))
-    .slice(0, 40);
+  const list = state.catalog.filter(c => !have.has(c.id)).filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase())).slice(0, 50);
   $("picklist").innerHTML = list.map(c =>
-    `<div class="pick" data-pick="${esc(c.id)}">
-       <div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city)}, ${esc(c.state)}</div></div>
-       <button class="small primary add">Add</button>
-     </div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
+    `<div class="pick" data-pick="${esc(c.id)}"><div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div></div><button class="small primary add">Add</button></div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
 }
 async function addFromCatalog(id){
@@ -666,18 +981,16 @@ async function addFromCatalog(id){
   await loadSchools(); renderBoard(); renderPicklist($("search").value);
 }
 $("go-custom").onclick = async () => {
-  const name = $("cname").value.trim(); let cs = $("ccity").value.trim();
-  if (!name) return;
+  const name = $("cname").value.trim(); let cs = $("ccity").value.trim(); if (!name) return;
   if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
   const [city, st] = cs.includes(",") ? [cs.split(",")[0].trim(), cs.split(",")[1].trim()] : [cs, ""];
   const sid = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: sid, name, city, state: st, is_custom:true, added_by: state.me.user_id });
   if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
-  $("cname").value=""; $("ccity").value="";
-  await loadSchools(); renderBoard(); $("dlg-add").close();
+  $("cname").value=""; $("ccity").value=""; await loadSchools(); renderBoard(); $("dlg-add").close();
 };
 
-/* ========== INVITE ========== */
+/* ========== INVITE / SHARE / PLANS ========== */
 $("btn-invite").onclick = () => {
   $("invcode").textContent = state.family.invite_code;
   const p = plan(); const seatsLeft = p.seats - state.members.length;
@@ -685,90 +998,87 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
-function inviteMsg(){
-  const code = state.family.invite_code;
-  return `You're invited to our ${state.family.name} board on Zoe's Colleges.
-
-1. Open ${APP_LINK}
-2. Create an account (email + password)
-3. Choose "Join with an invite code" and enter: ${code}`;
-}
-$("inv-share").onclick = async () => {
-  const text = inviteMsg();
-  if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} }
-  else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} }
-};
+function inviteMsg(){ const code = state.family.invite_code; return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\n1. Open ${APP_LINK}\n2. Create an account (email + password)\n3. Choose "Join with an invite code" and enter: ${code}`; }
+$("inv-share").onclick = async () => { const text = inviteMsg(); if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} } };
 $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
-$("inv-mail").onclick = () => {
-  const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`);
-  location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`;
-};
+$("inv-mail").onclick = () => { const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`); location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`; };
 $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
-$("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(location.origin + location.pathname); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link to this app",1500);}catch(e){} };
-
-/* ========== TELL ANOTHER FAMILY (referral share hub) ========== */
-const APP_LINK = "https://oarthur-dotcom.github.io/zoescolleges-app/";
-function refLink(){
-  const code = state.family && state.family.referral_code;
-  return code ? `${APP_LINK}?ref=${code}` : APP_LINK;
-}
-function shareText(){
-  const from = state.family ? state.family.name : "our family";
-  return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).
-
-Getting started takes 2 minutes:
-1. Open ${refLink()}
-2. Create an account (one parent goes first)
-3. Tap "Start a new family", then share your family code so everyone else can join your board
-
-— ${from}`;
-}
+$("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
+function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
+function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first)\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
   $("shmsg").value = shareText(); $("shto").value="";
-  $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—";
-  $("sh-refcount").textContent = "…";
+  $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—"; $("sh-refcount").textContent = "…";
   $("dlg-share").showModal();
-  try { const { data } = await sb.rpc("my_referral_count"); $("sh-refcount").textContent = (data ?? 0); }
-  catch(e){ $("sh-refcount").textContent = "0"; }
+  try { const { data } = await sb.rpc("my_referral_count"); $("sh-refcount").textContent = (data ?? 0); } catch(e){ $("sh-refcount").textContent = "0"; }
 };
 $("sh-close").onclick = () => $("dlg-share").close();
-$("sh-share").onclick = async () => {
-  const text = $("shmsg").value;
-  if (navigator.share) { try { await navigator.share({ title:"Zoe's Colleges beta", text }); } catch(e){} }
-  else { try { await navigator.clipboard.writeText(text); $("sh-share").textContent="Copied ✓"; setTimeout(()=>$("sh-share").textContent="Share…",1500);}catch(e){} }
-};
-$("sh-email").onclick = () => {
-  const to = encodeURIComponent($("shto").value.trim());
-  const su = encodeURIComponent("You're invited: Zoe's Colleges beta");
-  const bo = encodeURIComponent($("shmsg").value);
-  location.href = `mailto:${to}?subject=${su}&body=${bo}`;
-};
+$("sh-share").onclick = async () => { const text = $("shmsg").value; if (navigator.share) { try { await navigator.share({ title:"Zoe's Colleges beta", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("sh-share").textContent="Copied ✓"; setTimeout(()=>$("sh-share").textContent="Share…",1500);}catch(e){} } };
+$("sh-email").onclick = () => { const to = encodeURIComponent($("shto").value.trim()); const su = encodeURIComponent("You're invited: Zoe's Colleges beta"); const bo = encodeURIComponent($("shmsg").value); location.href = `mailto:${to}?subject=${su}&body=${bo}`; };
 $("sh-copy").onclick = async () => { try { await navigator.clipboard.writeText($("shmsg").value); $("sh-copy").textContent="Copied ✓"; setTimeout(()=>$("sh-copy").textContent="Copy message",1500);}catch(e){} };
 
+/* ========== ZOE HELPER (self-contained) ========== */
+const ZOE_KB = [
+  {q:["how","work","start","begin","what is","overview"], a:"Here's the gist: <b>Explore</b> to browse 308 schools with real federal data, <b>Add</b> the ones you're considering to <b>My Board</b>, then everyone in the family rates each one with stars. Fill in <b>My Profile</b> so each school shows your <b>match %</b> and <b>admission chance</b>."},
+  {q:["match","percent","%","slider","priorit","what matters"], a:"Your <b>match %</b> comes from your sliders in <b>My Profile</b> → \"What matters to you\". Slide toward affordability, outcomes, spirit, selectivity, size and setting. Each person gets their own match — nobody overrides yours."},
+  {q:["chance","reach","target","likely","admission","get in"], a:"<b>Admission chance</b> (Reach / Target / Likely) compares the student's SAT/ACT in <b>My Profile</b> with each school's admit rate and average scores. It's a planning estimate, not a guarantee — always check the school's own data too."},
+  {q:["rate","star","rating","vote"], a:"Tap your row of stars on any school. You only control your own stars; you can see everyone's, and the board sorts by the family average so your shared favorites rise to the top."},
+  {q:["invite","family","join","add my","code"], a:"Tap <b>+ Add my family</b> on the board to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
+  {q:["photo","picture","visit","camera"], a:"Open a school on your board and tap <b>📷 Add photo</b> under Campus photos — great for visit days. Photos are resized automatically and saved with your family."},
+  {q:["price","cost","afford","money","tuition","net"], a:"Each school shows <b>net price</b> (what families actually pay on average) and sticker cost, plus in/out-of-state tuition in the detail view. Filter by net price in <b>Explore</b>, and turn up the Affordability slider to weight cheaper schools in your match."},
+  {q:["plan","pay","subscri","price of app","upgrade"], a:"During the beta every family is on <b>Family+ free</b>. The paid plans (Family $12/mo, Family+ $20/mo) are shown under <b>Plans</b> and are in test mode for now."},
+  {q:["data","where","source","accurate","official"], a:"School stats come from the <b>U.S. Dept. of Education College Scorecard</b> (official federal data): admission rate, SAT/ACT, cost, net price, tuition, graduation rate, 10-year earnings and size. Deadlines are curated — always confirm on the school's site."},
+];
+function zoeAnswer(qraw){
+  const q=(qraw||"").toLowerCase().trim();
+  // data queries over the catalog
+  const dq = zoeData(q); if(dq) return dq;
+  // KB match
+  let best=null, score=0;
+  ZOE_KB.forEach(item=>{ let s=0; item.q.forEach(k=>{ if(q.includes(k)) s++; }); if(s>score){score=s; best=item;} });
+  if(best && score>0) return best.a;
+  return "I can help with how the app works (matching, chances, ratings, invites, photos, plans) and with the data — try \"cheapest schools\", \"most selective in Colorado\", \"biggest schools\", or \"schools with early deadline\". What would you like to know?";
+}
+function zoeData(q){
+  const cat=state.catalog; if(!cat.length) return null;
+  const stateAbbr=(q.match(/\b(in|near)\s+([a-z]{2})\b/)||[])[2]?.toUpperCase();
+  const byState=a=> stateAbbr? a.filter(c=>(c.state||"").toUpperCase()===stateAbbr):a;
+  const fmt=list=> list.slice(0,6).map(c=>`• <b>${esc(c.name)}</b> — ${esc(c.city||"")}${c.state?", "+c.state:""} (admit ${pct(c.scorecard&&c.scorecard.admissionRate)}, net ${money(c.scorecard&&c.scorecard.netPrice)})`).join("<br>");
+  if(/(cheap|afford|low.*cost|lowest net|least expensive)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&typeof(c.scorecard.netPrice)==="number")).sort((a,b)=>a.scorecard.netPrice-b.scorecard.netPrice); return "Lowest net price"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(selective|hardest|prestig|lowest admit|most competitive)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&typeof(c.scorecard.admissionRate)==="number")).sort((a,b)=>a.scorecard.admissionRate-b.scorecard.admissionRate); return "Most selective"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(biggest|largest|most students)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.size)).sort((a,b)=>b.scorecard.size-a.scorecard.size); return "Largest"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(smallest|tiny|small)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.size)).sort((a,b)=>a.scorecard.size-b.scorecard.size); return "Smallest"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(earn|salary|income|outcome)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.medianEarnings10yr)).sort((a,b)=>b.scorecard.medianEarnings10yr-a.scorecard.medianEarnings10yr); return "Highest 10-yr median earnings"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(high.*grad|graduat|completion)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.gradRate)).sort((a,b)=>b.scorecard.gradRate-a.scorecard.gradRate); return "Highest graduation rate"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(stateAbbr && /(school|college|which|list|show)/.test(q)){ const l=byState(cat); return (l.length?`Schools in ${stateAbbr}:<br>`+fmt(l):`I don't have schools in ${stateAbbr} yet.`); }
+  if(/(my match|best match|top match|best for me|fit)/.test(q)){ const w=myPrefs(); const l=cat.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m); return "Your top matches right now:<br>"+l.slice(0,6).map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
+  return null;
+}
+function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
+const ZOE_SUGG=["How does matching work?","Cheapest schools","Most selective in CO","My top matches","How do I invite my family?"];
+function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay("Hi, I'm <b>Zoe</b> ✦ — I know how this app works and I can dig through the 308 schools for you. Ask me anything, or tap a suggestion."); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
+$("zoe-fab").onclick=zoeOpen;
+$("zoe-close").onclick=()=>$("zoe-panel").classList.add("hidden");
+$("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim(); if(!v)return; zoeSay(esc(v),"me"); $("zoe-in").value=""; setTimeout(()=>zoeSay(zoeAnswer(v)),180); };
+
 /* ========== MISC ========== */
-document.addEventListener("visibilitychange", async () => {
-  if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); }
-});
+document.addEventListener("visibilitychange", async () => { if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); } });
 function esc(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
 /* ========== BOOT ========== */
-// IMPORTANT: never await Supabase calls directly inside onAuthStateChange —
-// the auth client holds a lock during the callback and queries deadlock.
-// Defer the actual work out of the callback with setTimeout(…,0).
 let lastUserId = undefined;
 function route(session){
   state.session = session;
   $("whoami").textContent = session ? (session.user.email||"") : "";
   const uid = session ? session.user.id : null;
-  if (uid === lastUserId) return;   // ignore token-refresh events for the same user
+  if (uid === lastUserId) return;
   lastUserId = uid;
   if (!session){ state.family=null; show("v-auth"); return; }
   setTimeout(() => { loadFamily(); }, 0);
 }
 sb.auth.onAuthStateChange((_event, session) => route(session));
-// Initial load: read the current session once, outside any callback lock.
 (async () => {
   const ref = new URLSearchParams(location.search).get("ref");
   if (ref) { try { localStorage.setItem("zc_ref", ref); } catch(e){} }
