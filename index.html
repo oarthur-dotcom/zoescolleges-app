@@ -257,6 +257,24 @@ a{color:var(--teal)}
 .cp-fill.target{background:#d79a2b}
 .cp-fill.reach{background:#8e3b7a}
 .cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
+/* onboarding checklist */
+.ob-card{border:1px solid color-mix(in srgb,var(--teal) 28%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
+.ob-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ob-head h3{font-size:16px}
+.ob-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:8px}
+.ob-x:hover{background:var(--sunk)}
+.ob-bar{height:6px;background:var(--sunk);border-radius:999px;overflow:hidden;margin:11px 0 13px}
+.ob-bar i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .5s ease}
+.ob-steps{display:flex;flex-direction:column;gap:9px}
+.ob-step{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.ob-step.done{opacity:.72}
+.ob-ic{flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px;background:var(--sunk)}
+.ob-step.done .ob-ic{background:var(--teal);color:#fff;font-weight:800}
+.ob-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ob-tx b{font-size:14px}
+.ob-tx span{font-size:12px;color:var(--muted);line-height:1.3}
+.ob-tag{font-size:11.5px;color:var(--teal);font-weight:700;white-space:nowrap}
+.ob-go{white-space:nowrap}
 /* profile sub-tabs */
 .pf-tabs{display:flex;gap:4px;margin:4px 0 14px;background:var(--sunk);padding:4px;border-radius:12px;width:fit-content;max-width:100%}
 .pf-tabs button{border:none;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
@@ -690,6 +708,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <section id="v-board" class="hidden">
     <h1 id="famtitle"></h1>
     <div class="fam" id="famrow"></div>
+    <div id="onboard-guide"></div>
     <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
     <div id="board-coach" class="coachwrap"></div>
     <div class="row" style="justify-content:space-between">
@@ -1444,7 +1463,38 @@ function plan(){ return PLAN_LIMITS[state.family?.plan] || PLAN_LIMITS.free; }
 function blended(schoolId){ const rs = state.ratings.filter(r => r.school_id === schoolId && r.rating); if(!rs.length) return null; return (rs.reduce((a,r)=>a+r.rating,0)/rs.length); }
 function myPrefs(){ return (state.me && state.prefs[state.me.user_id]) || defaultPrefs(); }
 function catInfo(id){ return state.catalog.find(c => c.id === id); }
+/* ---- first-run onboarding checklist ---- */
+function onboardDismissed(){ try{ return localStorage.getItem("zc_onboard_done")==="1"; }catch(e){ return false; } }
+function dismissOnboard(){ try{ localStorage.setItem("zc_onboard_done","1"); }catch(e){} }
+function openInvite(){ try{ const code=state.family&&state.family.invite_code; if(!code) return; const ic=$("invcode"); if(ic) ic.textContent=code; $("dlg-invite").showModal(); }catch(e){} }
+function renderOnboard(){
+  const el=$("onboard-guide"); if(!el) return;
+  if(onboardDismissed()){ el.innerHTML=""; return; }
+  const schools=(state.schools||[]).length;
+  const hasPrefs=!!(state.me && state.prefs && state.prefs[state.me.user_id]);
+  const members=(state.members||[]).length;
+  const steps=[
+    {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
+    {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so match % fits you.", cta:"Set priorities", nav:"profile"},
+    {done:members>=2, icon:"👨‍👩‍👧", title:"Invite your family", desc:"Everyone rates together — share your invite code.", cta:"Invite family", act:"invite"},
+  ];
+  const doneN=steps.filter(s=>s.done).length, allDone=doneN===steps.length;
+  el.innerHTML=`<div class="card ob-card">
+    <div class="ob-head"><div><h3 style="margin:0">${allDone?"🎉 You're all set!":"👋 Welcome — let's set up your board"}</h3>
+      <div class="muted" style="font-size:12.5px">${allDone?"You've got the basics down — hide this whenever you like.":`Takes about a minute · ${doneN}/3 done`}</div></div>
+      <button class="ob-x" data-obdismiss title="Hide">✕</button></div>
+    <div class="ob-bar"><i style="width:${Math.round(doneN/steps.length*100)}%"></i></div>
+    <div class="ob-steps">${steps.map(s=>`<div class="ob-step ${s.done?"done":""}">
+      <span class="ob-ic">${s.done?"✓":s.icon}</span>
+      <div class="ob-tx"><b>${esc(s.title)}</b><span>${esc(s.desc)}</span></div>
+      ${s.done?`<span class="ob-tag">Done</span>`:`<button class="small primary ob-go" data-obnav="${esc(s.nav||"")}" data-obact="${esc(s.act||"")}">${esc(s.cta)}</button>`}
+    </div>`).join("")}</div>
+  </div>`;
+  const dx=el.querySelector("[data-obdismiss]"); if(dx) dx.onclick=()=>{ dismissOnboard(); renderOnboard(); };
+  el.querySelectorAll(".ob-go").forEach(b=>b.onclick=()=>{ if(b.dataset.obact==="invite"){ openInvite(); } else if(b.dataset.obnav){ goto(b.dataset.obnav); } });
+}
 function renderBoard(){
+  try{ renderOnboard(); }catch(e){}
   try{ renderCoach("board-coach"); }catch(e){}
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
   $("famrow").innerHTML = state.members.map(m =>
