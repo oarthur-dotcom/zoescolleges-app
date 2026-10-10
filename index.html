@@ -60,9 +60,19 @@ button:disabled{opacity:.5;cursor:default}
 .chip.target{color:var(--amber);border-color:var(--amber)}
 .chip.likely{color:var(--good);border-color:var(--good)}
 .chip.match{color:var(--teal);border-color:var(--teal)}
-.school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
-#schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;align-items:start}
+.school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0;margin:10px 0;overflow:hidden}
+.school-body{padding:14px 16px}
+.cover{display:none}
+.cover-tag{position:absolute;top:8px;right:10px;font-size:11px;background:rgba(0,0,0,.5);color:#fff;padding:2px 9px;border-radius:999px;z-index:2}
+.cover-init{font-weight:800;font-size:54px;color:rgba(255,255,255,.92);text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.cover-name{position:absolute;left:12px;right:12px;bottom:10px;color:#fff;font-weight:700;font-size:16px;line-height:1.2;text-shadow:0 1px 10px rgba(0,0,0,.6);z-index:2}
+#schools.as-tiles .school.has-photo .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 55%);z-index:1}
+#schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;align-items:start}
 #schools.as-tiles .school{margin:0}
+#schools.as-tiles .cover{display:flex;align-items:center;justify-content:center;height:140px;background-size:cover;background-position:center;position:relative}
+#schools.as-tiles .school .name{font-size:19px}
+#schools.as-tiles .school.has-photo .cover-name{display:block}
+.cover-name{display:none}
 .rankbox{flex:0 0 auto}
 .rankbox input{width:48px;text-align:center;font-weight:700;font-size:16px;padding:6px 4px;border:1px solid var(--teal);border-radius:9px;background:var(--surface);color:var(--ink)}
 .rankbox input:focus{outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 30%,transparent)}
@@ -933,7 +943,7 @@ $("rank-toggle").onclick=()=>{ rankMode=!rankMode;
 };
 $("rank-color").onclick=()=>{ try{ localStorage.setItem("zc_rankcolor", rankColorOn()?"0":"1"); }catch(e){}
   $("rank-color").className="small "+(rankColorOn()?"primary":"ghost"); renderBoard(); };
-function boardView(){ try{ return localStorage.getItem("zc_boardview")||"stacked"; }catch(e){ return "stacked"; } }
+function boardView(){ try{ return localStorage.getItem("zc_boardview")||"tiles"; }catch(e){ return "tiles"; } }
 function applyBoardView(){
   const v=boardView();
   $("schools").classList.toggle("as-tiles", v==="tiles");
@@ -971,7 +981,10 @@ function renderSchool(x){
   let tint="";
   if(rankMode && rankColorOn() && x.rank){ const pctm=Math.max(6, 30-(x.rank-1)*(24/Math.max(1,(x._maxRank-1)))); tint=` style="background:color-mix(in srgb,var(--teal) ${Math.round(pctm)}%,var(--surface));border-color:color-mix(in srgb,var(--teal) 40%,var(--line))"`; }
   const rankBox = rankMode ? `<div class="rankbox"><input type="number" min="1" inputmode="numeric" data-rankin="${esc(s.school_id)}" value="${x.rank||""}" placeholder="#" aria-label="Your rank"></div>` : "";
-  return `<div class="school" data-school="${esc(s.school_id)}"${tint}>
+  const cov = coverFor(s);
+  return `<div class="school${cov.hasPhoto?" has-photo":""}" data-school="${esc(s.school_id)}"${tint}>
+    ${cov.html}
+    <div class="school-body">
     <div class="top">
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
@@ -989,7 +1002,16 @@ function renderSchool(x){
         <button class="small ghost" style="color:var(--warn)" data-remove="${esc(s.school_id)}">Remove from board</button>
       </div>
     </details>
+    </div>
   </div>`;
+}
+// Tile cover: a family campus photo when there is one, else a colored placeholder with the school's initial.
+function coverFor(s){
+  const ph = (photosFor(s.school_id)[0]||{}); const url = ph.url||ph.data;
+  if(url) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(url)}')"><span class="cover-tag">📷 your visit</span><span class="cover-name">${esc(s.name)}</span></div>`};
+  const name=s.name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360;
+  const init=esc((name.trim()[0]||"?").toUpperCase());
+  return {hasPhoto:false, html:`<div class="cover" style="background:linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))"><span class="cover-init">${init}</span></div>`};
 }
 function ratersHtml(schoolId){
   return state.members.map(m => {
