@@ -243,6 +243,20 @@ a{color:var(--teal)}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
 .cmp-btn.on{border-color:var(--plum,#8e3b7a);color:var(--plum,#8e3b7a);font-weight:600}
+.card-links{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.card-links a{font-size:11.5px;text-decoration:none;color:var(--teal);background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.card-links a:hover{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 8%,var(--sunk))}
+/* college power */
+.cp-card{margin-top:14px}
+.cp-bars{display:flex;flex-direction:column;gap:9px}
+.cp-row{display:flex;align-items:center;gap:10px}
+.cp-lab{flex:0 0 86px;font-size:13px;font-weight:600}
+.cp-track{flex:1;height:14px;background:var(--sunk);border-radius:999px;overflow:hidden}
+.cp-fill{height:100%;border-radius:999px;transition:width .6s ease}
+.cp-fill.likely{background:#2e9e6b}
+.cp-fill.target{background:#d79a2b}
+.cp-fill.reach{background:#8e3b7a}
+.cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
 /* match visuals */
 .mring{position:relative;display:inline-flex;width:42px;height:42px;flex:0 0 auto;vertical-align:middle}
 .mring svg{width:42px;height:42px;transform:rotate(-90deg)}
@@ -1651,6 +1665,7 @@ function renderSchool(x){
     </div>
     <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
     ${facts}
+    ${cardLinks(info, s)}
     <div class="raters">${ratersHtml(s.school_id)}</div>
     <details class="extra"><summary>My note · remove school</summary>
       ${noteHtml(s.school_id)}
@@ -1728,6 +1743,7 @@ function renderExList(q){
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
+        ${cardLinks(c, c)}
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button>
@@ -1754,6 +1770,20 @@ function lifestyleSection(info){
       ${cell("Colleges in state", typeof L.collegesInState==="number"?String(L.collegesInState):"—")}
     </div>
     <p class="muted" style="font-size:11px">State/area-level context (not a judgment about this school): presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education. Use as context, not certainty.</p>`;
+}
+/* Compact link row for cards: tour / map / official site / reviews. */
+function cardLinks(info, rec){
+  if(!info) return "";
+  const nm=rec.name+(rec.state?(" "+rec.state):""); const q=encodeURIComponent(nm);
+  const hasCoords=typeof info.lat==="number"&&typeof info.lon==="number";
+  const maps=hasCoords?`https://www.google.com/maps/search/?api=1&query=${info.lat},${info.lon}`:`https://www.google.com/maps/search/?api=1&query=${q}`;
+  const rev=`https://www.niche.com/?q=${encodeURIComponent(rec.name)}`;
+  return `<div class="card-links">`+
+    `<a href="https://www.google.com/search?q=${q}+virtual+campus+tour" target="_blank" rel="noopener" title="Virtual tour">▶ Tour</a>`+
+    `<a href="${maps}" target="_blank" rel="noopener" title="Map & directions">📍 Map</a>`+
+    (info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener" title="Official site">🎓 Site</a>`:"")+
+    `<a href="${rev}" target="_blank" rel="noopener" title="Student voice & reviews">💬 Reviews</a>`+
+  `</div>`;
 }
 /* "See the campus": legal/ethical link-outs — official tour, map, site. */
 function toursSection(info, rec){
@@ -2348,6 +2378,28 @@ function renderProfile(){
 function setPrefStatus(st){ const el=$("sl-savemsg"); if(!el) return; if(st==="saved"){ el.textContent="✓ Priorities locked in"; el.className="sl-status saved"; } else if(st==="unsaved"){ el.textContent="● Unsaved changes — tap Save"; el.className="sl-status unsaved"; } else { el.textContent=""; el.className="muted"; } }
 let pfEdit=false;
 function profileBuilt(p){ return !!(p && (String(p.gpa||"").trim()||String(p.sat||"").trim()||String(p.act||"").trim()||String(p.major||"").trim()||p.notes||(Array.isArray(p.activities)&&p.activities.length)||(p.rigor&&(+p.rigor.honors||+p.rigor.ap||+p.rigor.dual)))); }
+function choicePower(){
+  const cat=(state.catalog||[]).filter(c=>c.scorecard && typeof c.scorecard.admissionRate==="number");
+  if(cat.length<20) return null;
+  const bins={likely:0,target:0,reach:0}; let n=0;
+  cat.forEach(c=>{ const ch=chanceFor(c); if(ch&&bins[ch.band]!=null){ bins[ch.band]++; n++; } });
+  if(n<20) return null;
+  return { n, likely:Math.round(bins.likely/n*100), target:Math.round(bins.target/n*100), reach:Math.round(bins.reach/n*100) };
+}
+function choicePowerHtml(){
+  const cp=choicePower(); if(!cp) return "";
+  const bar=(lab,cls,v)=>`<div class="cp-row"><span class="cp-lab">${lab}</span><div class="cp-track"><div class="cp-fill ${cls}" style="width:${v}%"></div></div><span class="cp-pct">${v}%</span></div>`;
+  return `<div class="card cp-card">
+    <div class="pv-head"><h2 style="margin:0">Your college power</h2><span class="muted" style="font-size:12px">${cp.n.toLocaleString()} schools</span></div>
+    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Based on your academic profile, here's roughly how today's colleges break down for you:</p>
+    <div class="cp-bars">
+      ${bar("✅ Likely","likely",cp.likely)}
+      ${bar("🎯 Target","target",cp.target)}
+      ${bar("🌟 Reach","reach",cp.reach)}
+    </div>
+    <p class="muted" style="font-size:11px;margin:10px 0 0">A planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.</p>
+  </div>`;
+}
 function renderProfileView(){
   const p=(state.me&&state.profiles[state.me.user_id])||{}; const built=profileBuilt(p);
   const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
@@ -2374,7 +2426,7 @@ function renderProfileView(){
     </div>
     ${actList?`<div class="pv-sub">Activities ${astrLvl?`· <span class="muted" style="text-transform:none;letter-spacing:0">${astrLvl} profile</span>`:""}</div>${actList}`:""}
     <p class="muted" style="font-size:12px;margin:12px 0 0">This drives your admission-chance labels across the app. Edit anytime.</p>
-  </div>`;
+  </div>` + choicePowerHtml();
   const eb=sum.querySelector("[data-pf-edit]"); if(eb) eb.onclick=()=>{ pfEdit=true; renderProfileView(); const g=$("pf-gpa"); if(g) setTimeout(()=>{ try{ g.focus(); $("pf-form-card").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },50); };
 }
 $("pf-save").onclick = async () => {
