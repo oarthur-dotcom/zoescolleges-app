@@ -936,6 +936,22 @@ function friendly(e){
   return m;
 }
 
+/* ===== deep-link join (invitee opens ?join=CODE&ac=ACCESS) ===== */
+function getJoinCtx(){ try{ return { join:(localStorage.getItem("zc_join")||"").trim(), ac:(localStorage.getItem("zc_ac")||"").trim() }; }catch(e){ return {join:"",ac:""}; } }
+function clearJoinCtx(){ try{ localStorage.removeItem("zc_join"); localStorage.removeItem("zc_ac"); }catch(e){} }
+function applyJoinContext(){
+  const {join, ac} = getJoinCtx(); if(!join) return false;
+  setAuthMode("signup");
+  const acf=$("accesscode"); if(acf && !acf.value) acf.value = (ac||ACCESS_CODE);
+  msg("auth-msg","You're joining a family board — just create your account to continue. We've filled in the beta code for you.","ok");
+  return true;
+}
+function prefillJoin(){
+  const {join} = getJoinCtx(); if(!join) return;
+  const c=$("code"); if(c && !c.value) c.value=join;
+  msg("onboard-msg","✓ Invite code applied — enter your first name below and tap <b>Join family</b>.","ok");
+  const nm=$("myname2"); if(nm) setTimeout(()=>{ try{ nm.focus(); nm.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} },60);
+}
 /* ========== ONBOARD ========== */
 $("go-create").onclick = async () => {
   clearmsg("onboard-msg");
@@ -960,6 +976,7 @@ $("go-join").onclick = async () => {
   const { error } = await sb.rpc("join_family",{ code, my_name:name, my_role:role });
   $("go-join").disabled = false;
   if (error) return msg("onboard-msg", error.message);
+  clearJoinCtx();
   await loadFamily();
 };
 async function fixRole(role){ await sb.from("members").update({ role }).eq("user_id", state.session.user.id); }
@@ -972,7 +989,7 @@ async function loadFamily(){
     const uid = state.session.user.id;
     const { data: mem, error: memErr } = await sb.from("members").select("*").order("created_at");
     if (memErr) throw memErr;
-    if (!mem || !mem.length){ clearTimeout(slow); show("v-onboard"); return; }
+    if (!mem || !mem.length){ clearTimeout(slow); show("v-onboard"); prefillJoin(); return; }
     state.members = mem;
     state.me = mem.find(m => m.user_id === uid);
     const { data: fams } = await sb.from("families").select("*").limit(1);
@@ -2127,7 +2144,8 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
-function inviteMsg(){ const code = state.family.invite_code; return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\n1. Open ${APP_LINK}\n2. Create an account — beta access code: ${ACCESS_CODE}\n3. Choose "Join with an invite code" and enter: ${code}`; }
+function inviteLink(){ const code = state.family.invite_code; return `${APP_LINK}?join=${encodeURIComponent(code)}&ac=${encodeURIComponent(ACCESS_CODE)}`; }
+function inviteMsg(){ return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\nOpen this link and create your account — your invite code is already applied, nothing to type:\n${inviteLink()}`; }
 $("inv-share").onclick = async () => { const text = inviteMsg(); if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} } };
 $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
 $("inv-mail").onclick = () => { const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`); location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`; };
@@ -2252,11 +2270,15 @@ sb.auth.onAuthStateChange((event, session) => {
   route(session);
 });
 (async () => {
-  const ref = new URLSearchParams(location.search).get("ref");
+  const _p = new URLSearchParams(location.search);
+  const ref = _p.get("ref");
   if (ref) { try { localStorage.setItem("zc_ref", ref); } catch(e){} }
+  const jc = _p.get("join"); if (jc) { try { localStorage.setItem("zc_join", jc.trim()); } catch(e){} }
+  const acc = _p.get("ac"); if (acc) { try { localStorage.setItem("zc_ac", acc.trim()); } catch(e){} }
   // if arriving from a reset email, show the new-password screen instead of the board
   if (/type=recovery/.test(location.hash||"")) recovering = true;
   setAuthMode(recovering ? "recovery" : "signin");
+  if (!recovering) applyJoinContext();   // invitee from a deep link → signup + prefilled code
   const { data } = await sb.auth.getSession();
   if (recovering) { show("v-auth"); return; }
   route(data.session);
