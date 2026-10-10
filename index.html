@@ -257,6 +257,10 @@ a{color:var(--teal)}
 .cp-fill.target{background:#d79a2b}
 .cp-fill.reach{background:#8e3b7a}
 .cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
+/* profile sub-tabs */
+.pf-tabs{display:flex;gap:4px;margin:4px 0 14px;background:var(--sunk);padding:4px;border-radius:12px;width:fit-content;max-width:100%}
+.pf-tabs button{border:none;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.pf-tabs button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
 /* match visuals */
 .mring{position:relative;display:inline-flex;width:42px;height:42px;flex:0 0 auto;vertical-align:middle}
 .mring svg{width:42px;height:42px;transform:rotate(-90deg)}
@@ -299,7 +303,13 @@ a{color:var(--teal)}
 .dl-check label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--disp);margin:0;cursor:pointer}
 .dl-check input{width:auto}
 .dl-summary{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.dl-row{display:flex;gap:14px;align-items:flex-start}
+.dl-export{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.dl-exp-lbl{font-size:13px;font-weight:600;margin-right:2px}
+.dl-selall{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
+.dl-selall input{width:auto}
+.dl-chk-wrap{flex:0 0 auto;display:flex;align-items:center;padding-top:3px}
+.dl-chk-wrap input{width:18px;height:18px;cursor:pointer;accent-color:var(--teal)}
+.dl-row{display:flex;gap:12px;align-items:flex-start}
 .dl-thumb{width:52px;height:52px;border-radius:12px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .dl-due{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;border-radius:999px;padding:2px 9px;border:1px solid var(--line);white-space:nowrap}
 .dl-due .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
@@ -465,7 +475,23 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cmp-tile{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
 .cmp-tile .ph{height:88px;background-size:cover;background-position:center;background-color:var(--sunk)}
 .cmp-tile .nm{font-weight:700;font-size:13.5px;padding:8px 10px 2px;line-height:1.2}
-.cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 10px}
+.cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 6px}
+.cmp-tile .ph{position:relative}
+.cmp-tile.cx-win{border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 35%,transparent)}
+.cx-badge{position:absolute;top:7px;left:7px;background:var(--teal);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
+.cx-tilestat{display:flex;align-items:center;gap:8px;padding:0 10px 10px;flex-wrap:wrap}
+.cx-best{display:flex;gap:11px;align-items:center;border:1px solid color-mix(in srgb,var(--teal) 30%,var(--line));background:color-mix(in srgb,var(--teal) 7%,var(--surface))}
+.cx-best-ic{font-size:22px}
+.cx-card{overflow-x:auto}
+.cx-grid{display:grid;gap:0;min-width:360px}
+.cx-grid>div{padding:11px 12px;border-bottom:1px solid var(--line);font-size:13.5px;display:flex;align-items:center}
+.cx-corner{color:var(--muted);font-family:var(--mono);font-size:11px;text-transform:uppercase}
+.cx-head{font-weight:700;font-size:13.5px;border-bottom:2px solid var(--line)!important}
+.cx-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.cx-cell{font-weight:600}
+.cx-cell.best{background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--ink);border-radius:8px}
+.cx-star{color:var(--teal);margin-left:3px}
+.cx-grid>div:nth-last-child(-n+1),.cx-grid .cx-k:last-of-type{border-bottom:none}
 /* zoe recommends */
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:10px}
 @media(min-width:1040px){ .rec-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px} }
@@ -744,9 +770,11 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 
   <!-- PROFILE + SLIDERS -->
   <section id="v-profile" class="hidden">
-    <h1>My profile &amp; priorities</h1>
-    <p class="sub">Your profile powers <b>admission chance</b>; your sliders power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
+    <h1>My profile</h1>
+    <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
+    <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academic Profile</button><button data-ptab="who">🧭 Who You Are</button></div>
+    <div id="pf-acad" class="pf-group">
     <div id="pf-summary" class="hidden"></div>
     <div class="card" id="pf-form-card">
       <h2 style="margin-top:0" id="pf-form-title">Build your profile</h2>
@@ -768,6 +796,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
         <div><label>Dual-enrollment<span class="hint" tabindex="0" data-tip="Actual college courses taken for credit while in high school, usually worth about +0.5 GPA weight.">i</span></label><input id="pf-dual" type="number" min="0" placeholder="0"></div>
         <div><label>Rigor-adjusted GPA<span class="hint" tabindex="0" data-tip="Your unweighted GPA, bumped up for the Honors/AP/IB/dual courses you listed — our estimate of how a college's own recalculation might read, spread over ~16 core courses and capped at +1.0.">i</span></label><input id="pf-adjgpa" type="text" readonly placeholder="—" style="background:var(--sunk)"></div>
       </div>
+      <div class="row" style="margin-top:14px"><button id="pf-save" class="small primary">Save academic profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
+    </div>
+    </div><!-- /pf-acad -->
+    <div id="pf-who" class="pf-group hidden">
+    <div class="card">
+      <h2 style="margin-top:0">What you're looking for</h2>
+      <p class="muted" style="font-size:13px;margin-top:0">The vibe, setting, and scene you want — this shapes each school's <b>match %</b>.</p>
       <label>What you want from college<span class="hint" tabindex="0" data-tip="Write naturally. We scan for a few themes — greek/party scene, big-time sports, outdoorsy, city life, small & close-knit, large campus — and nudge your match % toward schools that fit. Themes we recognize show up right below.">i</span></label>
       <textarea id="pf-notes" placeholder="e.g. big school spirit and football, near mountains, not too preppy…"></textarea>
       <div id="pf-int" class="muted" style="font-size:12px;margin-top:4px"></div>
@@ -776,7 +811,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <div id="pf-acts"></div>
       <button id="pf-act-add" class="small ghost" style="margin-top:8px" type="button">+ Add activity</button>
       <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
-      <div class="row" style="margin-top:12px"><button id="pf-save" class="small primary">Save profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
+      <div class="row" style="margin-top:12px"><button id="pf-save2" class="small primary">Save</button><span id="pf-savemsg2" class="muted" style="font-size:12px"></span></div>
     </div>
     <div class="card">
       <h2 style="margin-top:0">What matters to you</h2>
@@ -790,6 +825,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <p class="muted" style="font-size:11px;margin-top:8px">Context sources: presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education.</p>
       <div class="row" style="margin-top:10px"><button id="sl-save" class="small primary">Save priorities</button><button id="sl-reset" class="small ghost">Reset</button><span id="sl-savemsg" class="muted" style="font-size:12px"></span></div>
     </div>
+    </div><!-- /pf-who -->
   </section>
 
   <!-- TRIP BUILDER -->
@@ -2184,11 +2220,32 @@ function buildCompare(){
     ["Athletics", c=>esc(c.info.athleticsNetwork||"—")],
     ["Regular deadline", c=>esc(c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
   ];
-  const tiles=`<div class="cmp-tiles">${cols.map(c=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.rec.name)}"`; return `<div class="cmp-tile"><div class="ph" ${ph}></div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div></div>`;}).join("")}</div>`;
-  out.innerHTML=tiles+`<div class="card" style="padding:0;overflow:hidden"><div class="cmp-wrap"><table class="cmp-table">
-    <thead><tr><th class="row-k"></th>${cols.map(c=>`<th class="sch-h">${esc(c.rec.name)}<span class="loc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></th>`).join("")}</tr></thead>
-    <tbody>${rows.map(r=>`<tr><th class="row-k">${esc(r[0])}</th>${cols.map(c=>`<td>${r[1](c)}</td>`).join("")}</tr>`).join("")}</tbody>
-  </table></div></div>`;
+  const n=cols.length;
+  const M=[
+    {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
+    {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
+    {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
+    {k:"Net price / yr", get:c=>g(c).netPrice, fmt:v=>v==null?"—":money(v), dir:"lo"},
+    {k:"Grad rate", get:c=>g(c).gradRate, fmt:v=>v==null?"—":pct(v), dir:"hi"},
+    {k:"Earnings (10yr)", get:c=>g(c).medianEarnings10yr, fmt:v=>v==null?"—":money(v), dir:"hi"},
+    {k:"Undergrads", get:c=>g(c).size, fmt:v=>v==null?"—":v.toLocaleString(), dir:null},
+    {k:"Setting", get:c=>{const l=localeUrban(c.info);return l===null?null:l>=0.7?"City":l>=0.35?"Suburban":"Town/Rural";}, fmt:v=>v||"—", dir:null},
+    {k:"1st-yr retention", get:c=>c.info.ipeds&&c.info.ipeds.retention, fmt:v=>v==null?"—":pct(v), dir:"hi"},
+    {k:"Student–faculty", get:c=>{const sf=c.info.ipeds&&c.info.ipeds.studentFacultyRatio;return sf?sf:null;}, fmt:v=>v?v+":1":"—", dir:"lo"},
+    {k:"Regular deadline", get:c=>c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date), fmt:v=>v?esc(String(v)):"—", dir:null},
+  ];
+  const bestIdx=(get,dir)=>{ if(!dir) return -1; let bi=-1,bv=null; cols.forEach((c,i)=>{ const v=get(c); if(typeof v!=="number"||!isFinite(v)) return; if(bv===null||(dir==="hi"?v>bv:v<bv)){ bv=v; bi=i; } }); return bi; };
+  let top={i:-1,v:-1}; cols.forEach((c,i)=>{ const m=matchScore(c.info,w); if(m!=null&&m>top.v){ top={i,v:m}; } });
+  // best-fit callout (personalized)
+  let bestCallout="";
+  if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>g(cc).netPrice,"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
+    bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Best fit for you: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}. ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
+  const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.rec.name)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
+  const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:132px repeat(${n},minmax(0,1fr))">
+    <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
+    ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cx-k">${esc(m.k)}</div>`+cols.map((c,i)=>`<div class="cx-cell${i===bi?' best':''}">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</div>`).join(""); }).join("")}
+  </div><p class="muted" style="font-size:11px;margin:12px 2px 0">★ marks the strongest in each row. Admit rate isn't scored — lower just means more selective.</p></div>`;
+  out.innerHTML=tiles+bestCallout+grid;
 }
 $("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
@@ -2204,15 +2261,40 @@ function parseDeadlineDate(info){
 function daysUntil(d){ if(!d) return null; return Math.ceil((d-new Date())/86400000); }
 function dueClass(n){ if(n==null) return "none"; if(n<=14) return "urgent"; if(n<=45) return "soon"; return "ok"; }
 function dueLabel(n){ if(n==null) return "date TBD"; if(n<0) return Math.abs(n)+"d ago"; if(n===0) return "due today"; return "in "+n+" day"+(n>1?"s":""); }
+/* ---- calendar export ---- */
+function icsDate(d){ return d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0"); }
+function icsEsc(s){ return String(s||"").replace(/([,;\\])/g,"\\$1").replace(/\n/g,"\\n"); }
+function deadlineEvents(rows){ // one all-day event per selected, dated school
+  return rows.filter(r=>r._d && dlSel[r.rec.school_id]).map(r=>({ title:`${r.rec.name} — application deadline`, date:r._d, desc:"Tracked in Zoe's Colleges" }));
+}
+function deadlinesICS(events){
+  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Deadlines//EN","CALSCALE:GREGORIAN"];
+  events.forEach(e=>{ const d0=icsDate(e.date), d1=icsDate(new Date(e.date.getTime()+86400000));
+    L.push("BEGIN:VEVENT","UID:"+Math.random().toString(36).slice(2)+"@zoescolleges.com","DTSTART;VALUE=DATE:"+d0,"DTEND;VALUE=DATE:"+d1,"SUMMARY:"+icsEsc(e.title),"DESCRIPTION:"+icsEsc(e.desc),"BEGIN:VALARM","TRIGGER:-P7D","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(e.title),"END:VALARM","END:VEVENT"); });
+  L.push("END:VCALENDAR"); return L.join("\r\n");
+}
+function downloadDeadlineICS(events){ if(!events.length){ alert("Tick at least one school with a dated deadline."); return; } const blob=new Blob([deadlinesICS(events)],{type:"text/calendar"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="zoes-colleges-deadlines.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
+function gcalUrl(e){ const d0=icsDate(e.date), d1=icsDate(new Date(e.date.getTime()+86400000)); return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(e.title)}&dates=${d0}/${d1}&details=${encodeURIComponent(e.desc||"")}`; }
+let dlSel=null;
 function renderDeadlines(){
   const out=$("dl-out");
   const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
   if(!rows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
   rows.forEach(r=>{ r._d=parseDeadlineDate(r.info); r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
+  if(dlSel===null){ dlSel={}; rows.forEach(r=>{ if(r._d) dlSel[r.rec.school_id]=true; }); } // default: all dated selected
+  const dated=rows.filter(r=>r._d);
   const upcoming=rows.filter(r=>r._n!=null && r._n>=0); const soonest=upcoming[0];
   const totalTasks=rows.length*DL_TASKS.length, doneTasks=rows.reduce((a,r)=>a+DL_TASKS.filter(t=>getChecklist(r.rec.school_id)[t]).length,0);
-  const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div></div>`;
+  const selN=dated.filter(r=>dlSel[r.rec.school_id]).length;
+  const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div>
+    ${dated.length?`<div class="dl-export">
+      <span class="dl-exp-lbl">📅 Add deadlines to your calendar</span>
+      <label class="dl-selall"><input type="checkbox" id="dl-all" ${selN===dated.length?"checked":""}> All (${selN})</label>
+      <button class="small" id="dl-gcal">Google</button>
+      <button class="small" id="dl-apple">Apple</button>
+      <button class="small" id="dl-outlook">Outlook</button>
+    </div>`:""}</div>`;
   out.innerHTML = header + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
@@ -2220,6 +2302,7 @@ function renderDeadlines(){
     const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(r.rec.name)}"`;
     const bits=[ [i.city,i.state].filter(Boolean).join(", "), rd?("Regular "+rd):"", ed?("Early "+ed):"" ].filter(Boolean).join(" · ");
     return `<div class="card"><div class="dl-row">
+      ${r._d?`<label class="dl-chk-wrap"><input type="checkbox" class="dl-chk" data-dlsel="${esc(id)}" ${dlSel[id]?"checked":""}></label>`:`<span class="dl-chk-wrap"></span>`}
       <span class="dl-thumb" ${th}></span>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${esc(dueLabel(r._n))}</span></div>
@@ -2230,6 +2313,13 @@ function renderDeadlines(){
   }).join("");
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(p=>p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); }); });
+  out.querySelectorAll(".dl-chk").forEach(cb=>cb.onchange=()=>{ dlSel[cb.dataset.dlsel]=cb.checked; renderDeadlines(); });
+  const all=$("dl-all"); if(all) all.onchange=()=>{ dated.forEach(r=>{ dlSel[r.rec.school_id]=all.checked; }); renderDeadlines(); };
+  const g=$("dl-gcal"); if(g) g.onclick=()=>{ const ev=deadlineEvents(rows); if(!ev.length){ alert("Tick at least one school with a dated deadline."); return; }
+    if(ev.length===1){ window.open(gcalUrl(ev[0]),"_blank","noopener"); }
+    else { downloadDeadlineICS(ev); alert("Downloaded a .ics with "+ev.length+" deadlines. In Google Calendar: Settings → Import & export → Import this file. (Google has no bulk 'add' link, so import is the way.)"); } };
+  const ap=$("dl-apple"); if(ap) ap.onclick=()=>downloadDeadlineICS(deadlineEvents(rows));
+  const ol=$("dl-outlook"); if(ol) ol.onclick=()=>downloadDeadlineICS(deadlineEvents(rows));
 }
 /* ========== ZOE PICKS (recommends) ========== */
 function joinList(a){ a=a.filter(Boolean); if(a.length<=1) return a[0]||""; if(a.length===2) return a[0]+" and "+a[1]; return a.slice(0,-1).join(", ")+", and "+a[a.length-1]; }
@@ -2429,7 +2519,7 @@ function renderProfileView(){
   </div>` + choicePowerHtml();
   const eb=sum.querySelector("[data-pf-edit]"); if(eb) eb.onclick=()=>{ pfEdit=true; renderProfileView(); const g=$("pf-gpa"); if(g) setTimeout(()=>{ try{ g.focus(); $("pf-form-card").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },50); };
 }
-$("pf-save").onclick = async () => {
+async function saveProfileForm(){
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
@@ -2437,13 +2527,17 @@ $("pf-save").onclick = async () => {
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
   const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs}));
   await saveProfile(p);
-  // rigor + activities persist on this device for now (sync lands with migration-003)
   lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional);
   if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; }
   profActs = acts.slice();
-  $("pf-savemsg").textContent="Saved ✓"; setTimeout(()=>$("pf-savemsg").textContent="",1500);
+  ["pf-savemsg","pf-savemsg2"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
   pfEdit=false; renderProfileView();
-};
+}
+$("pf-save").onclick = saveProfileForm;
+{ const b2=$("pf-save2"); if(b2) b2.onclick = saveProfileForm; }
+{ const tabs=$("pf-tabs"); if(tabs) tabs.querySelectorAll("[data-ptab]").forEach(b=>b.onclick=()=>{ const t=b.dataset.ptab;
+  tabs.querySelectorAll("[data-ptab]").forEach(x=>x.classList.toggle("on",x===b));
+  $("pf-acad").classList.toggle("hidden", t!=="acad"); $("pf-who").classList.toggle("hidden", t!=="who"); window.scrollTo(0,0); }); }
 let profActs = [];
 const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Club/JV","Career / Pre-professional","Community service / Volunteer","Cultural","Debate / Speech","Environmental","Family responsibilities","Internship","Journalism / Media","Music","Religious","Research","Robotics / Engineering","School spirit / Government","Science / Math","Theater / Drama","Work (paid)","Other"];
 const ACT_EMOJI={"Academic":"📚","Arts / Visual":"🎨","Athletics: Varsity":"🏅","Athletics: Club/JV":"⚽","Career / Pre-professional":"💼","Community service / Volunteer":"🤝","Cultural":"🌍","Debate / Speech":"🗣️","Environmental":"🌱","Family responsibilities":"🏠","Internship":"🧑‍💼","Journalism / Media":"📰","Music":"🎵","Religious":"🙏","Research":"🔬","Robotics / Engineering":"🤖","School spirit / Government":"🏛️","Science / Math":"🧪","Theater / Drama":"🎭","Work (paid)":"💰","Other":"⭐"};
