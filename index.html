@@ -214,20 +214,10 @@ a{color:var(--teal)}
 .near-chip{font-size:12px;background:var(--surface);border:1px dashed var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--ink)}
 .near-chip:hover{border-color:var(--teal);border-style:solid;color:var(--teal)}
 .near-chip b{color:var(--teal)}
-/* memories */
-.mem-card{margin-top:14px}
-.mem-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.mem-add{cursor:pointer;white-space:nowrap}
-.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px;margin-top:13px}
-.mem-thumb{position:relative;aspect-ratio:1;border-radius:12px;background-size:cover;background-position:center;background-color:var(--sunk);overflow:hidden}
-.mem-x{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1;display:grid;place-items:center}
-.mem-tag{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:10px;padding:10px 6px 4px;line-height:1.1}
-.mem-actions{margin-top:11px;display:flex;align-items:center;gap:10px}
-.mem-empty{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.5}
-.reel-ov{position:fixed;inset:0;background:rgba(8,12,20,.92);z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.reel-img{max-width:92vw;max-height:80vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.reel-cap{color:#cbd5e1;font-size:13px}
-.reel-x{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer}
+/* trips -> memories bridge */
+.mem-bridge{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.mem-bridge h3{font-size:15px}
+.mem-bridge button{white-space:nowrap}
 .trip-near{font-size:12.5px;color:var(--muted);margin-top:4px}
 .trip-near button{font-size:12px;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer;color:var(--teal)}
 .trip-near ul{margin:5px 0 0;padding-left:16px}
@@ -348,6 +338,13 @@ a{color:var(--teal)}
 .mem-ph .mp-cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:11px;padding:14px 6px 4px}
 .mem-ph .mp-ctrl{position:absolute;top:4px;right:4px;display:flex;gap:4px}
 .mem-ph .mp-btn{background:rgba(0,0,0,.55);color:#fff;border:0;border-radius:6px;cursor:pointer;font-size:12px;padding:2px 7px;line-height:1.3}
+/* AI film */
+.film-ov{position:fixed;inset:0;z-index:60;background:rgba(6,10,16,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:18px}
+.film-stage{width:min(96vw,1120px);aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6);background:#000}
+.film-canvas{width:100%;height:100%;display:block}
+.film-note{color:#9fb3c8;font-size:13px;min-height:18px}
+.film-bar{display:flex;gap:10px}
+.film-bar .film-x{color:#cbd5e1;border-color:rgba(255,255,255,.25)}
 .mem-ph .mp-btn.on{background:var(--star,#e8ac45);color:#000}
 .player{position:fixed;inset:0;z-index:60;background:#000;display:none;align-items:center;justify-content:center;overflow:hidden}
 .player.open{display:flex}
@@ -1547,7 +1544,37 @@ $("player-close").onclick = () => { reelStop(); $("player").classList.remove("op
 $("player-prev").onclick = () => { reelStop(); reelNext(-1); };
 $("player-next").onclick = () => { reelStop(); reelNext(1); };
 $("player-pause").onclick = () => { _reel.playing? reelStop() : reelStart(); };
-$("mem-ai").onclick = () => { $("dlg-plans").showModal(); };
+async function makeAiFilm(){
+  const photos=reelPhotos();
+  if(photos.length<2){ alert("Add at least two visit photos first — open a school → Campus photos — then make your film."); return; }
+  const ov=document.createElement("div"); ov.className="film-ov";
+  ov.innerHTML=`<div class="film-stage"><canvas class="film-canvas" width="1280" height="720"></canvas></div>
+    <div class="film-note"></div>
+    <div class="film-bar"><button class="film-dl small primary">⬇ Download film</button><button class="film-x small ghost">✕ Close</button></div>`;
+  document.body.appendChild(ov);
+  const canvas=ov.querySelector(".film-canvas"), ctx=canvas.getContext("2d"), W=1280, H=720;
+  const note=t=>{ const n=ov.querySelector(".film-note"); if(n) n.textContent=t; };
+  const load=src=>new Promise(res=>{ const im=new Image(); im.crossOrigin="anonymous"; im.onload=()=>res({im,clean:true}); im.onerror=()=>{ const im2=new Image(); im2.onload=()=>res({im:im2,clean:false}); im2.onerror=()=>res(null); im2.src=src; }; im.src=src; });
+  note("Loading your photos…");
+  const imgs=[]; for(const p of photos){ const r=await load(p.url||p.data); if(r&&r.im&&r.im.width) imgs.push({im:r.im, clean:r.clean, cap:schoolName(p.school_id), caption:p.caption||""}); }
+  if(!imgs.length){ note("Couldn't load photos for the film."); return; }
+  const anyTainted=imgs.some(x=>!x.clean); note("");
+  const famName=((state.family&&state.family.name)||"Our")+" College Tour", yr=String(new Date().getFullYear());
+  const cover=im=>{ const r=Math.max(W/im.width,H/im.height); return {w:im.width*r,h:im.height*r}; };
+  const card=(t,sub,a)=>{ ctx.fillStyle="#0b1220"; ctx.fillRect(0,0,W,H); ctx.globalAlpha=Math.max(0,Math.min(1,a)); ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 66px Georgia,serif"; ctx.fillText(t,W/2,H/2-6); ctx.font="400 30px -apple-system,Segoe UI,sans-serif"; ctx.fillStyle="#7fd8c6"; ctx.fillText(sub,W/2,H/2+48); ctx.globalAlpha=1; ctx.textAlign="left"; };
+  const photo=(o,prog,a)=>{ ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H); const {w,h}=cover(o.im); const z=1.05+0.12*prog; const dw=w*z, dh=h*z; const dx=(W-dw)/2-(prog-0.5)*50, dy=(H-dh)/2-(prog-0.5)*24; ctx.globalAlpha=Math.max(0,Math.min(1,a)); ctx.drawImage(o.im,dx,dy,dw,dh); const g=ctx.createLinearGradient(0,H-180,0,H); g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.78)"); ctx.fillStyle=g; ctx.fillRect(0,H-180,W,180); ctx.fillStyle="#fff"; ctx.font="700 44px -apple-system,Segoe UI,sans-serif"; ctx.fillText(o.cap||"",60, o.caption?H-78:H-54); if(o.caption){ ctx.font="400 26px -apple-system,Segoe UI,sans-serif"; ctx.fillStyle="#e6e6e6"; ctx.fillText(o.caption.slice(0,70),60,H-38); } ctx.globalAlpha=1; };
+  const TITLE=2200, PER=3000, END=2600, total=TITLE+imgs.length*PER+END;
+  let rec=null, chunks=[], dlUrl=null, dlReady=false;
+  if(!anyTainted){ try{ const stream=canvas.captureStream(30); rec=new MediaRecorder(stream,{mimeType:"video/webm"}); rec.ondataavailable=e=>{ if(e.data&&e.data.size) chunks.push(e.data); }; rec.onstop=()=>{ try{ dlUrl=URL.createObjectURL(new Blob(chunks,{type:"video/webm"})); dlReady=true; note("Film ready — tap Download."); }catch(e){} }; rec.start(); }catch(e){ rec=null; } }
+  if(anyTainted) note("Playing your film… (download needs all photos re-added after the sync update)");
+  const draw=t=>{ if(t<TITLE){ card(famName,yr,Math.min(1,t/500)*Math.min(1,(TITLE-t)/300+1)); return; } const pt=t-TITLE; if(pt<imgs.length*PER){ const idx=Math.floor(pt/PER), local=(pt-idx*PER)/PER; let a=1; if(local<0.14) a=local/0.14; else if(local>0.86) a=(1-local)/0.14; photo(imgs[idx],local,a); return; } const et=pt-imgs.length*PER; card("To be continued…","Zoe's Colleges", Math.min(1,et/500)*Math.min(1,(END-et)/400+1)); };
+  const start=performance.now(); let raf;
+  const tick=now=>{ const t=now-start; if(t>=total){ draw(total-1); if(rec&&rec.state!=="inactive") rec.stop(); return; } draw(t); raf=requestAnimationFrame(tick); };
+  raf=requestAnimationFrame(tick);
+  ov.querySelector(".film-x").onclick=()=>{ cancelAnimationFrame(raf); try{ if(rec&&rec.state!=="inactive") rec.stop(); }catch(e){} if(dlUrl) URL.revokeObjectURL(dlUrl); ov.remove(); };
+  ov.querySelector(".film-dl").onclick=()=>{ if(anyTainted||!rec){ alert("Your film is playing — to save it, you can screen-record for now. Full download export is coming with the sync update."); return; } if(!dlReady){ note("Still rendering — the download unlocks once the film finishes playing."); return; } const a=document.createElement("a"); a.href=dlUrl; a.download="zoes-colleges-tour.webm"; document.body.appendChild(a); a.click(); a.remove(); };
+}
+$("mem-ai").onclick = makeAiFilm;
 document.addEventListener("keydown", e => { if($("player").classList.contains("open")){ if(e.key==="Escape"){ reelStop(); $("player").classList.remove("open"); } if(e.key==="ArrowRight"){ reelStop(); reelNext(1); } if(e.key==="ArrowLeft"){ reelStop(); reelNext(-1); } } });
 let rankMode=false;
 function getRanks(){ return lsGet("ranks")||{}; }
@@ -1918,33 +1945,20 @@ function stopPlan(id){ return tripPlan()[id]||[]; }
 function addStopPlan(id,item){ const p=tripPlan(); const list=p[id]||[]; if(!list.includes(item)){ list.push(item); } p[id]=list; saveTripPlan(p); }
 function rmStopPlan(id,idx){ const p=tripPlan(); if(p[id]){ p[id].splice(idx,1); if(!p[id].length) delete p[id]; saveTripPlan(p); } }
 function rerenderTrip(){ if(tripMap){ try{tripMap.remove();}catch(e){} tripMap=null; } renderTripOut(); }
-/* ---- Memories: on-device photo store (IndexedDB) ---- */
-let _memdb=null;
-function memDB(){ return new Promise((res,rej)=>{ if(_memdb) return res(_memdb); try{ const r=indexedDB.open("zc_memories",1); r.onupgradeneeded=e=>{ const db=e.target.result; if(!db.objectStoreNames.contains("photos")) db.createObjectStore("photos",{keyPath:"id"}); }; r.onsuccess=e=>{ _memdb=e.target.result; res(_memdb); }; r.onerror=()=>rej(new Error("idb")); }catch(e){ rej(e); } }); }
-async function memAdd(rec){ const db=await memDB(); return new Promise((res,rej)=>{ const tx=db.transaction("photos","readwrite"); tx.objectStore("photos").put(rec); tx.oncomplete=()=>res(); tx.onerror=()=>rej(); }); }
-async function memAll(){ try{ const db=await memDB(); return await new Promise(res=>{ const tx=db.transaction("photos","readonly"); const rq=tx.objectStore("photos").getAll(); rq.onsuccess=()=>res(rq.result||[]); rq.onerror=()=>res([]); }); }catch(e){ return []; } }
-async function memDel(id){ try{ const db=await memDB(); await new Promise(res=>{ const tx=db.transaction("photos","readwrite"); tx.objectStore("photos").delete(id); tx.oncomplete=()=>res(); tx.onerror=()=>res(); }); }catch(e){} }
-function fileToDataUrl(file,max=1400,q=0.82){ return new Promise(res=>{ try{ const img=new Image(); const url=URL.createObjectURL(file); img.onload=()=>{ let w=img.width,h=img.height; if(w>max||h>max){ const s=Math.min(max/w,max/h); w=Math.round(w*s); h=Math.round(h*s); } const c=document.createElement("canvas"); c.width=w; c.height=h; c.getContext("2d").drawImage(img,0,0,w,h); URL.revokeObjectURL(url); try{ res(c.toDataURL("image/jpeg",q)); }catch(e){ res(null); } }; img.onerror=()=>{ URL.revokeObjectURL(url); res(null); }; img.src=url; }catch(e){ res(null); } }); }
-function playReel(photos){ if(!photos||!photos.length) return; let i=0; const ov=document.createElement("div"); ov.className="reel-ov"; ov.innerHTML=`<button class="reel-x" aria-label="Close">✕</button><img class="reel-img" alt=""><div class="reel-cap"></div>`; document.body.appendChild(ov); const img=ov.querySelector(".reel-img"); const cap=ov.querySelector(".reel-cap"); const show=()=>{ img.src=photos[i].data; cap.textContent=(i+1)+" / "+photos.length; }; show(); const tick=setInterval(()=>{ i=(i+1)%photos.length; show(); },2200); const close=()=>{ clearInterval(tick); ov.remove(); }; ov.querySelector(".reel-x").onclick=close; ov.onclick=e=>{ if(e.target===ov) close(); }; }
-async function renderMemories(){
+/* ---- Trips → Memories bridge (uses the shared, cloud-synced photo system) ---- */
+function renderTripMemoriesCard(){
   const el=$("trip-memories"); if(!el) return;
-  const trip=[...getTrip()];
-  const photos=(await memAll()).sort((a,b)=>b.ts-a.ts);
-  const schoolName=id=>{ const r=state.schools.find(s=>s.school_id===id); return r?r.name:""; };
-  el.innerHTML=`<div class="card mem-card">
-    <div class="mem-head"><div><h3 style="margin:0 0 2px">📸 Trip memories</h3><div class="muted" style="font-size:12.5px">Add photos from your visits — they become your reel. <i>Saved on this device for now; cross-device sync &amp; the AI film are coming.</i></div></div>
-      <label class="small primary mem-add">+ Add photos<input id="mem-file" type="file" accept="image/*" multiple hidden></label></div>
-    ${photos.length?`<div class="mem-grid">${photos.map(p=>`<div class="mem-thumb" style="background-image:url('${p.data}')"><button class="mem-x" data-memdel="${esc(p.id)}" aria-label="Delete">✕</button>${p.school?`<span class="mem-tag">${esc(schoolName(p.school)||"")}</span>`:""}</div>`).join("")}</div>
-      <div class="mem-actions"><button class="small" id="mem-play">▶ Play reel</button> <span class="muted" style="font-size:11.5px">${photos.length} photo${photos.length>1?"s":""}</span></div>`
-    :`<div class="mem-empty">No photos yet. On your visits, snap the quad, the dining hall, the dorm — then relive it here as a reel.</div>`}
+  const n=(state.photos||[]).length;
+  el.innerHTML=`<div class="card mem-bridge">
+    <div><h3 style="margin:0 0 2px">📸 Trip memories</h3>
+      <div class="muted" style="font-size:12.5px">${n? `${n} visit photo${n>1?"s":""} saved to your family.` : "Add photos on your visits — open a school and use <b>Campus photos</b>."} Relive them as a reel or make the AI film.</div></div>
+    <button class="small primary" id="trip-mem-open">Open Memories →</button>
   </div>`;
-  const fi=$("mem-file"); if(fi) fi.onchange=async(e)=>{ const files=[...e.target.files]; if(!files.length) return; const sel = trip.length===1?trip[0]:""; const lab=el.querySelector(".mem-add"); if(lab) lab.textContent="Adding…"; for(const f of files){ const data=await fileToDataUrl(f); if(data) await memAdd({ id:"m_"+Date.now()+"_"+Math.random().toString(36).slice(2,7), data, school:sel, ts:Date.now() }); } renderMemories(); };
-  el.querySelectorAll("[data-memdel]").forEach(b=>b.onclick=async()=>{ await memDel(b.dataset.memdel); renderMemories(); });
-  const play=$("mem-play"); if(play) play.onclick=()=>playReel(photos);
+  const b=$("trip-mem-open"); if(b) b.onclick=()=>{ show("v-memories"); renderMemories(); };
 }
 function renderTrip(){
   const items=[...getTrip()].map(tripRec).filter(Boolean);
-  try{ renderMemories(); }catch(e){}
+  try{ renderTripMemoriesCard(); }catch(e){}
   const count=$("trip-count"), hint=$("trip-hint"), chips=$("trip-chips"), add=$("trip-add");
   count.textContent = items.length? (items.length+" campus"+(items.length>1?"es":"")+" in this trip") : "No campuses yet";
   hint.innerHTML = items.length? "Remove with ✕, add more below, then plan your route." : "Add campuses with the 🗺 button on any school — on your board, in Schools, or Zoe Picks — or from your board below.";
