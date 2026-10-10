@@ -1498,6 +1498,21 @@ function toursSection(info, rec){
     </div>
     <p class="muted" style="font-size:11px">Tours are hosted by the schools or partners (YouVisit, Appily, CampusReel). We link out — we don't copy their content.</p>`;
 }
+/* Student voice: link-out only (their reviews, their ToS — we never copy). */
+const REVIEW_SITES=[
+  {label:"Niche",               u:q=>`https://www.niche.com/?q=${q}`},
+  {label:"Reddit",              u:q=>`https://www.reddit.com/search/?q=${q}`},
+  {label:"RateMyProfessors",    u:q=>`https://www.ratemyprofessors.com/search/schools?q=${q}`},
+  {label:"College Confidential",u:q=>`https://www.collegeconfidential.com/search?q=${q}`},
+  {label:"Unigo",               u:q=>`https://www.google.com/search?q=${q}+site:unigo.com`},
+  {label:"Princeton Review",    u:q=>`https://www.google.com/search?q=${q}+site:princetonreview.com`},
+];
+function reviewsSection(rec){
+  const q=encodeURIComponent(rec.name);
+  return `<h2 style="margin-top:14px">Student voice &amp; reviews</h2>
+    <div class="facts">${REVIEW_SITES.map(s=>`<span><a href="${s.u(q)}" target="_blank" rel="noopener">${esc(s.label)} ↗</a></span>`).join("")}</div>
+    <p class="muted" style="font-size:11px">Opens each site's own page for this school. The reviews are theirs — we link out, we don't copy them.</p>`;
+}
 /* ========== SCHOOL DETAIL ========== */
 function renderDetail(id){
   const info = catInfo(id);
@@ -1552,7 +1567,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
-    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
+    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${reviewsSection(rec)}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
