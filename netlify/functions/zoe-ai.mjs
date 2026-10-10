@@ -24,15 +24,24 @@ function sanitizeCtx(c) {
   const out = {};
   const num = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
   if (c.gpa != null) out.gpa = num(c.gpa);
+  if (c.gpaAdjusted != null) out.rigorAdjustedGpa = num(c.gpaAdjusted);
   if (c.sat != null) out.sat = num(c.sat);
+  if (c.act != null) out.act = num(c.act);
   if (c.testOptional != null) out.testOptional = !!c.testOptional;
   if (c.major) out.intendedMajor = String(c.major).slice(0, 60);
+  if (c.majorCompetitive != null) out.majorIsCompetitive = !!c.majorCompetitive;
+  if (c.rank) out.classRank = String(c.rank).slice(0, 30);
   if (c.notes) out.preferencesText = String(c.notes).slice(0, 240);
-  if (c.boardCount != null) out.collegesOnBoard = num(c.boardCount);
-  if (c.activities != null) out.activitiesCount = num(c.activities);
-  if (c.bands) out.listBalance = { reach: num(c.bands.reach) || 0, target: num(c.bands.target) || 0, likely: num(c.bands.likely) || 0 };
   if (c.gradYear) out.gradYear = num(c.gradYear);
-  const sch = a => (Array.isArray(a) ? a.slice(0, 25).map(s => ({ name: String(s && s.name || "").slice(0, 80), where: String(s && s.where || "").slice(0, 60) })).filter(s => s.name) : undefined);
+  if (c.rigor) out.courseRigor = { honorsTaken: num(c.rigor.honors) || 0, apIbTaken: num(c.rigor.ap) || 0, dualEnrollTaken: num(c.rigor.dual) || 0 };
+  if (c.highSchool && (c.highSchool.apOffered || c.highSchool.name)) out.highSchool = { apOffered: num(c.highSchool.apOffered) || 0, honorsOffered: num(c.highSchool.honorsOffered) || 0 };
+  if (c.activitiesCount != null) out.activitiesCount = num(c.activitiesCount);
+  if (c.activityStrength) out.activityStrength = String(c.activityStrength).slice(0, 12); // strong/solid/light
+  if (Array.isArray(c.activities)) out.activities = c.activities.slice(0, 10).map(a => ({ what: String(a && a.name || "").slice(0, 50), tier: num(a && a.tier) || 4, hrsPerWeek: a && a.hrs != null ? String(a.hrs).slice(0, 8) : null, years: a && a.yrs != null ? String(a.yrs).slice(0, 8) : null })).filter(a => a.what);
+  if (c.boardCount != null) out.collegesOnBoard = num(c.boardCount);
+  if (c.bands) out.listBalance = { reach: num(c.bands.reach) || 0, target: num(c.bands.target) || 0, likely: num(c.bands.likely) || 0 };
+  if (c.collegePower) out.collegePower = { likelyPctOfAllColleges: num(c.collegePower.likely) || 0, targetPct: num(c.collegePower.target) || 0, reachPct: num(c.collegePower.reach) || 0 };
+  const sch = a => (Array.isArray(a) ? a.slice(0, 25).map(s => ({ name: String(s && s.name || "").slice(0, 80), where: String(s && s.where || "").slice(0, 60), appBand: (s && s.band) ? String(s.band).slice(0, 10) : undefined })).filter(s => s.name) : undefined);
   const board = sch(c.schools); if (board && board.length) out.schoolsOnBoard = board;
   const trip = sch(c.trip); if (trip && trip.length) out.schoolsOnTrip = trip;
   return out;
@@ -64,8 +73,10 @@ export default async (req) => {
   const ctx = sanitizeCtx(body.ctx);
   const sys = [
     "You are Zoe, a warm, upbeat, concise college-planning assistant inside the \"Zoe's Colleges\" app, used by a high-school student and their family.",
-    "Answer in 2-5 short sentences, plain and encouraging — no headers, minimal jargon.",
-    "You help with: college search, admissions chances and fit, essays and applications, deadlines, financial-aid basics, and campus visits.",
+    "Answer in 2-5 short sentences by default, plain and encouraging — minimal jargon. For an explicit 'analyze my whole profile' request you may use up to ~8 sentences or a few short bullet-style lines.",
+    "You help with: college search, admissions chances and fit, ESSAYS and applications, deadlines, financial-aid basics, campus visits, and candid read-outs of a student's overall profile strength.",
+    "RESUME / PROFILE STRENGTH: when asked how strong a student is (or to analyze their profile), reason about ALL the signals TOGETHER, not one at a time — rigorAdjustedGpa vs raw gpa, course rigor (apIbTaken) read against highSchool.apOffered (taking most of what's offered is strong; a school offering few APs is NOT a weakness), test scores or test-optional, activityStrength and the activities' tiers (tier 1 = national, 4 = participant; depth beats a long list), and intendedMajor (majorIsCompetitive admits tougher). Give an honest, encouraging read: 1-2 real strengths, the single biggest gap, and the 2-3 highest-impact things they could do next.",
+    "STAY CONSISTENT WITH THE APP: each school in schoolsOnBoard has an appBand (Reach/Target/Likely) the app already computed, and collegePower shows how all colleges break down for this student. Treat those as the source of truth — never give a school a different tier than its appBand, and never invent a percentage chance. If pressed for a number, explain the app uses transparent bands, not false percentages.",
     "You can help plan campus-visit road trips: use schoolsOnTrip (or schoolsOnBoard) with their cities/states to suggest a sensible order that groups nearby schools and a rough day-by-day flow, and remind them the Trips tab builds the real route on a map and can find nearby food and places to stay.",
     "Do NOT invent specific statistics (admit rates, costs, test ranges) for a named college, and do NOT invent exact drive times or distances; reason from the cities/states generally and point them to the Trips tab map for real routing.",
     "For medical, legal, mental-health, or crisis topics, respond briefly with care and suggest a trusted adult or professional.",
