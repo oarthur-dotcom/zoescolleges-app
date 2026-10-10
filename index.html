@@ -28,30 +28,35 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:0 16px 96px}
-header.app{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px}
-header.app .hrow{display:flex;align-items:center;gap:10px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 112px}
+.readable{max-width:720px}
+header.app{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid color-mix(in srgb,var(--line) 65%,transparent);padding:calc(env(safe-area-inset-top,0px) + 10px) 20px 10px}
+header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1080px;margin:0 auto;width:100%}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
 header.app .logo span{color:var(--teal)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
-.appnav{display:flex;gap:4px;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
-.appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:15px;padding:7px 12px;border-radius:9px;cursor:pointer}
-.appnav .navbtn.active{background:var(--sunk);color:var(--ink)}
+.appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1080px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.appnav::-webkit-scrollbar{display:none}
+.appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:14.5px;padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.appnav .navbtn:hover{color:var(--ink)}
+.appnav .navbtn.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(16,28,46,.08),0 1px 6px rgba(16,28,46,.05)}
 .backbtn{background:transparent;border:none;color:var(--teal);font-family:var(--disp);font-weight:600;font-size:14px;padding:10px 0;cursor:pointer}
 .openlink{background:transparent;border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
 .openlink:hover{border-color:var(--teal);color:var(--teal)}
 h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:22px 0 6px}
 h2{font-size:18px;font-weight:700;margin:18px 0 8px}
 p.sub{color:var(--muted);margin:0 0 18px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+.card{background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(16,28,46,.04),0 12px 32px rgba(16,28,46,.035)}
 label{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
-input[type=email],input[type=password],input[type=text],input[type=number],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px}
-input:focus,select:focus{outline:2px solid var(--teal);outline-offset:0;border-color:transparent}
-button{font-family:var(--disp);font-size:15px;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;cursor:pointer}
-button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+input[type=email],input[type=password],input[type=text],input[type=number],input[type=date],select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px;transition:box-shadow .15s,border-color .15s}
+input:focus,select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--teal) 22%,transparent)}
+button{font-family:var(--disp);font-size:15px;font-weight:600;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;cursor:pointer;transition:filter .15s,border-color .15s,background .15s}
+button.primary{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 1px 2px rgba(11,127,129,.25)}
+button.primary:hover{filter:brightness(1.06)}
 button.ghost{background:transparent}
-button.small{padding:6px 10px;font-size:13px;border-radius:8px}
+button.ghost:hover{border-color:var(--muted)}
+button.small{padding:7px 12px;font-size:13px;border-radius:10px}
 button:disabled{opacity:.5;cursor:default}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .msg{border-radius:10px;padding:10px 12px;font-size:14px;margin:10px 0;display:none}
@@ -62,16 +67,17 @@ button:disabled{opacity:.5;cursor:default}
 .chip.target{color:var(--amber);border-color:var(--amber)}
 .chip.likely{color:var(--good);border-color:var(--good)}
 .chip.match{color:var(--teal);border-color:var(--teal)}
-.school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0;margin:10px 0;overflow:hidden}
+.school{background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;padding:0;margin:12px 0;overflow:hidden;box-shadow:0 1px 2px rgba(16,28,46,.04),0 10px 28px rgba(16,28,46,.035);transition:transform .12s,box-shadow .12s}
+.school:hover{box-shadow:0 2px 6px rgba(16,28,46,.06),0 16px 40px rgba(16,28,46,.06)}
 .school-body{padding:14px 16px}
 .cover{display:none}
 .cover-tag{position:absolute;top:8px;right:10px;font-size:11px;background:rgba(0,0,0,.5);color:#fff;padding:2px 9px;border-radius:999px;z-index:2}
 .cover-init{font-weight:800;font-size:54px;color:rgba(255,255,255,.92);text-shadow:0 2px 14px rgba(0,0,0,.35)}
 .cover-name{position:absolute;left:12px;right:12px;bottom:10px;color:#fff;font-weight:700;font-size:16px;line-height:1.2;text-shadow:0 1px 10px rgba(0,0,0,.6);z-index:2}
 #schools.as-tiles .school.has-photo .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 55%);z-index:1}
-#schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;align-items:start}
+#schools.as-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;align-items:start}
 #schools.as-tiles .school{margin:0}
-#schools.as-tiles .cover{display:flex;align-items:center;justify-content:center;height:140px;background-size:cover;background-position:center;position:relative}
+#schools.as-tiles .cover{display:flex;align-items:center;justify-content:center;height:150px;background-size:cover;background-position:center;position:relative}
 #schools.as-tiles .school .name{font-size:19px}
 #schools.as-tiles .school.has-photo .cover-name{display:block}
 .cover-name{display:none}
@@ -148,12 +154,59 @@ a{color:var(--teal)}
 .proxchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
 .proxchip.on{background:color-mix(in srgb,var(--teal) 16%,var(--surface));border-color:var(--teal);color:var(--ink);font-weight:600}
 .proxchip input{display:none}
-.act-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
-.act-row .a-name{flex:2;min-width:140px}
-.act-row .a-cat,.act-row .a-lvl{flex:1;min-width:120px;width:auto}
-.act-row .a-hrs,.act-row .a-yrs{width:74px}
-.act-row .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;cursor:pointer;padding:6px 10px}
+.act-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}
+.act-row .af{display:flex;flex-direction:column;gap:3px}
+.act-row .af>span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.act-row .af-name{flex:3;min-width:170px}
+.act-row .af-cat,.act-row .af-lvl{flex:1;min-width:140px}
+.act-row .af-cat select,.act-row .af-lvl select,.act-row .af-name input{width:100%}
+.act-row .af-hrs input,.act-row .af-yrs input{width:72px}
+.act-row .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;cursor:pointer;padding:9px 11px;align-self:flex-end}
 .act-row .a-rm:hover{border-color:var(--warn);color:var(--warn)}
+/* inline help tooltip (hover + tap) */
+.hint{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;margin-left:5px;vertical-align:middle;position:relative;font-family:var(--disp);line-height:1}
+.hint:hover,.hint:focus{border-color:var(--teal);color:var(--teal);outline:none}
+.hint::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:230px;max-width:72vw;background:var(--ink);color:var(--paper);padding:8px 10px;border-radius:8px;font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0;text-transform:none;text-align:left;z-index:30;opacity:0;pointer-events:none;transition:opacity .12s;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.hint:hover::after,.hint:focus::after,.hint.open::after{opacity:1}
+/* trip builder */
+.trip-schools{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.trip-pick{display:flex;align-items:center;gap:8px;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;cursor:pointer}
+.trip-pick.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 7%,var(--surface))}
+.trip-pick .tp-city{color:var(--muted);font-size:12px}
+#tripmap{height:320px;border-radius:12px;border:1px solid var(--line);margin:10px 0;z-index:0}
+.trip-day{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:var(--surface)}
+.trip-day h4{margin:0 0 6px;font-size:14px}
+.trip-leg{font-size:12.5px;color:var(--muted);margin:2px 0 8px}
+.trip-stop{padding:7px 0;border-top:1px dashed var(--line)}
+.trip-stop:first-of-type{border-top:none}
+.trip-stop .ts-name{font-weight:600}
+.trip-near{font-size:12.5px;color:var(--muted);margin-top:4px}
+.trip-near button{font-size:12px;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer;color:var(--teal)}
+.trip-near ul{margin:5px 0 0;padding-left:16px}
+.trip-exports{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* compare */
+.cmp-wrap{overflow-x:auto}
+.cmp-table{border-collapse:separate;border-spacing:0;width:100%;min-width:460px}
+.cmp-table th,.cmp-table td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+.cmp-table tr:last-child th,.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table th.row-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;white-space:nowrap}
+.cmp-table .sch-h{font-weight:700;font-size:14px;border-bottom:2px solid var(--line)}
+.cmp-table .sch-h .loc{display:block;font-weight:400;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0;font-family:var(--disp)}
+.cmp-table td b{font-weight:700;color:var(--ink)}
+/* deadlines */
+.dl-card{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.dl-when{font-family:var(--mono);font-size:12px;color:var(--amber);min-width:130px;line-height:1.5}
+.dl-check{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:9px}
+.dl-check label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--disp);margin:0;cursor:pointer}
+.dl-check input{width:auto}
+/* overflow menu */
+.menu-wrap{position:relative;display:inline-block}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(16,28,46,.16);padding:6px;z-index:8;min-width:196px;display:flex;flex-direction:column;gap:2px}
+.menu-item{background:transparent;border:none;text-align:left;padding:9px 12px;border-radius:9px;font-size:14px;cursor:pointer;color:var(--ink);font-weight:500}
+.menu-item:hover{background:var(--sunk)}
+/* board header */
+.board-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.board-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
 #balance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:6px 0 2px}
 .bal-grade{font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#fff;flex:0 0 auto}
 .bal-A{background:#2e9e6b}.bal-B{background:#6aa84f}.bal-C{background:#b8860b}.bal-D{background:#c0612c}
@@ -212,6 +265,9 @@ a{color:var(--teal)}
   #v-report{display:block!important}
 }
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+/* responsive polish */
+@media (min-width:860px){ .d-grid{grid-template-columns:repeat(3,1fr)} .pf-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start} .pf-cols>.card{margin:14px 0 0} }
+@media (max-width:640px){ .wrap{padding:0 16px 92px} h1{font-size:23px;margin:18px 0 6px} .card{padding:15px 16px;border-radius:16px} .d-name{font-size:21px} }
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
 .photo{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1/1;background:var(--sunk)}
@@ -253,7 +309,10 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   </div>
   <nav class="appnav hidden" id="appnav">
     <button class="navbtn" data-nav="board">My Board</button>
-    <button class="navbtn" data-nav="explore">Explore</button>
+    <button class="navbtn" data-nav="explore">Schools</button>
+    <button class="navbtn" data-nav="compare">Compare</button>
+    <button class="navbtn" data-nav="trip">Trips</button>
+    <button class="navbtn" data-nav="deadlines">Deadlines</button>
     <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
 </header>
@@ -416,12 +475,17 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div class="fam" id="famrow"></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
-      <div class="row">
+      <div class="row" style="gap:8px">
         <button id="btn-invite" class="small primary">+ Add my family</button>
-        <button id="btn-memories" class="small ghost">✨ Memories</button>
-        <button id="btn-report" class="small ghost">📄 Report</button>
-        <button id="btn-share" class="small ghost">Tell another family</button>
-        <button id="btn-plans" class="small ghost">Plans</button>
+        <div class="menu-wrap">
+          <button id="btn-more" class="small ghost">More ▾</button>
+          <div id="more-menu" class="menu hidden">
+            <button id="btn-memories" class="menu-item">✨ Memories</button>
+            <button id="btn-report" class="menu-item">📄 Report</button>
+            <button id="btn-share" class="menu-item">📣 Tell another family</button>
+            <button id="btn-plans" class="menu-item">⚡ Plans &amp; upgrades</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row" style="margin-top:8px;justify-content:space-between;align-items:center">
@@ -493,26 +557,28 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div class="card">
       <h2 style="margin-top:0">Academic profile</h2>
       <p class="muted" style="font-size:13px;margin-top:0">The student's profile is what drives admission-chance labels. Parents can fill their own too — it's just not used for chances.</p>
+      <label class="chkline" style="display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 10px;cursor:pointer"><input type="checkbox" id="pf-noTest" style="width:auto"> Not submitting test scores (test-optional) — hide SAT/ACT</label>
       <div class="pf-grid">
         <div><label>GPA (unweighted)</label><input id="pf-gpa" type="text" inputmode="decimal" placeholder="e.g. 3.4"></div>
-        <div><label>SAT total</label><input id="pf-sat" type="number" placeholder="e.g. 1280"></div>
-        <div><label>ACT composite</label><input id="pf-act" type="number" placeholder="e.g. 27"></div>
-        <div><label>Intended major</label><input id="pf-major" type="text" placeholder="undecided is fine"></div>
+        <div class="test-field"><label>SAT total</label><input id="pf-sat" type="number" placeholder="e.g. 1280"></div>
+        <div class="test-field"><label>ACT composite</label><input id="pf-act" type="number" placeholder="e.g. 27"></div>
+        <div><label>Intended major<span class="hint" tabindex="0" data-tip="Some schools admit by major. Competitive majors (CS, nursing, engineering, business, bio/pre-med) are harder to get into than the school overall — we factor that into your chance.">i</span></label><input id="pf-major" type="text" placeholder="undecided is fine"></div>
         <div><label>Class rank</label><input id="pf-rank" type="text" placeholder="if your school ranks"></div>
         <div><label>Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2"></div>
       </div>
       <div class="sl-subhead" style="margin-top:14px">Course rigor</div>
       <p class="muted" style="font-size:12px;margin:0 0 8px">How colleges recalculate GPA: Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (core courses). We'll show your rigor-adjusted GPA.</p>
       <div class="pf-grid">
-        <div><label>Honors courses</label><input id="pf-honors" type="number" min="0" placeholder="0"></div>
-        <div><label>AP / IB courses</label><input id="pf-ap" type="number" min="0" placeholder="0"></div>
-        <div><label>Dual-enrollment</label><input id="pf-dual" type="number" min="0" placeholder="0"></div>
-        <div><label>Rigor-adjusted GPA</label><input id="pf-adjgpa" type="text" readonly placeholder="—" style="background:var(--sunk)"></div>
+        <div><label>Honors courses<span class="hint" tabindex="0" data-tip="Honors = harder versions of standard classes. Most high schools add about +0.5 GPA weight for each. We factor your count into the rigor-adjusted GPA below.">i</span></label><input id="pf-honors" type="number" min="0" placeholder="0"></div>
+        <div><label>AP / IB courses<span class="hint" tabindex="0" data-tip="Advanced Placement / International Baccalaureate — college-level courses with national exams, usually worth about +1.0 GPA weight. Colleges read these as the strongest sign of rigor.">i</span></label><input id="pf-ap" type="number" min="0" placeholder="0"></div>
+        <div><label>Dual-enrollment<span class="hint" tabindex="0" data-tip="Actual college courses taken for credit while in high school, usually worth about +0.5 GPA weight.">i</span></label><input id="pf-dual" type="number" min="0" placeholder="0"></div>
+        <div><label>Rigor-adjusted GPA<span class="hint" tabindex="0" data-tip="Your unweighted GPA, bumped up for the Honors/AP/IB/dual courses you listed — our estimate of how a college's own recalculation might read, spread over ~16 core courses and capped at +1.0.">i</span></label><input id="pf-adjgpa" type="text" readonly placeholder="—" style="background:var(--sunk)"></div>
       </div>
-      <label>Interests / what you want from college</label>
-      <textarea id="pf-notes" placeholder="Clubs, sports, vibe, distance from home, anything…"></textarea>
-      <div class="sl-subhead" style="margin-top:14px">Activities &amp; work</div>
-      <p class="muted" style="font-size:12px;margin:0 0 8px">Up to 10, Common App style. We auto-rate each on the widely-used 4-tier scale (you can change it). Depth beats a long list — guidance, not a score colleges see.</p>
+      <label>What you want from college<span class="hint" tabindex="0" data-tip="Write naturally. We scan for a few themes — greek/party scene, big-time sports, outdoorsy, city life, small & close-knit, large campus — and nudge your match % toward schools that fit. Themes we recognize show up right below.">i</span></label>
+      <textarea id="pf-notes" placeholder="e.g. big school spirit and football, near mountains, not too preppy…"></textarea>
+      <div id="pf-int" class="muted" style="font-size:12px;margin-top:4px"></div>
+      <div class="sl-subhead" style="margin-top:14px">Activities &amp; work<span class="hint" tabindex="0" data-tip="A snapshot of what you do outside class. Colleges value a few deep commitments over a long thin list. This is guidance for you — not a score colleges ever see.">i</span></div>
+      <p class="muted" style="font-size:12.5px;margin:0 0 10px;line-height:1.5">List up to 10 things you put real time into — clubs, sports, a job, volunteering, caring for family, research. For each one: <b>what you did</b>, <b>how involved</b> you are, and roughly <b>how many hours a week</b> and <b>how many years</b>. Depth beats a long list.</p>
       <div id="pf-acts"></div>
       <button id="pf-act-add" class="small ghost" style="margin-top:8px" type="button">+ Add activity</button>
       <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
@@ -530,6 +596,44 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <p class="muted" style="font-size:11px;margin-top:8px">Context sources: presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education.</p>
       <div class="row" style="margin-top:10px"><button id="sl-save" class="small primary">Save priorities</button><button id="sl-reset" class="small ghost">Reset</button><span id="sl-savemsg" class="muted" style="font-size:12px"></span></div>
     </div>
+  </section>
+
+  <!-- TRIP BUILDER -->
+  <section id="v-trip" class="hidden">
+    <button class="backbtn" id="trip-back">← Back to board</button>
+    <h1>Plan a road trip</h1>
+    <p class="sub">Pick the campuses you want to see. We'll order them, estimate drive times, suggest stops nearby, and hand you a calendar you can import into Google Calendar or TripIt.</p>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <b>Which campuses?</b>
+        <div class="row" style="align-items:center;gap:8px">
+          <label style="margin:0">Days</label>
+          <select id="trip-days" style="width:auto"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+          <button class="small primary" id="trip-build">Build trip →</button>
+        </div>
+      </div>
+      <div id="trip-schools" class="trip-schools"></div>
+    </div>
+    <div id="trip-out"></div>
+  </section>
+
+  <!-- COMPARE -->
+  <section id="v-compare" class="hidden">
+    <h1>Compare schools</h1>
+    <p class="sub">Pick 2–4 schools from your board to line them up side by side.</p>
+    <div class="card">
+      <b>Which schools?</b>
+      <div id="cmp-pick" class="trip-schools"></div>
+      <button class="small primary" id="cmp-build" style="margin-top:6px">Compare →</button>
+    </div>
+    <div id="cmp-out"></div>
+  </section>
+
+  <!-- DEADLINES -->
+  <section id="v-deadlines" class="hidden">
+    <h1>Deadlines &amp; tracker</h1>
+    <p class="sub">Your board schools by soonest deadline, each with an application checklist. Saved on this device.</p>
+    <div id="dl-out"></div>
   </section>
 
   <!-- DETAIL -->
@@ -679,7 +783,7 @@ function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e
 const SLIDERS = [
   {key:"afford",   nm:"Value / affordability", sub:"lower cost matters",     lo:"meh", hi:"crucial", def:5, kind:"importance"},
   {key:"outcomes", nm:"Education & outcomes",   sub:"grad rate & earnings",   lo:"meh", hi:"crucial", def:5, kind:"importance"},
-  {key:"prestige", nm:"Selectivity",           sub:"prefer more selective",  lo:"no",  hi:"yes",     def:4, kind:"importance"},
+  {key:"prestige", nm:"Selectivity",           sub:"prefer more selective",  lo:"no",  hi:"yes",     def:4, kind:"importance", tip:"A preference, not your odds. Slide up to reward harder-to-get-into schools in your match %. This does not change your admission chance."},
   {key:"spirit",   nm:"Spirit & sports",       sub:"big games, school pride", lo:"meh", hi:"love it", def:5, kind:"importance"},
   {key:"proximity",nm:"Proximity / location",  sub:"beach, mountains, city nearby", lo:"meh", hi:"crucial", def:5, kind:"importance"},
   {key:"lifestyle",nm:"Lifestyle & vibe",      sub:"area culture, policy, fit", lo:"meh", hi:"crucial", def:5, kind:"importance"},
@@ -697,7 +801,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -712,6 +816,9 @@ function goto(view){
   if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
+  else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
+  else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
+  else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
@@ -864,7 +971,7 @@ async function loadProfiles(){
   // fallback: only own, from localStorage
   const p = lsGet("profile"); if(p && state.me) state.profiles[state.me.user_id]=p;
   // rigor + activities live on this device for now (full family sync lands with migration-003)
-  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); const r=lsGet("rigor"); const a=lsGet("activities"); if(r)prof.rigor=r; if(Array.isArray(a))prof.activities=a; }
+  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); const r=lsGet("rigor"); const a=lsGet("activities"); const to=lsGet("testOptional"); if(r)prof.rigor=r; if(Array.isArray(a))prof.activities=a; if(to!=null)prof.testOptional=!!to; }
 }
 async function loadPrefs(){
   state.prefs = {};
@@ -939,6 +1046,9 @@ function matchScore(c, w){
   // proximity (preference → weighted by Proximity importance)
   const want=Array.isArray(w.lp_prox)?w.lp_prox:[];
   if(want.length){ const have=new Set(L.proximity||[]); comps.push({v:want.filter(t=>have.has(t)).length/want.length, wt:(w.proximity!=null?w.proximity:5)}); }
+  // interests (from the student's free-text) → recognized themes nudge match %
+  const itags = viewerInterests();
+  itags.forEach(t=>{ const v=interestSat(t,c,s,L); if(v!=null) comps.push({v, wt:5}); });
   let tw=0, acc=0; comps.forEach(x=>{ const ww=Math.max(0,x.wt); tw+=ww; acc+=ww*Math.max(0,Math.min(1,x.v)); });
   if(tw<=0) return 50;
   return Math.round(100*acc/tw);
@@ -953,7 +1063,32 @@ function studentProfile(){
 // Official ACT→SAT concordance (ACT/College Board, rounded to nearest composite).
 const ACT_SAT = {36:1590,35:1540,34:1500,33:1460,32:1430,31:1400,30:1370,29:1340,28:1310,27:1280,26:1240,25:1210,24:1180,23:1140,22:1110,21:1080,20:1040,19:1010,18:970,17:930,16:890,15:850,14:800,13:760,12:710,11:670,10:630};
 function actToSat(act){ const a=Math.round(parseFloat(act)); if(!a) return 0; if(ACT_SAT[a]) return ACT_SAT[a]; if(a>36) return 1590; if(a<10) return 630; return 0; }
-function studentSat(p){ if(!p) return 0; const s=parseInt(p.sat); if(s) return s; if(p.act) return actToSat(p.act); return 0; }
+function studentSat(p){ if(!p || p.testOptional) return 0; const s=parseInt(p.sat); if(s) return s; if(p.act) return actToSat(p.act); return 0; }
+// Impacted / competitive majors: at a selective school these admit tougher than the school overall.
+const IMPACTED_MAJOR = [/comput|\bcs\b|software|data scien|informatics/i, /nurs/i, /engineer/i, /business|finance|account|marketing/i, /biolog|pre-?med|neuro|kinesiolog/i, /architect/i, /\bfilm\b|animation|game design/i];
+function majorIsImpacted(p){ const m=(p&&p.major)||""; return m.trim().length>2 && IMPACTED_MAJOR.some(rx=>rx.test(m)); }
+/* Interests free-text → a few recognized theme tags that nudge match %. */
+const INTEREST_DEFS = [
+  {tag:"greek",   label:"greek/party scene", rx:/greek|frat|sororit|\bparty|rush\b|tailgat|social scene|preppy/i},
+  {tag:"sports",  label:"big-time sports",   rx:/sport|athletic|football|basketball|\bd1\b|division ?1|division ?i\b|game ?day|tailgat/i},
+  {tag:"outdoors",label:"outdoorsy",         rx:/outdoor|hik|\bski|snowboard|mountain|beach|surf|camp|nature|trail|lake/i},
+  {tag:"city",    label:"city life",         rx:/\bcity|urban|nightlife|downtown|metropol/i},
+  {tag:"small",   label:"small & close-knit",rx:/small|liberal arts|\blac\b|intimate|tight.?knit|close.?knit|personal/i},
+  {tag:"big",     label:"large campus",      rx:/\bbig\b|large|huge|massive|rah.?rah|school spirit/i},
+];
+function parseInterests(notes){ const t=(notes||"").toString(); return INTEREST_DEFS.filter(d=>d.rx.test(t)).map(d=>d.tag); }
+let _intCache={notes:null,tags:[]};
+function viewerInterests(){ const p=(state.me&&state.profiles[state.me.user_id])||null; const notes=(p&&p.notes)||""; if(notes!==_intCache.notes){ _intCache={notes, tags:parseInterests(notes)}; } return _intCache.tags; }
+// returns 0..1 how well this school fits a theme, or null if we lack the data (so it isn't a dead anchor)
+function interestSat(tag,c,s,L){
+  if(tag==="greek"){ const g=c.greekLife||""; if(!g) return null; return /present|yes|strong|large|high/i.test(g)?1 : /small|limited|minimal|some/i.test(g)?0.6 : 0.2; }
+  if(tag==="sports"){ const a=c.athleticsNetwork||""; if(!a) return null; return /national/i.test(a)?1 : /regional/i.test(a)?0.65 : 0.25; }
+  if(tag==="outdoors"){ const px=L&&L.proximity; if(!Array.isArray(px)) return null; const out=px.some(t=>/beach|ski|lake|mountain/i.test(t)); return out?1:0.25; }
+  if(tag==="city"){ const lu=localeUrban(c); if(lu===null) return null; return lu>=0.7?1 : lu>=0.35?0.5 : 0.1; }
+  if(tag==="small"){ const ss=sizeScale(s.size); if(ss===null) return null; return ss<0.2?1 : ss<0.45?0.55 : 0.15; }
+  if(tag==="big"){ const ss=sizeScale(s.size); if(ss===null) return null; return ss>0.6?1 : ss>0.4?0.6 : 0.2; }
+  return null;
+}
 function chanceFor(c){
   const s = c && c.scorecard; if(!s || typeof s.admissionRate!=="number") return null;
   let band = s.admissionRate>0.7?"likely" : s.admissionRate>=0.4?"target" : s.admissionRate>=0.2?"reach":"reach";
@@ -978,6 +1113,10 @@ function chanceFor(c){
   if(astr!=null && s.admissionRate<0.4){
     if(astr>=0.7 && band==="reach") band="target";
     else if(astr<=0.25 && band==="likely") band="target";
+  }
+  // impacted major: at a selective school, a competitive major admits one step tougher
+  if(majorIsImpacted(p) && s.admissionRate<0.6){
+    if(band==="likely") band="target"; else if(band==="target") band="reach";
   }
   const labels={reach:"Reach",target:"Target",likely:"Likely"};
   return {band, label:labels[band]};
@@ -1127,6 +1266,9 @@ function renderReport(){
     <p class="muted" style="font-size:11px;margin-top:16px">Projections are guidance, not guarantees — built from College Scorecard data + published admissions logic (NACAC, standard GPA recalculation, reach/target/likely bands). Review with a counselor. Area context: Cook PVI, Giffords Law Center, Movement Advancement Project.</p>`;
 }
 $("btn-report").onclick = () => { show("v-report"); renderReport(); };
+$("btn-more").onclick = (e) => { e.stopPropagation(); $("more-menu").classList.toggle("hidden"); };
+document.addEventListener("click", (e) => { if(!e.target.closest(".menu-wrap")) $("more-menu").classList.add("hidden"); });
+$("more-menu").addEventListener("click", () => $("more-menu").classList.add("hidden"));
 $("report-back").onclick = () => show("v-board");
 $("report-print").onclick = () => window.print();
 
@@ -1341,6 +1483,21 @@ function lifestyleSection(info){
     </div>
     <p class="muted" style="font-size:11px">State/area-level context (not a judgment about this school): presidential results + Cook PVI, Giffords Law Center, Movement Advancement Project, U.S. Dept. of Education. Use as context, not certainty.</p>`;
 }
+/* "See the campus": legal/ethical link-outs — official tour, map, site. */
+function toursSection(info, rec){
+  if(!info) return "";
+  const nm = rec.name + (rec.state?(" "+rec.state):"");
+  const q = encodeURIComponent(nm);
+  const hasCoords = typeof info.lat==="number" && typeof info.lon==="number";
+  const maps = hasCoords ? `https://www.google.com/maps/search/?api=1&query=${info.lat},${info.lon}` : `https://www.google.com/maps/search/?api=1&query=${q}`;
+  return `<h2 style="margin-top:14px">See the campus</h2>
+    <div class="facts">
+      <span><a href="https://www.google.com/search?q=${q}+virtual+campus+tour" target="_blank" rel="noopener">▶ Virtual tour ↗</a></span>
+      <span><a href="${maps}" target="_blank" rel="noopener">📍 Map &amp; directions ↗</a></span>
+      ${info.link?`<span><a href="${esc(info.link)}" target="_blank" rel="noopener">🎓 Official site ↗</a></span>`:""}
+    </div>
+    <p class="muted" style="font-size:11px">Tours are hosted by the schools or partners (YouVisit, Appily, CampusReel). We link out — we don't copy their content.</p>`;
+}
 /* ========== SCHOOL DETAIL ========== */
 function renderDetail(id){
   const info = catInfo(id);
@@ -1395,7 +1552,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
-    ${facts}${museSection(info)}${link}${rateBlock}
+    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
@@ -1482,6 +1639,186 @@ function initVisit(id, info){
     setTimeout(()=>{ try{ map.invalidateSize(); }catch(e){} },250);
   }catch(e){}
 }
+/* ========== ROAD TRIP BUILDER ========== */
+let tripSel = {}, tripBuilt = null, tripMap = null;
+function tripCandidates(){ return state.schools.map(s=>({rec:s, info:catInfo(s.school_id)})).filter(x=>x.info && typeof x.info.lat==="number" && typeof x.info.lon==="number"); }
+function renderTrip(){
+  const cands = tripCandidates(); const el=$("trip-schools");
+  if(!cands.length){ el.innerHTML=`<p class="muted" style="font-size:13.5px">None of your board schools have a map location yet. Add a few schools first — most come with coordinates.</p>`; $("trip-out").innerHTML=""; return; }
+  if(!Object.keys(tripSel).length) cands.forEach(c=>tripSel[c.rec.school_id]=true);
+  el.innerHTML = cands.map(c=>{ const id=c.rec.school_id; const on=tripSel[id]!==false;
+    return `<label class="trip-pick ${on?"on":""}" data-tid="${esc(id)}"><input type="checkbox" ${on?"checked":""} style="width:auto"><span><b>${esc(c.rec.name)}</b> <span class="tp-city">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></span></label>`;
+  }).join("");
+  el.querySelectorAll("[data-tid]").forEach(lab=>{ const cb=lab.querySelector("input"); cb.onchange=()=>{ tripSel[lab.dataset.tid]=cb.checked; lab.classList.toggle("on",cb.checked); }; });
+}
+function haversineMi(a,b){ const R=3958.8,dLat=(b.lat-a.lat)*Math.PI/180,dLon=(b.lon-a.lon)*Math.PI/180,la1=a.lat*Math.PI/180,la2=b.lat*Math.PI/180; const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+function orderStops(stops){ if(stops.length<=2) return stops.slice(); const rem=stops.slice(); rem.sort((a,b)=>b.lat-a.lat); const out=[rem.shift()];
+  while(rem.length){ let bi=0,bd=Infinity; const last=out[out.length-1]; rem.forEach((s,i)=>{ const d=haversineMi(last,s); if(d<bd){bd=d;bi=i;} }); out.push(rem.splice(bi,1)[0]); } return out; }
+async function osrmLegs(ordered){
+  const fallback=()=>ordered.slice(1).map((s,i)=>{ const mi=haversineMi(ordered[i],s)*1.3; return {mi, min: mi/50*60, est:true}; });
+  try{ const coords=ordered.map(s=>`${s.lon},${s.lat}`).join(";");
+    const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=false`); if(!r.ok) throw 0;
+    const j=await r.json(); if(!j.routes||!j.routes[0]||!j.routes[0].legs) throw 0;
+    return j.routes[0].legs.map(l=>({mi:l.distance/1609.34, min:l.duration/60, est:false}));
+  }catch(e){ return fallback(); }
+}
+async function overpassNear(lat,lon){
+  const q=`[out:json][timeout:20];(node(around:2500,${lat},${lon})[amenity~"^(restaurant|cafe)$"];node(around:4000,${lat},${lon})[tourism~"^(hotel|motel|hostel)$"];node(around:4500,${lat},${lon})[tourism~"^(attraction|museum|viewpoint)$"];);out body 60;`;
+  const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q)}); if(!r.ok) throw 0;
+  const j=await r.json(); const els=j.elements||[]; const pick=(f,n)=>[...new Set(els.filter(f).map(e=>e.tags&&e.tags.name).filter(Boolean))].slice(0,n);
+  return { food:pick(e=>e.tags&&/^(restaurant|cafe)$/.test(e.tags.amenity||""),4), stay:pick(e=>e.tags&&/^(hotel|motel|hostel)$/.test(e.tags.tourism||""),3), see:pick(e=>e.tags&&/^(attraction|museum|viewpoint)$/.test(e.tags.tourism||""),3) };
+}
+function tripDays(){ if(!tripBuilt) return []; const {ordered,days}=tripBuilt; const perDay=Math.ceil(ordered.length/days); const plan=[];
+  for(let d=0; d*perDay<ordered.length; d++){ plan.push(ordered.slice(d*perDay,(d+1)*perDay)); } return plan; }
+const TRIP_SLOTS=[9,12,15,18]; // start hours for campus visits within a day
+function stopTime(dayIdx, slotIdx){ const d=new Date(tripBuilt.start); d.setDate(d.getDate()+dayIdx); const h=TRIP_SLOTS[slotIdx]!=null?TRIP_SLOTS[slotIdx]:(9+slotIdx*2.5); d.setHours(Math.floor(h), (h%1)*60, 0, 0); return d; }
+function icsStamp(d){ return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+"00Z"; }
+function tripEvents(){ const plan=tripDays(); const evs=[]; plan.forEach((day,di)=>day.forEach((s,si)=>{ const start=stopTime(di,si); const end=new Date(start.getTime()+2*3600*1000); evs.push({s,start,end}); })); return evs; }
+function gcalLink(e){ const dates=icsStamp(e.start)+"/"+icsStamp(e.end); const loc=[e.s.city,e.s.state].filter(Boolean).join(", ");
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Visit "+e.s.name)}&dates=${dates}&location=${encodeURIComponent(loc)}&details=${encodeURIComponent("Campus visit — planned in Zoe's Colleges")}`; }
+function downloadICS(){ const evs=tripEvents(); const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Trip//EN","CALSCALE:GREGORIAN"];
+  evs.forEach((e,i)=>{ const loc=[e.s.city,e.s.state].filter(Boolean).join(", ");
+    lines.push("BEGIN:VEVENT","UID:zc-trip-"+i+"-"+Date.now()+"@zoescolleges","DTSTAMP:"+icsStamp(new Date()),"DTSTART:"+icsStamp(e.start),"DTEND:"+icsStamp(e.end),"SUMMARY:Visit "+e.s.name.replace(/[,;\\]/g,""),"LOCATION:"+loc.replace(/[,;\\]/g," "),"DESCRIPTION:Campus visit planned in Zoe's Colleges","END:VEVENT"); });
+  lines.push("END:VCALENDAR");
+  const blob=new Blob([lines.join("\r\n")],{type:"text/calendar"}); const url=URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url; a.download="zoes-colleges-trip.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
+function renderTripOut(){
+  const out=$("trip-out"); if(!tripBuilt){ out.innerHTML=""; return; }
+  const {ordered,legs}=tripBuilt; const plan=tripDays();
+  const totMi=legs.reduce((a,l)=>a+l.mi,0), totMin=legs.reduce((a,l)=>a+l.min,0);
+  const est=legs.some(l=>l.est);
+  const hrs=m=>{ m=Math.round(m); const h=Math.floor(m/60), mm=m%60; return (h?h+"h ":"")+(mm?mm+"m":(h?"":"0m")); };
+  let li=0; // running leg index between consecutive stops across the whole route
+  const dayCards=plan.map((day,di)=>{
+    const rows=day.map((s,si)=>{
+      let legHtml="";
+      if(!(di===0&&si===0) && li<legs.length){ const l=legs[li]; legHtml=`<div class="trip-leg">↓ ${Math.round(l.mi)} mi · ~${hrs(l.min)} drive</div>`; }
+      if(!(di===0&&si===0)) li++;
+      const t=stopTime(di,si); const tstr=t.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+      return `${legHtml}<div class="trip-stop"><div class="ts-name">${esc(s.name)}</div>
+        <div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div>
+        <div class="trip-near"><button data-near="${esc(s.id)}" data-lat="${s.lat}" data-lon="${s.lon}">Show what's nearby ↓</button><div class="near-out" data-nearout="${esc(s.id)}"></div></div></div>`;
+    }).join("");
+    const dayDate=new Date(tripBuilt.start); dayDate.setDate(dayDate.getDate()+di);
+    return `<div class="trip-day"><h4>Day ${di+1} — ${dayDate.toLocaleDateString([], {weekday:"long",month:"short",day:"numeric"})}</h4>${rows}</div>`;
+  }).join("");
+  out.innerHTML = `<div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div><b>${ordered.length}</b> campuses · <b>${Math.round(totMi)}</b> mi · ~<b>${hrs(totMin)}</b> driving${est?` <span class="muted" style="font-size:11px">(drive times estimated)</span>`:""}</div>
+      <label style="margin:0;font-size:13px">Start <input type="date" id="trip-start" value="${tripBuilt.start.toISOString().slice(0,10)}" style="width:auto"></label>
+    </div>
+    <div id="tripmap"></div>
+    ${dayCards}
+    <div class="trip-exports">
+      <button class="small primary" id="trip-ics">⬇ Download calendar (.ics)</button>
+      <span class="muted" style="font-size:12px;align-self:center">Imports into Google Calendar, Apple Calendar, or TripIt (TripIt → add via your calendar or email the .ics).</span>
+    </div>
+    <p class="muted" style="font-size:11px;margin-top:8px">Driving via OpenStreetMap routing. Nearby places from OpenStreetMap. Order is a simple nearest-next route — tweak by unchecking campuses and rebuilding.</p>
+  </div>`;
+  // map
+  if(window.L){ try{
+    const el=$("tripmap"); tripMap=L.map(el,{scrollWheelZoom:false});
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(tripMap);
+    const pts=ordered.map(s=>[s.lat,s.lon]);
+    ordered.forEach((s,i)=>L.marker([s.lat,s.lon]).addTo(tripMap).bindPopup(`<b>${i+1}. ${esc(s.name)}</b>`));
+    if(pts.length>1) L.polyline(pts,{color:"#2b8a7a",weight:3,opacity:.7,dashArray:"6 6"}).addTo(tripMap);
+    tripMap.fitBounds(pts.length>1?pts:[pts[0]], {padding:[30,30], maxZoom:11});
+    setTimeout(()=>{ try{ tripMap.invalidateSize(); }catch(e){} },250);
+  }catch(e){} }
+  // date change
+  const ds=$("trip-start"); if(ds) ds.onchange=()=>{ const v=ds.value; if(v){ const d=new Date(v+"T09:00:00"); if(!isNaN(d)){ tripBuilt.start=d; if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} renderTripOut(); } } };
+  $("trip-ics").onclick=downloadICS;
+  // nearby (lazy)
+  out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const box=out.querySelector(`[data-nearout="${CSS.escape(btn.dataset.near)}"]`);
+    btn.disabled=true; btn.textContent="Loading nearby…";
+    try{ const n=await overpassNear(+btn.dataset.lat,+btn.dataset.lon);
+      const sec=(t,arr,q)=>arr.length?`<li><b>${t}:</b> ${arr.map(x=>esc(x)).join(" · ")}</li>`:"";
+      const html=[sec("Eat",n.food),sec("Stay",n.stay),sec("See",n.see)].filter(Boolean).join("");
+      box.innerHTML = html?`<ul>${html}</ul>`:`<span class="muted">No tagged places found right around campus.</span>`;
+      btn.style.display="none";
+    }catch(e){ box.innerHTML=`<span class="muted">Couldn't load nearby places right now — try again in a moment.</span>`; btn.disabled=false; btn.textContent="Show what's nearby ↓"; }
+  }; });
+}
+$("trip-back").onclick = () => { if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} goto("board"); };
+$("trip-build").onclick = async () => {
+  const cands=tripCandidates(); const sel=cands.filter(c=>tripSel[c.rec.school_id]!==false); const out=$("trip-out");
+  if(sel.length<1){ out.innerHTML=`<div class="card muted">Pick at least one campus above.</div>`; return; }
+  if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;}
+  out.innerHTML=`<div class="card muted">Planning your route…</div>`;
+  const stops=sel.map(c=>({id:c.rec.school_id,name:c.rec.name,city:c.info.city,state:c.info.state,lat:c.info.lat,lon:c.info.lon}));
+  const ordered=orderStops(stops); const legs= ordered.length>1 ? await osrmLegs(ordered) : [];
+  const days=Math.min(+$("trip-days").value||2, ordered.length);
+  tripBuilt={ordered,legs,days,start:nextSaturday()};
+  renderTripOut();
+};
+function nextSaturday(){ const d=new Date(); const add=((6-d.getDay()+7)%7)||7; d.setDate(d.getDate()+add); d.setHours(9,0,0,0); return d; }
+/* ========== COMPARE ========== */
+let cmpSel={};
+function renderCompare(){
+  const cands=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  const pick=$("cmp-pick");
+  if(!cands.length){ pick.innerHTML=`<p class="muted" style="font-size:13.5px">No schools on your board yet. Add a few from <b>Schools</b>, then compare.</p>`; $("cmp-out").innerHTML=""; return; }
+  pick.innerHTML=cands.map(c=>{ const id=c.rec.school_id; const on=!!cmpSel[id];
+    return `<label class="trip-pick ${on?"on":""}" data-cid="${esc(id)}"><input type="checkbox" ${on?"checked":""} style="width:auto"><span><b>${esc(c.rec.name)}</b> <span class="tp-city">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></span></label>`;
+  }).join("");
+  pick.querySelectorAll("[data-cid]").forEach(lab=>{ const cb=lab.querySelector("input"); cb.onchange=()=>{ const id=lab.dataset.cid; const n=Object.values(cmpSel).filter(Boolean).length;
+    if(cb.checked && n>=4){ cb.checked=false; lab.classList.remove("on"); return; } cmpSel[id]=cb.checked; lab.classList.toggle("on",cb.checked); }; });
+}
+$("cmp-build").onclick=()=>{
+  const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
+  if(ids.length<2){ out.innerHTML=`<div class="card muted">Pick at least two schools.</div>`; return; }
+  const cols=ids.map(id=>({rec:state.schools.find(s=>s.school_id===id), info:catInfo(id)})).filter(c=>c.info&&c.rec);
+  const g=c=>c.info.scorecard||{};
+  const rows=[
+    ["My match %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
+    ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
+    ["Admission rate", c=>pct(g(c).admissionRate)],
+    ["Net price / yr", c=>money(g(c).netPrice)],
+    ["Sticker / yr", c=>money(g(c).costAvg)],
+    ["SAT avg", c=>g(c).satAvg||"—"],
+    ["Grad rate", c=>pct(g(c).gradRate)],
+    ["Median earnings (10yr)", c=>money(g(c).medianEarnings10yr)],
+    ["Undergrads", c=>g(c).size?g(c).size.toLocaleString():"—"],
+    ["Setting", c=>{const l=localeUrban(c.info); return l===null?"—":l>=0.7?"City":l>=0.35?"Suburban":"Town/Rural";}],
+    ["Greek life", c=>esc(c.info.greekLife||"—")],
+    ["Athletics", c=>esc(c.info.athleticsNetwork||"—")],
+    ["Regular deadline", c=>esc(c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
+  ];
+  out.innerHTML=`<div class="card" style="padding:0;overflow:hidden"><div class="cmp-wrap"><table class="cmp-table">
+    <thead><tr><th class="row-k"></th>${cols.map(c=>`<th class="sch-h">${esc(c.rec.name)}<span class="loc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></th>`).join("")}</tr></thead>
+    <tbody>${rows.map(r=>`<tr><th class="row-k">${esc(r[0])}</th>${cols.map(c=>`<td>${r[1](c)}</td>`).join("")}</tr>`).join("")}</tbody>
+  </table></div></div>`;
+};
+/* ========== DEADLINES ========== */
+const DL_TASKS=["Essays","Recommendations","Transcript","FAFSA / CSS","Test scores","Submitted"];
+function dlKey(id){ return "dlcheck_"+id; }
+function getChecklist(id){ return lsGet(dlKey(id))||{}; }
+function setChecklist(id,o){ lsSet(dlKey(id),o); }
+function parseDeadlineDate(info){
+  const cand=[info.regularDeadline, info.muse&&info.muse.deadlines&&info.muse.deadlines.regular_date, info.earlyDeadline];
+  for(let s of cand){ if(!s) continue; s=String(s).replace(/^[^0-9A-Za-z]*(regular decision|early decision|early action|regular|early|ed|ea|rd)[^:]*:?\s*/i,""); const d=new Date(s); if(!isNaN(d)) return d; }
+  return null;
+}
+function renderDeadlines(){
+  const out=$("dl-out");
+  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  if(!rows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
+  rows.forEach(r=>r._d=parseDeadlineDate(r.info));
+  rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
+  out.innerHTML=rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
+    const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
+    const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
+    const done=DL_TASKS.filter(t=>chk[t]).length;
+    return `<div class="card"><div class="dl-card">
+      <div class="dl-when">${ed?`<div>Early: ${esc(ed)}</div>`:""}${rd?`<div>Regular: ${esc(rd)}</div>`:(ed?"":"<div>Deadline: confirm on site</div>")}</div>
+      <div style="flex:1;min-width:220px"><div style="font-weight:700;font-size:15px">${esc(r.rec.name)}</div>
+        <div class="tp-city">${esc([i.city,i.state].filter(Boolean).join(", "))} · <b>${done}/${DL_TASKS.length}</b> done</div>
+        <div class="dl-check" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<label><input type="checkbox" data-task="${esc(t)}" ${chk[t]?"checked":""}> ${esc(t)}</label>`).join("")}</div>
+      </div></div></div>`;
+  }).join("");
+  out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
+    box.querySelectorAll("[data-task]").forEach(cb=>cb.onchange=()=>{ const o=getChecklist(id); o[cb.dataset.task]=cb.checked; setChecklist(id,o); const parent=box.previousElementSibling; renderDeadlines(); }); });
+}
 /* ========== PHOTOS ========== */
 function photosFor(id){ return state.photos.filter(p=>p.school_id===id); }
 function photoSection(id){
@@ -1557,6 +1894,14 @@ function renderProfile(){
   const p = (state.me && state.profiles[state.me.user_id]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
   $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
+  // test-optional toggle
+  const noTest=$("pf-noTest"); noTest.checked=!!p.testOptional;
+  const applyNoTest=()=>{ document.querySelectorAll("#v-profile .test-field").forEach(d=>d.style.display=noTest.checked?"none":""); };
+  noTest.onchange=applyNoTest; applyNoTest();
+  // recognized-interests readout
+  const intReadout=()=>{ const tags=parseInterests($("pf-notes").value); const el=$("pf-int");
+    el.innerHTML = tags.length ? `Recognized: ${tags.map(t=>`<b>${esc((INTEREST_DEFS.find(d=>d.tag===t)||{}).label||t)}</b>`).join(" · ")} — these nudge your match %.` : (($("pf-notes").value.trim())?`No themes recognized yet — try words like "sports", "near mountains", "small", "city".`:""); };
+  $("pf-notes").oninput=intReadout; intReadout();
   // rigor
   const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||"";
   const recalc=()=>{ const prof={gpa:$("pf-gpa").value.trim(), rigor:{honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0}}; const adj=rigorAdjustedGpa(prof); $("pf-adjgpa").value=adj?adj.toFixed(2):"—"; };
@@ -1567,7 +1912,7 @@ function renderProfile(){
   // sliders
   const w = myPrefs();
   $("sliders").innerHTML = SLIDERS.map(s=>`
-    <div class="sl"><div class="nm">${s.nm}<small>${s.sub}</small></div>
+    <div class="sl"><div class="nm">${s.nm}${s.tip?`<span class="hint" tabindex="0" data-tip="${esc(s.tip)}">i</span>`:""}<small>${s.sub}</small></div>
       <div><input type="range" min="0" max="10" value="${w[s.key]??s.def}" data-sl="${s.key}"><div class="ends"><span>${s.lo}</span><span>${s.hi}</span></div></div>
       <b data-slv="${s.key}">${w[s.key]??s.def}</b></div>`).join("");
   $("sliders").querySelectorAll("[data-sl]").forEach(el=>el.oninput=()=>{ $("sliders").querySelector(`[data-slv="${el.dataset.sl}"]`).textContent=el.value; });
@@ -1582,12 +1927,14 @@ function renderProfile(){
 $("pf-save").onclick = async () => {
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
+  const testOptional=$("pf-noTest").checked;
+  _intCache={notes:null,tags:[]}; // invalidate interest cache so match % re-scores
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
   const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs}));
   await saveProfile(p);
   // rigor + activities persist on this device for now (sync lands with migration-003)
-  lsSet("rigor", rigor); lsSet("activities", acts);
-  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; }
+  lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional);
+  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; }
   profActs = acts.slice();
   $("pf-savemsg").textContent="Saved ✓ — chances updated"; setTimeout(()=>$("pf-savemsg").textContent="",1800);
 };
@@ -1597,13 +1944,13 @@ function renderActs(){
   const el=$("pf-acts"); if(!el) return;
   el.innerHTML = profActs.length ? profActs.map((a,i)=>`
     <div class="act-row" data-i="${i}">
-      <input class="a-name" placeholder="Activity, team, job…" value="${esc(a.name||"")}">
-      <select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select>
-      <select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select>
-      <input class="a-hrs" type="number" min="0" placeholder="hrs/wk" value="${esc(a.hrs||"")}">
-      <input class="a-yrs" type="number" min="0" max="4" placeholder="yrs" value="${esc(a.yrs||"")}">
+      <label class="af af-name"><span>Activity / role</span><input class="a-name" placeholder="e.g. Varsity soccer — captain" value="${esc(a.name||"")}"></label>
+      <label class="af af-cat"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+      <label class="af af-lvl"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
+      <label class="af af-hrs"><span>Hrs/wk</span><input class="a-hrs" type="number" min="0" placeholder="20" value="${esc(a.hrs||"")}"></label>
+      <label class="af af-yrs"><span>Years</span><input class="a-yrs" type="number" min="0" max="4" placeholder="3" value="${esc(a.yrs||"")}"></label>
       <button class="a-rm" title="Remove" type="button">✕</button>
-    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — add clubs, sports, work, volunteering, research…</p>`;
+    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, work, volunteering, research…</p>`;
   el.querySelectorAll(".act-row").forEach(row=>{ const i=+row.dataset.i;
     row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
     row.querySelector(".a-cat").onchange=e=>profActs[i].category=e.target.value;
@@ -1691,6 +2038,12 @@ $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();
 $("calc-close").onclick = () => $("dlg-calc").close();
 document.addEventListener("click", e => { if (e.target.closest("[data-calc]")) $("dlg-calc").showModal(); });
+// tap-to-toggle help tooltips (hover is handled in CSS for pointer devices)
+document.addEventListener("click", e => {
+  const h = e.target.closest(".hint");
+  if (h){ e.preventDefault(); e.stopPropagation(); const was=h.classList.contains("open"); document.querySelectorAll(".hint.open").forEach(x=>x.classList.remove("open")); if(!was) h.classList.add("open"); return; }
+  document.querySelectorAll(".hint.open").forEach(x=>x.classList.remove("open"));
+});
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
