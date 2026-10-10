@@ -154,15 +154,18 @@ a{color:var(--teal)}
 .proxchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
 .proxchip.on{background:color-mix(in srgb,var(--teal) 16%,var(--surface));border-color:var(--teal);color:var(--ink);font-weight:600}
 .proxchip input{display:none}
-.act-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}
-.act-row .af{display:flex;flex-direction:column;gap:3px}
-.act-row .af>span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.act-row .af-name{flex:3;min-width:170px}
-.act-row .af-cat,.act-row .af-lvl{flex:1;min-width:140px}
-.act-row .af-cat select,.act-row .af-lvl select,.act-row .af-name input{width:100%}
-.act-row .af-hrs input,.act-row .af-yrs input{width:72px}
-.act-row .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;cursor:pointer;padding:9px 11px;align-self:flex-end}
-.act-row .a-rm:hover{border-color:var(--warn);color:var(--warn)}
+.act-card{background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:10px}
+.act-card-top{display:flex;gap:8px;align-items:center}
+.act-card-top .a-name{flex:1;min-width:0;font-weight:600}
+.act-meta{display:grid;grid-template-columns:1.3fr 1.3fr .75fr .75fr;gap:9px;margin-top:10px}
+.act-card .af{display:flex;flex-direction:column;gap:3px}
+.act-card .af>span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.act-card .af select,.act-card .af input{width:100%}
+.act-card .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:9px;cursor:pointer;padding:8px 11px;flex:0 0 auto}
+.act-card .a-rm:hover{border-color:var(--warn);color:var(--warn)}
+@media(max-width:560px){.act-meta{grid-template-columns:1fr 1fr}}
+#pf-act-add{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--teal);border-radius:12px;padding:11px;font-weight:600}
+#pf-act-add:hover{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 6%,transparent)}
 /* inline help tooltip (hover + tap) */
 .hint{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;margin-left:5px;vertical-align:middle;position:relative;font-family:var(--disp);line-height:1}
 .hint:hover,.hint:focus{border-color:var(--teal);color:var(--teal);outline:none}
@@ -184,6 +187,22 @@ a{color:var(--teal)}
 .trip-near button{font-size:12px;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer;color:var(--teal)}
 .trip-near ul{margin:5px 0 0;padding-left:16px}
 .trip-exports{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.trip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.trip-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.trip-chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--teal);border-radius:999px;padding:5px 9px 5px 6px;font-size:13.5px;font-weight:500}
+.trip-chip .th{width:26px;height:26px;border-radius:50%;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
+.trip-chip .x{border:none;background:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0 2px}
+.trip-chip .x:hover{color:var(--warn)}
+.trip-empty{color:var(--muted);font-size:13.5px}
+.trip-addwrap{margin-top:14px}
+.trip-addwrap>summary{cursor:pointer;color:var(--teal);font-size:13.5px;font-weight:600;list-style:none}
+.trip-addwrap>summary::-webkit-details-marker{display:none}
+.trip-add{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.trip-add .ta{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.trip-add .ta:hover{border-color:var(--teal)}
+.trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
+.trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
+.trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
 /* compare */
 .cmp-wrap{overflow-x:auto}
 .cmp-table{border-collapse:separate;border-spacing:0;width:100%;min-width:460px}
@@ -199,6 +218,21 @@ a{color:var(--teal)}
 .dl-check{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:9px}
 .dl-check label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--disp);margin:0;cursor:pointer}
 .dl-check input{width:auto}
+.dl-summary{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dl-row{display:flex;gap:14px;align-items:flex-start}
+.dl-thumb{width:52px;height:52px;border-radius:12px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
+.dl-due{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;border-radius:999px;padding:2px 9px;border:1px solid var(--line);white-space:nowrap}
+.dl-due .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+.dl-due.urgent{color:var(--warn);border-color:var(--warn)}.dl-due.urgent .dot{background:var(--warn)}
+.dl-due.soon{color:var(--amber);border-color:var(--amber)}.dl-due.soon .dot{background:var(--amber)}
+.dl-due.ok{color:var(--good);border-color:var(--good)}.dl-due.ok .dot{background:var(--good)}
+.dl-due.none{color:var(--muted)}.dl-due.none .dot{background:var(--muted)}
+.dl-bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:10px 0;max-width:280px}
+.dl-bar>i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .2s}
+.dl-pills{display:flex;flex-wrap:wrap;gap:6px}
+.dl-pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--muted);background:var(--surface);user-select:none}
+.dl-pill:hover{border-color:var(--teal)}
+.dl-pill.done{background:color-mix(in srgb,var(--good) 15%,var(--surface));border-color:var(--good);color:var(--good);font-weight:600}
 /* overflow menu */
 .menu-wrap{position:relative;display:inline-block}
 .menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(16,28,46,.16);padding:6px;z-index:8;min-width:196px;display:flex;flex-direction:column;gap:2px}
@@ -629,17 +663,18 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <section id="v-trip" class="hidden">
     <button class="backbtn" id="trip-back">← Back to board</button>
     <h1>Plan a road trip</h1>
-    <p class="sub">Pick the campuses you want to see. We'll order them, estimate drive times, suggest stops nearby, and hand you a calendar you can import into Google Calendar or TripIt.</p>
+    <p class="sub">Build a route across the campuses you want to see — drive times, nearby food &amp; stays, and a calendar you can import.</p>
     <div class="card">
-      <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <b>Which campuses?</b>
+      <div class="trip-head">
+        <div><b id="trip-count">No campuses yet</b><div class="muted" id="trip-hint" style="font-size:12.5px;margin-top:2px"></div></div>
         <div class="row" style="align-items:center;gap:8px">
           <label style="margin:0">Days</label>
           <select id="trip-days" style="width:auto"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-          <button class="small primary" id="trip-build">Build trip →</button>
+          <button class="small primary" id="trip-build">Plan route →</button>
         </div>
       </div>
-      <div id="trip-schools" class="trip-schools"></div>
+      <div id="trip-chips" class="trip-chips"></div>
+      <details id="trip-addwrap" class="trip-addwrap"><summary>+ Add campuses from your board</summary><div id="trip-add" class="trip-add"></div></details>
     </div>
     <div id="trip-out"></div>
   </section>
@@ -847,6 +882,7 @@ let currentView = "board", currentDetailId = null, detailFrom = "board";
 function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab)); }
 function goto(view){
   currentView = view;
+  try{ updateTripBadge(); }catch(e){}
   if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
@@ -1435,6 +1471,7 @@ function renderSchool(x){
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
+      <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
     <div class="chiprow">${chanceChip(x.ch)}${matchChip(x.m)}</div>
@@ -1518,6 +1555,7 @@ function renderExList(q){
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
+      <button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
   }).join("") || `<div class="card muted">No matches.</div>`;
@@ -1628,6 +1666,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
+    <div class="row" style="margin:6px 0 2px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button></div>
     ${facts}${museSection(info)}${info?toursSection(info,rec):link}${reviewsSection(rec)}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
@@ -1716,16 +1755,28 @@ function initVisit(id, info){
   }catch(e){}
 }
 /* ========== ROAD TRIP BUILDER ========== */
-let tripSel = {}, tripBuilt = null, tripMap = null;
-function tripCandidates(){ return state.schools.map(s=>({rec:s, info:catInfo(s.school_id)})).filter(x=>x.info && typeof x.info.lat==="number" && typeof x.info.lon==="number"); }
+let tripBuilt = null, tripMap = null;
+function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem("zc_trip")||"[]")); }catch(e){ return new Set(); } }
+function saveTrip(s){ try{ localStorage.setItem("zc_trip", JSON.stringify([...s])); }catch(e){} }
+function inTrip(id){ return getTrip().has(id); }
+function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
+function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } }
+function tripRec(id){ const rec=state.schools.find(s=>s.school_id===id); const info=catInfo(id); return (rec&&info)?{rec,info}:null; }
 function renderTrip(){
-  const cands = tripCandidates(); const el=$("trip-schools");
-  if(!cands.length){ el.innerHTML=`<p class="muted" style="font-size:13.5px">None of your board schools have a map location yet. Add a few schools first — most come with coordinates.</p>`; $("trip-out").innerHTML=""; return; }
-  if(!Object.keys(tripSel).length) cands.forEach(c=>tripSel[c.rec.school_id]=true);
-  el.innerHTML = cands.map(c=>{ const id=c.rec.school_id; const on=tripSel[id]!==false;
-    return `<label class="trip-pick ${on?"on":""}" data-tid="${esc(id)}"><input type="checkbox" ${on?"checked":""} style="width:auto"><span><b>${esc(c.rec.name)}</b> <span class="tp-city">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></span></label>`;
-  }).join("");
-  el.querySelectorAll("[data-tid]").forEach(lab=>{ const cb=lab.querySelector("input"); cb.onchange=()=>{ tripSel[lab.dataset.tid]=cb.checked; lab.classList.toggle("on",cb.checked); }; });
+  const items=[...getTrip()].map(tripRec).filter(Boolean);
+  const count=$("trip-count"), hint=$("trip-hint"), chips=$("trip-chips"), add=$("trip-add");
+  count.textContent = items.length? (items.length+" campus"+(items.length>1?"es":"")+" in this trip") : "No campuses yet";
+  hint.innerHTML = items.length? "Remove with ✕, add more below, then plan your route." : "Add campuses with the 🗺 button on any school — on your board, in Schools, or Zoe Picks — or from your board below.";
+  chips.innerHTML = items.length? items.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(rec.name)}"`;
+      return `<span class="trip-chip"><span class="th" ${th}></span>${esc(rec.name)}<button class="x" data-triprm="${esc(rec.school_id)}" aria-label="Remove">✕</button></span>`; }).join("")
+    : `<div class="trip-empty">Nothing added yet — pick a few campuses to route.</div>`;
+  const board=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && !getTrip().has(x.rec.school_id));
+  add.innerHTML = board.length? board.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(rec.name)}"`;
+      const noGeo=!(typeof info.lat==="number"&&typeof info.lon==="number");
+      return `<div class="ta" data-tripadd="${esc(rec.school_id)}"><span class="th" ${th}></span><span>${esc(rec.name)} <span class="muted" style="font-size:11px">${esc([info.city,info.state].filter(Boolean).join(", "))}${noGeo?" · no map loc":""}</span></span><span class="plus">+ Add</span></div>`; }).join("")
+    : `<div class="muted" style="font-size:13px">Everything on your board is already in the trip.</div>`;
+  chips.querySelectorAll("[data-triprm]").forEach(b=>b.onclick=()=>{ toggleTrip(b.dataset.triprm); renderTrip(); });
+  add.querySelectorAll("[data-tripadd]").forEach(d=>d.onclick=()=>{ toggleTrip(d.dataset.tripadd); renderTrip(); });
 }
 function haversineMi(a,b){ const R=3958.8,dLat=(b.lat-a.lat)*Math.PI/180,dLon=(b.lon-a.lon)*Math.PI/180,la1=a.lat*Math.PI/180,la2=b.lat*Math.PI/180; const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 function orderStops(stops){ if(stops.length<=2) return stops.slice(); const rem=stops.slice(); rem.sort((a,b)=>b.lat-a.lat); const out=[rem.shift()];
@@ -1789,7 +1840,7 @@ function renderTripOut(){
       <button class="small primary" id="trip-ics">⬇ Download calendar (.ics)</button>
       <span class="muted" style="font-size:12px;align-self:center">Imports into Google Calendar, Apple Calendar, or TripIt (TripIt → add via your calendar or email the .ics).</span>
     </div>
-    <p class="muted" style="font-size:11px;margin-top:8px">Driving via OpenStreetMap routing. Nearby places from OpenStreetMap. Order is a simple nearest-next route — tweak by unchecking campuses and rebuilding.</p>
+    <p class="muted" style="font-size:11px;margin-top:8px">Driving via OpenStreetMap routing. Nearby places from OpenStreetMap. Order is a simple nearest-next route — tweak by removing campuses above and planning again.</p>
   </div>`;
   // map
   if(window.L){ try{
@@ -1817,11 +1868,12 @@ function renderTripOut(){
 }
 $("trip-back").onclick = () => { if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} goto("board"); };
 $("trip-build").onclick = async () => {
-  const cands=tripCandidates(); const sel=cands.filter(c=>tripSel[c.rec.school_id]!==false); const out=$("trip-out");
-  if(sel.length<1){ out.innerHTML=`<div class="card muted">Pick at least one campus above.</div>`; return; }
+  const out=$("trip-out");
+  const stops=[...getTrip()].map(tripRec).filter(x=>x && typeof x.info.lat==="number" && typeof x.info.lon==="number")
+    .map(({rec,info})=>({id:rec.school_id,name:rec.name,city:info.city,state:info.state,lat:info.lat,lon:info.lon}));
+  if(stops.length<1){ out.innerHTML=`<div class="card muted">Add at least one campus with a map location to plan a route.</div>`; return; }
   if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;}
   out.innerHTML=`<div class="card muted">Planning your route…</div>`;
-  const stops=sel.map(c=>({id:c.rec.school_id,name:c.rec.name,city:c.info.city,state:c.info.state,lat:c.info.lat,lon:c.info.lon}));
   const ordered=orderStops(stops); const legs= ordered.length>1 ? await osrmLegs(ordered) : [];
   const days=Math.min(+$("trip-days").value||2, ordered.length);
   tripBuilt={ordered,legs,days,start:nextSaturday()};
@@ -1879,25 +1931,35 @@ function parseDeadlineDate(info){
   for(let s of cand){ if(!s) continue; s=String(s).replace(/^[^0-9A-Za-z]*(regular decision|early decision|early action|regular|early|ed|ea|rd)[^:]*:?\s*/i,""); const d=new Date(s); if(!isNaN(d)) return d; }
   return null;
 }
+function daysUntil(d){ if(!d) return null; return Math.ceil((d-new Date())/86400000); }
+function dueClass(n){ if(n==null) return "none"; if(n<=14) return "urgent"; if(n<=45) return "soon"; return "ok"; }
+function dueLabel(n){ if(n==null) return "date TBD"; if(n<0) return Math.abs(n)+"d ago"; if(n===0) return "due today"; return "in "+n+" day"+(n>1?"s":""); }
 function renderDeadlines(){
   const out=$("dl-out");
   const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
   if(!rows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
-  rows.forEach(r=>r._d=parseDeadlineDate(r.info));
+  rows.forEach(r=>{ r._d=parseDeadlineDate(r.info); r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
-  out.innerHTML=rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
+  const upcoming=rows.filter(r=>r._n!=null && r._n>=0); const soonest=upcoming[0];
+  const totalTasks=rows.length*DL_TASKS.length, doneTasks=rows.reduce((a,r)=>a+DL_TASKS.filter(t=>getChecklist(r.rec.school_id)[t]).length,0);
+  const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div></div>`;
+  out.innerHTML = header + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
-    const done=DL_TASKS.filter(t=>chk[t]).length;
-    return `<div class="card"><div class="dl-card">
-      <div class="dl-when">${ed?`<div>Early: ${esc(ed)}</div>`:""}${rd?`<div>Regular: ${esc(rd)}</div>`:(ed?"":"<div>Deadline: confirm on site</div>")}</div>
-      <div style="flex:1;min-width:220px"><div style="font-weight:700;font-size:15px">${esc(r.rec.name)}</div>
-        <div class="tp-city">${esc([i.city,i.state].filter(Boolean).join(", "))} · <b>${done}/${DL_TASKS.length}</b> done</div>
-        <div class="dl-check" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<label><input type="checkbox" data-task="${esc(t)}" ${chk[t]?"checked":""}> ${esc(t)}</label>`).join("")}</div>
+    const done=DL_TASKS.filter(t=>chk[t]).length; const pctDone=Math.round(100*done/DL_TASKS.length);
+    const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(r.rec.name)}"`;
+    const bits=[ [i.city,i.state].filter(Boolean).join(", "), rd?("Regular "+rd):"", ed?("Early "+ed):"" ].filter(Boolean).join(" · ");
+    return `<div class="card"><div class="dl-row">
+      <span class="dl-thumb" ${th}></span>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${esc(dueLabel(r._n))}</span></div>
+        <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
+        <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
+        <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
       </div></div></div>`;
   }).join("");
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
-    box.querySelectorAll("[data-task]").forEach(cb=>cb.onchange=()=>{ const o=getChecklist(id); o[cb.dataset.task]=cb.checked; setChecklist(id,o); const parent=box.previousElementSibling; renderDeadlines(); }); });
+    box.querySelectorAll("[data-task]").forEach(p=>p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); }); });
 }
 /* ========== ZOE PICKS (recommends) ========== */
 function joinList(a){ a=a.filter(Boolean); if(a.length<=1) return a[0]||""; if(a.length===2) return a[0]+" and "+a[1]; return a.slice(0,-1).join(", ")+", and "+a[a.length-1]; }
@@ -1927,7 +1989,7 @@ function renderRecommends(){
         <div class="chiprow" style="display:flex;gap:6px;flex-wrap:wrap">${chanceChip(ch)}${matchChip(m)}</div>
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
-        <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
+        <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
       </div></div>`;
   }).join("")}</div>`;
   wireOpen($("rec-out"));
@@ -2057,15 +2119,16 @@ const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Cl
 function renderActs(){
   const el=$("pf-acts"); if(!el) return;
   el.innerHTML = profActs.length ? profActs.map((a,i)=>`
-    <div class="act-row" data-i="${i}">
-      <label class="af af-name"><span>Activity / role</span><input class="a-name" placeholder="e.g. Varsity soccer — captain" value="${esc(a.name||"")}"></label>
-      <label class="af af-cat"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
-      <label class="af af-lvl"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
-      <label class="af af-hrs"><span>Hrs/wk</span><input class="a-hrs" type="number" min="0" placeholder="20" value="${esc(a.hrs||"")}"></label>
-      <label class="af af-yrs"><span>Years</span><input class="a-yrs" type="number" min="0" max="4" placeholder="3" value="${esc(a.yrs||"")}"></label>
-      <button class="a-rm" title="Remove" type="button">✕</button>
-    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, work, volunteering, research…</p>`;
-  el.querySelectorAll(".act-row").forEach(row=>{ const i=+row.dataset.i;
+    <div class="act-card" data-i="${i}">
+      <div class="act-card-top"><input class="a-name" placeholder="e.g. Varsity soccer — captain, 3 yrs" value="${esc(a.name||"")}"><button class="a-rm" title="Remove" type="button">✕</button></div>
+      <div class="act-meta">
+        <label class="af"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+        <label class="af"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
+        <label class="af af-num"><span>Hrs/wk</span><input class="a-hrs" type="number" min="0" placeholder="20" value="${esc(a.hrs||"")}"></label>
+        <label class="af af-num"><span>Years</span><input class="a-yrs" type="number" min="0" max="4" placeholder="3" value="${esc(a.yrs||"")}"></label>
+      </div>
+    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, a job, volunteering, research…</p>`;
+  el.querySelectorAll(".act-card").forEach(row=>{ const i=+row.dataset.i;
     row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
     row.querySelector(".a-cat").onchange=e=>profActs[i].category=e.target.value;
     row.querySelector(".a-lvl").onchange=e=>{ profActs[i].tier=+e.target.value; updateActStrength(); };
@@ -2153,6 +2216,14 @@ $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();
 $("calc-close").onclick = () => $("dlg-calc").close();
 document.addEventListener("click", e => { if (e.target.closest("[data-calc]")) $("dlg-calc").showModal(); });
+// add/remove a school from the road trip, from anywhere (board, schools, detail, picks)
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-trip]"); if(!b) return;
+  e.preventDefault();
+  const on = toggleTrip(b.dataset.trip);
+  b.classList.toggle("on", on);
+  b.textContent = b.dataset.long ? (on?"✓ In road trip":"🗺 Add to road trip") : (on?"✓ Trip":"🗺 Trip");
+});
 // tap-to-toggle help tooltips (hover is handled in CSS for pointer devices)
 document.addEventListener("click", e => {
   const h = e.target.closest(".hint");
@@ -2238,7 +2309,7 @@ function zoeAdvice(p){
   if(!tips.length) tips.push("Your profile looks solid! Put your energy into essays that sound like you, and keep the list balanced.");
   return "Here's where I'd focus:<br>"+tips.map(t=>"• "+t).join("<br>");
 }
-const ZOE_SVG='<svg class="zoe-ava" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zoe"><line x1="32" y1="13" x2="32" y2="6" stroke="#0b7f81" stroke-width="2.4" stroke-linecap="round"/><path d="M32 3.2c-1.1-2.1-4.4-1.2-4.4 1.1 0 1.7 2.4 3.2 4.4 4.6 2-1.4 4.4-2.9 4.4-4.6 0-2.3-3.3-3.2-4.4-1.1z" fill="#8e3b7a"/><rect x="4.5" y="27" width="6" height="12" rx="3" fill="#0b7f81"/><rect x="53.5" y="27" width="6" height="12" rx="3" fill="#0b7f81"/><circle cx="7.5" cy="33" r="1.5" fill="#9fe6e6"/><circle cx="56.5" cy="33" r="1.5" fill="#9fe6e6"/><rect x="11" y="13" width="42" height="38" rx="14" fill="#0b7f81"/><rect x="16.5" y="20" width="31" height="25" rx="11" fill="#fdf7f0"/><g stroke="#101c2e" stroke-width="1.3" stroke-linecap="round"><line x1="21.2" y1="28.4" x2="19.4" y2="27.1"/><line x1="43.0" y1="28.4" x2="44.8" y2="27.1"/></g><circle cx="25.5" cy="31.5" r="4.3" fill="#101c2e"/><circle cx="38.5" cy="31.5" r="4.3" fill="#101c2e"/><circle cx="27.0" cy="30.0" r="1.4" fill="#fff"/><circle cx="40.0" cy="30.0" r="1.4" fill="#fff"/><circle cx="20.5" cy="37.5" r="2.5" fill="#e79ac7" opacity=".55"/><circle cx="43.5" cy="37.5" r="2.5" fill="#e79ac7" opacity=".55"/><path d="M28.5 38.5 Q32 41.6 35.5 38.5" fill="none" stroke="#101c2e" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const ZOE_SVG="<svg class=\"zoe-ava\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" role=\"img\" aria-label=\"Zoe\"><circle cx=\"32\" cy=\"42\" r=\"17.5\" fill=\"#7a4f34\"/><path d=\"M15 41 Q13 57 19.5 59.5 L22.5 45 Z\" fill=\"#7a4f34\"/><path d=\"M49 41 Q51 57 44.5 59.5 L41.5 45 Z\" fill=\"#7a4f34\"/><circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/><path d=\"M17.5 38 Q20 29 32 29 Q44 29 46.5 38 Q40 33.5 32 33.5 Q24 33.5 17.5 38 Z\" fill=\"#7a4f34\"/><path d=\"M32 12 L55 21 L32 30 L9 21 Z\" fill=\"#101c2e\"/><path d=\"M51 21 V31.5\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"33\" r=\"2.3\" fill=\"#d99a06\"/><circle cx=\"26.5\" cy=\"43\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"37.5\" cy=\"43\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"26.5\" cy=\"43\" r=\"5.2\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><circle cx=\"37.5\" cy=\"43\" r=\"5.2\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><path d=\"M31.7 43 H32.3\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M29 49.5 Q32 51.5 35 49.5\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M27 55.5 L32 57.5 L27 59.5 Z\" fill=\"#cf4aa0\"/><path d=\"M37 55.5 L32 57.5 L37 59.5 Z\" fill=\"#cf4aa0\"/><circle cx=\"32\" cy=\"57.5\" r=\"1.3\" fill=\"#cf4aa0\"/></svg>";
 (function(){ ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{const el=document.getElementById(id); if(el)el.innerHTML=ZOE_SVG;}); })();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
 const ZOE_SUGG=["What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
