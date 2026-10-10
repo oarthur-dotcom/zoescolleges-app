@@ -203,6 +203,32 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+/* match visuals */
+.mring{position:relative;display:inline-flex;width:42px;height:42px;flex:0 0 auto;vertical-align:middle}
+.mring svg{width:42px;height:42px;transform:rotate(-90deg)}
+.mring circle{fill:none;stroke-width:3.4}
+.mring .mr-bg{stroke:var(--sunk)}
+.mring .mr-fg{stroke-linecap:round;transition:stroke-dashoffset .4s}
+.mring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:500}
+.mbar{display:inline-block;width:56px;height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;vertical-align:middle;margin-right:6px}
+.mbar-t{display:block;height:100%;border-radius:999px}
+.mbar-l{font-family:var(--mono);font-size:11px}
+/* no-photo placeholder cover */
+.cover-glyph{position:absolute;top:50%;left:50%;width:50px;height:50px;transform:translate(-50%,-64%);color:rgba(255,255,255,.5);z-index:0}
+#schools.as-tiles .cover.cover-ph .cover-name{display:block}
+/* profile summary (built profile) */
+.pv-card .pv-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 20px;margin-top:14px}
+.pv-row{display:flex;flex-direction:column;gap:2px}
+.pv-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pv-v{font-size:15px;font-weight:600}
+.pv-tag{display:inline-block;font-size:12px;border:1px solid var(--teal);color:var(--teal);border-radius:999px;padding:1px 9px;margin:2px 3px 0 0;font-weight:500}
+.pv-sub{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:16px}
+.pv-acts{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.65}
+/* priorities lock-in */
+.sl-status{font-size:12px;font-weight:600}
+.sl-status.saved{color:var(--good)}
+.sl-status.unsaved{color:var(--amber)}
 /* compare */
 .cmp-wrap{overflow-x:auto}
 .cmp-table{border-collapse:separate;border-spacing:0;width:100%;min-width:460px}
@@ -340,6 +366,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 10px}
 /* zoe recommends */
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:10px}
+.rec-h{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:22px 0 2px}
 .rec-card{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:0 1px 2px rgba(16,28,46,.04),0 10px 28px rgba(16,28,46,.035);display:flex;flex-direction:column}
 .rec-card .ph{height:130px;background-size:cover;background-position:center;background-color:var(--sunk);position:relative}
 .rec-card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 58%)}
@@ -615,8 +642,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <h1>My profile &amp; priorities</h1>
     <p class="sub">Your profile powers <b>admission chance</b>; your sliders power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
-    <div class="card">
-      <h2 style="margin-top:0">Academic profile</h2>
+    <div id="pf-summary" class="hidden"></div>
+    <div class="card" id="pf-form-card">
+      <h2 style="margin-top:0" id="pf-form-title">Build your profile</h2>
       <p class="muted" style="font-size:13px;margin-top:0">The student's profile is what drives admission-chance labels. Parents can fill their own too — it's just not used for chances.</p>
       <label class="chkline" style="display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 10px;cursor:pointer"><input type="checkbox" id="pf-noTest" style="width:auto"> Not submitting test scores (test-optional) — hide SAT/ACT</label>
       <div class="pf-grid">
@@ -1450,6 +1478,11 @@ $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch
 $("board-sort").onchange = renderBoard;
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}">${ch.label}</span>` : ""; }
 function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
+function matchColor(m){ return m>=75?"var(--teal)":m>=55?"var(--amber)":"var(--muted)"; }
+function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=2*Math.PI*18; const off=circ*(1-Math.max(0,Math.min(100,m))/100);
+  return `<span class="mring" title="${m}% match for you"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}</b></span>`; }
+function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">match —</span>`; const c=matchColor(m);
+  return `<span class="mbar" title="${m}% match"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% match</span>`; }
 function renderSchool(x){
   const s=x.s, info=x.info, b=x.b;
   const catChip = s.is_custom ? `<span class="chip">Custom</span>` : "";
@@ -1474,7 +1507,7 @@ function renderSchool(x){
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
-    <div class="chiprow">${chanceChip(x.ch)}${matchChip(x.m)}</div>
+    <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
     ${facts}
     <div class="raters">${ratersHtml(s.school_id)}</div>
     <details class="extra"><summary>My note · remove school</summary>
@@ -1497,9 +1530,9 @@ function coverFor(s, info){
   if(famUrl) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(famUrl)}')"><span class="cover-tag">📷 your visit</span><span class="cover-name">${esc(s.name)}</span></div>`};
   const cat = info && info.photo && info.photo.url;
   if(cat) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(info.photo.url)}')"><span class="cover-name">${esc(s.name)}</span></div>`};
-  const name=s.name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360;
-  const init=esc((name.trim()[0]||"?").toUpperCase());
-  return {hasPhoto:false, html:`<div class="cover" style="background:linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))"><span class="cover-init">${init}</span></div>`};
+  const name=s.name||"";
+  const glyph=`<svg class="cover-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 26 L32 13 L56 26 Z" fill="currentColor"/><rect x="13" y="29" width="4.5" height="17" fill="currentColor"/><rect x="24" y="29" width="4.5" height="17" fill="currentColor"/><rect x="35.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="46.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="9" y="48" width="46" height="4.5" rx="1" fill="currentColor"/></svg>`;
+  return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phGrad(name)}">${glyph}<span class="cover-name">${esc(name)}</span></div>`};
 }
 function ratersHtml(schoolId){
   return state.members.map(m => {
@@ -1551,7 +1584,7 @@ function renderExList(q){
       ${thumb}
       <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
-        <div class="scl"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span>${m!=null?`<span style="color:var(--teal)">★ ${m}% match</span>`:""}</div>
+        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
@@ -1976,22 +2009,24 @@ function renderRecommends(){
   const out=$("rec-out"); const w=myPrefs(); const p=studentProfile();
   if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Catalog still loading…</div>`; return; }
   const have=new Set(state.schools.map(s=>s.school_id));
-  const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m);
-  const top=scored.slice(0,12);
-  if(!top.length){ out.innerHTML=`<div class="card muted">Add a few schools and set your profile, and I'll suggest more that fit.</div>`; return; }
+  const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null && x.ch);
+  if(!scored.length){ out.innerHTML=`<div class="card muted">Add a few schools and set your profile, and I'll suggest more that fit.</div>`; return; }
+  const byBand=b=>scored.filter(x=>x.ch.band===b).sort((a,b2)=>b2.m-a.m).slice(0,5);
+  const groups=[["likely","Likely — strong odds for you"],["target","Target — right in your range"],["reach","Reach — worth a shot"]];
   const thin = !(p && (p.gpa||p.sat||p.act||viewerInterests().length));
   const head = thin ? `<div class="callout" style="margin:0 0 6px">Fill in <b>My Profile</b> (grades, interests, your sliders) and these picks sharpen a lot.</div>` : "";
-  out.innerHTML = head + `<div class="rec-grid">${top.map(({c,m,ch})=>{
-    const u=photoUrlFor(c); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.name)}"`;
+  const card=({c,m,ch})=>{ const u=photoUrlFor(c); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.name)}"`;
     const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
-        <div class="chiprow" style="display:flex;gap:6px;flex-wrap:wrap">${chanceChip(ch)}${matchChip(m)}</div>
+        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${matchRing(m)}</div>
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
         <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
-      </div></div>`;
-  }).join("")}</div>`;
+      </div></div>`; };
+  out.innerHTML = head + (groups.map(([b,label])=>{ const items=byBand(b); if(!items.length) return "";
+    return `<h2 class="rec-h">${esc(label)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span></h2><div class="rec-grid">${items.map(card).join("")}</div>`;
+  }).join("") || `<div class="card muted">No suggestions right now — try adjusting your profile.</div>`);
   wireOpen($("rec-out"));
   $("rec-out").querySelectorAll("[data-recadd]").forEach(el=>el.onclick=async()=>{ el.disabled=true; el.textContent="Adding…"; await addFromCatalog(el.dataset.recadd); renderRecommends(); });
 }
@@ -2091,14 +2126,49 @@ function renderProfile(){
     <div class="sl"><div class="nm">${s.nm}${s.tip?`<span class="hint" tabindex="0" data-tip="${esc(s.tip)}">i</span>`:""}<small>${s.sub}</small></div>
       <div><input type="range" min="0" max="10" value="${w[s.key]??s.def}" data-sl="${s.key}"><div class="ends"><span>${s.lo}</span><span>${s.hi}</span></div></div>
       <b data-slv="${s.key}">${w[s.key]??s.def}</b></div>`).join("");
-  $("sliders").querySelectorAll("[data-sl]").forEach(el=>el.oninput=()=>{ $("sliders").querySelector(`[data-slv="${el.dataset.sl}"]`).textContent=el.value; });
+  $("sliders").querySelectorAll("[data-sl]").forEach(el=>el.oninput=()=>{ $("sliders").querySelector(`[data-slv="${el.dataset.sl}"]`).textContent=el.value; setPrefStatus("unsaved"); });
   // lifestyle preference selects
   $("lifeprefs").innerHTML = `<div class="lp-grid">`+LIFEPREFS.map(p=>`
     <div class="lp-row"><label>${p.nm}</label><select data-lp="${p.key}">${p.opts.map(o=>`<option value="${esc(o[0])}" ${String(w[p.key]||"")===o[0]?"selected":""}>${esc(o[1])}</option>`).join("")}</select></div>`).join("")+`</div>`;
+  $("lifeprefs").querySelectorAll("[data-lp]").forEach(sel=>sel.onchange=()=>setPrefStatus("unsaved"));
   // proximity chips
   const prox = Array.isArray(w.lp_prox)?w.lp_prox:[];
   $("proxprefs").innerHTML = PROX_TAGS.map(t=>`<label class="proxchip ${prox.includes(t[0])?"on":""}"><input type="checkbox" data-prox="${t[0]}" ${prox.includes(t[0])?"checked":""}>${t[1]}</label>`).join("");
-  $("proxprefs").querySelectorAll("[data-prox]").forEach(cb=>cb.onchange=()=>cb.closest(".proxchip").classList.toggle("on",cb.checked));
+  $("proxprefs").querySelectorAll("[data-prox]").forEach(cb=>cb.onchange=()=>{ cb.closest(".proxchip").classList.toggle("on",cb.checked); setPrefStatus("unsaved"); });
+  setPrefStatus((state.me && state.prefs[state.me.user_id])? "saved" : "");
+  pfEdit=false; renderProfileView();
+}
+function setPrefStatus(st){ const el=$("sl-savemsg"); if(!el) return; if(st==="saved"){ el.textContent="✓ Priorities locked in"; el.className="sl-status saved"; } else if(st==="unsaved"){ el.textContent="● Unsaved changes — tap Save"; el.className="sl-status unsaved"; } else { el.textContent=""; el.className="muted"; } }
+let pfEdit=false;
+function profileBuilt(p){ return !!(p && (String(p.gpa||"").trim()||String(p.sat||"").trim()||String(p.act||"").trim()||String(p.major||"").trim()||p.notes||(Array.isArray(p.activities)&&p.activities.length)||(p.rigor&&(+p.rigor.honors||+p.rigor.ap||+p.rigor.dual)))); }
+function renderProfileView(){
+  const p=(state.me&&state.profiles[state.me.user_id])||{}; const built=profileBuilt(p);
+  const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
+  const showForm = !built || pfEdit;
+  form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
+  const ft=$("pf-form-title"); if(ft) ft.textContent = built? "Edit your profile" : "Build your profile";
+  if(showForm) return;
+  const adj=rigorAdjustedGpa(p); const tags=parseInterests(p.notes||""); const acts=Array.isArray(p.activities)?p.activities:[];
+  const astr=activityStrength(acts); const astrLvl = astr==null?null:(astr>=0.7?"strong":astr>=0.4?"solid":"light");
+  const row=(k,v)=>v?`<div class="pv-row"><span class="pv-k">${esc(k)}</span><span class="pv-v">${v}</span></div>`:"";
+  const testLine = p.testOptional? "Test-optional" : ([p.sat?("SAT "+esc(p.sat)):"", p.act?("ACT "+esc(p.act)):""].filter(Boolean).join(" · "));
+  const rig=p.rigor||{}; const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"" ].filter(Boolean).join(" · ");
+  const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name)}</b>${a.hrs?` · ${esc(a.hrs)} hr/wk`:""}${a.yrs?` · ${esc(a.yrs)} yr`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
+  sum.innerHTML = `<div class="card pv-card">
+    <div class="pv-head"><h2 style="margin:0">Your profile</h2><button class="small ghost" data-pf-edit>✏️ Edit profile</button></div>
+    <div class="pv-grid">
+      ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adj ${adj.toFixed(2)})</span>`:""}`:"")}
+      ${row("Test scores", testLine)}
+      ${row("Intended major", p.major?esc(p.major):"")}
+      ${row("Class rank", p.rank?esc(p.rank):"")}
+      ${row("Home state", p.home_state?esc(p.home_state):"")}
+      ${row("Course rigor", rigLine)}
+      ${row("Looking for", tags.length?tags.map(t=>`<span class="pv-tag">${esc((INTEREST_DEFS.find(d=>d.tag===t)||{}).label||t)}</span>`).join(" "):"")}
+    </div>
+    ${actList?`<div class="pv-sub">Activities ${astrLvl?`· <span class="muted" style="text-transform:none;letter-spacing:0">${astrLvl} profile</span>`:""}</div>${actList}`:""}
+    <p class="muted" style="font-size:12px;margin:12px 0 0">This drives your admission-chance labels across the app. Edit anytime.</p>
+  </div>`;
+  const eb=sum.querySelector("[data-pf-edit]"); if(eb) eb.onclick=()=>{ pfEdit=true; renderProfileView(); const g=$("pf-gpa"); if(g) setTimeout(()=>{ try{ g.focus(); $("pf-form-card").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },50); };
 }
 $("pf-save").onclick = async () => {
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
@@ -2112,7 +2182,8 @@ $("pf-save").onclick = async () => {
   lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional);
   if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; }
   profActs = acts.slice();
-  $("pf-savemsg").textContent="Saved ✓ — chances updated"; setTimeout(()=>$("pf-savemsg").textContent="",1800);
+  $("pf-savemsg").textContent="Saved ✓"; setTimeout(()=>$("pf-savemsg").textContent="",1500);
+  pfEdit=false; renderProfileView();
 };
 let profActs = [];
 const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Club/JV","Career / Pre-professional","Community service / Volunteer","Cultural","Debate / Speech","Environmental","Family responsibilities","Internship","Journalism / Media","Music","Religious","Research","Robotics / Engineering","School spirit / Government","Science / Math","Theater / Drama","Work (paid)","Other"];
@@ -2153,7 +2224,7 @@ $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
   $("lifeprefs").querySelectorAll("[data-lp]").forEach(el=>w[el.dataset.lp]=el.value);
   w.lp_prox=[...$("proxprefs").querySelectorAll("[data-prox]")].filter(cb=>cb.checked).map(cb=>cb.dataset.prox);
-  await savePrefs(w); $("sl-savemsg").textContent="Saved ✓ — match % updated"; setTimeout(()=>$("sl-savemsg").textContent="",1800);
+  await savePrefs(w); setPrefStatus("saved"); if(currentView==="profile"){}
 };
 $("sl-reset").onclick = async () => { await savePrefs(defaultPrefs()); renderProfile(); };
 async function savePrefs(w){
@@ -2309,7 +2380,7 @@ function zoeAdvice(p){
   if(!tips.length) tips.push("Your profile looks solid! Put your energy into essays that sound like you, and keep the list balanced.");
   return "Here's where I'd focus:<br>"+tips.map(t=>"• "+t).join("<br>");
 }
-const ZOE_SVG="<svg class=\"zoe-ava\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" role=\"img\" aria-label=\"Zoe\"><circle cx=\"32\" cy=\"42\" r=\"17.5\" fill=\"#7a4f34\"/><path d=\"M15 41 Q13 57 19.5 59.5 L22.5 45 Z\" fill=\"#7a4f34\"/><path d=\"M49 41 Q51 57 44.5 59.5 L41.5 45 Z\" fill=\"#7a4f34\"/><circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/><path d=\"M17.5 38 Q20 29 32 29 Q44 29 46.5 38 Q40 33.5 32 33.5 Q24 33.5 17.5 38 Z\" fill=\"#7a4f34\"/><path d=\"M32 12 L55 21 L32 30 L9 21 Z\" fill=\"#101c2e\"/><path d=\"M51 21 V31.5\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"33\" r=\"2.3\" fill=\"#d99a06\"/><circle cx=\"26.5\" cy=\"43\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"37.5\" cy=\"43\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"26.5\" cy=\"43\" r=\"5.2\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><circle cx=\"37.5\" cy=\"43\" r=\"5.2\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><path d=\"M31.7 43 H32.3\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M29 49.5 Q32 51.5 35 49.5\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M27 55.5 L32 57.5 L27 59.5 Z\" fill=\"#cf4aa0\"/><path d=\"M37 55.5 L32 57.5 L37 59.5 Z\" fill=\"#cf4aa0\"/><circle cx=\"32\" cy=\"57.5\" r=\"1.3\" fill=\"#cf4aa0\"/></svg>";
+const ZOE_SVG="<svg class=\"zoe-ava\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" role=\"img\" aria-label=\"Zoe\"><circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/><path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/><path d=\"M51 24 V35\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"36.5\" r=\"2.3\" fill=\"#d99a06\"/><circle cx=\"26.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"37.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"26.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><circle cx=\"37.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><path d=\"M31.9 41 H32.1\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M29 48 Q32 50 35 48\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M27 56 L32 58 L27 60 Z\" fill=\"#8e3b7a\"/><path d=\"M37 56 L32 58 L37 60 Z\" fill=\"#8e3b7a\"/><circle cx=\"32\" cy=\"58\" r=\"1.3\" fill=\"#8e3b7a\"/></svg>";
 (function(){ ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{const el=document.getElementById(id); if(el)el.innerHTML=ZOE_SVG;}); })();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
 const ZOE_SUGG=["What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
