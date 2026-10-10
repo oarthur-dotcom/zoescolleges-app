@@ -99,8 +99,10 @@ export default async (req) => {
       if (r.status === 400) r = await call(model, false); // model rejects thinkingConfig → plain
       if (!r.ok) {
         lastStatus = r.status; lastErr = (await r.text()).slice(0, 300);
-        if (r.status === 404 || r.status === 400) continue; // bad/renamed model — try next
-        return json({ reply: null, error: "upstream", status: r.status, detail: lastErr }); // 429/5xx — stop
+        // bad/renamed model (404/400) or this model's free quota spent (429) —
+        // try the next model, which has its own separate quota pool.
+        if (r.status === 404 || r.status === 400 || r.status === 429) continue;
+        return json({ reply: null, error: "upstream", status: r.status, detail: lastErr }); // 5xx — stop
       }
       let reply = extract(await r.json());
       if (!reply) { const r2 = await call(model, false); if (r2.ok) reply = extract(await r2.json()); } // empty → one retry
