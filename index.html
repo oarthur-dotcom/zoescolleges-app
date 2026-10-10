@@ -3032,8 +3032,9 @@ async function createShareLink(){
   }catch(e){ alert("Couldn't create a share link yet — the one-time sharing setup may not be in place. (Binder + sharing need the M4 migration.)"); }
 }
 async function renderPublicShare(token){
-  document.querySelectorAll("header.app, #appnav, #zoe-fab, #signout").forEach(el=>el&&el.classList.add("hidden"));
-  document.querySelectorAll("body > section").forEach(s=>s.classList.add("hidden"));
+  _shareMode=true;
+  document.querySelectorAll("header.app, #appnav, #zoe-fab, #zoe-panel, #signout").forEach(el=>el&&el.classList.add("hidden"));
+  document.querySelectorAll(".wrap > section").forEach(s=>s.classList.add("hidden"));
   const sec=$("v-share"); if(sec) sec.classList.remove("hidden");
   const body=$("share-body"); if(!body) return;
   body.innerHTML=`<div class="card muted">Loading shared list…</div>`;
@@ -3084,7 +3085,9 @@ function esc(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<"
 
 /* ========== BOOT ========== */
 let lastUserId = undefined;
+let _shareMode=false;
 function route(session){
+  if(_shareMode) return;
   state.session = session;
   $("whoami").textContent = session ? (session.user.email||"") : "";
   const uid = session ? session.user.id : null;
