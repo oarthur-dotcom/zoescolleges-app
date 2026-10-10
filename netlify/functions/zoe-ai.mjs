@@ -67,35 +67,41 @@ export default async (req) => {
     "Here is de-identified context about this family's situation (no names). Use it only if relevant: " + JSON.stringify(ctx)
   ].join(" ");
 
-  const payload = {
-    systemInstruction: { parts: [{ text: sys }] },
-    contents: [{ role: "user", parts: [{ text: q }] }],
-    // Newer flash models spend part of the budget on internal reasoning, so
-    // keep this high enough that the visible answer isn't truncated to a line.
-    generationConfig: { temperature: 0.6, maxOutputTokens: 1200, topP: 0.95 },
-    safetySettings: [
-      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
-      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
-      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-    ]
+  const safetySettings = [
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+  ];
+  // noThink disables the model's hidden reasoning so the whole token budget goes
+  // to the visible answer (and responses are much faster). Older models reject
+  // thinkingConfig with a 400, so we retry without it in that case.
+  const buildPayload = (noThink) => {
+    const gen = { temperature: 0.6, maxOutputTokens: 2048, topP: 0.95 };
+    if (noThink) gen.thinkingConfig = { thinkingBudget: 0 };
+    return { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: "user", parts: [{ text: q }] }], generationConfig: gen, safetySettings };
   };
+  const call = (model, noThink) => fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`,
+    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(buildPayload(noThink)) }
+  );
+  const extract = (j) => ((j && j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [])
+    .map(p => p.text || "").join("").trim();
+
   let lastErr = null, lastStatus = 0;
   for (const model of MODELS) {
     try {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`, {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
-      });
+      let r = await call(model, true);
+      if (r.status === 400) r = await call(model, false); // model rejects thinkingConfig → plain
       if (!r.ok) {
-        const t = await r.text();
-        lastStatus = r.status; lastErr = t.slice(0, 300);
+        lastStatus = r.status; lastErr = (await r.text()).slice(0, 300);
         if (r.status === 404 || r.status === 400) continue; // bad/renamed model — try next
         return json({ reply: null, error: "upstream", status: r.status, detail: lastErr }); // 429/5xx — stop
       }
-      const j = await r.json();
-      const reply = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [])
-        .map(p => p.text || "").join("").trim();
-      return json({ reply: reply || null, model, used: used + 1, cap: DAILY_CAP });
+      let reply = extract(await r.json());
+      if (!reply) { const r2 = await call(model, false); if (r2.ok) reply = extract(await r2.json()); } // empty → one retry
+      if (reply) return json({ reply, model, used: used + 1, cap: DAILY_CAP });
+      lastStatus = 200; lastErr = "empty response";
     } catch (e) { lastErr = "fetch failed"; }
   }
   return json({ reply: null, error: "upstream", status: lastStatus, detail: lastErr });
