@@ -231,7 +231,50 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       </div>
       <p id="newhere" class="muted" style="font-size:12px;margin-top:8px">New here? <a href="#" id="newhere-link"><b>Create your account</b></a> with your beta access code.</p>
       <p id="auth-fine" class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
+      <p id="trust-link-wrap" style="font-size:12px;margin-top:10px;text-align:center"><a href="#" id="trust-link"><b>Who's behind this, where the data comes from &amp; how we handle your info →</b></a></p>
     </div>
+  </section>
+
+  <!-- TRUST / ABOUT -->
+  <section id="v-trust" class="hidden">
+    <button id="trust-back" class="small ghost" style="margin-bottom:8px">← Back</button>
+    <h1>Why you can trust Zoe's Colleges</h1>
+    <p class="sub">The short version: our numbers come from official federal data, we show our work, and your family's info stays with your family.</p>
+
+    <div class="card">
+      <h2 style="margin-top:0">Built by a family, for families</h2>
+      <p>Zoe's Colleges started as one parent's own spreadsheet for searching colleges together as a family — and grew into a tool other families could use. It's published by <b>Wotupski Productions</b>. We're a small, independent project, not a big data broker, and not affiliated with any college or ranking company.</p>
+      <p class="muted" style="font-size:13px">We're not a replacement for a school counselor. We're the organized, data-grounded workspace you bring <i>to</i> your counselor.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Where our data comes from</h2>
+      <ul style="line-height:1.7;margin:0;padding-left:20px">
+        <li><b>Admissions, cost, graduation & earnings</b> — the U.S. Department of Education's <a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener">College Scorecard</a>, the official federal dataset.</li>
+        <li><b>Area context</b> (political lean, gun & LGBTQ policy) — state-level tallies from Cook PVI / presidential results, the <a href="https://giffords.org/lawcenter/" target="_blank" rel="noopener">Giffords Law Center</a>, and the <a href="https://www.mapresearch.org/" target="_blank" rel="noopener">Movement Advancement Project</a>. These describe the <i>state/area</i>, not the school.</li>
+        <li><b>Deadlines & extra detail</b> — curated by us; always confirm on the school's own site.</li>
+      </ul>
+      <p class="muted" style="font-size:13px;margin-bottom:0">Every school's detail page names its sources, and nothing here is a number we made up.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">How our projections work — and their limits</h2>
+      <p>Match % and admission chance (Reach / Target / Likely) are <b>projections, not promises</b>. They combine your grades, course rigor, test scores and activities with each school's published data, using logic drawn from widely-respected sources (NACAC's admission-factors survey, the standard GPA recalculation, the common 4-tier activities scale).</p>
+      <p>We show the weighting in the open and let you adjust it. No model can see essays, interviews, or the hundreds of human judgments real admissions involve — so treat every result as <b>guidance on a spectrum, not certainty</b>, and review it with a counselor.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Your privacy &amp; your data</h2>
+      <ul style="line-height:1.7;margin:0;padding-left:20px">
+        <li>Your profile, ratings, school list, notes and photos are visible <b>only to your own family</b> — enforced at the database level, not just hidden in the app.</li>
+        <li>We <b>don't sell your data</b> and we don't share it with colleges or advertisers.</li>
+        <li>You can remove schools, photos and your account's data at any time.</li>
+        <li>It's an invite-only beta, free while we build it. For ages 13 and up.</li>
+      </ul>
+      <p class="muted" style="font-size:12px;margin-bottom:0">No online service can promise perfect security, but we keep your data minimal and family-scoped by design. Questions or a privacy request? <a href="#" id="trust-contact">Contact us</a>.</p>
+    </div>
+
+    <div class="row" style="justify-content:center;margin-top:4px"><button id="trust-start" class="small primary">Create your account →</button></div>
   </section>
 
   <!-- ONBOARD -->
@@ -481,6 +524,7 @@ const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publis
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@main/colleges.json";
 const APP_LINK = "https://zoescolleges.com/";
 const ACCESS_CODE = "ZOE2027"; // beta sign-up gate — change here anytime
+const CONTACT_EMAIL = "hello@zoescolleges.com"; // TODO: set a real inbox (or swap to your address) before launch
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -516,8 +560,8 @@ function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPRE
 /* ========== VIEW SWITCH + NAV ========== */
 const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile"];
 function show(view){
-  for (const v of ["v-auth","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
-  $("signout").classList.toggle("hidden", view==="v-auth");
+  for (const v of ["v-auth","v-trust","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
+  $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view));
   window.scrollTo(0,0);
@@ -538,6 +582,10 @@ function clearmsg(id){ $(id).className = "msg"; }
 /* ========== AUTH ========== */
 $("t-signin").onclick = () => setAuthMode("signin");
 $("t-signup").onclick = () => setAuthMode("signup");
+$("trust-link").onclick = (e) => { e.preventDefault(); show("v-trust"); };
+$("trust-back").onclick = () => show("v-auth");
+$("trust-start").onclick = () => { show("v-auth"); setAuthMode("signup"); $("email").focus(); };
+$("trust-contact").onclick = (e) => { e.preventDefault(); location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Zoe's Colleges — question"); };
 $("forgot-link").onclick = (e) => { e.preventDefault(); setAuthMode("reset"); };
 $("back-link").onclick = (e) => { e.preventDefault(); setAuthMode("signin"); };
 $("newhere-link").onclick = (e) => { e.preventDefault(); setAuthMode("signup"); $("email").focus(); };
