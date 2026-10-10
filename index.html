@@ -170,6 +170,24 @@ a{color:var(--teal)}
 .spot .sp-rm{background:none;border:0;color:var(--muted);cursor:pointer}.spot .sp-rm:hover{color:var(--warn)}
 .visit-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .vhint{font-size:12px;color:var(--muted);margin:2px 0 0}
+.vstars .vstar{cursor:pointer;font-size:22px;color:var(--line);line-height:1}
+.vstars .vstar.on{color:var(--star,#e8ac45)}
+/* report */
+.rep-head{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.rep-head h1{margin:0 0 2px}
+.rep-meta{font-size:13px;color:var(--muted);font-family:var(--mono)}
+.rep-school{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0;break-inside:avoid}
+.rep-school h3{margin:0 0 2px;font-size:17px}
+.rep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:8px 0;font-size:13px}
+.rep-grid .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.rep-grid .v{font-weight:600}
+.rep-visit{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-size:13px}
+@media print{
+  .no-print,#appnav,#zoe-fab,.fab,header.app{display:none!important}
+  body{background:#fff;color:#000}
+  .rep-school{border-color:#ccc}
+  #v-report{display:block!important}
+}
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
@@ -263,6 +281,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
   </section>
 
+  <!-- REPORT -->
+  <section id="v-report" class="hidden">
+    <div class="row no-print" style="justify-content:space-between;margin-bottom:8px">
+      <button id="report-back" class="small ghost">← Back to board</button>
+      <button id="report-print" class="small primary">Print / Save as PDF</button>
+    </div>
+    <div id="report-body"></div>
+  </section>
+
   <!-- TRUST / ABOUT -->
   <section id="v-trust" class="hidden">
     <button id="trust-back" class="small ghost" style="margin-bottom:8px">← Back</button>
@@ -340,6 +367,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <span class="counter" id="schoolcount"></span>
       <div class="row">
         <button id="btn-invite" class="small primary">+ Add my family</button>
+        <button id="btn-report" class="small ghost">📄 Report</button>
         <button id="btn-share" class="small ghost">Tell another family</button>
         <button id="btn-plans" class="small ghost">Plans</button>
       </div>
@@ -619,7 +647,7 @@ function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPRE
 /* ========== VIEW SWITCH + NAV ========== */
 const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile"];
 function show(view){
-  for (const v of ["v-auth","v-trust","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
+  for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -999,6 +1027,56 @@ function renderBalance(meta){
     <div class="bal-tip">${tip}${note}</div></div>
     <span class="calc-link" data-calc>How we calculate this ▸</span>`;
 }
+/* ===== consolidated family report ===== */
+function renderReport(){
+  const w=myPrefs(); const p=studentProfile();
+  const ranks=getRanks();
+  const rows=state.schools.map(s=>{ const info=catInfo(s.school_id); return {s,info,b:blended(s.school_id),m:info?matchScore(info,w):null,ch:info?chanceFor(info):null,rank:ranks[s.school_id],visit:getVisit(s.school_id)}; });
+  rows.sort((a,b)=>{ if((a.rank??9999)!==(b.rank??9999)) return (a.rank??9999)-(b.rank??9999); return (b.b??-1)-(a.b??-1); });
+  const bal=listBalance(rows);
+  const fam = state.family? state.family.name : "Your family";
+  const when = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  let prof="";
+  if(p){ const adj=rigorAdjustedGpa(p); const sat=studentSat(p);
+    prof=[p.gpa?`GPA ${p.gpa}${adj&&adj!=parseFloat(p.gpa)?` (rigor-adjusted ${adj.toFixed(2)})`:""}`:"", sat?`SAT ${sat}${p.act?` (ACT ${p.act})`:""}`:"", p.major?`Major: ${esc(p.major)}`:"", p.home_state?`Home: ${esc(p.home_state)}`:""].filter(Boolean).join(" · "); }
+  const labels={reach:"Reach",target:"Target",likely:"Likely"};
+  const cell=(k,v)=>`<div><div class="k">${k}</div><div class="v">${v||"—"}</div></div>`;
+  const body = rows.map(r=>{ const sc=r.info&&r.info.scorecard||{}; const v=r.visit||{};
+    const spots=(v.spots||[]).map(x=>esc(x.name)).join(", ");
+    const nphotos=photosFor(r.s.school_id).length;
+    const visitBits=[];
+    if(v.date) visitBits.push(`<b>Visited:</b> ${esc(v.date)}`);
+    if(v.rating) visitBits.push(`<b>Visit rating:</b> ${"★".repeat(v.rating)}`);
+    if(spots) visitBits.push(`<b>Spots:</b> ${spots}`);
+    if(nphotos) visitBits.push(`${nphotos} photo${nphotos>1?"s":""}`);
+    if(v.notes) visitBits.push(`<br><b>Notes:</b> ${esc(v.notes)}`);
+    return `<div class="rep-school">
+      <h3>${r.rank?`#${r.rank} · `:""}${esc(r.s.name)}</h3>
+      <div class="rep-meta">${esc([r.s.city,r.s.state].filter(Boolean).join(", "))}${r.info&&r.info.degreeType?" · "+r.info.degreeType:""}</div>
+      <div class="rep-grid">
+        ${cell("Admission chance", r.ch?labels[r.ch.band]:"—")}
+        ${cell("Match", r.m!=null?r.m+"%":"—")}
+        ${cell("Family avg", r.b!==null?r.b.toFixed(1)+"★":"—")}
+        ${cell("Admit rate", pct(sc.admissionRate))}
+        ${cell("Net price", money(sc.netPrice))}
+        ${cell("Grad rate", pct(sc.gradRate))}
+        ${cell("Deadline", r.info&&r.info.regularDeadline||"—")}
+      </div>
+      ${visitBits.length?`<div class="rep-visit">${visitBits.join(" · ").replace(" · <br>","<br>")}</div>`:""}
+    </div>`;
+  }).join("") || `<p class="muted">No schools on the board yet.</p>`;
+  $("report-body").innerHTML = `
+    <div class="rep-head">
+      <h1>${esc(fam)} — college report</h1>
+      <div class="rep-meta">Generated ${when} · ${rows.length} schools${bal?` · list balance ${bal.grade} (${bal.c.likely} Likely / ${bal.c.target} Target / ${bal.c.reach} Reach)`:""}</div>
+      ${prof?`<div class="rep-meta" style="margin-top:4px">Student: ${prof}</div>`:""}
+    </div>
+    ${body}
+    <p class="muted" style="font-size:11px;margin-top:16px">Projections are guidance, not guarantees — built from College Scorecard data + published admissions logic (NACAC, standard GPA recalculation, reach/target/likely bands). Review with a counselor. Area context: Cook PVI, Giffords Law Center, Movement Advancement Project.</p>`;
+}
+$("btn-report").onclick = () => { show("v-report"); renderReport(); };
+$("report-back").onclick = () => show("v-board");
+$("report-print").onclick = () => window.print();
 let rankMode=false;
 function getRanks(){ return lsGet("ranks")||{}; }
 function rankColorOn(){ try{ return localStorage.getItem("zc_rankcolor")==="1"; }catch(e){ return false; } }
@@ -1261,6 +1339,8 @@ function visitSection(id, info){
       <button class="small primary" id="visit-date-save">Save date</button>
       <span class="muted" id="visit-msg" style="font-size:12px"></span>
     </div>
+    <div class="row" style="margin-top:8px;align-items:center;gap:8px"><label style="margin:0">How was the visit?</label>
+      <span id="visit-stars" class="vstars">${[1,2,3,4,5].map(n=>`<span data-vs="${n}" class="vstar ${(v.rating||0)>=n?"on":""}">★</span>`).join("")}</span></div>
     ${hasCoords ? `<div class="vmap" id="vmap"></div>
       <p class="vhint">Tap the map to pin an off-campus spot — coffee, a view, the best taco — then name it. Saved on this device for now.</p>
       <div class="spots" id="spots"></div>`
@@ -1282,6 +1362,8 @@ function renderSpots(id, map){
 function initVisit(id, info){
   const ds=$("visit-date-save"); if(ds) ds.onclick=()=>{ const v=getVisit(id); v.date=$("visit-date").value; saveVisit(id,v); flashVisit("Date saved ✓"); };
   const ns=$("visit-notes-save"); if(ns) ns.onclick=()=>{ const v=getVisit(id); v.notes=$("visit-notes").value; saveVisit(id,v); flashVisit("Notes saved ✓"); };
+  const sw=$("visit-stars"); if(sw) sw.querySelectorAll("[data-vs]").forEach(st=>{ st.onclick=()=>{ const n=+st.dataset.vs; const v=getVisit(id); v.rating=(v.rating===n?0:n); saveVisit(id,v);
+    sw.querySelectorAll("[data-vs]").forEach(x=>x.classList.toggle("on",(+x.dataset.vs)<=(v.rating||0))); flashVisit("Rating saved ✓"); }; });
   if(!(window.L && info && typeof info.lat==="number" && typeof info.lon==="number")) return;
   const el=$("vmap"); if(!el) return;
   try{
