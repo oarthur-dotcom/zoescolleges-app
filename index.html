@@ -28,15 +28,15 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px 112px}
+.wrap{max-width:1400px;margin:0 auto;padding:0 28px 112px}
 .readable{max-width:720px}
 header.app{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid color-mix(in srgb,var(--line) 65%,transparent);padding:calc(env(safe-area-inset-top,0px) + 10px) 20px 10px}
-header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1080px;margin:0 auto;width:100%}
+header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1400px;margin:0 auto;width:100%}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
 header.app .logo span{color:var(--teal)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
-.appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1080px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1400px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .appnav::-webkit-scrollbar{display:none}
 .appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:14.5px;padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
 .appnav .navbtn:hover{color:var(--ink)}
@@ -128,6 +128,7 @@ a{color:var(--teal)}
 .plan-btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px}
 /* detail */
 .d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
+#v-detail{max-width:1000px;margin:0 auto}
 .d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
 .d-cell{background:var(--surface);padding:11px 13px}
@@ -186,6 +187,10 @@ a{color:var(--teal)}
 .trip-near{font-size:12.5px;color:var(--muted);margin-top:4px}
 .trip-near button{font-size:12px;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer;color:var(--teal)}
 .trip-near ul{margin:5px 0 0;padding-left:16px}
+.near-fallback{margin-top:5px}
+.near-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.near-links a{font-size:12px;text-decoration:none;background:#f4f1ea;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--teal)}
+.near-links a:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
 .trip-exports{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .trip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .trip-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -1823,10 +1828,15 @@ async function osrmLegs(ordered){
   }catch(e){ return fallback(); }
 }
 async function overpassNear(lat,lon){
-  const q=`[out:json][timeout:20];(node(around:2500,${lat},${lon})[amenity~"^(restaurant|cafe)$"];node(around:4000,${lat},${lon})[tourism~"^(hotel|motel|hostel)$"];node(around:4500,${lat},${lon})[tourism~"^(attraction|museum|viewpoint)$"];);out body 60;`;
-  const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q)}); if(!r.ok) throw 0;
-  const j=await r.json(); const els=j.elements||[]; const pick=(f,n)=>[...new Set(els.filter(f).map(e=>e.tags&&e.tags.name).filter(Boolean))].slice(0,n);
-  return { food:pick(e=>e.tags&&/^(restaurant|cafe)$/.test(e.tags.amenity||""),4), stay:pick(e=>e.tags&&/^(hotel|motel|hostel)$/.test(e.tags.tourism||""),3), see:pick(e=>e.tags&&/^(attraction|museum|viewpoint)$/.test(e.tags.tourism||""),3) };
+  const q=`[out:json][timeout:15];(node(around:2500,${lat},${lon})[amenity~"^(restaurant|cafe)$"];node(around:4000,${lat},${lon})[tourism~"^(hotel|motel|hostel)$"];node(around:4500,${lat},${lon})[tourism~"^(attraction|museum|viewpoint)$"];);out body 60;`;
+  const eps=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter","https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
+  for(const ep of eps){
+    try{ const r=await fetch(ep,{method:"POST",body:"data="+encodeURIComponent(q)}); if(!r.ok) continue;
+      const j=await r.json(); const els=j.elements||[]; const pick=(f,n)=>[...new Set(els.filter(f).map(e=>e.tags&&e.tags.name).filter(Boolean))].slice(0,n);
+      return { food:pick(e=>e.tags&&/^(restaurant|cafe)$/.test(e.tags.amenity||""),4), stay:pick(e=>e.tags&&/^(hotel|motel|hostel)$/.test(e.tags.tourism||""),3), see:pick(e=>e.tags&&/^(attraction|museum|viewpoint)$/.test(e.tags.tourism||""),3) };
+    }catch(e){ /* try next endpoint */ }
+  }
+  throw new Error("overpass unavailable");
 }
 function tripDays(){ if(!tripBuilt) return []; const {ordered,days}=tripBuilt; const perDay=Math.ceil(ordered.length/days); const plan=[];
   for(let d=0; d*perDay<ordered.length; d++){ plan.push(ordered.slice(d*perDay,(d+1)*perDay)); } return plan; }
@@ -1896,7 +1906,14 @@ function renderTripOut(){
       const html=[sec("Eat",n.food),sec("Stay",n.stay),sec("See",n.see)].filter(Boolean).join("");
       box.innerHTML = html?`<ul>${html}</ul>`:`<span class="muted">No tagged places found right around campus.</span>`;
       btn.style.display="none";
-    }catch(e){ box.innerHTML=`<span class="muted">Couldn't load nearby places right now — try again in a moment.</span>`; btn.disabled=false; btn.textContent="Show what's nearby ↓"; }
+    }catch(e){ const la=btn.dataset.lat, lo=btn.dataset.lon;
+      box.innerHTML=`<div class="near-fallback"><span class="muted">Live place data is busy right now — browse what's around campus on a map instead:</span>
+        <div class="near-links">
+          <a href="https://www.google.com/maps/search/restaurants/@${la},${lo},15z" target="_blank" rel="noopener">🍽 Food nearby</a>
+          <a href="https://www.google.com/maps/search/hotels/@${la},${lo},14z" target="_blank" rel="noopener">🛏 Places to stay</a>
+          <a href="https://www.google.com/maps/search/things+to+do/@${la},${lo},14z" target="_blank" rel="noopener">📍 Things to do</a>
+        </div></div>`;
+      btn.style.display="none"; }
   }; });
 }
 $("trip-back").onclick = () => { if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} goto("board"); };
