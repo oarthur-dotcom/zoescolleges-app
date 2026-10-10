@@ -1,0 +1,4 @@
+# Zoe's Colleges — static site + serverless functions on zoescolleges.com
+[build]
+  publish = "."
+  functions = "netlify/functions"

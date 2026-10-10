@@ -357,6 +357,26 @@ a{color:var(--teal)}
 #zoe-fab .zoe-ava{width:22px;height:22px}
 .zhead .zoe-ava{width:26px;height:26px}
 .zgreet{display:flex;gap:10px;align-items:flex-start}
+/* typing indicator */
+.ztyping{display:flex;gap:4px;align-items:center;padding:10px 12px!important}
+.zdot{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.5;animation:zb 1.2s infinite ease-in-out}
+.zdot:nth-child(2){animation-delay:.15s}.zdot:nth-child(3){animation-delay:.3s}
+@keyframes zb{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-3px);opacity:.9}}
+/* make Zoe yours */
+#zoe-settings{padding:12px 14px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.zs-title{font-weight:800;font-size:14px;margin-bottom:8px}
+.zs-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:8px 0 6px}
+.zs-personas{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.zs-p{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:7px 4px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer}
+.zs-p.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,transparent)}
+.zs-p .zs-av{width:30px;height:30px;display:block}
+.zs-p .zs-av .zoe-ava{width:30px;height:30px}
+.zs-nm{font-size:10.5px;font-weight:600;line-height:1}
+.zs-help{display:flex;gap:6px}
+.zs-help button{flex:1;display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;padding:7px 9px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer}
+.zs-help button b{font-size:12.5px}
+.zs-help button span{font-size:10.5px;color:var(--muted);line-height:1.1}
+.zs-help button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,transparent)}
 .zgreet .zoe-ava{width:40px;height:40px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
 .callout{border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,var(--surface));padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.9rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);font-size:.82rem;margin-top:30px}
@@ -371,6 +391,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 10px}
 /* zoe recommends */
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:10px}
+@media(min-width:1040px){ .rec-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px} }
 .rec-h{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:22px 0 2px}
 .rec-card{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:0 1px 2px rgba(16,28,46,.04),0 10px 28px rgba(16,28,46,.035);display:flex;flex-direction:column}
 .rec-card .ph{height:130px;background-size:cover;background-position:center;background-color:var(--sunk);position:relative}
@@ -856,7 +877,18 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 <!-- ZOE HELPER -->
 <button id="zoe-fab" class="hidden"><span id="zoe-fab-ava"></span> Ask Zoe</button>
 <div id="zoe-panel" class="hidden">
-  <div class="zhead"><span id="zoe-head-ava"></span><b>Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-close" class="small ghost" style="margin-left:auto;padding:2px 8px">✕</button></div>
+  <div class="zhead"><span id="zoe-head-ava"></span><b>Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-gear" class="small ghost" title="Make Zoe yours" style="margin-left:auto;padding:2px 8px">⚙</button><button id="zoe-close" class="small ghost" style="padding:2px 8px">✕</button></div>
+  <div id="zoe-settings" class="hidden">
+    <div class="zs-title">Make Zoe yours</div>
+    <div class="zs-lbl">Look</div>
+    <div class="zs-personas" id="zs-personas"></div>
+    <div class="zs-lbl">How much should Zoe help?</div>
+    <div class="zs-help" id="zs-help">
+      <button data-help="proactive"><b>Proactive</b><span>Nudges &amp; tips as you go</span></button>
+      <button data-help="balanced"><b>Balanced</b><span>Helps when it matters</span></button>
+      <button data-help="ondemand"><b>On-demand</b><span>Only when you ask</span></button>
+    </div>
+  </div>
   <div id="zoe-log"></div>
   <div class="zsugg" id="zoe-sugg"></div>
   <form id="zoe-form"><input id="zoe-in" type="text" placeholder="Ask about the app or the schools…" autocomplete="off"><button class="primary small" type="submit">Ask</button></form>
@@ -2355,8 +2387,9 @@ function zoeAnswer(qraw){
   let best=null, score=0;
   ZOE_KB.forEach(item=>{ let s=0; item.q.forEach(k=>{ if(q.includes(k)) s++; }); if(s>score){score=s; best=item;} });
   if(best && score>0) return best.a;
-  return "I can help with how the app works (matching, chances, ratings, invites, photos, plans) and with the data — try \"cheapest schools\", \"most selective in Colorado\", \"biggest schools\", or \"schools with early deadline\". What would you like to know?";
+  return ZOE_FALLBACK;
 }
+const ZOE_FALLBACK = "I can help with how the app works (matching, chances, ratings, invites, photos, plans) and with the data — try \"cheapest schools\", \"most selective in Colorado\", \"biggest schools\", or \"schools with early deadline\". What would you like to know?";
 function zoeData(q){
   const cat=state.catalog; if(!cat.length) return null;
   const stateAbbr=(q.match(/\b(in|near)\s+([a-z]{2})\b/)||[])[2]?.toUpperCase();
@@ -2398,14 +2431,53 @@ function zoeAdvice(p){
   return "Here's where I'd focus:<br>"+tips.map(t=>"• "+t).join("<br>");
 }
 const ZOE_SVG="<svg class=\"zoe-ava\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" role=\"img\" aria-label=\"Zoe\"><circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/><path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/><path d=\"M51 24 V35\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"36.5\" r=\"2.3\" fill=\"#d99a06\"/><circle cx=\"26.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"37.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"26.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><circle cx=\"37.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><path d=\"M31.9 41 H32.1\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M29 48 Q32 50 35 48\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M27 56 L32 58 L27 60 Z\" fill=\"#8e3b7a\"/><path d=\"M37 56 L32 58 L37 60 Z\" fill=\"#8e3b7a\"/><circle cx=\"32\" cy=\"58\" r=\"1.3\" fill=\"#8e3b7a\"/></svg>";
-(function(){ ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{const el=document.getElementById(id); if(el)el.innerHTML=ZOE_SVG;}); })();
+const ZOE_PERSONAS={"nerd":"<svg class=\"zoe-ava\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" role=\"img\" aria-label=\"Zoe\"><circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/><path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/><path d=\"M51 24 V35\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"36.5\" r=\"2.3\" fill=\"#d99a06\"/><circle cx=\"26.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"37.5\" cy=\"41\" r=\"2\" fill=\"#101c2e\"/><circle cx=\"26.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><circle cx=\"37.5\" cy=\"41\" r=\"5.4\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.6\"/><path d=\"M31.9 41 H32.1\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M29 48 Q32 50 35 48\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M27 56 L32 58 L27 60 Z\" fill=\"#8e3b7a\"/><path d=\"M37 56 L32 58 L37 60 Z\" fill=\"#8e3b7a\"/><circle cx=\"32\" cy=\"58\" r=\"1.3\" fill=\"#8e3b7a\"/></svg>","punk":"<svg class=\"zoe-ava\" role=\"img\" aria-label=\"Zoe\" viewBox=\"0 0 64 64\">\n        <circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/>\n        <path d=\"M32 17 L54 25 L32 33 L10 25 Z\" fill=\"#101c2e\"/>\n        <path d=\"M22 20 L24 7 L27 19 Z\" fill=\"#cf4aa0\"/><path d=\"M28 19 L31 4 L34 19 Z\" fill=\"#cf4aa0\"/><path d=\"M35 19 L38 6 L40 20 Z\" fill=\"#cf4aa0\"/>\n        <circle cx=\"27\" cy=\"42\" r=\"2.5\" fill=\"#101c2e\"/><circle cx=\"37\" cy=\"42\" r=\"2.5\" fill=\"#101c2e\"/>\n        <path d=\"M28 48 Q31 50 36 48.5\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.9\" stroke-linecap=\"round\"/>\n        <circle cx=\"17.5\" cy=\"46\" r=\"1.9\" fill=\"#cf4aa0\"/>\n      </svg>","jock":"<svg class=\"zoe-ava\" role=\"img\" aria-label=\"Zoe\" viewBox=\"0 0 64 64\">\n        <circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/>\n        <path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/>\n        <path d=\"M51 24 V35\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"36.5\" r=\"2.3\" fill=\"#d99a06\"/>\n        <rect x=\"19\" y=\"33.5\" width=\"26\" height=\"5\" rx=\"2.5\" fill=\"#d99a06\"/>\n        <circle cx=\"27\" cy=\"43.5\" r=\"2.5\" fill=\"#101c2e\"/><circle cx=\"37\" cy=\"43.5\" r=\"2.5\" fill=\"#101c2e\"/>\n        <circle cx=\"22\" cy=\"48\" r=\"2.4\" fill=\"#cf4aa0\" opacity=\"0.38\"/><circle cx=\"42\" cy=\"48\" r=\"2.4\" fill=\"#cf4aa0\" opacity=\"0.38\"/>\n        <path d=\"M27 49 Q32 54 37 49 Z\" fill=\"#101c2e\"/>\n      </svg>","surfer":"<svg class=\"zoe-ava\" role=\"img\" aria-label=\"Zoe\" viewBox=\"0 0 64 64\">\n        <circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/>\n        <path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/>\n        <path d=\"M51 24 V35\" stroke=\"#d99a06\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"36.5\" r=\"2.3\" fill=\"#d99a06\"/>\n        <rect x=\"20.5\" y=\"39\" width=\"10.5\" height=\"6.5\" rx=\"3.2\" fill=\"#2bb3c0\"/><rect x=\"33\" y=\"39\" width=\"10.5\" height=\"6.5\" rx=\"3.2\" fill=\"#2bb3c0\"/>\n        <path d=\"M31 41 H33\" stroke=\"#2bb3c0\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n        <path d=\"M28 50 Q32 53 36 50\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n        <path d=\"M22 56 q3 -3 6 0 t6 0 t6 0\" fill=\"none\" stroke=\"#2bb3c0\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>\n      </svg>","gamer":"<svg class=\"zoe-ava\" role=\"img\" aria-label=\"Zoe\" viewBox=\"0 0 64 64\">\n        <circle cx=\"32\" cy=\"42\" r=\"15\" fill=\"#fdf7f0\" stroke=\"#0b7f81\" stroke-width=\"2.6\"/>\n        <path d=\"M32 15 L55 24 L32 33 L9 24 Z\" fill=\"#101c2e\"/>\n        <path d=\"M16 44 Q32 18 48 44\" fill=\"none\" stroke=\"#8e3b7a\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n        <rect x=\"12.5\" y=\"40\" width=\"6.5\" height=\"10\" rx=\"3\" fill=\"#8e3b7a\"/><rect x=\"45\" y=\"40\" width=\"6.5\" height=\"10\" rx=\"3\" fill=\"#8e3b7a\"/>\n        <path d=\"M15.5 49 Q11 54 19 55\" fill=\"none\" stroke=\"#2bb3c0\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><circle cx=\"20\" cy=\"55\" r=\"1.8\" fill=\"#2bb3c0\"/>\n        <circle cx=\"27\" cy=\"42\" r=\"2.5\" fill=\"#101c2e\"/><circle cx=\"37\" cy=\"42\" r=\"2.5\" fill=\"#101c2e\"/>\n        <path d=\"M29 48 Q32 50 35 48\" fill=\"none\" stroke=\"#101c2e\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n      </svg>"};
+const ZOE_PERSONA_META=[{"key":"nerd","name":"Nerd","blurb":"Reads every footnote, aces the deadlines."},{"key":"punk","name":"Punk Rock","blurb":"Mohawk, one earring, zero chill."},{"key":"jock","name":"Jock","blurb":"Treats the list like a season to win."},{"key":"surfer","name":"Surfer","blurb":"Mellow — “you’ve got time.”"},{"key":"gamer","name":"Gamer","blurb":"Grinds the list like a ranked ladder."}];
+function zoeCfg(){ try{ return JSON.parse(localStorage.getItem("zc_zoe"))||{}; }catch(e){ return {}; } }
+function zoeSaveCfg(c){ try{ localStorage.setItem("zc_zoe", JSON.stringify(c)); }catch(e){} }
+function zoeAva(){ const c=zoeCfg(); return (ZOE_PERSONAS[c.persona]||ZOE_PERSONAS.nerd); }
+function zoeHelp(){ return zoeCfg().help || "balanced"; }
+function paintZoeAvatars(){ const svg=zoeAva(); ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=svg; }); }
+/* De-identified context for the long-tail model (no names, no emails). */
+function zoeCtx(){
+  const p=studentProfile()||{};
+  const board=state.schools.map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  const bands={reach:0,target:0,likely:0}; board.forEach(x=>{ const ch=chanceFor(x.info); if(ch&&bands[ch.band]!=null) bands[ch.band]++; });
+  return { gpa:p.gpa||null, sat:studentSat(p)||null, testOptional:!!p.testOptional,
+    major:p.major||"", notes:p.notes||"", gradYear:p.gradYear||null,
+    boardCount:board.length, activities:(Array.isArray(p.activities)?p.activities.length:0), bands };
+}
+function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
+function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
+async function zoeHandle(v){
+  const ans=zoeAnswer(v);
+  if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
+  const typing=zoeTyping();
+  try{
+    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }) });
+    const j=await r.json().catch(()=>({}));
+    typing.remove();
+    if(j && j.reply){ zoeSay(zoeRich(j.reply)); }
+    else if(j && j.capped){ zoeSay("I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b> and <b>deadlines</b> — try one of those!"); }
+    else if(j && j.unconfigured){ zoeSay(ZOE_FALLBACK); }
+    else { zoeSay(ZOE_FALLBACK); }
+  }catch(e){ typing.remove(); zoeSay(ZOE_FALLBACK); }
+}
+paintZoeAvatars();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
 const ZOE_SUGG=["What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
-function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+ZOE_SVG+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
+function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
 $("zoe-fab").onclick=zoeOpen;
 { const zb=$("zoe-banner"); if(zb) zb.onclick=zoeOpen; }
 $("zoe-close").onclick=()=>$("zoe-panel").classList.add("hidden");
-$("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim(); if(!v)return; zoeSay(esc(v),"me"); $("zoe-in").value=""; setTimeout(()=>zoeSay(zoeAnswer(v)),180); };
+function renderZoeSettings(){
+  const cfg=zoeCfg(), per=cfg.persona||"nerd", help=cfg.help||"balanced";
+  $("zs-personas").innerHTML=ZOE_PERSONA_META.map(m=>`<button class="zs-p ${m.key===per?"on":""}" data-persona="${m.key}" title="${esc(m.blurb)}"><span class="zs-av">${ZOE_PERSONAS[m.key]}</span><span class="zs-nm">${esc(m.name)}</span></button>`).join("");
+  $("zs-personas").querySelectorAll("[data-persona]").forEach(b=>b.onclick=()=>{ const c=zoeCfg(); c.persona=b.dataset.persona; zoeSaveCfg(c); paintZoeAvatars(); renderZoeSettings(); });
+  $("zs-help").querySelectorAll("[data-help]").forEach(b=>{ b.classList.toggle("on", b.dataset.help===help); b.onclick=()=>{ const c=zoeCfg(); c.help=b.dataset.help; zoeSaveCfg(c); renderZoeSettings(); }; });
+}
+$("zoe-gear").onclick=()=>{ const s=$("zoe-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettings(); };
+$("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim(); if(!v)return; zoeSay(esc(v),"me"); $("zoe-in").value=""; zoeHandle(v); };
 
 /* ========== MISC ========== */
 document.addEventListener("visibilitychange", async () => { if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); } });
