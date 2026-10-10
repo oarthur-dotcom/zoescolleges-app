@@ -70,7 +70,9 @@ export default async (req) => {
   const payload = {
     systemInstruction: { parts: [{ text: sys }] },
     contents: [{ role: "user", parts: [{ text: q }] }],
-    generationConfig: { temperature: 0.6, maxOutputTokens: 400, topP: 0.95 },
+    // Newer flash models spend part of the budget on internal reasoning, so
+    // keep this high enough that the visible answer isn't truncated to a line.
+    generationConfig: { temperature: 0.6, maxOutputTokens: 1200, topP: 0.95 },
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
       { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
