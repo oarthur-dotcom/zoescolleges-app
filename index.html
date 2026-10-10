@@ -295,6 +295,31 @@ a{color:var(--teal)}
 .zgreet .zoe-ava{width:40px;height:40px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
 .callout{border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,var(--surface));padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.9rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);font-size:.82rem;margin-top:30px}
+/* schools thumbnails */
+.srow-thumb{width:66px;height:66px;border-radius:12px;background-size:cover;background-position:center;flex:0 0 auto;background-color:var(--sunk)}
+.srow-thumb.ph{display:grid;place-items:center;font-weight:800;color:#fff;font-size:24px}
+/* compare photo tiles */
+.cmp-tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:14px 0}
+.cmp-tile{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.cmp-tile .ph{height:88px;background-size:cover;background-position:center;background-color:var(--sunk)}
+.cmp-tile .nm{font-weight:700;font-size:13.5px;padding:8px 10px 2px;line-height:1.2}
+.cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 10px}
+/* zoe recommends */
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:10px}
+.rec-card{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:0 1px 2px rgba(16,28,46,.04),0 10px 28px rgba(16,28,46,.035);display:flex;flex-direction:column}
+.rec-card .ph{height:130px;background-size:cover;background-position:center;background-color:var(--sunk);position:relative}
+.rec-card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 58%)}
+.rec-card .ph .nm{position:absolute;left:12px;right:12px;bottom:10px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 10px rgba(0,0,0,.65);z-index:1}
+.rec-body{padding:12px 14px;display:flex;flex-direction:column;gap:9px;flex:1}
+.rec-why{font-size:13px;color:var(--ink);line-height:1.45}
+.rec-foot{display:flex;gap:8px;align-items:center;margin-top:auto}
+/* zoe prominence */
+#zoe-fab{left:auto;right:18px;bottom:88px;background:linear-gradient(135deg,var(--teal),#0a6b6d);color:#fff;padding:13px 20px;font-size:15px}
+.zoe-banner{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 13%,var(--surface)),var(--surface));border:1px solid color-mix(in srgb,var(--teal) 32%,var(--line));border-radius:16px;padding:12px 16px;margin:12px 0;cursor:pointer}
+.zoe-banner .zoe-ava{width:42px;height:42px;flex:0 0 auto}
+.zoe-banner b{font-size:15px}
+.zoe-banner .zb-sub{color:var(--muted);font-size:13px;margin-top:1px}
+.zoe-banner .zb-go{margin-left:auto;color:var(--teal);font-weight:700;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -310,6 +335,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <nav class="appnav hidden" id="appnav">
     <button class="navbtn" data-nav="board">My Board</button>
     <button class="navbtn" data-nav="explore">Schools</button>
+    <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
     <button class="navbtn" data-nav="compare">Compare</button>
     <button class="navbtn" data-nav="trip">Trips</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
@@ -473,6 +499,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <section id="v-board" class="hidden">
     <h1 id="famtitle"></h1>
     <div class="fam" id="famrow"></div>
+    <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -615,6 +642,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <div id="trip-schools" class="trip-schools"></div>
     </div>
     <div id="trip-out"></div>
+  </section>
+
+  <!-- ZOE PICKS (recommends) -->
+  <section id="v-recommends" class="hidden">
+    <h1>✨ Zoe Picks</h1>
+    <p class="sub">Schools that fit your profile but aren't on your board yet — ranked by your match, with why each could work.</p>
+    <div id="rec-out"></div>
   </section>
 
   <!-- COMPARE -->
@@ -801,7 +835,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-recommends"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -819,6 +853,7 @@ function goto(view){
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
+  else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
@@ -1398,6 +1433,9 @@ function renderSchool(x){
     </div>
   </div>`;
 }
+function hueFromName(name){ name=name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360; return h; }
+function phGrad(name){ const h=hueFromName(name); return `linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))`; }
+function photoUrlFor(c){ return (c && c.photo && c.photo.url) || ""; }
 // Tile cover: a family campus photo when there is one, else a colored placeholder with the school's initial.
 function coverFor(s, info){
   // 1) the family's own visit photo wins; 2) then the catalog campus photo; 3) else a colored placeholder
@@ -1453,7 +1491,10 @@ function renderExList(q){
   $("exlist").innerHTML = withM.slice(0,250).map(({c,m}) => {
     const added = have.has(c.id); const sc=c.scorecard||{};
     const L=c.lifestyle||{}; const lifeBits=[L.politicalLean, L.gunLaws&&L.gunLaws.replace(" gun laws",""), (L.proximity||[]).length?("near "+L.proximity.join("/")):"", (L.religion&&L.religion.indexOf("Secular")!==0)?L.religion:""].filter(Boolean);
+    const purl=photoUrlFor(c);
+    const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phGrad(c.name)}">${esc((c.name.trim()[0]||"?").toUpperCase())}</div>`;
     return `<div class="srow">
+      ${thumb}
       <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
         <div class="scl"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span>${m!=null?`<span style="color:var(--teal)">★ ${m}% match</span>`:""}</div>
@@ -1534,6 +1575,9 @@ function renderDetail(id){
       ${cell("Median earnings (10yr)", money(sc.medianEarnings10yr))}
       ${cell("Undergrads", sc.size?sc.size.toLocaleString():"—")}
       ${cell("Type", info.ownership||"—")}
+      ${info.ipeds&&info.ipeds.retention!=null?cell("Retention (1st yr)", pct(info.ipeds.retention)):""}
+      ${info.ipeds&&info.ipeds.studentFacultyRatio?cell("Student–faculty ratio", info.ipeds.studentFacultyRatio+":1"):""}
+      ${info.ipeds&&info.ipeds.yield!=null?cell("Yield (enroll ÷ admit)", pct(info.ipeds.yield)):""}
     </div>
     <div class="facts" style="margin-top:4px">
       ${info.vibe?`<span>${esc(info.vibe)}</span>`:""}
@@ -1545,7 +1589,7 @@ function renderDetail(id){
       ${cell("Regular deadline", info.regularDeadline)}
     </div>
     ${lifestyleSection(info)}
-    <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Deadlines: confirm on the school's site.</p>`
+    <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Retention, student–faculty ratio &amp; yield: IPEDS via Urban Institute. Deadlines: confirm on the school's site.</p>`
     : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school.</div>`;
   const link = info && info.link ? `<p><a href="${esc(info.link)}" target="_blank" rel="noopener">Official site ↗</a></p>` : "";
   let rateBlock;
@@ -1795,11 +1839,15 @@ $("cmp-build").onclick=()=>{
     ["Median earnings (10yr)", c=>money(g(c).medianEarnings10yr)],
     ["Undergrads", c=>g(c).size?g(c).size.toLocaleString():"—"],
     ["Setting", c=>{const l=localeUrban(c.info); return l===null?"—":l>=0.7?"City":l>=0.35?"Suburban":"Town/Rural";}],
+    ["Retention (1st yr)", c=>{const r=c.info.ipeds&&c.info.ipeds.retention; return r!=null?`<b>${pct(r)}</b>`:"—";}],
+    ["Yield (enroll ÷ admit)", c=>{const y=c.info.ipeds&&c.info.ipeds.yield; return y!=null?pct(y):"—";}],
+    ["Student–faculty ratio", c=>{const sf=c.info.ipeds&&c.info.ipeds.studentFacultyRatio; return sf?sf+":1":"—";}],
     ["Greek life", c=>esc(c.info.greekLife||"—")],
     ["Athletics", c=>esc(c.info.athleticsNetwork||"—")],
     ["Regular deadline", c=>esc(c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
   ];
-  out.innerHTML=`<div class="card" style="padding:0;overflow:hidden"><div class="cmp-wrap"><table class="cmp-table">
+  const tiles=`<div class="cmp-tiles">${cols.map(c=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.rec.name)}"`; return `<div class="cmp-tile"><div class="ph" ${ph}></div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div></div>`;}).join("")}</div>`;
+  out.innerHTML=tiles+`<div class="card" style="padding:0;overflow:hidden"><div class="cmp-wrap"><table class="cmp-table">
     <thead><tr><th class="row-k"></th>${cols.map(c=>`<th class="sch-h">${esc(c.rec.name)}<span class="loc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></th>`).join("")}</tr></thead>
     <tbody>${rows.map(r=>`<tr><th class="row-k">${esc(r[0])}</th>${cols.map(c=>`<td>${r[1](c)}</td>`).join("")}</tr>`).join("")}</tbody>
   </table></div></div>`;
@@ -1833,6 +1881,40 @@ function renderDeadlines(){
   }).join("");
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(cb=>cb.onchange=()=>{ const o=getChecklist(id); o[cb.dataset.task]=cb.checked; setChecklist(id,o); const parent=box.previousElementSibling; renderDeadlines(); }); });
+}
+/* ========== ZOE PICKS (recommends) ========== */
+function joinList(a){ a=a.filter(Boolean); if(a.length<=1) return a[0]||""; if(a.length===2) return a[0]+" and "+a[1]; return a.slice(0,-1).join(", ")+", and "+a[a.length-1]; }
+function recWhy(c,w){
+  const bits=[]; const s=c.scorecard||{}, L=c.lifestyle||{};
+  const names={greek:"a social/greek scene",sports:"big-time sports",outdoors:"the outdoors nearby",city:"city life",small:"a small, close-knit feel",big:"a big lively campus"};
+  viewerInterests().forEach(t=>{ const v=interestSat(t,c,s,L); if(v!=null&&v>=0.6&&names[t]) bits.push(names[t]); });
+  if((w.afford!=null?w.afford:5)>=7 && typeof s.netPrice==="number" && s.netPrice<20000) bits.push("a low net price");
+  if((w.outcomes!=null?w.outcomes:5)>=7 && typeof s.medianEarnings10yr==="number" && s.medianEarnings10yr>60000) bits.push("strong earnings outcomes");
+  if((w.prestige||0)>=7 && typeof s.admissionRate==="number" && s.admissionRate<0.3) bits.push("the selectivity you're after");
+  return bits.slice(0,3);
+}
+function renderRecommends(){
+  const out=$("rec-out"); const w=myPrefs(); const p=studentProfile();
+  if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Catalog still loading…</div>`; return; }
+  const have=new Set(state.schools.map(s=>s.school_id));
+  const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m);
+  const top=scored.slice(0,12);
+  if(!top.length){ out.innerHTML=`<div class="card muted">Add a few schools and set your profile, and I'll suggest more that fit.</div>`; return; }
+  const thin = !(p && (p.gpa||p.sat||p.act||viewerInterests().length));
+  const head = thin ? `<div class="callout" style="margin:0 0 6px">Fill in <b>My Profile</b> (grades, interests, your sliders) and these picks sharpen a lot.</div>` : "";
+  out.innerHTML = head + `<div class="rec-grid">${top.map(({c,m,ch})=>{
+    const u=photoUrlFor(c); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.name)}"`;
+    const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
+    return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
+      <div class="rec-body">
+        <div class="chiprow" style="display:flex;gap:6px;flex-wrap:wrap">${chanceChip(ch)}${matchChip(m)}</div>
+        <div class="rec-why">${esc(whyTxt)}</div>
+        <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
+        <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
+      </div></div>`;
+  }).join("")}</div>`;
+  wireOpen($("rec-out"));
+  $("rec-out").querySelectorAll("[data-recadd]").forEach(el=>el.onclick=async()=>{ el.disabled=true; el.textContent="Adding…"; await addFromCatalog(el.dataset.recadd); renderRecommends(); });
 }
 /* ========== PHOTOS ========== */
 function photosFor(id){ return state.photos.filter(p=>p.school_id===id); }
@@ -2088,6 +2170,8 @@ const ZOE_KB = [
 ];
 function zoeAnswer(qraw){
   const q=(qraw||"").toLowerCase().trim();
+  // profile- & board-aware answers come first (the "knows you" part)
+  const pr = zoePersonal(q); if(pr) return pr;
   // data queries over the catalog
   const dq = zoeData(q); if(dq) return dq;
   // KB match
@@ -2111,12 +2195,38 @@ function zoeData(q){
   if(/(my match|best match|top match|best for me|fit)/.test(q)){ const w=myPrefs(); const l=cat.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m); return "Your top matches right now:<br>"+l.slice(0,6).map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
   return null;
 }
+function zoePersonal(q){
+  const w=myPrefs(); const p=studentProfile();
+  const board=state.schools.map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  const bandList=band=>board.map(x=>({x,ch:chanceFor(x.info)})).filter(y=>y.ch&&y.ch.band===band).map(y=>`• <b>${esc(y.x.s.name)}</b>`);
+  if(/\breach(es)?\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
+  if(/\btargets?\b/.test(q)){ const l=bandList("target"); return l.length?`Your <b>targets</b> (${l.length}):<br>`+l.join("<br>"):"No targets yet — <b>✨ Zoe Picks</b> can find some that fit."; }
+  if(/\b(likely|likelies|safet)/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
+  if(/(recommend|suggest|what am i missing|more schools|zoe pick|for me\b|should i add)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
+  if(/(improve|get in|better chance|work on|boost|stronger|increase.*chance)/.test(q)){ return zoeAdvice(p); }
+  if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(y.x.info.regularDeadline||(y.x.info.muse&&y.x.info.muse.deadlines&&y.x.info.muse.deadlines.regular_date)||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
+  if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
+  if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
+  if(/(how.*(balance|my list)|is my list|balanced)/.test(q)){ const c={reach:0,target:0,likely:0}; board.forEach(x=>{const ch=chanceFor(x.info); if(ch)c[ch.band]++;}); return `Your list: <b>${c.likely}</b> likely · <b>${c.target}</b> target · <b>${c.reach}</b> reach. A balanced list is roughly 2+ likely, 3+ target, 2+ reach.`; }
+  return null;
+}
+function zoeAdvice(p){
+  const tips=[]; const adj=rigorAdjustedGpa(p); const sat=studentSat(p);
+  if(!p||!p.gpa) tips.push("Add your <b>GPA</b> and course rigor in My Profile — it drives your chances most.");
+  else if(adj&&adj<3.3) tips.push("Grades are the biggest lever — an upward trend and a couple more rigorous courses move the needle.");
+  if(p&&!p.testOptional&&!sat) tips.push("Add an <b>SAT/ACT</b> (or tick test-optional) so your chances aren't guessing.");
+  if(!(p&&Array.isArray(p.activities)&&p.activities.length)) tips.push("List your <b>activities</b> — a few deep ones beat a long thin list.");
+  else { const a=activityStrength(p.activities); if(a!=null&&a<0.4) tips.push("Go deeper in 1–2 activities (leadership, a multi-year role) to strengthen your profile."); }
+  if(!tips.length) tips.push("Your profile looks solid! Put your energy into essays that sound like you, and keep the list balanced.");
+  return "Here's where I'd focus:<br>"+tips.map(t=>"• "+t).join("<br>");
+}
 const ZOE_SVG='<svg class="zoe-ava" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zoe"><line x1="32" y1="13" x2="32" y2="6" stroke="#0b7f81" stroke-width="2.4" stroke-linecap="round"/><path d="M32 3.2c-1.1-2.1-4.4-1.2-4.4 1.1 0 1.7 2.4 3.2 4.4 4.6 2-1.4 4.4-2.9 4.4-4.6 0-2.3-3.3-3.2-4.4-1.1z" fill="#8e3b7a"/><rect x="4.5" y="27" width="6" height="12" rx="3" fill="#0b7f81"/><rect x="53.5" y="27" width="6" height="12" rx="3" fill="#0b7f81"/><circle cx="7.5" cy="33" r="1.5" fill="#9fe6e6"/><circle cx="56.5" cy="33" r="1.5" fill="#9fe6e6"/><rect x="11" y="13" width="42" height="38" rx="14" fill="#0b7f81"/><rect x="16.5" y="20" width="31" height="25" rx="11" fill="#fdf7f0"/><g stroke="#101c2e" stroke-width="1.3" stroke-linecap="round"><line x1="21.2" y1="28.4" x2="19.4" y2="27.1"/><line x1="43.0" y1="28.4" x2="44.8" y2="27.1"/></g><circle cx="25.5" cy="31.5" r="4.3" fill="#101c2e"/><circle cx="38.5" cy="31.5" r="4.3" fill="#101c2e"/><circle cx="27.0" cy="30.0" r="1.4" fill="#fff"/><circle cx="40.0" cy="30.0" r="1.4" fill="#fff"/><circle cx="20.5" cy="37.5" r="2.5" fill="#e79ac7" opacity=".55"/><circle cx="43.5" cy="37.5" r="2.5" fill="#e79ac7" opacity=".55"/><path d="M28.5 38.5 Q32 41.6 35.5 38.5" fill="none" stroke="#101c2e" stroke-width="1.6" stroke-linecap="round"/></svg>';
-(function(){ const f=document.getElementById("zoe-fab-ava"), h=document.getElementById("zoe-head-ava"); if(f)f.innerHTML=ZOE_SVG; if(h)h.innerHTML=ZOE_SVG; })();
+(function(){ ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{const el=document.getElementById(id); if(el)el.innerHTML=ZOE_SVG;}); })();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
-const ZOE_SUGG=["How does matching work?","Cheapest schools","Most selective in CO","My top matches","How do I invite my family?"];
-function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+ZOE_SVG+"<div>Hi, I'm <b>Zoe</b>! I know how this app works and I can dig through the schools for you. Ask me anything, or tap a suggestion.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
+const ZOE_SUGG=["What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
+function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+ZOE_SVG+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
 $("zoe-fab").onclick=zoeOpen;
+{ const zb=$("zoe-banner"); if(zb) zb.onclick=zoeOpen; }
 $("zoe-close").onclick=()=>$("zoe-panel").classList.add("hidden");
 $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim(); if(!v)return; zoeSay(esc(v),"me"); $("zoe-in").value=""; setTimeout(()=>zoeSay(zoeAnswer(v)),180); };
 
