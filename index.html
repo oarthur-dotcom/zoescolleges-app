@@ -2533,19 +2533,35 @@ function zoeCtx(){
 }
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
-async function zoeFetchAI(v){
+const ZOE_BUSY = "I'm having trouble reaching my smarter brain just now — give it a few seconds and ask again. In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.";
+let zoeInFlight=false;
+async function zoeFetchOnce(v){
+  const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),30000);
   try{
-    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }) });
+    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }), signal:ctrl.signal });
     const j=await r.json().catch(()=>({}));
-    if(j && j.reply) return zoeRich(j.reply);
-    if(j && j.capped) return "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b> and <b>deadlines</b> — ask about those!";
-    return ZOE_FALLBACK;
-  }catch(e){ return ZOE_FALLBACK; }
+    if(j && j.reply) return { reply: zoeRich(j.reply) };
+    if(j && j.capped) return { reply: "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b> — ask about those!" };
+    return { fail:true };
+  }catch(e){ return { fail:true }; }
+  finally{ clearTimeout(to); }
+}
+// Try once; on a failure/empty, wait briefly and try one more time before giving up.
+async function zoeFetchAI(v){
+  let r=await zoeFetchOnce(v);
+  if(r.reply) return r.reply;
+  await new Promise(res=>setTimeout(res,1200));
+  r=await zoeFetchOnce(v);
+  return r.reply || ZOE_BUSY;
 }
 async function zoeHandle(v){
   const ans=zoeAnswer(v);
   if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
-  const typing=zoeTyping(); const html=await zoeFetchAI(v); typing.remove(); zoeSay(html);
+  if(zoeInFlight){ return; }
+  zoeInFlight=true;
+  const typing=zoeTyping();
+  try{ const html=await zoeFetchAI(v); typing.remove(); zoeSay(html); }
+  finally{ zoeInFlight=false; }
 }
 paintZoeAvatars();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
@@ -2572,7 +2588,7 @@ $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim
 /* ---- Ask Zoe full tab (concept 2) ---- */
 function ztabSay(text,who){ const log=$("ztab-log"); if(!log) return; const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; log.appendChild(d); log.scrollTop=log.scrollHeight; }
 function ztabTyping(){ const log=$("ztab-log"); const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
-async function ztabAsk(v){ ztabSay(esc(v),"me"); const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); return; } const t=ztabTyping(); const html=await zoeFetchAI(v); t.remove(); ztabSay(html); }
+async function ztabAsk(v){ ztabSay(esc(v),"me"); const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); return; } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
 function renderZoeTab(){
   paintZoeAvatars();
   const log=$("ztab-log");

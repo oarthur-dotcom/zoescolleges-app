@@ -4,9 +4,9 @@
 // Cost guard: global daily hard cap via Netlify Blobs (free tier never charges,
 // this just keeps request volume sane).
 
-// Primary is the self-updating alias so a model rename never breaks us again;
-// the rest are explicit fallbacks tried in order until one responds.
-const MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-2.5-flash", "gemini-1.5-flash"];
+// Explicit fast flash first (the -latest alias was routing to a slow/heavy
+// model, ~20s); fallbacks tried in order until one responds.
+const MODELS = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-1.5-flash"];
 const DAILY_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
 
@@ -81,7 +81,7 @@ export default async (req) => {
   // to the visible answer (and responses are much faster). Older models reject
   // thinkingConfig with a 400, so we retry without it in that case.
   const buildPayload = (noThink) => {
-    const gen = { temperature: 0.6, maxOutputTokens: 2048, topP: 0.95 };
+    const gen = { temperature: 0.6, maxOutputTokens: 800, topP: 0.95 };
     if (noThink) gen.thinkingConfig = { thinkingBudget: 0 };
     return { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: "user", parts: [{ text: q }] }], generationConfig: gen, safetySettings };
   };
