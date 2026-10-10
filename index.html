@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root{
   --paper:#f3f5f1;--surface:#ffffff;--sunk:#e9ece7;--ink:#101c2e;--muted:#79839c;
@@ -160,6 +162,14 @@ a{color:var(--teal)}
 .calc-link{font-size:12.5px;color:var(--teal);cursor:pointer;margin-left:auto;white-space:nowrap}
 .calc-link:hover{text-decoration:underline}
 #dlg-calc h3{font-size:14px;margin:14px 0 0}
+.vmap{height:280px;border-radius:12px;border:1px solid var(--line);margin:8px 0;z-index:0}
+.vmap .leaflet-container{border-radius:12px}
+.spots{display:flex;flex-direction:column;gap:6px;margin:6px 0}
+.spot{display:flex;align-items:center;gap:8px;font-size:14px;background:var(--sunk);border-radius:8px;padding:6px 10px}
+.spot .sp-name{flex:1}
+.spot .sp-rm{background:none;border:0;color:var(--muted);cursor:pointer}.spot .sp-rm:hover{color:var(--warn)}
+.visit-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.vhint{font-size:12px;color:var(--muted);margin:2px 0 0}
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
@@ -1190,6 +1200,7 @@ function renderDetail(id){
     rateBlock = `<h2>Family ratings</h2><div class="raters" style="border-top:none;padding-top:0">${ratersHtml(id)}</div>
       <h2>My note</h2>${noteHtml(id)}
       <div class="row" style="margin-top:8px"><button class="small primary" data-savenote="${esc(id)}">Save note</button></div>
+      <h2>Plan your visit</h2>${visitSection(id, info)}
       <h2>Campus photos</h2>${photoSection(id)}`;
   } else {
     rateBlock = `<div class="card">Add this school to your board to rate it and save photos with your family.
@@ -1202,7 +1213,7 @@ function renderDetail(id){
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${facts}${museSection(info)}${link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
-  bindStars($("detail-body")); wirePhotos(id);
+  bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
   if (addBtn) addBtn.onclick = async () => { await addFromCatalog(id); renderDetail(id); };
   const rmBtn = $("detail-body").querySelector("[data-detailremove]");
@@ -1236,6 +1247,53 @@ function bindStars(root){
   });
 }
 
+/* ========== VISITS (plan a visit, map pins, notes) ========== */
+function getVisits(){ return lsGet("visits")||{}; }
+function getVisit(id){ return getVisits()[id]||{date:"",notes:"",spots:[]}; }
+function saveVisit(id,v){ const all=getVisits(); all[id]=v; lsSet("visits",all); }
+function visitSection(id, info){
+  const v=getVisit(id);
+  const hasCoords = info && typeof info.lat==="number" && typeof info.lon==="number";
+  return `<div class="visit">
+    <div class="visit-head">
+      <label style="margin:0">Visit date</label>
+      <input type="date" id="visit-date" value="${esc(v.date||"")}">
+      <button class="small primary" id="visit-date-save">Save date</button>
+      <span class="muted" id="visit-msg" style="font-size:12px"></span>
+    </div>
+    ${hasCoords ? `<div class="vmap" id="vmap"></div>
+      <p class="vhint">Tap the map to pin an off-campus spot — coffee, a view, the best taco — then name it. Saved on this device for now.</p>
+      <div class="spots" id="spots"></div>`
+      : `<p class="vhint">No map location on file for this school yet.</p>`}
+    <label style="margin-top:8px">Visit notes</label>
+    <textarea id="visit-notes" placeholder="The tour, the vibe, the food, what stood out…">${esc(v.notes||"")}</textarea>
+    <div class="row" style="margin-top:8px"><button class="small" id="visit-notes-save">Save notes</button></div>
+  </div>`;
+}
+function flashVisit(m){ const el=$("visit-msg"); if(el){ el.textContent=m; setTimeout(()=>el.textContent="",1500); } }
+let _spotLayer=null;
+function renderSpots(id, map){
+  const v=getVisit(id); const spots=v.spots||[];
+  const el=$("spots"); if(el) el.innerHTML = spots.length? spots.map((s,i)=>`<div class="spot"><span>📍</span><span class="sp-name">${esc(s.name)}</span><button class="sp-rm" data-spot="${i}" title="Remove">✕</button></div>`).join("") : `<p class="vhint">No spots pinned yet.</p>`;
+  if(map){ if(_spotLayer){ map.removeLayer(_spotLayer); } _spotLayer=L.layerGroup().addTo(map);
+    spots.forEach(s=>L.marker([s.lat,s.lon]).addTo(_spotLayer).bindPopup(esc(s.name))); }
+  if(el) el.querySelectorAll("[data-spot]").forEach(btn=>btn.onclick=()=>{ const vv=getVisit(id); vv.spots.splice(+btn.dataset.spot,1); saveVisit(id,vv); renderSpots(id,map); });
+}
+function initVisit(id, info){
+  const ds=$("visit-date-save"); if(ds) ds.onclick=()=>{ const v=getVisit(id); v.date=$("visit-date").value; saveVisit(id,v); flashVisit("Date saved ✓"); };
+  const ns=$("visit-notes-save"); if(ns) ns.onclick=()=>{ const v=getVisit(id); v.notes=$("visit-notes").value; saveVisit(id,v); flashVisit("Notes saved ✓"); };
+  if(!(window.L && info && typeof info.lat==="number" && typeof info.lon==="number")) return;
+  const el=$("vmap"); if(!el) return;
+  try{
+    const map=L.map(el,{scrollWheelZoom:false}).setView([info.lat,info.lon],14);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
+    L.marker([info.lat,info.lon]).addTo(map).bindPopup("<b>"+esc(info.name)+"</b>").openPopup();
+    renderSpots(id, map);
+    map.on("click",(e)=>{ const name=prompt("Name this spot (e.g. 'great coffee', 'bookstore', 'best view'):"); if(!name||!name.trim()) return;
+      const v=getVisit(id); v.spots=v.spots||[]; v.spots.push({lat:+e.latlng.lat.toFixed(5),lon:+e.latlng.lng.toFixed(5),name:name.trim()}); saveVisit(id,v); renderSpots(id,map); });
+    setTimeout(()=>{ try{ map.invalidateSize(); }catch(e){} },250);
+  }catch(e){}
+}
 /* ========== PHOTOS ========== */
 function photosFor(id){ return state.photos.filter(p=>p.school_id===id); }
 function photoSection(id){
