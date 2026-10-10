@@ -152,6 +152,14 @@ a{color:var(--teal)}
 .act-row .a-hrs,.act-row .a-yrs{width:74px}
 .act-row .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;cursor:pointer;padding:6px 10px}
 .act-row .a-rm:hover{border-color:var(--warn);color:var(--warn)}
+#balance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:6px 0 2px}
+.bal-grade{font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#fff;flex:0 0 auto}
+.bal-A{background:#2e9e6b}.bal-B{background:#6aa84f}.bal-C{background:#b8860b}.bal-D{background:#c0612c}
+.bal-counts{font-size:13.5px;color:var(--ink)} .bal-counts b{font-variant-numeric:tabular-nums}
+.bal-tip{font-size:12.5px;color:var(--muted);margin-top:2px}
+.calc-link{font-size:12.5px;color:var(--teal);cursor:pointer;margin-left:auto;white-space:nowrap}
+.calc-link:hover{text-decoration:underline}
+#dlg-calc h3{font-size:14px;margin:14px 0 0}
 .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 /* photos */
 .photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
@@ -359,6 +367,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       </ol>
     </div>
     <div id="nextstep" class="msg hidden"></div>
+    <div id="balance" class="hidden"></div>
     <div id="board-msg" class="msg"></div>
     <div id="schools"></div>
     <button id="fab-add" class="fab">+ Add school</button>
@@ -421,7 +430,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
     <div class="card">
       <h2 style="margin-top:0">What matters to you</h2>
-      <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts, then set your lifestyle preferences. Match % re-scores every school for you instantly.</p>
+      <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts, then set your lifestyle preferences. Match % re-scores every school for you instantly. <span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span></p>
       <div class="sl-subhead">How much each counts</div>
       <div id="sliders"></div>
       <div class="sl-subhead" style="margin-top:14px">Your lifestyle preferences</div>
@@ -500,6 +509,36 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   </div>
   <p class="muted" style="font-size:12px">Test mode — use card 4242 4242 4242 4242, any future date and CVC. No real charge.</p>
   <div class="row" style="justify-content:flex-end"><button id="plans-close" class="small">Close</button></div>
+</dialog>
+
+<dialog id="dlg-calc">
+  <h2 style="margin-top:0">How we calculate this</h2>
+  <p class="muted" style="font-size:13px;margin-top:0">Everything here is a <b>projection, not a promise</b> — built from published admissions logic and shown in the open. Treat it as guidance on a spectrum and review it with a counselor. You can adjust the weights yourself in <b>My Profile</b>.</p>
+
+  <h3 style="margin-bottom:4px">Match % (fit for you)</h3>
+  <p style="margin-top:0;font-size:14px">A weighted blend of what you tell us matters, scored against each school's data:</p>
+  <ul style="font-size:14px;line-height:1.6;margin-top:0">
+    <li><b>Value, Education, Selectivity, Spirit, Proximity, Lifestyle</b> — your importance sliders set how much each counts.</li>
+    <li><b>Size & setting, political lean, gun &amp; LGBTQ policy, religion, nearby</b> — matched to your stated preferences.</li>
+    <li>Move any slider and every school re-scores instantly. Nothing is fixed.</li>
+  </ul>
+
+  <h3 style="margin-bottom:4px">Admission chance (Reach / Target / Likely)</h3>
+  <ul style="font-size:14px;line-height:1.6;margin-top:0">
+    <li>Starts from the school's <b>admit rate</b> (more selective → harder band).</li>
+    <li>Adjusted by your <b>test scores</b> vs. the school's average (ACT converted to SAT via the official concordance).</li>
+    <li>Your <b>GPA</b> is <b>rigor-adjusted</b> — Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (the standard colleges use).</li>
+    <li>Your <b>activities</b> (4-tier scale) can nudge a Reach toward Target at selective schools — but they're capped one step and <b>never override your grades</b>.</li>
+    <li>We have each school's admit rate and <i>average</i> scores (not full ranges), so the read is a band with low/medium/high confidence — not a false percentage.</li>
+  </ul>
+
+  <h3 style="margin-bottom:4px">List balance</h3>
+  <p style="margin-top:0;font-size:14px">A balanced list has a mix: roughly <b>2–4 Likely, 3–5 Target, 2–6 Reach</b>. We grade your board against that so you can see gaps at a glance.</p>
+
+  <h3 style="margin-bottom:4px">Where the data comes from</h3>
+  <p class="muted" style="font-size:12.5px;margin-top:0;line-height:1.5">College Scorecard (U.S. Dept. of Education) for admissions, cost, outcomes. Admissions logic: NACAC's admission-factors survey, the standard GPA recalculation, and the widely-used reach/target/likely bands &amp; 4-tier activity scale. Area context: Cook PVI / presidential results, Giffords Law Center, Movement Advancement Project. All approximate — bring it to your counselor.</p>
+
+  <div class="row" style="justify-content:flex-end"><button id="calc-close" class="small primary">Got it</button></div>
 </dialog>
 
 <!-- INVITE DIALOG -->
@@ -924,7 +963,31 @@ function renderBoard(){
   $("schools").innerHTML = withMeta.map(renderSchool).join("") ||
     `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all schools.</div>`;
   applyBoardView();
-  bindStars($("schools")); wireOpen($("schools")); wireRanks(); renderGuidance(withMeta);
+  bindStars($("schools")); wireOpen($("schools")); wireRanks(); renderGuidance(withMeta); renderBalance(withMeta);
+}
+/* list-balance grade (CK-style: ~2–4 Likely, 3–5 Target, 2–6 Reach) */
+function listBalance(meta){
+  const bands=meta.map(x=>x.ch&&x.ch.band).filter(Boolean);
+  if(!bands.length) return null;
+  const c={reach:0,target:0,likely:0}; bands.forEach(b=>c[b]++);
+  let inRange=0; const tips=[];
+  if(c.likely>=2) inRange++; else tips.push(`${Math.max(1,2-c.likely)} more <b>Likely</b>`);
+  if(c.target>=3) inRange++; else tips.push(`${Math.max(1,3-c.target)} more <b>Target</b>`);
+  if(c.reach>=2) inRange++; else tips.push(`${Math.max(1,2-c.reach)} more <b>Reach</b>`);
+  if(c.reach>6) tips.push(`trim a <b>Reach</b> or two`);
+  const grade = inRange>=3 ? (c.reach<=6?'A':'B') : inRange===2?'B':inRange===1?'C':'D';
+  return {c,grade,tips};
+}
+function renderBalance(meta){
+  const el=$("balance"); const b=listBalance(meta);
+  if(!b){ el.classList.add("hidden"); return; }
+  const tip = b.tips.length? `For a balanced list: ${b.tips.slice(0,2).join(", ")}.` : `Nicely balanced — a healthy mix.`;
+  const note = studentProfile()? "" : ` <i>Set My Profile to personalize.</i>`;
+  el.className="";
+  el.innerHTML=`<div class="bal-grade bal-${b.grade}" title="List balance grade">${b.grade}</div>
+    <div><div class="bal-counts"><b>${b.c.likely}</b> Likely · <b>${b.c.target}</b> Target · <b>${b.c.reach}</b> Reach</div>
+    <div class="bal-tip">${tip}${note}</div></div>
+    <span class="calc-link" data-calc>How we calculate this ▸</span>`;
 }
 let rankMode=false;
 function getRanks(){ return lsGet("ranks")||{}; }
@@ -1136,7 +1199,7 @@ function renderDetail(id){
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
-    <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}</div>
+    <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${facts}${museSection(info)}${link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id);
@@ -1380,6 +1443,8 @@ $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent
 $("inv-mail").onclick = () => { const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`); location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`; };
 $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();
+$("calc-close").onclick = () => $("dlg-calc").close();
+document.addEventListener("click", e => { if (e.target.closest("[data-calc]")) $("dlg-calc").showModal(); });
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
