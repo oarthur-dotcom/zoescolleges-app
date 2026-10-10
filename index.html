@@ -257,6 +257,30 @@ a{color:var(--teal)}
 .cp-fill.target{background:#d79a2b}
 .cp-fill.reach{background:#8e3b7a}
 .cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
+/* binder */
+.ztab-actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.bk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bk-group{margin-bottom:12px}
+.bk-gname{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700;margin:0 0 6px}
+.bk-item{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
+.bk-open{flex:1;text-align:left;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.bk-open b{font-size:13.5px}.bk-open span{font-size:11px;color:var(--muted)}
+.bk-open:hover{border-color:var(--teal)}
+.bk-del{background:none;border:1px solid var(--line);border-radius:10px;cursor:pointer;padding:0 11px;font-size:14px}
+.bk-del:hover{border-color:var(--warn)}
+.bk-lbl{font-size:12px;color:var(--muted)}
+.zmodal{position:fixed;inset:0;z-index:40;background:rgba(8,12,20,.55);display:flex;align-items:center;justify-content:center;padding:18px}
+.zmodal-box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;max-width:560px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+.bk-log{display:flex;flex-direction:column;gap:9px}
+/* cost & value */
+.cost-rows{display:flex;flex-direction:column;gap:9px}
+.cost-row{display:flex;align-items:center;gap:11px}
+.cost-nm{flex:0 0 34%;min-width:0;font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cost-track{flex:1;height:16px;background:var(--sunk);border-radius:999px;overflow:hidden}
+.cost-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2e9e6b,#d79a2b)}
+.cost-v{flex:0 0 auto;font-weight:700;font-size:13px;text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
+.cost-earn{font-weight:400;font-size:10.5px;color:var(--muted)}
+@media(max-width:560px){.cost-nm{flex-basis:40%}}
 /* onboarding checklist */
 .ob-card{border:1px solid color-mix(in srgb,var(--teal) 28%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
 .ob-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
@@ -899,9 +923,14 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div class="ztab-head">
       <span id="ztab-ava" class="ztab-ava"></span>
       <div class="ztab-intro"><h1>Ask Zoe</h1><p class="sub">Your college-planning sidekick. She knows your profile and your board — ask anything.</p></div>
-      <button id="ztab-gear" class="small ghost">⚙ Make Zoe yours</button>
+      <div class="ztab-actions">
+        <button id="ztab-save" class="small ghost">💾 Save chat</button>
+        <button id="ztab-binder" class="small ghost">📒 Binder</button>
+        <button id="ztab-gear" class="small ghost">⚙ Make Zoe yours</button>
+      </div>
     </div>
     <div id="ztab-settings" class="zcard hidden"></div>
+    <div id="ztab-binder-panel" class="zcard hidden"></div>
     <div class="ztab-chat zcard">
       <div id="ztab-log" class="ztab-log"></div>
       <div class="zsugg" id="ztab-sugg"></div>
@@ -2247,9 +2276,23 @@ function renderCompare(){
     if(cb.checked){ cmpSel[id]=true; } else { delete cmpSel[id]; } lab.classList.toggle("on",cb.checked); updateCmpBadge(); syncCmpChips(); buildCompare(); }; });
   buildCompare();
 }
+function costCardHtml(){
+  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && x.info.scorecard && typeof x.info.scorecard.netPrice==="number");
+  if(rows.length<2) return "";
+  rows.sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice);
+  const max=Math.max(...rows.map(r=>r.info.scorecard.netPrice))||1;
+  const avg=Math.round(rows.reduce((a,r)=>a+r.info.scorecard.netPrice,0)/rows.length);
+  const body=rows.map(r=>{ const sc=r.info.scorecard; const np=sc.netPrice; const earn=sc.medianEarnings10yr; const w=Math.round(np/max*100);
+    return `<div class="cost-row"><span class="cost-nm">${esc(r.rec.name)}</span><div class="cost-track"><div class="cost-fill" style="width:${Math.max(6,w)}%"></div></div><span class="cost-v">${money(np)}${earn?`<span class="cost-earn">grads earn ~${money(earn)}</span>`:""}</span></div>`;
+  }).join("");
+  return `<div class="card cost-card"><div class="pv-head"><h2 style="margin:0">💰 Cost &amp; value across your list</h2><span class="muted" style="font-size:12px">avg net ${money(avg)}/yr</span></div>
+    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Estimated <b>net price</b> per year after typical aid — lowest first. Where available, median earnings 10 years after enrolling.</p>
+    <div class="cost-rows">${body}</div>
+    <p class="muted" style="font-size:11px;margin:11px 0 0">Net price is the federal average after grants/scholarships; your real cost depends on your family's finances — run each school's net-price calculator for a personal number.</p></div>`;
+}
 function buildCompare(){
   const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
-  if(ids.length<2){ out.innerHTML=`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school).</div>`; return; }
+  if(ids.length<2){ out.innerHTML=costCardHtml()+`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school) to compare them side by side.</div>`; return; }
   const cols=ids.map(id=>({rec:state.schools.find(s=>s.school_id===id), info:catInfo(id)})).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
@@ -2295,7 +2338,7 @@ function buildCompare(){
     <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
     ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cx-k">${esc(m.k)}</div>`+cols.map((c,i)=>`<div class="cx-cell${i===bi?' best':''}">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</div>`).join(""); }).join("")}
   </div><p class="muted" style="font-size:11px;margin:12px 2px 0">★ marks the strongest in each row. Admit rate isn't scored — lower just means more selective.</p></div>`;
-  out.innerHTML=tiles+bestCallout+grid;
+  out.innerHTML=costCardHtml()+tiles+bestCallout+grid;
 }
 $("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
@@ -2900,6 +2943,42 @@ function renderZoeTab(){
 }
 $("ztab-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("ztab-in").value.trim(); if(!v)return; $("ztab-in").value=""; ztabAsk(v); };
 $("ztab-gear").onclick=()=>{ const s=$("ztab-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettingsIn(s); };
+/* ---- Binder: save chats, attach to a school, grouped ---- */
+function binderGet(){ try{ return JSON.parse(localStorage.getItem("zc_binder")||"[]"); }catch(e){ return []; } }
+function binderSet(a){ try{ localStorage.setItem("zc_binder", JSON.stringify(a)); }catch(e){} }
+function captureChat(){ const log=$("ztab-log"); if(!log) return []; return [...log.querySelectorAll(".zmsg")].filter(d=>!d.classList.contains("ztyping")).map(d=>({ who:d.classList.contains("me")?"me":"z", html:d.innerHTML })); }
+function zOverlay(html){ const ov=document.createElement("div"); ov.className="zmodal"; ov.innerHTML=`<div class="zmodal-box">${html}</div>`; document.body.appendChild(ov); ov.onclick=e=>{ if(e.target===ov) ov.remove(); }; return ov; }
+function openSaveChat(){
+  const msgs=captureChat(); if(msgs.filter(m=>m.who==="me").length<1){ alert("Ask Zoe something first, then save the chat."); return; }
+  const firstQ=msgs.find(m=>m.who==="me"); const defTitle=(firstQ?firstQ.html.replace(/<[^>]+>/g,"").trim():"Chat with Zoe").slice(0,60);
+  const opts=`<option value="">General</option>`+(state.schools||[]).map(s=>`<option value="${esc(s.school_id)}">${esc(s.name)}</option>`).join("");
+  const ov=zOverlay(`<h3 style="margin:0 0 12px">Save this chat</h3>
+    <label class="bk-lbl">Title</label><input id="bk-title" type="text" value="${esc(defTitle)}" style="width:100%;margin:4px 0 12px">
+    <label class="bk-lbl">Attach to a school</label><select id="bk-school" style="width:100%;margin:4px 0 16px">${opts}</select>
+    <div class="row" style="justify-content:flex-end;gap:8px"><button class="small ghost" id="bk-cancel">Cancel</button><button class="small primary" id="bk-save">Save to Binder</button></div>`);
+  ov.querySelector("#bk-cancel").onclick=()=>ov.remove();
+  ov.querySelector("#bk-save").onclick=()=>{ const title=(ov.querySelector("#bk-title").value||defTitle).trim()||"Chat with Zoe"; const school=ov.querySelector("#bk-school").value;
+    const arr=binderGet(); arr.unshift({ id:"bk_"+Date.now(), title, school_id:school, ts:Date.now(), msgs }); binderSet(arr); ov.remove();
+    const b=$("ztab-binder"); if(b){ b.textContent="Saved ✓"; setTimeout(()=>{ b.textContent="📒 Binder"; },1400); } };
+}
+function openBinderChat(entry){ const ov=zOverlay(`<div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="margin:0">${esc(entry.title)}</h3><button class="small ghost" id="bk-x">✕</button></div>
+  <div class="muted" style="font-size:12px;margin-bottom:10px">${entry.school_id?esc(schoolName(entry.school_id))+" · ":""}${new Date(entry.ts).toLocaleDateString()}</div>
+  <div class="bk-log">${entry.msgs.map(m=>`<div class="zmsg ${m.who==="me"?"me":"z"}">${m.html}</div>`).join("")}</div>`);
+  ov.querySelector("#bk-x").onclick=()=>ov.remove();
+}
+function renderBinderPanel(){
+  const el=$("ztab-binder-panel"); if(!el) return;
+  const arr=binderGet();
+  if(!arr.length){ el.innerHTML=`<div class="bk-empty"><b>📒 Your Binder</b><p class="muted" style="font-size:13px;margin:6px 0 0">No saved chats yet. Have a chat with Zoe, then tap <b>💾 Save chat</b> — attach it to a school and it'll live here, grouped by school.</p></div>`; return; }
+  const groups={}; arr.forEach(e=>{ const k=e.school_id||"__gen"; (groups[k]=groups[k]||[]).push(e); });
+  const order=Object.keys(groups).sort((a,b)=> a==="__gen"?1 : b==="__gen"?-1 : schoolName(a).localeCompare(schoolName(b)));
+  el.innerHTML=`<div class="bk-head"><b>📒 Your Binder</b><span class="muted" style="font-size:12px">${arr.length} saved</span></div>`+
+    order.map(k=>`<div class="bk-group"><div class="bk-gname">${k==="__gen"?"General":esc(schoolName(k))}</div>${groups[k].map(e=>`<div class="bk-item"><button class="bk-open" data-bkopen="${esc(e.id)}"><b>${esc(e.title)}</b><span>${new Date(e.ts).toLocaleDateString()}</span></button><button class="bk-del" data-bkdel="${esc(e.id)}" title="Delete">🗑</button></div>`).join("")}</div>`).join("");
+  el.querySelectorAll("[data-bkopen]").forEach(b=>b.onclick=()=>{ const e=binderGet().find(x=>x.id===b.dataset.bkopen); if(e) openBinderChat(e); });
+  el.querySelectorAll("[data-bkdel]").forEach(b=>b.onclick=()=>{ binderSet(binderGet().filter(x=>x.id!==b.dataset.bkdel)); renderBinderPanel(); });
+}
+$("ztab-save").onclick=openSaveChat;
+$("ztab-binder").onclick=()=>{ const p=$("ztab-binder-panel"); p.classList.toggle("hidden"); if(!p.classList.contains("hidden")) renderBinderPanel(); };
 
 /* ---- Ambient coach (concept 3) — proactive, gated by helpfulness ---- */
 function zoeTips(){
