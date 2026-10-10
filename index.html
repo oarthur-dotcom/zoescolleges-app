@@ -257,6 +257,18 @@ a{color:var(--teal)}
 .cp-fill.target{background:#d79a2b}
 .cp-fill.reach{background:#8e3b7a}
 .cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
+/* public share view */
+#v-share{max-width:720px;margin:0 auto;padding:24px 20px 80px}
+.share-hero{text-align:center;margin:18px 0 22px}
+.share-brand{font-weight:800;color:var(--teal);letter-spacing:.02em;margin-bottom:8px}
+.share-hero h1{margin:0}
+.share-list{display:flex;flex-direction:column;gap:9px}
+.share-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
+.share-stat{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.share-m{font-weight:700;font-size:13px;color:var(--teal)}
+.share-c{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.share-cta{text-align:center;margin-top:24px}
+.share-cta .btn-primary,.share-cta a.btn-primary{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700}
 /* binder */
 .ztab-actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .bk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -652,12 +664,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 
   <!-- REPORT -->
   <section id="v-report" class="hidden">
-    <div class="row no-print" style="justify-content:space-between;margin-bottom:8px">
+    <div class="row no-print" style="justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap">
       <button id="report-back" class="small ghost">← Back to board</button>
-      <button id="report-print" class="small primary">Print / Save as PDF</button>
+      <div class="row" style="gap:8px"><button id="report-share" class="small ghost">🔗 Share link</button><button id="report-print" class="small primary">Print / Save as PDF</button></div>
     </div>
     <div id="report-body"></div>
   </section>
+
+  <!-- PUBLIC SHARE (no login) -->
+  <section id="v-share" class="hidden"><div id="share-body"></div></section>
 
   <!-- TRUST / ABOUT -->
   <section id="v-trust" class="hidden">
@@ -1627,6 +1642,7 @@ document.addEventListener("click", (e) => { if(!e.target.closest(".menu-wrap")) 
 $("more-menu").addEventListener("click", () => $("more-menu").classList.add("hidden"));
 $("report-back").onclick = () => show("v-board");
 $("report-print").onclick = () => window.print();
+{ const rs=$("report-share"); if(rs) rs.onclick = createShareLink; }
 
 /* ===== memories reel (free) ===== */
 function memPrefs(){ return lsGet("memprefs")||{}; }
@@ -2943,9 +2959,20 @@ function renderZoeTab(){
 }
 $("ztab-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("ztab-in").value.trim(); if(!v)return; $("ztab-in").value=""; ztabAsk(v); };
 $("ztab-gear").onclick=()=>{ const s=$("ztab-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettingsIn(s); };
-/* ---- Binder: save chats, attach to a school, grouped ---- */
+/* ---- Binder: save chats, attach to a school, grouped (cloud-synced + local fallback) ---- */
 function binderGet(){ try{ return JSON.parse(localStorage.getItem("zc_binder")||"[]"); }catch(e){ return []; } }
 function binderSet(a){ try{ localStorage.setItem("zc_binder", JSON.stringify(a)); }catch(e){} }
+let _binderCloud=null;
+async function binderCloudOK(){ if(_binderCloud!==null) return _binderCloud; try{ if(!(state.session&&state.family)){ _binderCloud=false; return false; } const {error}=await sb.from("binder_chats").select("id").limit(1); _binderCloud=!error; }catch(e){ _binderCloud=false; } return _binderCloud; }
+async function binderList(){
+  if(await binderCloudOK()){ try{ const {data}=await sb.from("binder_chats").select("*").order("created_at",{ascending:false}); return (data||[]).map(r=>({ id:r.id, cloud:true, title:r.title, school_id:r.school_id||"", ts:new Date(r.created_at).getTime(), msgs:r.msgs||[] })); }catch(e){} }
+  return binderGet().map(e=>({ ...e, cloud:false }));
+}
+async function binderAdd(entry){
+  if(await binderCloudOK()){ try{ const {error}=await sb.from("binder_chats").insert({ family_id:state.family.id, school_id:entry.school_id||null, title:entry.title, msgs:entry.msgs, created_by:state.session.user.id }); if(!error) return; }catch(e){} }
+  const arr=binderGet(); arr.unshift({ id:"bk_"+Date.now(), title:entry.title, school_id:entry.school_id, ts:Date.now(), msgs:entry.msgs }); binderSet(arr);
+}
+async function binderDelete(entry){ if(entry.cloud){ try{ await sb.from("binder_chats").delete().eq("id",entry.id); }catch(e){} } else { binderSet(binderGet().filter(x=>x.id!==entry.id)); } }
 function captureChat(){ const log=$("ztab-log"); if(!log) return []; return [...log.querySelectorAll(".zmsg")].filter(d=>!d.classList.contains("ztyping")).map(d=>({ who:d.classList.contains("me")?"me":"z", html:d.innerHTML })); }
 function zOverlay(html){ const ov=document.createElement("div"); ov.className="zmodal"; ov.innerHTML=`<div class="zmodal-box">${html}</div>`; document.body.appendChild(ov); ov.onclick=e=>{ if(e.target===ov) ov.remove(); }; return ov; }
 function openSaveChat(){
@@ -2957,25 +2984,67 @@ function openSaveChat(){
     <label class="bk-lbl">Attach to a school</label><select id="bk-school" style="width:100%;margin:4px 0 16px">${opts}</select>
     <div class="row" style="justify-content:flex-end;gap:8px"><button class="small ghost" id="bk-cancel">Cancel</button><button class="small primary" id="bk-save">Save to Binder</button></div>`);
   ov.querySelector("#bk-cancel").onclick=()=>ov.remove();
-  ov.querySelector("#bk-save").onclick=()=>{ const title=(ov.querySelector("#bk-title").value||defTitle).trim()||"Chat with Zoe"; const school=ov.querySelector("#bk-school").value;
-    const arr=binderGet(); arr.unshift({ id:"bk_"+Date.now(), title, school_id:school, ts:Date.now(), msgs }); binderSet(arr); ov.remove();
-    const b=$("ztab-binder"); if(b){ b.textContent="Saved ✓"; setTimeout(()=>{ b.textContent="📒 Binder"; },1400); } };
+  ov.querySelector("#bk-save").onclick=async()=>{ const title=(ov.querySelector("#bk-title").value||defTitle).trim()||"Chat with Zoe"; const school=ov.querySelector("#bk-school").value;
+    await binderAdd({ title, school_id:school, msgs }); ov.remove();
+    const b=$("ztab-binder"); if(b){ b.textContent="Saved ✓"; setTimeout(()=>{ b.textContent="📒 Binder"; },1400); }
+    const p=$("ztab-binder-panel"); if(p && !p.classList.contains("hidden")) renderBinderPanel(); };
 }
 function openBinderChat(entry){ const ov=zOverlay(`<div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="margin:0">${esc(entry.title)}</h3><button class="small ghost" id="bk-x">✕</button></div>
   <div class="muted" style="font-size:12px;margin-bottom:10px">${entry.school_id?esc(schoolName(entry.school_id))+" · ":""}${new Date(entry.ts).toLocaleDateString()}</div>
   <div class="bk-log">${entry.msgs.map(m=>`<div class="zmsg ${m.who==="me"?"me":"z"}">${m.html}</div>`).join("")}</div>`);
   ov.querySelector("#bk-x").onclick=()=>ov.remove();
 }
-function renderBinderPanel(){
+async function renderBinderPanel(){
   const el=$("ztab-binder-panel"); if(!el) return;
-  const arr=binderGet();
+  el.innerHTML=`<div class="muted" style="font-size:13px;padding:2px">Loading your Binder…</div>`;
+  const arr=await binderList();
+  const synced=await binderCloudOK();
   if(!arr.length){ el.innerHTML=`<div class="bk-empty"><b>📒 Your Binder</b><p class="muted" style="font-size:13px;margin:6px 0 0">No saved chats yet. Have a chat with Zoe, then tap <b>💾 Save chat</b> — attach it to a school and it'll live here, grouped by school.</p></div>`; return; }
+  const byId={}; arr.forEach(e=>byId[e.id]=e);
   const groups={}; arr.forEach(e=>{ const k=e.school_id||"__gen"; (groups[k]=groups[k]||[]).push(e); });
   const order=Object.keys(groups).sort((a,b)=> a==="__gen"?1 : b==="__gen"?-1 : schoolName(a).localeCompare(schoolName(b)));
-  el.innerHTML=`<div class="bk-head"><b>📒 Your Binder</b><span class="muted" style="font-size:12px">${arr.length} saved</span></div>`+
+  el.innerHTML=`<div class="bk-head"><b>📒 Your Binder</b><span class="muted" style="font-size:12px">${arr.length} saved${synced?" · synced ☁️":""}</span></div>`+
     order.map(k=>`<div class="bk-group"><div class="bk-gname">${k==="__gen"?"General":esc(schoolName(k))}</div>${groups[k].map(e=>`<div class="bk-item"><button class="bk-open" data-bkopen="${esc(e.id)}"><b>${esc(e.title)}</b><span>${new Date(e.ts).toLocaleDateString()}</span></button><button class="bk-del" data-bkdel="${esc(e.id)}" title="Delete">🗑</button></div>`).join("")}</div>`).join("");
-  el.querySelectorAll("[data-bkopen]").forEach(b=>b.onclick=()=>{ const e=binderGet().find(x=>x.id===b.dataset.bkopen); if(e) openBinderChat(e); });
-  el.querySelectorAll("[data-bkdel]").forEach(b=>b.onclick=()=>{ binderSet(binderGet().filter(x=>x.id!==b.dataset.bkdel)); renderBinderPanel(); });
+  el.querySelectorAll("[data-bkopen]").forEach(b=>b.onclick=()=>{ const e=byId[b.dataset.bkopen]; if(e) openBinderChat(e); });
+  el.querySelectorAll("[data-bkdel]").forEach(b=>b.onclick=async()=>{ const e=byId[b.dataset.bkdel]; if(e){ await binderDelete(e); renderBinderPanel(); } });
+}
+/* ---- public share: snapshot the board to a link anyone can view ---- */
+function boardSharePayload(){
+  const w=myPrefs();
+  const schools=state.schools.map(s=>{ const info=catInfo(s.school_id); if(!info) return null; const m=matchScore(info,w); const ch=chanceFor(info); return { name:s.name, where:[info.city,info.state].filter(Boolean).join(", "), match:(m==null?null:m), chance:ch?ch.label:"" }; }).filter(Boolean);
+  return { familyName:(state.family&&state.family.name)||"Our family", schools, created:Date.now() };
+}
+async function createShareLink(){
+  if(!(state.session&&state.family)){ alert("Sign in first."); return; }
+  const payload=boardSharePayload();
+  if(!payload.schools.length){ alert("Add some schools to your board first."); return; }
+  payload.title=payload.familyName+"'s college list";
+  const token=(self.crypto&&crypto.randomUUID? crypto.randomUUID().replace(/-/g,"") : (Math.random().toString(36).slice(2)+Date.now().toString(36))).slice(0,24);
+  try{
+    const {error}=await sb.from("shares").insert({ token, family_id:state.family.id, kind:"list", title:payload.title, payload, created_by:state.session.user.id });
+    if(error) throw error;
+    const url=`${APP_LINK}?share=${token}`;
+    const ov=zOverlay(`<h3 style="margin:0 0 8px">Share your list 🔗</h3><p class="muted" style="font-size:13px;margin:0 0 12px">Anyone with this link can view your list — read-only, no ratings or editing.</p>
+      <input id="sh-url" readonly value="${esc(url)}" style="width:100%;margin-bottom:12px" onclick="this.select()">
+      <div class="row" style="justify-content:flex-end;gap:8px"><button class="small ghost" id="sh-x">Close</button><button class="small primary" id="sh-copy">Copy link</button></div>`);
+    ov.querySelector("#sh-x").onclick=()=>ov.remove();
+    ov.querySelector("#sh-copy").onclick=async()=>{ try{ await navigator.clipboard.writeText(url); ov.querySelector("#sh-copy").textContent="Copied ✓"; }catch(e){ const i=ov.querySelector("#sh-url"); i.select(); } };
+  }catch(e){ alert("Couldn't create a share link yet — the one-time sharing setup may not be in place. (Binder + sharing need the M4 migration.)"); }
+}
+async function renderPublicShare(token){
+  document.querySelectorAll("header.app, #appnav, #zoe-fab, #signout").forEach(el=>el&&el.classList.add("hidden"));
+  document.querySelectorAll("body > section").forEach(s=>s.classList.add("hidden"));
+  const sec=$("v-share"); if(sec) sec.classList.remove("hidden");
+  const body=$("share-body"); if(!body) return;
+  body.innerHTML=`<div class="card muted">Loading shared list…</div>`;
+  try{
+    const {data,error}=await sb.rpc("get_share",{ t:token });
+    if(error||!data) throw error||new Error("missing");
+    const p=(typeof data==="string")?JSON.parse(data):data;
+    body.innerHTML=`<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><h1>${esc(p.familyName||"A family")}'s college list</h1><p class="sub">${(p.schools||[]).length} schools they're considering</p></div>
+      <div class="share-list">${(p.schools||[]).map(s=>`<div class="share-row"><div style="min-width:0"><b>${esc(s.name)}</b><div class="muted" style="font-size:12.5px">${esc(s.where||"")}</div></div><div class="share-stat">${s.match!=null?`<span class="share-m">${s.match}% match</span>`:""}${s.chance?`<span class="share-c">${esc(s.chance)}</span>`:""}</div></div>`).join("")}</div>
+      <div class="share-cta"><a class="btn-primary" href="${APP_LINK}">Build your own family college board →</a><p class="muted" style="font-size:11.5px;margin-top:8px">Match % reflects the sharer's priorities. Make your own board to see yours.</p></div>`;
+  }catch(e){ body.innerHTML=`<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><h1>List unavailable</h1><p class="sub">This shared link isn't available.</p></div><div class="share-cta"><a class="btn-primary" href="${APP_LINK}">Go to Zoe's Colleges →</a></div>`; }
 }
 $("ztab-save").onclick=openSaveChat;
 $("ztab-binder").onclick=()=>{ const p=$("ztab-binder-panel"); p.classList.toggle("hidden"); if(!p.classList.contains("hidden")) renderBinderPanel(); };
@@ -3032,6 +3101,7 @@ sb.auth.onAuthStateChange((event, session) => {
 });
 (async () => {
   const _p = new URLSearchParams(location.search);
+  const _share = _p.get("share"); if(_share){ try{ await renderPublicShare(_share); }catch(e){} return; }
   const ref = _p.get("ref");
   if (ref) { try { localStorage.setItem("zc_ref", ref); } catch(e){} }
   const jc = _p.get("join"); if (jc) { try { localStorage.setItem("zc_join", jc.trim()); } catch(e){} }
