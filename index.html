@@ -192,9 +192,42 @@ a{color:var(--teal)}
 .trip-day{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:var(--surface)}
 .trip-day h4{margin:0 0 6px;font-size:14px}
 .trip-leg{font-size:12.5px;color:var(--muted);margin:2px 0 8px}
-.trip-stop{padding:7px 0;border-top:1px dashed var(--line)}
+.trip-stop{padding:12px 0;border-top:1px dashed var(--line)}
 .trip-stop:first-of-type{border-top:none}
-.trip-stop .ts-name{font-weight:600}
+.trip-stop .ts-name{font-weight:650;font-size:14.5px}
+.ts-head{display:flex;gap:11px;align-items:center}
+.ts-photo{flex:0 0 auto;width:52px;height:52px;border-radius:11px;background-size:cover;background-position:center;background-color:var(--sunk)}
+.ts-info{min-width:0}
+.ts-visit{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0 63px}
+.ts-visit a{font-size:12px;text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--teal);white-space:nowrap}
+.ts-visit a:hover{border-color:var(--teal)}
+.ts-plan{margin:9px 0 0 63px}
+.ts-plan-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px}
+.plan-item{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:color-mix(in srgb,var(--teal) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 22%,var(--line));border-radius:999px;padding:4px 6px 4px 11px}
+.plan-item .x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;line-height:1}
+.plan-item .x:hover{color:var(--warn)}
+.ts-plan-add{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.ts-plan-add button[data-near]{font-size:12px;color:var(--teal)}
+.plan-form{display:flex;gap:5px;flex:1;min-width:160px}
+.plan-form .plan-in{flex:1;font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.near-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.near-chip{font-size:12px;background:var(--surface);border:1px dashed var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--ink)}
+.near-chip:hover{border-color:var(--teal);border-style:solid;color:var(--teal)}
+.near-chip b{color:var(--teal)}
+/* memories */
+.mem-card{margin-top:14px}
+.mem-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.mem-add{cursor:pointer;white-space:nowrap}
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px;margin-top:13px}
+.mem-thumb{position:relative;aspect-ratio:1;border-radius:12px;background-size:cover;background-position:center;background-color:var(--sunk);overflow:hidden}
+.mem-x{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1;display:grid;place-items:center}
+.mem-tag{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:10px;padding:10px 6px 4px;line-height:1.1}
+.mem-actions{margin-top:11px;display:flex;align-items:center;gap:10px}
+.mem-empty{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.5}
+.reel-ov{position:fixed;inset:0;background:rgba(8,12,20,.92);z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.reel-img{max-width:92vw;max-height:80vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.reel-cap{color:#cbd5e1;font-size:13px}
+.reel-x{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer}
 .trip-near{font-size:12.5px;color:var(--muted);margin-top:4px}
 .trip-near button{font-size:12px;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer;color:var(--teal)}
 .trip-near ul{margin:5px 0 0;padding-left:16px}
@@ -766,6 +799,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <details id="trip-addwrap" class="trip-addwrap"><summary>+ Add campuses from your board</summary><div id="trip-add" class="trip-add"></div></details>
     </div>
     <div id="trip-out"></div>
+    <div id="trip-memories"></div>
   </section>
 
   <!-- ZOE PICKS (recommends) -->
@@ -1877,8 +1911,40 @@ function inTrip(id){ return getTrip().has(id); }
 function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
 function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } }
 function tripRec(id){ const rec=state.schools.find(s=>s.school_id===id); const info=catInfo(id); return (rec&&info)?{rec,info}:null; }
+/* ---- per-stop "things to do" plan (local) ---- */
+function tripPlan(){ try{ return JSON.parse(localStorage.getItem("zc_tripplan")||"{}"); }catch(e){ return {}; } }
+function saveTripPlan(p){ try{ localStorage.setItem("zc_tripplan",JSON.stringify(p)); }catch(e){} }
+function stopPlan(id){ return tripPlan()[id]||[]; }
+function addStopPlan(id,item){ const p=tripPlan(); const list=p[id]||[]; if(!list.includes(item)){ list.push(item); } p[id]=list; saveTripPlan(p); }
+function rmStopPlan(id,idx){ const p=tripPlan(); if(p[id]){ p[id].splice(idx,1); if(!p[id].length) delete p[id]; saveTripPlan(p); } }
+function rerenderTrip(){ if(tripMap){ try{tripMap.remove();}catch(e){} tripMap=null; } renderTripOut(); }
+/* ---- Memories: on-device photo store (IndexedDB) ---- */
+let _memdb=null;
+function memDB(){ return new Promise((res,rej)=>{ if(_memdb) return res(_memdb); try{ const r=indexedDB.open("zc_memories",1); r.onupgradeneeded=e=>{ const db=e.target.result; if(!db.objectStoreNames.contains("photos")) db.createObjectStore("photos",{keyPath:"id"}); }; r.onsuccess=e=>{ _memdb=e.target.result; res(_memdb); }; r.onerror=()=>rej(new Error("idb")); }catch(e){ rej(e); } }); }
+async function memAdd(rec){ const db=await memDB(); return new Promise((res,rej)=>{ const tx=db.transaction("photos","readwrite"); tx.objectStore("photos").put(rec); tx.oncomplete=()=>res(); tx.onerror=()=>rej(); }); }
+async function memAll(){ try{ const db=await memDB(); return await new Promise(res=>{ const tx=db.transaction("photos","readonly"); const rq=tx.objectStore("photos").getAll(); rq.onsuccess=()=>res(rq.result||[]); rq.onerror=()=>res([]); }); }catch(e){ return []; } }
+async function memDel(id){ try{ const db=await memDB(); await new Promise(res=>{ const tx=db.transaction("photos","readwrite"); tx.objectStore("photos").delete(id); tx.oncomplete=()=>res(); tx.onerror=()=>res(); }); }catch(e){} }
+function fileToDataUrl(file,max=1400,q=0.82){ return new Promise(res=>{ try{ const img=new Image(); const url=URL.createObjectURL(file); img.onload=()=>{ let w=img.width,h=img.height; if(w>max||h>max){ const s=Math.min(max/w,max/h); w=Math.round(w*s); h=Math.round(h*s); } const c=document.createElement("canvas"); c.width=w; c.height=h; c.getContext("2d").drawImage(img,0,0,w,h); URL.revokeObjectURL(url); try{ res(c.toDataURL("image/jpeg",q)); }catch(e){ res(null); } }; img.onerror=()=>{ URL.revokeObjectURL(url); res(null); }; img.src=url; }catch(e){ res(null); } }); }
+function playReel(photos){ if(!photos||!photos.length) return; let i=0; const ov=document.createElement("div"); ov.className="reel-ov"; ov.innerHTML=`<button class="reel-x" aria-label="Close">✕</button><img class="reel-img" alt=""><div class="reel-cap"></div>`; document.body.appendChild(ov); const img=ov.querySelector(".reel-img"); const cap=ov.querySelector(".reel-cap"); const show=()=>{ img.src=photos[i].data; cap.textContent=(i+1)+" / "+photos.length; }; show(); const tick=setInterval(()=>{ i=(i+1)%photos.length; show(); },2200); const close=()=>{ clearInterval(tick); ov.remove(); }; ov.querySelector(".reel-x").onclick=close; ov.onclick=e=>{ if(e.target===ov) close(); }; }
+async function renderMemories(){
+  const el=$("trip-memories"); if(!el) return;
+  const trip=[...getTrip()];
+  const photos=(await memAll()).sort((a,b)=>b.ts-a.ts);
+  const schoolName=id=>{ const r=state.schools.find(s=>s.school_id===id); return r?r.name:""; };
+  el.innerHTML=`<div class="card mem-card">
+    <div class="mem-head"><div><h3 style="margin:0 0 2px">📸 Trip memories</h3><div class="muted" style="font-size:12.5px">Add photos from your visits — they become your reel. <i>Saved on this device for now; cross-device sync &amp; the AI film are coming.</i></div></div>
+      <label class="small primary mem-add">+ Add photos<input id="mem-file" type="file" accept="image/*" multiple hidden></label></div>
+    ${photos.length?`<div class="mem-grid">${photos.map(p=>`<div class="mem-thumb" style="background-image:url('${p.data}')"><button class="mem-x" data-memdel="${esc(p.id)}" aria-label="Delete">✕</button>${p.school?`<span class="mem-tag">${esc(schoolName(p.school)||"")}</span>`:""}</div>`).join("")}</div>
+      <div class="mem-actions"><button class="small" id="mem-play">▶ Play reel</button> <span class="muted" style="font-size:11.5px">${photos.length} photo${photos.length>1?"s":""}</span></div>`
+    :`<div class="mem-empty">No photos yet. On your visits, snap the quad, the dining hall, the dorm — then relive it here as a reel.</div>`}
+  </div>`;
+  const fi=$("mem-file"); if(fi) fi.onchange=async(e)=>{ const files=[...e.target.files]; if(!files.length) return; const sel = trip.length===1?trip[0]:""; const lab=el.querySelector(".mem-add"); if(lab) lab.textContent="Adding…"; for(const f of files){ const data=await fileToDataUrl(f); if(data) await memAdd({ id:"m_"+Date.now()+"_"+Math.random().toString(36).slice(2,7), data, school:sel, ts:Date.now() }); } renderMemories(); };
+  el.querySelectorAll("[data-memdel]").forEach(b=>b.onclick=async()=>{ await memDel(b.dataset.memdel); renderMemories(); });
+  const play=$("mem-play"); if(play) play.onclick=()=>playReel(photos);
+}
 function renderTrip(){
   const items=[...getTrip()].map(tripRec).filter(Boolean);
+  try{ renderMemories(); }catch(e){}
   const count=$("trip-count"), hint=$("trip-hint"), chips=$("trip-chips"), add=$("trip-add");
   count.textContent = items.length? (items.length+" campus"+(items.length>1?"es":"")+" in this trip") : "No campuses yet";
   hint.innerHTML = items.length? "Remove with ✕, add more below, then plan your route." : "Add campuses with the 🗺 button on any school — on your board, in Schools, or Zoe Picks — or from your board below.";
@@ -1942,9 +2008,28 @@ function renderTripOut(){
       if(!(di===0&&si===0) && li<legs.length){ const l=legs[li]; legHtml=`<div class="trip-leg">↓ ${Math.round(l.mi)} mi · ~${hrs(l.min)} drive</div>`; }
       if(!(di===0&&si===0)) li++;
       const t=stopTime(di,si); const tstr=t.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-      return `${legHtml}<div class="trip-stop"><div class="ts-name">${esc(s.name)}</div>
-        <div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div>
-        <div class="trip-near"><button data-near="${esc(s.id)}" data-lat="${s.lat}" data-lon="${s.lon}">Show what's nearby ↓</button><div class="near-out" data-nearout="${esc(s.id)}"></div></div></div>`;
+      const info=catInfo(s.id)||{}; const u=photoUrlFor(info); const nm=encodeURIComponent(s.name+(s.state?(" "+s.state):""));
+      const maps=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
+      const items=stopPlan(s.id);
+      const planList = items.length
+        ? items.map((it,idx)=>`<span class="plan-item">${esc(it)}<button class="x" data-planrm="${esc(s.id)}|${idx}" aria-label="Remove">✕</button></span>`).join("")
+        : `<span class="muted" style="font-size:12px">Plan what to do while you're in town ↓</span>`;
+      return `${legHtml}<div class="trip-stop" data-stop="${esc(s.id)}">
+        <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phGrad(s.name)}`}"></span>
+          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div></div>
+        <div class="ts-visit">
+          <a href="https://www.google.com/search?q=${nm}+admissions+visit+register" target="_blank" rel="noopener">🎟 Book a visit ↗</a>
+          <a href="https://www.google.com/search?q=${nm}+virtual+campus+tour" target="_blank" rel="noopener">▶ Virtual tour ↗</a>
+          <a href="${maps}" target="_blank" rel="noopener">📍 Directions ↗</a>
+        </div>
+        <div class="ts-plan">
+          <div class="ts-plan-list" data-planlist="${esc(s.id)}">${planList}</div>
+          <div class="ts-plan-add">
+            <button class="small ghost" data-near="${esc(s.id)}" data-lat="${s.lat}" data-lon="${s.lon}">🔎 Find things to do</button>
+            <form class="plan-form" data-planform="${esc(s.id)}"><input class="plan-in" placeholder="Add your own…" autocomplete="off"><button class="small" type="submit">+</button></form>
+          </div>
+          <div class="near-out" data-nearout="${esc(s.id)}"></div>
+        </div></div>`;
     }).join("");
     const dayDate=new Date(tripBuilt.start); dayDate.setDate(dayDate.getDate()+di);
     return `<div class="trip-day"><h4>Day ${di+1} — ${dayDate.toLocaleDateString([], {weekday:"long",month:"short",day:"numeric"})}</h4>${rows}</div>`;
@@ -1975,22 +2060,26 @@ function renderTripOut(){
   // date change
   const ds=$("trip-start"); if(ds) ds.onchange=()=>{ const v=ds.value; if(v){ const d=new Date(v+"T09:00:00"); if(!isNaN(d)){ tripBuilt.start=d; if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} renderTripOut(); } } };
   $("trip-ics").onclick=downloadICS;
-  // nearby (lazy)
-  out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const box=out.querySelector(`[data-nearout="${CSS.escape(btn.dataset.near)}"]`);
-    btn.disabled=true; btn.textContent="Loading nearby…";
+  // plan: add your own + remove
+  out.querySelectorAll("[data-planform]").forEach(f=>f.onsubmit=e=>{ e.preventDefault(); const id=f.dataset.planform; const inp=f.querySelector(".plan-in"); const v=(inp.value||"").trim(); if(v){ addStopPlan(id,v); rerenderTrip(); } });
+  out.querySelectorAll("[data-planrm]").forEach(b=>b.onclick=()=>{ const parts=b.dataset.planrm.split("|"); rmStopPlan(parts[0],+parts[1]); rerenderTrip(); });
+  // nearby (lazy) -> addable chips
+  out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const id=btn.dataset.near; const box=out.querySelector(`[data-nearout="${CSS.escape(id)}"]`);
+    btn.disabled=true; btn.textContent="Finding…";
     try{ const n=await overpassNear(+btn.dataset.lat,+btn.dataset.lon);
-      const sec=(t,arr,q)=>arr.length?`<li><b>${t}:</b> ${arr.map(x=>esc(x)).join(" · ")}</li>`:"";
-      const html=[sec("Eat",n.food),sec("Stay",n.stay),sec("See",n.see)].filter(Boolean).join("");
-      box.innerHTML = html?`<ul>${html}</ul>`:`<span class="muted">No tagged places found right around campus.</span>`;
-      btn.style.display="none";
+      const groups=[["🍽",n.food],["🛏",n.stay],["📍",n.see]];
+      const chips=groups.flatMap(([ic,arr])=>arr.map(x=>{ const v=ic+" "+x; return `<button class="near-chip" data-planadd="${esc(id)}" data-val="${esc(v)}">${esc(v)} <b>+</b></button>`; })).join("");
+      box.innerHTML = chips?`<div class="near-chips">${chips}</div>`:`<span class="muted">No tagged places found right around campus.</span>`;
+      btn.disabled=false; btn.textContent="🔎 Find things to do";
+      box.querySelectorAll("[data-planadd]").forEach(c=>c.onclick=()=>{ addStopPlan(c.dataset.planadd, c.dataset.val); rerenderTrip(); });
     }catch(e){ const la=btn.dataset.lat, lo=btn.dataset.lon;
-      box.innerHTML=`<div class="near-fallback"><span class="muted">Live place data is busy right now — browse what's around campus on a map instead:</span>
+      box.innerHTML=`<div class="near-fallback"><span class="muted">Live place data is busy — browse on a map instead:</span>
         <div class="near-links">
-          <a href="https://www.google.com/maps/search/restaurants/@${la},${lo},15z" target="_blank" rel="noopener">🍽 Food nearby</a>
-          <a href="https://www.google.com/maps/search/hotels/@${la},${lo},14z" target="_blank" rel="noopener">🛏 Places to stay</a>
+          <a href="https://www.google.com/maps/search/restaurants/@${la},${lo},15z" target="_blank" rel="noopener">🍽 Food</a>
+          <a href="https://www.google.com/maps/search/hotels/@${la},${lo},14z" target="_blank" rel="noopener">🛏 Stay</a>
           <a href="https://www.google.com/maps/search/things+to+do/@${la},${lo},14z" target="_blank" rel="noopener">📍 Things to do</a>
         </div></div>`;
-      btn.style.display="none"; }
+      btn.disabled=false; btn.textContent="🔎 Find things to do"; }
   }; });
 }
 $("trip-back").onclick = () => { if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} goto("board"); };
