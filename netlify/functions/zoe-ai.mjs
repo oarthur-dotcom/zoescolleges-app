@@ -4,9 +4,10 @@
 // Cost guard: global daily hard cap via Netlify Blobs (free tier never charges,
 // this just keeps request volume sane).
 
-// Explicit fast flash first (the -latest alias was routing to a slow/heavy
-// model, ~20s); fallbacks tried in order until one responds.
-const MODELS = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-1.5-flash"];
+// Lite first: higher free-tier quota, faster, and cheaper at scale; fall
+// through to full flash, then the self-updating aliases. Each model is a
+// separate quota pool, so a 429 on one tries the next.
+const MODELS = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-flash-latest"];
 const DAILY_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
 
