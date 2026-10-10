@@ -31,6 +31,9 @@ function sanitizeCtx(c) {
   if (c.activities != null) out.activitiesCount = num(c.activities);
   if (c.bands) out.listBalance = { reach: num(c.bands.reach) || 0, target: num(c.bands.target) || 0, likely: num(c.bands.likely) || 0 };
   if (c.gradYear) out.gradYear = num(c.gradYear);
+  const sch = a => (Array.isArray(a) ? a.slice(0, 25).map(s => ({ name: String(s && s.name || "").slice(0, 80), where: String(s && s.where || "").slice(0, 60) })).filter(s => s.name) : undefined);
+  const board = sch(c.schools); if (board && board.length) out.schoolsOnBoard = board;
+  const trip = sch(c.trip); if (trip && trip.length) out.schoolsOnTrip = trip;
   return out;
 }
 
@@ -62,7 +65,8 @@ export default async (req) => {
     "You are Zoe, a warm, upbeat, concise college-planning assistant inside the \"Zoe's Colleges\" app, used by a high-school student and their family.",
     "Answer in 2-5 short sentences, plain and encouraging — no headers, minimal jargon.",
     "You help with: college search, admissions chances and fit, essays and applications, deadlines, financial-aid basics, and campus visits.",
-    "Do NOT invent specific statistics (admit rates, costs, test ranges) for a named college; speak generally or tell them to open that school's page in the app for the numbers.",
+    "You can help plan campus-visit road trips: use schoolsOnTrip (or schoolsOnBoard) with their cities/states to suggest a sensible order that groups nearby schools and a rough day-by-day flow, and remind them the Trips tab builds the real route on a map and can find nearby food and places to stay.",
+    "Do NOT invent specific statistics (admit rates, costs, test ranges) for a named college, and do NOT invent exact drive times or distances; reason from the cities/states generally and point them to the Trips tab map for real routing.",
     "For medical, legal, mental-health, or crisis topics, respond briefly with care and suggest a trusted adult or professional.",
     "Here is de-identified context about this family's situation (no names). Use it only if relevant: " + JSON.stringify(ctx)
   ].join(" ");

@@ -155,16 +155,27 @@ a{color:var(--teal)}
 .proxchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
 .proxchip.on{background:color-mix(in srgb,var(--teal) 16%,var(--surface));border-color:var(--teal);color:var(--ink);font-weight:600}
 .proxchip input{display:none}
-.act-card{background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:10px}
-.act-card-top{display:flex;gap:8px;align-items:center}
-.act-card-top .a-name{flex:1;min-width:0;font-weight:600}
-.act-meta{display:grid;grid-template-columns:1.3fr 1.3fr .75fr .75fr;gap:9px;margin-top:10px}
-.act-card .af{display:flex;flex-direction:column;gap:3px}
-.act-card .af>span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.act-card .af select,.act-card .af input{width:100%}
-.act-card .a-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:9px;cursor:pointer;padding:8px 11px;flex:0 0 auto}
-.act-card .a-rm:hover{border-color:var(--warn);color:var(--warn)}
-@media(max-width:560px){.act-meta{grid-template-columns:1fr 1fr}}
+.act-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.act-card-top{display:flex;gap:11px;align-items:center}
+.act-glyph{flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:19px;background:color-mix(in srgb,var(--teal) 13%,var(--sunk))}
+.act-card .a-name{flex:1;min-width:0;font-weight:650;font-size:15px;border:none;background:transparent;padding:5px 2px;border-bottom:1.5px solid transparent}
+.act-card .a-name:focus{outline:none;border-bottom-color:var(--teal)}
+.act-card .a-rm{background:none;border:none;color:var(--muted);border-radius:9px;cursor:pointer;padding:6px 9px;flex:0 0 auto;font-size:15px;line-height:1}
+.act-card .a-rm:hover{background:var(--sunk);color:var(--warn)}
+.act-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px 16px;margin-top:13px;align-items:start}
+.act-sel{position:relative;display:block}
+.act-sel>span,.act-hrs .hrs-head span,.act-yrs .yr-head{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.act-sel>span{display:block;margin-bottom:5px}
+.act-sel select{width:100%;appearance:none;-webkit-appearance:none;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 30px 10px 12px;font-size:13px;cursor:pointer}
+.act-sel::after{content:"▾";position:absolute;right:12px;bottom:10px;color:var(--muted);pointer-events:none;font-size:12px}
+.act-hrs .hrs-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.act-hrs .hrs-val{font-size:13px;font-weight:700;color:var(--ink)}
+.act-hrs input[type=range]{width:100%;accent-color:var(--teal);margin:2px 0 0;cursor:pointer}
+.act-yrs .yr-head{display:block;margin-bottom:6px}
+.act-seg{display:flex;gap:5px}
+.act-seg button{flex:1;border:1px solid var(--line);background:var(--sunk);border-radius:9px;padding:9px 0;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
+.act-seg button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,transparent);color:var(--teal)}
+@media(max-width:560px){.act-controls{grid-template-columns:1fr}}
 #pf-act-add{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--teal);border-radius:12px;padding:11px;font-weight:600}
 #pf-act-add:hover{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 6%,transparent)}
 /* inline help tooltip (hover + tap) */
@@ -208,6 +219,7 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+.cmp-btn.on{border-color:var(--plum,#8e3b7a);color:var(--plum,#8e3b7a);font-weight:600}
 /* match visuals */
 .mring{position:relative;display:inline-flex;width:42px;height:42px;flex:0 0 auto;vertical-align:middle}
 .mring svg{width:42px;height:42px;transform:rotate(-90deg)}
@@ -976,6 +988,7 @@ function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach
 function goto(view){
   currentView = view;
   try{ updateTripBadge(); }catch(e){}
+  try{ updateCmpBadge(); }catch(e){}
   if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
@@ -1572,6 +1585,7 @@ function renderSchool(x){
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
+      <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
     <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
@@ -1656,6 +1670,7 @@ function renderExList(q){
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button>
+      <button class="openlink cmp-btn ${inCmp(c.id)?"on":""}" data-cmp="${esc(c.id)}">${inCmp(c.id)?"✓ Compare":"⇄ Compare"}</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
   }).join("") || `<div class="card muted">No matches.</div>`;
@@ -1766,7 +1781,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
-    <div class="row" style="margin:6px 0 2px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button></div>
+    <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
     ${facts}${museSection(info)}${info?toursSection(info,rec):link}${reviewsSection(rec)}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
@@ -1994,19 +2009,28 @@ $("trip-build").onclick = async () => {
 function nextSaturday(){ const d=new Date(); const add=((6-d.getDay()+7)%7)||7; d.setDate(d.getDate()+add); d.setHours(9,0,0,0); return d; }
 /* ========== COMPARE ========== */
 let cmpSel={};
+const CMP_MAX=4;
+function cmpCount(){ return Object.values(cmpSel).filter(Boolean).length; }
+function inCmp(id){ return !!cmpSel[id]; }
+function toggleCmp(id){ if(!cmpSel[id] && cmpCount()>=CMP_MAX) return {ok:false,on:false}; if(cmpSel[id]){ delete cmpSel[id]; } else { cmpSel[id]=true; } updateCmpBadge(); return {ok:true,on:!!cmpSel[id]}; }
+function updateCmpBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="compare"]'); if(b){ const n=cmpCount(); b.textContent = n? ("Compare · "+n) : "Compare"; } }
+function syncCmpChips(){ document.querySelectorAll("[data-cmp]").forEach(b=>{ const on=inCmp(b.dataset.cmp); b.classList.toggle("on",on); b.textContent = b.dataset.long ? (on?"✓ In compare":"⇄ Add to compare") : (on?"✓ Compare":"⇄ Compare"); }); }
 function renderCompare(){
+  updateCmpBadge();
   const cands=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
   const pick=$("cmp-pick");
   if(!cands.length){ pick.innerHTML=`<p class="muted" style="font-size:13.5px">No schools on your board yet. Add a few from <b>Schools</b>, then compare.</p>`; $("cmp-out").innerHTML=""; return; }
   pick.innerHTML=cands.map(c=>{ const id=c.rec.school_id; const on=!!cmpSel[id];
     return `<label class="trip-pick ${on?"on":""}" data-cid="${esc(id)}"><input type="checkbox" ${on?"checked":""} style="width:auto"><span><b>${esc(c.rec.name)}</b> <span class="tp-city">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></span></label>`;
   }).join("");
-  pick.querySelectorAll("[data-cid]").forEach(lab=>{ const cb=lab.querySelector("input"); cb.onchange=()=>{ const id=lab.dataset.cid; const n=Object.values(cmpSel).filter(Boolean).length;
-    if(cb.checked && n>=4){ cb.checked=false; lab.classList.remove("on"); return; } cmpSel[id]=cb.checked; lab.classList.toggle("on",cb.checked); }; });
+  pick.querySelectorAll("[data-cid]").forEach(lab=>{ const cb=lab.querySelector("input"); cb.onchange=()=>{ const id=lab.dataset.cid;
+    if(cb.checked && !cmpSel[id] && cmpCount()>=CMP_MAX){ cb.checked=false; lab.classList.remove("on"); return; }
+    if(cb.checked){ cmpSel[id]=true; } else { delete cmpSel[id]; } lab.classList.toggle("on",cb.checked); updateCmpBadge(); syncCmpChips(); buildCompare(); }; });
+  buildCompare();
 }
-$("cmp-build").onclick=()=>{
+function buildCompare(){
   const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
-  if(ids.length<2){ out.innerHTML=`<div class="card muted">Pick at least two schools.</div>`; return; }
+  if(ids.length<2){ out.innerHTML=`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school).</div>`; return; }
   const cols=ids.map(id=>({rec:state.schools.find(s=>s.school_id===id), info:catInfo(id)})).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
@@ -2032,7 +2056,8 @@ $("cmp-build").onclick=()=>{
     <thead><tr><th class="row-k"></th>${cols.map(c=>`<th class="sch-h">${esc(c.rec.name)}<span class="loc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</span></th>`).join("")}</tr></thead>
     <tbody>${rows.map(r=>`<tr><th class="row-k">${esc(r[0])}</th>${cols.map(c=>`<td>${r[1](c)}</td>`).join("")}</tr>`).join("")}</tbody>
   </table></div></div>`;
-};
+}
+$("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
 const DL_TASKS=["Essays","Recommendations","Transcript","FAFSA / CSS","Test scores","Submitted"];
 function dlKey(id){ return "dlcheck_"+id; }
@@ -2266,24 +2291,34 @@ $("pf-save").onclick = async () => {
 };
 let profActs = [];
 const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Club/JV","Career / Pre-professional","Community service / Volunteer","Cultural","Debate / Speech","Environmental","Family responsibilities","Internship","Journalism / Media","Music","Religious","Research","Robotics / Engineering","School spirit / Government","Science / Math","Theater / Drama","Work (paid)","Other"];
+const ACT_EMOJI={"Academic":"📚","Arts / Visual":"🎨","Athletics: Varsity":"🏅","Athletics: Club/JV":"⚽","Career / Pre-professional":"💼","Community service / Volunteer":"🤝","Cultural":"🌍","Debate / Speech":"🗣️","Environmental":"🌱","Family responsibilities":"🏠","Internship":"🧑‍💼","Journalism / Media":"📰","Music":"🎵","Religious":"🙏","Research":"🔬","Robotics / Engineering":"🤖","School spirit / Government":"🏛️","Science / Math":"🧪","Theater / Drama":"🎭","Work (paid)":"💰","Other":"⭐"};
+function actEmoji(cat){ return ACT_EMOJI[cat]||"⭐"; }
+function hrsLabel(v){ return v===""||v==null ? "—" : (+v>=40?"40+ hrs":(+v)+" hrs"); }
 function renderActs(){
   const el=$("pf-acts"); if(!el) return;
-  el.innerHTML = profActs.length ? profActs.map((a,i)=>`
+  el.innerHTML = profActs.length ? profActs.map((a,i)=>{
+    const hrs = (a.hrs===""||a.hrs==null) ? "" : +a.hrs; const yrs = +a.yrs||0;
+    return `
     <div class="act-card" data-i="${i}">
-      <div class="act-card-top"><input class="a-name" placeholder="e.g. Varsity soccer — captain, 3 yrs" value="${esc(a.name||"")}"><button class="a-rm" title="Remove" type="button">✕</button></div>
-      <div class="act-meta">
-        <label class="af"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
-        <label class="af"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
-        <label class="af af-num"><span>Hrs/wk</span><input class="a-hrs" type="number" min="0" placeholder="20" value="${esc(a.hrs||"")}"></label>
-        <label class="af af-num"><span>Years</span><input class="a-yrs" type="number" min="0" max="4" placeholder="3" value="${esc(a.yrs||"")}"></label>
+      <div class="act-card-top">
+        <span class="act-glyph">${actEmoji(a.category)}</span>
+        <input class="a-name" placeholder="e.g. Varsity field hockey — captain" value="${esc(a.name||"")}">
+        <button class="a-rm" title="Remove" type="button">✕</button>
       </div>
-    </div>`).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, a job, volunteering, research…</p>`;
+      <div class="act-controls">
+        <label class="act-sel"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+        <label class="act-sel"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
+        <div class="act-hrs"><div class="hrs-head"><span>Hours / week</span><span class="hrs-val">${hrsLabel(hrs)}</span></div><input class="a-hrs" type="range" min="0" max="40" step="1" value="${hrs===""?0:hrs}"></div>
+        <div class="act-yrs"><span class="yr-head">Years involved</span><div class="act-seg">${[1,2,3,4].map(n=>`<button type="button" class="a-yr ${yrs===n?"on":""}" data-yr="${n}">${n===4?"4+":n}</button>`).join("")}</div></div>
+      </div>
+    </div>`;}).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, a job, volunteering, research…</p>`;
   el.querySelectorAll(".act-card").forEach(row=>{ const i=+row.dataset.i;
     row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
-    row.querySelector(".a-cat").onchange=e=>profActs[i].category=e.target.value;
+    row.querySelector(".a-cat").onchange=e=>{ profActs[i].category=e.target.value; row.querySelector(".act-glyph").textContent=actEmoji(e.target.value); };
     row.querySelector(".a-lvl").onchange=e=>{ profActs[i].tier=+e.target.value; updateActStrength(); };
-    row.querySelector(".a-hrs").oninput=e=>profActs[i].hrs=e.target.value;
-    row.querySelector(".a-yrs").oninput=e=>profActs[i].yrs=e.target.value;
+    const hr=row.querySelector(".a-hrs"), hv=row.querySelector(".hrs-val");
+    hr.oninput=e=>{ const v=+e.target.value; profActs[i].hrs = v===0?"":String(v); hv.textContent=hrsLabel(v===0?"":v); };
+    row.querySelectorAll(".a-yr").forEach(b=>b.onclick=()=>{ profActs[i].yrs=b.dataset.yr; row.querySelectorAll(".a-yr").forEach(x=>x.classList.toggle("on",x===b)); });
     row.querySelector(".a-rm").onclick=()=>{ profActs.splice(i,1); renderActs(); };
   });
   updateActStrength();
@@ -2374,6 +2409,16 @@ document.addEventListener("click", e => {
   b.classList.toggle("on", on);
   b.textContent = b.dataset.long ? (on?"✓ In road trip":"🗺 Add to road trip") : (on?"✓ Trip":"🗺 Trip");
 });
+// add/remove a school from Compare, from anywhere (board, schools, detail)
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-cmp]"); if(!b) return;
+  e.preventDefault();
+  const r = toggleCmp(b.dataset.cmp);
+  if(!r.ok){ const t=b.textContent; b.textContent="Max 4"; setTimeout(()=>{ b.textContent=t; },800); return; }
+  b.classList.toggle("on", r.on);
+  b.textContent = b.dataset.long ? (r.on?"✓ In compare":"⇄ Add to compare") : (r.on?"✓ Compare":"⇄ Compare");
+  if(currentView==="compare"){ try{ renderCompare(); }catch(err){} }
+});
 // tap-to-toggle help tooltips (hover is handled in CSS for pointer devices)
 document.addEventListener("click", e => {
   const h = e.target.closest(".hint");
@@ -2439,6 +2484,11 @@ function zoePersonal(q){
   const w=myPrefs(); const p=studentProfile();
   const board=state.schools.map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
   const bandList=band=>board.map(x=>({x,ch:chanceFor(x.info)})).filter(y=>y.ch&&y.ch.band===band).map(y=>`• <b>${esc(y.x.s.name)}</b>`);
+  if(/(what'?s? (on|in) my trip|my trip|trip list|on my trip)/.test(q) && !/(plan|order|route|efficient|itinerary|schedule|how (should|do|many)|best way|which order)/.test(q)){
+    let t=[]; try{ t=[...getTrip()].map(id=>catInfo(id)).filter(Boolean); }catch(e){}
+    if(!t.length) return "Your trip is empty right now. Add schools with the <b>🗺 Trip</b> button on any school, then open the <b>Trips</b> tab — I'll map an efficient route with stops for food and places to stay.";
+    return `You've got <b>${t.length}</b> school${t.length>1?"s":""} on your trip:<br>`+t.slice(0,10).map(c=>`• <b>${esc(c.name)}</b> <span class="muted">${esc([c.city,c.state].filter(Boolean).join(", "))}</span>`).join("<br>")+`<br><span class='muted'>Open the <b>Trips</b> tab to build the route on a map — or ask me how to order the visits.</span>`;
+  }
   if(/\breach(es)?\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
   if(/\btargets?\b/.test(q)){ const l=bandList("target"); return l.length?`Your <b>targets</b> (${l.length}):<br>`+l.join("<br>"):"No targets yet — <b>✨ Zoe Picks</b> can find some that fit."; }
   if(/\b(likely|likelies|safet)/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
@@ -2473,9 +2523,13 @@ function zoeCtx(){
   const p=studentProfile()||{};
   const board=state.schools.map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
   const bands={reach:0,target:0,likely:0}; board.forEach(x=>{ const ch=chanceFor(x.info); if(ch&&bands[ch.band]!=null) bands[ch.band]++; });
+  const loc=c=>[c.city,c.state].filter(Boolean).join(", ");
+  const schools=board.slice(0,25).map(x=>({name:x.info.name, where:loc(x.info)}));
+  let trip=[]; try{ trip=[...getTrip()].map(id=>catInfo(id)).filter(Boolean).slice(0,25).map(c=>({name:c.name, where:loc(c)})); }catch(e){}
   return { gpa:p.gpa||null, sat:studentSat(p)||null, testOptional:!!p.testOptional,
     major:p.major||"", notes:p.notes||"", gradYear:p.gradYear||null,
-    boardCount:board.length, activities:(Array.isArray(p.activities)?p.activities.length:0), bands };
+    boardCount:board.length, activities:(Array.isArray(p.activities)?p.activities.length:0), bands,
+    schools, trip };
 }
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
