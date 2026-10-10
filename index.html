@@ -377,6 +377,27 @@ a{color:var(--teal)}
 .zs-help button b{font-size:12.5px}
 .zs-help button span{font-size:10.5px;color:var(--muted);line-height:1.1}
 .zs-help button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,transparent)}
+/* Ask Zoe full tab */
+.ztab-head{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
+.ztab-head .ztab-ava .zoe-ava{width:48px;height:48px}
+.ztab-head h1{margin:0}
+.ztab-intro{flex:1}
+.ztab-head .sub{margin:2px 0 0}
+#ztab-settings{margin-bottom:14px}
+.zcard{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.ztab-chat{display:flex;flex-direction:column;overflow:hidden;min-height:58vh;max-width:860px}
+.ztab-log{flex:1;overflow:auto;padding:18px 18px;display:flex;flex-direction:column;gap:10px;min-height:42vh;max-height:60vh}
+.ztab-chat .zsugg{padding:0 16px 10px}
+#ztab-form{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
+#ztab-form input{flex:1}
+/* Ambient coach */
+.coachwrap{display:flex;flex-direction:column;gap:8px;margin:10px 0 2px}
+.coach{display:flex;align-items:center;gap:11px;background:color-mix(in srgb,var(--teal) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 25%,var(--line));border-radius:14px;padding:10px 12px}
+.coach-ava .zoe-ava{width:30px;height:30px;flex:0 0 auto}
+.coach-tx{flex:1;font-size:13.5px;line-height:1.4}
+.coach-go{white-space:nowrap}
+.coach-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:8px}
+.coach-x:hover{background:var(--sunk)}
 .zgreet .zoe-ava{width:40px;height:40px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
 .callout{border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,var(--surface));padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.9rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);font-size:.82rem;margin-top:30px}
@@ -426,6 +447,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="compare">Compare</button>
     <button class="navbtn" data-nav="trip">Trips</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
+    <button class="navbtn" data-nav="zoe">💬 Ask Zoe</button>
     <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
 </header>
@@ -587,6 +609,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <h1 id="famtitle"></h1>
     <div class="fam" id="famrow"></div>
     <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
+    <div id="board-coach" class="coachwrap"></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -759,6 +782,21 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="dl-out"></div>
   </section>
 
+  <!-- ASK ZOE (full tab) -->
+  <section id="v-zoe" class="hidden">
+    <div class="ztab-head">
+      <span id="ztab-ava" class="ztab-ava"></span>
+      <div class="ztab-intro"><h1>Ask Zoe</h1><p class="sub">Your college-planning sidekick. She knows your profile and your board — ask anything.</p></div>
+      <button id="ztab-gear" class="small ghost">⚙ Make Zoe yours</button>
+    </div>
+    <div id="ztab-settings" class="zcard hidden"></div>
+    <div class="ztab-chat zcard">
+      <div id="ztab-log" class="ztab-log"></div>
+      <div class="zsugg" id="ztab-sugg"></div>
+      <form id="ztab-form"><input id="ztab-in" type="text" placeholder="Ask Zoe anything about your college search…" autocomplete="off"><button class="primary" type="submit">Ask</button></form>
+    </div>
+  </section>
+
   <!-- DETAIL -->
   <section id="v-detail" class="hidden">
     <button class="backbtn" id="detail-back">← Back</button>
@@ -878,17 +916,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 <button id="zoe-fab" class="hidden"><span id="zoe-fab-ava"></span> Ask Zoe</button>
 <div id="zoe-panel" class="hidden">
   <div class="zhead"><span id="zoe-head-ava"></span><b>Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-gear" class="small ghost" title="Make Zoe yours" style="margin-left:auto;padding:2px 8px">⚙</button><button id="zoe-close" class="small ghost" style="padding:2px 8px">✕</button></div>
-  <div id="zoe-settings" class="hidden">
-    <div class="zs-title">Make Zoe yours</div>
-    <div class="zs-lbl">Look</div>
-    <div class="zs-personas" id="zs-personas"></div>
-    <div class="zs-lbl">How much should Zoe help?</div>
-    <div class="zs-help" id="zs-help">
-      <button data-help="proactive"><b>Proactive</b><span>Nudges &amp; tips as you go</span></button>
-      <button data-help="balanced"><b>Balanced</b><span>Helps when it matters</span></button>
-      <button data-help="ondemand"><b>On-demand</b><span>Only when you ask</span></button>
-    </div>
-  </div>
+  <div id="zoe-settings" class="hidden"></div>
   <div id="zoe-log"></div>
   <div class="zsugg" id="zoe-sugg"></div>
   <form id="zoe-form"><input id="zoe-in" type="text" placeholder="Ask about the app or the schools…" autocomplete="off"><button class="primary small" type="submit">Ask</button></form>
@@ -935,7 +963,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-recommends"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -955,6 +983,7 @@ function goto(view){
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
+  else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
@@ -1322,6 +1351,7 @@ function blended(schoolId){ const rs = state.ratings.filter(r => r.school_id ===
 function myPrefs(){ return (state.me && state.prefs[state.me.user_id]) || defaultPrefs(); }
 function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function renderBoard(){
+  try{ renderCoach("board-coach"); }catch(e){}
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
   $("famrow").innerHTML = state.members.map(m =>
     `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
@@ -2437,7 +2467,7 @@ function zoeCfg(){ try{ return JSON.parse(localStorage.getItem("zc_zoe"))||{}; }
 function zoeSaveCfg(c){ try{ localStorage.setItem("zc_zoe", JSON.stringify(c)); }catch(e){} }
 function zoeAva(){ const c=zoeCfg(); return (ZOE_PERSONAS[c.persona]||ZOE_PERSONAS.nerd); }
 function zoeHelp(){ return zoeCfg().help || "balanced"; }
-function paintZoeAvatars(){ const svg=zoeAva(); ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava"].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=svg; }); }
+function paintZoeAvatars(){ const svg=zoeAva(); ["zoe-fab-ava","zoe-head-ava","zoe-banner-ava","ztab-ava"].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=svg; }); }
 /* De-identified context for the long-tail model (no names, no emails). */
 function zoeCtx(){
   const p=studentProfile()||{};
@@ -2449,19 +2479,19 @@ function zoeCtx(){
 }
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
-async function zoeHandle(v){
-  const ans=zoeAnswer(v);
-  if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
-  const typing=zoeTyping();
+async function zoeFetchAI(v){
   try{
     const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }) });
     const j=await r.json().catch(()=>({}));
-    typing.remove();
-    if(j && j.reply){ zoeSay(zoeRich(j.reply)); }
-    else if(j && j.capped){ zoeSay("I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b> and <b>deadlines</b> — try one of those!"); }
-    else if(j && j.unconfigured){ zoeSay(ZOE_FALLBACK); }
-    else { zoeSay(ZOE_FALLBACK); }
-  }catch(e){ typing.remove(); zoeSay(ZOE_FALLBACK); }
+    if(j && j.reply) return zoeRich(j.reply);
+    if(j && j.capped) return "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b> and <b>deadlines</b> — ask about those!";
+    return ZOE_FALLBACK;
+  }catch(e){ return ZOE_FALLBACK; }
+}
+async function zoeHandle(v){
+  const ans=zoeAnswer(v);
+  if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
+  const typing=zoeTyping(); const html=await zoeFetchAI(v); typing.remove(); zoeSay(html);
 }
 paintZoeAvatars();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
@@ -2470,14 +2500,66 @@ function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").
 $("zoe-fab").onclick=zoeOpen;
 { const zb=$("zoe-banner"); if(zb) zb.onclick=zoeOpen; }
 $("zoe-close").onclick=()=>$("zoe-panel").classList.add("hidden");
-function renderZoeSettings(){
+/* ---- shared "Make Zoe yours" settings (panel + full tab) ---- */
+function zoeSettingsMarkup(){ return '<div class="zs-title">Make Zoe yours</div><div class="zs-lbl">Look</div><div class="zs-personas"></div><div class="zs-lbl">How much should Zoe help?</div><div class="zs-help"><button data-help="proactive"><b>Proactive</b><span>Nudges &amp; tips as you go</span></button><button data-help="balanced"><b>Balanced</b><span>Helps when it matters</span></button><button data-help="ondemand"><b>On-demand</b><span>Only when you ask</span></button></div>'; }
+function renderZoeSettingsIn(root){
+  if(!root) return;
+  root.innerHTML=zoeSettingsMarkup();
   const cfg=zoeCfg(), per=cfg.persona||"nerd", help=cfg.help||"balanced";
-  $("zs-personas").innerHTML=ZOE_PERSONA_META.map(m=>`<button class="zs-p ${m.key===per?"on":""}" data-persona="${m.key}" title="${esc(m.blurb)}"><span class="zs-av">${ZOE_PERSONAS[m.key]}</span><span class="zs-nm">${esc(m.name)}</span></button>`).join("");
-  $("zs-personas").querySelectorAll("[data-persona]").forEach(b=>b.onclick=()=>{ const c=zoeCfg(); c.persona=b.dataset.persona; zoeSaveCfg(c); paintZoeAvatars(); renderZoeSettings(); });
-  $("zs-help").querySelectorAll("[data-help]").forEach(b=>{ b.classList.toggle("on", b.dataset.help===help); b.onclick=()=>{ const c=zoeCfg(); c.help=b.dataset.help; zoeSaveCfg(c); renderZoeSettings(); }; });
+  const pc=root.querySelector(".zs-personas");
+  pc.innerHTML=ZOE_PERSONA_META.map(m=>`<button class="zs-p ${m.key===per?"on":""}" data-persona="${m.key}" title="${esc(m.blurb)}"><span class="zs-av">${ZOE_PERSONAS[m.key]}</span><span class="zs-nm">${esc(m.name)}</span></button>`).join("");
+  pc.querySelectorAll("[data-persona]").forEach(b=>b.onclick=()=>{ const c=zoeCfg(); c.persona=b.dataset.persona; zoeSaveCfg(c); paintZoeAvatars(); renderOpenZoeSettings(); });
+  root.querySelectorAll("[data-help]").forEach(b=>{ b.classList.toggle("on", b.dataset.help===help); b.onclick=()=>{ const c=zoeCfg(); c.help=b.dataset.help; zoeSaveCfg(c); renderOpenZoeSettings(); try{ if(currentView==="board") renderCoach("board-coach"); }catch(e){} }; });
 }
-$("zoe-gear").onclick=()=>{ const s=$("zoe-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettings(); };
+function renderOpenZoeSettings(){ const a=$("zoe-settings"); if(a&&!a.classList.contains("hidden")) renderZoeSettingsIn(a); const b=$("ztab-settings"); if(b&&!b.classList.contains("hidden")) renderZoeSettingsIn(b); }
+$("zoe-gear").onclick=()=>{ const s=$("zoe-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettingsIn(s); };
 $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim(); if(!v)return; zoeSay(esc(v),"me"); $("zoe-in").value=""; zoeHandle(v); };
+
+/* ---- Ask Zoe full tab (concept 2) ---- */
+function ztabSay(text,who){ const log=$("ztab-log"); if(!log) return; const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; log.appendChild(d); log.scrollTop=log.scrollHeight; }
+function ztabTyping(){ const log=$("ztab-log"); const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
+async function ztabAsk(v){ ztabSay(esc(v),"me"); const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); return; } const t=ztabTyping(); const html=await zoeFetchAI(v); t.remove(); ztabSay(html); }
+function renderZoeTab(){
+  paintZoeAvatars();
+  const log=$("ztab-log");
+  if(log && !log.dataset.greeted){ log.dataset.greeted="1";
+    ztabSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, best-fit schools, what to <b>work on</b>, deadlines, or essays. Pick one below or type your own.</div></div>");
+    $("ztab-sugg").innerHTML=ZOE_SUGG.concat(["What should my essay be about?"]).map(s=>`<button class="small ghost">${esc(s)}</button>`).join("");
+    $("ztab-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("ztab-in").value=b.textContent; $("ztab-form").requestSubmit(); });
+  }
+  const inp=$("ztab-in"); if(inp) setTimeout(()=>inp.focus(),60);
+}
+$("ztab-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("ztab-in").value.trim(); if(!v)return; $("ztab-in").value=""; ztabAsk(v); };
+$("ztab-gear").onclick=()=>{ const s=$("ztab-settings"); s.classList.toggle("hidden"); if(!s.classList.contains("hidden")) renderZoeSettingsIn(s); };
+
+/* ---- Ambient coach (concept 3) — proactive, gated by helpfulness ---- */
+function zoeTips(){
+  const tips=[]; const p=studentProfile()||{};
+  const board=state.schools.map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  const bands={reach:0,target:0,likely:0}; board.forEach(x=>{ const ch=chanceFor(x.info); if(ch&&bands[ch.band]!=null) bands[ch.band]++; });
+  if(!board.length) tips.push({id:"empty",text:"Your board is empty. Add a few colleges from <b>Schools</b> or <b>✨ Zoe Picks</b> to get started.",cta:{label:"Browse schools",nav:"explore"}});
+  if(!p.gpa) tips.push({id:"gpa",text:"Add your <b>GPA</b> in My Profile so your admission chances are accurate.",cta:{label:"Open profile",nav:"profile"}});
+  if(board.length && !bands.likely) tips.push({id:"nolikely",text:"No <b>likely</b> schools yet — a safe bet or two keeps your list balanced.",cta:{label:"See Zoe Picks",nav:"recommends"}});
+  if(board.length && !bands.reach) tips.push({id:"noreach",text:"No <b>reach</b> schools yet — it's worth aiming high with one or two.",cta:{label:"See Zoe Picks",nav:"recommends"}});
+  const soon=board.map(x=>parseDeadlineDate(x.info)).filter(Boolean).filter(d=>{ const days=(d-new Date())/864e5; return days>=0&&days<=30; }).length;
+  if(soon) tips.push({id:"dl",text:`<b>${soon}</b> application deadline${soon>1?"s":""} in the next 30 days.`,cta:{label:"Open Deadlines",nav:"deadlines"}});
+  if(!(Array.isArray(p.activities)&&p.activities.length)) tips.push({id:"acts",text:"List your <b>activities</b> — a few deep ones strengthen your profile.",cta:{label:"Open profile",nav:"profile"}});
+  return tips;
+}
+function coachDismissed(){ try{ return JSON.parse(localStorage.getItem("zc_coach_dismiss"))||{}; }catch(e){ return {}; } }
+function dismissCoach(id){ const d=coachDismissed(); d[id]=1; try{ localStorage.setItem("zc_coach_dismiss",JSON.stringify(d)); }catch(e){} }
+function renderCoach(containerId){
+  const el=$(containerId); if(!el) return;
+  const help=zoeHelp();
+  if(help==="ondemand"){ el.innerHTML=""; return; }
+  const dis=coachDismissed();
+  let tips=zoeTips().filter(t=>!dis[t.id]);
+  tips=tips.slice(0, help==="proactive"?3:1);
+  if(!tips.length){ el.innerHTML=""; return; }
+  el.innerHTML=tips.map(t=>`<div class="coach"><span class="coach-ava">${zoeAva()}</span><div class="coach-tx">${t.text}</div>${t.cta?`<button class="coach-go small primary" data-conav="${esc(t.cta.nav)}">${esc(t.cta.label)}</button>`:""}<button class="coach-x" data-codis="${esc(t.id)}" title="Dismiss">✕</button></div>`).join("");
+  el.querySelectorAll("[data-conav]").forEach(b=>b.onclick=()=>goto(b.dataset.conav));
+  el.querySelectorAll("[data-codis]").forEach(b=>b.onclick=()=>{ dismissCoach(b.dataset.codis); renderCoach(containerId); });
+}
 
 /* ========== MISC ========== */
 document.addEventListener("visibilitychange", async () => { if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); } });
