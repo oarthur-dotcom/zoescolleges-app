@@ -4,7 +4,9 @@
 // Cost guard: global daily hard cap via Netlify Blobs (free tier never charges,
 // this just keeps request volume sane).
 
-const MODEL = "gemini-2.0-flash";   // fast + generous free tier
+// Primary is the self-updating alias so a model rename never breaks us again;
+// the rest are explicit fallbacks tried in order until one responds.
+const MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-2.5-flash", "gemini-1.5-flash"];
 const DAILY_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
 
@@ -65,28 +67,34 @@ export default async (req) => {
     "Here is de-identified context about this family's situation (no names). Use it only if relevant: " + JSON.stringify(ctx)
   ].join(" ");
 
-  try {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: sys }] },
-        contents: [{ role: "user", parts: [{ text: q }] }],
-        generationConfig: { temperature: 0.6, maxOutputTokens: 400, topP: 0.95 },
-        safetySettings: [
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-        ]
-      })
-    });
-    if (!r.ok) { const t = await r.text(); return json({ reply: null, error: "upstream", status: r.status, detail: t.slice(0, 160) }); }
-    const j = await r.json();
-    const reply = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [])
-      .map(p => p.text || "").join("").trim();
-    return json({ reply: reply || null, used: used + 1, cap: DAILY_CAP });
-  } catch (e) {
-    return json({ reply: null, error: "fetch failed" });
+  const payload = {
+    systemInstruction: { parts: [{ text: sys }] },
+    contents: [{ role: "user", parts: [{ text: q }] }],
+    generationConfig: { temperature: 0.6, maxOutputTokens: 400, topP: 0.95 },
+    safetySettings: [
+      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+    ]
+  };
+  let lastErr = null, lastStatus = 0;
+  for (const model of MODELS) {
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+      });
+      if (!r.ok) {
+        const t = await r.text();
+        lastStatus = r.status; lastErr = t.slice(0, 300);
+        if (r.status === 404 || r.status === 400) continue; // bad/renamed model — try next
+        return json({ reply: null, error: "upstream", status: r.status, detail: lastErr }); // 429/5xx — stop
+      }
+      const j = await r.json();
+      const reply = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [])
+        .map(p => p.text || "").join("").trim();
+      return json({ reply: reply || null, model, used: used + 1, cap: DAILY_CAP });
+    } catch (e) { lastErr = "fetch failed"; }
   }
+  return json({ reply: null, error: "upstream", status: lastStatus, detail: lastErr });
 };
