@@ -1415,7 +1415,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = j.colleges || []; }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -1694,6 +1694,31 @@ function activityStrength(acts){
   const pts = acts.map(a=>ACT_POINTS[+(a.tier||4)]||1).sort((x,y)=>y-x).slice(0,6);
   const sum = pts.reduce((x,y)=>x+y,0);
   return Math.max(0, Math.min(1, sum/18));
+}
+// Honest numbers (Fix #6): the federal sources use codes like -2 for "no data", and a few
+// records carry impossible values (0% grad rate, negative net price, size 0). Show those as
+// "—" (no data) everywhere instead of "-200%", "$-2,296" or "0%". Display-only: the catalog
+// file is not changed. Returns the same list; state.catalogCleaned counts what was hidden.
+function sanitizeCatalog(list){
+  const n={};
+  const drop=(o,k,why)=>{ if(o && typeof o[k]==="number"){ o[k]=null; n[why]=(n[why]||0)+1; } };
+  for(const c of list){
+    const s=c.scorecard, ip=c.ipeds;
+    if(s){
+      if(typeof s.admissionRate==="number" && (s.admissionRate<=0 || s.admissionRate>1)) drop(s,"admissionRate","admit rate 0%");
+      if(typeof s.gradRate==="number" && (s.gradRate<=0 || s.gradRate>1)) drop(s,"gradRate","grad rate 0%");
+      if(typeof s.netPrice==="number" && s.netPrice<0) drop(s,"netPrice","negative net price");
+      if(typeof s.size==="number" && s.size<=0) drop(s,"size","size 0");
+      for(const k of ["costAvg","tuitionInState","tuitionOutState","medianEarnings10yr"]) if(typeof s[k]==="number" && s[k]<0) drop(s,k,"negative dollars");
+    }
+    if(ip){
+      if(typeof ip.retention==="number" && (ip.retention<=0 || ip.retention>1)) drop(ip,"retention","retention no-data code");
+      if(typeof ip.yield==="number" && (ip.yield<=0 || ip.yield>1)) drop(ip,"yield","yield out of range");
+      if(typeof ip.studentFacultyRatio==="number" && (ip.studentFacultyRatio<=0 || ip.studentFacultyRatio>60)) drop(ip,"studentFacultyRatio","student-faculty ratio implausible");
+    }
+  }
+  state.catalogCleaned=n;
+  return list;
 }
 function pct(x){ return (typeof x==="number")? Math.round(x*100)+"%" : "—"; }
 function money(x){ return (typeof x==="number")? "$"+Math.round(x).toLocaleString() : "—"; }
