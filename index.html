@@ -719,6 +719,36 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pulse-links{display:flex;flex-wrap:wrap;gap:8px}
 .pulse-links a{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;text-decoration:none;color:var(--ink);background:var(--surface)}
 .pulse-foot{padding:8px 16px 12px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+/* Pulse tab (#34) */
+.pt-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;padding:12px 16px}
+.pt-main{padding-top:14px}
+.pt-chips{padding:12px 0 2px}
+.pt-chips .ptab{display:inline-flex;align-items:center;gap:6px}
+.pt-feed .bp-item:last-child{border-bottom:none}
+.pt-new{background:var(--teal);color:#fff}
+.pdot.mini{width:7px;height:7px;display:inline-block;vertical-align:1px;margin-right:4px}
+.pdot.mini::after{inset:-3px}
+.pulse-new .pdot.mini{background:#fff}
+.pulse-new .pdot.mini::after{border-color:#fff}
+.pt-nudge{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 8px;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin:6px 0;cursor:pointer;color:var(--ink);font:inherit;font-size:13.5px;min-height:40px}
+.pt-nudge span{color:var(--muted);font-size:12.5px}
+.pt-nudge .pt-when{margin-left:auto;font-weight:700;color:var(--teal);font-size:12.5px}
+.pt-nudge.urgent{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:color-mix(in srgb,var(--warn) 7%,var(--surface))}
+.pt-nudge.urgent .pt-when,.pt-nudge.in-detail.urgent b{color:var(--warn)}
+.pt-nudge.in-detail{width:auto;display:inline-flex;margin:10px 0 0}
+.pt-visit{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.pt-visit:last-child{border-bottom:none}
+.pt-trip{flex:0 0 auto;border:1px solid var(--teal);color:var(--teal);background:var(--surface);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px;white-space:nowrap}
+.pt-trip.on{background:var(--teal);color:#fff}
+.pt-visit a.pi-t{color:var(--ink);text-decoration:none}
+.pt-visit a.pi-t:hover{color:var(--teal)}
+.pt-vtag{background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--warn)}
+.pt-nc{font-size:12.5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);line-height:1.6}
+.pt-ncs{background:none;border:none;padding:0;color:var(--teal);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.pt-weekly{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pt-foot{border:none;padding:4px 2px 20px}
+.pt-empty{text-align:center;padding:22px 16px}
+@media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
 /* Board: what's new at your schools */
 .bpulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;overflow:hidden}
 .bpulse-h{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 12%,var(--surface)),var(--surface) 70%);border:none;width:100%;text-align:left;color:var(--ink);font:inherit}
@@ -752,6 +782,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="compare">Compare</button>
     <button class="navbtn" data-nav="trip">Trips</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
+    <button class="navbtn" data-nav="pulse">📰 Pulse</button>
     <button class="navbtn" data-nav="zoe">💬 Ask Zoe</button>
     <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
@@ -919,7 +950,6 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="onboard-guide"></div>
     <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
     <div id="board-coach" class="coachwrap"></div>
-    <div id="board-pulse"></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -1125,6 +1155,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="dl-out"></div>
   </section>
 
+  <!-- CAMPUS PULSE (own tab, #34) -->
+  <section id="v-pulse" class="hidden">
+    <h1>📰 Campus Pulse</h1>
+    <p class="sub">What's new at the schools on your board — straight from each school's own news, admissions office and calendar.</p>
+    <div id="pt-out"></div>
+  </section>
+
   <!-- ASK ZOE (full tab) -->
   <section id="v-zoe" class="hidden">
     <div class="ztab-head">
@@ -1322,7 +1359,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1343,6 +1380,7 @@ function goto(view){
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
+  else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
 }
@@ -2385,7 +2423,7 @@ function pulseSection(rec){
   return `<section id="pulse" class="pulse" data-pulse-root="${esc(id)}">
     <div class="pulse-head"><h2>📰 Campus Pulse</h2>
       <div class="pulse-sub">What's happening at ${esc(rec.name)} right now — straight from the school, its admissions office and its calendar.</div>
-      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div><div data-pulse-ask></div></div>
+      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div>${(()=>{ const x=pulseNudge(catInfo(id)); return x?`<button class="pt-nudge in-detail ${x.days<=14?"urgent":""}" data-nav-deadlines>⏰ <b>${esc(x.kind)}</b> deadline ${esc(nudgeText(x))} <span>(${esc(_fmtD(x.date))})</span></button>`:""; })()}<div data-pulse-ask></div></div>
     <div class="ptabs" data-pulse-tabs></div>
     <div class="pbody" data-pulse-news="${esc(id)}"><div class="pskel" style="width:92%"></div><div class="pskel" style="width:76%"></div><div class="pskel" style="width:84%"></div></div>
     <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links" data-pulse-voices>${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
@@ -2393,6 +2431,9 @@ function pulseSection(rec){
     <div class="pulse-foot">Headlines and events come from the school's own public feeds and link to the school's site. Student links open each site's newest posts — we link out, we don't copy them.</div></section>`;
 }
 function pulseItemHtml(it){
+  if(it.kind==="events" && isVisit(it.title) && it.school){ const dd=_evDate(it.date);
+    return `<div class="pulse-item pt-visit"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
+      <span class="pi-main"><a class="pi-t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a><span class="pi-meta"><span class="ptag pt-vtag">🎟 Visit day</span>${esc(_evWhen(it))}${it.where?` · ${esc(it.where)}`:""}</span></span>${tripAddBtn(it.school)}</div>`; }
   if(it.kind==="events"){ const dd=_evDate(it.date);
     return `<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
       <span class="pi-main"><span class="pi-t">${esc(it.title)}</span><span class="pi-meta">${esc(_evWhen(it))}${it.where?` · ${esc(it.where)}`:""}</span></span></a>`; }
@@ -2403,7 +2444,7 @@ function renderPulseList(root, j, tab, expanded){
   const box=root.querySelector("[data-pulse-news]");
   const S=j.sections||{};
   const stories=["news","admissions","student"].flatMap(k=>(S[k]||[]).map(x=>({...x,kind:k}))).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  const events=(S.events||[]).map(x=>({...x,kind:"events"}));
+  const events=(S.events||[]).map(x=>({...x,kind:"events",school:root.dataset.pulseRoot})).sort((a,b)=>(isVisit(b.title)-isVisit(a.title))||a.date.localeCompare(b.date));
   let list = tab==="all" ? stories : tab==="events" ? events : stories.filter(x=>x.kind===tab);
   const shown = expanded ? list : list.slice(0,4);
   let html = shown.map(pulseItemHtml).join("");
@@ -2449,52 +2490,116 @@ async function loadPulse(id){
       const g=[...v.querySelectorAll("a")].find(a=>/student newspaper/i.test(a.textContent)); if(g){ g.href=j.studentSite; g.textContent=`🗞️ ${host} (student paper) ↗`; } }
   }catch(e){ fail("Couldn't reach the school's feeds right now — try again later."); }
 }
-/* Board: "What's new at your schools" — one request for the whole board, cached for 10 minutes. */
+/* Pulse digest (#34): one request for the whole board (stories + visit days), cached 10 minutes.
+   Feeds the Pulse tab, the dots on board cards and the count on the Pulse tab button. */
 let pulseDigest={at:0,key:"",data:null,busy:false};
-function pulseCollapsed(){ try{ return localStorage.getItem("zc_bpulse_closed")==="1"; }catch(e){ return false; } }
-function setPulseCollapsed(v){ try{ localStorage.setItem("zc_bpulse_closed",v?"1":"0"); }catch(e){} }
-function renderBoardPulse(){
-  const el=$("board-pulse"); if(!el) return;
-  const ids=state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30);
-  if(!ids.length){ el.innerHTML=""; return; }
+const PULSE_WEEK=7*86400e3;
+function boardPulseIds(){ return state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30); }
+function pulseData(){ const ids=boardPulseIds(); if(!ids.length) return {ids,key:"",d:null};
   const key=ids.slice().sort().join(",");
   const fresh=pulseDigest.data && pulseDigest.key===key && Date.now()-pulseDigest.at<10*60e3;
   if(!fresh && !pulseDigest.busy) fetchBoardPulse(ids,key);
-  const d=pulseDigest.key===key?pulseDigest.data:null;
-  if(!d){ el.innerHTML=`<div class="bpulse"><div class="bpulse-h"><span class="pdot active"></span><b>Campus Pulse</b><span class="cnt">checking your schools…</span></div></div>`; return; }
-  const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
-  const items=Object.entries(d.schools||{}).flatMap(([id,v])=>(v.top||[]).slice(0,2).map(x=>({...x,school:id}))).filter(x=>x.date).sort((a,b)=>b.date.localeCompare(a.date));
-  const week=items.filter(x=>Date.now()-Date.parse(x.date)<7*86400e3).length;
-  const live=Object.keys(d.schools||{}).length;
-  if(!items.length){ el.innerHTML=""; return; }
-  const closed=pulseCollapsed();
-  el.innerHTML=`<div class="bpulse"><button class="bpulse-h" data-bpulse-toggle aria-expanded="${!closed}"><span class="pdot ${week?"active":"steady"}"></span><b>What's new at your schools</b><span class="cnt">${week?`${week} new this week`:`${items.length} recent`} ${closed?"▸":"▾"}</span></button>
-    <div class="bpulse-list ${closed?"hidden":""}">${items.slice(0,6).map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
-      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span></span></span></div>`).join("")}
-      <div class="bp-foot">Live from ${live} of your ${ids.length} schools' own news feeds. Tap a school name for its full Pulse.</div></div></div>`;
-  el.querySelector("[data-bpulse-toggle]").onclick=()=>{ setPulseCollapsed(!pulseCollapsed()); renderBoardPulse(); };
-  // "N new" badges on the board cards' Pulse links
+  return {ids,key,d:pulseDigest.key===key?pulseDigest.data:null}; }
+function newThisWeek(v){ return ((v&&(v.stories||v.top))||[]).filter(x=>x.date && Date.now()-Date.parse(x.date)<PULSE_WEEK).length; }
+function renderBoardPulse(){   // name kept: renderBoard() calls it. Dots + nav count only — the feed lives on the Pulse tab.
+  const {d}=pulseData(); updatePulseNav(d); if(!d) return;
   for(const [id,v] of Object.entries(d.schools||{})){
-    const n=(v.top||[]).filter(x=>x.date && Date.now()-Date.parse(x.date)<7*86400e3).length;
-    document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new">${n} new</span>`); });
+    const n=newThisWeek(v);
+    document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new"><span class="pdot active mini"></span>${n} new</span>`); });
   }
 }
+function updatePulseNav(d){ const b=document.querySelector('#appnav .navbtn[data-nav="pulse"]'); if(!b) return;
+  const n=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; b.textContent = n? `📰 Pulse · ${n}` : "📰 Pulse"; }
 async function fetchBoardPulse(ids,key,retry){
   pulseDigest.busy=true;
   try{
-    const r=await fetch(`/.netlify/functions/campus-pulse?ids=${encodeURIComponent(ids.join(","))}`,{headers:await aiHeaders()});
+    const r=await fetch(`/.netlify/functions/campus-pulse?events=1&ids=${encodeURIComponent(ids.join(","))}`,{headers:await aiHeaders()});
     const j=await r.json().catch(()=>null);
     if(j && j.schools){
       const prev=(pulseDigest.key===key&&pulseDigest.data)?pulseDigest.data.schools:{};
-      pulseDigest={at:Date.now(),key,data:{...j,schools:{...prev,...j.schools}},busy:false};
-      if(currentView==="board") renderBoardPulse();
+      const none=[...new Set([...((pulseDigest.key===key&&pulseDigest.data&&pulseDigest.data.none)||[]),...(j.none||[])])];
+      pulseDigest={at:Date.now(),key,data:{...j,none,schools:{...prev,...j.schools}},busy:false};
+      if(currentView==="board") renderBoardPulse(); else updatePulseNav(pulseDigest.data);
+      if(currentView==="pulse") renderPulseTab();
       if(j.pending && j.pending.length && !retry) setTimeout(()=>fetchBoardPulse(j.pending,key,true),2500);
       return;
     }
   }catch(e){}
   pulseDigest.busy=false;
+  if(currentView==="pulse") renderPulseTab();
+}
+/* Visit days (#34): open houses, tours, preview days on the school's public calendar -> one tap to Trips. */
+const VISIT_RE=/\b(open houses?|campus (visits?|tours?)|guided tours?|admissions? (tours?|events?|sessions?)|visit days?|preview days?|info(rmation)? sessions?|admitted students?|accepted students?|prospective students?|future (students?|\w+s) day|discover \w+ day|explore \w+ day|experience \w+ day)\b/i;
+function isVisit(t){ return VISIT_RE.test(String(t||"")); }
+function tripAddBtn(id){ const on=getTrip().has(id); return `<button class="pt-trip ${on?"on":""}" type="button" data-trip-add="${esc(id)}">${on?"✓ In Trips":"+ Add to Trips"}</button>`; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-trip-add]"); if(!b) return; e.preventDefault(); e.stopPropagation();
+  const id=b.dataset.tripAdd, s=getTrip(); if(!s.has(id)){ s.add(id); saveTrip(s); updateTripBadge(); }
+  document.querySelectorAll(`[data-trip-add="${CSS.escape(id)}"]`).forEach(x=>{ x.classList.add("on"); x.textContent="✓ In Trips"; }); });
+/* Deadline nudge (#34): the nearest deadline, when it's within 45 days. */
+function pulseNudge(info){ const n=info?nextDeadline(info):null; if(!n) return null; const days=daysUntil(n.date);
+  if(days==null || days<0 || days>45) return null; return {kind:n.kind, date:n.date, days}; }
+function nudgeText(x){ return x.days===0?"today":x.days===1?"tomorrow":`in ${x.days} days`; }
+/* The Pulse tab */
+let ptSchool="all", ptMore=false;
+function renderPulseTab(){
+  const el=$("pt-out"); if(!el) return;
+  const {ids,d}=pulseData(); updatePulseNav(d);
+  if(!ids.length){ el.innerHTML=`<div class="card pt-empty"><b>Add schools to your board to see their news here.</b><div class="muted" style="margin:6px 0 12px;font-size:13px">Pulse follows each school's own news, admissions office and campus calendar.</div><button class="primary small" data-pt-go="explore">Browse schools</button></div>`; wirePt(el); return; }
+  const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
+  // Deadlines coming up (nudges)
+  const nudges=state.schools.map(s=>({id:s.school_id,x:pulseNudge(catInfo(s.school_id))})).filter(o=>o.x).sort((a,b)=>a.x.days-b.x.days).slice(0,3);
+  const nudgeHtml = nudges.length ? `<div class="pt-card pt-nudges"><div class="pulse-h">⏰ Deadlines coming up</div>${nudges.map(o=>`<button class="pt-nudge ${o.x.days<=14?"urgent":""}" data-pt-go="deadlines"><b>${esc(name(o.id))}</b> <span>${esc(o.x.kind)} · ${esc(_fmtD(o.x.date))}</span><span class="pt-when">${esc(nudgeText(o.x))}</span></button>`).join("")}</div>` : "";
+  if(!d){ el.innerHTML = nudgeHtml + `<div class="pt-card"><div class="pmeter"><span class="pdot active"></span><span class="muted">Checking your ${ids.length} school${ids.length>1?"s":""}…</span></div><div class="pskel" style="width:92%"></div><div class="pskel" style="width:70%"></div><div class="pskel" style="width:84%"></div></div>`; wirePt(el); return; }
+  const S=d.schools||{};
+  const live=ids.filter(id=>S[id] && ((S[id].stories||S[id].top||[]).length || (S[id].visits||[]).length));
+  const waiting=ids.filter(id=>!S[id] && !(d.none||[]).includes(id) && pulseDigest.busy);
+  const notConnected=ids.filter(id=>(d.none||[]).includes(id));
+  const quiet=ids.filter(id=>S[id] && !live.includes(id));
+  const week=live.reduce((t,id)=>t+newThisWeek(S[id]),0);
+  const visits=live.flatMap(id=>(S[id].visits||[]).map(x=>({...x,school:id}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
+  const visitHtml = visits.length ? `<div class="pt-card"><div class="pulse-h">🎟 Visit days &amp; open houses</div>${visits.map(x=>{ const dd=_evDate(x.date); return `<div class="pt-visit"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
+      <span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button><a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta">${esc(_evWhen(x))}${x.where?` · ${esc(x.where)}`:""}</span></span>${tripAddBtn(x.school)}</div>`; }).join("")}</div>` : "";
+  if(ptSchool!=="all" && !live.includes(ptSchool)) ptSchool="all";
+  const stories=live.flatMap(id=>(S[id].stories||S[id].top||[]).map(x=>({...x,school:id}))).filter(x=>x.date && (ptSchool==="all"||x.school===ptSchool)).sort((a,b)=>b.date.localeCompare(a.date));
+  const shown=ptMore?stories:stories.slice(0,10);
+  const chips = live.length>1 ? `<div class="ptabs pt-chips"><button class="ptab ${ptSchool==="all"?"on":""}" data-pt-school="all">All<span class="n">${live.reduce((t,id)=>t+(S[id].stories||S[id].top||[]).length,0)}</span></button>${live.map(id=>`<button class="ptab ${ptSchool===id?"on":""}" data-pt-school="${esc(id)}">${esc(name(id))}${newThisWeek(S[id])?`<span class="pdot active mini"></span>`:""}</button>`).join("")}</div>` : "";
+  const feed = stories.length ? shown.map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
+      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span>${Date.now()-Date.parse(x.date)<PULSE_WEEK?`<span class="ptag pt-new">New</span>`:""}</span></span></div>`).join("")
+      + (stories.length>10?`<button class="pmore" data-pt-more>${ptMore?"Show less":`Show all ${stories.length}`}</button>`:"")
+    : `<div class="pempty">${live.length?"Nothing new from your schools right now.":"None of your schools' feeds are connected yet — we're adding schools every week."}</div>`;
+  const status=`<div class="pmeter"><span class="pdot ${week?"active":"steady"}"></span><b>${week?`${week} new this week`:"All caught up"}</b><span class="sep">·</span><span class="muted">live from ${live.length} of your ${ids.length} schools</span></div>`;
+  const nc = notConnected.length||quiet.length ? `<div class="pt-nc"><b>Not connected yet:</b> ${[...notConnected,...quiet].map(id=>`<button class="pt-ncs" data-pulse-open="${esc(id)}">${esc(name(id))}</button>`).join(", ")}. <span class="muted">We're connecting more schools every week. Their Pulse page still has student links.</span></div>` : "";
+  el.innerHTML = nudgeHtml + visitHtml + `<div class="pt-card pt-main">${status}${chips}<div class="pt-feed">${feed}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
+    + `<div id="pt-weekly"></div>`
+    + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Tap a school name for its full Pulse.</div>`;
+  wirePt(el); renderPulseWeekly();
+}
+function wirePt(el){
+  el.querySelectorAll("[data-pt-go]").forEach(b=>b.onclick=()=>goto(b.dataset.ptGo));
+  el.querySelectorAll("[data-pt-school]").forEach(b=>b.onclick=()=>{ ptSchool=b.dataset.ptSchool; ptMore=false; renderPulseTab(); });
+  const m=el.querySelector("[data-pt-more]"); if(m) m.onclick=()=>{ ptMore=!ptMore; renderPulseTab(); };
+}
+/* Weekly Pulse email (#34): each person's own switch, off until they turn it on. Needs migration 011. */
+let _pweekly=null;
+async function renderPulseWeekly(){
+  const el=$("pt-weekly"); if(!el) return;
+  if(BACKEND.pulseWeekly===false || !state.me){ el.innerHTML=""; return; }
+  if(_pweekly===null || _pweekly.uid!==state.me.user_id){
+    try{ const { data, error } = await sb.from("reminder_prefs").select("pulse_weekly").eq("user_id", state.me.user_id).maybeSingle(); if(error) throw error;
+      _pweekly={on:!!(data&&data.pulse_weekly), uid:state.me.user_id}; }
+    catch(e){ BACKEND.pulseWeekly=false; el.innerHTML=""; return; }   // column not there yet (migration 011) -> hide
+  }
+  const email=(state.session&&state.session.user&&state.session.user.email)||"your email";
+  el.innerHTML=`<div class="pt-card pt-weekly"><div style="flex:1 1 220px;min-width:0"><b>📬 Weekly Pulse email</b> <span class="muted" style="font-size:12.5px">${_pweekly.on?"On":"Off"}</span>
+    <div class="muted" style="font-size:12.5px;margin-top:3px">${_pweekly.on?`Every Monday morning to ${esc(email)}: the week's news and visit days at your schools.`:"One short email each Monday: the week's news and visit days at your board schools."}</div></div>
+    <button class="small ${_pweekly.on?"ghost":"primary"}" data-pw-toggle>${_pweekly.on?"Turn off":"Turn on"}</button><span class="msg" data-pw-msg></span></div>`;
+  el.querySelector("[data-pw-toggle]").onclick=async ev=>{ const b=ev.currentTarget; b.disabled=true;
+    try{ const { error } = await sb.from("reminder_prefs").upsert({ user_id:state.me.user_id, family_id:state.family.id, pulse_weekly:!_pweekly.on, updated_at:new Date().toISOString() }); if(error) throw error;
+      _pweekly.on=!_pweekly.on; renderPulseWeekly(); }
+    catch(e){ b.disabled=false; const m=el.querySelector("[data-pw-msg]"); m.className="msg err"; m.textContent="Couldn't save — try again."; } };
 }
 /* ========== SCHOOL DETAIL ========== */
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-nav-deadlines]"); if(!b) return; e.preventDefault(); goto("deadlines"); });
 document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-pulse-open]"); if(!a) return; e.preventDefault();
   openDetail(a.dataset.pulseOpen, currentView==="detail"?detailFrom:currentView); setTimeout(()=>{ const el=document.getElementById("pulse"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },120); });
 function renderDetail(id){

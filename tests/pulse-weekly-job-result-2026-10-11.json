@@ -1,0 +1,55 @@
+{
+ "digest": {
+  "top": [
+   {
+    "title": "Big research news",
+    "link": "https://www.x.edu/n1",
+    "date": "2026-10-11T12:00:00.000Z",
+    "topic": "Research",
+    "kind": "news"
+   }
+  ],
+  "meter": {
+   "recent30": 1,
+   "newest": "2026-10-11T12:00:00.000Z",
+   "events": 2,
+   "level": "steady"
+  },
+  "stories": [
+   {
+    "title": "Big research news",
+    "link": "https://www.x.edu/n1",
+    "date": "2026-10-11T12:00:00.000Z",
+    "topic": "Research",
+    "kind": "news"
+   }
+  ],
+  "visits": [
+   {
+    "title": "Fall Open House",
+    "link": "https://events.x.edu/e/2",
+    "date": "2026-10-17T12:00:00.000Z",
+    "where": "Quad",
+    "allDay": false,
+    "kind": "events"
+   }
+  ]
+ },
+ "subject": "This week at your schools: X University and more",
+ "ok": {
+  "weekIsMonday": true,
+  "visitWords": true,
+  "digestHasVisitsOnly": true,
+  "plainDigestUnchanged": true,
+  "emailOnlyThisWeek": true,
+  "emailEscapesAndBlocksBadLinks": true,
+  "nothingNewNoEmail": true,
+  "dryRunSendsNothing": true,
+  "liveSendsOnePerPerson": true,
+  "neverTwiceSameWeek": true,
+  "beforeMigrationDoesNothing": true,
+  "noKeyNoSend": true,
+  "scheduledMondays": true
+ },
+ "allPass": true
+}
