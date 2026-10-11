@@ -136,6 +136,7 @@ a{color:var(--teal)}
 .d-cell .v{font-size:16px;font-weight:600;margin-top:2px}
 .d-cell .v.dim{color:var(--muted);font-weight:400;font-size:13px}
 .srow{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:8px 0}
+.srow .sbody{min-width:0;flex:1}
 .srow .sn{font-weight:600;font-size:15px}
 .srow .sl{color:var(--muted);font-size:12px;font-family:var(--mono)}
 .srow .scl{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
@@ -619,6 +620,36 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .zoe-banner b{font-size:15px}
 .zoe-banner .zb-sub{color:var(--muted);font-size:13px;margin-top:1px}
 .zoe-banner .zb-go{margin-left:auto;color:var(--teal);font-weight:700;white-space:nowrap}
+
+/* ===== Fix #4 (Oct 11): phone + tile layout ===== */
+/* Board card header: name + family avg on top, action buttons on their own row (tiles + phones). */
+.school .top .brk{display:none}
+#schools.as-tiles .school .top{flex-wrap:wrap;align-items:flex-start}
+#schools.as-tiles .school .top>div:first-of-type{flex:1 1 150px}
+#schools.as-tiles .school .top .blend{order:1;margin-left:auto}
+#schools.as-tiles .school .top .brk{display:block;order:2;flex-basis:100%;height:0}
+#schools.as-tiles .school .top .openlink{order:3}
+@media (max-width:640px){
+  .school .top{flex-wrap:wrap;align-items:flex-start}
+  .school .top>div:first-of-type{flex:1 1 150px}
+  .school .top .blend{order:1;margin-left:auto}
+  .school .top .brk{display:block;order:2;flex-basis:100%;height:0}
+  .school .top .openlink{order:3}
+  /* Schools (Explore) rows: text next to the photo, buttons wrap underneath — no sideways overflow */
+  .srow{flex-wrap:wrap}
+  .srow{align-items:flex-start}
+  .srow .sbody{flex:1 1 calc(100% - 80px)}
+  .srow>.openlink,.srow>button.small{flex:0 0 auto}
+  /* Room for the two floating buttons so they never cover the last card */
+  .wrap{padding-bottom:170px}
+  .fab{padding:12px 16px;font-size:14px;right:14px;bottom:14px}
+  #zoe-fab{padding:11px 16px;font-size:14px;right:14px;bottom:72px}
+  /* Compare: readable columns (scroll sideways), row labels pinned on the left */
+  .cx-grid{--cx-k:92px;--cx-min:112px}
+  .cx-head{overflow-wrap:anywhere;hyphens:auto;align-items:flex-end!important}
+  .cx-cell{white-space:nowrap}
+  .cx-k,.cx-corner{position:sticky;left:0;z-index:1;background:var(--surface)}
+}
 </style>
 </head>
 <body>
@@ -1209,7 +1240,7 @@ function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
-  $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view) || view==="v-zoe");
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
@@ -1972,6 +2003,7 @@ function renderSchool(x){
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
+      <span class="brk"></span>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
@@ -2053,7 +2085,7 @@ function renderExList(q){
     const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phGrad(c.name)}">${esc((c.name.trim()[0]||"?").toUpperCase())}</div>`;
     return `<div class="srow">
       ${thumb}
-      <div style="min-width:0;flex:1"><div class="sn">${esc(c.name)}</div>
+      <div class="sbody"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
@@ -2535,7 +2567,7 @@ function buildCompare(){
   if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>g(cc).netPrice,"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
     bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Best fit for you: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}. ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
   const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.rec.name)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
-  const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:132px repeat(${n},minmax(0,1fr))">
+  const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:var(--cx-k,132px) repeat(${n},minmax(var(--cx-min,0px),1fr))">
     <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
     ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cx-k">${esc(m.k)}</div>`+cols.map((c,i)=>`<div class="cx-cell${i===bi?' best':''}">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</div>`).join(""); }).join("")}
   </div><p class="muted" style="font-size:11px;margin:12px 2px 0">★ marks the strongest in each row. Admit rate isn't scored — lower just means more selective.</p></div>`;
