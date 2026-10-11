@@ -669,15 +669,67 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 /* Fix #10 */
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 
-/* Campus Pulse */
+/* Campus Pulse v2 (Oct 11): a living picture of each school, from its own feeds */
 #pulse{scroll-margin-top:140px}
-.pulse-block{margin:10px 0}
-.pulse-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
-.pulse-item{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.35}
+.pulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:14px 0;overflow:hidden}
+.pulse-head{padding:14px 16px 10px;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 14%,var(--surface)),var(--surface) 70%);border-bottom:1px solid var(--line)}
+.pulse-head h2{margin:0;font-size:19px;display:flex;align-items:center;gap:8px}
+.pulse-sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+.pmeter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:13px}
+.pdot{width:10px;height:10px;border-radius:50%;background:var(--muted);position:relative;flex:0 0 auto}
+.pdot.very-active,.pdot.active{background:var(--teal)}
+.pdot.steady{background:var(--amber)}
+.pdot.very-active::after,.pdot.active::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--teal);opacity:.5;animation:pring 1.8s ease-out infinite}
+@keyframes pring{from{transform:scale(.6);opacity:.6}to{transform:scale(1.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pdot::after{animation:none}}
+.pmeter b{font-weight:700}
+.pmeter .sep{color:var(--muted);opacity:.5}
+.ptopics{margin-top:6px;font-size:12px;color:var(--muted)}
+.ptopics b{color:var(--ink);font-weight:600}
+.pask{margin-top:10px;display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:var(--surface);color:var(--teal);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px 0}
+.ptab{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;cursor:pointer;min-height:34px}
+@media (max-width:420px){.ptabs{gap:5px;padding:10px 12px 0}.ptab{padding:6px 9px}}
+.ptab.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.ptab .n{opacity:.7;margin-left:4px;font-family:var(--mono);font-size:11px}
+.pbody{padding:4px 16px 12px}
+.pulse-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;line-height:1.35;align-items:flex-start}
+.pulse-item:last-child{border-bottom:none}
 .pulse-item:hover .pi-t{color:var(--teal)}
+.pi-main{flex:1;min-width:0}
+.pi-t{font-size:14.5px;font-weight:600;display:block;overflow-wrap:anywhere}
+.pi-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px;font-size:11.5px;color:var(--muted)}
+.ptag{border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600;background:var(--sunk);color:var(--ink)}
+.ptag.k-news{background:color-mix(in srgb,var(--teal) 16%,var(--surface));color:var(--teal)}
+.ptag.k-admissions{background:color-mix(in srgb,var(--amber) 18%,var(--surface));color:var(--amber)}
+.ptag.k-student{background:color-mix(in srgb,var(--plum) 16%,var(--surface));color:var(--plum)}
 .pi-d{color:var(--muted);font-size:12px;white-space:nowrap;flex:0 0 auto}
+.pev-date{flex:0 0 46px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:4px 0;background:var(--paper)}
+.pev-date .m{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--warn)}
+.pev-date .d{display:block;font-size:18px;font-weight:700;line-height:1.1}
+.pmore{display:block;width:100%;margin-top:6px;background:none;border:1px dashed var(--line);border-radius:10px;padding:8px;color:var(--teal);font-size:13px;cursor:pointer}
+.pempty{color:var(--muted);font-size:13px;padding:12px 0}
+.pskel{height:14px;border-radius:6px;background:var(--sunk);margin:12px 0;animation:pshim 1.2s ease-in-out infinite alternate}
+@keyframes pshim{from{opacity:.5}to{opacity:1}}
+.pulse-block{padding:10px 16px;border-top:1px solid var(--line)}
+.pulse-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px}
 .pulse-links{display:flex;flex-wrap:wrap;gap:8px}
 .pulse-links a{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.pulse-foot{padding:8px 16px 12px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+/* Board: what's new at your schools */
+.bpulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;overflow:hidden}
+.bpulse-h{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 12%,var(--surface)),var(--surface) 70%);border:none;width:100%;text-align:left;color:var(--ink);font:inherit}
+.bpulse-h b{font-size:15px}
+.bpulse-h .cnt{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.bpulse-list{padding:0 14px 8px}
+.bpulse-list.hidden{display:none}
+.bp-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);align-items:flex-start}
+.bp-item:last-of-type{border-bottom:none}
+.bp-school{font-size:11.5px;font-weight:700;color:var(--teal);cursor:pointer;background:none;border:none;padding:0;text-align:left}
+.bp-t{display:block;font-size:14px;font-weight:600;line-height:1.35;overflow-wrap:anywhere;color:var(--ink);text-decoration:none;margin-top:2px}
+.bp-t:hover{color:var(--teal)}
+.bp-foot{font-size:11.5px;color:var(--muted);padding:6px 0 4px}
+.pulse-new{display:inline-block;margin-left:4px;background:var(--teal);color:#fff;border-radius:999px;padding:0 6px;font-size:10.5px;font-weight:700;vertical-align:1px}
 </style>
 </head>
 <body>
@@ -864,6 +916,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="onboard-guide"></div>
     <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
     <div id="board-coach" class="coachwrap"></div>
+    <div id="board-pulse"></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -1843,6 +1896,7 @@ function renderBoard(){
     `<div class="card muted">No schools yet. Tap <b>+ Add school</b> below, or <b>Explore</b> up top to browse all schools.</div>`;
   applyBoardView();
   bindStars($("schools")); wireOpen($("schools")); wireRanks(); renderGuidance(withMeta); renderBalance(withMeta);
+  try{ renderBoardPulse(); }catch(e){}
 }
 /* list-balance grade (CK-style: ~2–4 Likely, 3–5 Target, 2–6 Reach) */
 function listBalance(meta){
@@ -2312,27 +2366,126 @@ const STUDENT_VOICES=[
   {icon:"🗞️", label:"Student newspaper",            u:q=>`https://www.google.com/search?q=${q}+student+newspaper`},
 ];
 function _ago(iso){ if(!iso) return ""; const d=Math.round((Date.now()-Date.parse(iso))/86400000); if(isNaN(d)) return ""; if(d<=0) return "today"; if(d===1) return "yesterday"; if(d<30) return d+" days ago"; const m=Math.round(d/30); return m<12?(m+" month"+(m>1?"s":"")+" ago"):"over a year ago"; }
+const PULSE_KIND={news:{label:"Campus news",tab:"News"},admissions:{label:"Admissions office",tab:"Admissions"},student:{label:"Student paper",tab:"Students"},events:{label:"On campus",tab:"Events"}};
+const PULSE_LEVEL={"very-active":"Very active","active":"Active","steady":"Steady","quiet":"Quiet lately"};
+function _host(u){ try{ return new URL(u).hostname.replace(/^www\./,""); }catch(e){ return ""; } }
+function _evDate(iso){ const d=new Date(iso); if(isNaN(d)) return {m:"",d:""}; return {m:d.toLocaleDateString("en-US",{month:"short"}),d:String(d.getDate())}; }
+function _evWhen(it){ const d=new Date(it.date); if(isNaN(d)) return ""; const day=d.toLocaleDateString("en-US",{weekday:"short"}); return it.allDay?day+" · all day":day+" · "+d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}); }
 function pulseSection(rec){
   const q=encodeURIComponent(rec.name); const id=rec.school_id||rec.id;
   const rs=(state.ratings||[]).filter(r=>r.school_id===id && r.rating); const b=blended(id);
   const fam = rs.length ? `Your family: <b>${b.toFixed(1)}★</b> from ${rs.length} rating${rs.length>1?"s":""}.` : `Nobody in your family has rated it yet.`;
-  return `<section id="pulse" class="pulse"><h2 style="margin-top:14px">📰 Campus Pulse</h2>
-    <p class="muted" style="font-size:12.5px;margin:2px 0 10px">What's happening at ${esc(rec.name)} right now, and where students are talking.</p>
-    <div class="pulse-block"><div class="pulse-h">Latest from campus</div><div class="pulse-news" data-pulse-news="${esc(id)}"><div class="muted" style="font-size:13px">Loading the latest news…</div></div></div>
-    <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links">${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
+  return `<section id="pulse" class="pulse" data-pulse-root="${esc(id)}">
+    <div class="pulse-head"><h2>📰 Campus Pulse</h2>
+      <div class="pulse-sub">What's happening at ${esc(rec.name)} right now — straight from the school, its admissions office and its calendar.</div>
+      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div><div data-pulse-ask></div></div>
+    <div class="ptabs" data-pulse-tabs></div>
+    <div class="pbody" data-pulse-news="${esc(id)}"><div class="pskel" style="width:92%"></div><div class="pskel" style="width:76%"></div><div class="pskel" style="width:84%"></div></div>
+    <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links" data-pulse-voices>${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
     <div class="pulse-block"><div class="pulse-h">Your family's take</div><div style="font-size:13px">${fam} <span class="muted">Reviews from families who visited are coming to Zoe's Colleges.</span></div></div>
-    <p class="muted" style="font-size:11px;margin-top:8px">Headlines come from the school's own news feed and link to the school's site. Student links open each site's newest posts — we link out, we don't copy them.</p></section>`;
+    <div class="pulse-foot">Headlines and events come from the school's own public feeds and link to the school's site. Student links open each site's newest posts — we link out, we don't copy them.</div></section>`;
+}
+function pulseItemHtml(it){
+  if(it.kind==="events"){ const dd=_evDate(it.date);
+    return `<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
+      <span class="pi-main"><span class="pi-t">${esc(it.title)}</span><span class="pi-meta">${esc(_evWhen(it))}${it.where?` · ${esc(it.where)}`:""}</span></span></a>`; }
+  return `<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pi-main"><span class="pi-t">${esc(it.title)}</span>
+    <span class="pi-meta"><span class="ptag k-${esc(it.kind)}">${esc(PULSE_KIND[it.kind].label)}</span>${it.topic&&it.topic!=="News"?`<span class="ptag">${esc(it.topic)}</span>`:""}<span>${esc(_ago(it.date))}</span></span></span></a>`;
+}
+function renderPulseList(root, j, tab, expanded){
+  const box=root.querySelector("[data-pulse-news]");
+  const S=j.sections||{};
+  const stories=["news","admissions","student"].flatMap(k=>(S[k]||[]).map(x=>({...x,kind:k}))).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const events=(S.events||[]).map(x=>({...x,kind:"events"}));
+  let list = tab==="all" ? stories : tab==="events" ? events : stories.filter(x=>x.kind===tab);
+  const shown = expanded ? list : list.slice(0,4);
+  let html = shown.map(pulseItemHtml).join("");
+  if(tab==="all" && events.length){ html += `<div class="pulse-h" style="margin-top:12px">Coming up on campus</div>` + events.slice(0, expanded?6:2).map(pulseItemHtml).join(""); }
+  if(!html) html=`<div class="pempty">Nothing new here right now.</div>`;
+  if(list.length>4 || (tab==="all" && events.length>2)) html += `<button class="pmore" data-pulse-more>${expanded?"Show less":"Show more"}</button>`;
+  if(tab==="events" && events.length) html += `<div class="muted" style="font-size:11.5px;margin-top:6px">Visiting? These are on the school's public calendar — a good way to see campus on a normal day.</div>`;
+  box.innerHTML=html;
+  const more=box.querySelector("[data-pulse-more]"); if(more) more.onclick=()=>renderPulseList(root,j,tab,!expanded);
 }
 async function loadPulse(id){
-  const box=document.querySelector(`[data-pulse-news="${CSS.escape(id)}"]`); if(!box) return;
-  const fail=msg=>{ box.innerHTML=`<div class="muted" style="font-size:13px">${msg}</div>`; };
+  const root=document.querySelector(`[data-pulse-root="${CSS.escape(id)}"]`); if(!root) return;
+  const box=root.querySelector("[data-pulse-news]"), meter=root.querySelector("[data-pulse-meter]"), tabs=root.querySelector("[data-pulse-tabs]");
+  const fail=msg=>{ box.innerHTML=`<div class="pempty">${msg}</div>`; meter.innerHTML=`<span class="pdot"></span><span class="muted">Pulse not connected yet</span>`; };
   try{
     const r=await fetch(`/.netlify/functions/campus-pulse?id=${encodeURIComponent(id)}`,{headers:await aiHeaders()});
     const j=await r.json().catch(()=>({}));
-    if(!j.items || !j.items.length) return fail(j.reason==="no-feed" ? "We haven't connected this school's news feed yet — try the student links below." : "Couldn't reach the school's news right now — try again later.");
-    box.innerHTML=j.items.map(it=>`<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pi-t">${esc(it.title)}</span><span class="pi-d">${esc(_ago(it.date))}</span></a>`).join("")
-      + (j.source?`<div class="muted" style="font-size:11px;margin-top:4px">From ${esc(j.source)}</div>`:"");
-  }catch(e){ fail("Couldn't reach the school's news right now — try again later."); }
+    const S=j.sections||{};
+    if(!Object.values(S).some(a=>a&&a.length)) return fail(j.reason==="no-feed" ? "We haven't connected this school's feeds yet — we're adding schools every week. Try the student links below." : "Couldn't reach the school's feeds right now — try again later.");
+    const m=j.meter||{};
+    const bits=[`<span class="pdot ${esc(m.level||"")}"></span><b>${esc(PULSE_LEVEL[m.level]||"Live")}</b>`];
+    if(m.recent30) bits.push(`${m.recent30} stor${m.recent30===1?"y":"ies"} in the last 30 days`);
+    if(m.events) bits.push(`${m.events} event${m.events===1?"":"s"} coming up`);
+    if(m.newest) bits.push(`updated ${_ago(m.newest)}`);
+    meter.innerHTML=bits.join(` <span class="sep">·</span> `);
+    const storiesAll=["news","admissions","student"].flatMap(k=>S[k]||[]);
+    const tc={}; storiesAll.forEach(x=>{ if(x.topic&&x.topic!=="News") tc[x.topic]=(tc[x.topic]||0)+1; });
+    const top=Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    root.querySelector("[data-pulse-topics]").innerHTML = top.length ? `Talking about: ${top.map(([t,n])=>`<b>${esc(t)}</b> (${n})`).join(" · ")}` : "";
+    if(storiesAll.length){ const nm=(catInfo(id)||{}).name||"this school";
+      const heads=storiesAll.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,4).map(x=>`"${x.title}"`).join("; ");
+      const q=`What's going on at ${nm} lately? Recent headlines: ${heads}. What stands out for our family, and anything worth asking on a visit?`.slice(0,600);
+      const askEl=root.querySelector("[data-pulse-ask]"); askEl.innerHTML=`<button class="pask" type="button">💬 Ask Zoe what this means for us</button>`;
+      askEl.querySelector("button").onclick=()=>{ goto("zoe"); setTimeout(()=>{ const inp=$("ztab-in"); if(inp){ inp.value=q; inp.focus(); } },120); }; }
+    const counts={all:["news","admissions","student"].reduce((n,k)=>n+(S[k]||[]).length,0)};
+    for(const k of ["news","admissions","student","events"]) counts[k]=(S[k]||[]).length;
+    const order=[["all","All"],["news","News"],["admissions","Admissions"],["student","Students"],["events","Events"]].filter(([k])=>k==="all"||counts[k]);
+    let tab="all";
+    const drawTabs=()=>{ tabs.innerHTML = order.length>2 ? order.map(([k,l])=>`<button class="ptab ${k===tab?"on":""}" data-ptab="${k}">${l}<span class="n">${counts[k]}</span></button>`).join("") : ""; };
+    drawTabs(); renderPulseList(root,j,tab,false);
+    tabs.onclick=e=>{ const b=e.target.closest("[data-ptab]"); if(!b) return; tab=b.dataset.ptab; drawTabs(); renderPulseList(root,j,tab,false); };
+    if(j.studentSite){ const v=root.querySelector("[data-pulse-voices]"); const host=_host(j.studentSite);
+      const g=[...v.querySelectorAll("a")].find(a=>/student newspaper/i.test(a.textContent)); if(g){ g.href=j.studentSite; g.textContent=`🗞️ ${host} (student paper) ↗`; } }
+  }catch(e){ fail("Couldn't reach the school's feeds right now — try again later."); }
+}
+/* Board: "What's new at your schools" — one request for the whole board, cached for 10 minutes. */
+let pulseDigest={at:0,key:"",data:null,busy:false};
+function pulseCollapsed(){ try{ return localStorage.getItem("zc_bpulse_closed")==="1"; }catch(e){ return false; } }
+function setPulseCollapsed(v){ try{ localStorage.setItem("zc_bpulse_closed",v?"1":"0"); }catch(e){} }
+function renderBoardPulse(){
+  const el=$("board-pulse"); if(!el) return;
+  const ids=state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30);
+  if(!ids.length){ el.innerHTML=""; return; }
+  const key=ids.slice().sort().join(",");
+  const fresh=pulseDigest.data && pulseDigest.key===key && Date.now()-pulseDigest.at<10*60e3;
+  if(!fresh && !pulseDigest.busy) fetchBoardPulse(ids,key);
+  const d=pulseDigest.key===key?pulseDigest.data:null;
+  if(!d){ el.innerHTML=`<div class="bpulse"><div class="bpulse-h"><span class="pdot active"></span><b>Campus Pulse</b><span class="cnt">checking your schools…</span></div></div>`; return; }
+  const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
+  const items=Object.entries(d.schools||{}).flatMap(([id,v])=>(v.top||[]).slice(0,2).map(x=>({...x,school:id}))).filter(x=>x.date).sort((a,b)=>b.date.localeCompare(a.date));
+  const week=items.filter(x=>Date.now()-Date.parse(x.date)<7*86400e3).length;
+  const live=Object.keys(d.schools||{}).length;
+  if(!items.length){ el.innerHTML=""; return; }
+  const closed=pulseCollapsed();
+  el.innerHTML=`<div class="bpulse"><button class="bpulse-h" data-bpulse-toggle aria-expanded="${!closed}"><span class="pdot ${week?"active":"steady"}"></span><b>What's new at your schools</b><span class="cnt">${week?`${week} new this week`:`${items.length} recent`} ${closed?"▸":"▾"}</span></button>
+    <div class="bpulse-list ${closed?"hidden":""}">${items.slice(0,6).map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
+      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span></span></span></div>`).join("")}
+      <div class="bp-foot">Live from ${live} of your ${ids.length} schools' own news feeds. Tap a school name for its full Pulse.</div></div></div>`;
+  el.querySelector("[data-bpulse-toggle]").onclick=()=>{ setPulseCollapsed(!pulseCollapsed()); renderBoardPulse(); };
+  // "N new" badges on the board cards' Pulse links
+  for(const [id,v] of Object.entries(d.schools||{})){
+    const n=(v.top||[]).filter(x=>x.date && Date.now()-Date.parse(x.date)<7*86400e3).length;
+    document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new">${n} new</span>`); });
+  }
+}
+async function fetchBoardPulse(ids,key,retry){
+  pulseDigest.busy=true;
+  try{
+    const r=await fetch(`/.netlify/functions/campus-pulse?ids=${encodeURIComponent(ids.join(","))}`,{headers:await aiHeaders()});
+    const j=await r.json().catch(()=>null);
+    if(j && j.schools){
+      const prev=(pulseDigest.key===key&&pulseDigest.data)?pulseDigest.data.schools:{};
+      pulseDigest={at:Date.now(),key,data:{...j,schools:{...prev,...j.schools}},busy:false};
+      if(currentView==="board") renderBoardPulse();
+      if(j.pending && j.pending.length && !retry) setTimeout(()=>fetchBoardPulse(j.pending,key,true),2500);
+      return;
+    }
+  }catch(e){}
+  pulseDigest.busy=false;
 }
 /* ========== SCHOOL DETAIL ========== */
 document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-pulse-open]"); if(!a) return; e.preventDefault();
@@ -2397,7 +2550,7 @@ function renderDetail(id){
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
-    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${pulseSection(rec)}${rateBlock}
+    ${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
   loadPulse(id);

@@ -1,0 +1,69 @@
+{
+ "sections": {
+  "news": [
+   "Researchers discover new enzyme | Research",
+   "Tigers win ACC championship | Sports",
+   "Homecoming weekend: what to know | Campus life",
+   "Board approves budget | News"
+  ],
+  "admissions": [
+   "Early decision applications: 5 tips | Admissions & aid",
+   "Meet our tour guides | News"
+  ],
+  "events": [
+   "Jazz Night | Concert Hall",
+   "Fall Open House | Main Quad"
+  ]
+ },
+ "meter": {
+  "recent30": 5,
+  "newest": "2026-10-10T15:00:00.000Z",
+  "events": 2,
+  "level": "active"
+ },
+ "studentSite": "https://www.xdaily.com",
+ "hostile": [
+  {
+   "title": "Fun night",
+   "link": "https://evil.edu/a",
+   "date": "2026-10-09T15:00:00.000Z",
+   "topic": "News"
+  }
+ ],
+ "digest": {
+  "sc-x": [
+   "news: Researchers discover new enzyme",
+   "admissions: Early decision applications: 5 tips",
+   "news: Tigers win ACC championship"
+  ],
+  "sc-v1": [
+   "news: Researchers discover new enzyme",
+   "news: Tigers win ACC championship",
+   "news: Homecoming weekend: what to know"
+  ]
+ },
+ "ok": {
+  "allFourKindsWork": true,
+  "topicsTagged": true,
+  "meterCountsLast30Days": true,
+  "eventsUpcomingOnlySortedNoDupes": true,
+  "eventLinksStayOnSchoolDomain": true,
+  "staffOnlyEventsHidden": true,
+  "eventPlaceKept": true,
+  "v1ShapeKept": true,
+  "secondCallServedFromCache": true,
+  "cacheExpiresAfter3h": true,
+  "oldV1EntryStillWorks": true,
+  "hostileFeedStripped": true,
+  "nonWebFeedUrlNeverFetched": true,
+  "unknownSchoolNothingFetched": true,
+  "digestTop3PerSchoolNewestFirst": true,
+  "digestSkipsEvents": true,
+  "digestReportsUnknown": true,
+  "timeBudgetLeavesRestPending": true,
+  "noLoginRefused": true,
+  "noLoginRefusedDigest": true,
+  "postRefused": true
+ },
+ "allPass": true
+}
