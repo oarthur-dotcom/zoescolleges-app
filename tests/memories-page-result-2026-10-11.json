@@ -37,6 +37,7 @@
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
+  "ticksKept": true,
   "shareWrite": {
    "n": 2,
    "status": "pending",
@@ -109,6 +110,7 @@
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
+  "ticksKept": true,
   "shareWrite": {
    "n": 2,
    "status": "pending",
@@ -191,6 +193,7 @@
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
+  "ticksKept": true,
   "shareWrite": {
    "n": 2,
    "status": "pending",
@@ -240,6 +243,7 @@
   "phone.familyTakesShown": true,
   "phone.shareNeedsConsent": true,
   "phone.shareSendsPending": true,
+  "phone.formSurvivesRedraw": true,
   "phone.tripsStandsAlone": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
@@ -251,6 +255,7 @@
   "desktop.familyTakesShown": true,
   "desktop.shareNeedsConsent": true,
   "desktop.shareSendsPending": true,
+  "desktop.formSurvivesRedraw": true,
   "desktop.tripsStandsAlone": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
@@ -262,6 +267,7 @@
   "phone-dark.familyTakesShown": true,
   "phone-dark.shareNeedsConsent": true,
   "phone-dark.shareSendsPending": true,
+  "phone-dark.formSurvivesRedraw": true,
   "phone-dark.tripsStandsAlone": true,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true,

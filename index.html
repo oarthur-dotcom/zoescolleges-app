@@ -2252,10 +2252,12 @@ $("mem-add").onclick=()=>openMemAdd();
 /* #47 Share your reel with other families: opt-in, reviewed before anything is shown, withdraw anytime.
    Needs migration 012; until then the card explains it's opening soon. */
 let _reelShare=null;   // null = not checked; false = table missing; array = this family's submissions
-async function loadReelShares(){ if(!state.family) return false; try{ const {data,error}=await sb.from("reel_submissions").select("id,status,created_at,photo_ids").eq("family_id",state.family.id).order("created_at",{ascending:false}); if(error) throw error; return data||[]; }catch(e){ return false; } }
+async function loadReelShares(){ if(!state.family) return false; try{ const {data,error}=await sb.from("reel_submissions").select("id,status,created_at,photo_ids").eq("family_id",state.family.id).order("created_at",{ascending:false}); if(error) throw error; return data||[]; }catch(e){ return isMissing(e) ? false : null; } }
 async function renderMemShare(hasPhotos){
   const el=$("mem-share"); if(!el) return;
+  if(el.querySelector("#share-send")) return;   // the share form is open: don't wipe the family's ticks
   if(_reelShare===null) _reelShare=await loadReelShares();
+  if(_reelShare===null){ el.innerHTML=""; return; }   // network blip: try again next time the page draws
   const live=Array.isArray(_reelShare); const mine=live?_reelShare.filter(x=>x.status!=="withdrawn"):[];
   const statusLine = mine.length ? `<div class="mem-share-status">${mine.map(x=>`<span class="ptag ${x.status==="approved"?"pt-new":""}">${x.status==="pending"?"⏳ In review":x.status==="approved"?"✓ Shared with families":"Not used"}</span> <span class="muted" style="font-size:12px">${(x.photo_ids||[]).length} photos · ${esc(new Date(x.created_at).toLocaleDateString("en-US",{month:"short",day:"numeric"}))}</span> ${x.status!=="rejected"?`<button class="linklike" data-reel-withdraw="${x.id}">Withdraw</button>`:""}`).join("<br>")}</div>` : "";
   el.innerHTML=`<div class="card mem-sharecard"><div class="mem-share-h">🌎 <b>Help a family who hasn't visited yet</b></div>
@@ -2282,7 +2284,7 @@ function openReelShare(){
     </div>
     <div class="row" style="gap:8px;margin-top:10px;align-items:center"><button class="small primary" id="share-send">Send for review</button><button class="linklike" id="share-cancel">Cancel</button><span class="muted" id="share-msg" style="font-size:12.5px"></span></div>`
     :`<p class="muted">Photos saved only on this device can't be shared yet — add them again once photo sync is on.</p><button class="linklike" id="share-cancel">Back</button>`}</div>`;
-  $("share-cancel").onclick=()=>renderMemShare(true);
+  $("share-cancel").onclick=()=>{ el.innerHTML=""; renderMemShare(true); };
   const send=$("share-send"); if(!send) return;
   send.onclick=async()=>{ const ids=[...el.querySelectorAll("[data-share-ph]:checked")].map(x=>x.dataset.sharePh); const msg=$("share-msg");
     const consent=Object.fromEntries([...el.querySelectorAll("[data-consent]")].map(x=>[x.dataset.consent,x.checked]));
@@ -2292,7 +2294,7 @@ function openReelShare(){
     const show=$("share-as").value; const schools=[...new Set(ids.map(id=>(state.photos.find(p=>p.id===id)||{}).school_id).filter(Boolean))];
     try{ const {error}=await sb.from("reel_submissions").insert({ family_id:state.family.id, user_id:state.me.user_id, photo_ids:ids, school_ids:schools, show_as:show, family_label:show==="family"?fam:null,
         note:($("share-note").value||"").trim().slice(0,300)||null, consent:{...consent, at:new Date().toISOString()}, status:"pending" });
-      if(error) throw error; _reelShare=null; await renderMemShare(true); const st=$("mem-share"); if(st) st.insertAdjacentHTML("afterbegin",`<div class="msg ok" style="margin-bottom:8px">Thank you! Your reel is in review — we'll show it to families looking at ${schools.length>1?"these schools":"this school"} once it's approved.</div>`); }
+      if(error) throw error; _reelShare=null; el.innerHTML=""; await renderMemShare(true); const st=$("mem-share"); if(st) st.insertAdjacentHTML("afterbegin",`<div class="msg ok" style="margin-bottom:8px">Thank you! Your reel is in review — we'll show it to families looking at ${schools.length>1?"these schools":"this school"} once it's approved.</div>`); }
     catch(e){ send.disabled=false; msg.textContent="Couldn't send — try again."; } };
 }
 function reelPhotos(){
@@ -3552,7 +3554,7 @@ async function renderReminderCard(rows){
 }
 /* #45 Past deadlines: what already passed this cycle — submitted, or missed (and whether a later round is still open). */
 function pastDeadlinesHtml(rows){
-  const today=new Date(); today.setHours(0,0,0,0); const cycleStart=new Date(2026,7,1);
+  const today=new Date(); today.setHours(0,0,0,0); const cycleStart=new Date(today.getMonth()>=7?today.getFullYear():today.getFullYear()-1,7,1);   // this admissions cycle began Aug 1
   const items=[];
   for(const r of rows){ const L=deadlineList(r.info); const chk=getChecklist(r.rec.school_id);
     for(const x of L){ if(x.date<today && x.date>=cycleStart){ const later=L.find(y=>y.date>=today); items.push({name:r.rec.name, kind:x.kind, date:x.date, submitted:!!chk["Submitted"], later}); } } }
@@ -4438,7 +4440,7 @@ function zmOpen(kind){
   if(kind==="huddle"){
     const c=huddleCandidates();
     if(!c.length){ pnl.innerHTML=`<div class="zm-h">👪 Family huddle</div><p class="muted" style="margin:6px 0 0;font-size:13px">Rate a few schools first — each person taps the stars on the board (and adds a note about why). Then Zoe can show where you agree and where you differ.</p>`; return; }
-    pnl.innerHTML=`<div class="zm-h">👪 Family huddle <span class="muted">— Zoe sees each person's stars and notes (by role, not name) and keeps it calm and fair.</span></div>
+    pnl.innerHTML=`<div class="zm-h">👪 Family huddle <span class="muted">— Zoe sees each person's stars and notes, labeled by role (not name), and keeps it calm and fair. Notes are sent as written.</span></div>
       <div class="zm-row"><select id="zm-school"><option value="__all">All rated schools (${c.length})</option>${c.map(x=>`<option value="${esc(x.id)}">${esc(x.name)} — ${x.n} rating${x.n>1?"s":""}${x.spread>=2?" · views differ":""}</option>`).join("")}</select>
       <button class="small primary" id="zm-huddle">Start the huddle</button></div>`;
     $("zm-huddle").onclick=()=>{ const v=$("zm-school").value; const ids=v==="__all"?c.slice(0,8).map(x=>x.id):[v]; const nm=v==="__all"?"our rated schools":(c.find(x=>x.id===v)||{}).name;
@@ -4447,7 +4449,7 @@ function zmOpen(kind){
   if(kind==="stack"){
     if(!board.length){ pnl.innerHTML=`<div class="zm-h">🎓 How do I stack up?</div><p class="muted" style="margin:6px 0 0;font-size:13px">Add schools to your board first.</p>`; return; }
     pnl.innerHTML=`<div class="zm-h">🎓 How do I stack up?</div><div class="zm-row"><select id="zm-stack">${board.map(s=>`<option value="${esc(s.school_id)}">${esc(s.name)}</option>`).join("")}</select><button class="small primary" id="zm-stack-go">Ask Zoe</button></div>`;
-    $("zm-stack-go").onclick=()=>{ const id=$("zm-stack").value; const info=catInfo(id)||{}; ztabAsk(`How do I stack up at ${info.name}? Use the app's band for it, tell me my strongest point for this school, the biggest gap, and the one thing that would help most.`, {mode:"chat"}, `🎓 How do I stack up at ${info.name}?`); };
+    $("zm-stack-go").onclick=()=>{ const id=$("zm-stack").value; const info={name:schoolName(id)}; ztabAsk(`How do I stack up at ${info.name}? Use the app's band for it, tell me my strongest point for this school, the biggest gap, and the one thing that would help most.`, {mode:"chat"}, `🎓 How do I stack up at ${info.name}?`); };
     return; }
 }
 document.addEventListener("click",e=>{ const c=e.target.closest&&e.target.closest("[data-zm]"); if(!c) return; zmOpen(c.dataset.zm); });

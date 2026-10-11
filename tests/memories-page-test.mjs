@@ -35,6 +35,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.click('#mem-share-go'); await page.waitForTimeout(200);
   await page.click('#share-send'); await page.waitForTimeout(150); o.noConsentMsg = await page.textContent('#share-msg');
   for (const c of await page.$$('[data-consent]')) await c.check();
+  await page.evaluate(() => renderMemories()); await page.waitForTimeout(300);   // a redraw while the form is open must not wipe the ticks
+  o.ticksKept = await page.evaluate(() => [...document.querySelectorAll('[data-consent]')].every(x => x.checked));
   await page.click('#share-send'); await page.waitForTimeout(600);
   o.shareWrite = await page.evaluate(() => { const w = window.__writes.filter(x => x.table === 'reel_submissions' && x.op === 'insert').pop(); return w && { n: w.p.photo_ids.length, status: w.p.status, show: w.p.show_as, consent: Object.keys(w.p.consent).sort().join(',') }; });
   o.thanks = await page.evaluate(() => (document.querySelector('#mem-share .msg.ok') || {}).textContent || '');
@@ -50,6 +52,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   ok[label + '.familyTakesShown'] = /Loved the campus/.test(o.visits[0]);
   ok[label + '.shareNeedsConsent'] = /all three boxes/.test(o.noConsentMsg);
   ok[label + '.shareSendsPending'] = !!o.shareWrite && o.shareWrite.n === 2 && o.shareWrite.status === 'pending' && o.shareWrite.show === 'anonymous' && o.shareWrite.consent === 'at,own,people,show' && /in review/.test(o.thanks);
+  ok[label + '.formSurvivesRedraw'] = o.ticksKept;
   ok[label + '.tripsStandsAlone'] = /Trips/.test(o.trips.title) && !o.trips.back;
   ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
 }
