@@ -1165,7 +1165,7 @@ const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/colleges.json";
 const APP_LINK = "https://zoescolleges.com/";
-const ACCESS_CODE = "ZOE2027"; // beta sign-up gate — change here anytime
+// Beta sign-up gate is enforced on the server (migration 007): codes live in private.beta_codes.
 const CONTACT_EMAIL = "oarthur@gmail.com"; // Beta: receives feedback directly. Update to hello@zoescolleges.com once business inbox is configured.
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
 
@@ -1287,8 +1287,10 @@ $("go-auth").onclick = async () => {
     if (!email || password.length < 8) { msg("auth-msg","Enter your email and a password of at least 8 characters."); return; }
     if (mode === "signup") {
       const code = ($("accesscode").value||"").trim().toUpperCase();
-      if (code !== ACCESS_CODE) { msg("auth-msg","That beta access code isn't right — ask whoever invited you for the current code."); return; }
-      const { data, error } = await sb.auth.signUp({ email, password });
+      const join = getJoinCtx().join;
+      let ref = ""; try { ref = (new URLSearchParams(location.search).get("ref") || localStorage.getItem("zc_ref") || "").trim(); } catch(e){}
+      if (!code && !join && !ref) { msg("auth-msg","Enter your beta access code — ask whoever invited you for it."); return; }
+      const { data, error } = await sb.auth.signUp({ email, password, options:{ data:{ access_code: code, join_code: join, ref_code: ref } } });
       if (error) throw error;
       if (!data.session) return msg("auth-msg","Check your email for a confirmation link, then come back and sign in.","ok");
     } else {
@@ -1305,6 +1307,7 @@ function friendly(e){
   if (/already registered/i.test(m)) return "That email already has an account — try signing in instead.";
   if (/rate limit|too many|for security/i.test(m)) return "Too many attempts just now — wait a minute and try again.";
   if (/confirm/i.test(m)) return "Check your email for the confirmation link first, then sign in.";
+  if (/BETA_GATE|database error saving new user/i.test(m)) return "That beta access code isn't right — ask whoever invited you for the current code.";
   return m;
 }
 
@@ -1314,8 +1317,8 @@ function clearJoinCtx(){ try{ localStorage.removeItem("zc_join"); localStorage.r
 function applyJoinContext(){
   const {join, ac} = getJoinCtx(); if(!join) return false;
   setAuthMode("signup");
-  const acf=$("accesscode"); if(acf && !acf.value) acf.value = (ac||ACCESS_CODE);
-  msg("auth-msg","You're joining a family board — just create your account to continue. We've filled in the beta code for you.","ok");
+  $("code-wrap").classList.add("hidden");   // a family invite is enough — no beta code needed
+  msg("auth-msg","You're joining a family board — just create your account to continue.","ok");
   return true;
 }
 function prefillJoin(){
@@ -3014,7 +3017,7 @@ $("btn-invite").onclick = () => {
   $("dlg-invite").showModal();
 };
 $("inv-close").onclick = () => $("dlg-invite").close();
-function inviteLink(){ const code = state.family.invite_code; return `${APP_LINK}?join=${encodeURIComponent(code)}&ac=${encodeURIComponent(ACCESS_CODE)}`; }
+function inviteLink(){ const code = state.family.invite_code; return `${APP_LINK}?join=${encodeURIComponent(code)}`; }
 function inviteMsg(){ return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\nOpen this link and create your account — your invite code is already applied, nothing to type:\n${inviteLink()}`; }
 $("inv-share").onclick = async () => { const text = inviteMsg(); if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} } };
 $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
@@ -3063,7 +3066,7 @@ document.addEventListener("click", e => {
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
-function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — beta access code: ${ACCESS_CODE}\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
+function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — this link lets you in, no code needed\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
   $("shmsg").value = shareText(); $("shto").value="";
   $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—"; $("sh-refcount").textContent = "…";

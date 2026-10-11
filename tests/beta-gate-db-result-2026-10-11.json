@@ -1,0 +1,13 @@
+{
+ "existing_users_untouched": true,
+ "no_code_api_signup": "REJECTED (BETA_GATE)",
+ "wrong_code": "REJECTED (BETA_GATE)",
+ "retired_code": "REJECTED (BETA_GATE)",
+ "valid_code": "CREATED",
+ "valid_code_lowercase": "CREATED",
+ "family_invite_link": "CREATED",
+ "fake_invite": "REJECTED (BETA_GATE)",
+ "referral_link": "CREATED",
+ "fake_referral": "REJECTED (BETA_GATE)",
+ "browser_can_read_codes": "no — permission denied for schema private"
+}
