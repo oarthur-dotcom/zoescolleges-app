@@ -1,0 +1,138 @@
+{
+ "BEFORE_FIX": {
+  "hop_family": {
+   "ok": false,
+   "err": "new row violates row-level security policy for table \"members\""
+  },
+  "free_upgrade": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "steal_code": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "after_hop_A_family": "A still in own family",
+  "after_plan": "family_plus",
+  "move_rating": {
+   "ok": false,
+   "err": "new row violates row-level security policy for table \"ratings\""
+  },
+  "app_change_role": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_rate_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_profile_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_profile_again": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "profile_hop": {
+   "ok": false,
+   "err": "new row violates row-level security policy for table \"profiles\""
+  },
+  "app_prefs_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_read_family": {
+   "ok": true,
+   "rows": 0,
+   "data": [
+    {
+     "plan": "family_plus"
+    }
+   ]
+  },
+  "app_join_with_code": {
+   "ok": true,
+   "rows": 0,
+   "data": [
+    {
+     "join_family": "7d908290-8e61-4a5d-9a12-af773531527c"
+    }
+   ]
+  }
+ },
+ "WITH_FIX": {
+  "hop_family": {
+   "ok": false,
+   "err": "permission denied for table members"
+  },
+  "free_upgrade": {
+   "ok": false,
+   "err": "permission denied for table families"
+  },
+  "steal_code": {
+   "ok": false,
+   "err": "permission denied for table families"
+  },
+  "after_hop_A_family": "A still in own family",
+  "after_plan": "free",
+  "move_rating": {
+   "ok": false,
+   "err": "new row violates row-level security policy for table \"ratings\""
+  },
+  "app_change_role": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_rate_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_profile_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_profile_again": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "profile_hop": {
+   "ok": false,
+   "err": "new row violates row-level security policy for table \"profiles\""
+  },
+  "app_prefs_upsert": {
+   "ok": true,
+   "rows": 1,
+   "data": []
+  },
+  "app_read_family": {
+   "ok": true,
+   "rows": 0,
+   "data": [
+    {
+     "plan": "free"
+    }
+   ]
+  },
+  "app_join_with_code": {
+   "ok": true,
+   "rows": 0,
+   "data": [
+    {
+     "join_family": "98f6efc8-e31b-4d16-9451-10b83eae2f92"
+    }
+   ]
+  }
+ }
+}
