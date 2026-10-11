@@ -99,6 +99,7 @@ button:disabled{opacity:.5;cursor:default}
 .school .facts{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 2px;font-family:var(--mono);font-size:12px;color:var(--muted)}
 .school .facts b{color:var(--ink);font-weight:500}
 .school .chiprow{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 0}
+.chance-words{font-size:12.5px;line-height:1.35;color:var(--muted);margin:6px 0 2px}
 .blend{margin-left:auto;text-align:right}
 .blend .n{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--star)}
 .blend .l{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--muted)}
@@ -2031,6 +2032,29 @@ function renderGuidance(meta){
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = renderBoard;
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}">${ch.label}</span>` : ""; }
+/* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
+   predictor uses (chanceExplain), so the words can never disagree with the badge. */
+function chanceWords(info){
+  const ex=info&&chanceExplain(info); if(!ex) return "";
+  const s=info.scorecard||{}; const rate=Math.round((s.admissionRate||0)*100);
+  const lead={reach:"Reach",target:"Target",likely:"Likely"}[ex.band]||ex.label;
+  if(s.admissionRate<0.15) return `${lead}: admits ${rate}% — a reach for every applicant, even with top scores.`;
+  const step=k=>ex.steps.find(x=>x.k===k)||{};
+  const bits=[`admits ${rate}%`];
+  const t=step("Your test scores"), why=t.why||"";
+  if(/above the school's 75th/.test(why)) bits.push("your test score is above their typical range");
+  else if(/below the school's 25th/.test(why)) bits.push("your test score is below their typical range");
+  else if(/inside the school's middle-50/.test(why)) bits.push("your test score is in their typical range");
+  else if(/average \(([+-]?\d+)\)/.test(why)){ const d=+why.match(/average \(([+-]?\d+)\)/)[1]; bits.push(d>=70?"your test score is above their average":d<=-90?"your test score is below their average":"your test score is near their average"); }
+  else if(/test-optional/.test(why)) bits.push("you're applying test-optional");
+  const g=step("Your GPA"); if(g.moved){ const gv=parseFloat(((g.why||"").match(/Unweighted GPA ([\d.]+)/)||[])[1]); bits.push(gv>=3.9?"your strong GPA helps":"your GPA makes it tougher"); }
+  const rg=step("Rigor in context"); if(rg.moved) bits.push(/rewards making the most/.test(rg.why||"")?"your course rigor helps":"a lighter course load makes it tougher");
+  const ac=step("Your activities"); if(ac.moved) bits.push(/strong/.test(ac.why||"")?"your activities help":"a light activity list makes it tougher");
+  const mj=step("Competitive major"); if(mj.moved) bits.push("your major admits tougher here");
+  const pr=studentProfile(); const noStats=!(pr && (pr.gpa || pr.sat || pr.act || pr.testOptional));
+  return `${lead}: ${bits.join(" · ")}${noStats?" — add your grades in My Profile to personalize this":""}.`;
+}
+function chanceWordsHtml(info){ const w=chanceWords(info); return w?`<div class="chance-words">${esc(w)}</div>`:""; }
 function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
 function matchColor(m){ return m>=75?"var(--teal)":m>=55?"var(--amber)":"var(--muted)"; }
 function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=2*Math.PI*18; const off=circ*(1-Math.max(0,Math.min(100,m))/100);
@@ -2064,6 +2088,7 @@ function renderSchool(x){
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
     <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
+    ${info?chanceWordsHtml(info):""}
     ${facts}
     ${cardLinks(info, s)}
     <div class="raters">${ratersHtml(s.school_id)}</div>
@@ -2926,6 +2951,7 @@ function renderRecommends(){
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
         <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${matchRing(m)}</div>
+        ${chanceWordsHtml(c)}
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
         <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>

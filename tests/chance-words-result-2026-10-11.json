@@ -1,0 +1,47 @@
+{
+ "checked": 8650,
+ "wordsDisagreeWithBadge": 0,
+ "emptyLines": 0,
+ "longestLine": 95,
+ "examples": {
+  "top": {
+   "Harvard University": "Reach: admits 4% — a reach for every applicant, even with top scores.",
+   "College of Charleston": "Likely: admits 60% · your test score is above their average.",
+   "Clemson University": "Target: admits 38% · your test score is above their typical range.",
+   "University of Vermont": "Likely: admits 65% · your test score is above their average.",
+   "Boston University": "Reach: admits 11% — a reach for every applicant, even with top scores."
+  },
+  "mid": {
+   "Harvard University": "Reach: admits 4% — a reach for every applicant, even with top scores.",
+   "College of Charleston": "Target: admits 60% · your test score is near their average.",
+   "Clemson University": "Reach: admits 38% · your test score is in their typical range.",
+   "University of Vermont": "Reach: admits 65% · your test score is below their average.",
+   "Boston University": "Reach: admits 11% — a reach for every applicant, even with top scores."
+  },
+  "low": {
+   "Harvard University": "Reach: admits 4% — a reach for every applicant, even with top scores.",
+   "College of Charleston": "Reach: admits 60% · your test score is below their average.",
+   "Clemson University": "Reach: admits 38% · your test score is below their typical range.",
+   "University of Vermont": "Reach: admits 65% · your test score is below their average.",
+   "Boston University": "Reach: admits 11% — a reach for every applicant, even with top scores."
+  },
+  "testOpt": {
+   "Harvard University": "Reach: admits 4% — a reach for every applicant, even with top scores.",
+   "College of Charleston": "Target: admits 60% · you're applying test-optional.",
+   "Clemson University": "Target: admits 38% · you're applying test-optional · your strong GPA helps.",
+   "University of Vermont": "Target: admits 65% · you're applying test-optional.",
+   "Boston University": "Reach: admits 11% — a reach for every applicant, even with top scores."
+  },
+  "none": {
+   "Harvard University": "Reach: admits 4% — a reach for every applicant, even with top scores.",
+   "College of Charleston": "Target: admits 60% — add your grades in My Profile to personalize this.",
+   "Clemson University": "Reach: admits 38% — add your grades in My Profile to personalize this.",
+   "University of Vermont": "Target: admits 65% — add your grades in My Profile to personalize this.",
+   "Boston University": "Reach: admits 11% — a reach for every applicant, even with top scores."
+  }
+ },
+ "boardCardsWithLine": "6 of 6",
+ "picksWithLine": "15 of 15",
+ "overflowX": false,
+ "pageErrors": []
+}
