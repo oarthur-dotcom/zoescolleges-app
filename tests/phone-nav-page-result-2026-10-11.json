@@ -25,7 +25,8 @@
    "🚗 Trips Plan campus visits",
    "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
-   "👤 My Profile Grades, scores, activities"
+   "👤 My Profile Grades, scores, activities",
+   "📄 College Report Her whole picture as a PDF"
   ],
   "tripOpens": true,
   "escCloses": true,
@@ -326,7 +327,8 @@
    "🚗 Trips Plan campus visits",
    "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
-   "👤 My Profile Grades, scores, activities"
+   "👤 My Profile Grades, scores, activities",
+   "📄 College Report Her whole picture as a PDF"
   ],
   "tripOpens": true,
   "escCloses": true,
@@ -627,7 +629,8 @@
    "🚗 Trips Plan campus visits",
    "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
-   "👤 My Profile Grades, scores, activities"
+   "👤 My Profile Grades, scores, activities",
+   "📄 College Report Her whole picture as a PDF"
   ],
   "tripOpens": true,
   "escCloses": true,
@@ -949,6 +952,7 @@
     "Set priorities 107x32",
     "Open Deadlines 124x32",
     "✕ 24x21",
+    "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
     "#rank-toggle ⇅ My ranking 111x32",

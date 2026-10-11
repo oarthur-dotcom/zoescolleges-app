@@ -52,15 +52,15 @@
  },
  "desktop": {
   "small": {
-   "today": 23,
-   "board": 33,
+   "today": 25,
+   "board": 34,
    "explore": 23,
    "cost": 14,
    "deadlines": 24,
    "pulse": 13,
    "trip": 16,
    "memories": 17,
-   "profile": 17,
+   "profile": 18,
    "zoe": 23,
    "compare": 14,
    "recommends": 15

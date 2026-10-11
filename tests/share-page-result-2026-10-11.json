@@ -15,7 +15,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=38688a6f38b548cfbb1bc81e",
+   "url": "https://zoescolleges.com/?share=3bca8d71814d4ae4ba9744b0",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -88,7 +88,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791747319021,
+    "created": 1791749068513,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -200,7 +200,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=0c03ff7e92a1447c8a193845",
+   "url": "https://zoescolleges.com/?share=5fd73d5b0eea4484adbfa307",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -273,7 +273,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791747326303,
+    "created": 1791749075879,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -351,6 +351,7 @@
     "Set priorities 107x32",
     "Open Deadlines 124x32",
     "✕ 24x21",
+    "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
     "#rank-toggle ⇅ My ranking 111x32",
@@ -372,8 +373,7 @@
     "🎓 School counselor 154x32",
     "🔗 Anyone 93x32",
     "on 13x13",
-    "#sh-url https://zoescolleges.com/?share= 518x21",
-    "#sh-copy Copy link 84x32"
+    "#sh-url https://zoescolleges.com/?share= 518x21"
    ],
    "wide": [],
    "dashCount": 12
@@ -411,7 +411,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=fddb13ae220f45aab6718304",
+   "url": "https://zoescolleges.com/?share=4fde30f1815840fb88f48fd3",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -484,7 +484,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791747333371,
+    "created": 1791749082965,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
