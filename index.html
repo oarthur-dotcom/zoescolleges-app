@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex"><!-- Beta: remove at public launch -->
 <title>Zoe's Colleges — Beta</title>
+<meta name="description" content="Zoe's Colleges — a college-search board the whole family rates together: real federal data, honest chances, deadlines and campus-visit trips.">
+<meta property="og:title" content="Zoe's Colleges">
+<meta property="og:description" content="A college-search board the whole family rates together — matches, honest chances, deadlines and visit trips.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0f7f80">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f7f80'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -12,7 +18,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root{
-  --paper:#f3f5f1;--surface:#ffffff;--sunk:#e9ece7;--ink:#101c2e;--muted:#79839c;
+  --paper:#f3f5f1;--surface:#ffffff;--sunk:#e9ece7;--ink:#101c2e;--muted:#5f6982;
   --line:#dbdfe6;--teal:#0b7f81;--amber:#b06f0c;--plum:#8e3b7a;--warn:#c2410c;
   --disp:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
   --mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
@@ -105,6 +111,12 @@ button:disabled{opacity:.5;cursor:default}
 .stars .s.on{color:var(--star)}
 .stars.mine .s{cursor:pointer}
 .stars.mine .s:hover{transform:scale(1.15)}
+/* Fix #16: comfortable tap targets on phones (stars were 25px, card buttons 26px, checkboxes 13px) */
+@media (max-width:640px){
+  .stars.mine .s{font-size:22px;padding:8px 5px;min-width:36px;min-height:40px}
+  .openlink{min-height:36px;padding:7px 12px}
+  input[type=checkbox]{min-width:20px;min-height:20px}
+}
 .lock{font-size:11px;color:var(--muted);font-family:var(--mono)}
 details.extra{margin-top:8px}
 details.extra summary{font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer}
@@ -3439,6 +3451,25 @@ async function aiHeaders(){
   try{ const { data } = await sb.auth.getSession(); const t=data&&data.session&&data.session.access_token; if(t) h.Authorization="Bearer "+t; }catch(e){}
   return h;
 }
+
+/* Fix #16: screen readers — any field without a linked label gets one from the label text beside it. */
+function labelOrphanFields(root){
+  (root||document).querySelectorAll("input:not([type=hidden]):not([type=checkbox]):not([type=radio]),select,textarea").forEach(el=>{
+    if(el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return;
+    if(el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`)) return;
+    if(el.closest("label")) return;
+    let lab=el.previousElementSibling; while(lab && lab.tagName!=="LABEL" && !(lab.classList&&lab.classList.contains("bk-lbl"))) lab=lab.previousElementSibling;
+    if(!lab && el.parentElement){ lab=[...el.parentElement.children].find(x=>x.tagName==="LABEL"||x.tagName==="SPAN"&&x!==el); }
+    let txt=(lab&&lab.textContent||el.placeholder||"").replace(/\s+/g," ").trim();
+    if(!txt && el.tagName==="SELECT" && el.options.length) txt=el.options[0].text.replace(/^Sort: /,"Sort by: ");          // "Any size", "Sort by: My match"
+    if(!txt && el.type==="range" && el.dataset.sl){ const d=(typeof SLIDERS!=="undefined")&&SLIDERS.find(x=>x.key===el.dataset.sl); if(d) txt=d.nm+" slider"; }
+    if(!txt && el.type==="file"){ const bt=el.parentElement&&el.parentElement.querySelector("button"); txt=(bt&&bt.textContent.trim())||"Upload a file"; }
+    if(txt) el.setAttribute("aria-label", txt.slice(0,80));
+  });
+}
+function _startLabeler(){ labelOrphanFields(); let t=null;
+  try{ new MutationObserver(()=>{ clearTimeout(t); t=setTimeout(()=>labelOrphanFields(),300); }).observe(document.body,{childList:true,subtree:true}); }catch(e){} }
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",_startLabeler); else _startLabeler();
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
 const ZOE_BUSY = "I'm having trouble reaching my smarter brain just now — give it a few seconds and ask again. In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.";
