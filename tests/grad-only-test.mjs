@@ -1,0 +1,27 @@
+// Graduate-only schools out of picks, last in search (Oct 11). Run: node tests/grad-only-test.mjs
+import { launch, newPage } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const SITE='/tmp/claude-0/f27/site'; fs.mkdirSync(SITE,{recursive:true}); fs.copyFileSync('/home/claude/zoescolleges-app/index.html',SITE+'/index.html');
+const CAT=fs.readFileSync('/home/claude/zoescolleges-data/colleges.json');
+const srv=http.createServer((q,r)=>{const f=path.join(SITE,decodeURIComponent(q.url.split('?')[0])); fs.readFile(f,(e,d)=>{ if(e){r.writeHead(404);return r.end();} r.writeHead(200,{'Content-Type':'text/html'}); r.end(d);});}).listen(8797);
+const b=await launch(); const {page,log}=await newPage(b,{width:390,height:844},{plan:'family'});
+await page.route(/jsdelivr.*colleges\.json/,r=>r.fulfill({contentType:'application/json',body:CAT}));
+await page.route(/net-price-by-income|deadlines-2026|campus-feeds/,r=>r.fulfill({status:404,body:''}));
+await page.goto('http://localhost:8797/index.html'); await page.waitForFunction(()=>typeof state!=="undefined"&&state.catalog&&state.catalog.length>0&&state.me,null,{timeout:60000}); await page.waitForTimeout(800);
+const R={}, ok={};
+R.gradInCatalog=await page.evaluate(()=>state.catalog.filter(isGradOnly).length);
+await page.evaluate(()=>goto('recommends')); await page.waitForTimeout(800);
+R.picksGrad=await page.evaluate(()=>{ const names=[...document.querySelectorAll('#rec-out .rec-card .nm')].map(x=>x.textContent); return {n:names.length, grad:names.filter(n=>{ const c=state.catalog.find(x=>x.name===n); return c&&isGradOnly(c); })}; });
+R.searchLaw=await page.evaluate(()=>searchCatalog('law').slice(0,8).map(h=>h.c.name+(isGradOnly(h.c)?' [grad]':'')));
+R.searchExact=await page.evaluate(()=>searchCatalog('Claremont Graduate University').slice(0,2).map(h=>h.c.name));
+R.searchClaremont=await page.evaluate(()=>searchCatalog('claremont').slice(0,6).map(h=>h.c.name+(isGradOnly(h.c)?' [grad]':'')));
+await page.evaluate(()=>{ renderPicklist('claremont'); }); R.pickLabel=await page.evaluate(()=>[...document.querySelectorAll('#picklist .pick')].map(x=>x.innerText.replace(/\s+/g,' ')).filter(t=>/graduate-only/.test(t)));
+R.pickEmptyHasGrad=await page.evaluate(()=>{ renderPicklist(''); return [...document.querySelectorAll('#picklist [data-pick]')].some(el=>isGradOnly(state.catalog.find(c=>c.id===el.dataset.pick))); });
+R.zoeSuggest=await page.evaluate(()=>zoeAnswer('recommend more schools for me'));
+ok.picksNoGrad=R.picksGrad.n>0 && R.picksGrad.grad.length===0;
+ok.exactNameStillFound=R.searchExact[0]==='Claremont Graduate University';
+ok.gradRankedLastInSearch=(()=>{ const i=R.searchClaremont.findIndex(t=>/\[grad\]/.test(t)); return i<0 || R.searchClaremont.slice(i).every(t=>/\[grad\]/.test(t)); })();
+ok.labeledInAddList=R.pickLabel.length>0;
+ok.notOfferedUnasked=!R.pickEmptyHasGrad;
+ok.noErrors=!log.pageerr.length;
+R.ok=ok; R.allPass=Object.values(ok).every(Boolean); console.log(JSON.stringify(R,null,1));
+fs.writeFileSync('/home/claude/zoescolleges-app/tests/grad-only-result-2026-10-11.json',JSON.stringify(R,null,1)); await b.close(); srv.close();

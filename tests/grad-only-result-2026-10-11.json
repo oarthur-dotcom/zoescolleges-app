@@ -1,0 +1,44 @@
+{
+ "gradInCatalog": 263,
+ "picksGrad": {
+  "n": 15,
+  "grad": []
+ },
+ "searchLaw": [
+  "Lawson State Community College",
+  "St Lawrence University",
+  "Lawrence Technological University",
+  "Sarah Lawrence College",
+  "Lawrence University",
+  "Southern University Law Center",
+  "Lawrence Memorial Hospital School of Nursing",
+  "WellSpring School of Allied Health-Lawrence"
+ ],
+ "searchExact": [
+  "Claremont Graduate University"
+ ],
+ "searchClaremont": [
+  "Claremont McKenna College",
+  "Claremont Lincoln University",
+  "Pomona College",
+  "Pitzer College",
+  "Scripps College",
+  "Harvey Mudd College"
+ ],
+ "pickLabel": [
+  "Claremont School of TheologyLos Angeles, CA · graduate-onlyAdd",
+  "Claremont Graduate UniversityClaremont, CA · graduate-onlyAdd",
+  "Keck Graduate InstituteClaremont, CA · graduate-onlyAdd"
+ ],
+ "pickEmptyHasGrad": false,
+ "zoeSuggest": "A few you might love — full list under <b>✨ Zoe Picks</b>:<br>• <b>California Polytechnic State University-San Luis Obispo</b> — 77% match<br>• <b>University of Virginia-Main Campus</b> — 76% match<br>• <b>University of California-Santa Barbara</b> — 75% match<br>• <b>Georgia Institute of Technology-Main Campus</b> — 75% match<br>• <b>Stanford University</b> — 75% match",
+ "ok": {
+  "picksNoGrad": true,
+  "exactNameStillFound": true,
+  "gradRankedLastInSearch": true,
+  "labeledInAddList": true,
+  "notOfferedUnasked": true,
+  "noErrors": true
+ },
+ "allPass": true
+}

@@ -2238,6 +2238,9 @@ function _index(){
   _searchIdxFor=state.catalog; return _searchIdx;
 }
 // Returns [{c, rank}] best-first. Empty query -> null (caller keeps its own order).
+/* Graduate-only schools (law, medical, seminaries; 263 in the catalog) aren't for a high-school senior:
+   kept out of Zoe Picks and Zoe's suggestions, ranked last in search, and labeled when shown. */
+const isGradOnly=c=>!!c&&c.degreeType==="graduate";
 function searchCatalog(q){
   const qn=_norm(q); if(!qn) return null;
   const alias=SEARCH_ALIASES[qn]; const qc=qn.replace(/ /g,"");
@@ -2253,6 +2256,7 @@ function searchCatalog(q){
     else if(e.city && (e.city===qn || e.city.startsWith(qn))) r=40;
     else if(qn.length===2 && e.st===qn) r=35;
     else if(qn.length>=3 && (e.city+" "+e.st).includes(qn)) r=25;
+    if(r && isGradOnly(e.c) && r<95) r=Math.max(1,r-60);   // an exact name still finds it
     if(r) out.push({c:e.c, rank:r});
   }
   const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
@@ -3159,7 +3163,7 @@ function renderRecommends(){
   const out=$("rec-out"); const w=myPrefs(); const p=studentProfile();
   if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Catalog still loading…</div>`; return; }
   const have=new Set(state.schools.map(s=>s.school_id));
-  const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null && x.ch);
+  const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null && x.ch);
   if(!scored.length){ out.innerHTML=`<div class="card muted">Add a few schools and set your profile, and I'll suggest more that fit.</div>`; return; }
   const byBand=b=>scored.filter(x=>x.ch.band===b).sort((a,b2)=>b2.m-a.m).slice(0,5);
   const groups=[["likely","Likely — strong odds for you"],["target","Target — right in your range"],["reach","Reach — worth a shot"]];
@@ -3555,9 +3559,9 @@ $("search").oninput = e => renderPicklist(e.target.value);
 function renderPicklist(q){
   const have = new Set(state.schools.map(s=>s.school_id));
   const hits = searchCatalog(q);
-  const list = (hits ? hits.map(h=>h.c) : state.catalog).filter(c => !have.has(c.id)).slice(0, 50);
+  const list = (hits ? hits.map(h=>h.c) : state.catalog.filter(c=>!isGradOnly(c))).filter(c => !have.has(c.id)).slice(0, 50);
   $("picklist").innerHTML = list.map(c =>
-    `<div class="pick" data-pick="${esc(c.id)}"><div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div></div><button class="small primary add">Add</button></div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
+    `<div class="pick" data-pick="${esc(c.id)}"><div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${isGradOnly(c)?" · graduate-only":""}</div></div><button class="small primary add">Add</button></div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
 }
 async function addFromCatalog(id){
@@ -3699,11 +3703,11 @@ function zoePersonal(q){
   if(/\breach(es)?\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
   if(/\btargets?\b/.test(q)){ const l=bandList("target"); return l.length?`Your <b>targets</b> (${l.length}):<br>`+l.join("<br>"):"No targets yet — <b>✨ Zoe Picks</b> can find some that fit."; }
   if(/\b(likely|likelies|safet)/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
-  if(/(recommend|suggest|what am i missing|more schools|zoe pick|for me\b|should i add)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
+  if(/(recommend|suggest|what am i missing|more schools|zoe pick|for me\b|should i add)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
   if(/(improve|get in|better chance|work on|boost|stronger|increase.*chance)/.test(q)){ return zoeAdvice(p); }
   if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
   if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
-  if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
+  if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
   if(/(how.*(balance|my list)|is my list|balanced)/.test(q)){ const c={reach:0,target:0,likely:0}; board.forEach(x=>{const ch=chanceFor(x.info); if(ch)c[ch.band]++;}); return `Your list: <b>${c.likely}</b> likely · <b>${c.target}</b> target · <b>${c.reach}</b> reach. A balanced list is roughly 2+ likely, 3+ target, 2+ reach.`; }
   return null;
 }
