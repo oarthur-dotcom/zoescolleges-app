@@ -2680,11 +2680,41 @@ const DL_TASKS=["Essays","Recommendations","Transcript","FAFSA / CSS","Test scor
 function dlKey(id){ return "dlcheck_"+id; }
 function getChecklist(id){ return lsGet(dlKey(id))||{}; }
 function setChecklist(id,o){ lsSet(dlKey(id),o); }
-function parseDeadlineDate(info){
-  const cand=[info.regularDeadline, info.muse&&info.muse.deadlines&&info.muse.deadlines.regular_date, info.earlyDeadline];
-  for(let s of cand){ if(!s) continue; s=String(s).replace(/^[^0-9A-Za-z]*(regular decision|early decision|early action|regular|early|ed|ea|rd)[^:]*:?\s*/i,""); const d=new Date(s); if(!isNaN(d)) return d; }
+// Fix #11: read every real date out of a school's deadline fields, label each one, and use the
+// NEAREST upcoming one for countdowns (was: regular only, and "early action Nov 1" parsed as nothing).
+const _MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+function _dateIn(str){
+  const t=String(str||"");
+  let m=t.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sept?|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b/i);
+  if(m) return new Date(+m[3], _MON[m[1].toLowerCase()], +m[2]);
+  m=t.match(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/); if(m) return new Date(+m[3], +m[1]-1, +m[2]);
+  m=t.match(/\b(\d{4})-(\d{2})-(\d{2})\b/); if(m) return new Date(+m[1], +m[2]-1, +m[3]);
   return null;
 }
+function _kindOf(str, fallback){
+  const t=String(str||"").toLowerCase();
+  if(/early decision ii|\bed ?2\b|\bedii\b/.test(t)) return "Early Decision II";
+  if(/early decision|\bed\b|binding/.test(t)) return "Early Decision";
+  if(/restrictive|single.choice/.test(t)) return "Restrictive Early Action";
+  if(/early action|\bea\b/.test(t)) return "Early Action";
+  if(/priority/.test(t)) return "Priority";
+  return fallback;
+}
+function deadlineList(info){
+  const md=(info.muse&&info.muse.deadlines)||{};
+  const raw=[[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
+  const byKey=new Map();   // same date in two source fields = one deadline; keep the most specific label
+  for(const [str,fb] of raw){ const d=_dateIn(str); if(!d) continue; const k=_kindOf(str,fb); const key=fb+d.toDateString();
+    const prev=byKey.get(key); if(!prev || (prev.kind===fb && k!==fb)) byKey.set(key,{kind:k, date:d, text:String(str)}); }
+  return [...byKey.values()].sort((a,b)=>a.date-b.date);
+}
+function nextDeadline(info){
+  const L=deadlineList(info); if(!L.length) return null;
+  const today=new Date(); today.setHours(0,0,0,0);
+  return L.find(x=>x.date>=today) || L[L.length-1];   // nearest upcoming, else the most recent past one
+}
+function parseDeadlineDate(info){ const n=nextDeadline(info); return n?n.date:null; }
+function _fmtD(d){ return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
 function daysUntil(d){ if(!d) return null; return Math.ceil((d-new Date())/86400000); }
 function dueClass(n){ if(n==null) return "none"; if(n<=14) return "urgent"; if(n<=45) return "soon"; return "ok"; }
 function dueLabel(n){ if(n==null) return "date TBD"; if(n<0) return Math.abs(n)+"d ago"; if(n===0) return "due today"; return "in "+n+" day"+(n>1?"s":""); }
@@ -2692,7 +2722,8 @@ function dueLabel(n){ if(n==null) return "date TBD"; if(n<0) return Math.abs(n)+
 function icsDate(d){ return d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0"); }
 function icsEsc(s){ return String(s||"").replace(/([,;\\])/g,"\\$1").replace(/\n/g,"\\n"); }
 function deadlineEvents(rows){ // one all-day event per selected, dated school
-  return rows.filter(r=>r._d && dlSel[r.rec.school_id]).map(r=>({ title:`${r.rec.name} — application deadline`, date:r._d, desc:"Tracked in Zoe's Colleges" }));
+  const today=new Date(); today.setHours(0,0,0,0);
+  return rows.filter(r=>r._d && dlSel[r.rec.school_id]).flatMap(r=>deadlineList(r.info).filter(x=>x.date>=today).map(x=>({ title:`${r.rec.name} — ${x.kind} deadline`, date:x.date, desc:`${x.kind} application deadline (${x.text}). Always confirm on the school's admissions site. Tracked in Zoe's Colleges` })));
 }
 function deadlinesICS(events){
   const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Deadlines//EN","CALSCALE:GREGORIAN"];
@@ -2707,14 +2738,14 @@ function renderDeadlines(){
   const out=$("dl-out");
   const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
   if(!rows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
-  rows.forEach(r=>{ r._d=parseDeadlineDate(r.info); r._n=daysUntil(r._d); });
+  rows.forEach(r=>{ const nx=nextDeadline(r.info); r._d=nx?nx.date:null; r._kind=nx?nx.kind:""; r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
   if(dlSel===null){ dlSel={}; rows.forEach(r=>{ if(r._d) dlSel[r.rec.school_id]=true; }); } // default: all dated selected
   const dated=rows.filter(r=>r._d);
   const upcoming=rows.filter(r=>r._n!=null && r._n>=0); const soonest=upcoming[0];
   const totalTasks=rows.length*DL_TASKS.length, doneTasks=rows.reduce((a,r)=>a+DL_TASKS.filter(t=>getChecklist(r.rec.school_id)[t]).length,0);
   const selN=dated.filter(r=>dlSel[r.rec.school_id]).length;
-  const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div>
+  const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} ${esc(soonest._kind)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div>
     ${dated.length?`<div class="dl-export">
       <span class="dl-exp-lbl">📅 Add deadlines to your calendar</span>
       <label class="dl-selall"><input type="checkbox" id="dl-all" ${selN===dated.length?"checked":""}> All (${selN})</label>
@@ -2727,12 +2758,13 @@ function renderDeadlines(){
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
     const done=DL_TASKS.filter(t=>chk[t]).length; const pctDone=Math.round(100*done/DL_TASKS.length);
     const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(r.rec.name)}"`;
-    const bits=[ [i.city,i.state].filter(Boolean).join(", "), rd?("Regular "+rd):"", ed?("Early "+ed):"" ].filter(Boolean).join(" · ");
+    const dls=deadlineList(i);
+    const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? dls.map(x=>`${x.kind} ${_fmtD(x.date)}`) : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
     return `<div class="card"><div class="dl-row">
       ${r._d?`<label class="dl-chk-wrap"><input type="checkbox" class="dl-chk" data-dlsel="${esc(id)}" ${dlSel[id]?"checked":""}></label>`:`<span class="dl-chk-wrap"></span>`}
       <span class="dl-thumb" ${th}></span>
       <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${esc(dueLabel(r._n))}</span></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
         <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
         <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
