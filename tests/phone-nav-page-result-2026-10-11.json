@@ -20,6 +20,7 @@
   "sheet": [
    "🔎 Schools Search and explore all 3,180",
    "💬 Talk It Out Everyone's voice, secret ballot",
+   "🎓 Decision Day Acceptances, offers, the big choice",
    "✨ Zoe Picks Schools picked for you",
    "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
@@ -323,6 +324,7 @@
   "sheet": [
    "🔎 Schools Search and explore all 3,180",
    "💬 Talk It Out Everyone's voice, secret ballot",
+   "🎓 Decision Day Acceptances, offers, the big choice",
    "✨ Zoe Picks Schools picked for you",
    "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
@@ -626,6 +628,7 @@
   "sheet": [
    "🔎 Schools Search and explore all 3,180",
    "💬 Talk It Out Everyone's voice, secret ballot",
+   "🎓 Decision Day Acceptances, offers, the big choice",
    "✨ Zoe Picks Schools picked for you",
    "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
@@ -942,6 +945,7 @@
     "Today 70x31",
     "My Board 96x31",
     "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -972,7 +976,8 @@
     "📰 Pulse2 new 125x25"
    ],
    "wide": [
-    "BUTTON.navbtn# right=1313"
+    "BUTTON.navbtn# right=1354",
+    "BUTTON.navbtn# right=1455"
    ],
    "dashCount": 1
   },

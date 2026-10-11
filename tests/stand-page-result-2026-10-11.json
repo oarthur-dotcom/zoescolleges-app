@@ -159,6 +159,7 @@
     "Today 70x31",
     "My Board 96x31",
     "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -193,11 +194,11 @@
     "× 24x24",
     "+ 30x30",
     "− 30x30",
-    "Leaflet 54x15",
-    "#visit-notes-save Save notes 95x32"
+    "Leaflet 54x15"
    ],
    "wide": [
-    "BUTTON.navbtn# right=1295",
+    "BUTTON.navbtn# right=1336",
+    "BUTTON.navbtn# right=1437",
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380",
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380"
    ],

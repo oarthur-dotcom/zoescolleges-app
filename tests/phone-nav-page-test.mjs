@@ -43,7 +43,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['phone
     ok[label + '.deadlineDot'] = o.badges.includes('deadlines:on');
     ok[label + '.fabsAboveBar'] = o.fabsAboveBar;
     ok[label + '.pulseTab'] = o.pulseOpens;
-    ok[label + '.moreSheet'] = o.sheet.length === 10 && /College Report/.test(o.sheet[9]) && /Schools/.test(o.sheet[0]) && /Talk It Out/.test(o.sheet[1]) && /Costs/.test(o.sheet[3]) && /Trips/.test(o.sheet[5]) && /Memories/.test(o.sheet[6]) && o.tripOpens && o.escCloses;
+    ok[label + '.moreSheet'] = o.sheet.length === 11 && /College Report/.test(o.sheet[10]) && /Schools/.test(o.sheet[0]) && /Talk It Out/.test(o.sheet[1]) && /Decision Day/.test(o.sheet[2]) && /Costs/.test(o.sheet[4]) && /Trips/.test(o.sheet[6]) && /Memories/.test(o.sheet[7]) && o.tripOpens && o.escCloses;
     ok[label + '.lastRowNotHidden'] = o.lastRowReachable === true;
     ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
   } else {

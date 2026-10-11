@@ -1,4 +1,5 @@
--- Migration 014: Talk It Out (#60, Oct 11). Everyone's voice, reactions, and a secret family ballot.
+-- Migration 014: Talk It Out (#60) + Decision Day (#61), Oct 11. Everyone's voice, reactions, a secret family ballot,
+-- application status per school, aid offers the whole family can see, and decision moments.
 -- SCHEMA + POLICIES + 3 small functions. Creates new empty tables only; no existing rows change. Run AFTER 013.
 -- Privacy: family members see each other's voices and posts (that's the point), never another family's.
 -- Ballots are SECRET: you can read only your own until your family reveals the results.
@@ -8,7 +9,7 @@ create table if not exists public.talk_posts (
   family_id uuid not null references public.families(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
   school_id text,                                        -- null = a general family topic
-  kind text not null default 'post' check (kind in ('voice','post','agreement')),
+  kind text not null default 'post' check (kind in ('voice','post','agreement','pick','decision','milestone')),
   feel text check (feel in ('love','worry','wonder','need')),
   body text not null check (char_length(body) between 1 and 800),
   in_movie boolean not null default true,                -- "OK to include in our movie"
@@ -108,3 +109,30 @@ revoke all on function public.ballot_new_round() from public, anon;
 grant execute on function public.ballot_results() to authenticated;
 grant execute on function public.ballot_reveal() to authenticated;
 grant execute on function public.ballot_new_round() to authenticated;
+
+-- ===== Decision Day (#61) =====
+-- Application status on each board school (new nullable columns; existing rows unchanged).
+alter table public.family_schools add column if not exists app_status text
+  check (app_status in ('planning','applied','accepted','waitlisted','deferred','denied','withdrawn'));
+alter table public.family_schools add column if not exists reply_by date;            -- acceptance reply deadline (usually May 1)
+alter table public.family_schools add column if not exists status_at timestamptz;
+-- (The existing "family edits schools" rule already lets family members update their own board rows.)
+
+-- Aid offers, shared with the whole family (before this they lived on one device only).
+create table if not exists public.aid_offers (
+  family_id uuid not null references public.families(id) on delete cascade,
+  school_id text not null,
+  offer jsonb not null check (jsonb_typeof(offer) = 'object' and octet_length(offer::text) < 8000),
+  updated_by uuid references auth.users(id) on delete set null,
+  updated_at timestamptz not null default now(),
+  primary key (family_id, school_id)
+);
+alter table public.aid_offers enable row level security;
+drop policy if exists "family reads offers" on public.aid_offers;
+create policy "family reads offers" on public.aid_offers for select using (family_id = public.my_family_id());
+drop policy if exists "family adds offers" on public.aid_offers;
+create policy "family adds offers" on public.aid_offers for insert with check (family_id = public.my_family_id());
+drop policy if exists "family edits offers" on public.aid_offers;
+create policy "family edits offers" on public.aid_offers for update using (family_id = public.my_family_id()) with check (family_id = public.my_family_id());
+drop policy if exists "family removes offers" on public.aid_offers;
+create policy "family removes offers" on public.aid_offers for delete using (family_id = public.my_family_id());

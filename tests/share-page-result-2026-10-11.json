@@ -15,7 +15,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=60b48afa93f84d928d712576",
+   "url": "https://zoescolleges.com/?share=2a833333a201454b9b184fc1",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -88,7 +88,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791758472585,
+    "created": 1791759747088,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -200,7 +200,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=cc78c48b53eb4a6f94c97442",
+   "url": "https://zoescolleges.com/?share=28f1f87a4675486e8b4237a6",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -273,7 +273,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791758479605,
+    "created": 1791759754167,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -338,6 +338,7 @@
     "Today 70x31",
     "My Board 96x31",
     "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -372,11 +373,11 @@
     "#sh-url https://zoescolleges.com/?share= 518x21",
     "#sh-copy Copy link 84x32",
     "💬 Text 71x33",
-    "✉️ Email 78x33",
-    "#sh-x Close 61x32"
+    "✉️ Email 78x33"
    ],
    "wide": [
-    "BUTTON.navbtn# right=1295"
+    "BUTTON.navbtn# right=1336",
+    "BUTTON.navbtn# right=1437"
    ],
    "dashCount": 4
   },
@@ -413,7 +414,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=f347e3a6c62242b0a14bb2c6",
+   "url": "https://zoescolleges.com/?share=1e0f2a8c9ee54c3787b4b521",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -486,7 +487,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791758486535,
+    "created": 1791759761149,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,

@@ -862,6 +862,39 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 
 
 
+
+/* #61 Decision Day */
+.dd-hero{text-align:center;padding:22px 16px;border-radius:18px;margin:0 0 14px;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 14%,var(--surface)),color-mix(in srgb,var(--plum) 12%,var(--surface)));border:1px solid var(--line)}
+.dd-hero.done{background:linear-gradient(135deg,color-mix(in srgb,var(--star) 22%,var(--surface)),color-mix(in srgb,var(--teal) 16%,var(--surface)))}
+.dd-count b{display:block;font-size:46px;line-height:1;font-family:var(--disp)}.dd-count span{font-size:13px;color:var(--muted)}
+.dd-big{font-size:24px;line-height:1.25}.dd-sub{font-size:13.5px;color:var(--muted);margin-top:8px}
+.dd-h{font-size:17px;margin:0 0 6px}
+.dd-row{padding:10px 0;border-top:1px solid var(--line)}.dd-row:first-of-type{border-top:none}
+.dd-name{margin-bottom:6px}
+.dd-stats{display:flex;gap:5px;flex-wrap:wrap}
+.dd-st{display:inline-flex;gap:4px;align-items:center;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 10px;font-size:12px;cursor:pointer;min-height:36px}
+.dd-st span{font-size:12px}
+.dd-st.on{font-weight:700;border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface))}
+.dd-st.on.accepted{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--surface))}
+.dd-st.on.denied{border-color:var(--muted)}
+.dd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.dd-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
+.dd-badges{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.dd-badge{font-size:11px;border-radius:999px;padding:2px 8px;border:1px solid var(--line)}.dd-badge.cost{color:var(--good);border-color:var(--good)}.dd-badge.fav{color:#b07a00;border-color:#d99a06}.dd-badge.match{color:var(--teal);border-color:var(--teal)}
+.dd-kv{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;font-size:13px;padding:3px 0}.dd-kv span{color:var(--muted);min-width:84px}.dd-kv small{flex-basis:100%;color:var(--muted);font-size:11px}
+.dd-pick{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.dd-agree{margin:10px 0;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,var(--good) 12%,var(--surface));border:1px solid var(--good)}
+.dd-split{margin:10px 0;font-size:13px}
+.dd-mypick{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.dd-mypick textarea{width:100%;margin-top:8px}
+.dd-final{border-color:color-mix(in srgb,var(--star) 50%,var(--line))}
+.dd-pill.accepted{color:var(--good);border-color:var(--good)}
+.celebrate{position:fixed;inset:0;z-index:60;background:rgba(10,16,30,.55);display:flex;align-items:center;justify-content:center;padding:20px}
+.cel-box{position:relative;z-index:2;background:var(--surface);border-radius:20px;padding:26px 22px;text-align:center;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.cel-t{font-size:24px;font-weight:800;font-family:var(--disp);line-height:1.25}.cel-s{color:var(--muted);margin:10px 0 0;font-size:14px}.cel-box button{margin-top:16px}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:conf 2.6s ease-in forwards}
+@keyframes conf{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}}
 /* #60 Talk It Out */
 .tk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
 .tk-tab{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;cursor:pointer;min-height:40px}
@@ -1152,6 +1185,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="today">Today</button>
     <button class="navbtn" data-nav="board">My Board</button>
     <button class="navbtn" data-nav="talk">💬 Talk It Out</button>
+    <button class="navbtn" data-nav="decide">🎓 Decision Day</button>
     <button class="navbtn" data-nav="explore">Schools</button>
     <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
     <button class="navbtn" data-nav="compare">Compare</button>
@@ -1177,6 +1211,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <div class="tb-sheet-in">
     <button class="tbs" data-nav="explore">🔎 <b>Schools</b><span>Search and explore all 3,180</span></button>
     <button class="tbs" data-nav="talk">💬 <b>Talk It Out</b><span>Everyone's voice, secret ballot</span></button>
+    <button class="tbs" data-nav="decide">🎓 <b>Decision Day</b><span>Acceptances, offers, the big choice</span></button>
     <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
     <button class="tbs" data-nav="cost">💰 <b>Costs</b><span>Real cost across your list, and aid offers</span></button>
     <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
@@ -1578,6 +1613,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="td-out" class="td-grid"></div>
   </section>
 
+  <!-- DECISION DAY (#61) -->
+  <section id="v-decide" class="hidden">
+    <h1>🎓 Decision Day</h1>
+    <p class="sub">Acceptances, real costs side by side, everyone's pick — and the moment you decide together.</p>
+    <div id="decide-out"></div>
+  </section>
+
   <!-- TALK IT OUT (#60) -->
   <section id="v-talk" class="hidden">
     <h1>💬 Talk It Out</h1>
@@ -1773,7 +1815,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true };
+let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -1799,7 +1841,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-decide","v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1832,6 +1874,7 @@ function goto(view){
   else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
+  else if (view==="decide"){ show("v-decide"); setNavActive("decide"); renderDecide(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="talk"){ show("v-talk"); setNavActive("talk"); renderTalk(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="report"){ show("v-report"); setNavActive(""); renderReport(); try{ scrollTo(0,0); }catch(e){} }
 }
@@ -1978,6 +2021,7 @@ async function loadFamily(){
     const { data: fams } = await sb.from("families").select("*").limit(1);
     state.family = fams && fams[0];
     await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos(), loadTalk(), loadBallot()]);
+    try{ await loadOffers(); }catch(e){}
     computeNorms();
     goto("today");
   } catch(e){
@@ -2602,11 +2646,11 @@ function talkThreadsHtml(){
 }
 /* ---- tab: moments ---- */
 function talkMomentsHtml(){
-  const ms=talk.posts.filter(p=>p.in_movie&&(p.kind==="voice"||p.kind==="agreement"));
+  const ms=talk.posts.filter(p=>p.in_movie&&["voice","agreement","pick","milestone","decision"].includes(p.kind));
   const ag=ms.filter(p=>p.kind==="agreement");
   return `<div class="tk-intro">🎬 These voices and agreements can appear in your family movie, alongside your visit photos — the story of how you decided together. Anyone can take their own words out anytime.</div>
     <div class="tk-status"><b>${ms.length}</b> moment${ms.length===1?"":"s"} ready · <b>${ag.length}</b> agreement${ag.length===1?"":"s"}</div>
-    <div class="tk-moments">${ms.slice().reverse().map(p=>`<figure class="tk-moment ${p.kind}"><blockquote>“${esc(p.body)}”</blockquote><figcaption>— ${esc(memberName(p.user_id))}${p.school_id?` · ${esc(schoolName(p.school_id))}`:""}${p.kind==="agreement"?" · 🤝 agreed":""}</figcaption></figure>`).join("")||`<div class="card muted">Nothing yet. Share a voice or write down something you agree on.</div>`}</div>
+    <div class="tk-moments">${ms.slice().reverse().map(p=>`<figure class="tk-moment ${p.kind==="decision"||p.kind==="milestone"?"agreement big":p.kind}"><blockquote>“${esc(p.body)}”</blockquote><figcaption>— ${esc(memberName(p.user_id))}${p.school_id?` · ${esc(schoolName(p.school_id))}`:""}${p.kind==="agreement"?" · 🤝 agreed":p.kind==="pick"?" · 🗳 my pick":p.kind==="milestone"?" · 🎉 milestone":p.kind==="decision"?" · 🎓 our decision":""}</figcaption></figure>`).join("")||`<div class="card muted">Nothing yet. Share a voice or write down something you agree on.</div>`}</div>
     <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="small" data-tkgo="memories">📸 Open Memories</button></div>`;
 }
 function renderTalk(){
@@ -2659,6 +2703,115 @@ function talkDetailHtml(id){
   const vs=voicesFor(id).slice(-4);
   return `<div class="pulse-block tk-detail"><div class="pulse-h">💬 Family voices</div>${vs.length?vs.map(v=>`<div class="tk-dline">${TALK_FEELS[v.feel]?TALK_FEELS[v.feel].ico:"💬"} <b>${esc(memberName(v.user_id))}:</b> ${esc(v.body)}</div>`).join(""):`<div class="muted" style="font-size:13px">No one has shared yet.</div>`}
     <button class="small" data-talkgo="${esc(id)}" style="margin-top:8px">Add your voice</button></div>`;
+}
+
+/* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
+const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
+  deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
+let decideOpen=null, decideConfirm=false;
+function schoolStatus(sid){ const s=(state.schools||[]).find(x=>x.school_id===sid); return (s&&s.app_status)||null; }
+function acceptedSchools(){ return (state.schools||[]).filter(s=>s.app_status==="accepted"); }
+function decisionPost(){ return talk.posts.filter(p=>p.kind==="decision").slice(-1)[0]||null; }
+function nextMay1(){ const d=new Date(); const y=(d.getMonth()>4||(d.getMonth()===4&&d.getDate()>1))?d.getFullYear()+1:d.getFullYear(); return new Date(y,4,1); }
+function replyDeadline(){ const ds=acceptedSchools().map(s=>s.reply_by?_ymdDate(String(s.reply_by).slice(0,10)):null).filter(Boolean).sort((a,b)=>a-b); return ds[0]||nextMay1(); }
+function studentFirst(){ const st=(state.members||[]).find(m=>m.role==="student"); return st?st.display_name:"We"; }
+async function setSchoolStatus(sid, status){
+  const s=(state.schools||[]).find(x=>x.school_id===sid); if(!s) return;
+  const was=s.app_status; const patch={app_status:status, status_at:new Date().toISOString()};
+  if(status==="accepted" && !s.reply_by){ const d=nextMay1(); patch.reply_by=`${d.getFullYear()}-05-01`; }
+  const {error}=await sb.from("family_schools").update(patch).eq("family_id",state.family.id).eq("school_id",sid); if(error) throw error;
+  Object.assign(s,patch);
+  if(status==="accepted" && was!=="accepted"){ celebrate(`🎉 Accepted to ${s.name}!`);
+    try{ await talkInsert({school_id:sid, kind:"milestone", body:`🎉 ${studentFirst()==="We"?"We":studentFirst()} got into ${s.name}!`, in_movie:true}); }catch(e){} }
+}
+function celebrate(text, sub){
+  const ov=document.createElement("div"); ov.className="celebrate"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-label",text);
+  const bits=Array.from({length:60},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%12)*.08}s;background:hsl(${(i*47)%360},80%,60%)"></i>`).join("");
+  ov.innerHTML=`<div class="confetti" aria-hidden="true">${bits}</div><div class="cel-box"><div class="cel-t">${esc(text)}</div>${sub?`<div class="cel-s">${sub}</div>`:""}<button class="small primary" data-celx>Yay! Close</button></div>`;
+  document.body.appendChild(ov); ov.querySelector("[data-celx]").onclick=()=>ov.remove(); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  setTimeout(()=>{ try{ ov.querySelector("[data-celx]").focus(); }catch(e){} },50); return ov;
+}
+function offerCost(sid){ const info=catInfo(sid); const o=offersGet()[sid]; const on=offerNet(o); if(on!=null) return {v:on, src:"their offer", loans:sumAmt(o.loans)};
+  const y=info?yourNet(info):null; if(y) return {v:Math.max(0,y.v), src:"typical for you"}; const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number"?{v:sc.netPrice,src:"typical after aid"}:null; }
+function renderDecide(){
+  const el=$("decide-out"); if(!el) return;
+  if(!state.family){ el.innerHTML=""; return; }
+  const board=state.schools||[]; const acc=acceptedSchools(); const dec=decisionPost();
+  const dl=replyDeadline(); const days=Math.max(0,Math.ceil((dl-new Date())/864e5));
+  const hero = dec ? `<div class="dd-hero done"><div class="dd-big">🎓 ${esc(memberName(dec.user_id))===esc(studentFirst())?esc(studentFirst())+" is":"We're"} going to <b>${esc(schoolName(dec.school_id))}</b>!</div><div class="dd-sub">Decided ${esc(_fmtD(new Date(dec.created_at)))} · ${esc(dec.body)}</div>
+      <div class="row" style="gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px"><button class="small primary" data-ddgo="memories">🎬 Make our movie</button><button class="small" id="dd-share">🔗 Share the news</button>${state.me&&dec.user_id===state.me.user_id?`<button class="small ghost" id="dd-undo">We changed our minds</button>`:""}</div></div>`
+    : `<div class="dd-hero"><div class="dd-count"><b>${days}</b><span>day${days===1?"":"s"} until ${esc(dl.toLocaleDateString("en-US",{month:"long",day:"numeric"}))}</span></div><div class="dd-sub">${acc.length?`${acc.length} acceptance${acc.length>1?"s":""} so far. Compare them below, hear everyone out, then decide together.`:"When decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie."}</div></div>`;
+  const statusRows = board.length ? board.map(s=>{ const st=s.app_status||"planning"; return `<div class="dd-row"><div class="dd-name"><b>${esc(s.name)}</b>${st==="accepted"&&s.reply_by?`<span class="muted"> · reply by ${esc(_fmtD(_ymdDate(String(s.reply_by).slice(0,10))))}</span>`:""}</div>
+      <div class="dd-stats" role="radiogroup" aria-label="Status for ${esc(s.name)}">${Object.entries(APP_STATUS).map(([k,v])=>`<button role="radio" aria-checked="${st===k}" class="dd-st ${st===k?"on "+k:""}" data-ddst="${esc(s.school_id)}|${k}" title="${esc(v.label)}">${v.ico}<span>${esc(v.label)}</span></button>`).join("")}</div></div>`; }).join("") : `<div class="muted">Add schools to your board first.</div>`;
+  let compare="";
+  if(acc.length){
+    const rows=acc.map(s=>{ const info=catInfo(s.school_id); const c=offerCost(s.school_id); const b=blended(s.school_id); const m=info?matchScore(info,myPrefs()):null;
+      const vs=voicesFor(s.school_id); const love=vs.filter(v=>v.feel==="love").length, worry=vs.filter(v=>v.feel==="worry").length;
+      return {s,c,b,m,love,worry}; });
+    const low=rows.filter(r=>r.c).sort((a,b)=>a.c.v-b.c.v)[0], fav=rows.filter(r=>r.b!=null).sort((a,b)=>b.b-a.b)[0], best=rows.filter(r=>r.m!=null).sort((a,b)=>b.m-a.m)[0];
+    compare=`<div class="dd-grid">${rows.map(r=>`<div class="dd-card"><div class="dd-ch"><b>${esc(r.s.name)}</b></div>
+        <div class="dd-badges">${low&&low===r?`<span class="dd-badge cost">💰 Lowest cost</span>`:""}${fav&&fav===r?`<span class="dd-badge fav">⭐ Family favorite</span>`:""}${best&&best===r?`<span class="dd-badge match">🎯 Best match</span>`:""}</div>
+        <div class="dd-kv"><span>Cost / yr</span><b>${r.c?money(r.c.v):"—"}</b><small>${r.c?esc(r.c.src):"add the aid letter on Costs"}</small></div>
+        <div class="dd-kv"><span>4 years</span><b>${r.c?"~"+money(r.c.v*4):"—"}</b>${r.c&&r.c.loans?`<small>+ ${money(r.c.loans)} loans offered</small>`:""}</div>
+        <div class="dd-kv"><span>Family stars</span><b>${r.b!=null?r.b.toFixed(1)+"★":"—"}</b></div><div class="dd-kv"><span>Match</span><b>${r.m!=null?r.m+"%":"—"}</b></div>
+        <div class="dd-kv"><span>Voices</span><b>💛 ${r.love} · 🤔 ${r.worry}</b></div>
+        <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:8px"><button class="small" data-ddoffer="${esc(r.s.school_id)}">${offersGet()[r.s.school_id]?"Edit offer":"＋ Add aid letter"}</button><button class="small ghost" data-ddtalk="${esc(r.s.school_id)}">💬 Talk</button></div></div>`).join("")}</div>`;
+  }
+  const picks = (state.members||[]).map(mb=>{ const p=talk.posts.filter(x=>x.kind==="pick"&&x.user_id===mb.user_id).slice(-1)[0]; return {mb,p}; });
+  const pickNames=[...new Set(picks.filter(x=>x.p).map(x=>x.p.school_id))];
+  const allPicked=picks.every(x=>x.p); const same=allPicked&&pickNames.length===1;
+  const mine=picks.find(x=>state.me&&x.mb.user_id===state.me.user_id);
+  const pickSec = acc.length ? `<div class="card"><h2 class="dd-h">🗳 Everyone's pick</h2><p class="muted" style="font-size:13px;margin:0 0 10px">Each person picks the school they'd choose and says why in a sentence. Not a vote that wins — a way to hear each other.</p>
+      ${picks.map(({mb,p})=>`<div class="dd-pick"><span class="avatar">${esc((mb.display_name||"?")[0])}</span><div><b>${esc(mb.display_name)}</b> ${p?`picks <b>${esc(schoolName(p.school_id))}</b><div class="muted" style="font-size:13px">“${esc(p.body)}”</div>`:`<span class="muted">hasn't picked yet</span>`}</div></div>`).join("")}
+      ${same?`<div class="dd-agree">🤝 Everyone picked <b>${esc(schoolName(pickNames[0]))}</b>.</div>`:allPicked&&pickNames.length>1?`<div class="dd-split">💬 Different picks — that's normal. <button class="linklike" data-ddtalkall>Talk it out</button></div>`:""}
+      <div class="dd-mypick"><label for="dd-pickschool">${mine&&mine.p?"Change your pick":"Your pick"}</label><select id="dd-pickschool" style="width:auto">${acc.map(s=>`<option value="${esc(s.school_id)}" ${mine&&mine.p&&mine.p.school_id===s.school_id?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
+        <textarea id="dd-why" rows="2" maxlength="300" placeholder="Why, in a sentence? (What would you tell your future self?)"></textarea><div id="dd-kind" class="tk-kind"></div>
+        <div class="row" style="justify-content:flex-end"><button class="small primary" id="dd-pickbtn">Share my pick</button></div><div class="tk-msg" id="dd-pmsg"></div></div></div>` : "";
+  const finalSec = acc.length && !dec ? `<div class="card dd-final"><h2 class="dd-h">🎓 Make it official</h2><p class="muted" style="font-size:13px;margin:0 0 10px">When you've decided together, make it official. It becomes the big moment in your family movie.</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><select id="dd-final" style="width:auto">${acc.map(s=>`<option value="${esc(s.school_id)}" ${same&&pickNames[0]===s.school_id?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
+      ${decideConfirm?`<span class="muted" style="font-size:12.5px">Is everyone ready?</span><button class="small ghost" id="dd-notyet">Not yet</button><button class="small primary" id="dd-yes">Yes — we decided! 🎉</button>`:`<button class="small primary" id="dd-decide">We decided!</button>`}</div></div>` : "";
+  const after = dec ? (()=>{ const others=acc.filter(s=>s.school_id!==dec.school_id); return others.length?`<div class="card"><h2 class="dd-h">✉️ Let the other schools know</h2><p class="muted" style="font-size:13px;margin:0 0 8px">It's kind to decline the offers you won't take — it frees a spot for someone on the waitlist.</p>${others.map(s=>`<label class="tk-check"><input type="checkbox" data-dddecline="${esc(s.school_id)}" ${lsGet("declined_"+s.school_id)?"checked":""}> <span>Declined ${esc(s.name)}</span></label>`).join("")}</div>`:""; })() : "";
+  el.innerHTML = hero + `<div class="card"><h2 class="dd-h">📬 Decisions</h2><p class="muted" style="font-size:13px;margin:0 0 8px">Mark each school as decisions come in. Everyone in the family sees it.</p>${statusRows}<div class="tk-msg" id="dd-smsg"></div></div>`
+    + (acc.length?`<div class="card"><h2 class="dd-h">⚖️ Your acceptances side by side</h2>${compare}</div>`:"") + pickSec + finalSec + after;
+  // wiring
+  el.querySelectorAll("[data-ddst]").forEach(b=>b.onclick=async()=>{ const [sid,st]=b.dataset.ddst.split("|"); b.disabled=true;
+    try{ await setSchoolStatus(sid,st); }catch(e){ $("dd-smsg").textContent= isMissing(e)?"Decision Day needs a one-time setup step on our side (step 014).":"Couldn't save that — please try again."; }
+    renderDecide(); });
+  el.querySelectorAll("[data-ddgo]").forEach(b=>b.onclick=()=>goto(b.dataset.ddgo));
+  el.querySelectorAll("[data-ddtalk]").forEach(b=>b.onclick=()=>openTalk({tab:"voices", school:b.dataset.ddtalk}));
+  el.querySelectorAll("[data-ddtalkall]").forEach(b=>b.onclick=()=>{ talkTopic=""; openTalk({tab:"talk"}); });
+  el.querySelectorAll("[data-ddoffer]").forEach(b=>b.onclick=()=>{ goto("cost"); setTimeout(()=>{ try{ const of=offersGet()[b.dataset.ddoffer]||{}; offerForm(b.dataset.ddoffer,{costOfAttendance:of.coa,grants:of.grants,loans:of.loans,workStudy:of.workStudy,academicYear:of.year},false); const f=$("offer-form"); if(f) f.scrollIntoView({block:"center"}); }catch(e){} },150); });
+  const why=$("dd-why"); if(why){ const k=$("dd-kind"); why.oninput=()=>{ const s=kindCheck(why.value); k.innerHTML=s.length?`<div class="tk-kindh">💞 Say it with love</div>`+s.map((x,i)=>`<div class="tk-kindrow">${x.from?`“${esc(x.from)}” → “${esc(x.to)}” <button class="small ghost" data-dduse="${i}">Use</button>`:esc(x.why)}</div>`).join(""):"";
+      k.querySelectorAll("[data-dduse]").forEach(b=>b.onclick=()=>{ why.value=kindApply(why.value,s[+b.dataset.dduse]); why.oninput(); }); }; }
+  const pb=$("dd-pickbtn"); if(pb) pb.onclick=async()=>{ const body=why.value.trim(); if(!body){ $("dd-pmsg").textContent="Add a sentence about why."; return; } pb.disabled=true;
+    try{ await talkInsert({school_id:$("dd-pickschool").value, kind:"pick", body, in_movie:true}); renderDecide(); }catch(e){ pb.disabled=false; $("dd-pmsg").textContent="Couldn't save — please try again."; } };
+  const dd=$("dd-decide"); if(dd) dd.onclick=()=>{ decideConfirm=true; renderDecide(); };
+  const nn=$("dd-notyet"); if(nn) nn.onclick=()=>{ decideConfirm=false; renderDecide(); };
+  const yy=$("dd-yes"); if(yy) yy.onclick=async()=>{ const sid=$("dd-final").value; yy.disabled=true; decideConfirm=false;
+    try{ await talkInsert({school_id:sid, kind:"decision", body:`${studentFirst()==="We"?"We":studentFirst()} chose ${schoolName(sid)}. We decided together.`, in_movie:true});
+      renderDecide(); celebrate(`🎓 ${studentFirst()==="We"?"We're":studentFirst()+" is"} going to ${schoolName(sid)}!`, "This is the big moment of your family movie. Congratulations to all of you. 💛"); try{ renderToday(); }catch(e){} }
+    catch(e){ yy.disabled=false; } };
+  const un=$("dd-undo"); if(un) un.onclick=async()=>{ if(un.dataset.armed!=="1"){ un.dataset.armed="1"; un.textContent="Tap again to undo the decision"; return; }
+    await sb.from("talk_posts").delete().eq("id",dec.id).eq("user_id",state.me.user_id); await loadTalk(); renderDecide(); };
+  const sh=$("dd-share"); if(sh) sh.onclick=()=>openShareDialog("family");
+  el.querySelectorAll("[data-dddecline]").forEach(c=>c.onchange=()=>lsSet("declined_"+c.dataset.dddecline, c.checked?1:0));
+}
+function decideTodayCard(){
+  if(!state.family) return ""; const acc=acceptedSchools(); const dec=decisionPost(); if(!acc.length&&!dec) return "";
+  const days=Math.max(0,Math.ceil((replyDeadline()-new Date())/864e5));
+  return `<div class="td-card td-decide"><div class="td-h">🎓 Decision Day</div><div class="td-mid">${dec?`🎉 Decided: <b>${esc(schoolName(dec.school_id))}</b>`:`<b>${acc.length}</b> acceptance${acc.length>1?"s":""} · <b>${days}</b> days to decide`}</div>
+    <div class="row" style="margin-top:10px"><button class="small primary" data-td-go="decide">${dec?"See the moment":"Open Decision Day"}</button></div></div>`;
+}
+/* Aid offers shared with the family (#61). Falls back to this device until step 014 is in place. */
+let _offersDB=null;
+async function loadOffers(){
+  if(BACKEND.offers===false||!state.family){ return; }
+  try{ const {data,error}=await sb.from("aid_offers").select("*"); if(error) throw error;
+    const db={}; (data||[]).forEach(r=>{ db[r.school_id]=r.offer; });
+    let local={}; try{ local=JSON.parse(localStorage.getItem(_tripKey("zc_offers"))||"{}"); }catch(e){}
+    for(const [sid,o] of Object.entries(local)){ if(!db[sid] && o && o.coa){ db[sid]=o; try{ await sb.from("aid_offers").upsert({family_id:state.family.id, school_id:sid, offer:o, updated_by:state.me&&state.me.user_id, updated_at:new Date().toISOString()}); }catch(e){} } }
+    _offersDB=db; }
+  catch(e){ if(isMissing(e)) BACKEND.offers=false; }
 }
 
 /* ===== Zoe's College Report (#58): one printable document — cover, profile, the list, costs, deadlines, next steps.
@@ -3045,7 +3198,7 @@ function standBarHtml(info, compact){
 }
 function renderSchool(x){
   const s=x.s, info=x.info, b=x.b;
-  const catChip = s.is_custom ? `<span class="chip">Custom</span>` : "";
+  const catChip = (s.is_custom ? `<span class="chip">Custom</span>` : "") + (s.app_status&&s.app_status!=="planning"&&APP_STATUS[s.app_status] ? `<span class="chip dd-pill ${esc(s.app_status)}">${APP_STATUS[s.app_status].ico} ${esc(APP_STATUS[s.app_status].label)}</span>` : "");
   const sc = info && info.scorecard || {};
   const facts = info ? `<div class="facts">
       <span>size <b>${esc(info.sizeApprox||(sc.size?sc.size.toLocaleString():"—"))}</b></span>
@@ -3581,8 +3734,11 @@ function renderVisitKit(){
   $("vk-zoe").onclick=()=>{ goto("zoe"); setTimeout(()=>ztabAsk(`We're visiting ${name} today. Give me 6 sharp, specific questions to ask on the tour and at the info session, based on my profile and what matters to us.`,{mode:"chat"},`🙋 Questions for ${name}`),150); };
 }
 /* ===== Costs (#52) ===== */
-function offersGet(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_offers"))||"{}"); }catch(e){ return {}; } }
-function offersSet(o){ try{ localStorage.setItem(_tripKey("zc_offers"),JSON.stringify(o)); }catch(e){} }
+function offersGet(){ if(_offersDB) return JSON.parse(JSON.stringify(_offersDB)); try{ return JSON.parse(localStorage.getItem(_tripKey("zc_offers"))||"{}"); }catch(e){ return {}; } }
+function offersSet(o){ try{ localStorage.setItem(_tripKey("zc_offers"),JSON.stringify(o)); }catch(e){}
+  if(_offersDB && state.family){ const before=_offersDB; _offersDB=JSON.parse(JSON.stringify(o));   // #61: shared with the whole family
+    for(const [sid,v] of Object.entries(o)) if(JSON.stringify(before[sid])!==JSON.stringify(v)) sb.from("aid_offers").upsert({family_id:state.family.id, school_id:sid, offer:v, updated_by:state.me&&state.me.user_id, updated_at:new Date().toISOString()}).then(()=>{},()=>{});
+    for(const sid of Object.keys(before)) if(!(sid in o)) sb.from("aid_offers").delete().eq("family_id",state.family.id).eq("school_id",sid).then(()=>{},()=>{}); } }
 const sumAmt=a=>(a||[]).reduce((t,x)=>t+(+x.amount||0),0);
 function offerNet(o){ if(!o||!o.coa) return null; return Math.max(0,o.coa-sumAmt(o.grants)); }
 function renderCost(){
@@ -3705,7 +3861,7 @@ function renderToday(){
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button>${trip?`<button class="small" data-visitkit="${esc([...getTrip()][0])}">🎒 Visit-day kit</button>`:""}<button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
   const repCard=board.length?`<div class="td-card td-report"><div class="td-h">📄 College report</div><div class="td-mid">${esc(reportStudentName()||"Your")}${reportStudentName()?"'s":""} whole picture — profile, every school, costs, deadlines and next steps — in one PDF for family, counselors or your own files.</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-go="report">Open report</button><button class="small" data-td-share>🔗 Share instead</button></div></div>`:"";
-  el.innerHTML=dlCard+zoeCard+talkTodayCard()+pulseCard+balCard+repCard+visitCard+installCardHtml();
+  el.innerHTML=decideTodayCard()+dlCard+zoeCard+talkTodayCard()+pulseCard+balCard+repCard+visitCard+installCardHtml();
   el.querySelectorAll("[data-td-talk]").forEach(b=>b.onclick=()=>openTalk({tab:b.dataset.tdTalk}));
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
