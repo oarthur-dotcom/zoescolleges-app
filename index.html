@@ -2360,8 +2360,20 @@ function _index(){
 /* Graduate-only schools (law, medical, seminaries; 263 in the catalog) aren't for a high-school senior:
    kept out of Zoe Picks and Zoe's suggestions, ranked last in search, and labeled when shown. */
 const isGradOnly=c=>!!c&&c.degreeType==="graduate";
+function _lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; let prev=Array.from({length:n+1},(_,j)=>j), pp=null;
+  for(let i=1;i<=m;i++){ const cur=[i]; for(let j=1;j<=n;j++){ let v=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+      if(pp&&i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) v=Math.min(v,pp[j-2]+1); cur.push(v); } pp=prev; prev=cur; } return prev[n]; }
+const _ABBR={univ:"university",uni:"university",u:"university",coll:"college",inst:"institute",cc:"community college",comm:"community",st:"saint",mt:"mount",ft:"fort"};
 function searchCatalog(q){
-  const qn=_norm(q); if(!qn) return null;
+  const raw=_norm(q); if(!raw) return null;
+  // "univ of vermont" -> "university of vermont"; "mt holyoke" -> "mount holyoke". Names use both forms ("St Olaf",
+  // "Mt San Jacinto"), so search the expanded words AND the words as typed, and keep the better result.
+  const exp = (!SEARCH_ALIASES[raw] && raw.includes(" ")) ? raw.split(" ").map(w=>_ABBR[w]||w).join(" ") : raw;
+  if(exp===raw) return _searchOne(raw);
+  const a=_searchOne(exp), b=_searchOne(raw); const best=l=>(l&&l[0]?l[0].rank:0);
+  return best(b)>best(a) ? b : a;
+}
+function _searchOne(qn){
   const alias=SEARCH_ALIASES[qn]; const qc=qn.replace(/ /g,"");
   const out=[];
   for(const e of _index()){
@@ -2377,6 +2389,15 @@ function searchCatalog(q){
     else if(qn.length>=3 && (e.city+" "+e.st).includes(qn)) r=25;
     if(r && isGradOnly(e.c) && r<95) r=Math.max(1,r-60);   // an exact name still finds it
     if(r) out.push({c:e.c, rank:r});
+  }
+  // Typo tolerance (#41): nothing matched well -> allow 1 typo per word (2 for long words), e.g. "stanferd", "vanderbelt".
+  if(!out.some(o=>o.rank>=45) && qn.length>=4){
+    const qw=qn.split(" ").filter(w=>w.length>=4 && !_STOP.has(w));
+    if(qw.length) for(const e of _index()){
+      if(out.some(o=>o.c===e.c)) continue;
+      const nw=e.n.split(" ");
+      if(qw.every(w=>nw.some(x=>Math.abs(x.length-w.length)<=2 && _lev(x,w)<=(w.length>=8?2:1)))){ out.push({c:e.c, rank:isGradOnly(e.c)?1:30, fuzzy:true}); }
+    }
   }
   const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
   return out.sort((a,b)=>b.rank-a.rank || sz(b.c)-sz(a.c) || a.c.name.length-b.c.name.length);   // same rank: bigger school first
