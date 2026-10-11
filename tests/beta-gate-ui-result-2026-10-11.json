@@ -1,0 +1,61 @@
+{
+ "A_typed_code": {
+  "codeFieldVisible": true,
+  "sentToServer": [
+   {
+    "access_code": "NEWCODE26",
+    "join_code": "",
+    "ref_code": ""
+   }
+  ],
+  "message": "Check your email for a confirmation link, then come back and sign in.",
+  "pageErrors": [],
+  "sourceHasOldCode": false
+ },
+ "B_no_code": {
+  "codeFieldVisible": true,
+  "sentToServer": [],
+  "message": "Enter your beta access code — ask whoever invited you for it.",
+  "pageErrors": [],
+  "sourceHasOldCode": false
+ },
+ "C_invite_link": {
+  "codeFieldVisible": false,
+  "sentToServer": [
+   {
+    "access_code": "",
+    "join_code": "ab12cd34ef56",
+    "ref_code": ""
+   }
+  ],
+  "message": "Check your email for a confirmation link, then come back and sign in.",
+  "pageErrors": [],
+  "sourceHasOldCode": false
+ },
+ "D_referral_link": {
+  "codeFieldVisible": true,
+  "sentToServer": [
+   {
+    "access_code": "",
+    "join_code": "",
+    "ref_code": "9f8e7d6c"
+   }
+  ],
+  "message": "Check your email for a confirmation link, then come back and sign in.",
+  "pageErrors": [],
+  "sourceHasOldCode": false
+ },
+ "E_server_rejects": {
+  "codeFieldVisible": true,
+  "sentToServer": [
+   {
+    "access_code": "WRONG",
+    "join_code": "",
+    "ref_code": ""
+   }
+  ],
+  "message": "That beta access code isn't right — ask whoever invited you for the current code.",
+  "pageErrors": [],
+  "sourceHasOldCode": false
+ }
+}
