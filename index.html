@@ -315,6 +315,22 @@ a{color:var(--teal)}
 .share-m{font-weight:700;font-size:13px;color:var(--teal)}
 .share-c{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
 .share-cta{text-align:center;margin-top:24px}
+.share-aud{font-size:12px;color:var(--muted);margin-bottom:6px}
+.share-bal{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}.share-bal span{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
+.share-note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:15px;line-height:1.45}.share-note span{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.share-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 15px;margin:0 0 12px}
+.share-h{font-weight:700;margin-bottom:8px}.share-sh{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:10px 0 4px}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}.share-grid div{display:flex;flex-direction:column}.share-grid span{font-size:11.5px;color:var(--muted)}
+.share-acts ul{margin:0;padding-left:18px;font-size:13px;line-height:1.5}
+.share-dl{display:flex;gap:10px;font-size:13px;padding:3px 0}.share-dl b{min-width:96px}
+.share-extra{display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;font-size:12px}.share-stars{color:#e0a100;letter-spacing:1px}.share-stars i{color:var(--line);font-style:normal}
+.share-fine{font-size:11.5px;text-align:center;margin:14px 0 0}
+.share-aud-pick{display:flex;gap:6px;flex-wrap:wrap}.sh-audbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}.sh-audbtn.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
+.share-made{margin-top:10px;font-size:13px}.share-made.warn{color:#9a5b00}
+a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;padding:6px 12px;text-decoration:none;color:var(--ink);background:var(--surface);font-size:13px}
+.share-mine{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}.share-mrow{display:flex;gap:12px;align-items:center;font-size:12.5px;padding:3px 0}.share-mrow span{flex:1}
+.zmodal.share-pv .zmodal-box{max-width:640px;max-height:86vh;overflow:auto;background:var(--paper)}
+@media print{.share-cta{display:none}}
 .share-cta .btn-primary,.share-cta a.btn-primary{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700}
 /* binder */
 .ztab-actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
@@ -536,6 +552,7 @@ a{color:var(--teal)}
 .mem-pick .mem-ph{cursor:pointer}.mem-pick input{position:absolute;top:6px;left:6px;width:20px;height:20px}
 .share-consent{display:grid;gap:6px;margin-top:10px;font-size:13px}.share-consent label{display:flex;gap:8px;align-items:flex-start}
 .share-consent input{margin-top:3px;flex:0 0 auto}
+#sh-parts label{text-transform:none;letter-spacing:0;font-family:inherit;font-size:13.5px;color:var(--ink);font-weight:400;margin:0}
 #mem-share textarea{width:100%;margin-top:8px}
 .player .pcredit{font-size:11px;opacity:.75;margin-top:4px;text-shadow:0 1px 6px #000}
 .mem-school h3{font-size:15px;margin:0 0 6px}
@@ -1190,6 +1207,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
           <div id="more-menu" class="menu hidden">
             <button id="btn-memories" class="menu-item">✨ Memories</button>
             <button id="btn-report" class="menu-item">📄 Report</button>
+            <button id="btn-sharelist" class="menu-item">🔗 Share with family or counselor</button>
             <button id="btn-share" class="menu-item">📣 Tell another family</button>
             <button id="btn-plans" class="menu-item">⚡ Plans &amp; upgrades</button>
           </div>
@@ -2282,7 +2300,8 @@ document.addEventListener("click", (e) => { if(!e.target.closest(".menu-wrap")) 
 $("more-menu").addEventListener("click", () => $("more-menu").classList.add("hidden"));
 $("report-back").onclick = () => show("v-board");
 $("report-print").onclick = () => window.print();
-{ const rs=$("report-share"); if(rs) rs.onclick = createShareLink; }
+{ const rs=$("report-share"); if(rs) rs.onclick = ()=>openShareDialog(); }
+{ const sl=$("btn-sharelist"); if(sl) sl.onclick = ()=>{ $("more-menu").classList.add("hidden"); openShareDialog(); }; }
 
 /* ===== memories reel (free) ===== */
 function memPrefs(){ return lsGet("memprefs")||{}; }
@@ -3199,7 +3218,7 @@ function renderToday(){
   // 3 List balance
   const meta=board.map(x=>({ch:chanceFor(x.info)})); const bal=listBalance(meta);
   const balCard=`<div class="td-card"><div class="td-h">📋 Your list</div>${bal?`<div class="td-bal"><span class="bal-grade bal-${bal.grade}">${bal.grade}</span><div><div class="td-mid"><b>${bal.c.likely}</b> Likely · <b>${bal.c.target}</b> Target · <b>${bal.c.reach}</b> Reach</div><div class="muted" style="font-size:12.5px">${bal.tips.length?`For balance: ${bal.tips.slice(0,2).join(", ")}.`:"Nicely balanced."}</div></div></div>`:`<div class="td-mid">${board.length?"Add your grades in My Profile to see your chances.":"No schools yet."}</div>`}
-    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="cost">💰 Costs</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button></div></div>`;
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="cost">💰 Costs</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button>${board.length?`<button class="small" data-td-share>🔗 Share</button>`:""}</div></div>`;
   // 4 Pulse
   const {d}=pulseData(); const hidden=ptSet("hidden");
   const stories=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.stories||v.top||[]).map(x=>({...x,school:id}))).filter(x=>x.date&&!hidden.has(x.link)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3):[];
@@ -3217,6 +3236,7 @@ function renderToday(){
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
   try{ updateDlNav(); }catch(e){}
   el.querySelectorAll("[data-td-go]").forEach(b=>b.onclick=()=>goto(b.dataset.tdGo));
+  const tsh=el.querySelector("[data-td-share]"); if(tsh) tsh.onclick=()=>openShareDialog();
   const wk=el.querySelector("[data-td-week]"); if(wk) wk.onclick=()=>{ goto("zoe"); setTimeout(()=>zmOpen("week"),150); };
 }
 { const f=$("td-search"); if(f) f.onsubmit=e=>{ e.preventDefault(); const q=$("td-q").value.trim(); goto("explore"); if(q){ $("exsearch").value=q; renderExList(q); } }; }
@@ -4888,28 +4908,134 @@ async function renderBinderPanel(){
   el.querySelectorAll("[data-bkopen]").forEach(b=>b.onclick=()=>{ const e=byId[b.dataset.bkopen]; if(e) openBinderChat(e); });
   el.querySelectorAll("[data-bkdel]").forEach(b=>b.onclick=async()=>{ const e=byId[b.dataset.bkdel]; if(e){ await binderDelete(e); renderBinderPanel(); } });
 }
-/* ---- public share: snapshot the board to a link anyone can view ---- */
-function boardSharePayload(){
-  const w=myPrefs();
-  const schools=state.schools.map(s=>{ const info=catInfo(s.school_id); if(!info) return null; const m=matchScore(info,w); const ch=chanceFor(info); return { name:s.name, where:[info.city,info.state].filter(Boolean).join(", "), match:(m==null?null:m), chance:ch?ch.label:"" }; }).filter(Boolean);
-  return { familyName:(state.family&&state.family.name)||"Our family", schools, created:Date.now() };
+/* ---- Share with grandparents or a counselor (#56) ----
+   A read-only snapshot link. The family picks who it's for and exactly what goes in it; nothing private
+   (notes, income, offers, essays) is ever included, and money/grades only when ticked. */
+const SHARE_AUD={
+  family:{ico:"👵",label:"Grandparents & family",def:{stars:true,deadlines:true,costs:false,academics:false},hint:"A friendly list with how the family feels about each school."},
+  counselor:{ico:"🎓",label:"School counselor",def:{stars:false,deadlines:true,costs:false,academics:true},hint:"Adds the student's academic snapshot so the counselor can check the list's balance."},
+  anyone:{ico:"🔗",label:"Anyone",def:{stars:false,deadlines:false,costs:false,academics:false},hint:"Just the schools, match and chance."}
+};
+const SHARE_PARTS=[["stars","⭐ How our family rates each school (stars only — never notes)"],["deadlines","⏰ Application deadlines"],["costs","💰 Typical price after aid (public federal data — not your income or offers)"],["academics","📚 Student's academic snapshot (GPA, test scores, course rigor, activities)"]];
+function myShares(){ try{ const a=JSON.parse(localStorage.getItem("zc_my_shares")||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function setMyShares(a){ try{ localStorage.setItem("zc_my_shares",JSON.stringify(a.slice(0,30))); }catch(e){} }
+function boardSharePayload(opt){
+  opt=opt||{}; const inc=opt.include||{}; const w=myPrefs(); const today=new Date(); today.setHours(0,0,0,0);
+  const schools=state.schools.map(s=>{ const info=catInfo(s.school_id); if(!info) return null; const m=matchScore(info,w); const ch=chanceFor(info);
+    const o={ name:s.name, where:[info.city,info.state].filter(Boolean).join(", "), match:(m==null?null:m), chance:ch?ch.label:"" };
+    if(inc.stars){ const b=blended(s.school_id); if(b!=null) o.stars=Math.round(b*10)/10; }
+    if(inc.deadlines){ const d=deadlineList(info).filter(x=>x.date>=today)[0]; if(d) o.deadline={kind:String(d.kind||"").slice(0,40), date:`${d.date.getFullYear()}-${String(d.date.getMonth()+1).padStart(2,"0")}-${String(d.date.getDate()).padStart(2,"0")}`}; }
+    if(inc.costs){ const y=yourNetPublic(info); if(y!=null) o.cost=Math.round(y); if(typeof (info.scorecard||{}).costAvg==="number") o.sticker=Math.round(info.scorecard.costAvg); }
+    return o; }).filter(Boolean);
+  const p={ v:2, audience:SHARE_AUD[opt.audience]?opt.audience:"anyone", familyName:(state.family&&state.family.name)||"Our family", schools, created:Date.now() };
+  const note=String(opt.note||"").trim().slice(0,400); if(note) p.note=note;
+  if(inc.academics){ const pr=studentProfile()||{}; const adj=rigorAdjustedGpa(pr); const acts=Array.isArray(pr.activities)?pr.activities:[];
+    p.academics={ gpa:String(pr.gpa||"").slice(0,6), adjGpa:adj?adj.toFixed(2):"", sat:pr.testOptional?"":String(pr.sat||"").slice(0,5), act:pr.testOptional?"":String(pr.act||"").slice(0,3), testOptional:!!pr.testOptional,
+      major:String(pr.major||"").slice(0,80), rigor:pr.rigor?{honors:+pr.rigor.honors||0, ap:+pr.rigor.ap||0, dual:+pr.rigor.dual||0}:null,
+      activities:acts.slice(0,10).map(a=>{ const n=normAct(a); const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return { title:String(a.name||actTitle(n)).slice(0,100), meta:String(actMeta(n)||"").slice(0,120), level:lvl }; }) };
+    p.sections={academics:true}; }
+  p.sections=Object.assign(p.sections||{}, {stars:!!inc.stars, deadlines:!!inc.deadlines, costs:!!inc.costs});
+  return p;
 }
-async function createShareLink(){
-  if(!(state.session&&state.family)){ alert("Sign in first."); return; }
-  const payload=boardSharePayload();
-  if(!payload.schools.length){ alert("Add some schools to your board first."); return; }
+// Typical price after aid from public federal data only (never the family's income band).
+function yourNetPublic(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number"?sc.netPrice:null; }
+function shareStars(n){ const f=Math.round(n); return `<span class="share-stars" aria-label="${n} of 5 stars">${"★".repeat(f)}<i>${"★".repeat(Math.max(0,5-f))}</i></span>`; }
+function shareFmtDate(ymd){ const d=_ymdDate(ymd); return d?d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):""; }
+function renderShareHtml(p, opts){
+  const aud=SHARE_AUD[p.audience]?p.audience:"anyone"; const sec=p.sections||{}; const list=Array.isArray(p.schools)?p.schools:[];
+  const fam=esc(p.familyName||"A family");
+  const title = aud==="counselor" ? `${fam}'s college list` : aud==="family" ? `Where ${fam} is looking 🎓` : `${fam}'s college list`;
+  const sub = aud==="counselor" ? `${list.length} schools · shared for counselor review` : `${list.length} school${list.length===1?"":"s"} they're considering`;
+  const when = p.created ? new Date(p.created).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}) : "";
+  const bands={}; list.forEach(s=>{ if(s.chance) bands[s.chance]=(bands[s.chance]||0)+1; });
+  const balance=Object.keys(bands).length?`<div class="share-bal">${Object.entries(bands).map(([k,v])=>`<span><b>${v}</b> ${esc(k)}</span>`).join("")}</div>`:"";
+  const a=p.academics;
+  const acad = a ? `<div class="share-card"><div class="share-h">📚 Academic snapshot</div><div class="share-grid">
+      ${a.gpa?`<div><span>GPA</span><b>${esc(a.gpa)}</b></div>`:""}${a.adjGpa?`<div><span>Rigor-adjusted GPA</span><b>${esc(a.adjGpa)}</b></div>`:""}
+      ${a.testOptional?`<div><span>Testing</span><b>Test-optional</b></div>`:""}${a.sat?`<div><span>SAT</span><b>${esc(a.sat)}</b></div>`:""}${a.act?`<div><span>ACT</span><b>${esc(a.act)}</b></div>`:""}
+      ${a.rigor&&(a.rigor.ap||a.rigor.honors||a.rigor.dual)?`<div><span>Course rigor</span><b>${[a.rigor.ap?`${+a.rigor.ap} AP/IB`:"",a.rigor.honors?`${+a.rigor.honors} Honors`:"",a.rigor.dual?`${+a.rigor.dual} dual-enroll`:""].filter(Boolean).join(" · ")}</b></div>`:""}
+      ${a.major?`<div><span>Interested in</span><b>${esc(a.major)}</b></div>`:""}</div>
+      ${(a.activities||[]).length?`<div class="share-acts"><div class="share-sh">Activities</div><ul>${a.activities.map(x=>`<li><b>${esc(x.title)}</b>${x.meta?` · ${esc(x.meta)}`:""}${x.level?` · <span class="muted">${esc(x.level)}</span>`:""}</li>`).join("")}</ul></div>`:""}</div>` : "";
+  const rows=list.map(s=>`<div class="share-row"><div style="min-width:0"><b>${esc(s.name)}</b><div class="muted" style="font-size:12.5px">${esc(s.where||"")}</div>
+      ${(s.deadline||s.cost!=null||s.stars!=null)?`<div class="share-extra">${s.stars!=null?`${shareStars(s.stars)}`:""}${s.deadline?`<span>⏰ ${esc(s.deadline.kind||"Deadline")} · ${esc(shareFmtDate(s.deadline.date))}</span>`:""}${s.cost!=null?`<span>💰 ~${money(s.cost)}/yr after aid${s.sticker?` <i class="muted">(sticker ${money(s.sticker)})</i>`:""}</span>`:""}</div>`:""}</div>
+      <div class="share-stat">${s.match!=null?`<span class="share-m">${+s.match}% match</span>`:""}${s.chance?`<span class="share-c">${esc(s.chance)}</span>`:""}</div></div>`).join("");
+  const dls=sec.deadlines?list.filter(s=>s.deadline).sort((x,y)=>x.deadline.date.localeCompare(y.deadline.date)):[];
+  const dlCard=dls.length?`<div class="share-card"><div class="share-h">⏰ Coming up</div>${dls.slice(0,8).map(s=>`<div class="share-dl"><b>${esc(shareFmtDate(s.deadline.date))}</b><span>${esc(s.name)} · ${esc(s.deadline.kind||"")}</span></div>`).join("")}</div>`:"";
+  const tips = aud==="counselor" ? `<p class="muted share-fine">Match % reflects the family's own priorities. Chance labels (Likely / Target / Reach) are estimates from the student's grades and each school's published admissions data — not a prediction.</p>`
+    : aud==="family" ? `<p class="muted share-fine">Want to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.</p>`
+    : `<p class="muted share-fine">Match % reflects the sharer's priorities. Make your own board to see yours.</p>`;
+  return `<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><div class="share-aud">${SHARE_AUD[aud].ico} Shared with ${aud==="counselor"?"a counselor":aud==="family"?"family":"you"}${when?` · ${esc(when)}`:""}</div><h1>${title}</h1><p class="sub">${sub}</p>${balance}</div>
+    ${p.note?`<div class="share-note">“${esc(p.note)}”<span>— ${fam}</span></div>`:""}
+    ${acad}${dlCard}
+    <div class="share-list">${rows}</div>
+    ${tips}
+    ${opts&&opts.preview?"":`<div class="share-cta">${aud==="counselor"?`<button class="small ghost" onclick="window.print()">🖨 Print / Save as PDF</button> `:""}<a class="btn-primary" href="${APP_LINK}">Build your own family college board →</a><p class="muted" style="font-size:11.5px;margin-top:8px">Read-only snapshot. Nothing here can be edited.</p></div>`}`;
+}
+function openShareDialog(pre){
+  if(!state.schools.length){ alert("Add some schools to your board first."); return; }
+  let aud=(pre&&SHARE_AUD[pre])?pre:"family"; let inc={...SHARE_AUD[aud].def};
+  const ov=zOverlay(`<h3 style="margin:0 0 4px">Share your list 🔗</h3><p class="muted" style="font-size:13px;margin:0 0 12px">A read-only link — they can look, not edit. You choose exactly what's in it.</p>
+    <div class="share-aud-pick" role="radiogroup" aria-label="Who is it for?">${Object.entries(SHARE_AUD).map(([k,v])=>`<button class="sh-audbtn" role="radio" data-shaud="${k}">${v.ico} ${esc(v.label)}</button>`).join("")}</div>
+    <p class="muted" id="sh-hint" style="font-size:12px;margin:6px 0 4px"></p>
+    <div class="share-consent" id="sh-parts">${SHARE_PARTS.map(([k,t])=>`<label><input type="checkbox" data-shpart="${k}"> <span>${esc(t)}</span></label>`).join("")}</div>
+    <label class="bk-lbl" style="display:block;margin-top:12px">A note for them <i class="muted">(optional)</i></label>
+    <textarea id="sh-note" maxlength="400" rows="2" style="width:100%" placeholder="e.g. Hi Grandma! Here's where Zoe is applying — Michigan is her favorite so far."></textarea>
+    <p class="muted" style="font-size:11.5px;margin:8px 0 0">Never included: notes, essays, chats, your income, aid offers or photos.</p>
+    <div id="sh-result"></div>
+    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="small ghost" id="sh-x">Close</button><button class="small" id="sh-prev">👀 Preview</button><button class="small primary" id="sh-make">Create link</button></div>
+    <div id="sh-mine"></div>`);
+  const paint=()=>{ ov.querySelectorAll("[data-shaud]").forEach(b=>{ const on=b.dataset.shaud===aud; b.classList.toggle("on",on); b.setAttribute("aria-checked",on?"true":"false"); });
+    ov.querySelector("#sh-hint").textContent=SHARE_AUD[aud].hint;
+    ov.querySelectorAll("[data-shpart]").forEach(c=>c.checked=!!inc[c.dataset.shpart]); };
+  ov.querySelectorAll("[data-shaud]").forEach(b=>b.onclick=()=>{ aud=b.dataset.shaud; inc={...SHARE_AUD[aud].def}; paint(); });
+  ov.querySelectorAll("[data-shpart]").forEach(c=>c.onchange=()=>{ inc[c.dataset.shpart]=c.checked; });
+  const build=()=>boardSharePayload({audience:aud, include:inc, note:ov.querySelector("#sh-note").value});
+  ov.querySelector("#sh-x").onclick=()=>ov.remove();
+  ov.querySelector("#sh-prev").onclick=()=>{ const pv=zOverlay(`<div class="share-preview">${renderShareHtml(build(),{preview:true})}</div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="small primary" data-pvx>Back</button></div>`); pv.classList.add("share-pv"); pv.querySelector("[data-pvx]").onclick=()=>pv.remove(); };
+  ov.querySelector("#sh-make").onclick=async()=>{ const btn=ov.querySelector("#sh-make"); const out=ov.querySelector("#sh-result");
+    if(DEMO){ out.innerHTML=`<div class="share-made muted">In the sample family, links aren't created — tap <b>👀 Preview</b> to see exactly what they'd get.</div>`; return; }
+    btn.disabled=true; btn.textContent="Creating…";
+    const r=await createShareLink(build()); btn.disabled=false; btn.textContent="Create another";
+    if(!r.ok){ out.innerHTML=`<div class="share-made warn">${esc(r.msg)}</div>`; return; }
+    const msg=`${aud==="counselor"?"Here's our college list for your review":"Here's where we're looking at colleges"}: ${r.url}`;
+    out.innerHTML=`<div class="share-made"><input id="sh-url" readonly value="${esc(r.url)}" style="width:100%;margin:10px 0 8px" onclick="this.select()">
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="small primary" id="sh-copy">Copy link</button>${navigator.share?`<button class="small" id="sh-native">Share…</button>`:""}
+      <a class="small btnlike" href="sms:?&body=${encodeURIComponent(msg)}">💬 Text</a><a class="small btnlike" href="mailto:?subject=${encodeURIComponent((state.family&&state.family.name||"Our")+"'s college list")}&body=${encodeURIComponent(msg)}">✉️ Email</a></div></div>`;
+    out.querySelector("#sh-copy").onclick=async()=>{ try{ await navigator.clipboard.writeText(r.url); out.querySelector("#sh-copy").textContent="Copied ✓"; }catch(e){ out.querySelector("#sh-url").select(); } };
+    const ns=out.querySelector("#sh-native"); if(ns) ns.onclick=()=>navigator.share({title:"Our college list",text:msg.replace(r.url,"").trim(),url:r.url}).catch(()=>{});
+    renderMyShares(ov); };
+  paint(); renderMyShares(ov);
+  return ov;
+}
+function renderMyShares(ov){
+  const el=ov.querySelector("#sh-mine"); if(!el) return; const mine=myShares().filter(x=>!state.family||x.family===state.family.id);
+  if(!mine.length){ el.innerHTML=""; return; }
+  el.innerHTML=`<div class="share-mine"><div class="share-sh">Links you've shared</div>${mine.map(x=>`<div class="share-mrow"><span>${(SHARE_AUD[x.audience]||SHARE_AUD.anyone).ico} ${esc((SHARE_AUD[x.audience]||SHARE_AUD.anyone).label)} · ${esc(new Date(x.created).toLocaleDateString())}</span><button class="linklike" data-shcopy="${esc(x.token)}">Copy</button><button class="linklike" data-shoff="${esc(x.token)}">Turn off</button></div>`).join("")}
+    <p class="muted" style="font-size:11px;margin:6px 0 0">A link is a snapshot of today. Turn it off anytime and it stops working.</p></div>`;
+  el.querySelectorAll("[data-shcopy]").forEach(b=>b.onclick=async()=>{ try{ await navigator.clipboard.writeText(`${APP_LINK}?share=${b.dataset.shcopy}`); b.textContent="Copied ✓"; }catch(e){} });
+  el.querySelectorAll("[data-shoff]").forEach(b=>b.onclick=async()=>{ b.disabled=true; b.textContent="Turning off…"; const r=await revokeShare(b.dataset.shoff);
+    if(r.ok){ renderMyShares(ov); } else { b.disabled=false; b.textContent="Turn off"; const n=document.createElement("div"); n.className="share-made warn"; n.textContent=r.msg; el.appendChild(n); } });
+}
+async function createShareLink(payload){
+  if(payload && payload.type==="click") payload=null;   // old callers wire it as a click handler
+  if(!payload){ openShareDialog(); return {ok:false,msg:"opened"}; }
+  if(!(state.session&&state.family)) return {ok:false,msg:"Sign in first."};
+  if(!payload.schools.length) return {ok:false,msg:"Add some schools to your board first."};
   payload.title=payload.familyName+"'s college list";
   const token=(self.crypto&&crypto.randomUUID? crypto.randomUUID().replace(/-/g,"") : (Math.random().toString(36).slice(2)+Date.now().toString(36))).slice(0,24);
   try{
     const {error}=await sb.from("shares").insert({ token, family_id:state.family.id, kind:"list", title:payload.title, payload, created_by:state.session.user.id });
     if(error) throw error;
-    const url=`${APP_LINK}?share=${token}`;
-    const ov=zOverlay(`<h3 style="margin:0 0 8px">Share your list 🔗</h3><p class="muted" style="font-size:13px;margin:0 0 12px">Anyone with this link can view your list — read-only, no ratings or editing.</p>
-      <input id="sh-url" readonly value="${esc(url)}" style="width:100%;margin-bottom:12px" onclick="this.select()">
-      <div class="row" style="justify-content:flex-end;gap:8px"><button class="small ghost" id="sh-x">Close</button><button class="small primary" id="sh-copy">Copy link</button></div>`);
-    ov.querySelector("#sh-x").onclick=()=>ov.remove();
-    ov.querySelector("#sh-copy").onclick=async()=>{ try{ await navigator.clipboard.writeText(url); ov.querySelector("#sh-copy").textContent="Copied ✓"; }catch(e){ const i=ov.querySelector("#sh-url"); i.select(); } };
-  }catch(e){ alert("Couldn't create a share link yet — the one-time sharing setup may not be in place. (Binder + sharing need the M4 migration.)"); }
+    setMyShares([{token, audience:payload.audience, created:Date.now(), family:state.family.id}, ...myShares()]);
+    return {ok:true, token, url:`${APP_LINK}?share=${token}`};
+  }catch(e){ return {ok:false,msg:"Couldn't create a link right now. Please try again in a minute."}; }
+}
+async function revokeShare(token){
+  try{ const {data,error}=await sb.from("shares").delete().eq("token",token).select("token");
+    if(error) throw error;
+    if(!data||!data.length) return {ok:false,msg:"Couldn't turn this link off yet — it needs a one-time setup step on our side (migration 013). It's still listed so you can try again."};
+    setMyShares(myShares().filter(x=>x.token!==token)); return {ok:true};
+  }catch(e){ return {ok:false,msg:"Couldn't turn this link off right now. Please try again."}; }
 }
 async function renderPublicShare(token){
   _shareMode=true;
@@ -4922,10 +5048,9 @@ async function renderPublicShare(token){
     const {data,error}=await sb.rpc("get_share",{ t:token });
     if(error||!data) throw error||new Error("missing");
     const p=(typeof data==="string")?JSON.parse(data):data;
-    body.innerHTML=`<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><h1>${esc(p.familyName||"A family")}'s college list</h1><p class="sub">${(p.schools||[]).length} schools they're considering</p></div>
-      <div class="share-list">${(p.schools||[]).map(s=>`<div class="share-row"><div style="min-width:0"><b>${esc(s.name)}</b><div class="muted" style="font-size:12.5px">${esc(s.where||"")}</div></div><div class="share-stat">${s.match!=null?`<span class="share-m">${s.match}% match</span>`:""}${s.chance?`<span class="share-c">${esc(s.chance)}</span>`:""}</div></div>`).join("")}</div>
-      <div class="share-cta"><a class="btn-primary" href="${APP_LINK}">Build your own family college board →</a><p class="muted" style="font-size:11.5px;margin-top:8px">Match % reflects the sharer's priorities. Make your own board to see yours.</p></div>`;
-  }catch(e){ body.innerHTML=`<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><h1>List unavailable</h1><p class="sub">This shared link isn't available.</p></div><div class="share-cta"><a class="btn-primary" href="${APP_LINK}">Go to Zoe's Colleges →</a></div>`; }
+    body.innerHTML=renderShareHtml(p);
+    try{ document.title=`${p.familyName||"A family"}'s college list · Zoe's Colleges`; }catch(e){}
+  }catch(e){ body.innerHTML=`<div class="share-hero"><div class="share-brand">Zoe's Colleges</div><h1>List unavailable</h1><p class="sub">This link was turned off or doesn't exist.</p></div><div class="share-cta"><a class="btn-primary" href="${APP_LINK}">Go to Zoe's Colleges →</a></div>`; }
 }
 $("ztab-save").onclick=openSaveChat;
 $("ztab-binder").onclick=()=>{ const p=$("ztab-binder-panel"); p.classList.toggle("hidden"); if(!p.classList.contains("hidden")) renderBinderPanel(); };
