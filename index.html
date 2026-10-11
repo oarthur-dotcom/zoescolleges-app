@@ -812,6 +812,23 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
+/* #45 Pulse tiles */
+.pt-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin:10px 0 4px}
+.pt-views{padding:0}
+.pt-school-sel{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;max-width:240px;min-height:36px}
+.pt-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
+.pt-tile{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--surface);min-width:0}
+.pt-tile.is-new{border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.pt-tile-top{display:flex;align-items:center;gap:8px;min-width:0}
+.pt-tile-th{flex:0 0 auto;width:26px;height:26px;border-radius:7px;background-size:cover;background-position:center}
+.pt-tile-top .bp-school{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pt-ago{margin-left:auto;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.pt-tile-t{font-size:14.5px;font-weight:650;line-height:1.35;color:var(--ink);text-decoration:none;overflow-wrap:anywhere;flex:1}
+.pt-tile-t:hover{color:var(--teal)}
+.pt-tile-foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.pt-acts{margin-left:auto;display:flex;gap:4px}
+.pt-act{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:4px 9px;font-size:11.5px;font-weight:600;cursor:pointer;min-height:30px;white-space:nowrap}
+.pt-act.on{color:var(--amber);border-color:color-mix(in srgb,var(--amber) 50%,var(--line))}
 /* Board: what's new at your schools */
 .bpulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;overflow:hidden}
 .bpulse-h{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 12%,var(--surface)),var(--surface) 70%);border:none;width:100%;text-align:left;color:var(--ink);font:inherit}
@@ -2549,7 +2566,7 @@ function pulseSection(rec){
   return `<section id="pulse" class="pulse" data-pulse-root="${esc(id)}">
     <div class="pulse-head"><h2>📰 Campus Pulse</h2>
       <div class="pulse-sub">What's happening at ${esc(rec.name)} right now — straight from the school, its admissions office and its calendar.</div>
-      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div>${(()=>{ const x=pulseNudge(catInfo(id)); return x?`<button class="pt-nudge in-detail ${x.days<=14?"urgent":""}" data-nav-deadlines>⏰ <b>${esc(x.kind)}</b> deadline ${esc(nudgeText(x))} <span>(${esc(_fmtD(x.date))})</span></button>`:""; })()}<div data-pulse-ask></div></div>
+      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div><div data-pulse-ask></div></div>
     <div class="ptabs" data-pulse-tabs></div>
     <div class="pbody" data-pulse-news="${esc(id)}"><div class="pskel" style="width:92%"></div><div class="pskel" style="width:76%"></div><div class="pskel" style="width:84%"></div></div>
     <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links" data-pulse-voices>${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
@@ -2666,43 +2683,67 @@ function pulseNudge(info){ const n=info?nextDeadline(info):null; if(!n) return n
   if(days==null || days<0 || days>45) return null; return {kind:n.kind, date:n.date, days}; }
 function nudgeText(x){ return x.days===0?"today":x.days===1?"tomorrow":`in ${x.days} days`; }
 /* The Pulse tab */
-let ptSchool="all", ptMore=false;
+let ptSchool="all", ptMore=false, ptView="new";
+/* #45 Pulse: hide stories you've read, save ones to keep. Per person, on this device (keyed by account). */
+function ptKey(k){ return _tripKey("zc_pulse_"+k); }
+function ptSet(k){ try{ return new Set(JSON.parse(localStorage.getItem(ptKey(k))||"[]")); }catch(e){ return new Set(); } }
+function ptSave(k,set){ try{ localStorage.setItem(ptKey(k), JSON.stringify([...set].slice(-400))); }catch(e){} }
+function ptSavedItems(){ try{ return JSON.parse(localStorage.getItem(ptKey("saveditems"))||"{}"); }catch(e){ return {}; } }
+function ptToggle(kind, x){ const set=ptSet(kind); const k=x.link; const on=!set.has(k); if(on) set.add(k); else set.delete(k); ptSave(kind,set);
+  if(kind==="saved"){ const it=ptSavedItems(); if(on) it[k]={title:x.title,link:x.link,date:x.date,kind:x.kind,topic:x.topic,school:x.school}; else delete it[k]; try{ localStorage.setItem(ptKey("saveditems"),JSON.stringify(it)); }catch(e){} }
+  return on; }
 function renderPulseTab(){
   const el=$("pt-out"); if(!el) return;
   const {ids,d}=pulseData(); updatePulseNav(d);
   if(!ids.length){ el.innerHTML=`<div class="card pt-empty"><b>Add schools to your board to see their news here.</b><div class="muted" style="margin:6px 0 12px;font-size:13px">Pulse follows each school's own news, admissions office and campus calendar.</div><button class="primary small" data-pt-go="explore">Browse schools</button></div>`; wirePt(el); return; }
   const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
-  // Deadlines coming up (nudges)
-  const nudges=state.schools.map(s=>({id:s.school_id,x:pulseNudge(catInfo(s.school_id))})).filter(o=>o.x).sort((a,b)=>a.x.days-b.x.days).slice(0,3);
-  const nudgeHtml = nudges.length ? `<div class="pt-card pt-nudges"><div class="pulse-h">⏰ Deadlines coming up</div>${nudges.map(o=>`<button class="pt-nudge ${o.x.days<=14?"urgent":""}" data-pt-go="deadlines"><b>${esc(name(o.id))}</b> <span>${esc(o.x.kind)} · ${esc(_fmtD(o.x.date))}</span><span class="pt-when">${esc(nudgeText(o.x))}</span></button>`).join("")}</div>` : "";
-  if(!d){ el.innerHTML = nudgeHtml + `<div class="pt-card"><div class="pmeter"><span class="pdot active"></span><span class="muted">Checking your ${ids.length} school${ids.length>1?"s":""}…</span></div><div class="pskel" style="width:92%"></div><div class="pskel" style="width:70%"></div><div class="pskel" style="width:84%"></div></div>`; wirePt(el); return; }
+  if(!d){ el.innerHTML = `<div class="pt-card"><div class="pmeter"><span class="pdot active"></span><span class="muted">Checking your ${ids.length} school${ids.length>1?"s":""}…</span></div><div class="pskel" style="width:92%"></div><div class="pskel" style="width:70%"></div><div class="pskel" style="width:84%"></div></div>`; wirePt(el); return; }
   const S=d.schools||{};
   const live=ids.filter(id=>S[id] && ((S[id].stories||S[id].top||[]).length || (S[id].visits||[]).length));
   const waiting=ids.filter(id=>!S[id] && !(d.none||[]).includes(id) && pulseDigest.busy);
   const notConnected=ids.filter(id=>(d.none||[]).includes(id));
   const quiet=ids.filter(id=>S[id] && !live.includes(id));
-  const week=live.reduce((t,id)=>t+newThisWeek(S[id]),0);
+  const hidden=ptSet("hidden"), saved=ptSet("saved");
+  const all=live.flatMap(id=>(S[id].stories||S[id].top||[]).map(x=>({...x,school:id}))).filter(x=>x.date);
+  const week=all.filter(x=>Date.now()-Date.parse(x.date)<PULSE_WEEK && !hidden.has(x.link)).length;
   const visits=live.flatMap(id=>(S[id].visits||[]).map(x=>({...x,school:id}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
   const visitHtml = visits.length ? `<div class="pt-card"><div class="pulse-h">🎟 Visit days &amp; open houses</div>${visits.map(x=>{ const dd=_evDate(x.date); return `<div class="pt-visit"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
       <span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button><a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta">${esc(_evWhen(x))}${x.where?` · ${esc(x.where)}`:""}</span></span>${tripAddBtn(x.school)}</div>`; }).join("")}</div>` : "";
   if(ptSchool!=="all" && !live.includes(ptSchool)) ptSchool="all";
-  const stories=live.flatMap(id=>(S[id].stories||S[id].top||[]).map(x=>({...x,school:id}))).filter(x=>x.date && (ptSchool==="all"||x.school===ptSchool)).sort((a,b)=>b.date.localeCompare(a.date));
-  const shown=ptMore?stories:stories.slice(0,10);
-  const chips = live.length>1 ? `<div class="ptabs pt-chips"><button class="ptab ${ptSchool==="all"?"on":""}" data-pt-school="all">All<span class="n">${live.reduce((t,id)=>t+(S[id].stories||S[id].top||[]).length,0)}</span></button>${live.map(id=>`<button class="ptab ${ptSchool===id?"on":""}" data-pt-school="${esc(id)}">${esc(name(id))}${newThisWeek(S[id])?`<span class="pdot active mini"></span>`:""}</button>`).join("")}</div>` : "";
-  const feed = stories.length ? shown.map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
-      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span>${Date.now()-Date.parse(x.date)<PULSE_WEEK?`<span class="ptag pt-new">New</span>`:""}</span></span></div>`).join("")
-      + (stories.length>10?`<button class="pmore" data-pt-more>${ptMore?"Show less":`Show all ${stories.length}`}</button>`:"")
-    : `<div class="pempty">${live.length?"Nothing new from your schools right now.":"None of your schools' feeds are connected yet — we're adding schools every week."}</div>`;
+  // which stories: new (not hidden) · saved (kept even after they leave the feed) · sports · hidden
+  let list;
+  if(ptView==="saved"){ const it=ptSavedItems(); list=[...saved].map(k=>it[k]).filter(Boolean); }
+  else if(ptView==="hidden") list=all.filter(x=>hidden.has(x.link));
+  else if(ptView==="sports") list=all.filter(x=>x.topic==="Sports" && !hidden.has(x.link));
+  else list=all.filter(x=>!hidden.has(x.link));
+  list=list.filter(x=>ptSchool==="all"||x.school===ptSchool).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const shown=ptMore?list:list.slice(0,12);
+  const cnt={new:all.filter(x=>!hidden.has(x.link)).length, saved:saved.size, sports:all.filter(x=>x.topic==="Sports"&&!hidden.has(x.link)).length, hidden:all.filter(x=>hidden.has(x.link)).length};
+  const views=`<div class="ptabs pt-views">${[["new","Latest"],["saved","☆ Saved"],["sports","🏟 Sports"],["hidden","Hidden"]].filter(([k])=>k==="new"||k==="saved"||cnt[k]).map(([k,l])=>`<button class="ptab ${ptView===k?"on":""}" data-pt-view="${k}">${l}<span class="n">${cnt[k]}</span></button>`).join("")}</div>`;
+  const chips = live.length>1 ? `<div class="pt-schools"><select class="pt-school-sel" data-pt-school-sel aria-label="Filter by school"><option value="all">All ${live.length} schools</option>${live.map(id=>`<option value="${esc(id)}" ${ptSchool===id?"selected":""}>${esc(name(id))}${newThisWeek(S[id])?" •":""}</option>`).join("")}</select></div>` : "";
+  const tile=x=>{ const info=catInfo(x.school)||{}; const u=photoUrlFor(info); const isNew=Date.now()-Date.parse(x.date)<PULSE_WEEK; const sv=saved.has(x.link), hd=hidden.has(x.link);
+    return `<article class="pt-tile ${isNew&&!hd?"is-new":""}"><div class="pt-tile-top"><span class="pt-tile-th" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(name(x.school),info.state,"78%")}`}"></span>
+      <button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button><span class="pt-ago">${esc(_ago(x.date))}</span></div>
+      <a class="pt-tile-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a>
+      <div class="pt-tile-foot"><span class="ptag k-${esc(x.kind)}">${esc((PULSE_KIND[x.kind]||{label:"News"}).label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}${isNew&&!hd?`<span class="ptag pt-new">New</span>`:""}
+        <span class="pt-acts"><button class="pt-act ${sv?"on":""}" data-pt-save="${esc(x.link)}" aria-pressed="${sv}" title="${sv?"Saved":"Save"}">${sv?"★ Saved":"☆ Save"}</button><button class="pt-act" data-pt-hide="${esc(x.link)}" title="${hd?"Show again":"Hide (read)"}">${hd?"↩ Unhide":"✓ Read"}</button></span></div></article>`; };
+  const emptyMsg = ptView==="saved" ? "Nothing saved yet — tap ☆ Save on a story to keep it here." : ptView==="hidden" ? "Nothing hidden." : (live.length?"You're all caught up. Stories you mark ✓ Read move to Hidden.":"None of your schools' feeds are connected yet — we're adding schools every week.");
+  const feed = list.length ? `<div class="pt-tiles">${shown.map(tile).join("")}</div>` + (list.length>12?`<button class="pmore" data-pt-more>${ptMore?"Show less":`Show all ${list.length}`}</button>`:"") : `<div class="pempty">${emptyMsg}</div>`;
   const status=`<div class="pmeter"><span class="pdot ${week?"active":"steady"}"></span><b>${week?`${week} new this week`:"All caught up"}</b><span class="sep">·</span><span class="muted">live from ${live.length} of your ${ids.length} schools</span></div>`;
   const nc = notConnected.length||quiet.length ? `<div class="pt-nc"><b>Not connected yet:</b> ${[...notConnected,...quiet].map(id=>`<button class="pt-ncs" data-pulse-open="${esc(id)}">${esc(name(id))}</button>`).join(", ")}. <span class="muted">We're connecting more schools every week. Their Pulse page still has student links.</span></div>` : "";
-  el.innerHTML = nudgeHtml + visitHtml + `<div class="pt-card pt-main">${status}${chips}<div class="pt-feed">${feed}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
-    + `<div id="pt-weekly"></div>`
-    + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Tap a school name for its full Pulse.</div>`;
-  wirePt(el); renderPulseWeekly();
+  el.innerHTML = `<div class="pt-card pt-main">${status}<div class="pt-bar">${views}${chips}</div><div class="pt-feed">${feed}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
+    + visitHtml + `<div id="pt-weekly"></div>`
+    + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Saved and read marks are kept on this device. Tap a school name for its full Pulse.</div>`;
+  wirePt(el, all); renderPulseWeekly();
 }
-function wirePt(el){
+function wirePt(el, all){
   el.querySelectorAll("[data-pt-go]").forEach(b=>b.onclick=()=>goto(b.dataset.ptGo));
   el.querySelectorAll("[data-pt-school]").forEach(b=>b.onclick=()=>{ ptSchool=b.dataset.ptSchool; ptMore=false; renderPulseTab(); });
+  const ss=el.querySelector("[data-pt-school-sel]"); if(ss) ss.onchange=()=>{ ptSchool=ss.value; ptMore=false; renderPulseTab(); };
+  el.querySelectorAll("[data-pt-view]").forEach(b=>b.onclick=()=>{ ptView=b.dataset.ptView; ptMore=false; renderPulseTab(); });
+  const find=k=>(all||[]).find(x=>x.link===k) || ptSavedItems()[k] || {link:k};
+  el.querySelectorAll("[data-pt-save]").forEach(b=>b.onclick=()=>{ ptToggle("saved", find(b.dataset.ptSave)); renderPulseTab(); });
+  el.querySelectorAll("[data-pt-hide]").forEach(b=>b.onclick=()=>{ ptToggle("hidden", find(b.dataset.ptHide)); renderPulseTab(); });
   const m=el.querySelector("[data-pt-more]"); if(m) m.onclick=()=>{ ptMore=!ptMore; renderPulseTab(); };
 }
 /* Weekly Pulse email (#34): each person's own switch, off until they turn it on. Needs migration 011. */
@@ -3357,6 +3398,21 @@ async function renderReminderCard(rows){
     try{ await saveReminderPref(!on); _remind={email_on:!on, uid:state.me.user_id}; renderReminderCard(rows); }
     catch(e){ b.disabled=false; $("dl-remind-msg").textContent="Couldn't save that — try again in a moment."; } };
 }
+/* #45 Past deadlines: what already passed this cycle — submitted, or missed (and whether a later round is still open). */
+function pastDeadlinesHtml(rows){
+  const today=new Date(); today.setHours(0,0,0,0); const cycleStart=new Date(2026,7,1);
+  const items=[];
+  for(const r of rows){ const L=deadlineList(r.info); const chk=getChecklist(r.rec.school_id);
+    for(const x of L){ if(x.date<today && x.date>=cycleStart){ const later=L.find(y=>y.date>=today); items.push({name:r.rec.name, kind:x.kind, date:x.date, submitted:!!chk["Submitted"], later}); } } }
+  if(!items.length) return "";
+  items.sort((a,b)=>b.date-a.date);
+  const recent=items.some(i=>(today-i.date)/86400000<=14);
+  return `<details class="card dl-past" ${recent?"open":""}><summary><b>Past deadlines</b> <span class="muted" style="font-size:12.5px">· ${items.length} this cycle${items.some(i=>!i.submitted)?` · ${items.filter(i=>!i.submitted).length} not marked submitted`:""}</span></summary>
+    ${items.map(i=>`<div class="dl-past-row"><div style="min-width:0;flex:1"><b>${esc(i.name)}</b> <span class="muted">· ${esc(i.kind)} · ${esc(_fmtD(i.date))}</span>
+      ${!i.submitted&&i.later?`<div class="dl-past-next">Still open: ${esc(i.later.kind)} · ${esc(_fmtD(i.later.date))}</div>`:""}</div>
+      <span class="dl-past-tag ${i.submitted?"ok":"missed"}">${i.submitted?"✓ Submitted":"Missed?"}</span></div>`).join("")}
+    <p class="muted" style="font-size:11.5px;margin:8px 0 0">"Submitted" comes from each school's checklist above — tick it when you apply.</p></details>`;
+}
 function renderDeadlines(){
   const out=$("dl-out");
   const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
@@ -3393,7 +3449,7 @@ function renderDeadlines(){
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
         <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
       </div></div></div>`;
-  }).join("");
+  }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(p=>p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); }); });

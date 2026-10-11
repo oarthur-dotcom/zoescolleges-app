@@ -49,7 +49,7 @@ async function run(vp, label, dark) {
   // Pulse tab
   await page.click(vp.width <= 640 ? '#tabbar [data-nav="pulse"]' : '#appnav .navbtn[data-nav="pulse"]'); await page.waitForTimeout(700);
   out.tabText = await page.evaluate(() => document.getElementById('pt-out').innerText.replace(/\s+/g, ' ').slice(0, 1400));
-  out.feedOrder = await page.evaluate(() => [...document.querySelectorAll('.pt-feed .bp-t')].map(a => a.textContent.slice(0, 50)));
+  out.feedOrder = await page.evaluate(() => [...document.querySelectorAll('.pt-feed .pt-tile-t')].map(a => a.textContent.slice(0, 50)));
   out.visits = await page.evaluate(() => [...document.querySelectorAll('#pt-out .pt-visit')].map(x => x.innerText.replace(/\s+/g, ' ').slice(0, 120)));
   out.nudges = await page.evaluate(() => [...document.querySelectorAll('#pt-out .pt-nudge')].map(x => x.innerText.replace(/\s+/g, ' ')));
   out.notConnected = await page.evaluate(() => (document.querySelector('.pt-nc') || {}).innerText || '');
@@ -57,9 +57,9 @@ async function run(vp, label, dark) {
   out.audit = await audit(page, '#v-pulse');
   await page.screenshot({ path: `${SHOTS}${label}-pulse-tab.png`, fullPage: true });
   // school filter chip
-  await page.evaluate(() => document.querySelector('[data-pt-school="college-of-charleston"]').click()); await page.waitForTimeout(200);
+  await page.selectOption('[data-pt-school-sel]', 'college-of-charleston'); await page.waitForTimeout(200);
   out.filtered = await page.evaluate(() => [...document.querySelectorAll('.pt-feed .bp-school')].map(a => a.textContent));
-  await page.evaluate(() => document.querySelector('[data-pt-school="all"]').click());
+  await page.selectOption('[data-pt-school-sel]', 'all'); await page.waitForTimeout(150);
   // add a visit day to Trips
   await page.evaluate(() => document.querySelector('#pt-out [data-trip-add="college-of-charleston"]').click()); await page.waitForTimeout(150);
   out.tripAdded = await page.evaluate(() => getTrip().has('college-of-charleston') && document.querySelector('#pt-out [data-trip-add="college-of-charleston"]').textContent);
@@ -73,7 +73,7 @@ async function run(vp, label, dark) {
     out.nudgeOpensDeadlines = await page.evaluate(() => !document.getElementById('v-deadlines').classList.contains('hidden')); }
   // school page: nudge + visit day + add to trips
   await page.evaluate(() => goto('pulse')); await page.waitForTimeout(300);
-  await page.evaluate(() => document.querySelector('.pt-feed .bp-school[data-pulse-open="sc-166683"]').click()); await page.waitForTimeout(1600);
+  await page.evaluate(() => document.querySelector('.pt-feed [data-pulse-open="sc-166683"]').click()); await page.waitForTimeout(1600);
   out.detailVisit = await page.evaluate(() => [...document.querySelectorAll('#pulse .pt-visit')].map(x => x.innerText.replace(/\s+/g, ' ')));
   out.detailFirstEvent = await page.evaluate(() => { const h = [...document.querySelectorAll('#pulse .pulse-item')].map(x => x.innerText.replace(/\s+/g, ' ')); return h.filter(t => /tour|concert/i.test(t)).slice(0, 2); });
   out.detailAudit = await audit(page, '#pulse');
@@ -99,6 +99,7 @@ for (const [k, o] of Object.entries(R)) {
   ok[k + '.addToTrips'] = o.tripAdded === '✓ In Trips' && /Trips · 1/.test(o.tripNav);
   ok[k + '.weeklySwitch'] = /Turn on/.test(o.weeklyCard) && o.weeklyWrite === '[{"op":"upsert","on":true,"hasEmailOn":false}]' && /Turn off/.test(o.weeklyAfter);
   ok[k + '.detailVisitDayFirst'] = o.detailVisit.length === 1 && /Visit day/.test(o.detailVisit[0]) && /Add to Trips|In Trips/.test(o.detailVisit[0]);
+  ok[k + '.noDeadlinesOnPulse'] = o.nudges.length === 0 && !/Deadlines coming up/.test(o.tabText) && o.clemsonNudge === 'none';
   ok[k + '.noPageErrors'] = !o.errors.length;
   ok[k + '.noSidewaysScroll'] = !o.audit.overflowX && !o.detailAudit.overflowX;
   ok[k + '.noBadText'] = !o.audit.bad.length && !o.detailAudit.bad.length;
