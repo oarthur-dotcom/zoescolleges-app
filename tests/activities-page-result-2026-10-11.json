@@ -1,0 +1,269 @@
+{
+ "desktop": {
+  "empty": "No activities yet. Add clubs, sports, a job, volunteering, family responsibilities, research — up to 10, most important first, just like the Common App.",
+  "addLabel": "+ Add your first activity",
+  "sportIsDropdown": "SELECT:36",
+  "unsaved": "Unsaved changes — tap Done or Save activities",
+  "afterFirst": [
+   "1 🏅 Rugby (JV/Varsity) — Captain Gr 10–12 · 20 hr/wk · 36 wk/yr ↑ ↓"
+  ],
+  "saved1": [
+   {
+    "name": "Rugby (JV/Varsity) — Captain",
+    "category": "Athletics: JV/Varsity",
+    "tier": 3,
+    "hrs": "20",
+    "yrs": "3",
+    "grades": [
+     "10",
+     "11",
+     "12"
+    ],
+    "timing": "During school year",
+    "sport": "Rugby",
+    "position": "Captain",
+    "weeks": "36",
+    "desc": "Led warmups; team made the state quarterfinals."
+   }
+  ],
+  "status1": "✓ Saved — 1 activity on your profile",
+  "saved2": [
+   "Rugby (JV/Varsity) — Captain",
+   "Work (Paid)"
+  ],
+  "addLabel2": "+ Add another activity | 2 of 10",
+  "saved3": [
+   "Work (Paid)",
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "saved4": [
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "mapped": [
+   "1 🏅 Soccer (JV/Varsity) 3 yr · 10 hr/wk ↑ ↓",
+   "2 🤖 Robotics Tap to add details ↑ ↓"
+  ],
+  "max": "10 | 10 of 10 — that's the Common App max",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "↑ 36x36",
+    "↓ 36x36",
+    "✕ 31x27",
+    "AcademicArtAthletics: ClubAthletics: JV/ 560x38",
+    "Choose…Member / participantStarterCaptai 560x38",
+    "Participant / memberSchool leadership /  560x38",
+    "e.g. Lincoln High School, Habitat for Hu 560x38",
+    "9 108x36",
+    "10 108x36",
+    "11 108x36",
+    "12 108x36",
+    "PG 108x36",
+    "During school yearDuring school breakAll 560x38",
+    "Choose…12345681012152025303540+ 560x38",
+    "Choose…1246810121620263036404552 560x38",
+    "Not sureYesNo 560x38",
+    "#pf-save2 Save activities 117x32"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "phone": {
+  "empty": "No activities yet. Add clubs, sports, a job, volunteering, family responsibilities, research — up to 10, most important first, just like the Common App.",
+  "addLabel": "+ Add your first activity",
+  "sportIsDropdown": "SELECT:36",
+  "unsaved": "Unsaved changes — tap Done or Save activities",
+  "afterFirst": [
+   "1 🏅 Rugby (JV/Varsity) — Captain Gr 10–12 · 20 hr/wk · 36 wk/yr ↑ ↓"
+  ],
+  "saved1": [
+   {
+    "name": "Rugby (JV/Varsity) — Captain",
+    "category": "Athletics: JV/Varsity",
+    "tier": 3,
+    "hrs": "20",
+    "yrs": "3",
+    "grades": [
+     "10",
+     "11",
+     "12"
+    ],
+    "timing": "During school year",
+    "sport": "Rugby",
+    "position": "Captain",
+    "weeks": "36",
+    "desc": "Led warmups; team made the state quarterfinals."
+   }
+  ],
+  "status1": "✓ Saved — 1 activity on your profile",
+  "saved2": [
+   "Rugby (JV/Varsity) — Captain",
+   "Work (Paid)"
+  ],
+  "addLabel2": "+ Add another activity | 2 of 10",
+  "saved3": [
+   "Work (Paid)",
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "saved4": [
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "mapped": [
+   "1 🏅 Soccer (JV/Varsity) 3 yr · 10 hr/wk ↑ ↓",
+   "2 🤖 Robotics Tap to add details ↑ ↓"
+  ],
+  "max": "10 | 10 of 10 — that's the Common App max",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "↑ 36x36",
+    "↓ 36x36",
+    "✕ 31x27",
+    "AcademicArtAthletics: ClubAthletics: JV/ 292x38",
+    "Choose…Member / participantStarterCaptai 292x38",
+    "Participant / memberSchool leadership /  292x38",
+    "e.g. Lincoln High School, Habitat for Hu 292x38",
+    "9 54x36",
+    "10 54x36",
+    "11 54x36",
+    "12 54x36",
+    "PG 54x36",
+    "During school yearDuring school breakAll 292x38",
+    "Choose…12345681012152025303540+ 292x38",
+    "Choose…1246810121620263036404552 292x38",
+    "Not sureYesNo 292x38",
+    "#pf-save2 Save activities 117x32"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "dark": {
+  "empty": "No activities yet. Add clubs, sports, a job, volunteering, family responsibilities, research — up to 10, most important first, just like the Common App.",
+  "addLabel": "+ Add your first activity",
+  "sportIsDropdown": "SELECT:36",
+  "unsaved": "Unsaved changes — tap Done or Save activities",
+  "afterFirst": [
+   "1 🏅 Rugby (JV/Varsity) — Captain Gr 10–12 · 20 hr/wk · 36 wk/yr ↑ ↓"
+  ],
+  "saved1": [
+   {
+    "name": "Rugby (JV/Varsity) — Captain",
+    "category": "Athletics: JV/Varsity",
+    "tier": 3,
+    "hrs": "20",
+    "yrs": "3",
+    "grades": [
+     "10",
+     "11",
+     "12"
+    ],
+    "timing": "During school year",
+    "sport": "Rugby",
+    "position": "Captain",
+    "weeks": "36",
+    "desc": "Led warmups; team made the state quarterfinals."
+   }
+  ],
+  "status1": "✓ Saved — 1 activity on your profile",
+  "saved2": [
+   "Rugby (JV/Varsity) — Captain",
+   "Work (Paid)"
+  ],
+  "addLabel2": "+ Add another activity | 2 of 10",
+  "saved3": [
+   "Work (Paid)",
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "saved4": [
+   "Rugby (JV/Varsity) — Captain"
+  ],
+  "mapped": [
+   "1 🏅 Soccer (JV/Varsity) 3 yr · 10 hr/wk ↑ ↓",
+   "2 🤖 Robotics Tap to add details ↑ ↓"
+  ],
+  "max": "10 | 10 of 10 — that's the Common App max",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "↑ 36x36",
+    "↓ 36x36",
+    "✕ 31x27",
+    "AcademicArtAthletics: ClubAthletics: JV/ 292x38",
+    "Choose…Member / participantStarterCaptai 292x38",
+    "Participant / memberSchool leadership /  292x38",
+    "e.g. Lincoln High School, Habitat for Hu 292x38",
+    "9 54x36",
+    "10 54x36",
+    "11 54x36",
+    "12 54x36",
+    "PG 54x36",
+    "During school yearDuring school breakAll 292x38",
+    "Choose…12345681012152025303540+ 292x38",
+    "Choose…1246810121620263036404552 292x38",
+    "Not sureYesNo 292x38",
+    "#pf-save2 Save activities 117x32"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "desktop.emptyStateClear": true,
+  "desktop.sportIsDropdown": true,
+  "desktop.showsUnsaved": true,
+  "desktop.doneSavesAndCollapses": true,
+  "desktop.commonAppFieldsSaved": true,
+  "desktop.untypedActivityKept": true,
+  "desktop.addAnotherClear": true,
+  "desktop.reorderSaved": true,
+  "desktop.removeSaved": true,
+  "desktop.oldEntriesMapped": true,
+  "desktop.tenMax": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop.noBadText": true,
+  "phone.emptyStateClear": true,
+  "phone.sportIsDropdown": true,
+  "phone.showsUnsaved": true,
+  "phone.doneSavesAndCollapses": true,
+  "phone.commonAppFieldsSaved": true,
+  "phone.untypedActivityKept": true,
+  "phone.addAnotherClear": true,
+  "phone.reorderSaved": true,
+  "phone.removeSaved": true,
+  "phone.oldEntriesMapped": true,
+  "phone.tenMax": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone.noBadText": true,
+  "dark.emptyStateClear": true,
+  "dark.sportIsDropdown": true,
+  "dark.showsUnsaved": true,
+  "dark.doneSavesAndCollapses": true,
+  "dark.commonAppFieldsSaved": true,
+  "dark.untypedActivityKept": true,
+  "dark.addAnotherClear": true,
+  "dark.reorderSaved": true,
+  "dark.removeSaved": true,
+  "dark.oldEntriesMapped": true,
+  "dark.tenMax": true,
+  "dark.noErrors": true,
+  "dark.noSidewaysScroll": true,
+  "dark.noBadText": true
+ },
+ "allPass": true
+}
