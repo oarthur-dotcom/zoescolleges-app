@@ -41,6 +41,7 @@
     "#signout Sign out 78x32",
     "Today 70x31",
     "My Board 96x31",
+    "💬 Talk It Out 119x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -54,7 +55,9 @@
     "+ Add offer 65x18",
     "#offer-upload ＋ Add an aid letter 145x34"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.navbtn# right=1283"
+   ],
    "dashCount": 3
   },
   "errors": []

@@ -1,0 +1,376 @@
+{
+ "phone": {
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from Obie, Zoe. 🗳 0 of 2 voted on the secret ballot.\nShare your voice\n🗳 Secret ballot",
+  "view": "talk",
+  "kind": [
+   "“you never listen” → “I'd love to feel heard about this”\n(asks for what you need)\nUse",
+   "“I hate” → “I'm not drawn to”\n(sounds softer and keeps the door open)\nUse"
+  ],
+  "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
+  "starters": 6,
+  "blank": "I'm a little worried about ___ — can we look into it together?",
+  "blankMsg": "Fill in the blank (___) with your own words first.",
+  "saved": {
+   "kind": "voice",
+   "feel": "worry",
+   "school": "college-of-charleston",
+   "body": "I'm not drawn to the humidity and I'd love to feel heard about this",
+   "movie": true
+  },
+  "shown": [
+   "O Obie (you) Obie 🤔 What worries me · just now 🎬 I'm not drawn to the humidity and I'd love to feel heard about this Remove from movie Del",
+   "Z Zoe Hasn't shared yet. Invite them to share"
+  ],
+  "react": {
+   "w": 1,
+   "on": true
+  },
+  "after1": {
+   "status": "1 of 2 have voted · ✓ Obie · waiting on Zoe",
+   "hidden": true,
+   "mine": [
+    "college-of-charleston",
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "results": {
+   "pick": "🏆 Family pick this round: College of Charleston",
+   "rows": [
+    "College of Charleston 🤝 You all agree Obie: #1 Zoe: #2",
+    "Massachusetts Institute of Technology 🤝 You all agree Obie: #2 Zoe: #1",
+    "University of Vermont 👍 Close Obie: #3 Zoe: —"
+   ],
+   "talkBtns": 0
+  },
+  "newRound": {
+   "voted": 0,
+   "form": true
+  },
+  "thread": {
+   "posts": 3,
+   "replies": 1,
+   "agree": 1,
+   "rows": [
+    "voice::college-of-charleston",
+    "voice::college-of-charleston",
+    "post::college-of-charleston",
+    "post:reply:college-of-charleston",
+    "agreement::college-of-charleston"
+   ]
+  },
+  "moments": {
+   "n": 3,
+   "agree": 1
+  },
+  "detail": "💬 FAMILY VOICES\n🤔 Obie: I'm not drawn to the humidity and I'd love to feel heard about this\n💛 Zoe: Downtown felt like my kind of place.\nAdd your voice",
+  "detailGo": "talk|college-of-charleston|voices",
+  "xss": false,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "College of Charleston 2/2 188x38",
+    "Massachusetts Institute of Technology 0/ 294x38",
+    "University of Vermont 0/2 188x38",
+    "Clemson University 0/2 173x38",
+    "Newman University 0/2 174x38",
+    "West Virginia University Institute of Te 348x38",
+    "Remove from movie 118x18",
+    "Delete 37x18",
+    "💛 I hear you · 1 110x24",
+    "🤝 Fair point 95x24",
+    "❓ Tell me more 113x24",
+    "💛 I hear you 97x24",
+    "💛 What I love 112x38",
+    "🤔 What worries me 153x38",
+    "💭 What I'm wondering 168x38",
+    "🧭 What I need 118x38",
+    "#tk-words 💡 Need words? 95x18",
+    "#tk-movie on 20x20"
+   ],
+   "wide": [],
+   "dashCount": 2
+  },
+  "errors": [],
+  "demo": {
+   "voices": 3
+  },
+  "demoBallot": "2 of 3 have voted · ✓ Mom, ✓ Dad · waiting on Maya",
+  "demoAgree": 1,
+  "errors2": []
+ },
+ "desktop": {
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from Obie, Zoe. 🗳 0 of 2 voted on the secret ballot.\nShare your voice\n🗳 Secret ballot",
+  "view": "talk",
+  "kind": [
+   "“you never listen” → “I'd love to feel heard about this”\n(asks for what you need)\nUse",
+   "“I hate” → “I'm not drawn to”\n(sounds softer and keeps the door open)\nUse"
+  ],
+  "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
+  "starters": 6,
+  "blank": "I wonder if ___ would be too much, too soon.",
+  "blankMsg": "Fill in the blank (___) with your own words first.",
+  "saved": {
+   "kind": "voice",
+   "feel": "worry",
+   "school": "college-of-charleston",
+   "body": "I'm not drawn to the humidity and I'd love to feel heard about this",
+   "movie": true
+  },
+  "shown": [
+   "O Obie (you) Obie 🤔 What worries me · just now 🎬 I'm not drawn to the humidity and I'd love to feel heard about this Remove from movie Del",
+   "Z Zoe Hasn't shared yet. Invite them to share"
+  ],
+  "react": {
+   "w": 1,
+   "on": true
+  },
+  "after1": {
+   "status": "1 of 2 have voted · ✓ Obie · waiting on Zoe",
+   "hidden": true,
+   "mine": [
+    "college-of-charleston",
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "results": {
+   "pick": "🏆 Family pick this round: College of Charleston",
+   "rows": [
+    "College of Charleston 🤝 You all agree Obie: #1 Zoe: #2",
+    "Massachusetts Institute of Technology 🤝 You all agree Obie: #2 Zoe: #1",
+    "University of Vermont 👍 Close Obie: #3 Zoe: —"
+   ],
+   "talkBtns": 0
+  },
+  "newRound": {
+   "voted": 0,
+   "form": true
+  },
+  "thread": {
+   "posts": 3,
+   "replies": 1,
+   "agree": 1,
+   "rows": [
+    "voice::college-of-charleston",
+    "voice::college-of-charleston",
+    "post::college-of-charleston",
+    "post:reply:college-of-charleston",
+    "agreement::college-of-charleston"
+   ]
+  },
+  "moments": {
+   "n": 3,
+   "agree": 1
+  },
+  "detail": "💬 FAMILY VOICES\n🤔 Obie: I'm not drawn to the humidity and I'd love to feel heard about this\n💛 Zoe: Downtown felt like my kind of place.\nAdd your voice",
+  "detailGo": "talk|college-of-charleston|voices",
+  "xss": false,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "College of Charleston 2/2 188x38",
+    "Massachusetts Institute of Technology 0/ 294x38",
+    "University of Vermont 0/2 188x38",
+    "Clemson University 0/2 173x38",
+    "Newman University 0/2 174x38",
+    "West Virginia University Institute of Te 348x38",
+    "Remove from movie 118x18",
+    "Delete 37x18",
+    "💛 I hear you · 1 110x24",
+    "🤝 Fair point 95x24",
+    "❓ Tell me more 113x24",
+    "💛 I hear you 97x24",
+    "💛 What I love 112x38",
+    "🤔 What worries me 153x38",
+    "💭 What I'm wondering 168x38",
+    "🧭 What I need 118x38",
+    "#tk-words 💡 Need words? 95x18",
+    "#tk-movie on 13x13",
+    "#tk-save Share my voice 122x32"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1295"
+   ],
+   "dashCount": 2
+  },
+  "errors": [],
+  "demo": {
+   "voices": 3
+  },
+  "demoBallot": "2 of 3 have voted · ✓ Mom, ✓ Dad · waiting on Maya",
+  "demoAgree": 1,
+  "errors2": []
+ },
+ "phone-dark": {
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from Obie, Zoe. 🗳 0 of 2 voted on the secret ballot.\nShare your voice\n🗳 Secret ballot",
+  "view": "talk",
+  "kind": [
+   "“you never listen” → “I'd love to feel heard about this”\n(asks for what you need)\nUse",
+   "“I hate” → “I'm not drawn to”\n(sounds softer and keeps the door open)\nUse"
+  ],
+  "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
+  "starters": 6,
+  "blank": "I'm not sure yet about ___.",
+  "blankMsg": "Fill in the blank (___) with your own words first.",
+  "saved": {
+   "kind": "voice",
+   "feel": "worry",
+   "school": "college-of-charleston",
+   "body": "I'm not drawn to the humidity and I'd love to feel heard about this",
+   "movie": true
+  },
+  "shown": [
+   "O Obie (you) Obie 🤔 What worries me · just now 🎬 I'm not drawn to the humidity and I'd love to feel heard about this Remove from movie Del",
+   "Z Zoe Hasn't shared yet. Invite them to share"
+  ],
+  "react": {
+   "w": 1,
+   "on": true
+  },
+  "after1": {
+   "status": "1 of 2 have voted · ✓ Obie · waiting on Zoe",
+   "hidden": true,
+   "mine": [
+    "college-of-charleston",
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "results": {
+   "pick": "🏆 Family pick this round: College of Charleston",
+   "rows": [
+    "College of Charleston 🤝 You all agree Obie: #1 Zoe: #2",
+    "Massachusetts Institute of Technology 🤝 You all agree Obie: #2 Zoe: #1",
+    "University of Vermont 👍 Close Obie: #3 Zoe: —"
+   ],
+   "talkBtns": 0
+  },
+  "newRound": {
+   "voted": 0,
+   "form": true
+  },
+  "thread": {
+   "posts": 3,
+   "replies": 1,
+   "agree": 1,
+   "rows": [
+    "voice::college-of-charleston",
+    "voice::college-of-charleston",
+    "post::college-of-charleston",
+    "post:reply:college-of-charleston",
+    "agreement::college-of-charleston"
+   ]
+  },
+  "moments": {
+   "n": 3,
+   "agree": 1
+  },
+  "detail": "💬 FAMILY VOICES\n🤔 Obie: I'm not drawn to the humidity and I'd love to feel heard about this\n💛 Zoe: Downtown felt like my kind of place.\nAdd your voice",
+  "detailGo": "talk|college-of-charleston|voices",
+  "xss": false,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "College of Charleston 2/2 188x38",
+    "Massachusetts Institute of Technology 0/ 294x38",
+    "University of Vermont 0/2 188x38",
+    "Clemson University 0/2 173x38",
+    "Newman University 0/2 174x38",
+    "West Virginia University Institute of Te 348x38",
+    "Remove from movie 118x18",
+    "Delete 37x18",
+    "💛 I hear you · 1 110x24",
+    "🤝 Fair point 95x24",
+    "❓ Tell me more 113x24",
+    "💛 I hear you 97x24",
+    "💛 What I love 112x38",
+    "🤔 What worries me 153x38",
+    "💭 What I'm wondering 168x38",
+    "🧭 What I need 118x38",
+    "#tk-words 💡 Need words? 95x18",
+    "#tk-movie on 20x20"
+   ],
+   "wide": [],
+   "dashCount": 2
+  },
+  "errors": [],
+  "demo": {
+   "voices": 3
+  },
+  "demoBallot": "2 of 3 have voted · ✓ Mom, ✓ Dad · waiting on Maya",
+  "demoAgree": 1,
+  "errors2": []
+ },
+ "ok": {
+  "phone.todayCard": true,
+  "phone.kindWords": true,
+  "phone.starters": true,
+  "phone.voiceSaved": true,
+  "phone.reactions": true,
+  "phone.ballotSecretUntilAllVote": true,
+  "phone.ballotResults": true,
+  "phone.newRound": true,
+  "phone.talkThread": true,
+  "phone.moments": true,
+  "phone.schoolPage": true,
+  "phone.escaped": true,
+  "phone.sampleFamily": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.todayCard": true,
+  "desktop.kindWords": true,
+  "desktop.starters": true,
+  "desktop.voiceSaved": true,
+  "desktop.reactions": true,
+  "desktop.ballotSecretUntilAllVote": true,
+  "desktop.ballotResults": true,
+  "desktop.newRound": true,
+  "desktop.talkThread": true,
+  "desktop.moments": true,
+  "desktop.schoolPage": true,
+  "desktop.escaped": true,
+  "desktop.sampleFamily": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.todayCard": true,
+  "phone-dark.kindWords": true,
+  "phone-dark.starters": true,
+  "phone-dark.voiceSaved": true,
+  "phone-dark.reactions": true,
+  "phone-dark.ballotSecretUntilAllVote": true,
+  "phone-dark.ballotResults": true,
+  "phone-dark.newRound": true,
+  "phone-dark.talkThread": true,
+  "phone-dark.moments": true,
+  "phone-dark.schoolPage": true,
+  "phone-dark.escaped": true,
+  "phone-dark.sampleFamily": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

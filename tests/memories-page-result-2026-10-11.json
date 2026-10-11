@@ -3,6 +3,7 @@
   "nav": [
    "Today",
    "My Board",
+   "💬 Talk It Out",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
@@ -16,6 +17,7 @@
   ],
   "sheet": [
    "Schools",
+   "Talk It Out",
    "Zoe Picks",
    "Costs",
    "Compare",
@@ -78,6 +80,7 @@
   "nav": [
    "Today",
    "My Board",
+   "💬 Talk It Out",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
@@ -91,6 +94,7 @@
   ],
   "sheet": [
    "Schools",
+   "Talk It Out",
    "Zoe Picks",
    "Costs",
    "Compare",
@@ -145,6 +149,7 @@
     "#signout Sign out 78x32",
     "Today 70x31",
     "My Board 96x31",
+    "💬 Talk It Out 119x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -168,6 +173,7 @@
   "nav": [
    "Today",
    "My Board",
+   "💬 Talk It Out",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
@@ -181,6 +187,7 @@
   ],
   "sheet": [
    "Schools",
+   "Talk It Out",
    "Zoe Picks",
    "Costs",
    "Compare",

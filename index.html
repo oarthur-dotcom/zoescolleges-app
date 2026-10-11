@@ -861,6 +861,62 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 
 
+
+/* #60 Talk It Out */
+.tk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.tk-tab{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;cursor:pointer;min-height:40px}
+.tk-tab.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
+.tk-intro{font-size:13.5px;color:var(--muted);line-height:1.5;margin:0 0 12px}
+.tk-chips,.tk-pickgrid{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.tk-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer;min-height:38px}
+.tk-chip.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--surface));font-weight:700}
+.tk-chip:disabled{opacity:.45;cursor:default}
+.tk-n{font-size:11px;color:var(--muted);margin-left:4px}
+.tk-person{padding:10px 0;border-top:1px solid var(--line)}.tk-person:first-of-type{border-top:none}
+.tk-who{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tk-wait{font-size:13px}
+.tk-post{background:color-mix(in srgb,var(--teal) 5%,var(--surface));border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0}
+.tk-post.reply{margin-left:22px;background:var(--surface)}
+.tk-post.agree{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.tk-meta{font-size:12.5px}.tk-feel{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:4px}
+.tk-movie{font-size:12px}
+.tk-body{font-size:14.5px;line-height:1.5;margin:4px 0;white-space:pre-wrap}
+.tk-reacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.tk-react{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+.tk-react.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface))}
+.tk-react.static{cursor:default;color:var(--muted)}
+.tk-actions{display:flex;gap:12px;margin-top:4px}
+.tk-sh{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:12px 0 6px}
+.tk-compose textarea{width:100%;font-size:15px;line-height:1.45}
+.tk-feels{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tk-feelbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:13px;cursor:pointer;min-height:38px}
+.tk-feelbtn.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface));font-weight:700}
+.tk-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0}
+.tk-count{font-size:12px}
+.tk-starters,.tk-prompts{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.tk-starter{border:1px dashed var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 10px;font-size:12.5px;cursor:pointer;text-align:left}
+.tk-kind{font-size:12.5px}.tk-kindh{font-weight:700;color:var(--plum);margin-top:6px}
+.tk-kindrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}
+.tk-check{display:flex!important;gap:8px;align-items:center;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important;font-size:13px!important;color:var(--ink)!important;margin:8px 0!important}
+.tk-check input{width:auto}
+.tk-msg{font-size:12.5px;color:var(--warn);margin-top:4px}
+.tk-status{font-size:13px;margin:0 0 10px}
+.tk-order{margin:0 0 10px;padding-left:22px}.tk-order li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.tk-pick{font-size:16px;margin:4px 0 12px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--star) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--star) 40%,var(--line))}
+.tk-results{display:grid;gap:8px}
+.tk-res{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.tk-res-h{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.tk-lab{font-size:12px;border-radius:999px;padding:2px 9px;border:1px solid var(--line)}
+.tk-lab.agree{color:var(--good);border-color:var(--good)}.tk-lab.talk{color:var(--plum);border-color:var(--plum)}
+.tk-places{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.tk-place{font-size:12px;background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-radius:8px;padding:2px 8px}.tk-place.none{opacity:.55}
+.tk-replying{font-size:12.5px;color:var(--muted);margin:8px 0}
+.tk-moments{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.tk-moment{margin:0;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface)}
+.tk-moment.agreement{border-color:var(--good);background:color-mix(in srgb,var(--good) 8%,var(--surface))}
+.tk-moment blockquote{margin:0;font-size:15px;line-height:1.5}.tk-moment figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+.tk-dline{font-size:13px;margin:4px 0;line-height:1.45}
+#tk-topic{flex:1 1 180px;min-width:0;max-width:100%}
 /* #59 Board cleanup: the Board is just the list; guidance lives on Today */
 .bd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 .bd-title h1{margin:0 0 4px}
@@ -1095,6 +1151,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <nav class="appnav hidden" id="appnav">
     <button class="navbtn" data-nav="today">Today</button>
     <button class="navbtn" data-nav="board">My Board</button>
+    <button class="navbtn" data-nav="talk">💬 Talk It Out</button>
     <button class="navbtn" data-nav="explore">Schools</button>
     <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
     <button class="navbtn" data-nav="compare">Compare</button>
@@ -1119,6 +1176,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 <div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
   <div class="tb-sheet-in">
     <button class="tbs" data-nav="explore">🔎 <b>Schools</b><span>Search and explore all 3,180</span></button>
+    <button class="tbs" data-nav="talk">💬 <b>Talk It Out</b><span>Everyone's voice, secret ballot</span></button>
     <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
     <button class="tbs" data-nav="cost">💰 <b>Costs</b><span>Real cost across your list, and aid offers</span></button>
     <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
@@ -1520,6 +1578,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="td-out" class="td-grid"></div>
   </section>
 
+  <!-- TALK IT OUT (#60) -->
+  <section id="v-talk" class="hidden">
+    <h1>💬 Talk It Out</h1>
+    <p class="sub">A calm place for everyone's voice. Nobody has to win — the goal is to understand each other and decide together.</p>
+    <div id="talk-out"></div>
+  </section>
+
   <!-- CAMPUS PULSE (own tab, #34) -->
   <section id="v-pulse" class="hidden">
     <h1>📰 Campus Pulse</h1>
@@ -1708,7 +1773,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true };
+let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -1734,7 +1799,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1767,6 +1832,7 @@ function goto(view){
   else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
+  else if (view==="talk"){ show("v-talk"); setNavActive("talk"); renderTalk(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="report"){ show("v-report"); setNavActive(""); renderReport(); try{ scrollTo(0,0); }catch(e){} }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
@@ -1911,7 +1977,7 @@ async function loadFamily(){
     state.me = mem.find(m => m.user_id === uid);
     const { data: fams } = await sb.from("families").select("*").limit(1);
     state.family = fams && fams[0];
-    await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos()]);
+    await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos(), loadTalk(), loadBallot()]);
     computeNorms();
     goto("today");
   } catch(e){
@@ -2349,6 +2415,252 @@ function renderBalance(meta){
     <span class="calc-link" data-calc>How this works ▸</span>`;
 }
 /* ===== consolidated family report ===== */
+/* ===== Talk It Out (#60): everyone's voice, a secret ballot, and words that keep it kind.
+   No AI and no cost: the starters and gentle rewrites below are built in. ===== */
+const TALK_FEELS={ love:{ico:"💛",label:"What I love",ph:"What pulls you toward this school?"}, worry:{ico:"🤔",label:"What worries me",ph:"What gives you pause?"},
+  wonder:{ico:"💭",label:"What I'm wondering",ph:"What do you still want to know?"}, need:{ico:"🧭",label:"What I need",ph:"What would you need to feel good about it?"} };
+const KIND_STARTERS={
+ love:["I love that ___ because it feels like me.","The moment I knew I liked it was when ___.","I could picture myself ___ here.","What excites me most is ___.","I felt at home when ___.","I'd be proud to say I go to ___.","The people we met seemed ___, and that matters to me.","I keep thinking about ___ from our visit.","This school would help me grow by ___.","I love how ___ matches what I care about.","The campus made me feel ___.","I can see a real path to ___ here.","My favorite part was ___.","I'd look forward to ___ every day.","It checks a box that's really important to me: ___."],
+ worry:["I'm a little worried about ___ — can we look into it together?","Part of me hesitates because ___.","I want to be honest that ___ makes me nervous.","I'm not sure yet about ___.","My concern isn't the school itself, it's ___.","I'd feel better if we knew more about ___.","I worry ___ might be hard for me, and I want to talk about it.","The cost makes me pause because ___.","I'm torn: I like ___, but I'm unsure about ___.","I don't want to rule it out, I just need to understand ___.","Distance is on my mind because ___.","I wonder if ___ would be too much, too soon.","I'd hate to choose it only because ___.","I'm worried I'm missing something about ___.","Can we talk about ___ before we decide?"],
+ wonder:["I'm curious whether ___.","What would a normal day there look like for ___?","I wonder how ___ compares with ___.","Could we find out more about ___?","I'd love to hear from a current student about ___.","What would it take for ___ to work?","I'm wondering if ___ is a deal-breaker or just a question.","How would ___ change in four years?","I'd like to know how others feel about ___.","Is there a way to visit or talk with someone about ___?","I wonder what we'd regret if we skipped ___.","What do you think about ___?","Could we look at the numbers on ___ together?","I'd like to understand why ___ matters so much to you.","I'm curious what you noticed that I missed."],
+ need:["To feel good about this, I need ___.","What would really help me is ___.","I need us to agree on ___ before we decide.","It's important to me that ___.","I'd feel supported if ___.","I need a little time to think about ___.","For me to be comfortable, ___ has to be true.","I need to know we can afford ___ without stress.","What I need from you is ___.","I'd like us to make this choice together by ___.","I need to feel safe and welcome at ___.","It would help me to see ___ side by side.","I need my reasons to be heard about ___.","I'd like a plan for ___ if we choose it.","I need to know it's okay if I change my mind about ___."],
+ listen:["What I hear you saying is ___ — did I get that right?","That makes sense, and I hadn't thought about ___.","Thank you for telling me ___.","I can see why ___ matters to you.","Help me understand ___ a little more.","I respect that you feel ___.","You've made me rethink ___.","I hear you, and I still feel ___ — can we find a middle ground?","It sounds like the real worry is ___.","I appreciate you being honest about ___."],
+ bridge:["Could we try ___ as a way forward?","What if we kept ___ on the list and revisited it after ___?","Maybe we can agree that ___ matters to all of us.","I'm willing to ___ if we can also ___.","Let's each pick one thing we can't live without.","Could we visit ___ before deciding?","What if we compared ___ and ___ on cost first?","I think we agree on more than it seems: ___.","Can we take a day and come back to this?","Let's write down what we agree on so far: ___."],
+ thanks:["Thank you for caring so much about ___.","I'm grateful we get to decide this together.","I know this is a lot, and I appreciate you.","Whatever we choose, I'm glad we talked about ___.","Thanks for listening to me about ___.","I love that we're doing this as a family.","You've been really patient with ___ — thank you.","I trust us to figure out ___ together.","It means a lot that you asked what I think.","I'm excited about where this is heading."],
+ money:["I want to be open about money: ___.","Here's what I think we can comfortably afford: ___.","Can we compare the real cost after aid for ___?","I'd feel better if loans stayed under ___.","Scholarships at ___ could change the picture.","I don't want cost to be the only reason, but ___.","Let's look at what ___ would cost over four years.","Is there a way to make ___ work financially?","I'd rather we ___ than take on big debt.","Can we wait for the aid letters before ruling out ___?"],
+ distance:["Being far away feels ___ to me.","I'd want to come home about ___ times a year.","A flight to ___ is okay for me if ___.","Being close to home matters because ___.","I'm ready for some independence, like ___.","Could we look at how easy it is to get to ___?","I'd miss ___, and that's okay to say.","Distance worries me less than ___.","Maybe a summer or semester away would help us see ___.","Let's talk about what 'close enough' means to each of us."] };
+const KIND_SWAPS=[
+ [/\bi hate\b/gi,"I'm not drawn to","sounds softer and keeps the door open"],[/\bhate\b/gi,"really dislike","softer"],
+ [/\b(stupid|dumb|idiotic)\b/gi,"doesn't make sense to me yet","says how you feel without judging"],
+ [/\bridiculous\b/gi,"surprising to me","less charged"],[/\bwaste of money\b/gi,"not sure it's worth the cost","names the real worry"],
+ [/\bno way\b/gi,"I'm really hesitant about","leaves room to talk"],[/\bnever\b/gi,"find it hard to","'never' can end a conversation"],
+ [/\balways\b/gi,"often","'always' can feel like blame"],[/\byou'?re wrong\b/gi,"I see it differently","invites their side"],
+ [/\byou don'?t care\b/gi,"I'm not sure you've heard how much this matters to me","shares the feeling behind it"],
+ [/\byou never listen\b/gi,"I'd love to feel heard about this","asks for what you need"],[/\bwhatever\b/gi,"I need a minute to think","honest and kind"],
+ [/\bshut up\b/gi,"can we pause for a second","keeps it respectful"],[/\bterrible\b/gi,"not a fit for me","describes you, not them"],
+ [/\bawful\b/gi,"hard for me","describes you, not them"],[/\bworst\b/gi,"my least favorite","softer"],[/\bobviously\b/gi,"to me","'obviously' can feel dismissive"],
+ [/\bjust admit\b/gi,"could you tell me","invites, doesn't corner"],[/\bover my dead body\b/gi,"I'd need a lot of convincing","keeps it light"],
+ [/\bwhy would you\b/gi,"help me understand why you'd","curious, not accusing"],[/\bthat'?s (crazy|insane)\b/gi,"that surprises me","less charged"],
+ [/\bsucks?\b/gi,"isn't great for me","softer"],[/\bboring\b/gi,"not exciting to me","describes your view"],[/\bdeal with it\b/gi,"let's figure it out","together, not against"] ];
+KIND_SWAPS.sort((a,b)=>b[0].source.length-a[0].source.length);   // longer phrases first ("you never listen" before "never")
+function kindCheck(text){ const out=[]; const spans=[]; for(const [rx,to,why] of KIND_SWAPS){ rx.lastIndex=0; const m=rx.exec(text); if(!m) continue; const s=m.index, e=s+m[0].length; if(spans.some(([a,b])=>s<b&&e>a)) continue; spans.push([s,e]); out.push({from:m[0],to,why,rx}); }
+  if(/^\s*you\b/i.test(text) && !out.length) out.push({from:null,to:null,why:"Try starting with “I” — “I feel…”, “I'm worried…” — so it's about your view, not theirs."});
+  return out.slice(0,3); }
+function kindApply(text, s){ if(!s.from) return text; const rx=new RegExp(s.rx.source, s.rx.flags.replace("g","")); return text.replace(rx, s.to); }
+function starterCount(){ return Object.values(KIND_STARTERS).reduce((a,b)=>a+b.length,0); }
+
+const TALK_REACTS={heard:"💛 I hear you",fair:"🤝 Fair point",more:"❓ Tell me more"};
+let talk={posts:[],reacts:[],loaded:false}, ballot={mine:null,res:null,loaded:false};
+let talkTab="voices", talkSchool=null, talkTopic="", talkFeel="love", ballotDraft=null, talkReplyTo=null, talkAgree=false, talkConfirmReveal=false;
+function memberName(uid){ const m=(state.members||[]).find(x=>x.user_id===uid); return m?m.display_name:"Family member"; }
+function _ago2(iso){ const d=(Date.now()-Date.parse(iso))/6e4; if(!isFinite(d)) return ""; if(d<1) return "just now"; if(d<60) return Math.round(d)+" min ago"; if(d<1440) return Math.round(d/60)+" hr ago"; const n=Math.round(d/1440); return n===1?"yesterday":n+" days ago"; }
+async function loadTalk(){
+  if(BACKEND.talk===false){ talk.loaded=true; return; }
+  try{ const {data,error}=await sb.from("talk_posts").select("*").order("created_at"); if(error) throw error; talk.posts=data||[];
+    const r=await sb.from("talk_reactions").select("*"); talk.reacts=(r&&!r.error&&r.data)||[]; }
+  catch(e){ if(isMissing(e)) BACKEND.talk=false; }
+  talk.loaded=true;
+}
+async function loadBallot(){
+  if(BACKEND.talk===false||!state.me){ ballot.loaded=true; return; }
+  try{
+    const m=await sb.from("family_ballots").select("*").eq("user_id",state.me.user_id).maybeSingle(); ballot.mine=(m&&m.data)||null;
+    const r=await sb.rpc("ballot_results"); let res=r&&r.data;
+    if(!res){   // sample family (and tests): work it out on the device
+      const all=((await sb.from("family_ballots").select("*")).data||[]); const rev=((await sb.from("ballot_reveals").select("*")).data||[]).length>0;
+      const n=(state.members||[]).length; const revealed=rev||(all.length>0&&all.length>=n);
+      res={members:n, voted:all.length, revealed, voters:all.map(b=>b.user_id), ballots: revealed?all.map(b=>({user_id:b.user_id,ranks:b.ranks})):null};
+    }
+    ballot.res=(typeof res==="string")?JSON.parse(res):res;
+  }catch(e){ if(isMissing(e)) BACKEND.talk=false; }
+  ballot.loaded=true;
+}
+function talkReady(){ return BACKEND.talk!==false; }
+function voicesFor(sid){ return talk.posts.filter(p=>p.kind==="voice"&&p.school_id===sid); }
+function reactsFor(pid){ return talk.reacts.filter(r=>r.post_id===pid); }
+function reactBar(p){
+  const rs=reactsFor(p.id); const mine=new Set(rs.filter(r=>state.me&&r.user_id===state.me.user_id).map(r=>r.emoji));
+  return `<div class="tk-reacts">${Object.entries(TALK_REACTS).map(([k,l])=>{ const n=rs.filter(r=>r.emoji===k).length; const who=rs.filter(r=>r.emoji===k).map(r=>memberName(r.user_id)).join(", ");
+    return p.user_id===state.me.user_id ? (n?`<span class="tk-react static" title="${esc(who)}">${l} · ${n}</span>`:"") : `<button class="tk-react ${mine.has(k)?"on":""}" data-tkreact="${esc(p.id)}|${k}" title="${esc(who)}">${l}${n?` · ${n}`:""}</button>`; }).join("")}</div>`;
+}
+function postCard(p, opts){
+  const mine=state.me&&p.user_id===state.me.user_id; const f=p.feel&&TALK_FEELS[p.feel];
+  return `<div class="tk-post ${p.kind==="agreement"?"agree":""} ${opts&&opts.reply?"reply":""}" data-post="${esc(p.id)}">
+    <div class="tk-meta"><b>${esc(memberName(p.user_id))}</b>${f?` <span class="tk-feel">${f.ico} ${esc(f.label)}</span>`:""}${p.kind==="agreement"?` <span class="tk-feel">🤝 We agreed</span>`:""}<span class="muted"> · ${esc(_ago2(p.created_at))}</span>${p.in_movie?` <span class="tk-movie" title="Can appear in your family movie">🎬</span>`:""}</div>
+    <div class="tk-body">${esc(p.body)}</div>
+    ${reactBar(p)}
+    <div class="tk-actions">${opts&&opts.canReply?`<button class="linklike" data-tkreply="${esc(p.id)}">Reply</button>`:""}${mine?`<button class="linklike" data-tkmovie="${esc(p.id)}">${p.in_movie?"Remove from movie":"Add to movie"}</button><button class="linklike" data-tkdel="${esc(p.id)}">Delete</button>`:""}</div>
+  </div>`;
+}
+function composerHtml(kind){
+  const feels = kind==="voice" ? `<div class="tk-feels" role="radiogroup" aria-label="What kind of thought?">${Object.entries(TALK_FEELS).map(([k,f])=>`<button class="tk-feelbtn ${talkFeel===k?"on":""}" role="radio" aria-checked="${talkFeel===k}" data-tkfeel="${k}">${f.ico} ${esc(f.label)}</button>`).join("")}</div>` : "";
+  const ph = kind==="voice" ? TALK_FEELS[talkFeel].ph : talkAgree ? "In one sentence: what did you agree on?" : talkReplyTo ? "Reply kindly — start with what you heard." : "Share what's on your mind. Say how you feel, not what others think.";
+  const cats = kind==="voice" ? [talkFeel] : talkAgree ? ["bridge","thanks"] : ["listen","bridge","thanks","money","distance"];
+  return `<div class="tk-compose" data-kind="${kind}">${feels}
+    <textarea id="tk-text" maxlength="500" rows="3" placeholder="${esc(ph)}" aria-label="${esc(ph)}"></textarea>
+    <div class="tk-row"><span class="muted tk-count" id="tk-count">A sentence or two is perfect.</span><button class="linklike" id="tk-words">💡 Need words?</button></div>
+    <div id="tk-starters" class="tk-starters hidden" data-cats="${cats.join(",")}"></div>
+    <div id="tk-kind" class="tk-kind"></div>
+    <label class="tk-check"><input type="checkbox" id="tk-movie" checked> <span>OK to include in our family movie</span></label>
+    <div class="row" style="gap:8px;justify-content:flex-end">${talkReplyTo||talkAgree?`<button class="small ghost" id="tk-cancel">Cancel</button>`:""}<button class="small primary" id="tk-save">${kind==="voice"?"Share my voice":talkAgree?"🤝 Save what we agreed":talkReplyTo?"Reply":"Share"}</button></div>
+    <div class="tk-msg" id="tk-msg" role="status"></div></div>`;
+}
+function wireComposer(root, onSave){
+  const ta=root.querySelector("#tk-text"); if(!ta) return;
+  const kindEl=root.querySelector("#tk-kind"), cnt=root.querySelector("#tk-count");
+  const check=()=>{ const t=ta.value; cnt.textContent = t.length ? `${t.length}/500${t.length>280?" · nice and full":""}` : "A sentence or two is perfect.";
+    const s=kindCheck(t); kindEl.innerHTML = s.length ? `<div class="tk-kindh">💞 Say it with love</div>`+s.map((x,i)=>`<div class="tk-kindrow">${x.from?`“${esc(x.from)}” → “${esc(x.to)}” <span class="muted">(${esc(x.why)})</span> <button class="small ghost" data-tkuse="${i}">Use</button>`:esc(x.why)}</div>`).join("") : "";
+    kindEl.querySelectorAll("[data-tkuse]").forEach(b=>b.onclick=()=>{ ta.value=kindApply(ta.value, s[+b.dataset.tkuse]); check(); ta.focus(); }); };
+  ta.oninput=check;
+  root.querySelectorAll("[data-tkfeel]").forEach(b=>b.onclick=()=>{ talkFeel=b.dataset.tkfeel; const keep=ta.value; renderTalk(); const t2=$("tk-text"); if(t2){ t2.value=keep; t2.dispatchEvent(new Event("input")); } });
+  const words=root.querySelector("#tk-words"), st=root.querySelector("#tk-starters");
+  if(words) words.onclick=()=>{ const cats=st.dataset.cats.split(","); const pool=cats.flatMap(c=>(KIND_STARTERS[c]||[]).map(s=>[c,s])); const pick=pool.sort(()=>Math.random()-.5).slice(0,6);
+    st.innerHTML=pick.map(([c,s])=>`<button class="tk-starter" data-tkstart="${esc(s)}">${esc(s)}</button>`).join("")+`<button class="linklike" id="tk-more">More ideas ↻</button>`; st.classList.remove("hidden");
+    st.querySelectorAll("[data-tkstart]").forEach(b=>b.onclick=()=>{ ta.value=b.dataset.tkstart; ta.focus(); const i=ta.value.indexOf("___"); if(i>=0) ta.setSelectionRange(i,i+3); check(); });
+    const more=st.querySelector("#tk-more"); if(more) more.onclick=()=>words.onclick(); };
+  const cancel=root.querySelector("#tk-cancel"); if(cancel) cancel.onclick=()=>{ talkReplyTo=null; talkAgree=false; renderTalk(); };
+  root.querySelector("#tk-save").onclick=async()=>{ const body=ta.value.trim(); const msg=root.querySelector("#tk-msg");
+    if(!body){ msg.textContent="Write a sentence first."; return; } if(/___/.test(body)){ msg.textContent="Fill in the blank (___) with your own words first."; return; }
+    const btn=root.querySelector("#tk-save"); btn.disabled=true; msg.textContent="Saving…";
+    try{ await onSave(body, root.querySelector("#tk-movie").checked); msg.textContent=""; }catch(e){ btn.disabled=false; msg.textContent="Couldn't save that — please try again."; } };
+}
+async function talkInsert(row){ const {error}=await sb.from("talk_posts").insert({ family_id:state.family.id, user_id:state.me.user_id, ...row }); if(error) throw error; await loadTalk(); }
+function wirePosts(root){
+  root.querySelectorAll("[data-tkreact]").forEach(b=>b.onclick=async()=>{ const [pid,emoji]=b.dataset.tkreact.split("|"); const on=b.classList.contains("on"); b.disabled=true;
+    try{ if(on) await sb.from("talk_reactions").delete().eq("post_id",pid).eq("user_id",state.me.user_id).eq("emoji",emoji);
+      else await sb.from("talk_reactions").insert({post_id:pid,user_id:state.me.user_id,family_id:state.family.id,emoji}); await loadTalk(); }catch(e){} renderTalk(); });
+  root.querySelectorAll("[data-tkdel]").forEach(b=>b.onclick=async()=>{ if(b.dataset.armed!=="1"){ b.dataset.armed="1"; b.textContent="Tap again to delete"; return; }
+    await sb.from("talk_posts").delete().eq("id",b.dataset.tkdel).eq("user_id",state.me.user_id); await loadTalk(); renderTalk(); });
+  root.querySelectorAll("[data-tkmovie]").forEach(b=>b.onclick=async()=>{ const p=talk.posts.find(x=>x.id===b.dataset.tkmovie); if(!p) return;
+    await sb.from("talk_posts").update({in_movie:!p.in_movie, updated_at:new Date().toISOString()}).eq("id",p.id).eq("user_id",state.me.user_id); await loadTalk(); renderTalk(); });
+  root.querySelectorAll("[data-tkreply]").forEach(b=>b.onclick=()=>{ talkReplyTo=b.dataset.tkreply; talkAgree=false; renderTalk(); const t=$("tk-text"); if(t){ t.focus(); t.scrollIntoView({block:"center"}); } });
+}
+/* ---- tab: everyone's voice ---- */
+function talkVoicesHtml(){
+  const board=state.schools||[]; if(!board.length) return `<div class="card muted">Add schools to your board first — then everyone can share a sentence or two about each one.</div>`;
+  if(!talkSchool||!board.some(s=>s.school_id===talkSchool)) talkSchool=(board.slice().sort((a,b)=>voicesFor(b.school_id).length-voicesFor(a.school_id).length)[0]||board[0]).school_id;   // open where the conversation is
+  const chips=board.map(s=>{ const n=new Set(voicesFor(s.school_id).map(v=>v.user_id)).size; return `<button class="tk-chip ${s.school_id===talkSchool?"on":""}" data-tkschool="${esc(s.school_id)}">${esc(s.name)} <span class="tk-n">${n}/${(state.members||[]).length}</span></button>`; }).join("");
+  const vs=voicesFor(talkSchool); const name=schoolName(talkSchool);
+  const people=(state.members||[]).map(m=>{ const mv=vs.filter(v=>v.user_id===m.user_id); const me=state.me&&m.user_id===state.me.user_id;
+    return `<div class="tk-person"><div class="tk-who"><span class="avatar">${esc((m.display_name||"?")[0])}</span><b>${esc(m.display_name)}${me?" (you)":""}</b></div>
+      ${mv.length?mv.map(v=>postCard(v,{})).join(""):`<div class="muted tk-wait">${me?"You haven't shared yet.":"Hasn't shared yet."}${me?"":` <button class="linklike" data-tknudge="${esc(m.display_name)}">Invite them to share</button>`}</div>`}</div>`; }).join("");
+  return `<div class="tk-intro">Everyone gets a voice. Share a sentence or two about each school — what you love, what worries you, what you're wondering, what you need. No debating here; just listening.</div>
+    <div class="tk-chips">${chips}</div>
+    <div class="card tk-school"><h3 style="margin:0 0 10px">${esc(name)}</h3>${people}
+      <div class="tk-sh">Add your voice</div>${composerHtml("voice")}</div>`;
+}
+/* ---- tab: secret ballot ---- */
+function ballotTally(res){
+  const B=(res&&res.ballots)||[]; const ids=[...new Set(B.flatMap(b=>b.ranks||[]))];
+  const rows=ids.map(id=>{ const places=B.map(b=>({u:b.user_id, p:(b.ranks||[]).indexOf(id)+1})); const ranked=places.filter(x=>x.p>0);
+    const pts=ranked.reduce((a,x)=>a+Math.max(1,6-x.p),0); const avg=ranked.length?ranked.reduce((a,x)=>a+x.p,0)/ranked.length:99;
+    const spread=ranked.length?Math.max(...ranked.map(x=>x.p))-Math.min(...ranked.map(x=>x.p)):0; const all=ranked.length===B.length;
+    const label= all&&spread<=1 ? "agree" : (!all&&ranked.some(x=>x.p<=2)) || spread>=3 ? "talk" : "close";
+    return {id, places, pts, avg, label}; }).sort((a,b)=>b.pts-a.pts||a.avg-b.avg);
+  return rows;
+}
+function talkBallotHtml(){
+  const board=state.schools||[]; if(board.length<2) return `<div class="card muted">Add at least two schools to your board to vote.</div>`;
+  const r=ballot.res||{members:(state.members||[]).length,voted:0,revealed:false,voters:[]};
+  const voters=new Set(r.voters||[]); const waiting=(state.members||[]).filter(m=>!voters.has(m.user_id)).map(m=>m.display_name);
+  const status=`<div class="tk-status"><b>${r.voted} of ${r.members}</b> have voted${voters.size?` · ✓ ${[...voters].map(memberName).map(esc).join(", ✓ ")}`:""}${waiting.length&&!r.revealed?` · waiting on ${waiting.map(esc).join(", ")}`:""}</div>`;
+  if(r.revealed && r.ballots){
+    const rows=ballotTally(r); const top=rows[0];
+    const LAB={agree:"🤝 You all agree",close:"👍 Close",talk:"💬 Worth talking about"};
+    return `<div class="tk-intro">The votes are in. This isn't a final decision — it's a map of where you agree and where to listen more.</div>${status}
+      ${top?`<div class="tk-pick">🏆 Family pick this round: <b>${esc(schoolName(top.id))}</b></div>`:""}
+      <div class="tk-results">${rows.map(x=>`<div class="tk-res"><div class="tk-res-h"><b>${esc(schoolName(x.id))}</b><span class="tk-lab ${x.label}">${LAB[x.label]}</span></div>
+        <div class="tk-places">${x.places.map(pl=>`<span class="tk-place ${pl.p?"":"none"}">${esc(memberName(pl.u))}: ${pl.p?"#"+pl.p:"—"}</span>`).join("")}</div>
+        ${x.label==="talk"?`<button class="small" data-tktalkabout="${esc(x.id)}">Talk it out →</button>`:""}</div>`).join("")}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="small ghost" id="tk-newround">Start a new round</button></div>`;
+  }
+  const draft = ballotDraft || (ballot.mine && ballot.mine.ranks ? ballot.mine.ranks.slice() : []);
+  ballotDraft=draft;
+  return `<div class="tk-intro">🗳 <b>Secret ballot.</b> Pick your favorites in order — up to 5. Nobody sees anyone's picks until everyone has voted, so you can be honest without pressure.</div>${status}
+    <div class="card"><div class="tk-sh">Your order ${ballot.mine?`<span class="muted">· voted ${esc(_ago2(ballot.mine.submitted_at))} — you can change it</span>`:""}</div>
+      <ol class="tk-order">${draft.map((id,i)=>`<li><span>${esc(schoolName(id))}</span><button class="linklike" data-tkunpick="${i}" aria-label="Remove ${esc(schoolName(id))}">✕</button></li>`).join("")||`<li class="muted" style="list-style:none">Tap schools below in the order you'd choose them.</li>`}</ol>
+      <div class="tk-pickgrid">${board.filter(s=>!draft.includes(s.school_id)).map(s=>`<button class="tk-chip" data-tkpick="${esc(s.school_id)}" ${draft.length>=5?"disabled":""}>${esc(s.name)}</button>`).join("")}</div>
+      <div class="row" style="gap:8px;justify-content:flex-end;margin-top:10px"><button class="small primary" id="tk-vote" ${draft.length?"":"disabled"}>${ballot.mine?"Update my vote":"Cast my secret vote"}</button></div>
+      <div class="tk-msg" id="tk-vmsg" role="status"></div></div>
+    ${r.voted>=1&&!r.revealed?`<div class="row" style="justify-content:flex-end;margin-top:8px">${talkConfirmReveal?`<span class="muted" style="font-size:12.5px">Reveal with ${r.voted} of ${r.members} votes?</span><button class="small ghost" id="tk-revealno">Not yet</button><button class="small primary" id="tk-revealyes">Reveal now</button>`:`<button class="small ghost" id="tk-reveal">Reveal results now</button>`}</div>`:""}`;
+}
+/* ---- tab: talk it out ---- */
+function talkThreadsHtml(){
+  const posts=talk.posts.filter(p=>p.kind!=="voice"); const topicName=t=>t?schoolName(t):"The whole family";
+  const topics=[...new Set(posts.map(p=>p.school_id||""))].sort((a,b)=>{ const la=Math.max(...posts.filter(p=>(p.school_id||"")===a).map(p=>Date.parse(p.created_at))), lb=Math.max(...posts.filter(p=>(p.school_id||"")===b).map(p=>Date.parse(p.created_at))); return lb-la; });
+  const opts=[["","The whole family"],...(state.schools||[]).map(s=>[s.school_id,s.name])].map(([v,t])=>`<option value="${esc(v)}" ${talkTopic===v?"selected":""}>${esc(t)}</option>`).join("");
+  const replyP=talkReplyTo&&talk.posts.find(p=>p.id===talkReplyTo);
+  const threads=topics.map(t=>{ const tp=posts.filter(p=>(p.school_id||"")===t); const roots=tp.filter(p=>!p.reply_to);
+    return `<div class="card tk-thread"><div class="tk-sh">${esc(topicName(t))}</div>${roots.map(p=>postCard(p,{canReply:true})+tp.filter(c=>c.reply_to===p.id).map(c=>postCard(c,{reply:true})).join("")).join("")}</div>`; }).join("");
+  return `<div class="tk-intro">A calm place to work through differences. Start with how <i>you</i> feel, listen for what matters to the other person, and write down what you agree on. Agreements become moments in your family movie.</div>
+    <div class="card"><div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><label for="tk-topic" style="margin:0">Topic</label><select id="tk-topic" style="width:auto">${opts}</select>
+      <span style="flex:1"></span><button class="small ${talkAgree?"primary":"ghost"}" id="tk-agree">🤝 We agree…</button></div>
+      ${replyP?`<div class="tk-replying">Replying to <b>${esc(memberName(replyP.user_id))}</b>: “${esc(replyP.body.slice(0,90))}${replyP.body.length>90?"…":""}”</div>`:""}
+      <div class="tk-prompts">${["I hear you saying…","What matters most to me is…","Could we try…?","Thank you for…"].map(t=>`<button class="tk-starter" data-tkprompt="${esc(t)}">${esc(t)}</button>`).join("")}</div>
+      ${composerHtml(talkAgree?"agreement":"post")}</div>
+    ${threads||`<div class="card muted">No conversations yet. Pick a topic and start with how you feel — “I'm excited about…”, “I'm worried that…”.</div>`}`;
+}
+/* ---- tab: moments ---- */
+function talkMomentsHtml(){
+  const ms=talk.posts.filter(p=>p.in_movie&&(p.kind==="voice"||p.kind==="agreement"));
+  const ag=ms.filter(p=>p.kind==="agreement");
+  return `<div class="tk-intro">🎬 These voices and agreements can appear in your family movie, alongside your visit photos — the story of how you decided together. Anyone can take their own words out anytime.</div>
+    <div class="tk-status"><b>${ms.length}</b> moment${ms.length===1?"":"s"} ready · <b>${ag.length}</b> agreement${ag.length===1?"":"s"}</div>
+    <div class="tk-moments">${ms.slice().reverse().map(p=>`<figure class="tk-moment ${p.kind}"><blockquote>“${esc(p.body)}”</blockquote><figcaption>— ${esc(memberName(p.user_id))}${p.school_id?` · ${esc(schoolName(p.school_id))}`:""}${p.kind==="agreement"?" · 🤝 agreed":""}</figcaption></figure>`).join("")||`<div class="card muted">Nothing yet. Share a voice or write down something you agree on.</div>`}</div>
+    <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="small" data-tkgo="memories">📸 Open Memories</button></div>`;
+}
+function renderTalk(){
+  const el=$("talk-out"); if(!el) return;
+  if(!state.family){ el.innerHTML=""; return; }
+  if(!talkReady() && !DEMO){ el.innerHTML=`<div class="card"><b>Almost ready.</b><p class="muted" style="margin:6px 0 0">Talk It Out needs a one-time setup step on our side (step 014). Nothing to do on your end.</p></div>`; return; }
+  const tabs=[["voices","💛 Everyone's voice"],["ballot","🗳 Secret ballot"],["talk","💬 Talk it out"],["moments","🎬 Moments"]];
+  el.innerHTML=`<div class="tk-tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${talkTab===k}" class="tk-tab ${talkTab===k?"on":""}" data-tktab="${k}">${l}</button>`).join("")}</div>
+    <div id="tk-pane">${talkTab==="voices"?talkVoicesHtml():talkTab==="ballot"?talkBallotHtml():talkTab==="talk"?talkThreadsHtml():talkMomentsHtml()}</div>`;
+  el.querySelectorAll("[data-tktab]").forEach(b=>b.onclick=()=>{ talkTab=b.dataset.tktab; talkReplyTo=null; talkAgree=false; renderTalk(); });
+  el.querySelectorAll("[data-tkschool]").forEach(b=>b.onclick=()=>{ talkSchool=b.dataset.tkschool; renderTalk(); });
+  el.querySelectorAll("[data-tkgo]").forEach(b=>b.onclick=()=>goto(b.dataset.tkgo));
+  el.querySelectorAll("[data-tknudge]").forEach(b=>b.onclick=async()=>{ const t=`I'd love to hear what you think about ${schoolName(talkSchool)} — add a sentence on Zoe's Colleges when you get a chance 💛 ${APP_LINK}`;
+    try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); b.textContent="Message copied ✓"; } }catch(e){} });
+  const pane=$("tk-pane");
+  if(talkTab==="voices") wireComposer(pane, async(body,movie)=>{ await talkInsert({school_id:talkSchool, kind:"voice", feel:talkFeel, body, in_movie:movie}); renderTalk(); try{ renderToday(); }catch(e){} });
+  if(talkTab==="talk"){ const sel=$("tk-topic"); if(sel) sel.onchange=()=>{ talkTopic=sel.value; };
+    const ag=$("tk-agree"); if(ag) ag.onclick=()=>{ talkAgree=!talkAgree; talkReplyTo=null; renderTalk(); };
+    pane.querySelectorAll("[data-tkprompt]").forEach(b=>b.onclick=()=>{ const t=$("tk-text"); t.value=b.dataset.tkprompt+" "; t.focus(); t.dispatchEvent(new Event("input")); });
+    wireComposer(pane, async(body,movie)=>{ const parent=talkReplyTo&&talk.posts.find(p=>p.id===talkReplyTo);
+      await talkInsert({school_id: parent?parent.school_id:(talkTopic||null), kind: talkAgree?"agreement":"post", body, in_movie: movie, reply_to: parent?parent.id:null});
+      talkReplyTo=null; talkAgree=false; renderTalk(); }); }
+  if(talkTab==="ballot"){
+    pane.querySelectorAll("[data-tkpick]").forEach(b=>b.onclick=()=>{ if(ballotDraft.length<5){ ballotDraft.push(b.dataset.tkpick); renderTalk(); } });
+    pane.querySelectorAll("[data-tkunpick]").forEach(b=>b.onclick=()=>{ ballotDraft.splice(+b.dataset.tkunpick,1); renderTalk(); });
+    const v=$("tk-vote"); if(v) v.onclick=async()=>{ v.disabled=true; const m=$("tk-vmsg"); m.textContent="Saving…";
+      try{ const {error}=await sb.from("family_ballots").upsert({user_id:state.me.user_id, family_id:state.family.id, ranks:ballotDraft.slice(0,5), submitted_at:new Date().toISOString()}); if(error) throw error;
+        await loadBallot(); ballotDraft=null; renderTalk(); }catch(e){ v.disabled=false; m.textContent="Couldn't save your vote — please try again."; } };
+    const rv=$("tk-reveal"); if(rv) rv.onclick=()=>{ talkConfirmReveal=true; renderTalk(); };
+    const rn=$("tk-revealno"); if(rn) rn.onclick=()=>{ talkConfirmReveal=false; renderTalk(); };
+    const ry=$("tk-revealyes"); if(ry) ry.onclick=async()=>{ talkConfirmReveal=false; try{ const r=await sb.rpc("ballot_reveal"); if(r&&r.data===null&&(DEMO||!r.error)) { try{ await sb.from("ballot_reveals").insert({family_id:state.family.id, revealed_by:state.me.user_id}); }catch(e){} } }catch(e){} await loadBallot(); renderTalk(); };
+    const nr=$("tk-newround"); if(nr) nr.onclick=async()=>{ if(nr.dataset.armed!=="1"){ nr.dataset.armed="1"; nr.textContent="Tap again — clears everyone's votes"; return; }
+      try{ const r=await sb.rpc("ballot_new_round"); if(r&&r.data===null&&!r.error){ await sb.from("family_ballots").delete().eq("family_id",state.family.id); await sb.from("ballot_reveals").delete().eq("family_id",state.family.id); } }catch(e){}
+      ballotDraft=null; await loadBallot(); renderTalk(); };
+    pane.querySelectorAll("[data-tktalkabout]").forEach(b=>b.onclick=()=>{ talkTab="talk"; talkTopic=b.dataset.tktalkabout; renderTalk(); const t=$("tk-text"); if(t){ t.value=`I noticed we see ${schoolName(talkTopic)} differently. For me, `; t.focus(); t.dispatchEvent(new Event("input")); } });
+  }
+  wirePosts(pane);
+}
+async function openTalk(opts){ opts=opts||{}; if(opts.tab) talkTab=opts.tab; if(opts.school) talkSchool=opts.school; goto("talk"); }
+function talkTodayCard(){
+  if(!state.family||(!talkReady()&&!DEMO)||!(state.schools||[]).length) return "";
+  const week=Date.now()-7*864e5; const recent=talk.posts.filter(p=>Date.parse(p.created_at)>week).length;
+  const spoke=new Set(talk.posts.filter(p=>p.kind==="voice").map(p=>p.user_id)); const quiet=(state.members||[]).filter(m=>!spoke.has(m.user_id)).map(m=>m.display_name);
+  const r=ballot.res; const bline=r? (r.revealed?"🗳 Ballot results are in.":`🗳 ${r.voted} of ${r.members} voted on the secret ballot.`) : "";
+  return `<div class="td-card td-talk"><div class="td-h">💬 Talk It Out</div><div class="td-mid">${recent?`<b>${recent}</b> new thought${recent>1?"s":""} this week. `:""}${quiet.length?`Waiting to hear from ${quiet.map(esc).join(", ")}.`:"Everyone has shared a voice."} ${bline}</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-talk="voices">Share your voice</button><button class="small" data-td-talk="ballot">🗳 Secret ballot</button></div></div>`;
+}
+function talkDetailHtml(id){
+  if(!state.family||(!talkReady()&&!DEMO)) return "";
+  const vs=voicesFor(id).slice(-4);
+  return `<div class="pulse-block tk-detail"><div class="pulse-h">💬 Family voices</div>${vs.length?vs.map(v=>`<div class="tk-dline">${TALK_FEELS[v.feel]?TALK_FEELS[v.feel].ico:"💬"} <b>${esc(memberName(v.user_id))}:</b> ${esc(v.body)}</div>`).join(""):`<div class="muted" style="font-size:13px">No one has shared yet.</div>`}
+    <button class="small" data-talkgo="${esc(id)}" style="margin-top:8px">Add your voice</button></div>`;
+}
+
 /* ===== Zoe's College Report (#58): one printable document — cover, profile, the list, costs, deadlines, next steps.
    Built only from what's already on the site (no AI, no credits). "Save as PDF" uses the phone/computer's own print-to-PDF. */
 function reportStudentName(){ const stu=(state.members||[]).find(m=>m.role==="student"); return (stu&&stu.display_name)||""; }
@@ -3393,7 +3705,8 @@ function renderToday(){
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button>${trip?`<button class="small" data-visitkit="${esc([...getTrip()][0])}">🎒 Visit-day kit</button>`:""}<button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
   const repCard=board.length?`<div class="td-card td-report"><div class="td-h">📄 College report</div><div class="td-mid">${esc(reportStudentName()||"Your")}${reportStudentName()?"'s":""} whole picture — profile, every school, costs, deadlines and next steps — in one PDF for family, counselors or your own files.</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-go="report">Open report</button><button class="small" data-td-share>🔗 Share instead</button></div></div>`:"";
-  el.innerHTML=dlCard+zoeCard+pulseCard+balCard+repCard+visitCard+installCardHtml();
+  el.innerHTML=dlCard+zoeCard+talkTodayCard()+pulseCard+balCard+repCard+visitCard+installCardHtml();
+  el.querySelectorAll("[data-td-talk]").forEach(b=>b.onclick=()=>openTalk({tab:b.dataset.tdTalk}));
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
   try{ updateDlNav(); }catch(e){}
@@ -3493,9 +3806,10 @@ function renderDetail(id){
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button>${onBoard?`<button class="openlink" data-visitkit="${esc(id)}">🎒 Visit-day kit</button>`:""}</div>
-    ${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
+    ${onBoard?talkDetailHtml(id):""}${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
+  { const tg=$("detail-body").querySelector("[data-talkgo]"); if(tg) tg.onclick=()=>openTalk({tab:"voices", school:tg.dataset.talkgo}); }
   loadPulse(id);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
   if (addBtn) addBtn.onclick = async () => { await addFromCatalog(id); renderDetail(id); };
@@ -5275,7 +5589,18 @@ function demoData(){
       {name:"Student Govt./Politics — Treasurer",category:"Student Govt./Politics",position:"Treasurer",tier:3,hrs:"3",weeks:"36",grades:["11","12"],yrs:"2"}]};
   const photos=["sc-198516","college-of-charleston","sc-217882"].map((id,i)=>{ const c=catInfo(id); return c&&c.photo?{id:"demo-ph-"+i,family_id:DEMO_FID,school_id:id,user_id:DEMO_UID,url:c.photo.url,caption:["Our tour stop by the oaks","Randolph Hall at golden hour","Cooper Library pond"][i]+" (sample photo)",created_at:iso(9-i*2)}:null; }).filter(Boolean);
   return { members:M, families:[{id:DEMO_FID,name:"The Rivera family (sample)",plan:"familyplus",invite_code:"sample",created_by:DEMO_UID,created_at:iso(30)}],
-    family_schools:sch, ratings:rat, profiles:[prof], preferences:[], photos, binder_chats:[], reminder_prefs:[], reel_submissions:[] };
+    family_schools:sch, ratings:rat, profiles:[prof], preferences:[], photos, binder_chats:[], reminder_prefs:[], reel_submissions:[],
+    talk_posts:[
+      {id:"dt1",family_id:DEMO_FID,user_id:DEMO_UID,school_id:"sc-198516",kind:"voice",feel:"love",body:"I could picture myself studying under those oak trees. It felt like me.",in_movie:true,created_at:iso(6)},
+      {id:"dt2",family_id:DEMO_FID,user_id:"demo-mom",school_id:"sc-198516",kind:"voice",feel:"love",body:"The advisors actually knew students by name. That matters to me.",in_movie:true,created_at:iso(6)},
+      {id:"dt3",family_id:DEMO_FID,user_id:"demo-dad",school_id:"sc-198516",kind:"voice",feel:"worry",body:"I'm a little worried about the cost — can we look at the aid letter together when it comes?",in_movie:true,created_at:iso(5)},
+      {id:"dt4",family_id:DEMO_FID,user_id:"demo-mom",school_id:"college-of-charleston",kind:"voice",feel:"worry",body:"Part of me hesitates because of hurricane season. I'd feel better knowing their plan.",in_movie:true,created_at:iso(4)},
+      {id:"dt5",family_id:DEMO_FID,user_id:DEMO_UID,school_id:"college-of-charleston",kind:"post",body:"I hear you about the hurricanes, Mom. What matters most to me is being near a city.",in_movie:false,created_at:iso(3)},
+      {id:"dt6",family_id:DEMO_FID,user_id:"demo-mom",school_id:"college-of-charleston",kind:"post",reply_to:"dt5",body:"That makes sense. Could we ask them about their emergency plan on the visit?",in_movie:false,created_at:iso(3)},
+      {id:"dt7",family_id:DEMO_FID,user_id:DEMO_UID,school_id:"college-of-charleston",kind:"agreement",body:"We'll keep Charleston on the list and ask about the hurricane plan when we visit in March.",in_movie:true,created_at:iso(2)}],
+    talk_reactions:[{post_id:"dt3",user_id:"demo-mom",family_id:DEMO_FID,emoji:"heard"},{post_id:"dt7",user_id:"demo-dad",family_id:DEMO_FID,emoji:"fair"},{post_id:"dt7",user_id:"demo-mom",family_id:DEMO_FID,emoji:"fair"}],
+    family_ballots:[{user_id:"demo-mom",family_id:DEMO_FID,ranks:["sc-198516","university-of-vermont","college-of-charleston"],submitted_at:iso(1)},{user_id:"demo-dad",family_id:DEMO_FID,ranks:["sc-217882","sc-198516","college-of-charleston"],submitted_at:iso(1)}],
+    ballot_reveals:[] };
 }
 function demoClient(){
   const DB=demoData();

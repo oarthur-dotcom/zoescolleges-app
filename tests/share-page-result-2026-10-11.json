@@ -15,7 +15,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=eb22c741d7ac4574b65f2c54",
+   "url": "https://zoescolleges.com/?share=60b48afa93f84d928d712576",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -88,7 +88,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791757043242,
+    "created": 1791758472585,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -200,7 +200,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=b76ed35c5071421599c723ec",
+   "url": "https://zoescolleges.com/?share=cc78c48b53eb4a6f94c97442",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -273,7 +273,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791757050392,
+    "created": 1791758479605,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -337,6 +337,7 @@
     "#signout Sign out 78x32",
     "Today 70x31",
     "My Board 96x31",
+    "💬 Talk It Out 119x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -372,10 +373,11 @@
     "#sh-copy Copy link 84x32",
     "💬 Text 71x33",
     "✉️ Email 78x33",
-    "#sh-x Close 61x32",
-    "#sh-prev 👀 Preview 96x32"
+    "#sh-x Close 61x32"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.navbtn# right=1295"
+   ],
    "dashCount": 4
   },
   "errors": [],
@@ -411,7 +413,7 @@
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=1f3177757997453c8b73a731",
+   "url": "https://zoescolleges.com/?share=f347e3a6c62242b0a14bb2c6",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -484,7 +486,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791757057475,
+    "created": 1791758486535,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,

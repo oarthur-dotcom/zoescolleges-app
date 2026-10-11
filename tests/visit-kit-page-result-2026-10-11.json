@@ -75,6 +75,7 @@
     "#signout Sign out 78x32",
     "Today 70x31",
     "My Board 96x31",
+    "💬 Talk It Out 119x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -90,6 +91,8 @@
     "Open Deadlines 124x32",
     "Open profile 103x32",
     "📅 Plan my week 132x32",
+    "Share your voice 132x32",
+    "🗳 Secret ballot 122x32",
     "All news 78x32",
     "Open board 99x32",
     "💰 Costs 81x32",
@@ -101,7 +104,9 @@
     "🎒 Visit-day kit 120x32",
     "📸 Memories 108x32"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.navbtn# right=1313"
+   ],
    "dashCount": 5
   },
   "errors": []

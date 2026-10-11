@@ -52,18 +52,18 @@
  },
  "desktop": {
   "small": {
-   "today": 27,
-   "board": 29,
-   "explore": 23,
-   "cost": 14,
-   "deadlines": 24,
-   "pulse": 13,
-   "trip": 16,
-   "memories": 17,
-   "profile": 18,
-   "zoe": 23,
-   "compare": 14,
-   "recommends": 15
+   "today": 30,
+   "board": 30,
+   "explore": 24,
+   "cost": 15,
+   "deadlines": 25,
+   "pulse": 14,
+   "trip": 17,
+   "memories": 18,
+   "profile": 19,
+   "zoe": 24,
+   "compare": 15,
+   "recommends": 16
   },
   "ox": {
    "today": 0,

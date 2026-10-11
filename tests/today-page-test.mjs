@@ -31,7 +31,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   ok[label + '.landsOnToday'] = o.landing === 'today' && /^Good (morning|afternoon|evening)/.test(o.hi);
   if (!empty) {
-    ok[label + '.fiveCards'] = o.cards.length === 6 && /Next deadline/.test(o.cards[0]) && /Zoe suggests/.test(o.cards[1]) && /New at your schools/.test(o.cards[2]) && /Your list/.test(o.cards[3]) && /College report/.test(o.cards[4]) && /Visits/.test(o.cards[5]);
+    ok[label + '.fiveCards'] = o.cards.length === 7 && /Next deadline/.test(o.cards[0]) && /Zoe suggests/.test(o.cards[1]) && /Talk It Out/i.test(o.cards[2]) && /New at your schools/.test(o.cards[3]) && /Your list/.test(o.cards[4]) && /College report/.test(o.cards[5]) && /Visits/.test(o.cards[6]);
     ok[label + '.nextDeadlineIsClemson'] = /Clemson University Early Action · Oct 15, 2026 · in 4 days/.test(o.text) && /Still to do:/.test(o.text);
     ok[label + '.newsAndVisitDays'] = /MIT engineers design a battery/.test(o.text) && /Campus tour and information session/.test(o.text);
     ok[label + '.listGrade'] = /Likely · .* Target · .* Reach/.test(o.text);
