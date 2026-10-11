@@ -76,6 +76,7 @@
     "Today 70x31",
     "My Board 96x31",
     "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
@@ -105,7 +106,8 @@
     "📸 Memories 108x32"
    ],
    "wide": [
-    "BUTTON.navbtn# right=1313"
+    "BUTTON.navbtn# right=1354",
+    "BUTTON.navbtn# right=1455"
    ],
    "dashCount": 5
   },

@@ -227,10 +227,6 @@
    "overflowX": 0,
    "imgs": [
     {
-     "src": "https://b.tile.openstreetmap.org/14/4421/6506.png",
-     "ok": true
-    },
-    {
      "src": "https://c.tile.openstreetmap.org/14/4422/6506.png",
      "ok": true
     },
