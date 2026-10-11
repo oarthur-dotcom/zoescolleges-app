@@ -7,7 +7,7 @@
 <title>Zoe's Colleges — Beta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
@@ -1169,7 +1169,11 @@ const ACCESS_CODE = "ZOE2027"; // beta sign-up gate — change here anytime
 const CONTACT_EMAIL = "oarthur@gmail.com"; // Beta: receives feedback directly. Update to hello@zoescolleges.com once business inbox is configured.
 const PLAN_LIMITS = { free:{seats:2, schools:3, label:"Free"}, family:{seats:99, schools:25, label:"Family"}, family_plus:{seats:99, schools:9999, label:"Family+"} };
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let sb = null;
+function initSupabase(){
+  if(!sb && window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  return sb;
+}
 const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
@@ -3380,12 +3384,16 @@ function route(session){
   setTimeout(() => { loadFamily(); }, 0);
 }
 let recovering = false;
-sb.auth.onAuthStateChange((event, session) => {
-  if (event === "PASSWORD_RECOVERY") { recovering = true; state.session = session; show("v-auth"); setAuthMode("recovery"); return; }
-  if (recovering) return; // stay on the set-new-password screen until they submit
-  route(session);
-});
-(async () => {
+function setupAuth() {
+  if(!initSupabase()) return;
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") { recovering = true; state.session = session; show("v-auth"); setAuthMode("recovery"); return; }
+    if (recovering) return; // stay on the set-new-password screen until they submit
+    route(session);
+  });
+  bootApp();
+}
+async function bootApp() {
   const _p = new URLSearchParams(location.search);
   const _share = _p.get("share"); if(_share){ try{ await renderPublicShare(_share); }catch(e){} return; }
   const ref = _p.get("ref");
@@ -3399,7 +3407,8 @@ sb.auth.onAuthStateChange((event, session) => {
   const { data } = await sb.auth.getSession();
   if (recovering) { show("v-auth"); return; }
   route(data.session);
-})();
+}
+document.addEventListener("DOMContentLoaded", setupAuth);
 </script>
 </body>
 </html>
