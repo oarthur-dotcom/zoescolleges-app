@@ -3183,10 +3183,27 @@ let zoeInFlight=false;
 async function zoeFetchOnce(v){
   const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),30000);
   try{
-    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }), signal:ctrl.signal });
+    const body = {
+      q: v,
+      ctx: zoeCtx(),
+      user_id: (state.session && state.session.user && state.session.user.id) || null,
+      tier: (state.family && state.family.plan) || 'free'
+    };
+    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body), signal:ctrl.signal });
     const j=await r.json().catch(()=>({}));
-    if(j && j.reply) return { reply: zoeRich(j.reply) };
-    if(j && j.capped) return { reply: "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b> — ask about those!" };
+    if(j && j.reply) {
+      // Show remaining quota (if user has a limit)
+      let quota_msg = "";
+      if (j.quota && j.quota < 999999) {
+        quota_msg = ` <span class="counter">(<b>${Math.max(0, j.quota - j.used)}</b> questions left today)</span>`;
+      }
+      return { reply: zoeRich(j.reply) + quota_msg };
+    }
+    if(j && j.quotaExceeded) {
+      const upgradeLink = '<button class="small" onclick="$(\'dlg-plans\').showModal()">View plans</button>';
+      return { reply: `You've used all <b>${j.quota} daily Zoe questions</b>. Upgrade to Family (<b>15/day</b>) or Family+ (<b>unlimited</b>) to ask more. ${upgradeLink} In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.` };
+    }
+    if(j && j.globalCapped) return { reply: "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b> — ask about those!" };
     return { fail:true };
   }catch(e){ return { fail:true }; }
   finally{ clearTimeout(to); }

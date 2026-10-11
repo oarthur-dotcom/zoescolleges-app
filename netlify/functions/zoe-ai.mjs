@@ -1,15 +1,21 @@
 // Zoe long-tail answers via Gemini (free tier). Rules run first on the client;
 // this is only called when the rules engine has no answer.
 // Privacy: receives DE-IDENTIFIED context only (no names, no emails).
-// Cost guard: global daily hard cap via Netlify Blobs (free tier never charges,
-// this just keeps request volume sane).
+// Cost guard: per-user daily cap (free=3, family=15, family+=unlimited) + global hard cap via Netlify Blobs.
 
 // Lite first: higher free-tier quota, faster, and cheaper at scale; fall
 // through to full flash, then the self-updating aliases. Each model is a
 // separate quota pool, so a 429 on one tries the next.
 const MODELS = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-flash-latest"];
-const DAILY_CAP = 400;              // global requests/day across all users
+const GLOBAL_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
+
+// Per-tier daily quotas
+const TIER_QUOTAS = {
+  'free': 3,
+  'family': 15,
+  'family_plus': 999999  // unlimited
+};
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -58,16 +64,36 @@ export default async (req) => {
   const q = String(body.q || "").slice(0, MAXQ).trim();
   if (!q) return json({ error: "empty" }, 400);
 
+  const userId = body.user_id;  // user_id from client auth context
+  const tier = body.tier || 'free';  // plan tier (free/family/family_plus)
+
+  // Per-user quota check (if user_id provided)
+  let userUsed = 0, userQuota = TIER_QUOTAS[tier] || 3;
+  if (userId) {
+    try {
+      const sb = (await import("@supabase/supabase-js")).createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_ANON_KEY
+      );
+      const { data: result, error } = await sb.rpc('increment_ai_usage', { uid: userId });
+      if (!error && result) {
+        userUsed = result.used || 0;
+        userQuota = result.quota || TIER_QUOTAS[tier];
+        if (result.at_limit) return json({ reply: null, quotaExceeded: true, used: userUsed, quota: userQuota });
+      }
+    } catch (e) { /* no user quota available — carry on */ }
+  }
+
   // Global daily hard cap (best-effort; skips silently if Blobs unavailable).
-  let used = 0;
+  let globalUsed = 0;
   try {
     const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: "zoe-ai-usage", consistency: "strong" });
+    const store = getStore({ name: "zoe-ai-global-usage", consistency: "strong" });
     const d = today();
     const cur = (await store.get(d, { type: "json" })) || { n: 0 };
-    used = cur.n || 0;
-    if (used >= DAILY_CAP) return json({ reply: null, capped: true });
-    await store.setJSON(d, { n: used + 1 });
+    globalUsed = cur.n || 0;
+    if (globalUsed >= GLOBAL_CAP) return json({ reply: null, globalCapped: true });
+    await store.setJSON(d, { n: globalUsed + 1 });
   } catch (e) { /* no persistent cap available — carry on */ }
 
   const ctx = sanitizeCtx(body.ctx);
@@ -118,7 +144,14 @@ export default async (req) => {
       }
       let reply = extract(await r.json());
       if (!reply) { const r2 = await call(model, false); if (r2.ok) reply = extract(await r2.json()); } // empty → one retry
-      if (reply) return json({ reply, model, used: used + 1, cap: DAILY_CAP });
+      if (reply) return json({
+        reply,
+        model,
+        used: userUsed + 1,  // per-user count after this question
+        quota: userQuota,     // per-user daily limit
+        globalUsed: globalUsed + 1,
+        globalCap: GLOBAL_CAP
+      });
       lastStatus = 200; lastErr = "empty response";
     } catch (e) { lastErr = "fetch failed"; }
   }
