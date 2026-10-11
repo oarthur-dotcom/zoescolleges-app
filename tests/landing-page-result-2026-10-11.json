@@ -1,0 +1,273 @@
+{
+ "phone": {
+  "view": "board",
+  "hero": {
+   "h1": "College, decided together.",
+   "ctas": [
+    "See a sample family",
+    "I have an invite code"
+   ],
+   "headerSignin": true,
+   "sections": 4,
+   "imgs": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "card": true
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "http://localhost:8863/media/lp-board.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-thread.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-cost.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-talk.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-decide.webp",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#hdr-signin Sign in 68x32",
+    "Sign in 43x17",
+    "Sample photos · credits 343x17",
+    "Warren LeMay from Covington, KY, United  306x31",
+    "Aaron Josephson; cropped by Ibn Battuta 341x31",
+    "Fcb981, this edited version by Thermos 315x31",
+    "Yelm 26x14",
+    "Warren LeMay from Cullowhee, NC, United  341x31",
+    "AndrewHorne 75x14",
+    "#t-signin Sign in 68x32",
+    "#t-signup Create account 122x32",
+    "#forgot-link Forgot password? 101x17",
+    "#newhere-link Create your account 121x14",
+    "#trust-link Who's behind this, where the 286x31",
+    "#lp-trust2 Who's behind this and how we  239x35"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "signup": {
+   "mode": "signup",
+   "code": true,
+   "top": 80
+  },
+  "signin": {
+   "mode": "signin",
+   "btn": "Sign in"
+  },
+  "trust": "trust",
+  "errs": []
+ },
+ "desktop": {
+  "view": "board",
+  "hero": {
+   "h1": "College, decided together.",
+   "ctas": [
+    "See a sample family",
+    "I have an invite code"
+   ],
+   "headerSignin": true,
+   "sections": 4,
+   "imgs": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "card": true
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "http://localhost:8863/media/lp-board.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-thread.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-cost.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-talk.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-decide.webp",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#hdr-signin Sign in 68x32",
+    "Sign in 43x17",
+    "Sample photos · credits 478x17",
+    "Warren LeMay from Covington, KY, United  262x14",
+    "Aaron Josephson; cropped by Ibn Battuta 223x14",
+    "Fcb981, this edited version by Thermos 210x14",
+    "Yelm 26x14",
+    "Warren LeMay from Cullowhee, NC, United  451x31",
+    "AndrewHorne 75x14",
+    "#t-signin Sign in 68x32",
+    "#t-signup Create account 122x32",
+    "#forgot-link Forgot password? 101x17",
+    "#newhere-link Create your account 121x14",
+    "#trust-link Who's behind this, where the 409x31",
+    "#lp-trust2 Who's behind this and how we  287x16"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "signup": {
+   "mode": "signup",
+   "code": true,
+   "top": 80
+  },
+  "signin": {
+   "mode": "signin",
+   "btn": "Sign in"
+  },
+  "trust": "trust",
+  "errs": []
+ },
+ "phone-dark": {
+  "view": "board",
+  "hero": {
+   "h1": "College, decided together.",
+   "ctas": [
+    "See a sample family",
+    "I have an invite code"
+   ],
+   "headerSignin": true,
+   "sections": 4,
+   "imgs": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "card": true
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "http://localhost:8863/media/lp-board.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-thread.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-cost.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-phone-talk.webp",
+     "ok": true
+    },
+    {
+     "src": "http://localhost:8863/media/lp-decide.webp",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#hdr-signin Sign in 68x32",
+    "Sign in 43x17",
+    "Sample photos · credits 343x17",
+    "Warren LeMay from Covington, KY, United  306x31",
+    "Aaron Josephson; cropped by Ibn Battuta 341x31",
+    "Fcb981, this edited version by Thermos 315x31",
+    "Yelm 26x14",
+    "Warren LeMay from Cullowhee, NC, United  341x31",
+    "AndrewHorne 75x14",
+    "#t-signin Sign in 68x32",
+    "#t-signup Create account 122x32",
+    "#forgot-link Forgot password? 101x17",
+    "#newhere-link Create your account 121x14",
+    "#trust-link Who's behind this, where the 286x31",
+    "#lp-trust2 Who's behind this and how we  239x35"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "signup": {
+   "mode": "signup",
+   "code": true,
+   "top": 80
+  },
+  "signin": {
+   "mode": "signin",
+   "btn": "Sign in"
+  },
+  "trust": "trust",
+  "errs": []
+ },
+ "join": {
+  "focus": true,
+  "hero": "none",
+  "title": "You're invited! 🎉",
+  "mode": "signup"
+ },
+ "unfocus": "grid",
+ "demo": {
+  "demo": true,
+  "view": "today"
+ },
+ "ok": {
+  "phone.landingShows": true,
+  "phone.heroAndCtas": true,
+  "phone.allImagesLoad": true,
+  "phone.inviteCodeOpensSignup": true,
+  "phone.headerSignIn": true,
+  "phone.trustPage": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.landingShows": true,
+  "desktop.heroAndCtas": true,
+  "desktop.allImagesLoad": true,
+  "desktop.inviteCodeOpensSignup": true,
+  "desktop.headerSignIn": true,
+  "desktop.trustPage": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.landingShows": true,
+  "phone-dark.heroAndCtas": true,
+  "phone-dark.allImagesLoad": true,
+  "phone-dark.inviteCodeOpensSignup": true,
+  "phone-dark.headerSignIn": true,
+  "phone-dark.trustPage": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "invitee.focused": true,
+  "sampleFamilyButton": true
+ },
+ "allPass": true
+}

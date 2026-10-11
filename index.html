@@ -597,6 +597,62 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .mem-steps>div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:12px;background:var(--paper);font-size:13px}.mem-steps span{color:var(--muted);font-size:12px}
 @media (max-width:560px){.mem-empty .mem-steps{grid-template-columns:1fr}}
 /* #49 sample family */
+/* Landing page (#63) */
+#v-auth{max-width:1180px;margin:0 auto}
+.lp-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding:56px 0 40px}
+.lp-eyebrow{font-size:13px;font-weight:700;color:var(--teal);letter-spacing:.02em;margin-bottom:14px}
+.lp-h1{font-size:clamp(38px,5.4vw,64px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 18px}
+.lp-lede{font-size:18.5px;line-height:1.55;color:var(--muted);margin:0 0 26px;max-width:34em}
+.lp-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.lp-btn{min-height:50px;padding:0 24px;font-size:16px;border-radius:999px;font-weight:700}
+.lp-btn2{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
+.lp-small{font-size:13.5px;color:var(--muted);margin:14px 0 0}
+.lp-hero-art{position:relative;padding:0 0 40px 0}
+.lp-browser{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 30px 60px -20px rgba(16,28,46,.35)}
+.lp-browser-bar{display:flex;gap:6px;padding:9px 12px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.lp-browser-bar i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--muted) 45%,var(--sunk))}
+.lp-browser img,.lp-shot img,.lp-phone img{display:block;width:100%;height:auto}
+.lp-phone{position:absolute;right:-14px;bottom:0;width:30%;border-radius:26px;overflow:hidden;border:6px solid #101c2e;background:#101c2e;box-shadow:0 24px 50px -16px rgba(16,28,46,.5)}
+.lp-proof{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;margin:8px 0 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.lp-proof b{color:var(--ink)}
+.lp-sec{padding:72px 0 8px;text-align:center}
+.lp-kicker{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:10px}
+.lp-h2{font-size:clamp(26px,3.2vw,38px);line-height:1.12;letter-spacing:-.025em;font-weight:800;margin:0 0 14px}
+.lp-steps{list-style:none;padding:0;margin:34px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;text-align:left}
+.lp-steps li{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.lp-steps b{display:block;font-size:17.5px;margin:12px 0 6px}.lp-steps p{margin:0;color:var(--muted);line-height:1.5;font-size:15px}
+.lp-num{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:color-mix(in srgb,var(--teal) 14%,var(--surface));color:var(--teal);font-weight:800}
+.lp-row{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:56px;align-items:center;padding:72px 0 0}
+.lp-row.lp-flip .lp-row-txt{order:2}
+.lp-row-txt p{font-size:17px;line-height:1.6;color:var(--muted);margin:0}
+.lp-shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 24px 50px -24px rgba(16,28,46,.35)}
+.lp-shot-phone{max-width:300px;justify-self:center;border-radius:30px;border:7px solid #101c2e;background:#101c2e}
+.lp-shot-phone img{aspect-ratio:780/1300;object-fit:cover;object-position:top}
+.lp-video{border:0;box-shadow:none;background:none;overflow:visible}.lp-video .sample-video{border-radius:16px}
+.lp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;text-align:left}
+.lp-f{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.lp-f b{font-size:16px}.lp-f p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.lp-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:80px 0 0;padding:34px;border-radius:22px;background:color-mix(in srgb,var(--teal) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 22%,var(--line))}
+.lp-trust b{font-size:16.5px}.lp-trust p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.lp-account{max-width:460px;margin:0 auto;padding:80px 0 10px;text-align:center;scroll-margin-top:80px}
+.lp-acc-sub{color:var(--muted);margin:0 0 18px;line-height:1.5}
+.lp-card{text-align:left}
+.lp-foot{text-align:center;font-size:13px;color:var(--muted);padding:40px 0 10px}
+.lp-backlink{display:none;font-size:13.5px;margin:20px 0 0}
+.lp-fo{display:none}.lp.focus .lp-fo:not(:empty){display:block;margin-top:6px}.lp.focus .lp-mk{display:none}.lp.focus .lp-backlink{display:inline-block}.lp.focus .lp-account{padding-top:24px}
+#hdr-signin{margin-left:auto}
+@media (max-width:900px){
+  .lp-hero{grid-template-columns:1fr;gap:28px;padding:28px 0 24px}
+  .lp-hero-art{padding-bottom:26px;margin-right:10px}
+  .lp-row,.lp-row.lp-flip{grid-template-columns:1fr;gap:22px;padding-top:52px}.lp-row.lp-flip .lp-row-txt{order:0}
+  .lp-steps,.lp-grid,.lp-trust{grid-template-columns:1fr}.lp-steps{gap:12px}.lp-trust{gap:18px;padding:24px;margin-top:56px}
+  .lp-sec{padding-top:52px}.lp-account{padding-top:56px}
+}
+@media (max-width:640px){
+  .lp-h1{font-size:40px}.lp-lede{font-size:16.5px}.lp-btn{flex:1 1 100%;width:100%}
+  .lp-phone{width:34%;right:-8px;border-width:4px;border-radius:18px}
+  .lp-proof{gap:8px 18px;font-size:13px}
+}
 .demo-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin:12px 0 4px;padding:14px 16px;border-radius:16px;border:1.5px solid color-mix(in srgb,var(--teal) 55%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--ink);font:inherit;cursor:pointer}
 .demo-cta>span:nth-child(2){display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.demo-cta b{font-size:15.5px}.demo-cta span span{font-size:12.5px;color:var(--muted)}
 .demo-cta-i{font-size:26px}.demo-cta-go{font-size:22px;color:var(--teal);font-weight:800}
@@ -1205,6 +1261,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <span class="beta">Beta</span>
     <div class="right">
       <span id="whoami" class="mono muted" style="font-size:12px"></span>
+      <button id="hdr-signin" class="small ghost hidden" data-lp-account="signin">Sign in</button>
       <button id="signout" class="small ghost hidden">Sign out</button>
     </div>
   </div>
@@ -1263,12 +1320,81 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     </div>
   </section>
 
-  <!-- AUTH -->
+  <!-- AUTH + LANDING (#63, Oct 11: a real landing page for new families; the sign-in card is unchanged) -->
   <section id="v-auth" class="hidden">
-    <h1>The college search, as a family.</h1>
-    <p class="sub">A roommate-style match for colleges: grounded academic research + what you care about beyond class + cost. Everyone rates; nobody can touch anyone else's stars.</p>
-    <button id="demo-start" class="demo-cta" type="button"><span class="demo-cta-i">👀</span><span><b>Look around first — explore a sample family</b><span>No account needed. See their board, chances, trip, memories and Zoe.</span></span><span class="demo-cta-go">→</span></button>
-    <div class="card">
+  <div class="lp" id="lp">
+    <a href="#" class="lp-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
+    <div class="lp-hero lp-mk">
+      <div class="lp-hero-txt">
+        <div class="lp-eyebrow">For families with a high schooler · Free during the beta</div>
+        <h1 class="lp-h1">College, decided together.</h1>
+        <p class="lp-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
+        <div class="lp-ctas"><button id="demo-start" class="primary lp-btn" type="button">See a sample family</button><button class="lp-btn lp-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
+        <p class="lp-small">No account needed to look around. Already a member? <a href="#" data-lp-account="signin">Sign in</a></p>
+      </div>
+      <div class="lp-hero-art" aria-hidden="true">
+        <div class="lp-browser"><div class="lp-browser-bar"><i></i><i></i><i></i></div><img src="/media/lp-board.webp" alt="" width="1600" height="938"></div>
+        <div class="lp-phone"><img src="/media/lp-phone-thread.webp" alt="" width="780" height="1688"></div>
+      </div>
+    </div>
+    <ul class="lp-proof lp-mk"><li><b>3,180</b> U.S. colleges</li><li>Official federal data</li><li>Private to your family</li><li>No ads</li></ul>
+
+    <div class="lp-sec lp-mk">
+      <div class="lp-kicker">How it works</div>
+      <h2 class="lp-h2">From “where do we even start?” to “we chose.”</h2>
+      <ol class="lp-steps">
+        <li><span class="lp-num">1</span><b>Build your list together</b><p>Search 3,180 U.S. colleges. Everyone in the family adds schools and rates them on their own.</p></li>
+        <li><span class="lp-num">2</span><b>See what really matters</b><p>Real cost for your income, honest chances, and every deadline, side by side.</p></li>
+        <li><span class="lp-num">3</span><b>Decide as a family</b><p>Everyone gets a voice, a secret vote shows where you agree, and Decision Day makes it a moment.</p></li>
+      </ol>
+    </div>
+
+    <div class="lp-row lp-mk">
+      <div class="lp-row-txt"><div class="lp-kicker">Cost</div><h2 class="lp-h2">The price your family will actually pay</h2>
+        <p>The sticker price isn't your price. See the typical cost after grants for families at your income, compare schools side by side, then add real aid offers as they arrive.</p></div>
+      <div class="lp-shot"><img src="/media/lp-cost.webp" alt="Cost table comparing sticker price, typical cost after aid and earnings for each school" width="1600" height="875" loading="lazy"></div>
+    </div>
+    <div class="lp-row lp-flip lp-mk">
+      <div class="lp-row-txt"><div class="lp-kicker">Talk it out</div><h2 class="lp-h2">Everyone gets a voice. Nobody has to win.</h2>
+        <p>Each school gets its own family conversation. Built-in help with wording keeps it kind, and a secret vote shows where you already agree before anyone argues.</p></div>
+      <div class="lp-shot lp-shot-phone"><img src="/media/lp-phone-talk.webp" alt="Talk It Out: a family vote card and one conversation per school" width="780" height="1688" loading="lazy"></div>
+    </div>
+    <div class="lp-row lp-mk">
+      <div class="lp-row-txt"><div class="lp-kicker">Decision Day</div><h2 class="lp-h2">Make the big moment feel like one</h2>
+        <p>Track every acceptance, compare offers side by side, hear everyone's pick, and celebrate the decision together.</p></div>
+      <div class="lp-shot"><img src="/media/lp-decide.webp" alt="Decision Day: days until May 1 and each school's application status" width="1600" height="875" loading="lazy"></div>
+    </div>
+
+    <div class="lp-sec lp-mk">
+      <div class="lp-kicker">Also inside</div>
+      <div class="lp-grid">
+        <div class="lp-f"><b>🎯 Honest chances</b><p>Reach, Target or Likely for each school, with the math shown and adjustable.</p></div>
+        <div class="lp-f"><b>⏰ Every deadline</b><p>Early, regular and aid deadlines for your list, in one place.</p></div>
+        <div class="lp-f"><b>🚗 Visit planning</b><p>Plan campus trips, with a checklist of what to see and ask.</p></div>
+        <div class="lp-f"><b>📰 Campus Pulse</b><p>News and events from the schools on your list.</p></div>
+        <div class="lp-f"><b>💬 Ask Zoe</b><p>A college-planning sidekick for the questions that come up at 11pm.</p></div>
+        <div class="lp-f"><b>📄 College report</b><p>Your student's whole picture as a PDF to bring to the counselor.</p></div>
+      </div>
+    </div>
+
+    <div class="lp-row lp-flip lp-mk">
+      <div class="lp-row-txt"><div class="lp-kicker">Memories</div><h2 class="lp-h2">Every visit becomes a memory</h2>
+        <p>Your photos and what each of you thought turn into a short reel your family keeps. Here's a 20-second sample.</p></div>
+      <div class="lp-shot lp-video"><video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
+        <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
+    </div>
+
+    <div class="lp-trust lp-mk">
+      <div><b>Official data</b><p>Admissions, cost, graduation and earnings come from the U.S. Department of Education's College Scorecard.</p></div>
+      <div><b>Private to your family</b><p>Only your family sees your list, ratings, notes and photos, enforced in the database. We don't sell your data.</p></div>
+      <div><b>Independent</b><p>Built by a family, for families. Not affiliated with any college or ranking company.</p></div>
+    </div>
+
+    <div class="lp-account" id="lp-account">
+      <h2 class="lp-h2 lp-mk">Join the beta</h2>
+      <h2 class="lp-h2 lp-fo" id="lp-fo-title"></h2>
+      <p class="lp-acc-sub lp-mk">Zoe's Colleges is invite-only and free while we build it. Have a code or a family invite? Create your account below.</p>
+    <div class="card lp-card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
         <button id="t-signup" class="small">Create account</button>
@@ -1295,9 +1421,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <p id="auth-fine" class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
       <p id="trust-link-wrap" style="font-size:12px;margin-top:10px;text-align:center"><a href="#" id="trust-link"><b>Who's behind this, where the data comes from &amp; how we handle your info →</b></a></p>
     </div>
-    <div class="card sample-card"><div class="sample-h"><b>📸 Memories:</b> every campus visit becomes a reel your family keeps. <span class="muted">Here's a 20-second sample.</span></div>
-      <video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
-      <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
+    </div>
+    <footer class="lp-foot lp-mk">© 2026 Wotupski Productions · <a href="#" id="lp-trust2">Who's behind this and how we handle your info</a></footer>
+  </div>
   </section>
 
   <!-- MEMORIES (#47: its own tab) -->
@@ -1872,6 +1998,7 @@ const APP_VIEWS = ["v-decide","v-talk","v-visit","v-today","v-cost","v-board","v
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  { const hs=$("hdr-signin"); if(hs) hs.classList.toggle("hidden", view!=="v-auth"); }
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("tabbar").classList.toggle("hidden", !APP_VIEWS.includes(view)); document.body.classList.toggle("has-tabbar", APP_VIEWS.includes(view)); closeTbSheet();
   $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view) || view==="v-zoe" || view==="v-talk");   // #62: Talk It Out is a family space; the floating button covered Send
@@ -1914,8 +2041,14 @@ function clearmsg(id){ $(id).className = "msg"; }
 $("t-signin").onclick = () => setAuthMode("signin");
 $("t-signup").onclick = () => setAuthMode("signup");
 $("trust-link").onclick = (e) => { e.preventDefault(); show("v-trust"); };
+/* Landing page (#63): buttons that open the account card; "focus" hides the marketing for invitees and password resets. */
+function lpFocus(on, title){ const l=$("lp"); if(l) l.classList.toggle("focus", !!on); const t=$("lp-fo-title"); if(t) t.textContent = on ? (title||"") : ""; }
+function lpAccount(mode){ setAuthMode(mode); const a=$("lp-account"); if(a&&a.scrollIntoView) a.scrollIntoView({behavior:"smooth", block:"start"}); setTimeout(()=>{ const e=$("email"); if(e&&!$("email-wrap").classList.contains("hidden")) e.focus({preventScroll:true}); }, 350); }
+document.querySelectorAll("[data-lp-account]").forEach(b=>b.addEventListener("click", e=>{ e.preventDefault(); if(!$("v-auth").classList.contains("hidden")||b.id!=="hdr-signin") lpAccount(b.dataset.lpAccount); else { show("v-auth"); lpAccount("signin"); } }));
+{ const u=$("lp-unfocus"); if(u) u.onclick=(e)=>{ e.preventDefault(); lpFocus(false); window.scrollTo(0,0); }; }
+{ const t2=$("lp-trust2"); if(t2) t2.onclick=(e)=>{ e.preventDefault(); show("v-trust"); }; }
 $("trust-back").onclick = () => show("v-auth");
-$("trust-start").onclick = () => { show("v-auth"); setAuthMode("signup"); $("email").focus(); };
+$("trust-start").onclick = () => { show("v-auth"); lpAccount("signup"); };
 $("trust-contact").onclick = (e) => { e.preventDefault(); location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Zoe's Colleges — question"); };
 $("forgot-link").onclick = (e) => { e.preventDefault(); setAuthMode("reset"); };
 $("back-link").onclick = (e) => { e.preventDefault(); setAuthMode("signin"); };
@@ -1934,6 +2067,7 @@ function setAuthMode(m){
   $("pw-label").textContent = isRec ? "New password" : "Password";
   $("pw").autocomplete = (isIn? "current-password" : "new-password");
   $("code-wrap").classList.toggle("hidden", !isUp);
+  if(isRec) lpFocus(true);
   $("forgot-link").classList.toggle("hidden", !isIn);
   $("back-link").classList.toggle("hidden", !isReset);      // recovery has no going back
   $("newhere").classList.toggle("hidden", !isIn);
@@ -1997,6 +2131,7 @@ function applyJoinContext(){
   setAuthMode("signup");
   $("code-wrap").classList.add("hidden");   // a family invite is enough — no beta code needed
   msg("auth-msg","You're joining a family board — just create your account to continue.","ok");
+  lpFocus(true, "You're invited! 🎉");
   return true;
 }
 function prefillJoin(){
@@ -5876,6 +6011,7 @@ async function bootApp() {
   // if arriving from a reset email, show the new-password screen instead of the board
   if (/type=recovery/.test(location.hash||"")) recovering = true;
   setAuthMode(recovering ? "recovery" : (_p.get("signup") ? "signup" : "signin"));
+  if (_p.get("signup")) lpFocus(true);
   if (!recovering) applyJoinContext();   // invitee from a deep link → signup + prefilled code
   const { data } = await sb.auth.getSession();
   if (recovering) { show("v-auth"); return; }
