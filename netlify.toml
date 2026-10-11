@@ -1,4 +1,20 @@
 # Zoe's Colleges — static site + serverless functions on zoescolleges.com
+#
+# Fix #14 (Oct 11): publish ONLY what the browser needs. Before, publish="." served the whole
+# repo, so the SQL migrations, function source and tests were downloadable from the site.
+# The build step copies the public files into dist/; everything else stays private.
+# If this command ever fails, Netlify keeps the previous deploy live.
 [build]
-  publish = "."
+  command = "rm -rf dist && mkdir -p dist && cp index.html dist/"
+  publish = "dist"
   functions = "netlify/functions"
+
+# Security headers on every page (no Content-Security-Policy yet: the page uses inline
+# scripts and several CDNs, so a CSP needs its own careful pass).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
