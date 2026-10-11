@@ -1,0 +1,173 @@
+{
+ "phone": {
+  "chooser": [
+   "MA · VT · 3 campuses · ~239 mi of driving Massachusetts Institute of Technology · Boston College · University of Vermont Plan this trip",
+   "SC · 2 campuses · ~275 mi of driving College of Charleston · Clemson University Plan this trip"
+  ],
+  "region0": {
+   "stops": [
+    "University of Vermont",
+    "Boston College",
+    "Massachusetts Institute of Technology"
+   ],
+   "days": 2,
+   "maxLegMi": 233.4135092723492
+  },
+  "all": {
+   "stops": 5,
+   "days": 5
+  },
+  "oneRegion": {
+   "chooser": false,
+   "stops": 2
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    }
+   ],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Dustbowlsnow.jpg/960px-Dustbowlsn",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Dustbowlsnow.jpg/960px-Dustbowlsn"
+   ],
+   "bad": [],
+   "small": [
+    "#trip-back ← Back to board 111x38",
+    "#trip-build Plan route → 106x33",
+    "✕ 16x14",
+    "+ Add campuses from your board 324x20",
+    "IMG 25x41",
+    "+ 30x30",
+    "− 30x30",
+    "Leaflet 54x15",
+    "🎟 Book a visit ↗ 114x27",
+    "▶ Virtual tour ↗ 112x27",
+    "📍 Directions ↗ 110x27",
+    "🔎 Find things to do 141x30",
+    "Add your own… 193x32",
+    "+ 33x32",
+    "#trip-ics ⬇ Download calendar (.ics) 193x32",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "desktop": {
+  "chooser": [
+   "MA · VT · 3 campuses · ~239 mi of driving Massachusetts Institute of Technology · Boston College · University of Vermont Plan this trip",
+   "SC · 2 campuses · ~275 mi of driving College of Charleston · Clemson University Plan this trip"
+  ],
+  "region0": {
+   "stops": [
+    "University of Vermont",
+    "Boston College",
+    "Massachusetts Institute of Technology"
+   ],
+   "days": 2,
+   "maxLegMi": 233.4135092723492
+  },
+  "all": {
+   "stops": 5,
+   "days": 5
+  },
+  "oneRegion": {
+   "chooser": false,
+   "stops": 2
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    }
+   ],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Dustbowlsnow.jpg/960px-Dustbowlsn",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Dustbowlsnow.jpg/960px-Dustbowlsn"
+   ],
+   "bad": [],
+   "small": [
+    "#trip-back ← Back to board 111x38",
+    "#trip-build Plan route → 106x33",
+    "✕ 16x14",
+    "+ Add campuses from your board 1167x20",
+    "IMG 25x41",
+    "+ 30x30",
+    "− 30x30",
+    "Leaflet 54x15",
+    "🎟 Book a visit ↗ 114x27",
+    "▶ Virtual tour ↗ 112x27",
+    "📍 Directions ↗ 110x27",
+    "🔎 Find things to do 141x30",
+    "Add your own… 888x32",
+    "+ 33x32",
+    "#trip-ics ⬇ Download calendar (.ics) 193x32",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [
+    "svg.[object SVGAnimatedString]# right=1332"
+   ],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.twoRegions": true,
+  "phone.regionTripIsLocal": true,
+  "phone.planAllStillPossible": true,
+  "phone.singleRegionNoChooser": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.twoRegions": true,
+  "desktop.regionTripIsLocal": true,
+  "desktop.planAllStillPossible": true,
+  "desktop.singleRegionNoChooser": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true
+ },
+ "allPass": true
+}

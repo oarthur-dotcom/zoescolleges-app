@@ -633,6 +633,8 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cx-cell{font-weight:600}
 .cx-cell.best{background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--ink);border-radius:8px}
 .cx-star{color:var(--teal);margin-left:3px}
+.tr-reg{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;background:var(--surface)}
+.tr-names{font-size:12.5px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
 .cxm{display:none}
 .cxm-legend{display:grid;gap:6px;margin:6px 0 12px;font-size:13px;font-weight:600}
 .cxm-leg{display:flex;gap:8px;align-items:center;min-width:0;overflow-wrap:anywhere}
@@ -3071,11 +3073,42 @@ $("trip-build").onclick = async () => {
   if(stops.length<1){ out.innerHTML=`<div class="card muted">Add at least one campus with a map location to plan a route.</div>`; return; }
   if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;}
   out.innerHTML=`<div class="card muted">Planning your route…</div>`;
+  // #43: campuses far apart (e.g. Boston and Charleston) are split into regional trips instead of one long drive.
+  const regions=tripRegions(stops);
+  if(regions.length>1 && !tripAllowLong){ renderRegionChooser(regions); return; }
+  tripAllowLong=false;
+  await buildTripFor(stops);
+};
+let tripAllowLong=false;
+async function buildTripFor(stops){
+  const out=$("trip-out"); out.innerHTML=`<div class="card muted">Planning your route…</div>`;
   const ordered=orderStops(stops); const legs= ordered.length>1 ? await osrmLegs(ordered) : [];
   const days=+$("trip-days").value||2;   // the family's preferred length; the schedule shows the real need
   tripBuilt={ordered,legs,days,start:nextSaturday()};
   renderTripOut();
-};
+}
+/* Regions (#43): group campuses that are within ~250 straight-line miles (about a 4–5 hour drive) of another
+   campus in the group. Each region becomes its own trip; Zoe's Colleges never plans a 900-mile day. */
+const TRIP_REGION_MI=250;
+function tripRegions(stops){
+  const groups=[]; const seen=new Set();
+  for(const s of stops){ if(seen.has(s.id)) continue; const g=[s]; seen.add(s.id);
+    for(let k=0;k<g.length;k++){ for(const t of stops){ if(!seen.has(t.id) && haversineMi(g[k],t)<=TRIP_REGION_MI){ g.push(t); seen.add(t.id); } } }
+    groups.push(g); }
+  return groups.sort((a,b)=>b.length-a.length);
+}
+function regionName(g){ const st=[...new Set(g.map(s=>s.state).filter(Boolean))]; return st.length<=3? st.join(" · ") : st.slice(0,3).join(" · ")+" +"+(st.length-3); }
+function regionMiles(g){ const o=orderStops(g); let m=0; for(let i=1;i<o.length;i++) m+=haversineMi(o[i-1],o[i])*1.3; return m; }
+function renderRegionChooser(regions){
+  const out=$("trip-out"); const total=regions.reduce((t,g)=>t+g.length,0);
+  out.innerHTML=`<div class="card trip-regions"><h3 style="margin:0 0 4px">Your ${total} campuses are in ${regions.length} different regions</h3>
+    <p class="muted" style="margin:0 0 12px;font-size:13px">Driving between them would take whole days. Plan each region as its own trip — pick one to start.</p>
+    ${regions.map((g,i)=>`<div class="tr-reg"><div style="min-width:0;flex:1"><b>${esc(regionName(g))}</b> <span class="muted" style="font-size:12.5px">· ${g.length} campus${g.length>1?"es":""}${g.length>1?` · ~${Math.round(regionMiles(g))} mi of driving`:""}</span>
+      <div class="tr-names">${g.map(s=>esc(s.name)).join(" · ")}</div></div><button class="small primary" data-plan-region="${i}">Plan this trip</button></div>`).join("")}
+    <button class="linklike" data-plan-all style="margin-top:10px;font-size:12.5px">Plan everything as one long road trip anyway</button></div>`;
+  out.querySelectorAll("[data-plan-region]").forEach(b=>b.onclick=()=>buildTripFor(regions[+b.dataset.planRegion]));
+  out.querySelector("[data-plan-all]").onclick=()=>{ tripAllowLong=true; $("trip-build").click(); };
+}
 function nextSaturday(){ const d=new Date(); const add=((6-d.getDay()+7)%7)||7; d.setDate(d.getDate()+add); d.setHours(9,0,0,0); return d; }
 /* ========== COMPARE ========== */
 let cmpSel={};
