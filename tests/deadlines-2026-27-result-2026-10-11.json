@@ -1,0 +1,30 @@
+{
+ "mitOld": [],
+ "mitNew": [
+  {
+   "kind": "Early Action",
+   "date": "2026-11-01",
+   "text": "Early Action"
+  },
+  {
+   "kind": "Regular Decision",
+   "date": "2027-01-04",
+   "text": "Regular Action"
+  }
+ ],
+ "withFile": {
+  "subject": "Deadline reminder: Clemson University Early Action in 4 days (+3 more)",
+  "text": "Clemson University — Early Action deadline Thu, Oct 15, 2026 (in 4 days)\nCollege of Charleston — Early Decision deadline Sun, Nov 1, 2026 (in 21 days)\nUniversity of Arizona — Early Action deadline Sun, Nov 1, 2026 (in 21 days)\nMassachusetts Institute of Technology — Early Action deadline Sun, Nov 1, 2026 (in 21 days)\n\nOpen your Deadlines: https://zoescolleges.com\nAlways confirm dates on each school's admissions site. Turn reminders off in Deadlines → Email reminders."
+ },
+ "withoutFile": "Clemson University — Early Action deadline Thu, Oct 15, 2026 (in 4 days)\nUniversity of Arizona — Early Action deadline Sun, Nov 1, 2026 (in 21 days)\nCollege of Charleston — Early deadline Mon, Nov 2, 2026 (in 22 days)\n\nOpen your Deadlines: https://zoescolleges.com\nAlways confirm dates on each school's admissions site. Turn reminders off in Deadlines → Email reminders.",
+ "ok": {
+  "newRoundsWin": true,
+  "noFileFallsBack": true,
+  "badDateIgnored": true,
+  "mitNowIncluded": true,
+  "clemsonEarlyAction": true,
+  "charlestonEarlyDecision": true,
+  "missingFileStillWorks": true
+ },
+ "allPass": true
+}

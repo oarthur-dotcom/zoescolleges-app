@@ -18,7 +18,10 @@ export function kindOf(str, fallback){
   if (/priority/.test(t)) return "Priority";
   return fallback;
 }
-export function deadlineList(info){
+export function deadlineList(info, dl){
+  // 2026–27 rounds from deadlines-2026-27.json (sourced from each school's site) win when present.
+  if (dl && Array.isArray(dl.rounds) && dl.rounds.length)
+    return dl.rounds.filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r.date)).map(r => ({ kind: r.kind, date: r.date, text: r.name || r.kind })).sort((a,b)=> a.date < b.date ? -1 : 1);
   const md = (info && info.muse && info.muse.deadlines) || {};
   const raw = [[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey = new Map();

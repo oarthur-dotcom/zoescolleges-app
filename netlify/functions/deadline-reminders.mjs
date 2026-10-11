@@ -10,6 +10,7 @@ import { deadlineList, daysBetween, windowFor } from "../lib/deadlines.mjs";
 
 const SB_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/colleges.json";
+const DL_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/deadlines-2026-27.json";
 const FROM = "Zoe's Colleges <hello@zoescolleges.com>";
 const SITE = "https://zoescolleges.com";
 
@@ -56,6 +57,8 @@ export async function runReminders({ env = process.env, fetchImpl = fetch, now =
 
   const cat = await (await fetchImpl(CATALOG_URL)).json();
   const byId = new Map((cat.colleges || []).map(c => [c.id, c]));
+  let dlMap = {};   // 2026–27 deadlines file; if it isn't published yet, the catalog dates are used
+  try { const r = await fetchImpl(DL_URL); if (r.ok) dlMap = (await r.json()).schools || {}; } catch (e) { log.error("[reminders] deadlines file", e && e.message); }
   const fams = [...new Set(prefs.map(p => p.family_id))];
   const boards = await rest(`family_schools?family_id=in.(${fams.join(",")})&select=family_id,school_id,name`);
 
@@ -68,7 +71,7 @@ export async function runReminders({ env = process.env, fetchImpl = fetch, now =
       const due = [];
       for (const s of boards.filter(b => b.family_id === p.family_id)) {
         const info = byId.get(s.school_id); if (!info) continue;
-        for (const dl of deadlineList(info)) {
+        for (const dl of deadlineList(info, dlMap[s.school_id])) {
           const n = daysBetween(summary.today, dl.date); const w = windowFor(n);
           if (w == null) continue;
           due.push({ user_id: p.user_id, family_id: p.family_id, school_id: s.school_id, kind: dl.kind, deadline_date: dl.date, days_before: w,

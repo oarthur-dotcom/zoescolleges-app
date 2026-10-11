@@ -669,6 +669,16 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 /* Fix #10 */
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 
+/* 2026–27 deadlines */
+.dl27{border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:10px 0;background:var(--surface)}
+.dl27-h{font-weight:700;font-size:14px;margin-bottom:4px}
+.dl27-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.dl27-row:last-of-type{border-bottom:none}
+.dl27-row.past{opacity:.55}
+.dl27-k{flex:1 1 180px;min-width:0}
+.dl27-d{font-weight:700;white-space:nowrap}
+.dl27-src,.dl-src{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dl-src{margin-top:3px}
 /* Campus Pulse v2 (Oct 11): a living picture of each school, from its own feeds */
 #pulse{scroll-margin-top:140px}
 .pulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:14px 0;overflow:hidden}
@@ -1500,7 +1510,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -1955,7 +1965,7 @@ function renderReport(){
         ${cell("Admit rate", pct(sc.admissionRate))}
         ${cell("Net price", money(sc.netPrice))}
         ${cell("Grad rate", pct(sc.gradRate))}
-        ${cell("Deadline", r.info&&r.info.regularDeadline||"—")}
+        ${cell("Next deadline", r.info&&nextDlText(r.info)||r.info&&r.info.regularDeadline||"—")}
       </div>
       ${visitBits.length?`<div class="rep-visit">${visitBits.join(" · ").replace(" · <br>","<br>")}</div>`:""}
     </div>`;
@@ -2521,10 +2531,7 @@ function renderDetail(id){
       ${info.greekLife?`<span>Greek: <b>${esc(info.greekLife)}</b></span>`:""}
       ${info.athleticsNetwork?`<span>Athletics: <b>${esc(info.athleticsNetwork)}</b></span>`:""}
     </div>
-    <div class="d-grid" style="grid-template-columns:1fr 1fr">
-      ${cell("Early deadline", info.earlyDeadline)}
-      ${cell("Regular deadline", info.regularDeadline)}
-    </div>
+    ${detailDeadlines(info,cell)}
     ${lifestyleSection(info)}
     <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Retention, student–faculty ratio &amp; yield: IPEDS via Urban Institute. Deadlines: confirm on the school's site.</p>`
     : `<div class="card muted" style="margin:14px 0">No catalog detail yet for this school.</div>`;
@@ -2879,6 +2886,32 @@ async function loadIncomePrices(){
   try{ const r=await fetch(INCOME_URL,{cache:"no-cache"}); if(!r.ok) return; const j=await r.json(); state.incomePrices=j.schools||null; }
   catch(e){ state.incomePrices=null; }   // file not published yet -> feature simply stays hidden
 }
+/* ===== 2026–27 deadlines (Oct 11): first-year deadlines researched by Muse from each school's own
+   admissions site, with source links. Separate file next to the catalog (approved via @live). Schools
+   without an entry keep the older catalog dates. ===== */
+const DL_URL = CATALOG_URL.replace(/colleges\.json$/,"deadlines-2026-27.json");
+state.dl2627 = null;
+async function loadDeadlines2627(){
+  try{ const r=await fetch(DL_URL,{cache:"no-cache"}); if(!r.ok) return; const j=await r.json(); state.dl2627=j.schools||null; state.dlChecked=j.checked||"";
+    dlSel=null; if(currentView==="deadlines") renderDeadlines(); }
+  catch(e){ state.dl2627=null; }   // file not published yet -> older catalog dates are used
+}
+function dl2627(info){ const v=info&&state.dl2627&&state.dl2627[info.id]; return v&&Array.isArray(v.rounds)&&v.rounds.length?v:null; }
+function _ymdDate(s){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||"")); return m?new Date(+m[1],+m[2]-1,+m[3]):null; }
+function dlCheckedLabel(v){ const d=_ymdDate(v&&v.checked); return d?d.toLocaleDateString("en-US",{month:"short",day:"numeric"}):""; }
+/* Short text for tables: next upcoming round, e.g. "Early Action · Nov 1, 2026" */
+function detailDeadlines(info,cell){
+  const v=dl2627(info);
+  if(!v) return `<div class="d-grid" style="grid-template-columns:1fr 1fr">${cell("Early deadline", info.earlyDeadline)}${cell("Regular deadline", info.regularDeadline)}</div>`;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const src=v.rounds[0].src;
+  return `<div class="dl27"><div class="dl27-h">📅 Application deadlines 2026–27</div>
+    ${v.rounds.map(r=>{ const d=_ymdDate(r.date); const n=daysUntil(d); const past=d<today;
+      return `<div class="dl27-row${past?" past":""}"><span class="dl27-k">${esc(r.kind)}${r.name&&r.name!==r.kind?` <span class="muted">(“${esc(r.name)}”)</span>`:""}</span><span class="dl27-d">${esc(_fmtD(d))}</span><span class="dl-due ${dueClass(n)}"><span class="dot"></span>${esc(dueLabel(n))}</span></div>`; }).join("")}
+    <div class="dl27-src">From the school's admissions site, checked ${esc(dlCheckedLabel(v))}${r_conf(v)} · <a href="${esc(src)}" target="_blank" rel="noopener">see the source ↗</a>. Always confirm before you apply.</div></div>`;
+}
+function r_conf(v){ return v.rounds.some(r=>r.conf==="medium")?" (some dates medium confidence)":""; }
+function nextDlText(info){ const n=info?nextDeadline(info):null; return n?`${n.kind} · ${_fmtD(n.date)}`:""; }
 function myIncomeBand(){
   const own=myPrefs().incomeBand; if(own!==undefined && own!=="" && own!==null) return +own;
   for(const m of (state.members||[])){ const w=state.prefs[m.user_id]; if(w && w.incomeBand!==undefined && w.incomeBand!=="" && w.incomeBand!==null) return +w.incomeBand; }   // a parent may have set it
@@ -2939,7 +2972,7 @@ function buildCompare(){
     ["Student–faculty ratio", c=>{const sf=c.info.ipeds&&c.info.ipeds.studentFacultyRatio; return sf?sf+":1":"—";}],
     ["Greek life", c=>esc(c.info.greekLife||"—")],
     ["Athletics", c=>esc(c.info.athleticsNetwork||"—")],
-    ["Regular deadline", c=>esc(c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
+    ["Next deadline", c=>esc(nextDlText(c.info)||c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
   ];
   const n=cols.length;
   const M=[
@@ -2954,7 +2987,7 @@ function buildCompare(){
     {k:"Setting", get:c=>{const l=localeUrban(c.info);return l===null?null:l>=0.7?"City":l>=0.35?"Suburban":"Town/Rural";}, fmt:v=>v||"—", dir:null},
     {k:"1st-yr retention", get:c=>c.info.ipeds&&c.info.ipeds.retention, fmt:v=>v==null?"—":pct(v), dir:"hi"},
     {k:"Student–faculty", get:c=>{const sf=c.info.ipeds&&c.info.ipeds.studentFacultyRatio;return sf?sf:null;}, fmt:v=>v?v+":1":"—", dir:"lo"},
-    {k:"Regular deadline", get:c=>c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date), fmt:v=>v?esc(String(v)):"—", dir:null},
+    {k:"Next deadline", get:c=>nextDlText(c.info)||c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date), fmt:v=>v?esc(String(v)):"—", dir:null},
   ];
   const bestIdx=(get,dir)=>{ if(!dir) return -1; let bi=-1,bv=null; cols.forEach((c,i)=>{ const v=get(c); if(typeof v!=="number"||!isFinite(v)) return; if(bv===null||(dir==="hi"?v>bv:v<bv)){ bv=v; bi=i; } }); return bi; };
   let top={i:-1,v:-1}; cols.forEach((c,i)=>{ const m=matchScore(c.info,w); if(m!=null&&m>top.v){ top={i,v:m}; } });
@@ -2996,6 +3029,8 @@ function _kindOf(str, fallback){
   return fallback;
 }
 function deadlineList(info){
+  const v=dl2627(info);
+  if(v) return v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
   const md=(info.muse&&info.muse.deadlines)||{};
   const raw=[[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey=new Map();   // same date in two source fields = one deadline; keep the most specific label
@@ -3093,6 +3128,7 @@ function renderDeadlines(){
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
         <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
+        ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
         <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
       </div></div></div>`;
@@ -3665,7 +3701,7 @@ function zoePersonal(q){
   if(/\b(likely|likelies|safet)/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
   if(/(recommend|suggest|what am i missing|more schools|zoe pick|for me\b|should i add)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
   if(/(improve|get in|better chance|work on|boost|stronger|increase.*chance)/.test(q)){ return zoeAdvice(p); }
-  if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(y.x.info.regularDeadline||(y.x.info.muse&&y.x.info.muse.deadlines&&y.x.info.muse.deadlines.regular_date)||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
+  if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
   if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
   if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
   if(/(how.*(balance|my list)|is my list|balanced)/.test(q)){ const c={reach:0,target:0,likely:0}; board.forEach(x=>{const ch=chanceFor(x.info); if(ch)c[ch.band]++;}); return `Your list: <b>${c.likely}</b> likely · <b>${c.target}</b> target · <b>${c.reach}</b> reach. A balanced list is roughly 2+ likely, 3+ target, 2+ reach.`; }

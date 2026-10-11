@@ -1,0 +1,65 @@
+{
+ "withFile": {
+  "clemsonDetail": "📅 Application deadlines 2026–27 Early Action Oct 15, 2026 in 4 days Regular Decision Jan 1, 2027 in 82 days From the school's admissions site, checked Oct 11 · see the source ↗. Always confirm before you apply.",
+  "tracker": [
+   "Clemson University Early Action · in 4 days Clemson, SC · Early Action Oct 15, 2026 · Regular Decision Jan 1, 2027 ✓ From the school's site, checked Oct 11 · source ↗ Ess",
+   "College of Charleston Early Decision · in 21 days Charleston, SC · Early Decision Nov 1, 2026 · Early Decision II Jan 15, 2027 ✓ From the school's site, checked Oct 11 · ",
+   "Massachusetts Institute of Technology Early Action · in 21 days Cambridge, MA · Early Action Nov 1, 2026 · Regular Decision Jan 4, 2027 ✓ From the school's site, checked ",
+   "University of Vermont Early Decision · in 21 days Burlington, VT · Early Decision Nov 1, 2026 · Early Action Nov 1, 2026 · Early Decision II Jan 15, 2027 · Regular Decisi",
+   "Newman University date TBD Wichita, KS Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "West Virginia University Institute of Technology date TBD Beckley, WV Essays Recommendations Transcript FAFSA / CSS Test scores Submitted"
+  ],
+  "sourceLinks": 4,
+  "summary": "6 applications Next: Clemson University Early Action · in 4 days 0/36 to-dos done",
+  "compareCell": "Early Action · Nov 1, 2026",
+  "overflowX": false,
+  "errors": []
+ },
+ "withFileDesktop": {
+  "clemsonDetail": "📅 Application deadlines 2026–27 Early Action Oct 15, 2026 in 4 days Regular Decision Jan 1, 2027 in 82 days From the school's admissions site, checked Oct 11 · see the source ↗. Always confirm before you apply.",
+  "tracker": [
+   "Clemson University Early Action · in 4 days Clemson, SC · Early Action Oct 15, 2026 · Regular Decision Jan 1, 2027 ✓ From the school's site, checked Oct 11 · source ↗ Ess",
+   "College of Charleston Early Decision · in 21 days Charleston, SC · Early Decision Nov 1, 2026 · Early Decision II Jan 15, 2027 ✓ From the school's site, checked Oct 11 · ",
+   "Massachusetts Institute of Technology Early Action · in 21 days Cambridge, MA · Early Action Nov 1, 2026 · Regular Decision Jan 4, 2027 ✓ From the school's site, checked ",
+   "University of Vermont Early Decision · in 21 days Burlington, VT · Early Decision Nov 1, 2026 · Early Action Nov 1, 2026 · Early Decision II Jan 15, 2027 · Regular Decisi",
+   "Newman University date TBD Wichita, KS Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "West Virginia University Institute of Technology date TBD Beckley, WV Essays Recommendations Transcript FAFSA / CSS Test scores Submitted"
+  ],
+  "sourceLinks": 4,
+  "summary": "6 applications Next: Clemson University Early Action · in 4 days 0/36 to-dos done",
+  "compareCell": "Early Action · Nov 1, 2026",
+  "overflowX": false,
+  "errors": []
+ },
+ "noFile": {
+  "clemsonDetail": null,
+  "tracker": [
+   "Clemson University Early Action · in 4 days Clemson, SC · Early Action Oct 15, 2026 · Regular Jan 1, 2027 Essays Recommendations Transcript FAFSA / CSS Test scores Submit",
+   "University of Vermont Early · in 21 days Burlington, VT · Early Nov 1, 2026 · Regular Jan 15, 2027 Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "College of Charleston Early · in 22 days Charleston, SC · Early Nov 2, 2026 · Regular Jan 15, 2027 Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "Massachusetts Institute of Technology date TBD Cambridge, MA Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "Newman University date TBD Wichita, KS Essays Recommendations Transcript FAFSA / CSS Test scores Submitted",
+   "West Virginia University Institute of Technology date TBD Beckley, WV Essays Recommendations Transcript FAFSA / CSS Test scores Submitted"
+  ],
+  "sourceLinks": 0,
+  "summary": "6 applications Next: Clemson University Early Action · in 4 days 0/36 to-dos done",
+  "compareCell": "",
+  "overflowX": false,
+  "errors": []
+ },
+ "ok": {
+  "detailShowsRoundsAndSource": true,
+  "trackerMitDated": true,
+  "trackerSoonestClemson": true,
+  "trackerSourceLinks": true,
+  "compareNextDeadline": true,
+  "noFileFallsBackToOldDates": true,
+  "withFile:noErrors": true,
+  "withFile:noOverflow": true,
+  "withFileDesktop:noErrors": true,
+  "withFileDesktop:noOverflow": true,
+  "noFile:noErrors": true,
+  "noFile:noOverflow": true
+ },
+ "allPass": true
+}
