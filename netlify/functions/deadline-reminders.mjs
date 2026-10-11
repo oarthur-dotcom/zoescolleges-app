@@ -9,8 +9,9 @@
 import { deadlineList, daysBetween, windowFor } from "../lib/deadlines.mjs";
 
 const SB_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
-const CATALOG_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/colleges.json";
-const DL_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/deadlines-2026-27.json";
+import { DATA_BASE } from "../lib/data-ref.mjs";
+const CATALOG_URL = `${DATA_BASE}/colleges.json`;
+const DL_URL = `${DATA_BASE}/deadlines-2026-27.json`;
 const FROM = "Zoe's Colleges <hello@zoescolleges.com>";
 const SITE = "https://zoescolleges.com";
 

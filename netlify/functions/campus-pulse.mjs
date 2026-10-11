@@ -13,7 +13,8 @@
 import { createHash } from "node:crypto";
 import { corsFor, requireUser } from "../lib/guard.mjs";
 
-const FEEDS_URL = "https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/campus-feeds.json";
+import { DATA_BASE } from "../lib/data-ref.mjs";
+const FEEDS_URL = `${DATA_BASE}/campus-feeds.json`;
 const TTL_MS = 3 * 60 * 60 * 1000;
 const STORY_KINDS = ["news", "admissions", "student"];
 const MAX = { news: 6, admissions: 4, student: 5, events: 6 };
