@@ -54,8 +54,6 @@
    ],
    "bad": [],
    "small": [
-    "#trip-back ← Back to board 111x38",
-    "#trip-build Plan route → 106x33",
     "✕ 16x14",
     "+ Add campuses from your board 324x20",
     "IMG 25x41",
@@ -65,11 +63,7 @@
     "🎟 Book a visit ↗ 114x27",
     "▶ Virtual tour ↗ 112x27",
     "📍 Directions ↗ 110x27",
-    "🔎 Find things to do 141x30",
-    "Add your own… 193x32",
-    "+ 33x32",
-    "#trip-ics ⬇ Download calendar (.ics) 193x32",
-    "#trip-mem-open Open Memories → 141x33"
+    "+ 33x40"
    ],
    "wide": [],
    "dashCount": 4
@@ -131,7 +125,6 @@
    ],
    "bad": [],
    "small": [
-    "#trip-back ← Back to board 111x38",
     "#trip-build Plan route → 106x33",
     "✕ 16x14",
     "+ Add campuses from your board 1167x20",
@@ -139,6 +132,7 @@
     "+ 30x30",
     "− 30x30",
     "Leaflet 54x15",
+    "🎒 Start visit 107x32",
     "🎟 Book a visit ↗ 114x27",
     "▶ Virtual tour ↗ 112x27",
     "📍 Directions ↗ 110x27",

@@ -3,7 +3,8 @@ import { launch, newPage, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import 
 const SITE = '/tmp/claude-0/f52/site', SHOTS = '/tmp/claude-0/f52/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
 if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
 const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
-const NP = await (await fetch('https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/net-price-by-income.json')).text().catch(() => '{"schools":{}}');
+const NP_CACHE = '/tmp/claude-0/np-4dee74b.json';  // copy of the pinned data file (curl it if missing); avoids a network call in the test
+const NP = fs.existsSync(NP_CACHE) ? fs.readFileSync(NP_CACHE, 'utf8') : await fetch('https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/net-price-by-income.json').then(r => r.text()).catch(() => '{"schools":{}}');
 const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8814);
 const R = {}, ok = {};
 // server-side cleaner

@@ -1,0 +1,176 @@
+{
+ "phone": {
+  "small": {
+   "today": 0,
+   "board": 3,
+   "explore": 0,
+   "cost": 0,
+   "deadlines": 2,
+   "pulse": 0,
+   "trip": 1,
+   "memories": 3,
+   "profile": 2,
+   "zoe": 0,
+   "compare": 1,
+   "recommends": 0
+  },
+  "ox": {
+   "today": 0,
+   "board": 0,
+   "explore": 0,
+   "cost": 0,
+   "deadlines": 0,
+   "pulse": 0,
+   "trip": 0,
+   "memories": 0,
+   "profile": 0,
+   "zoe": 0,
+   "compare": 0,
+   "recommends": 0
+  },
+  "zoeHead": 296,
+  "cmp": {
+   "tt": "none",
+   "h": 44
+  },
+  "dl": {
+   "inside": true,
+   "metaFs": "13px"
+  },
+  "mem": 358,
+  "ex": {
+   "btn": "inline-flex",
+   "more": "none"
+  },
+  "exOpen": {
+   "more": "flex",
+   "label": "▴ Fewer filters (1 on)",
+   "exp": "true",
+   "count": "1244 4-year schools · showing the top 250"
+  },
+  "errors": []
+ },
+ "desktop": {
+  "small": {
+   "today": 23,
+   "board": 33,
+   "explore": 23,
+   "cost": 14,
+   "deadlines": 24,
+   "pulse": 13,
+   "trip": 16,
+   "memories": 17,
+   "profile": 17,
+   "zoe": 23,
+   "compare": 14,
+   "recommends": 15
+  },
+  "ox": {
+   "today": 0,
+   "board": 0,
+   "explore": 0,
+   "cost": 0,
+   "deadlines": 0,
+   "pulse": 0,
+   "trip": 0,
+   "memories": 0,
+   "profile": 0,
+   "zoe": 0,
+   "compare": 0,
+   "recommends": 0
+  },
+  "zoeHead": 788,
+  "cmp": {
+   "tt": "none",
+   "h": 44
+  },
+  "dl": {
+   "inside": true,
+   "metaFs": "13px"
+  },
+  "mem": 1053,
+  "ex": {
+   "btn": "none",
+   "more": "flex"
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "small": {
+   "today": 0,
+   "board": 3,
+   "explore": 0,
+   "cost": 0,
+   "deadlines": 2,
+   "pulse": 0,
+   "trip": 1,
+   "memories": 3,
+   "profile": 2,
+   "zoe": 0,
+   "compare": 1,
+   "recommends": 0
+  },
+  "ox": {
+   "today": 0,
+   "board": 0,
+   "explore": 0,
+   "cost": 0,
+   "deadlines": 0,
+   "pulse": 0,
+   "trip": 0,
+   "memories": 0,
+   "profile": 0,
+   "zoe": 0,
+   "compare": 0,
+   "recommends": 0
+  },
+  "zoeHead": 296,
+  "cmp": {
+   "tt": "none",
+   "h": 44
+  },
+  "dl": {
+   "inside": true,
+   "metaFs": "13px"
+  },
+  "mem": 358,
+  "ex": {
+   "btn": "inline-flex",
+   "more": "none"
+  },
+  "exOpen": {
+   "more": "flex",
+   "label": "▴ Fewer filters (1 on)",
+   "exp": "true",
+   "count": "1244 4-year schools · showing the top 250"
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.noSidewaysScroll": true,
+  "phone.askZoeHeaderReadable": true,
+  "phone.compareNamesNormalCase": true,
+  "phone.deadlinePillFits": true,
+  "phone.memoriesHeader": true,
+  "phone.exploreFilters": true,
+  "phone.tapTargets": true,
+  "phone.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop.askZoeHeaderReadable": true,
+  "desktop.compareNamesNormalCase": true,
+  "desktop.deadlinePillFits": true,
+  "desktop.memoriesHeader": true,
+  "desktop.exploreFilters": true,
+  "desktop.tapTargets": true,
+  "desktop.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "phone-dark.askZoeHeaderReadable": true,
+  "phone-dark.compareNamesNormalCase": true,
+  "phone-dark.deadlinePillFits": true,
+  "phone-dark.memoriesHeader": true,
+  "phone-dark.exploreFilters": true,
+  "phone-dark.tapTargets": true,
+  "phone-dark.noErrors": true
+ },
+ "allPass": true
+}

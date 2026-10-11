@@ -27,19 +27,7 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "#demo-join Create my free account 173x32",
-    "#demo-exit Exit 22x18",
-    "#ztab-save 💾 Save chat 107x32",
-    "#ztab-binder 📒 Binder 87x32",
-    "#ztab-gear ⚙ Make Zoe yours 140x32",
-    "Analyze my whole profile 166x26",
-    "What are my reaches? 148x26",
-    "What should I work on? 154x26",
-    "Recommend schools for me 182x26",
-    "When are my deadlines? 161x26",
-    "Is my list balanced? 133x26",
-    "What should my essay be about? 210x26"
+    "#demo-exit Exit 22x18"
    ],
    "wide": [],
    "dashCount": 7
@@ -145,19 +133,7 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "#demo-join Create my free account 173x32",
-    "#demo-exit Exit 22x18",
-    "#ztab-save 💾 Save chat 107x32",
-    "#ztab-binder 📒 Binder 87x32",
-    "#ztab-gear ⚙ Make Zoe yours 140x32",
-    "Analyze my whole profile 166x26",
-    "What are my reaches? 148x26",
-    "What should I work on? 154x26",
-    "Recommend schools for me 182x26",
-    "When are my deadlines? 161x26",
-    "Is my list balanced? 133x26",
-    "What should my essay be about? 210x26"
+    "#demo-exit Exit 22x18"
    ],
    "wide": [],
    "dashCount": 7

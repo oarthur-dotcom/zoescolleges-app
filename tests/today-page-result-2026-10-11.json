@@ -23,19 +23,7 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [
-    "#signout Sign out 78x32",
-    "#ztab-save 💾 Save chat 107x32",
-    "#ztab-binder 📒 Binder 87x32",
-    "#ztab-gear ⚙ Make Zoe yours 140x32",
-    "Analyze my whole profile 166x26",
-    "What are my reaches? 148x26",
-    "What should I work on? 154x26",
-    "Recommend schools for me 182x26",
-    "When are my deadlines? 161x26",
-    "Is my list balanced? 133x26",
-    "What should my essay be about? 210x26"
-   ],
+   "small": [],
    "wide": [],
    "dashCount": 3
   },
@@ -119,19 +107,7 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [
-    "#signout Sign out 78x32",
-    "#ztab-save 💾 Save chat 107x32",
-    "#ztab-binder 📒 Binder 87x32",
-    "#ztab-gear ⚙ Make Zoe yours 140x32",
-    "Analyze my whole profile 166x26",
-    "What are my reaches? 148x26",
-    "What should I work on? 154x26",
-    "Recommend schools for me 182x26",
-    "When are my deadlines? 161x26",
-    "Is my list balanced? 133x26",
-    "What should my essay be about? 210x26"
-   ],
+   "small": [],
    "wide": [],
    "dashCount": 3
   },
@@ -153,18 +129,7 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [
-    "#signout Sign out 78x32",
-    "Find schools 105x32",
-    "Browse schools 125x32",
-    "📅 Plan my week 132x32",
-    "All news 78x32",
-    "Open board 99x32",
-    "💰 Costs 81x32",
-    "✨ Zoe Picks 105x32",
-    "Plan a trip 89x32",
-    "📸 Memories 108x32"
-   ],
+   "small": [],
    "wide": [],
    "dashCount": 0
   },

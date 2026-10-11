@@ -234,6 +234,7 @@ a{color:var(--teal)}
 .trip-schools{display:flex;flex-direction:column;gap:6px;margin:8px 0}
 .trip-pick{display:flex;align-items:center;gap:8px;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;cursor:pointer}
 .trip-pick.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 7%,var(--surface))}
+.tp-city{color:var(--muted);font-size:13px;line-height:1.45}
 .trip-pick .tp-city{color:var(--muted);font-size:12px}
 #tripmap{height:320px;border-radius:12px;border:1px solid var(--line);margin:10px 0;z-index:0}
 .trip-day{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:var(--surface)}
@@ -798,6 +799,31 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 /* Fix #10 */
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 
+/* #57 Design polish pass */
+#v-detail .chiprow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.trip-pick{text-transform:none;font-family:inherit;letter-spacing:0;color:var(--ink);margin:0;min-height:44px}
+.trip-pick b{font-weight:600}
+.ztab-intro{flex:1 1 220px;min-width:0}
+.dl-summary{flex-wrap:wrap}
+.ex-filters-btn{display:none;margin-top:8px}
+@media (max-width:640px){
+  .ztab-head{flex-wrap:wrap;align-items:flex-start}
+  .ztab-actions{margin-left:0;width:100%}
+  .dl-due{white-space:normal;line-height:1.35;padding:3px 10px}
+  .mem-hero>div:first-child{flex:1 1 100%!important}
+  .mem-bridge{flex-direction:column;align-items:flex-start}
+  #v-explore .row select{flex:1 1 calc(50% - 6px);min-width:0;width:auto}
+  .ex-filters-btn{display:inline-flex}
+  .ex-more{display:none}
+  .ex-more.open{display:flex}
+}
+@media (pointer:coarse){
+  button.small,a.btnlike,.zsugg button,.sh-audbtn,.dl-pill{min-height:40px}
+  .card-links a{min-height:34px;display:inline-flex;align-items:center}
+  .ob-x,.coach-x{min-width:40px;min-height:40px}
+  #howto-x{min-height:40px}
+}
+
 /* 2026–27 deadlines */
 .dl27{border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:10px 0;background:var(--surface)}
 .dl27-h{font-weight:700;font-size:14px;margin-bottom:4px}
@@ -1265,7 +1291,8 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
       <select id="ex-sort2" style="width:auto"><option value="match">Sort: My match</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
     </div>
-    <div class="row" style="margin-top:6px">
+    <button id="ex-filters-btn" class="small ghost ex-filters-btn" aria-expanded="false" aria-controls="ex-more-filters">⚙ More filters</button>
+    <div class="row ex-more" id="ex-more-filters" style="margin-top:6px">
       <select id="ex-pol" style="width:auto"><option value="">Any political lean</option><option value="Lean Democrat">Lean Democrat</option><option value="Swing / mixed">Swing / mixed</option><option value="Lean Republican">Lean Republican</option></select>
       <select id="ex-guns" style="width:auto"><option value="">Any gun laws</option><option value="Stricter gun laws">Stricter</option><option value="Moderate gun laws">Moderate</option><option value="Permissive gun laws">Permissive</option></select>
       <select id="ex-lgbtq" style="width:auto"><option value="">Any LGBTQ policy</option><option value="Strong LGBTQ protections">Strong protections</option><option value="Moderate LGBTQ protections">Moderate</option><option value="Limited LGBTQ protections">Limited</option></select>
@@ -2664,6 +2691,11 @@ function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id=
 /* ========== EXPLORE ========== */
 function renderExplore(){ renderExList($("exsearch").value||""); }
 ["ex-level","ex-size","ex-sel","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
+/* #57: on phones the area filters sit behind "More filters" so results show sooner; the count shows what's on */
+function exFiltersLabel(){ const b=$("ex-filters-btn"); if(!b) return; const n=["ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].filter(id=>$(id).value).length; const open=$("ex-more-filters").classList.contains("open");
+  b.textContent=`${open?"▴ Fewer filters":"⚙ More filters"}${n?` (${n} on)`:""}`; b.setAttribute("aria-expanded",open?"true":"false"); }
+{ const b=$("ex-filters-btn"); if(b) b.onclick=()=>{ $("ex-more-filters").classList.toggle("open"); exFiltersLabel(); };
+  ["ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).addEventListener("change",exFiltersLabel)); }
 
 /* ===== Fix #9 (Oct 11): ranked search shared by Schools + Add-school ===== */
 // Common abbreviations families type. Each target is an exact catalog name (verified Oct 11).

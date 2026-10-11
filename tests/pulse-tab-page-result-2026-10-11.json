@@ -1,11 +1,14 @@
 {
  "desktop": {
   "navTabs": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
+   "📸 Memories",
    "Deadlines",
    "📰 Pulse · 4",
    "💬 Ask Zoe",
@@ -17,7 +20,7 @@
    "sc-166683:3 new"
   ],
   "digestAsksForEvents": true,
-  "tabText": "⏰ DEADLINES COMING UP Clemson University Early Action · Oct 15, 2026 in 4 days College of Charleston Early Decision · Nov 1, 2026 in 21 days Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips 4 new this week · live from 2 of your 6 schools All 5 College of Charleston Massachusetts Institute of Technology Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today New Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday New College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago New Massachusetts Institute of Technology Beavers hockey opens season with home win Campus news Sports 2 days ago New Massachusetts Institute of Technology New exhibit at the MIT Museum explores robots in art Campus news Arts 12 days ago Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 📬 Weekly Pulse email ",
+  "tabText": "4 new this week · live from 2 of your 6 schools Latest5 ☆ Saved0 🏟 Sports1 All 2 schools College of Charleston • Massachusetts Institute of Technology • Massachusetts Institute of Technology today MIT engineers design a battery that charges in five minutes Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology yesterday Early action: what we look for in your essays Admissions office Admissions & aid New ☆ Save ✓ Read College of Charleston 2 days ago CofC breaks ground on new science center Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology 2 days ago Beavers hockey opens season with home win Campus news Sports New ☆ Save ✓ Read Massachusetts Institute of Technology 12 days ago New exhibit at the MIT Museum explores robots in art Campus news Arts ☆ Save ✓ Read Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips 📬 Weekly Pulse email Off One short email each Monday: the week's news and visit days at your board schools. Turn on Headlines, e",
   "feedOrder": [
    "MIT engineers design a battery that charges in fiv",
    "Early action: what we look for in your essays",
@@ -26,39 +29,48 @@
    "New exhibit at the MIT Museum explores robots in a"
   ],
   "visits": [
-   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips"
+   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips"
   ],
-  "nudges": [
-   "Clemson University Early Action · Oct 15, 2026 in 4 days",
-   "College of Charleston Early Decision · Nov 1, 2026 in 21 days",
-   "Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days"
-  ],
+  "nudges": [],
   "notConnected": "Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links.",
   "weeklyCard": "📬 Weekly Pulse email Off\nOne short email each Monday: the week's news and visit days at your board schools.\nTurn on",
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI"
+   ],
    "bad": [],
    "small": [
-    "Massachusetts Institute of Technology 221x14",
-    "Campus tour and information session 1003x19",
-    "+ Add to Trips 106x34",
+    "Latest5 72x34",
+    "☆ Saved0 88x34",
+    "🏟 Sports1 91x34",
+    "All 2 schoolsCollege of Charleston •Mass 240x36",
+    "Massachusetts Institute of Technology 187x14",
+    "MIT engineers design a battery that char 260x39",
+    "☆ Save 62x30",
+    "✓ Read 61x30",
+    "Massachusetts Institute of Technology 164x14",
+    "Early action: what we look for in your e 260x39",
     "College of Charleston 122x14",
-    "Fall Open House 1003x19",
-    "All5 56x34",
-    "College of Charleston 170x34",
-    "Massachusetts Institute of Technology 275x34",
-    "MIT engineers design a battery that char 1175x19",
-    "Early action: what we look for in your e 1175x19",
-    "CofC breaks ground on new science center 1175x19",
-    "Beavers hockey opens season with home wi 1175x19",
-    "New exhibit at the MIT Museum explores r 1175x19",
+    "CofC breaks ground on new science center 260x39",
+    "Massachusetts Institute of Technology 160x14",
+    "Beavers hockey opens season with home wi 260x39",
+    "Massachusetts Institute of Technology 156x14",
+    "New exhibit at the MIT Museum explores r 260x39",
     "University of Vermont 129x20",
     "Newman University 115x20",
     "West Virginia University Institute of Te 278x20",
     "Clemson University 114x20",
+    "Massachusetts Institute of Technology 221x14",
+    "Campus tour and information session 1003x19",
+    "+ Add to Trips 106x34",
+    "Fall Open House 1003x19",
     "Turn on 74x32"
    ],
    "wide": [],
@@ -71,13 +83,12 @@
   "tripNav": "Trips · 1",
   "weeklyWrite": "[{\"op\":\"upsert\",\"on\":true,\"hasEmailOn\":false}]",
   "weeklyAfter": "📬 Weekly Pulse email On\nEvery Monday morning to test@example.com: the week's news and visit days at your schools.\nTurn off",
-  "nudgeOpensDeadlines": true,
   "detailVisit": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips"
   ],
   "detailFirstEvent": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 1:54 PM · Kresge"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 3:33 PM · Kresge"
   ],
   "detailAudit": {
    "overflowX": 0,
@@ -101,17 +112,22 @@
    "wide": [],
    "dashCount": 2
   },
-  "clemsonNudge": "⏰\nEarly Action\ndeadline in 4 days\n(Oct 15, 2026)",
+  "clemsonNudge": "none",
   "errors": [],
-  "consoleErrors": []
+  "consoleErrors": [
+   "error: A bad HTTP response code (404) was received when fetching the script."
+  ]
  },
  "phone": {
   "navTabs": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
+   "📸 Memories",
    "Deadlines",
    "📰 Pulse · 4",
    "💬 Ask Zoe",
@@ -123,7 +139,7 @@
    "sc-166683:3 new"
   ],
   "digestAsksForEvents": true,
-  "tabText": "⏰ DEADLINES COMING UP Clemson University Early Action · Oct 15, 2026 in 4 days College of Charleston Early Decision · Nov 1, 2026 in 21 days Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips 4 new this week · live from 2 of your 6 schools All 5 College of Charleston Massachusetts Institute of Technology Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today New Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday New College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago New Massachusetts Institute of Technology Beavers hockey opens season with home win Campus news Sports 2 days ago New Massachusetts Institute of Technology New exhibit at the MIT Museum explores robots in art Campus news Arts 12 days ago Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 📬 Weekly Pulse email ",
+  "tabText": "4 new this week · live from 2 of your 6 schools Latest5 ☆ Saved0 🏟 Sports1 All 2 schools College of Charleston • Massachusetts Institute of Technology • Massachusetts Institute of Technology today MIT engineers design a battery that charges in five minutes Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology yesterday Early action: what we look for in your essays Admissions office Admissions & aid New ☆ Save ✓ Read College of Charleston 2 days ago CofC breaks ground on new science center Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology 2 days ago Beavers hockey opens season with home win Campus news Sports New ☆ Save ✓ Read Massachusetts Institute of Technology 12 days ago New exhibit at the MIT Museum explores robots in art Campus news Arts ☆ Save ✓ Read Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips 📬 Weekly Pulse email Off One short email each Monday: the week's news and visit days at your board schools. Turn on Headlines, e",
   "feedOrder": [
    "MIT engineers design a battery that charges in fiv",
    "Early action: what we look for in your essays",
@@ -132,40 +148,47 @@
    "New exhibit at the MIT Museum explores robots in a"
   ],
   "visits": [
-   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips"
+   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips"
   ],
-  "nudges": [
-   "Clemson University Early Action · Oct 15, 2026 in 4 days",
-   "College of Charleston Early Decision · Nov 1, 2026 in 21 days",
-   "Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days"
-  ],
+  "nudges": [],
   "notConnected": "Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links.",
   "weeklyCard": "📬 Weekly Pulse email Off\nOne short email each Monday: the week's news and visit days at your board schools.\nTurn on",
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI"
+   ],
    "bad": [],
    "small": [
+    "Latest5 68x34",
+    "☆ Saved0 84x34",
+    "🏟 Sports1 87x34",
+    "All 2 schoolsCollege of Charleston •Mass 240x36",
     "Massachusetts Institute of Technology 221x14",
-    "Campus tour and information session 276x19",
-    "+ Add to Trips 106x34",
+    "MIT engineers design a battery that char 306x39",
+    "☆ Save 62x30",
+    "✓ Read 61x30",
+    "Massachusetts Institute of Technology 209x14",
+    "Early action: what we look for in your e 306x39",
     "College of Charleston 122x14",
-    "Fall Open House 276x19",
-    "All5 52x34",
-    "College of Charleston 166x34",
-    "Massachusetts Institute of Technology 271x34",
-    "MIT engineers design a battery that char 332x38",
-    "Early action: what we look for in your e 332x19",
-    "CofC breaks ground on new science center 332x19",
-    "Beavers hockey opens season with home wi 332x19",
-    "New exhibit at the MIT Museum explores r 332x38",
+    "CofC breaks ground on new science center 306x39",
+    "Massachusetts Institute of Technology 205x14",
+    "Beavers hockey opens season with home wi 306x39",
+    "Massachusetts Institute of Technology 202x14",
+    "New exhibit at the MIT Museum explores r 306x39",
     "University of Vermont 129x20",
     "Newman University 115x20",
     "West Virginia University Institute of Te 278x20",
     "Clemson University 114x20",
-    "Turn on 74x32"
+    "Campus tour and information session 276x19",
+    "+ Add to Trips 106x34",
+    "Fall Open House 276x19"
    ],
    "wide": [],
    "dashCount": 1
@@ -177,13 +200,12 @@
   "tripNav": "Trips · 1",
   "weeklyWrite": "[{\"op\":\"upsert\",\"on\":true,\"hasEmailOn\":false}]",
   "weeklyAfter": "📬 Weekly Pulse email On\nEvery Monday morning to test@example.com: the week's news and visit days at your schools.\nTurn off",
-  "nudgeOpensDeadlines": true,
   "detailVisit": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips"
   ],
   "detailFirstEvent": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 1:54 PM · Kresge"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 3:33 PM · Kresge"
   ],
   "detailAudit": {
    "overflowX": 0,
@@ -207,17 +229,22 @@
    "wide": [],
    "dashCount": 2
   },
-  "clemsonNudge": "⏰\nEarly Action\ndeadline in 4 days\n(Oct 15, 2026)",
+  "clemsonNudge": "none",
   "errors": [],
-  "consoleErrors": []
+  "consoleErrors": [
+   "error: A bad HTTP response code (404) was received when fetching the script."
+  ]
  },
  "dark": {
   "navTabs": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
+   "📸 Memories",
    "Deadlines",
    "📰 Pulse · 4",
    "💬 Ask Zoe",
@@ -229,7 +256,7 @@
    "sc-166683:3 new"
   ],
   "digestAsksForEvents": true,
-  "tabText": "⏰ DEADLINES COMING UP Clemson University Early Action · Oct 15, 2026 in 4 days College of Charleston Early Decision · Nov 1, 2026 in 21 days Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips 4 new this week · live from 2 of your 6 schools All 5 College of Charleston Massachusetts Institute of Technology Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today New Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday New College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago New Massachusetts Institute of Technology Beavers hockey opens season with home win Campus news Sports 2 days ago New Massachusetts Institute of Technology New exhibit at the MIT Museum explores robots in art Campus news Arts 12 days ago Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 📬 Weekly Pulse email ",
+  "tabText": "4 new this week · live from 2 of your 6 schools Latest5 ☆ Saved0 🏟 Sports1 All 2 schools College of Charleston • Massachusetts Institute of Technology • Massachusetts Institute of Technology today MIT engineers design a battery that charges in five minutes Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology yesterday Early action: what we look for in your essays Admissions office Admissions & aid New ☆ Save ✓ Read College of Charleston 2 days ago CofC breaks ground on new science center Campus news Research New ☆ Save ✓ Read Massachusetts Institute of Technology 2 days ago Beavers hockey opens season with home win Campus news Sports New ☆ Save ✓ Read Massachusetts Institute of Technology 12 days ago New exhibit at the MIT Museum explores robots in art Campus news Arts ☆ Save ✓ Read Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links. 🎟 VISIT DAYS & OPEN HOUSES OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips 📬 Weekly Pulse email Off One short email each Monday: the week's news and visit days at your board schools. Turn on Headlines, e",
   "feedOrder": [
    "MIT engineers design a battery that charges in fiv",
    "Early action: what we look for in your essays",
@@ -238,40 +265,47 @@
    "New exhibit at the MIT Museum explores robots in a"
   ],
   "visits": [
-   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 17 College of Charleston Fall Open House Sat · 1:54 PM · Cistern Yard + Add to Trips"
+   "OCT 13 Massachusetts Institute of Technology Campus tour and information session Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 17 College of Charleston Fall Open House Sat · 3:33 PM · Cistern Yard + Add to Trips"
   ],
-  "nudges": [
-   "Clemson University Early Action · Oct 15, 2026 in 4 days",
-   "College of Charleston Early Decision · Nov 1, 2026 in 21 days",
-   "Massachusetts Institute of Technology Early Action · Nov 1, 2026 in 21 days"
-  ],
+  "nudges": [],
   "notConnected": "Not connected yet: University of Vermont, Newman University, West Virginia University Institute of Technology, Clemson University. We're connecting more schools every week. Their Pulse page still has student links.",
   "weeklyCard": "📬 Weekly Pulse email Off\nOne short email each Monday: the week's news and visit days at your board schools.\nTurn on",
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI"
+   ],
    "bad": [],
    "small": [
+    "Latest5 68x34",
+    "☆ Saved0 84x34",
+    "🏟 Sports1 87x34",
+    "All 2 schoolsCollege of Charleston •Mass 240x36",
     "Massachusetts Institute of Technology 221x14",
-    "Campus tour and information session 276x19",
-    "+ Add to Trips 106x34",
+    "MIT engineers design a battery that char 306x39",
+    "☆ Save 62x30",
+    "✓ Read 61x30",
+    "Massachusetts Institute of Technology 209x14",
+    "Early action: what we look for in your e 306x39",
     "College of Charleston 122x14",
-    "Fall Open House 276x19",
-    "All5 52x34",
-    "College of Charleston 166x34",
-    "Massachusetts Institute of Technology 271x34",
-    "MIT engineers design a battery that char 332x38",
-    "Early action: what we look for in your e 332x19",
-    "CofC breaks ground on new science center 332x19",
-    "Beavers hockey opens season with home wi 332x19",
-    "New exhibit at the MIT Museum explores r 332x38",
+    "CofC breaks ground on new science center 306x39",
+    "Massachusetts Institute of Technology 205x14",
+    "Beavers hockey opens season with home wi 306x39",
+    "Massachusetts Institute of Technology 202x14",
+    "New exhibit at the MIT Museum explores r 306x39",
     "University of Vermont 129x20",
     "Newman University 115x20",
     "West Virginia University Institute of Te 278x20",
     "Clemson University 114x20",
-    "Turn on 74x32"
+    "Campus tour and information session 276x19",
+    "+ Add to Trips 106x34",
+    "Fall Open House 276x19"
    ],
    "wide": [],
    "dashCount": 1
@@ -283,13 +317,12 @@
   "tripNav": "Trips · 1",
   "weeklyWrite": "[{\"op\":\"upsert\",\"on\":true,\"hasEmailOn\":false}]",
   "weeklyAfter": "📬 Weekly Pulse email On\nEvery Monday morning to test@example.com: the week's news and visit days at your schools.\nTurn off",
-  "nudgeOpensDeadlines": true,
   "detailVisit": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips"
   ],
   "detailFirstEvent": [
-   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 1:54 PM · Lobby 7 + Add to Trips",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 1:54 PM · Kresge"
+   "OCT 13 Campus tour and information session 🎟 Visit day Tue · 3:33 PM · Lobby 7 + Add to Trips",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 3:33 PM · Kresge"
   ],
   "detailAudit": {
    "overflowX": 0,
@@ -313,9 +346,11 @@
    "wide": [],
    "dashCount": 2
   },
-  "clemsonNudge": "⏰\nEarly Action\ndeadline in 4 days\n(Oct 15, 2026)",
+  "clemsonNudge": "none",
   "errors": [],
-  "consoleErrors": []
+  "consoleErrors": [
+   "error: A bad HTTP response code (404) was received when fetching the script."
+  ]
  },
  "ok": {
   "desktop.pulseTabInNav": true,
@@ -330,6 +365,7 @@
   "desktop.addToTrips": true,
   "desktop.weeklySwitch": true,
   "desktop.detailVisitDayFirst": true,
+  "desktop.noDeadlinesOnPulse": true,
   "desktop.noPageErrors": true,
   "desktop.noSidewaysScroll": true,
   "desktop.noBadText": true,
@@ -345,6 +381,7 @@
   "phone.addToTrips": true,
   "phone.weeklySwitch": true,
   "phone.detailVisitDayFirst": true,
+  "phone.noDeadlinesOnPulse": true,
   "phone.noPageErrors": true,
   "phone.noSidewaysScroll": true,
   "phone.noBadText": true,
@@ -360,6 +397,7 @@
   "dark.addToTrips": true,
   "dark.weeklySwitch": true,
   "dark.detailVisitDayFirst": true,
+  "dark.noDeadlinesOnPulse": true,
   "dark.noPageErrors": true,
   "dark.noSidewaysScroll": true,
   "dark.noBadText": true

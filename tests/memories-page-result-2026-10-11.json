@@ -1,10 +1,12 @@
 {
  "phone": {
   "nav": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
    "📸 Memories",
    "Deadlines",
@@ -13,7 +15,9 @@
    "My Profile"
   ],
   "sheet": [
+   "Schools",
    "Zoe Picks",
+   "Costs",
    "Compare",
    "Trips",
    "Memories",
@@ -62,10 +66,7 @@
    ],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "#trip-build Plan route → 106x33",
-    "+ Add campuses from your board 324x20",
-    "#trip-mem-open Open Memories → 141x33"
+    "+ Add campuses from your board 324x20"
    ],
    "wide": [],
    "dashCount": 4
@@ -74,10 +75,12 @@
  },
  "desktop": {
   "nav": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
    "📸 Memories",
    "Deadlines",
@@ -86,7 +89,9 @@
    "My Profile"
   ],
   "sheet": [
+   "Schools",
    "Zoe Picks",
+   "Costs",
    "Compare",
    "Trips",
    "Memories",
@@ -136,10 +141,12 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
+    "Today 70x31",
     "My Board 96x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
+    "💰 Costs 89x31",
     "Trips 63x31",
     "📸 Memories 120x31",
     "Deadlines 112x31",
@@ -157,10 +164,12 @@
  },
  "phone-dark": {
   "nav": [
+   "Today",
    "My Board",
    "Schools",
    "✨ Zoe Picks",
    "Compare",
+   "💰 Costs",
    "Trips",
    "📸 Memories",
    "Deadlines",
@@ -169,7 +178,9 @@
    "My Profile"
   ],
   "sheet": [
+   "Schools",
    "Zoe Picks",
+   "Costs",
    "Compare",
    "Trips",
    "Memories",
@@ -218,10 +229,7 @@
    ],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "#trip-build Plan route → 106x33",
-    "+ Add campuses from your board 324x20",
-    "#trip-mem-open Open Memories → 141x33"
+    "+ Add campuses from your board 324x20"
    ],
    "wide": [],
    "dashCount": 4

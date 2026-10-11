@@ -3,8 +3,8 @@
   "topNavVisible": false,
   "tabbarVisible": true,
   "tabs": [
-   "🏠 Board*",
-   "🔎 Schools",
+   "☀️ Today",
+   "📋 Board*",
    "📰 Pulse 2",
    "⏰ Deadlines",
    "☰ More"
@@ -18,9 +18,12 @@
   "fabsAboveBar": true,
   "pulseOpens": true,
   "sheet": [
+   "🔎 Schools Search and explore all 3,180",
    "✨ Zoe Picks Schools picked for you",
+   "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
    "🚗 Trips Plan campus visits",
+   "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
    "👤 My Profile Grades, scores, activities"
   ],
@@ -284,17 +287,13 @@
    ],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "▶ Tour 57x25",
-    "📍 Map 61x25",
-    "🎓 Site 58x25",
-    "📰 Pulse 67x25",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
-    "⇄ Compare 92x36",
-    "Add 51x32",
-    "On board ✓ 98x33",
-    "#ex-more Show 250 more 125x32"
+    "⇄ Compare 92x36"
    ],
    "wide": [],
    "dashCount": 30
@@ -305,8 +304,8 @@
   "topNavVisible": false,
   "tabbarVisible": true,
   "tabs": [
-   "🏠 Board*",
-   "🔎 Schools",
+   "☀️ Today",
+   "📋 Board*",
    "📰 Pulse 2",
    "⏰ Deadlines",
    "☰ More"
@@ -320,9 +319,12 @@
   "fabsAboveBar": true,
   "pulseOpens": true,
   "sheet": [
+   "🔎 Schools Search and explore all 3,180",
    "✨ Zoe Picks Schools picked for you",
+   "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
    "🚗 Trips Plan campus visits",
+   "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
    "👤 My Profile Grades, scores, activities"
   ],
@@ -586,17 +588,13 @@
    ],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "▶ Tour 57x25",
-    "📍 Map 61x25",
-    "🎓 Site 58x25",
-    "📰 Pulse 67x25",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
-    "⇄ Compare 92x36",
-    "Add 51x32",
-    "On board ✓ 98x33",
-    "#ex-more Show 250 more 125x32"
+    "⇄ Compare 92x36"
    ],
    "wide": [],
    "dashCount": 30
@@ -607,8 +605,8 @@
   "topNavVisible": false,
   "tabbarVisible": true,
   "tabs": [
-   "🏠 Board*",
-   "🔎 Schools",
+   "☀️ Today",
+   "📋 Board*",
    "📰 Pulse 2",
    "⏰ Deadlines",
    "☰ More"
@@ -622,9 +620,12 @@
   "fabsAboveBar": true,
   "pulseOpens": true,
   "sheet": [
+   "🔎 Schools Search and explore all 3,180",
    "✨ Zoe Picks Schools picked for you",
+   "💰 Costs Real cost across your list, and aid offers",
    "⚖️ Compare Side by side",
    "🚗 Trips Plan campus visits",
+   "📸 Memories Visit photos, notes and reels",
    "💬 Ask Zoe Your college-planning sidekick",
    "👤 My Profile Grades, scores, activities"
   ],
@@ -888,17 +889,13 @@
    ],
    "bad": [],
    "small": [
-    "#signout Sign out 78x32",
-    "▶ Tour 57x25",
-    "📍 Map 61x25",
-    "🎓 Site 58x25",
-    "📰 Pulse 67x25",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
-    "⇄ Compare 92x36",
-    "Add 51x32",
-    "On board ✓ 98x33",
-    "#ex-more Show 250 more 125x32"
+    "⇄ Compare 92x36"
    ],
    "wide": [],
    "dashCount": 30
@@ -909,8 +906,8 @@
   "topNavVisible": true,
   "tabbarVisible": false,
   "tabs": [
-   "🏠Board*",
-   "🔎Schools",
+   "☀️Today",
+   "📋Board*",
    "📰Pulse2",
    "⏰Deadlines",
    "☰More"
@@ -936,11 +933,14 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
+    "Today 70x31",
     "My Board 96x31",
     "Schools 84x31",
     "✨ Zoe Picks 116x31",
     "Compare 92x31",
+    "💰 Costs 89x31",
     "Trips 63x31",
+    "📸 Memories 120x31",
     "Deadlines 112x31",
     "📰 Pulse · 2 106x31",
     "💬 Ask Zoe 104x31",
