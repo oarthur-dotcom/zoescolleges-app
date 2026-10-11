@@ -1,0 +1,62 @@
+// #61 Decision Day. Run: node tests/decide-page-test.mjs
+import { launch, newPage, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const SITE = '/tmp/claude-0/f61/site', SHOTS = '/tmp/claude-0/f61/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
+if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
+const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
+const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8825);
+const UID2 = '22222222-2222-2222-2222-222222222222';
+const R = {}, ok = {};
+for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['desktop', { width: 1280, height: 900 }], ['phone-dark', { width: 390, height: 844 }, true]]) {
+  const b = await launch(); const { page, log } = await newPage(b, vp, {}); if (dark) await page.emulateMedia({ colorScheme: 'dark' });
+  await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT })); await page.route(/tile\.openstreetmap|router\.project-osrm/, r => r.abort());
+  await page.goto('http://localhost:8825/index.html'); await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me && talk.loaded, null, { timeout: 60000 }); await page.waitForTimeout(800);
+  const o = {};
+  o.todayBefore = await page.evaluate(() => !!document.querySelector('.td-decide'));
+  await page.evaluate(() => goto('decide')); await page.waitForTimeout(400);
+  o.empty = await page.evaluate(() => ({ hero: (document.querySelector('.dd-hero') || {}).innerText || '', rows: document.querySelectorAll('.dd-row').length, compare: !!document.querySelector('.dd-grid') }));
+  await page.click('[data-ddst="college-of-charleston|accepted"]'); await page.waitForTimeout(500);
+  o.cel = await page.evaluate(() => (document.querySelector('.celebrate .cel-t') || {}).textContent || '');
+  await page.screenshot({ path: `${SHOTS}${label}-celebrate.png` });
+  await page.click('[data-celx]'); await page.waitForTimeout(150);
+  o.write = await page.evaluate(() => { const w = window.__writes.filter(x => x.table === 'family_schools' && x.op === 'update').pop(); return w && w.p; });
+  o.milestone = await page.evaluate(() => talk.posts.filter(p => p.kind === 'milestone').map(p => p.body));
+  await page.click('[data-ddst="sc-166683|accepted"]'); await page.waitForTimeout(400); await page.click('[data-celx]'); await page.waitForTimeout(150);
+  await page.click('[data-ddst="university-of-vermont|waitlisted"]'); await page.waitForTimeout(400);
+  o.compare = await page.evaluate(() => ({ cards: document.querySelectorAll('.dd-card').length, badges: [...document.querySelectorAll('.dd-badge')].map(x => x.textContent), hero: (document.querySelector('.dd-hero') || {}).innerText || '' }));
+  // offer shared with family
+  await page.evaluate(() => { const o = offersGet(); o['college-of-charleston'] = { coa: 60000, grants: [{ name: 'Merit', amount: 30000 }], loans: [{ name: 'Sub', amount: 5500 }], workStudy: 0, year: '2027-28' }; offersSet(o); renderDecide(); }); await page.waitForTimeout(300);
+  o.offer = await page.evaluate(() => ({ db: window.__writes.filter(x => x.table === 'aid_offers' && x.op === 'upsert').length, card: [...document.querySelectorAll('.dd-card')].map(x => x.innerText.replace(/\s+/g, ' ')).find(t => /Charleston/.test(t)) || '' }));
+  await page.screenshot({ path: `${SHOTS}${label}-compare.png`, fullPage: true });
+  // picks
+  await page.selectOption('#dd-pickschool', 'college-of-charleston'); await page.fill('#dd-why', 'I hate the cold, so this one'); await page.waitForTimeout(150);
+  o.kind = await page.evaluate(() => document.querySelectorAll('#dd-kind .tk-kindrow').length);
+  await page.fill('#dd-why', 'It felt like home and the aid made it work.'); await page.click('#dd-pickbtn'); await page.waitForTimeout(400);
+  await page.evaluate(async (u2) => { await sb.from('talk_posts').insert({ id: 'zpick', family_id: state.family.id, user_id: u2, school_id: 'college-of-charleston', kind: 'pick', body: 'Downtown, the ocean, and my people.', in_movie: true, created_at: new Date().toISOString() }); await loadTalk(); renderDecide(); }, UID2); await page.waitForTimeout(300);
+  o.agree = await page.evaluate(() => (document.querySelector('.dd-agree') || {}).innerText || '');
+  await page.click('#dd-decide'); await page.waitForTimeout(150); o.confirm = await page.evaluate(() => !!document.querySelector('#dd-yes'));
+  await page.click('#dd-yes'); await page.waitForTimeout(600);
+  o.bigCel = await page.evaluate(() => (document.querySelector('.celebrate .cel-t') || {}).textContent || '');
+  await page.screenshot({ path: `${SHOTS}${label}-decided.png` });
+  await page.click('[data-celx]'); await page.waitForTimeout(200);
+  o.done = await page.evaluate(() => ({ hero: (document.querySelector('.dd-hero.done') || {}).innerText || '', decline: [...document.querySelectorAll('[data-dddecline]')].map(x => x.dataset.dddecline), final: !!document.querySelector('#dd-decide') }));
+  await page.evaluate(() => { talkTab = 'moments'; goto('talk'); }); await page.waitForTimeout(300);
+  o.moments = await page.evaluate(() => [...document.querySelectorAll('.tk-moment figcaption')].map(x => x.textContent));
+  await page.evaluate(() => goto('today')); await page.waitForTimeout(300); o.today = await page.evaluate(() => (document.querySelector('.td-decide') || {}).innerText || '');
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(300); o.pill = await page.evaluate(() => [...document.querySelectorAll('.dd-pill')].map(x => x.textContent));
+  await page.evaluate(() => goto('decide')); await page.waitForTimeout(300);
+  await page.click('#dd-undo'); await page.click('#dd-undo'); await page.waitForTimeout(400);
+  o.undone = await page.evaluate(() => !document.querySelector('.dd-hero.done') && !!document.querySelector('#dd-decide'));
+  o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
+  ok[label + '.emptyState'] = /days? until May 1/.test(o.empty.hero) && o.empty.rows === 6 && !o.empty.compare && !o.todayBefore;
+  ok[label + '.acceptCelebrates'] = /Accepted to College of Charleston/.test(o.cel) && o.write && o.write.app_status === 'accepted' && /-05-01$/.test(o.write.reply_by) && o.milestone.length >= 1 && /Zoe got into College of Charleston/.test(o.milestone[0]);
+  ok[label + '.sideBySide'] = o.compare.cards === 2 && o.compare.badges.some(t => /Lowest cost/.test(t)) && /2 acceptances/.test(o.compare.hero);
+  ok[label + '.offerSharedWithFamily'] = o.offer.db >= 1 && /\$30,000/.test(o.offer.card) && /their offer/.test(o.offer.card) && /\$5,500 loans/.test(o.offer.card);
+  ok[label + '.picksWithKindWords'] = o.kind === 1 && /Everyone picked College of Charleston/.test(o.agree);
+  ok[label + '.bigMoment'] = o.confirm && /Zoe is going to College of Charleston/.test(o.bigCel) && /going to College of Charleston/.test(o.done.hero) && JSON.stringify(o.done.decline) === '["sc-166683"]' && !o.done.final;
+  ok[label + '.momentsForMovie'] = o.moments.some(t => /our decision/.test(t)) && o.moments.some(t => /my pick/.test(t)) && o.moments.some(t => /milestone/.test(t));
+  ok[label + '.todayAndBoard'] = /Decided/.test(o.today) && o.pill.filter(t => /Accepted/.test(t)).length === 2 && o.pill.some(t => /Waitlisted/.test(t));
+  ok[label + '.undo'] = o.undone;
+  ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
+}
+R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R.ok, null, 1), R.allPass);
+fs.writeFileSync(new URL('./decide-page-result-2026-10-11.json', import.meta.url), JSON.stringify(R, null, 1)); srv.close();

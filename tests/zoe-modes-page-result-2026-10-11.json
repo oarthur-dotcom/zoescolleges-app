@@ -1,0 +1,363 @@
+{
+ "desktop": {
+  "cards": [
+   "Plan my week",
+   "Essay coach",
+   "Family huddle",
+   "How do I stack up?"
+  ],
+  "week": {
+   "mode": "week",
+   "ctx": {
+    "upcoming": [
+     {
+      "school": "Clemson University",
+      "kind": "Early Action",
+      "date": "2026-10-15",
+      "days": 4
+     },
+     {
+      "school": "College of Charleston",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "Massachusetts Institute of Technology",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     }
+    ],
+    "gaps": 6
+   }
+  },
+  "shortMsg": "Paste at least a paragraph (40+ words) for feedback — or tap Brainstorm.",
+  "essay": {
+   "mode": "essay",
+   "qLen": 960
+  },
+  "huddleOptions": [
+   "All rated schools (2)",
+   "College of Charleston — 2 ratings",
+   "Massachusetts Institute of Technology — 1 rating"
+  ],
+  "huddle": {
+   "mode": "huddle",
+   "ctx": [
+    {
+     "school": "College of Charleston",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 4,
+       "note": "Loved the campus"
+      },
+      {
+       "who": "Student",
+       "stars": 5,
+       "note": ""
+      }
+     ]
+    },
+    {
+     "school": "Massachusetts Institute of Technology",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 3,
+       "note": ""
+      }
+     ]
+    }
+   ]
+  },
+  "history": [
+   "user:Plan my week: what should I do",
+   "zoe:**week** answer to: Plan my we",
+   "user:Common App prompt 1 · Backgrou",
+   "zoe:**essay** answer to: Common Ap",
+   "user:Family huddle about our rated ",
+   "zoe:**huddle** answer to: Family h"
+  ],
+  "busyMsg": "Zoe's AI is very busy right now (too many questions at once). Give it a minute and tap Try again. ↻ Try again",
+  "afterRetry": "chat answer to: tell me a fun fact about college mascots",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#ztab-save 💾 Save chat 107x32",
+    "#ztab-binder 📒 Binder 87x32",
+    "#ztab-gear ⚙ Make Zoe yours 140x32",
+    "#zm-huddle Start the huddle 128x32",
+    "↻ Try again 99x33",
+    "Analyze my whole profile 166x26",
+    "What are my reaches? 148x26",
+    "What should I work on? 154x26",
+    "Recommend schools for me 182x26",
+    "When are my deadlines? 161x26",
+    "Is my list balanced? 133x26",
+    "What should my essay be about? 210x26"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "phone": {
+  "cards": [
+   "Plan my week",
+   "Essay coach",
+   "Family huddle",
+   "How do I stack up?"
+  ],
+  "week": {
+   "mode": "week",
+   "ctx": {
+    "upcoming": [
+     {
+      "school": "Clemson University",
+      "kind": "Early Action",
+      "date": "2026-10-15",
+      "days": 4
+     },
+     {
+      "school": "College of Charleston",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "Massachusetts Institute of Technology",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     }
+    ],
+    "gaps": 6
+   }
+  },
+  "shortMsg": "Paste at least a paragraph (40+ words) for feedback — or tap Brainstorm.",
+  "essay": {
+   "mode": "essay",
+   "qLen": 960
+  },
+  "huddleOptions": [
+   "All rated schools (2)",
+   "College of Charleston — 2 ratings",
+   "Massachusetts Institute of Technology — 1 rating"
+  ],
+  "huddle": {
+   "mode": "huddle",
+   "ctx": [
+    {
+     "school": "College of Charleston",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 4,
+       "note": "Loved the campus"
+      },
+      {
+       "who": "Student",
+       "stars": 5,
+       "note": ""
+      }
+     ]
+    },
+    {
+     "school": "Massachusetts Institute of Technology",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 3,
+       "note": ""
+      }
+     ]
+    }
+   ]
+  },
+  "history": [
+   "user:Plan my week: what should I do",
+   "zoe:**week** answer to: Plan my we",
+   "user:Common App prompt 1 · Backgrou",
+   "zoe:**essay** answer to: Common Ap",
+   "user:Family huddle about our rated ",
+   "zoe:**huddle** answer to: Family h"
+  ],
+  "busyMsg": "Zoe's AI is very busy right now (too many questions at once). Give it a minute and tap Try again. ↻ Try again",
+  "afterRetry": "chat answer to: tell me a fun fact about college mascots",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "cards": [
+   "Plan my week",
+   "Essay coach",
+   "Family huddle",
+   "How do I stack up?"
+  ],
+  "week": {
+   "mode": "week",
+   "ctx": {
+    "upcoming": [
+     {
+      "school": "Clemson University",
+      "kind": "Early Action",
+      "date": "2026-10-15",
+      "days": 4
+     },
+     {
+      "school": "College of Charleston",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "Massachusetts Institute of Technology",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Decision",
+      "date": "2026-11-01",
+      "days": 21
+     },
+     {
+      "school": "University of Vermont",
+      "kind": "Early Action",
+      "date": "2026-11-01",
+      "days": 21
+     }
+    ],
+    "gaps": 6
+   }
+  },
+  "shortMsg": "Paste at least a paragraph (40+ words) for feedback — or tap Brainstorm.",
+  "essay": {
+   "mode": "essay",
+   "qLen": 960
+  },
+  "huddleOptions": [
+   "All rated schools (2)",
+   "College of Charleston — 2 ratings",
+   "Massachusetts Institute of Technology — 1 rating"
+  ],
+  "huddle": {
+   "mode": "huddle",
+   "ctx": [
+    {
+     "school": "College of Charleston",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 4,
+       "note": "Loved the campus"
+      },
+      {
+       "who": "Student",
+       "stars": 5,
+       "note": ""
+      }
+     ]
+    },
+    {
+     "school": "Massachusetts Institute of Technology",
+     "views": [
+      {
+       "who": "Parent 1",
+       "stars": 3,
+       "note": ""
+      }
+     ]
+    }
+   ]
+  },
+  "history": [
+   "user:Plan my week: what should I do",
+   "zoe:**week** answer to: Plan my we",
+   "user:Common App prompt 1 · Backgrou",
+   "zoe:**essay** answer to: Common Ap",
+   "user:Family huddle about our rated ",
+   "zoe:**huddle** answer to: Family h"
+  ],
+  "busyMsg": "Zoe's AI is very busy right now (too many questions at once). Give it a minute and tap Try again. ↻ Try again",
+  "afterRetry": "chat answer to: tell me a fun fact about college mascots",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "ok": {
+  "desktop.fourCards": true,
+  "desktop.weekSendsDeadlines": true,
+  "desktop.essayShortNudge": true,
+  "desktop.essaySendsDraft": true,
+  "desktop.huddleByRoleNoNames": true,
+  "desktop.memory": true,
+  "desktop.busyExplainedAndRetry": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone.fourCards": true,
+  "phone.weekSendsDeadlines": true,
+  "phone.essayShortNudge": true,
+  "phone.essaySendsDraft": true,
+  "phone.huddleByRoleNoNames": true,
+  "phone.memory": true,
+  "phone.busyExplainedAndRetry": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone-dark.fourCards": true,
+  "phone-dark.weekSendsDeadlines": true,
+  "phone-dark.essayShortNudge": true,
+  "phone-dark.essaySendsDraft": true,
+  "phone-dark.huddleByRoleNoNames": true,
+  "phone-dark.memory": true,
+  "phone-dark.busyExplainedAndRetry": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

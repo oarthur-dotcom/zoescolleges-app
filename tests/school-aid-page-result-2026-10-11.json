@@ -1,0 +1,123 @@
+{
+ "phone": {
+  "detail": "AID FROM THE SCHOOL · COMMON 53% of first-year students get grant money from the school itself, on average $7,127 a year. (2022-23, IPEDS) This mixes need-based and merit aid. Ask the school whether you'd qualify for merit scholarships, and run its net-price calculator.",
+  "costLines": [
+   "84% get school grants · avg $5,381",
+   "65% get school grants · avg $7,020",
+   "99% get school grants · avg $17,822",
+   "94% get school grants · avg $22,060",
+   "57% get school grants · avg $55,983",
+   "53% get school grants · avg $7,127"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "+ Add offer 65x18"
+   ],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "desktop": {
+  "detail": "AID FROM THE SCHOOL · COMMON 53% of first-year students get grant money from the school itself, on average $7,127 a year. (2022-23, IPEDS) This mixes need-based and merit aid. Ask the school whether you'd qualify for merit scholarships, and run its net-price calculator.",
+  "costLines": [
+   "84% get school grants · avg $5,381",
+   "65% get school grants · avg $7,020",
+   "99% get school grants · avg $17,822",
+   "94% get school grants · avg $22,060",
+   "57% get school grants · avg $55,983",
+   "53% get school grants · avg $7,127"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "+ Add offer 65x18",
+    "#offer-upload ＋ Add an aid letter 145x34"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1283"
+   ],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "detail": "AID FROM THE SCHOOL · COMMON 53% of first-year students get grant money from the school itself, on average $7,127 a year. (2022-23, IPEDS) This mixes need-based and merit aid. Ask the school whether you'd qualify for merit scholarships, and run its net-price calculator.",
+  "costLines": [
+   "84% get school grants · avg $5,381",
+   "65% get school grants · avg $7,020",
+   "99% get school grants · avg $17,822",
+   "94% get school grants · avg $22,060",
+   "57% get school grants · avg $55,983",
+   "53% get school grants · avg $7,127"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "+ Add offer 65x18"
+   ],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "file-not-published": {
+  "detail": null,
+  "costLines": [],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "+ Add offer 65x18"
+   ],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.schoolPage": true,
+  "phone.costsPage": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.schoolPage": true,
+  "desktop.costsPage": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.schoolPage": true,
+  "phone-dark.costsPage": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "file-not-published.hiddenUntilPublished": true,
+  "file-not-published.noErrors": true,
+  "file-not-published.noSidewaysScroll": true
+ },
+ "allPass": true
+}

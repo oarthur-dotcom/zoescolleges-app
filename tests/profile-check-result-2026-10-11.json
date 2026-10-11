@@ -1,0 +1,25 @@
+{
+ "o": {
+  "validation": [
+   "GPA should be a number from 0 to 5 (unweighted is usually 0–4.0).",
+   "SAT should be between 400 and 1600.",
+   "ACT should be between 1 and 36.",
+   "Home state should be a 2-letter code like SC or MA.",
+   "OK"
+  ],
+  "before": "Chances are based on Dad's academic profile — the whole family sees the same odds. Not the student? Switch me to parent",
+  "roleWrite": "[{\"role\":\"parent\"}]",
+  "errors": []
+ },
+ "ok": {
+  "refusesGpa": true,
+  "refusesSat": true,
+  "refusesAct": true,
+  "refusesState": true,
+  "acceptsGood": true,
+  "offersSwitch": true,
+  "switchWritesParent": true,
+  "noErrors": true
+ },
+ "allPass": true
+}

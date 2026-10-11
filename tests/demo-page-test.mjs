@@ -1,0 +1,55 @@
+// #49 Sample family (try before signing up). Run: node tests/demo-page-test.mjs
+import { launch, newPage, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const SITE = '/tmp/claude-0/f49/site', SHOTS = '/tmp/claude-0/f49/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
+if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
+const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json'), DL = fs.readFileSync('/tmp/claude-0/f33/dl.json');
+const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8811);
+const R = {}, ok = {};
+for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['desktop', { width: 1280, height: 900 }], ['phone-dark', { width: 390, height: 844 }, true]]) {
+  const b = await launch(); const { page, log } = await newPage(b, vp, { signedOut: true }); if (dark) await page.emulateMedia({ colorScheme: 'dark' });
+  await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
+  await page.route(/jsdelivr.*deadlines-2026-27\.json/, r => r.fulfill({ contentType: 'application/json', body: DL }));
+  await page.route(/thumb\.wikimedia\.org/, r => r.fulfill({ contentType: 'image/png', body: fs.readFileSync('/tmp/claude-0/t1.png') }));
+  const fnCalls = []; await page.route('**/.netlify/functions/**', r => { fnCalls.push(r.request().url()); r.fulfill({ status: 401, contentType: 'application/json', body: '{"error":"signin"}' }); });
+  await page.goto('http://localhost:8811/index.html'); await page.waitForTimeout(2000);
+  const o = {};
+  o.cta = await page.evaluate(() => { const b = document.getElementById('demo-start'); return b && !document.getElementById('v-auth').classList.contains('hidden') ? b.innerText.replace(/\s+/g, ' ') : null; });
+  await page.screenshot({ path: `${SHOTS}${label}-signin.png` });
+  const writesBefore = await page.evaluate(() => (window.__writes || []).length);
+  await page.click('#demo-start'); await page.waitForTimeout(2500);
+  o.today = await page.evaluate(() => ({ view: currentView, hi: document.getElementById('td-hi').textContent, bar: !document.getElementById('demo-bar').classList.contains('hidden'), fam: state.family && state.family.name, schools: state.schools.length, text: document.getElementById('td-out').innerText.replace(/\s+/g, ' ').slice(0, 600) }));
+  await page.screenshot({ path: `${SHOTS}${label}-today.png`, fullPage: true });
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(500);
+  o.board = await page.evaluate(() => ({ cards: document.querySelectorAll('#schools .school').length, chances: [...document.querySelectorAll('#schools .chip, #schools [class*=chance]')].length }));
+  // rate a school: works in memory, shows the note once, nothing written to the real backend
+  await page.evaluate(() => { const s = document.querySelector('#schools [data-rate]'); if (s) s.click(); }); await page.waitForTimeout(500);
+  o.toast = await page.evaluate(() => { const t = document.getElementById('demo-toast'); return t ? t.textContent : null; });
+  o.realWrites = await page.evaluate(n => (window.__writes || []).length - n, writesBefore);
+  await page.evaluate(() => goto('memories')); await page.waitForTimeout(500);
+  o.memories = await page.evaluate(() => document.querySelectorAll('.mem-visit').length);
+  await page.evaluate(() => goto('trip')); await page.waitForTimeout(400);
+  o.trip = await page.evaluate(() => getTrip().size);
+  await page.evaluate(() => goto('pulse')); await page.waitForTimeout(400);
+  o.pulse = await page.evaluate(() => document.getElementById('pt-out').innerText.slice(0, 120));
+  await page.evaluate(() => goto('zoe')); await page.waitForTimeout(400);
+  await page.fill('#ztab-in', 'tell me a fun fact about college mascots'); await page.press('#ztab-in', 'Enter'); await page.waitForTimeout(800);
+  o.zoeAI = await page.evaluate(() => [...document.querySelectorAll('#ztab-log .zmsg.z')].at(-1).innerText);
+  await page.fill('#ztab-in', 'What are my reaches?'); await page.press('#ztab-in', 'Enter'); await page.waitForTimeout(800);
+  o.zoeRules = await page.evaluate(() => [...document.querySelectorAll('#ztab-log .zmsg.z')].at(-1).innerText.slice(0, 160));
+  o.fnCalls = fnCalls.filter(u => /zoe-ai|campus-pulse/.test(u)).length;
+  o.audit = await audit(page, 'body');
+  await page.click('#demo-join'); await page.waitForTimeout(2000);
+  o.afterJoin = await page.evaluate(() => ({ url: location.search, auth: !document.getElementById('v-auth').classList.contains('hidden'), mode: state.authMode, demoKeys: Object.keys(localStorage).filter(k => /demo-/.test(k)).length }));
+  o.errors = log.pageerr; R[label] = o; await b.close();
+  ok[label + '.ctaOnSignIn'] = /explore a sample family/i.test(o.cta || '');
+  ok[label + '.opensSampleOnToday'] = o.today.view === 'today' && o.today.bar && /Rivera/.test(o.today.fam) && o.today.schools === 8 && /Good (morning|afternoon|evening), Maya/.test(o.today.hi);
+  ok[label + '.boardWithChances'] = o.board.cards === 8;
+  ok[label + '.nothingSaved'] = /sample family/.test(o.toast || '') && o.realWrites === 0;
+  ok[label + '.memoriesAndTrip'] = o.memories === 3 && o.trip === 3;
+  ok[label + '.pulseHonest'] = /members/.test(o.pulse);
+  ok[label + '.zoeHonestAndRulesWork'] = /create your free account/i.test(o.zoeAI) && /reach/i.test(o.zoeRules) && o.fnCalls === 0;
+  ok[label + '.joinGoesToSignup'] = /signup=1/.test(o.afterJoin.url) && o.afterJoin.auth && o.afterJoin.mode === 'signup' && o.afterJoin.demoKeys === 0;
+  ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
+}
+R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R, null, 1));
+fs.writeFileSync(new URL('./demo-page-result-2026-10-11.json', import.meta.url), JSON.stringify(R, null, 1)); srv.close();

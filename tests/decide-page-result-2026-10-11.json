@@ -1,0 +1,289 @@
+{
+ "phone": {
+  "todayBefore": false,
+  "empty": {
+   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "rows": 6,
+   "compare": false
+  },
+  "cel": "🎉 Accepted to College of Charleston!",
+  "write": {
+   "app_status": "accepted",
+   "status_at": "2026-10-11T23:30:35.295Z",
+   "reply_by": "2027-05-01"
+  },
+  "milestone": [
+   "🎉 Zoe got into College of Charleston!"
+  ],
+  "compare": {
+   "cards": 2,
+   "badges": [
+    "💰 Lowest cost",
+    "⭐ Family favorite",
+    "🎯 Best match"
+   ],
+   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+  },
+  "offer": {
+   "db": 1,
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+  },
+  "kind": 1,
+  "agree": "🤝 Everyone picked College of Charleston.",
+  "confirm": true,
+  "bigCel": "🎓 Zoe is going to College of Charleston!",
+  "done": {
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "decline": [
+    "sc-166683"
+   ],
+   "final": false
+  },
+  "moments": [
+   "— Obie · College of Charleston · 🎓 our decision",
+   "— Zoe · College of Charleston · 🗳 my pick",
+   "— Obie · College of Charleston · 🗳 my pick",
+   "— Obie · Massachusetts Institute of Technology · 🎉 milestone",
+   "— Obie · College of Charleston · 🎉 milestone"
+  ],
+  "today": "🎓 DECISION DAY\n🎉 Decided: College of Charleston\nSee the moment",
+  "pill": [
+   "🎉 Accepted",
+   "🎉 Accepted",
+   "⏳ Waitlisted"
+  ],
+  "undone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "📝Planning 92x36",
+    "📮Applied 85x36",
+    "🎉Accepted 98x36",
+    "⏳Waitlisted 99x36",
+    "🔁Deferred 93x36",
+    "🌱Not this time 116x36",
+    "↩️Withdrew 98x36",
+    "🎉Accepted 96x36",
+    "⏳Waitlisted 101x36",
+    "📝Planning 93x36"
+   ],
+   "wide": [],
+   "dashCount": 2
+  },
+  "errors": []
+ },
+ "desktop": {
+  "todayBefore": false,
+  "empty": {
+   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "rows": 6,
+   "compare": false
+  },
+  "cel": "🎉 Accepted to College of Charleston!",
+  "write": {
+   "app_status": "accepted",
+   "status_at": "2026-10-11T23:30:45.833Z",
+   "reply_by": "2027-05-01"
+  },
+  "milestone": [
+   "🎉 Zoe got into College of Charleston!"
+  ],
+  "compare": {
+   "cards": 2,
+   "badges": [
+    "💰 Lowest cost",
+    "⭐ Family favorite",
+    "🎯 Best match"
+   ],
+   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+  },
+  "offer": {
+   "db": 1,
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+  },
+  "kind": 1,
+  "agree": "🤝 Everyone picked College of Charleston.",
+  "confirm": true,
+  "bigCel": "🎓 Zoe is going to College of Charleston!",
+  "done": {
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "decline": [
+    "sc-166683"
+   ],
+   "final": false
+  },
+  "moments": [
+   "— Obie · College of Charleston · 🎓 our decision",
+   "— Zoe · College of Charleston · 🗳 my pick",
+   "— Obie · College of Charleston · 🗳 my pick",
+   "— Obie · Massachusetts Institute of Technology · 🎉 milestone",
+   "— Obie · College of Charleston · 🎉 milestone"
+  ],
+  "today": "🎓 DECISION DAY\n🎉 Decided: College of Charleston\nSee the moment",
+  "pill": [
+   "🎉 Accepted",
+   "🎉 Accepted",
+   "⏳ Waitlisted"
+  ],
+  "undone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "📝Planning 92x36",
+    "📮Applied 85x36",
+    "🎉Accepted 98x36",
+    "⏳Waitlisted 99x36",
+    "🔁Deferred 93x36",
+    "🌱Not this time 116x36",
+    "↩️Withdrew 98x36",
+    "🎉Accepted 96x36",
+    "⏳Waitlisted 101x36",
+    "📝Planning 93x36",
+    "Edit offer 85x32",
+    "💬 Talk 70x32",
+    "＋ Add aid letter 127x34",
+    "#dd-pickbtn Share my pick 115x32",
+    "#dd-decide We decided! 103x32"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1336",
+    "BUTTON.navbtn# right=1437"
+   ],
+   "dashCount": 2
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "todayBefore": false,
+  "empty": {
+   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "rows": 6,
+   "compare": false
+  },
+  "cel": "🎉 Accepted to College of Charleston!",
+  "write": {
+   "app_status": "accepted",
+   "status_at": "2026-10-11T23:30:55.984Z",
+   "reply_by": "2027-05-01"
+  },
+  "milestone": [
+   "🎉 Zoe got into College of Charleston!"
+  ],
+  "compare": {
+   "cards": 2,
+   "badges": [
+    "💰 Lowest cost",
+    "⭐ Family favorite",
+    "🎯 Best match"
+   ],
+   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+  },
+  "offer": {
+   "db": 1,
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+  },
+  "kind": 1,
+  "agree": "🤝 Everyone picked College of Charleston.",
+  "confirm": true,
+  "bigCel": "🎓 Zoe is going to College of Charleston!",
+  "done": {
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "decline": [
+    "sc-166683"
+   ],
+   "final": false
+  },
+  "moments": [
+   "— Obie · College of Charleston · 🎓 our decision",
+   "— Zoe · College of Charleston · 🗳 my pick",
+   "— Obie · College of Charleston · 🗳 my pick",
+   "— Obie · Massachusetts Institute of Technology · 🎉 milestone",
+   "— Obie · College of Charleston · 🎉 milestone"
+  ],
+  "today": "🎓 DECISION DAY\n🎉 Decided: College of Charleston\nSee the moment",
+  "pill": [
+   "🎉 Accepted",
+   "🎉 Accepted",
+   "⏳ Waitlisted"
+  ],
+  "undone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "📝Planning 92x36",
+    "📮Applied 85x36",
+    "🎉Accepted 98x36",
+    "⏳Waitlisted 99x36",
+    "🔁Deferred 93x36",
+    "🌱Not this time 116x36",
+    "↩️Withdrew 98x36",
+    "🎉Accepted 96x36",
+    "⏳Waitlisted 101x36",
+    "📝Planning 93x36"
+   ],
+   "wide": [],
+   "dashCount": 2
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.emptyState": true,
+  "phone.acceptCelebrates": true,
+  "phone.sideBySide": true,
+  "phone.offerSharedWithFamily": true,
+  "phone.picksWithKindWords": true,
+  "phone.bigMoment": true,
+  "phone.momentsForMovie": true,
+  "phone.todayAndBoard": true,
+  "phone.undo": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.emptyState": true,
+  "desktop.acceptCelebrates": true,
+  "desktop.sideBySide": true,
+  "desktop.offerSharedWithFamily": true,
+  "desktop.picksWithKindWords": true,
+  "desktop.bigMoment": true,
+  "desktop.momentsForMovie": true,
+  "desktop.todayAndBoard": true,
+  "desktop.undo": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.emptyState": true,
+  "phone-dark.acceptCelebrates": true,
+  "phone-dark.sideBySide": true,
+  "phone-dark.offerSharedWithFamily": true,
+  "phone-dark.picksWithKindWords": true,
+  "phone-dark.bigMoment": true,
+  "phone-dark.momentsForMovie": true,
+  "phone-dark.todayAndBoard": true,
+  "phone-dark.undo": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

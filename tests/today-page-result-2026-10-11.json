@@ -1,0 +1,184 @@
+{
+ "phone": {
+  "landing": "today",
+  "hi": "Good evening, Obie",
+  "cards": [
+   "⏰ Next deadline",
+   "Zoe suggests",
+   "💬 Talk It Out",
+   "📰 New at your schools",
+   "📋 Your list",
+   "📄 College report",
+   "🚗 Visits"
+  ],
+  "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essay (optional), Recs (optional), Transcript… Then: College of Charleston · Nov 1, 2026 · Massachusetts Institute of Technology · Nov 1, 2026 Open Deadlines ZOE SUGGESTS List your activities — a few deep ones strengthen your profile. Open profile 📅 Plan my week 💬 TALK IT OUT Waiting to hear from you, Zoe. 0 of 2 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS Massachusetts Institute of Technology MIT engineers design a battery yesterday Massachusetts Institute of Technology Hockey wins 2 days ago 🎟 Massachusetts Institute of Technology · Campus tour and information session · Oct 14 All news 📋 YOUR LIST C 1 Likely · 2 Target · 3 Reach For balance: 1 more Likely, 1 more Target. Open board 💰 Costs ✨ Zoe Picks 🔗 Share 📄 COLLEGE REPORT Zoe's whole picture — profile, every school, costs, deadlines and ne",
+  "search": {
+   "view": "explore",
+   "first": "Stanford University"
+  },
+  "week": {
+   "view": "zoe",
+   "mode": "week"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "desktop": {
+  "landing": "today",
+  "hi": "Good evening, Obie",
+  "cards": [
+   "⏰ Next deadline",
+   "Zoe suggests",
+   "💬 Talk It Out",
+   "📰 New at your schools",
+   "📋 Your list",
+   "📄 College report",
+   "🚗 Visits"
+  ],
+  "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essay (optional), Recs (optional), Transcript… Then: College of Charleston · Nov 1, 2026 · Massachusetts Institute of Technology · Nov 1, 2026 Open Deadlines ZOE SUGGESTS List your activities — a few deep ones strengthen your profile. Open profile 📅 Plan my week 💬 TALK IT OUT Waiting to hear from you, Zoe. 0 of 2 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS Massachusetts Institute of Technology MIT engineers design a battery yesterday Massachusetts Institute of Technology Hockey wins 2 days ago 🎟 Massachusetts Institute of Technology · Campus tour and information session · Oct 14 All news 📋 YOUR LIST C 1 Likely · 2 Target · 3 Reach For balance: 1 more Likely, 1 more Target. Open board 💰 Costs ✨ Zoe Picks 🔗 Share 📄 COLLEGE REPORT Zoe's whole picture — profile, every school, costs, deadlines and ne",
+  "search": {
+   "view": "explore",
+   "first": "Stanford University"
+  },
+  "week": {
+   "view": "zoe",
+   "mode": "week"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse · 2 106x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#ztab-save 💾 Save chat 107x32",
+    "#ztab-binder 📒 Binder 87x32",
+    "#ztab-gear ⚙ Make Zoe yours 140x32",
+    "Analyze my whole profile 166x26",
+    "What are my reaches? 148x26",
+    "What should I work on? 154x26",
+    "Recommend schools for me 182x26",
+    "When are my deadlines? 161x26",
+    "Is my list balanced? 133x26",
+    "What should my essay be about? 210x26"
+   ],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "landing": "today",
+  "hi": "Good evening, Obie",
+  "cards": [
+   "⏰ Next deadline",
+   "Zoe suggests",
+   "💬 Talk It Out",
+   "📰 New at your schools",
+   "📋 Your list",
+   "📄 College report",
+   "🚗 Visits"
+  ],
+  "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essay (optional), Recs (optional), Transcript… Then: College of Charleston · Nov 1, 2026 · Massachusetts Institute of Technology · Nov 1, 2026 Open Deadlines ZOE SUGGESTS List your activities — a few deep ones strengthen your profile. Open profile 📅 Plan my week 💬 TALK IT OUT Waiting to hear from you, Zoe. 0 of 2 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS Massachusetts Institute of Technology MIT engineers design a battery yesterday Massachusetts Institute of Technology Hockey wins 2 days ago 🎟 Massachusetts Institute of Technology · Campus tour and information session · Oct 14 All news 📋 YOUR LIST C 1 Likely · 2 Target · 3 Reach For balance: 1 more Likely, 1 more Target. Open board 💰 Costs ✨ Zoe Picks 🔗 Share 📄 COLLEGE REPORT Zoe's whole picture — profile, every school, costs, deadlines and ne",
+  "search": {
+   "view": "explore",
+   "first": "Stanford University"
+  },
+  "week": {
+   "view": "zoe",
+   "mode": "week"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "empty-phone": {
+  "landing": "today",
+  "hi": "Good evening, Obie",
+  "cards": [
+   "⏰ Deadlines",
+   "Zoe suggests",
+   "📰 New at your schools",
+   "📋 Your list",
+   "🚗 Visits"
+  ],
+  "text": "⏰ DEADLINES Add schools to see their deadlines here. Find schools ZOE SUGGESTS Your board is empty. Add a few colleges from Schools or ✨ Zoe Picks to get started. Browse schools 📅 Plan my week 📰 NEW AT YOUR SCHOOLS Add schools and their news shows up here. All news 📋 YOUR LIST No schools yet. Open board 💰 Costs ✨ Zoe Picks 🚗 VISITS No trip planned yet. Plan a trip 📸 Memories",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 7
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.landsOnToday": true,
+  "phone.fiveCards": true,
+  "phone.nextDeadlineIsClemson": true,
+  "phone.newsAndVisitDays": true,
+  "phone.listGrade": true,
+  "phone.searchGoesToSchools": true,
+  "phone.planMyWeek": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone.noBadText": true,
+  "desktop.landsOnToday": true,
+  "desktop.fiveCards": true,
+  "desktop.nextDeadlineIsClemson": true,
+  "desktop.newsAndVisitDays": true,
+  "desktop.listGrade": true,
+  "desktop.searchGoesToSchools": true,
+  "desktop.planMyWeek": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop.noBadText": true,
+  "phone-dark.landsOnToday": true,
+  "phone-dark.fiveCards": true,
+  "phone-dark.nextDeadlineIsClemson": true,
+  "phone-dark.newsAndVisitDays": true,
+  "phone-dark.listGrade": true,
+  "phone-dark.searchGoesToSchools": true,
+  "phone-dark.planMyWeek": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "phone-dark.noBadText": true,
+  "empty-phone.landsOnToday": true,
+  "empty-phone.emptyFamilyFriendly": true,
+  "empty-phone.noErrors": true,
+  "empty-phone.noSidewaysScroll": true,
+  "empty-phone.noBadText": true
+ },
+ "allPass": true
+}

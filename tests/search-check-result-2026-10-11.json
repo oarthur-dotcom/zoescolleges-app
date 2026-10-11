@@ -1,0 +1,187 @@
+{
+ "R": {
+  "MIT": {
+   "top": "Massachusetts Institute of Technology",
+   "ok": true,
+   "top3": [
+    "Massachusetts Institute of Technology",
+    "Morrison Institute of Technology",
+    "Mitchell Community College"
+   ]
+  },
+  "mit": {
+   "top": "Massachusetts Institute of Technology",
+   "ok": true,
+   "top3": [
+    "Massachusetts Institute of Technology",
+    "Morrison Institute of Technology",
+    "Mitchell Community College"
+   ]
+  },
+  "UVA": {
+   "top": "University of Virginia-Main Campus",
+   "ok": true,
+   "top3": [
+    "University of Virginia-Main Campus"
+   ]
+  },
+  "UNC": {
+   "top": "University of North Carolina at Chapel Hill",
+   "ok": true,
+   "top3": [
+    "University of North Carolina at Chapel Hill",
+    "University of Northern Colorado",
+    "University of North Carolina at Charlotte"
+   ]
+  },
+  "Charleston": {
+   "top": "College of Charleston",
+   "ok": true,
+   "top3": [
+    "College of Charleston",
+    "Charleston Southern University",
+    "University of Charleston"
+   ]
+  },
+  "Harvard": {
+   "top": "Harvard University",
+   "ok": true,
+   "top3": [
+    "Harvard University"
+   ]
+  },
+  "Stanford": {
+   "top": "Stanford University",
+   "ok": true,
+   "top3": [
+    "Stanford University"
+   ]
+  },
+  "stanferd": {
+   "top": "Stanford University",
+   "ok": true,
+   "top3": [
+    "Stanford University",
+    "University of Connecticut-Stamford",
+    "Sanford Burnham Prebys Medical Discovery Institute"
+   ]
+  },
+  "vanderbelt": {
+   "top": "Vanderbilt University",
+   "ok": true,
+   "top3": [
+    "Vanderbilt University"
+   ]
+  },
+  "Georgetwon": {
+   "top": "Georgetown University",
+   "ok": true,
+   "top3": [
+    "Georgetown University",
+    "Georgetown College"
+   ]
+  },
+  "Clemson": {
+   "top": "Clemson University",
+   "ok": true,
+   "top3": [
+    "Clemson University"
+   ]
+  },
+  "Boston University": {
+   "top": "Boston University",
+   "ok": true,
+   "top3": [
+    "Boston University"
+   ]
+  },
+  "Duke": {
+   "top": "Duke University",
+   "ok": true,
+   "top3": [
+    "Duke University"
+   ]
+  },
+  "NYU": {
+   "top": "New York University",
+   "ok": true,
+   "top3": [
+    "New York University"
+   ]
+  },
+  "Northwestern": {
+   "top": "Northwestern University",
+   "ok": true,
+   "top3": [
+    "Northwestern University",
+    "Northwestern State University of Louisiana",
+    "Northwestern Michigan College"
+   ]
+  },
+  "Univ of Vermont": {
+   "top": "University of Vermont",
+   "ok": true,
+   "top3": [
+    "University of Vermont"
+   ]
+  },
+  "notre dame": {
+   "top": "University of Notre Dame",
+   "ok": true,
+   "top3": [
+    "University of Notre Dame",
+    "Notre Dame of Maryland University",
+    "Notre Dame de Namur University"
+   ]
+  },
+  "St Olaf": {
+   "top": "St Olaf College",
+   "ok": true,
+   "top3": [
+    "St Olaf College"
+   ]
+  },
+  "Mt Holyoke": {
+   "top": "Mount Holyoke College",
+   "ok": true,
+   "top3": [
+    "Mount Holyoke College"
+   ]
+  },
+  "Penn State": {
+   "top": "Pennsylvania State University-Main Campus",
+   "ok": true,
+   "top3": [
+    "Pennsylvania State University-Main Campus",
+    "Pennsylvania State University-Penn State Harrisburg",
+    "Pennsylvania State University-Penn State Erie-Behrend College"
+   ]
+  },
+  "_aliasesExist": []
+ },
+ "ok": {
+  "MIT": true,
+  "mit": true,
+  "UVA": true,
+  "UNC": true,
+  "Charleston": true,
+  "Harvard": true,
+  "Stanford": true,
+  "stanferd": true,
+  "vanderbelt": true,
+  "Georgetwon": true,
+  "Clemson": true,
+  "Boston University": true,
+  "Duke": true,
+  "NYU": true,
+  "Northwestern": true,
+  "Univ of Vermont": true,
+  "notre dame": true,
+  "St Olaf": true,
+  "Mt Holyoke": true,
+  "Penn State": true,
+  "allAliasTargetsInCatalog": true,
+  "noErrors": true
+ },
+ "allPass": true
+}

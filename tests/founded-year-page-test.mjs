@@ -8,6 +8,7 @@ const b = await launch(); const { page, log } = await newPage(b, { width: 390, h
 await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
 await page.goto('http://localhost:8797/index.html');
 await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(1200);
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(700);   // #48: the app now opens on Today
 const R = {};
 R.cards = await page.evaluate(() => [...document.querySelectorAll('#schools .loc')].map(x => x.textContent.replace(/\s+/g, ' ').trim()));
 await page.evaluate(() => openDetail('sc-166683')); await page.waitForTimeout(600);

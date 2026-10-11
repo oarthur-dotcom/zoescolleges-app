@@ -13,6 +13,20 @@ const MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-f
 import { corsFor, requireUser, bumpDailyCap } from "../lib/guard.mjs";
 const DAILY_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
+const MAXQ_ESSAY = 5000;            // essay coach: a pasted 650-word draft fits
+const MODES = new Set(["chat", "essay", "huddle", "week"]);   // #46
+
+// #46: what each Zoe mode adds to her instructions.
+const MODE_RULES = {
+  essay: "ESSAY COACH MODE. You are a coach, never a ghostwriter: do NOT write, rewrite or 'improve' the essay, and never produce a paragraph the student could paste in. " +
+    "If they have no draft yet, help them brainstorm: ask 2-3 sharp questions and suggest 2-3 possible directions drawn from their activities and interests (what they did, a moment, a change in them). " +
+    "If they paste a draft: give (1) what's working, in their own words, (2) the single biggest improvement, (3) 2-3 specific questions that would make it more personal, and (4) the word count vs. the 650-word Common App limit. You may quote at most one short phrase from the draft. Warm, honest, specific.",
+  huddle: "FAMILY HUDDLE MODE. The family has rated and commented on colleges (people are labeled by role only). Your job is to help them talk calmly and productively, not to decide. " +
+    "Summarize where they agree, where their views differ and what each person seems to care about (e.g. cost, distance, feel, programs) without blame or taking sides; validate that different priorities are normal; " +
+    "then suggest the 1-2 most useful, non-loaded questions to discuss next, and one concrete step (e.g. visit, look up net price). Never mock or diagnose anyone. Keep it short and kind.",
+  week: "WEEKLY PLAN MODE. Using upcomingDeadlines, checklistGaps and schoolsOnTrip, write a realistic plan for the next 7 days for a busy high-school student: 3-5 short dated items, most urgent first, each with a tiny next step. " +
+    "If nothing is due soon, suggest the most valuable progress for this stage of the process. Don't invent deadlines; only use the ones provided."
+};
 
 let CORS = {};
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
@@ -35,7 +49,14 @@ function sanitizeCtx(c) {
   if (c.highSchool && (c.highSchool.apOffered || c.highSchool.name)) out.highSchool = { apOffered: num(c.highSchool.apOffered) || 0, honorsOffered: num(c.highSchool.honorsOffered) || 0 };
   if (c.activitiesCount != null) out.activitiesCount = num(c.activitiesCount);
   if (c.activityStrength) out.activityStrength = String(c.activityStrength).slice(0, 12); // strong/solid/light
-  if (Array.isArray(c.activities)) out.activities = c.activities.slice(0, 10).map(a => ({ what: String(a && a.name || "").slice(0, 50), tier: num(a && a.tier) || 4, hrsPerWeek: a && a.hrs != null ? String(a.hrs).slice(0, 8) : null, years: a && a.yrs != null ? String(a.yrs).slice(0, 8) : null })).filter(a => a.what);
+  if (Array.isArray(c.activities)) out.activities = c.activities.slice(0, 10).map(a => ({ what: String(a && a.name || "").slice(0, 50), tier: num(a && a.tier) || 4, hrsPerWeek: a && a.hrs != null ? String(a.hrs).slice(0, 8) : null, years: a && a.yrs != null ? String(a.yrs).slice(0, 8) : null, description: a && a.desc ? String(a.desc).slice(0, 150) : undefined })).filter(a => a.what);
+  // #46 family huddle: ratings and notes per school, people by ROLE only (no names).
+  if (Array.isArray(c.huddle)) out.familyRatings = c.huddle.slice(0, 8).map(h => ({ school: String(h && h.school || "").slice(0, 80),
+    views: (Array.isArray(h && h.views) ? h.views : []).slice(0, 6).map(v => ({ who: String(v && v.who || "").slice(0, 20), stars: num(v && v.stars), note: String(v && v.note || "").slice(0, 240) })) })).filter(h => h.school);
+  // #46 weekly plan inputs
+  if (Array.isArray(c.upcoming)) out.upcomingDeadlines = c.upcoming.slice(0, 12).map(d => ({ school: String(d && d.school || "").slice(0, 80), round: String(d && d.kind || "").slice(0, 30), date: String(d && d.date || "").slice(0, 10), daysLeft: num(d && d.days) }));
+  if (Array.isArray(c.gaps)) out.checklistGaps = c.gaps.slice(0, 12).map(g => ({ school: String(g && g.school || "").slice(0, 80), stillToDo: (Array.isArray(g && g.todo) ? g.todo : []).slice(0, 6).map(t => String(t).slice(0, 30)) }));
+  if (c.today) out.today = String(c.today).slice(0, 10);
   if (c.boardCount != null) out.collegesOnBoard = num(c.boardCount);
   if (c.bands) out.listBalance = { reach: num(c.bands.reach) || 0, target: num(c.bands.target) || 0, likely: num(c.bands.likely) || 0 };
   if (c.collegePower) out.collegePower = { likelyPctOfAllColleges: num(c.collegePower.likely) || 0, targetPct: num(c.collegePower.target) || 0, reachPct: num(c.collegePower.reach) || 0 };
@@ -56,7 +77,14 @@ export default async (req) => {
   if (!key) return json({ reply: null, unconfigured: true });
 
   let body; try { body = await req.json(); } catch { return json({ error: "bad request" }, 400); }
-  const q = String(body.q || "").slice(0, MAXQ).trim();
+  const mode = MODES.has(body.mode) ? body.mode : "chat";
+  const q = String(body.q || "").slice(0, mode === "essay" ? MAXQ_ESSAY : MAXQ).trim();
+  // #46: short conversation memory so follow-ups make sense (text only, last 8 turns, capped).
+  const history = (Array.isArray(body.history) ? body.history : []).slice(-8)
+    .map(h => ({ role: h && h.role === "zoe" ? "model" : "user", text: String((h && h.text) || "").slice(0, 1500).trim() })).filter(h => h.text)
+    .reduce((a, h) => { if (!a.length && h.role === "model") return a; const last = a[a.length - 1];   // must start with the user and alternate
+      if (last && last.role === h.role) last.text += "\n" + h.text; else a.push({ ...h }); return a; }, []);
+  if (history.length && history[history.length - 1].role === "user") history.pop();   // the new question is the user turn
   if (!q) return json({ error: "empty" }, 400);
 
   // Global daily hard cap (Netlify Blobs). Errors are now logged instead of silently ignored.
@@ -74,7 +102,8 @@ export default async (req) => {
     "You can help plan campus-visit road trips: use schoolsOnTrip (or schoolsOnBoard) with their cities/states to suggest a sensible order that groups nearby schools and a rough day-by-day flow, and remind them the Trips tab builds the real route on a map and can find nearby food and places to stay.",
     "Do NOT invent specific statistics (admit rates, costs, test ranges) for a named college, and do NOT invent exact drive times or distances; reason from the cities/states generally and point them to the Trips tab map for real routing.",
     "For medical, legal, mental-health, or crisis topics, respond briefly with care and suggest a trusted adult or professional.",
-    "Here is de-identified context about this family's situation (no names). Use it only if relevant: " + JSON.stringify(ctx)
+    "Here is de-identified context about this family's situation (no names). Use it only if relevant: " + JSON.stringify(ctx),
+    MODE_RULES[mode] || ""
   ].join(" ");
 
   const safetySettings = [
@@ -87,9 +116,9 @@ export default async (req) => {
   // to the visible answer (and responses are much faster). Older models reject
   // thinkingConfig with a 400, so we retry without it in that case.
   const buildPayload = (noThink) => {
-    const gen = { temperature: 0.6, maxOutputTokens: 800, topP: 0.95 };
+    const gen = { temperature: 0.6, maxOutputTokens: mode === "essay" ? 1100 : 800, topP: 0.95 };
     if (noThink) gen.thinkingConfig = { thinkingBudget: 0 };
-    return { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: "user", parts: [{ text: q }] }], generationConfig: gen, safetySettings };
+    return { systemInstruction: { parts: [{ text: sys }] }, contents: [...history.map(h => ({ role: h.role, parts: [{ text: h.text }] })), { role: "user", parts: [{ text: q }] }], generationConfig: gen, safetySettings };
   };
   const call = (model, noThink) => fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`,
@@ -108,13 +137,15 @@ export default async (req) => {
         // bad/renamed model (404/400) or this model's free quota spent (429) —
         // try the next model, which has its own separate quota pool.
         if (r.status === 404 || r.status === 400 || r.status === 429) continue;
+        console.error("[zoe-ai] upstream", r.status, lastErr.slice(0, 200));
         return json({ reply: null, error: "upstream", status: r.status, detail: lastErr }); // 5xx — stop
       }
       let reply = extract(await r.json());
       if (!reply) { const r2 = await call(model, false); if (r2.ok) reply = extract(await r2.json()); } // empty → one retry
-      if (reply) return json({ reply, model, used: used + 1, cap: DAILY_CAP });
+      if (reply) return json({ reply, model, mode, used: used + 1, cap: DAILY_CAP });
       lastStatus = 200; lastErr = "empty response";
     } catch (e) { lastErr = "fetch failed"; }
   }
-  return json({ reply: null, error: "upstream", status: lastStatus, detail: lastErr });
+  console.error("[zoe-ai] all models failed", lastStatus, String(lastErr || "").slice(0, 200));
+  return json({ reply: null, error: lastStatus === 429 ? "busy" : "upstream", status: lastStatus, detail: lastErr });
 };

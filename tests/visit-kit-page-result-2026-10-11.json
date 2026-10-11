@@ -1,0 +1,194 @@
+{
+ "phone": {
+  "entry": true,
+  "head": {
+   "view": "visit",
+   "h1": "Massachusetts Institute of Technology",
+   "links": [
+    "📍 Directions|https://www.google.com/maps/dir/?api=1&destination",
+    "🅿 Visitor center|https://www.google.com/maps/search/?api=1&query=Ma",
+    "🎓 Site|https://web.mit.edu/"
+   ],
+   "qs": 15,
+   "next": "Next stop → College of Charleston"
+  },
+  "saved": {
+   "gut": "home",
+   "q": {
+    "Money1": "asked",
+    "Classes0": "star"
+   }
+  },
+  "stars": 4,
+  "noteWrite": "Loved the Infinite Corridor",
+  "noteMsg": "Saved ✓",
+  "photos": "1|1",
+  "nextH1": "College of Charleston",
+  "zoe": "We're visiting College of Charleston today. Give me 6 sharp, specific questions to ask on the tour and at the info session, based on my profile and what matters to us.",
+  "tripStart": 2,
+  "todayKit": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "desktop": {
+  "entry": true,
+  "head": {
+   "view": "visit",
+   "h1": "Massachusetts Institute of Technology",
+   "links": [
+    "📍 Directions|https://www.google.com/maps/dir/?api=1&destination",
+    "🅿 Visitor center|https://www.google.com/maps/search/?api=1&query=Ma",
+    "🎓 Site|https://web.mit.edu/"
+   ],
+   "qs": 15,
+   "next": "Next stop → College of Charleston"
+  },
+  "saved": {
+   "gut": "home",
+   "q": {
+    "Money1": "asked",
+    "Classes0": "star"
+   }
+  },
+  "stars": 4,
+  "noteWrite": "Loved the Infinite Corridor",
+  "noteMsg": "Saved ✓",
+  "photos": "1|1",
+  "nextH1": "College of Charleston",
+  "zoe": "We're visiting College of Charleston today. Give me 6 sharp, specific questions to ask on the tour and at the info session, based on my profile and what matters to us.",
+  "tripStart": 2,
+  "todayKit": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips · 2 81x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "✕ 25x22",
+    "Set priorities 107x32",
+    "Open Deadlines 124x32",
+    "Open profile 103x32",
+    "📅 Plan my week 132x32",
+    "Open 59x32",
+    "🗳 Vote 71x32",
+    "All news 78x32",
+    "Open board 99x32",
+    "💰 Costs 81x32",
+    "✨ Zoe Picks 105x32",
+    "🔗 Share 82x32",
+    "Open report 102x32",
+    "🔗 Share instead 132x32",
+    "Open trip 84x32",
+    "🎒 Visit-day kit 120x32",
+    "📸 Memories 108x32"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1354",
+    "BUTTON.navbtn# right=1455"
+   ],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "entry": true,
+  "head": {
+   "view": "visit",
+   "h1": "Massachusetts Institute of Technology",
+   "links": [
+    "📍 Directions|https://www.google.com/maps/dir/?api=1&destination",
+    "🅿 Visitor center|https://www.google.com/maps/search/?api=1&query=Ma",
+    "🎓 Site|https://web.mit.edu/"
+   ],
+   "qs": 15,
+   "next": "Next stop → College of Charleston"
+  },
+  "saved": {
+   "gut": "home",
+   "q": {
+    "Money1": "asked",
+    "Classes0": "star"
+   }
+  },
+  "stars": 4,
+  "noteWrite": "Loved the Infinite Corridor",
+  "noteMsg": "Saved ✓",
+  "photos": "1|1",
+  "nextH1": "College of Charleston",
+  "zoe": "We're visiting College of Charleston today. Give me 6 sharp, specific questions to ask on the tour and at the info session, based on my profile and what matters to us.",
+  "tripStart": 2,
+  "todayKit": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.entryFromSchool": true,
+  "phone.directionsAndLinks": true,
+  "phone.questions": true,
+  "phone.gutAndQuestionsSaved": true,
+  "phone.starsSaved": true,
+  "phone.notesAutosaveToFamily": true,
+  "phone.snapGoesToMemories": true,
+  "phone.nextStop": true,
+  "phone.zoeQuestions": true,
+  "phone.otherEntryPoints": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.entryFromSchool": true,
+  "desktop.directionsAndLinks": true,
+  "desktop.questions": true,
+  "desktop.gutAndQuestionsSaved": true,
+  "desktop.starsSaved": true,
+  "desktop.notesAutosaveToFamily": true,
+  "desktop.snapGoesToMemories": true,
+  "desktop.nextStop": true,
+  "desktop.zoeQuestions": true,
+  "desktop.otherEntryPoints": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.entryFromSchool": true,
+  "phone-dark.directionsAndLinks": true,
+  "phone-dark.questions": true,
+  "phone-dark.gutAndQuestionsSaved": true,
+  "phone-dark.starsSaved": true,
+  "phone-dark.notesAutosaveToFamily": true,
+  "phone-dark.snapGoesToMemories": true,
+  "phone-dark.nextStop": true,
+  "phone-dark.zoeQuestions": true,
+  "phone-dark.otherEntryPoints": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

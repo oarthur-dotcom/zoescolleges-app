@@ -1,0 +1,197 @@
+{
+ "phone": {
+  "cardsVisible": true,
+  "tableVisible": false,
+  "rows": 11,
+  "valsPerRow": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "legend": [
+   "1College of Charleston",
+   "2Massachusetts Institute of Technology",
+   "3University of Vermont",
+   "4Clemson University"
+  ],
+  "starsMatch": true,
+  "bestCountSame": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon"
+   ],
+   "bad": [],
+   "small": [
+    "on 20x20"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "small-phone": {
+  "cardsVisible": true,
+  "tableVisible": false,
+  "rows": 11,
+  "valsPerRow": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "legend": [
+   "1College of Charleston",
+   "2Massachusetts Institute of Technology",
+   "3University of Vermont",
+   "4Clemson University"
+  ],
+  "starsMatch": true,
+  "bestCountSame": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon"
+   ],
+   "bad": [],
+   "small": [
+    "on 20x20"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "cardsVisible": true,
+  "tableVisible": false,
+  "rows": 11,
+  "valsPerRow": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "legend": [
+   "1College of Charleston",
+   "2Massachusetts Institute of Technology",
+   "3University of Vermont",
+   "4Clemson University"
+  ],
+  "starsMatch": true,
+  "bestCountSame": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon"
+   ],
+   "bad": [],
+   "small": [
+    "on 20x20"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "desktop": {
+  "cardsVisible": false,
+  "tableVisible": true,
+  "rows": 11,
+  "valsPerRow": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "legend": [
+   "1College of Charleston",
+   "2Massachusetts Institute of Technology",
+   "3University of Vermont",
+   "4Clemson University"
+  ],
+  "starsMatch": true,
+  "bestCountSame": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon"
+   ],
+   "bad": [],
+   "small": [
+    "on 13x13",
+    "#cmp-build Compare → 99x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.cardLayout": true,
+  "phone.noSidewaysScroll": true,
+  "phone.sameWinners": true,
+  "phone.noBadText": true,
+  "phone.noErrors": true,
+  "small-phone.cardLayout": true,
+  "small-phone.noSidewaysScroll": true,
+  "small-phone.sameWinners": true,
+  "small-phone.noBadText": true,
+  "small-phone.noErrors": true,
+  "phone-dark.cardLayout": true,
+  "phone-dark.noSidewaysScroll": true,
+  "phone-dark.sameWinners": true,
+  "phone-dark.noBadText": true,
+  "phone-dark.noErrors": true,
+  "desktop.tableUnchanged": true,
+  "desktop.sameWinners": true,
+  "desktop.noBadText": true,
+  "desktop.noErrors": true
+ },
+ "allPass": true
+}

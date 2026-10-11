@@ -1,0 +1,52 @@
+// #45 Pulse v3: tiles newest-first, ✓ Read hides, ☆ Save keeps, Sports view; deadlines only on Deadlines, with Past deadlines. Run: node tests/pulse-v3-page-test.mjs
+import { launch, newPage, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const SITE = '/tmp/claude-0/f45/site', SHOTS = '/tmp/claude-0/f45/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
+if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
+const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json'), DL = fs.readFileSync('/tmp/claude-0/f33/dl.json');
+const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8807);
+const ago = d => new Date(Date.now() - d * 864e5).toISOString();
+const st = (t, l, d, kind, topic) => ({ title: t, link: l, date: ago(d), kind, topic });
+const MIT = [st('MIT engineers design a battery', 'https://news.mit.edu/a', 0.3, 'news', 'Research'), st('Beavers hockey opens season with home win', 'https://news.mit.edu/b', 2, 'news', 'Sports'), st('Early action: essays', 'https://mitadmissions.org/x', 1, 'admissions', 'Admissions & aid'), st('Museum exhibit on robots', 'https://news.mit.edu/d', 12, 'news', 'Arts')];
+const CHS = [st('CofC breaks ground on science center', 'https://charleston.edu/a', 2, 'news', 'Research'), st('Cougars win CAA soccer title', 'https://charleston.edu/b', 5, 'news', 'Sports')];
+const R = {}, ok = {};
+for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['desktop', { width: 1280, height: 900 }], ['phone-dark', { width: 390, height: 844 }, true]]) {
+  const b = await launch(); const { page, log } = await newPage(b, vp, {}); if (dark) await page.emulateMedia({ colorScheme: 'dark' });
+  await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
+  await page.route(/jsdelivr.*deadlines-2026-27\.json/, r => r.fulfill({ contentType: 'application/json', body: DL }));
+  await page.route('**/.netlify/functions/campus-pulse*', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ schools: { 'sc-166683': { top: MIT.slice(0, 3), stories: MIT, visits: [] }, 'college-of-charleston': { top: CHS, stories: CHS, visits: [] } }, pending: [], none: [] }) }));
+  await page.goto('http://localhost:8807/index.html'); await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(1500);
+  const o = {};
+  await page.evaluate(() => goto('pulse')); await page.waitForTimeout(500);
+  const titles = () => page.evaluate(() => [...document.querySelectorAll('.pt-tile .pt-tile-t')].map(a => a.textContent));
+  o.tiles = await titles(); o.deadlinesOnPulse = await page.evaluate(() => /Deadlines coming up/.test(document.getElementById('pt-out').innerText));
+  o.views = await page.evaluate(() => [...document.querySelectorAll('[data-pt-view]')].map(b => b.innerText.replace(/\s+/g, ' ')));
+  await page.screenshot({ path: `${SHOTS}${label}-tiles.png` });
+  await page.click('[data-pt-save="https://news.mit.edu/d"]'); await page.waitForTimeout(150);
+  await page.click('[data-pt-hide="https://news.mit.edu/a"]'); await page.waitForTimeout(150);
+  o.afterHide = await titles();
+  await page.click('[data-pt-view="saved"]'); await page.waitForTimeout(150); o.saved = await titles();
+  await page.click('[data-pt-view="sports"]'); await page.waitForTimeout(150); o.sports = await titles();
+  await page.click('[data-pt-view="hidden"]'); await page.waitForTimeout(150); o.hidden = await titles();
+  await page.click('[data-pt-hide="https://news.mit.edu/a"]'); await page.waitForTimeout(150);
+  await page.click('[data-pt-view="new"]'); await page.waitForTimeout(150); o.afterUnhide = await titles();
+  o.persist = await page.evaluate(() => { renderPulseTab(); return [...ptSet('saved')]; });
+  // Past deadlines on the Deadlines tab: give Charleston an Oct 1 round, ticked "Submitted"; MIT a missed Oct 5 round with RD still open
+  await page.evaluate(() => { state.dl2627 = state.dl2627 || {};
+    state.dl2627['college-of-charleston'] = { rounds: [{ k: 'EA', kind: 'Early Action', date: '2026-10-01', src: 'https://charleston.edu', conf: 'high' }, { k: 'RD', kind: 'Regular Decision', date: '2027-01-15', src: 'https://charleston.edu', conf: 'high' }] };
+    state.dl2627['sc-166683'] = { rounds: [{ k: 'X', kind: 'Priority', date: '2026-10-05', src: 'https://mit.edu', conf: 'high' }, { k: 'RD', kind: 'Regular Decision', date: '2027-01-05', src: 'https://mit.edu', conf: 'high' }] };
+    const c = getChecklist('college-of-charleston'); c['Submitted'] = true; setChecklist('college-of-charleston', c); goto('deadlines'); });
+  await page.waitForTimeout(500);
+  o.past = await page.evaluate(() => { const p = document.querySelector('.dl-past'); return p ? { open: p.open, text: p.innerText.replace(/\s+/g, ' ').slice(0, 400) } : null; });
+  await page.screenshot({ path: `${SHOTS}${label}-past.png`, fullPage: false });
+  o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
+  ok[label + '.tilesNewestFirst'] = o.tiles[0] === 'MIT engineers design a battery' && o.tiles.length === 6;
+  ok[label + '.noDeadlinesOnPulse'] = !o.deadlinesOnPulse;
+  ok[label + '.readHides'] = !o.afterHide.includes('MIT engineers design a battery') && o.hidden.includes('MIT engineers design a battery');
+  ok[label + '.saveKeeps'] = JSON.stringify(o.saved) === '["Museum exhibit on robots"]' && o.persist.includes('https://news.mit.edu/d');
+  ok[label + '.sportsView'] = o.sports.length === 2 && o.sports.every(t => /hockey|soccer/.test(t));
+  ok[label + '.unhide'] = o.afterUnhide.includes('MIT engineers design a battery');
+  ok[label + '.pastDeadlines'] = !!o.past && o.past.open && /Submitted/.test(o.past.text) && /Missed\?/.test(o.past.text) && /Still open: Regular Decision/.test(o.past.text);
+  ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
+}
+R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R, null, 1));
+fs.writeFileSync(new URL('./pulse-v3-page-result-2026-10-11.json', import.meta.url), JSON.stringify(R, null, 1)); srv.close();

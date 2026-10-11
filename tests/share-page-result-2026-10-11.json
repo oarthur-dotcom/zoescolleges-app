@@ -1,0 +1,628 @@
+{
+ "phone": {
+  "todayBtn": true,
+  "menuBtn": true,
+  "dialog": {
+   "auds": 3,
+   "on": "family",
+   "parts": "stars:true,deadlines:true,costs:false,academics:false"
+  },
+  "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
+  "preview": {
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "stars": 2,
+   "cta": false,
+   "xss": false
+  },
+  "made": {
+   "url": "https://zoescolleges.com/?share=be0cbd6025714e779e64d36a",
+   "payload": {
+    "v": 2,
+    "audience": "family",
+    "familyName": "Arthur Family",
+    "schools": [
+     {
+      "name": "College of Charleston",
+      "where": "Charleston, SC",
+      "match": 59,
+      "chance": "Target",
+      "stars": 4.5,
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 18960,
+      "sticker": 32362
+     },
+     {
+      "name": "Massachusetts Institute of Technology",
+      "where": "Cambridge, MA",
+      "match": 67,
+      "chance": "Reach",
+      "stars": 3,
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-11-01"
+      },
+      "cost": 20111,
+      "sticker": 82730
+     },
+     {
+      "name": "University of Vermont",
+      "where": "Burlington, VT",
+      "match": 61,
+      "chance": "Target",
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 19343,
+      "sticker": 35649
+     },
+     {
+      "name": "Clemson University",
+      "where": "Clemson, SC",
+      "match": 73,
+      "chance": "Reach",
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-10-15"
+      },
+      "cost": 22253,
+      "sticker": 35015
+     },
+     {
+      "name": "Newman University",
+      "where": "Wichita, KS",
+      "match": 46,
+      "chance": "Likely",
+      "cost": 19971,
+      "sticker": 46489
+     },
+     {
+      "name": "West Virginia University Institute of Technology",
+      "where": "Beckley, WV",
+      "match": 52,
+      "chance": "Reach",
+      "cost": 9337,
+      "sticker": 18907
+     }
+    ],
+    "created": 1791761375312,
+    "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
+    "sections": {
+     "stars": true,
+     "deadlines": true,
+     "costs": true
+    },
+    "title": "Arthur Family's college list"
+   },
+   "row": {
+    "kind": "list",
+    "fam": true,
+    "by": true,
+    "tokLen": 24
+   },
+   "mine": 1,
+   "list": 1,
+   "sms": true,
+   "mail": true
+  },
+  "leak": {
+   "note": false,
+   "offer": false,
+   "income": false,
+   "email": false
+  },
+  "offBefore": {
+   "msg": "Couldn't turn this link off yet — it needs a one-time setup step on our side (migration 013). It's still listed so you can try again.",
+   "mine": 1
+  },
+  "offAfter": {
+   "mine": 0,
+   "rows": 0,
+   "del": 2
+  },
+  "counselor": {
+   "hasAcad": true,
+   "acts": 0,
+   "gpa": "3.7",
+   "hasStars": false,
+   "html": true
+  },
+  "anyone": {
+   "acad": false,
+   "cost": false,
+   "dl": false,
+   "stars": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "★ 36x40",
+    "★ 25x24",
+    "My note · remove school 324x17",
+    "on 20x20",
+    "#sh-url https://zoescolleges.com/?share= 312x21"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": [],
+  "publicOld": {
+   "h1": "Arthur Family's college list",
+   "rows": 1,
+   "nav": true
+  },
+  "audit2": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors2": []
+ },
+ "desktop": {
+  "todayBtn": true,
+  "menuBtn": true,
+  "dialog": {
+   "auds": 3,
+   "on": "family",
+   "parts": "stars:true,deadlines:true,costs:false,academics:false"
+  },
+  "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
+  "preview": {
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "stars": 2,
+   "cta": false,
+   "xss": false
+  },
+  "made": {
+   "url": "https://zoescolleges.com/?share=8ba79945a8894dcfaafb738f",
+   "payload": {
+    "v": 2,
+    "audience": "family",
+    "familyName": "Arthur Family",
+    "schools": [
+     {
+      "name": "College of Charleston",
+      "where": "Charleston, SC",
+      "match": 59,
+      "chance": "Target",
+      "stars": 4.5,
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 18960,
+      "sticker": 32362
+     },
+     {
+      "name": "Massachusetts Institute of Technology",
+      "where": "Cambridge, MA",
+      "match": 67,
+      "chance": "Reach",
+      "stars": 3,
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-11-01"
+      },
+      "cost": 20111,
+      "sticker": 82730
+     },
+     {
+      "name": "University of Vermont",
+      "where": "Burlington, VT",
+      "match": 61,
+      "chance": "Target",
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 19343,
+      "sticker": 35649
+     },
+     {
+      "name": "Clemson University",
+      "where": "Clemson, SC",
+      "match": 73,
+      "chance": "Reach",
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-10-15"
+      },
+      "cost": 22253,
+      "sticker": 35015
+     },
+     {
+      "name": "Newman University",
+      "where": "Wichita, KS",
+      "match": 46,
+      "chance": "Likely",
+      "cost": 19971,
+      "sticker": 46489
+     },
+     {
+      "name": "West Virginia University Institute of Technology",
+      "where": "Beckley, WV",
+      "match": 52,
+      "chance": "Reach",
+      "cost": 9337,
+      "sticker": 18907
+     }
+    ],
+    "created": 1791761385969,
+    "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
+    "sections": {
+     "stars": true,
+     "deadlines": true,
+     "costs": true
+    },
+    "title": "Arthur Family's college list"
+   },
+   "row": {
+    "kind": "list",
+    "fam": true,
+    "by": true,
+    "tokLen": 24
+   },
+   "mine": 1,
+   "list": 1,
+   "sms": true,
+   "mail": true
+  },
+  "leak": {
+   "note": false,
+   "offer": false,
+   "income": false,
+   "email": false
+  },
+  "offBefore": {
+   "msg": "Couldn't turn this link off yet — it needs a one-time setup step on our side (migration 013). It's still listed so you can try again.",
+   "mine": 1
+  },
+  "offAfter": {
+   "mine": 0,
+   "rows": 0,
+   "del": 2
+  },
+  "counselor": {
+   "hasAcad": true,
+   "acts": 0,
+   "gpa": "3.7",
+   "hasStars": false,
+   "html": true
+  },
+  "anyone": {
+   "acad": false,
+   "cost": false,
+   "dl": false,
+   "stars": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#btn-report2 📄 Report 88x32",
+    "#btn-invite + Add my family 126x32",
+    "#btn-more More ▾ 68x32",
+    "#rank-toggle ⇅ My ranking 111x32",
+    "#view-stacked ☰ 38x32",
+    "#view-tiles ▦ 38x32",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x26",
+    "⇄ Compare 90x26",
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "★ 25x24",
+    "My note · remove school 357x17",
+    "Save note 88x32",
+    "Remove from board 151x32",
+    "👵 Grandparents & family 192x32",
+    "🎓 School counselor 154x32",
+    "🔗 Anyone 93x32",
+    "on 13x13",
+    "#sh-url https://zoescolleges.com/?share= 518x21",
+    "#sh-copy Copy link 84x32",
+    "💬 Text 71x33",
+    "✉️ Email 78x33"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1336",
+    "BUTTON.navbtn# right=1437"
+   ],
+   "dashCount": 4
+  },
+  "errors": [],
+  "publicOld": {
+   "h1": "Arthur Family's college list",
+   "rows": 1,
+   "nav": true
+  },
+  "audit2": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors2": []
+ },
+ "phone-dark": {
+  "todayBtn": true,
+  "menuBtn": true,
+  "dialog": {
+   "auds": 3,
+   "on": "family",
+   "parts": "stars:true,deadlines:true,costs:false,academics:false"
+  },
+  "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
+  "preview": {
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "stars": 2,
+   "cta": false,
+   "xss": false
+  },
+  "made": {
+   "url": "https://zoescolleges.com/?share=8f96845ae8d444eea81a2dd2",
+   "payload": {
+    "v": 2,
+    "audience": "family",
+    "familyName": "Arthur Family",
+    "schools": [
+     {
+      "name": "College of Charleston",
+      "where": "Charleston, SC",
+      "match": 59,
+      "chance": "Target",
+      "stars": 4.5,
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 18960,
+      "sticker": 32362
+     },
+     {
+      "name": "Massachusetts Institute of Technology",
+      "where": "Cambridge, MA",
+      "match": 67,
+      "chance": "Reach",
+      "stars": 3,
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-11-01"
+      },
+      "cost": 20111,
+      "sticker": 82730
+     },
+     {
+      "name": "University of Vermont",
+      "where": "Burlington, VT",
+      "match": 61,
+      "chance": "Target",
+      "deadline": {
+       "kind": "Early Decision",
+       "date": "2026-11-01"
+      },
+      "cost": 19343,
+      "sticker": 35649
+     },
+     {
+      "name": "Clemson University",
+      "where": "Clemson, SC",
+      "match": 73,
+      "chance": "Reach",
+      "deadline": {
+       "kind": "Early Action",
+       "date": "2026-10-15"
+      },
+      "cost": 22253,
+      "sticker": 35015
+     },
+     {
+      "name": "Newman University",
+      "where": "Wichita, KS",
+      "match": 46,
+      "chance": "Likely",
+      "cost": 19971,
+      "sticker": 46489
+     },
+     {
+      "name": "West Virginia University Institute of Technology",
+      "where": "Beckley, WV",
+      "match": 52,
+      "chance": "Reach",
+      "cost": 9337,
+      "sticker": 18907
+     }
+    ],
+    "created": 1791761396985,
+    "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
+    "sections": {
+     "stars": true,
+     "deadlines": true,
+     "costs": true
+    },
+    "title": "Arthur Family's college list"
+   },
+   "row": {
+    "kind": "list",
+    "fam": true,
+    "by": true,
+    "tokLen": 24
+   },
+   "mine": 1,
+   "list": 1,
+   "sms": true,
+   "mail": true
+  },
+  "leak": {
+   "note": false,
+   "offer": false,
+   "income": false,
+   "email": false
+  },
+  "offBefore": {
+   "msg": "Couldn't turn this link off yet — it needs a one-time setup step on our side (migration 013). It's still listed so you can try again.",
+   "mine": 1
+  },
+  "offAfter": {
+   "mine": 0,
+   "rows": 0,
+   "del": 2
+  },
+  "counselor": {
+   "hasAcad": true,
+   "acts": 0,
+   "gpa": "3.7",
+   "hasStars": false,
+   "html": true
+  },
+  "anyone": {
+   "acad": false,
+   "cost": false,
+   "dl": false,
+   "stars": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "★ 36x40",
+    "★ 25x24",
+    "My note · remove school 324x17",
+    "on 20x20",
+    "#sh-url https://zoescolleges.com/?share= 312x21"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": [],
+  "publicOld": {
+   "h1": "Arthur Family's college list",
+   "rows": 1,
+   "nav": true
+  },
+  "audit2": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors2": []
+ },
+ "ok": {
+  "phone.entryPoints": true,
+  "phone.audienceDefaults": true,
+  "phone.previewShowsWhatTheyGet": true,
+  "phone.noteEscaped": true,
+  "phone.linkCreated": true,
+  "phone.nothingPrivateLeaks": true,
+  "phone.turnOffHonestBefore013": true,
+  "phone.turnOffWorksAfter013": true,
+  "phone.counselorView": true,
+  "phone.anyoneIsMinimal": true,
+  "phone.oldLinksStillWork": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.entryPoints": true,
+  "desktop.audienceDefaults": true,
+  "desktop.previewShowsWhatTheyGet": true,
+  "desktop.noteEscaped": true,
+  "desktop.linkCreated": true,
+  "desktop.nothingPrivateLeaks": true,
+  "desktop.turnOffHonestBefore013": true,
+  "desktop.turnOffWorksAfter013": true,
+  "desktop.counselorView": true,
+  "desktop.anyoneIsMinimal": true,
+  "desktop.oldLinksStillWork": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.entryPoints": true,
+  "phone-dark.audienceDefaults": true,
+  "phone-dark.previewShowsWhatTheyGet": true,
+  "phone-dark.noteEscaped": true,
+  "phone-dark.linkCreated": true,
+  "phone-dark.nothingPrivateLeaks": true,
+  "phone-dark.turnOffHonestBefore013": true,
+  "phone-dark.turnOffWorksAfter013": true,
+  "phone-dark.counselorView": true,
+  "phone-dark.anyoneIsMinimal": true,
+  "phone-dark.oldLinksStillWork": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

@@ -1,0 +1,164 @@
+{
+ "phone": {
+  "rows": [
+   "Massachusetts Institute of Technology $82,730 $1,480 + Add offer $143,372",
+   "West Virginia University Institute of Technology $18,907 $9,137 (in-state) + Add offer $55,939",
+   "University of Vermont $35,649 $14,339 (in-state) + Add offer $62,472",
+   "College of Charleston $32,362 $16,797 (in-state) + Add offer $56,416",
+   "Clemson University $35,015 $18,851 (in-state) + Add offer $71,513",
+   "Newman University $46,489 $21,234 + Add offer $55,041"
+  ],
+  "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$21,234\nNewman University\n4 years, lowest\n~$5,920\nbefore raises in cost",
+  "review": {
+   "school": "sc-166683",
+   "coa": "85960",
+   "grants": 2,
+   "loans": 1,
+   "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
+  },
+  "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 $22,960 + $3,500 loans $143,372",
+  "badMsg": "Grants are more than the cost — check the numbers.",
+  "zoe": {
+   "view": "zoe",
+   "q": "Explain this financial-aid offer from Massachusetts Institute of Technology in plain English: cost of attendance $85,960; grants/scholarships MIT Scholarship $61,000, Federal Pell Grant $2,000; loans Direct Subsidized Loan $3,500; work-study $2,400. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "desktop": {
+  "rows": [
+   "Massachusetts Institute of Technology $82,730 $1,480 + Add offer $143,372",
+   "West Virginia University Institute of Technology $18,907 $9,137 (in-state) + Add offer $55,939",
+   "University of Vermont $35,649 $14,339 (in-state) + Add offer $62,472",
+   "College of Charleston $32,362 $16,797 (in-state) + Add offer $56,416",
+   "Clemson University $35,015 $18,851 (in-state) + Add offer $71,513",
+   "Newman University $46,489 $21,234 + Add offer $55,041"
+  ],
+  "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$21,234\nNewman University\n4 years, lowest\n~$5,920\nbefore raises in cost",
+  "review": {
+   "school": "sc-166683",
+   "coa": "85960",
+   "grants": 2,
+   "loans": 1,
+   "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
+  },
+  "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 $22,960 + $3,500 loans $143,372",
+  "badMsg": "Grants are more than the cost — check the numbers.",
+  "zoe": {
+   "view": "zoe",
+   "q": "Explain this financial-aid offer from Massachusetts Institute of Technology in plain English: cost of attendance $85,960; grants/scholarships MIT Scholarship $61,000, Federal Pell Grant $2,000; loans Direct Subsidized Loan $3,500; work-study $2,400. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#ztab-save 💾 Save chat 107x32",
+    "#ztab-binder 📒 Binder 87x32",
+    "#ztab-gear ⚙ Make Zoe yours 140x32",
+    "Analyze my whole profile 166x26",
+    "What are my reaches? 148x26",
+    "What should I work on? 154x26",
+    "Recommend schools for me 182x26",
+    "When are my deadlines? 161x26",
+    "Is my list balanced? 133x26",
+    "What should my essay be about? 210x26"
+   ],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "rows": [
+   "Massachusetts Institute of Technology $82,730 $1,480 + Add offer $143,372",
+   "West Virginia University Institute of Technology $18,907 $9,137 (in-state) + Add offer $55,939",
+   "University of Vermont $35,649 $14,339 (in-state) + Add offer $62,472",
+   "College of Charleston $32,362 $16,797 (in-state) + Add offer $56,416",
+   "Clemson University $35,015 $18,851 (in-state) + Add offer $71,513",
+   "Newman University $46,489 $21,234 + Add offer $55,041"
+  ],
+  "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$21,234\nNewman University\n4 years, lowest\n~$5,920\nbefore raises in cost",
+  "review": {
+   "school": "sc-166683",
+   "coa": "85960",
+   "grants": 2,
+   "loans": 1,
+   "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
+  },
+  "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 $22,960 + $3,500 loans $143,372",
+  "badMsg": "Grants are more than the cost — check the numbers.",
+  "zoe": {
+   "view": "zoe",
+   "q": "Explain this financial-aid offer from Massachusetts Institute of Technology in plain English: cost of attendance $85,960; grants/scholarships MIT Scholarship $61,000, Federal Pell Grant $2,000; loans Direct Subsidized Loan $3,500; work-study $2,400. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 3
+  },
+  "errors": []
+ },
+ "ok": {
+  "cleanerParsesMoney": true,
+  "phone.rowsForEveryBoardSchool": true,
+  "phone.incomeBandUsed": true,
+  "phone.letterPrefillsForm": true,
+  "phone.offerMath": true,
+  "phone.refusesBadNumbers": true,
+  "phone.zoeExplains": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone.noBadText": true,
+  "desktop.rowsForEveryBoardSchool": true,
+  "desktop.incomeBandUsed": true,
+  "desktop.letterPrefillsForm": true,
+  "desktop.offerMath": true,
+  "desktop.refusesBadNumbers": true,
+  "desktop.zoeExplains": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop.noBadText": true,
+  "phone-dark.rowsForEveryBoardSchool": true,
+  "phone-dark.incomeBandUsed": true,
+  "phone-dark.letterPrefillsForm": true,
+  "phone-dark.offerMath": true,
+  "phone-dark.refusesBadNumbers": true,
+  "phone-dark.zoeExplains": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "phone-dark.noBadText": true
+ },
+ "allPass": true
+}

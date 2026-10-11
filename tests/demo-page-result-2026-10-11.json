@@ -1,0 +1,187 @@
+{
+ "phone": {
+  "cta": "👀 Look around first — explore a sample family No account needed. See their board, chances, trip, memories and Zoe. →",
+  "today": {
+   "view": "today",
+   "hi": "Good evening, Maya",
+   "bar": true,
+   "fam": "The Rivera family (sample)",
+   "schools": 8,
+   "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essays, Recommendations, Transcript… Then: Northeastern University · Nov 1, 2026 · University of Vermont · Nov 1, 2026 Open Deadlines ZOE SUGGESTS No likely schools yet — a safe bet or two keeps your list balanced. See Zoe Picks 📅 Plan my week 💬 TALK IT OUT Everyone has shared. 2 of 3 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS With your own account, this fills with live news, events and open houses from each school's own site. All news 📋 YOUR LIST B 0 Likely · 3 Target · 5 Reach For balance: 2 more Likel"
+  },
+  "board": {
+   "cards": 8,
+   "chances": 16
+  },
+  "toast": "This is a sample family — changes last until you leave. Create your free account to keep your own.",
+  "realWrites": 0,
+  "memories": 3,
+  "trip": 3,
+  "pulse": "Live campus news is for members.\n\nWith your own account, Pulse shows the newest stories, events and open houses from eac",
+  "zoeAI": "In the sample family I can answer questions about the board, chances, deadlines and trips. To chat with me about anything — essays, your week, your family's huddle — create your free account (it takes a minute).",
+  "zoeRules": "Your reaches (5):\n• Northeastern University\n• Clemson University\n• University of Massachusetts-Amherst\n• Wake Forest University\n• Boston University\n2–3 reaches ",
+  "fnCalls": 0,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#demo-report 📄 See her report 104x18",
+    "#demo-exit Exit 22x18"
+   ],
+   "wide": [],
+   "dashCount": 7
+  },
+  "afterJoin": {
+   "url": "?signup=1",
+   "auth": true,
+   "mode": "signup",
+   "demoKeys": 0
+  },
+  "errors": []
+ },
+ "desktop": {
+  "cta": "👀 Look around first — explore a sample family No account needed. See their board, chances, trip, memories and Zoe. →",
+  "today": {
+   "view": "today",
+   "hi": "Good evening, Maya",
+   "bar": true,
+   "fam": "The Rivera family (sample)",
+   "schools": 8,
+   "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essays, Recommendations, Transcript… Then: Northeastern University · Nov 1, 2026 · University of Vermont · Nov 1, 2026 Open Deadlines ZOE SUGGESTS No likely schools yet — a safe bet or two keeps your list balanced. See Zoe Picks 📅 Plan my week 💬 TALK IT OUT Everyone has shared. 2 of 3 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS With your own account, this fills with live news, events and open houses from each school's own site. All news 📋 YOUR LIST B 0 Likely · 3 Target · 5 Reach For balance: 2 more Likel"
+  },
+  "board": {
+   "cards": 8,
+   "chances": 16
+  },
+  "toast": "This is a sample family — changes last until you leave. Create your free account to keep your own.",
+  "realWrites": 0,
+  "memories": 3,
+  "trip": 3,
+  "pulse": "Live campus news is for members.\n\nWith your own account, Pulse shows the newest stories, events and open houses from eac",
+  "zoeAI": "In the sample family I can answer questions about the board, chances, deadlines and trips. To chat with me about anything — essays, your week, your family's huddle — create your free account (it takes a minute).",
+  "zoeRules": "Your reaches (5):\n• Northeastern University\n• Clemson University\n• University of Massachusetts-Amherst\n• Wake Forest University\n• Boston University\n2–3 reaches ",
+  "fnCalls": 0,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips · 3 82x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#demo-report 📄 See her report 104x18",
+    "#demo-join Create my free account 173x32",
+    "#demo-exit Exit 22x18",
+    "#ztab-save 💾 Save chat 107x32",
+    "#ztab-binder 📒 Binder 87x32",
+    "#ztab-gear ⚙ Make Zoe yours 140x32",
+    "Analyze my whole profile 166x26",
+    "What are my reaches? 148x26",
+    "What should I work on? 154x26",
+    "Recommend schools for me 182x26",
+    "When are my deadlines? 161x26",
+    "Is my list balanced? 133x26",
+    "What should my essay be about? 210x26"
+   ],
+   "wide": [],
+   "dashCount": 7
+  },
+  "afterJoin": {
+   "url": "?signup=1",
+   "auth": true,
+   "mode": "signup",
+   "demoKeys": 0
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "cta": "👀 Look around first — explore a sample family No account needed. See their board, chances, trip, memories and Zoe. →",
+  "today": {
+   "view": "today",
+   "hi": "Good evening, Maya",
+   "bar": true,
+   "fam": "The Rivera family (sample)",
+   "schools": 8,
+   "text": "⏰ NEXT DEADLINE Clemson University Early Action · Oct 15, 2026 · in 4 days Still to do: Essays, Recommendations, Transcript… Then: Northeastern University · Nov 1, 2026 · University of Vermont · Nov 1, 2026 Open Deadlines ZOE SUGGESTS No likely schools yet — a safe bet or two keeps your list balanced. See Zoe Picks 📅 Plan my week 💬 TALK IT OUT Everyone has shared. 2 of 3 voted. Open 🗳 Vote 📰 NEW AT YOUR SCHOOLS With your own account, this fills with live news, events and open houses from each school's own site. All news 📋 YOUR LIST B 0 Likely · 3 Target · 5 Reach For balance: 2 more Likel"
+  },
+  "board": {
+   "cards": 8,
+   "chances": 16
+  },
+  "toast": "This is a sample family — changes last until you leave. Create your free account to keep your own.",
+  "realWrites": 0,
+  "memories": 3,
+  "trip": 3,
+  "pulse": "Live campus news is for members.\n\nWith your own account, Pulse shows the newest stories, events and open houses from eac",
+  "zoeAI": "In the sample family I can answer questions about the board, chances, deadlines and trips. To chat with me about anything — essays, your week, your family's huddle — create your free account (it takes a minute).",
+  "zoeRules": "Your reaches (5):\n• Northeastern University\n• Clemson University\n• University of Massachusetts-Amherst\n• Wake Forest University\n• Boston University\n2–3 reaches ",
+  "fnCalls": 0,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#demo-report 📄 See her report 104x18",
+    "#demo-exit Exit 22x18"
+   ],
+   "wide": [],
+   "dashCount": 7
+  },
+  "afterJoin": {
+   "url": "?signup=1",
+   "auth": true,
+   "mode": "signup",
+   "demoKeys": 0
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.ctaOnSignIn": true,
+  "phone.opensSampleOnToday": true,
+  "phone.boardWithChances": true,
+  "phone.nothingSaved": true,
+  "phone.memoriesAndTrip": true,
+  "phone.pulseHonest": true,
+  "phone.zoeHonestAndRulesWork": true,
+  "phone.joinGoesToSignup": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.ctaOnSignIn": true,
+  "desktop.opensSampleOnToday": true,
+  "desktop.boardWithChances": true,
+  "desktop.nothingSaved": true,
+  "desktop.memoriesAndTrip": true,
+  "desktop.pulseHonest": true,
+  "desktop.zoeHonestAndRulesWork": true,
+  "desktop.joinGoesToSignup": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.ctaOnSignIn": true,
+  "phone-dark.opensSampleOnToday": true,
+  "phone-dark.boardWithChances": true,
+  "phone-dark.nothingSaved": true,
+  "phone-dark.memoriesAndTrip": true,
+  "phone-dark.pulseHonest": true,
+  "phone-dark.zoeHonestAndRulesWork": true,
+  "phone-dark.joinGoesToSignup": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
