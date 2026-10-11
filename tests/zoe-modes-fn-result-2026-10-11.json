@@ -1,0 +1,20 @@
+{
+ "historyRoles": [
+  "user",
+  "model",
+  "user"
+ ],
+ "huddleCtx": "\"familyRatings\":[{\"school\":\"Clemson University\",\"views\":[{\"who\":\"Student\",\"stars\":5,\"note\":\"Loved the vibe\"},{\"who\":\"Parent 1\",\"stars\":2,\"note\":\"Too far from home\"}]}]",
+ "ok": {
+  "essayModeRules": true,
+  "essayLongDraftKept": true,
+  "essayMoreTokens": true,
+  "chatStillCapped": true,
+  "memoryAlternatesFromUser": true,
+  "huddleRules": true,
+  "weekRules": true,
+  "unknownModeIsChat": true,
+  "allBusyReported": true
+ },
+ "allPass": true
+}
