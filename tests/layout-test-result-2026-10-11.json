@@ -1,0 +1,90 @@
+{
+ "old-phone": {
+  "board": {
+   "tiles": true,
+   "cards": 6,
+   "cardsWithSqueezedName": 6,
+   "cardsWhereNameOverlapsButton": 0,
+   "minNameWidth": 6
+  },
+  "boardOverflowX": 0,
+  "fabCoversLastCard": true,
+  "compare": {
+   "cols": 4,
+   "minColWidth": 57,
+   "cellsOrHeadersSpilling": 11
+  },
+  "compareOverflowX": 0,
+  "exploreOverflowX": 0,
+  "exploreWide": [],
+  "zoeFabVisibleOnZoeTab": true,
+  "zoeFabVisibleOnBoard": true,
+  "pageErrors": []
+ },
+ "old-desk": {
+  "board": {
+   "tiles": true,
+   "cards": 6,
+   "cardsWithSqueezedName": 6,
+   "cardsWhereNameOverlapsButton": 0,
+   "minNameWidth": 0
+  },
+  "boardOverflowX": 0,
+  "fabCoversLastCard": false,
+  "compare": {
+   "cols": 4,
+   "minColWidth": 293,
+   "cellsOrHeadersSpilling": 0
+  },
+  "compareOverflowX": 0,
+  "exploreOverflowX": 0,
+  "exploreWide": [],
+  "zoeFabVisibleOnZoeTab": true,
+  "zoeFabVisibleOnBoard": true,
+  "pageErrors": []
+ },
+ "new-phone": {
+  "board": {
+   "tiles": true,
+   "cards": 6,
+   "cardsWithSqueezedName": 0,
+   "cardsWhereNameOverlapsButton": 0,
+   "minNameWidth": 254
+  },
+  "boardOverflowX": 0,
+  "fabCoversLastCard": false,
+  "compare": {
+   "cols": 4,
+   "minColWidth": 112,
+   "cellsOrHeadersSpilling": 0
+  },
+  "compareOverflowX": 0,
+  "exploreOverflowX": 0,
+  "exploreWide": [],
+  "zoeFabVisibleOnZoeTab": false,
+  "zoeFabVisibleOnBoard": true,
+  "pageErrors": []
+ },
+ "new-desk": {
+  "board": {
+   "tiles": true,
+   "cards": 6,
+   "cardsWithSqueezedName": 0,
+   "cardsWhereNameOverlapsButton": 0,
+   "minNameWidth": 218
+  },
+  "boardOverflowX": 0,
+  "fabCoversLastCard": false,
+  "compare": {
+   "cols": 4,
+   "minColWidth": 293,
+   "cellsOrHeadersSpilling": 0
+  },
+  "compareOverflowX": 0,
+  "exploreOverflowX": 0,
+  "exploreWide": [],
+  "zoeFabVisibleOnZoeTab": false,
+  "zoeFabVisibleOnBoard": true,
+  "pageErrors": []
+ }
+}
