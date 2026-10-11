@@ -1,6 +1,6 @@
 // #47 Memories as its own tab + Trips on its own; sample reel/video; add photos; family takes; share-your-reel. Run: node tests/memories-page-test.mjs
 import { launch, newPage, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
-const SITE = '/tmp/claude-0/f47/site', SHOTS = '/tmp/claude-0/f47/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
+const SITE = '/tmp/claude-0/f47/site', SHOTS = '/tmp/claude-0/f47/'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html'); fs.mkdirSync(SITE + '/media', { recursive: true }); for (const f of fs.readdirSync(new URL('../media', import.meta.url))) fs.copyFileSync(new URL('../media/' + f, import.meta.url), SITE + '/media/' + f);
 if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
 const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
 const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8809);
@@ -15,7 +15,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.nav = await page.evaluate(() => [...document.querySelectorAll('#appnav .navbtn')].map(x => x.textContent.trim()));
   o.sheet = await page.evaluate(() => [...document.querySelectorAll('#tb-sheet .tbs b')].map(x => x.textContent));
   await page.evaluate(() => { localStorage.removeItem(_tripKey ? 'x' : 'x'); state.photos = []; goto('memories'); }); await page.waitForTimeout(500);
-  o.empty = await page.evaluate(() => ({ steps: document.querySelectorAll('.mem-steps>div').length, strip: document.querySelectorAll('.mem-sample-strip span').length, play: !!document.getElementById('mem-sample-play'), playHidden: document.getElementById('mem-play').classList.contains('hidden') }));
+  o.empty = await page.evaluate(() => ({ steps: document.querySelectorAll('.mem-steps>div').length, strip: (() => { const v = document.getElementById('mem-sample-vid'); return v ? 6 : 0; })(), video: (() => { const v = document.getElementById('mem-sample-vid'); return v && v.querySelector('source').getAttribute('src'); })(), play: !!document.getElementById('mem-sample-play'), playHidden: document.getElementById('mem-play').classList.contains('hidden') }));
   await page.screenshot({ path: `${SHOTS}${label}-empty.png` });
   await page.click('#mem-sample-play'); await page.waitForTimeout(500);
   o.player = await page.evaluate(() => ({ open: document.getElementById('player').classList.contains('open'), cap: document.getElementById('player-cap').innerText }));
@@ -53,5 +53,10 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   ok[label + '.tripsStandsAlone'] = /Trips/.test(o.trips.title) && !o.trips.back;
   ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
 }
+// signed-out sign-in page shows the sample video, and the file plays
+{ const b = await launch(); const { page, log } = await newPage(b, { width: 390, height: 844 }, { signedOut: true }); await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
+  await page.goto('http://localhost:8809/index.html'); await page.waitForTimeout(2500);
+  const v = await page.evaluate(async () => { const el = document.getElementById('auth-sample'); if (!el) return null; const vis = !document.getElementById('v-auth').classList.contains('hidden'); el.preload = 'auto'; el.load(); await new Promise(r => { el.onloadedmetadata = r; setTimeout(r, 4000); }); return { vis, dur: el.duration, w: el.videoWidth, credits: document.querySelectorAll('#v-auth .sample-credits a').length }; });
+  R.signedOut = v; ok['signedOut.sampleVideo'] = !!v && v.vis && v.dur > 15 && v.w === 1280 && v.credits === 6; ok['signedOut.noErrors'] = !log.pageerr.length; await b.close(); }
 R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R, null, 1));
 fs.writeFileSync(new URL('./memories-page-result-2026-10-11.json', import.meta.url), JSON.stringify(R, null, 1)); srv.close();

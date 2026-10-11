@@ -5,7 +5,7 @@
 # The build step copies the public files into dist/; everything else stays private.
 # If this command ever fails, Netlify keeps the previous deploy live.
 [build]
-  command = "rm -rf dist && mkdir -p dist && cp index.html dist/"
+  command = "rm -rf dist && mkdir -p dist && cp index.html dist/ && cp -r media dist/media"
   publish = "dist"
   functions = "netlify/functions"
 

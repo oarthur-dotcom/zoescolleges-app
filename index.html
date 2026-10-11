@@ -511,6 +511,9 @@ a{color:var(--teal)}
 .mem-empty .mem-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
 .mem-steps>div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:12px;background:var(--paper);font-size:13px}.mem-steps span{color:var(--muted);font-size:12px}
 @media (max-width:560px){.mem-empty .mem-steps{grid-template-columns:1fr}}
+.sample-card{margin:10px 0 14px}.sample-h{font-size:14px;margin-bottom:8px}
+.sample-video{width:100%;border-radius:12px;background:#0b1220;aspect-ratio:16/9;display:block}
+.sample-credits{font-size:11.5px;color:var(--muted);margin-top:6px}.sample-credits p{margin:6px 0 0;line-height:1.5}
 .mem-sample-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;border-radius:12px;overflow:hidden}
 .mem-sample-strip span{aspect-ratio:3/4;background-size:cover;background-position:center}
 .mem-sharecard{margin-top:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 10%,var(--surface)),var(--surface))}
@@ -942,6 +945,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <section id="v-auth" class="hidden">
     <h1>The college search, as a family.</h1>
     <p class="sub">A roommate-style match for colleges: grounded academic research + what you care about beyond class + cost. Everyone rates; nobody can touch anyone else's stars.</p>
+    <div class="card sample-card"><div class="sample-h"><b>📸 Memories:</b> every campus visit becomes a reel your family keeps. <span class="muted">Here's a 20-second sample.</span></div>
+      <video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
+      <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
     <div class="card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -2187,9 +2193,10 @@ function renderMemories(){
     const sr=sampleReel();
     el.innerHTML=`<div class="card mem-empty">
       <div class="mem-steps"><div><b>1 · Visit</b><span>Plan it in Trips, then go.</span></div><div><b>2 · Snap</b><span>Add photos on the day — each one is filed under its school.</span></div><div><b>3 · Relive</b><span>Play the reel, or make a video to keep and share.</span></div></div>
-      ${sr.length?`<div class="mem-sample"><div class="mem-sample-strip">${sr.map(p=>`<span style="background-image:url('${esc(p.url)}')"></span>`).join("")}</div>
+      ${sr.length?`<div class="mem-sample"><video id="mem-sample-vid" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
+      <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details>
         <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" id="mem-sample-play">▶ Watch a sample reel</button><button class="small" id="mem-sample-video">🎬 Sample video</button>
-        <span class="muted" style="font-size:11.5px;align-self:center">Sample photos: Wikimedia Commons (credited in the reel).</span></div></div>`:""}
+        <span class="muted" style="font-size:11.5px;align-self:center">Or play it with your own photos once you've added some.</span></div></div>`:""}
       <button class="small primary" id="mem-first" style="margin-top:12px">＋ Add your first visit photos</button></div>`;
     const sp=$("mem-sample-play"); if(sp) sp.onclick=()=>playReel(sr);
     const sv=$("mem-sample-video"); if(sv) sv.onclick=()=>makeAiFilm(sr);

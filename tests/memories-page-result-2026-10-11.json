@@ -23,6 +23,7 @@
   "empty": {
    "steps": 3,
    "strip": 6,
+   "video": "/media/sample-reel.mp4",
    "play": true,
    "playHidden": true
   },
@@ -35,7 +36,6 @@
   "visits": [
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
-  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
   "noConsentMsg": "Please tick all three boxes.",
   "shareWrite": {
    "n": 2,
@@ -95,6 +95,7 @@
   "empty": {
    "steps": 3,
    "strip": 6,
+   "video": "/media/sample-reel.mp4",
    "play": true,
    "playHidden": true
   },
@@ -107,7 +108,6 @@
   "visits": [
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
-  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
   "noConsentMsg": "Please tick all three boxes.",
   "shareWrite": {
    "n": 2,
@@ -177,6 +177,7 @@
   "empty": {
    "steps": 3,
    "strip": 6,
+   "video": "/media/sample-reel.mp4",
    "play": true,
    "playHidden": true
   },
@@ -189,7 +190,6 @@
   "visits": [
    "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
-  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
   "noConsentMsg": "Please tick all three boxes.",
   "shareWrite": {
    "n": 2,
@@ -225,6 +225,12 @@
   },
   "errors": []
  },
+ "signedOut": {
+  "vis": true,
+  "dur": 22.8,
+  "w": 1280,
+  "credits": 6
+ },
  "ok": {
   "phone.memoriesInNav": true,
   "phone.emptyStateTeaches": true,
@@ -258,7 +264,9 @@
   "phone-dark.shareSendsPending": true,
   "phone-dark.tripsStandsAlone": true,
   "phone-dark.noErrors": true,
-  "phone-dark.noSidewaysScroll": true
+  "phone-dark.noSidewaysScroll": true,
+  "signedOut.sampleVideo": true,
+  "signedOut.noErrors": true
  },
  "allPass": true
 }
