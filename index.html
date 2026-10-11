@@ -10,6 +10,13 @@
 <meta property="og:description" content="A college-search board the whole family rates together — matches, honest chances, deadlines and visit trips.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0f7f80">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Zoe's Colleges">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://heppyuzvztjzhgfitrsb.supabase.co" crossorigin>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f7f80'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -881,6 +888,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .td-story{display:flex;flex-direction:column;gap:1px;padding:8px 0;border-bottom:1px solid var(--line)}
 .td-story a{color:var(--ink);font-weight:600;font-size:14px;text-decoration:none;overflow-wrap:anywhere}.td-story a:hover{color:var(--teal)}.td-story .muted{font-size:11.5px}
 .td-visits{display:grid;gap:4px;margin-top:8px;font-size:12.5px}
+.td-install{background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 10%,var(--surface)),var(--surface) 70%)}
 /* #45 Pulse tiles */
 .pt-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin:10px 0 4px}
 .pt-views{padding:0}
@@ -1726,7 +1734,7 @@ async function loadFamily(){
     computeNorms();
     goto("today");
   } catch(e){
-    msg("board-msg", "Couldn't load your board: " + (e.message||e) + " — tap Try again.");
+    msg("board-msg", (navigator.onLine===false ? "You're offline — connect to Wi-Fi or data and tap Try again." : "Couldn't load your board: " + (e.message||e) + " — tap Try again."));
     show("v-board");
     $("schools").innerHTML = `<div class="card"><span class="muted">Something went wrong loading your board.</span><div class="row" style="margin-top:10px"><button class="small primary" onclick="location.reload()">Try again</button></div></div>`;
   } finally { clearTimeout(slow); $("loading-slow").classList.add("hidden"); }
@@ -2934,6 +2942,23 @@ function renderPulseTab(){
     + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Saved and read marks are kept on this device. Tap a school name for its full Pulse.</div>`;
   wirePt(el, all); renderPulseWeekly();
 }
+/* ===== Phone app feel (#50): installable, fast repeat visits, friendly offline message ===== */
+let _installEvt=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); _installEvt=e; if(currentView==="today") try{ renderToday(); }catch(err){} });
+window.addEventListener("appinstalled",()=>{ _installEvt=null; try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} });
+function isStandalone(){ return (window.matchMedia&&matchMedia("(display-mode: standalone)").matches) || navigator.standalone===true; }
+function installCardHtml(){
+  let hidden=false; try{ hidden=localStorage.getItem("zc_install_hide")==="1"; }catch(e){}
+  if(hidden || isStandalone() || DEMO) return "";
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent) && !/crios|fxios/i.test(navigator.userAgent);
+  if(!_installEvt && !ios) return "";
+  return `<div class="td-card td-wide td-install"><div class="td-h">📲 Put Zoe's Colleges on your home screen</div>
+    <div class="td-mid">${ios?`On iPhone: tap <b>Share</b> <span aria-hidden="true">⬆︎</span> at the bottom of Safari, then <b>Add to Home Screen</b>.`:`One tap and it opens like an app — full screen, and faster on campus visits.`}</div>
+    <div class="row" style="gap:8px;margin-top:10px">${_installEvt?`<button class="small primary" data-install>Add to home screen</button>`:""}<button class="linklike" data-install-x>Not now</button></div></div>`;
+}
+if("serviceWorker" in navigator && (location.protocol==="https:" || location.hostname==="localhost") && !/[?&]nosw=1/.test(location.search)){
+  window.addEventListener("load",()=>{ navigator.serviceWorker.register("/sw.js").catch(()=>{}); });
+}
 /* ===== Today (#48) ===== */
 function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
 function renderToday(){
@@ -2976,7 +3001,9 @@ function renderToday(){
   const trip=getTrip().size, ph=(state.photos||[]).length;
   const visitCard=`<div class="td-card"><div class="td-h">🚗 Visits</div><div class="td-mid">${trip?`<b>${trip}</b> campus${trip>1?"es":""} on your trip.`:"No trip planned yet."} ${ph?`<b>${ph}</b> visit photo${ph>1?"s":""} saved.`:""}</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button><button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
-  el.innerHTML=dlCard+zoeCard+pulseCard+balCard+visitCard;
+  el.innerHTML=dlCard+zoeCard+pulseCard+balCard+visitCard+installCardHtml();
+  const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
+  const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
   try{ updateDlNav(); }catch(e){}
   el.querySelectorAll("[data-td-go]").forEach(b=>b.onclick=()=>goto(b.dataset.tdGo));
   const wk=el.querySelector("[data-td-week]"); if(wk) wk.onclick=()=>{ goto("zoe"); setTimeout(()=>zmOpen("week"),150); };

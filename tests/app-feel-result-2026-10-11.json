@@ -1,0 +1,42 @@
+{
+ "swReady": true,
+ "controlled": true,
+ "caches": {
+  "zc-shell-zc-v1": [
+   "localhost:8812/manifest.webmanifest",
+   "localhost:8812/icons/icon-192.png",
+   "localhost:8812/"
+  ],
+  "zc-img": [],
+  "zc-data": [
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/colleges.json",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/net-price-by-income",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/deadlines-2026-27.j"
+  ]
+ },
+ "icons": [
+  "image/png",
+  "image/png",
+  "image/png"
+ ],
+ "installCard": "📲 PUT ZOE'S COLLEGES ON YOUR HOME SCREEN\nOne tap and it opens like an app — full screen, and faster on campus visits.\nAdd to home screen\nNot now",
+ "prompted": true,
+ "offline": {
+  "reloaded": true,
+  "title": "Zoe's Colleges — Beta",
+  "hasApp": true
+ },
+ "errors": [],
+ "ok": {
+  "manifestValid": true,
+  "swRegistersAndControls": true,
+  "pageCached": true,
+  "neverCachesPrivate": true,
+  "iconsServed": true,
+  "installCard": true,
+  "opensOffline": true,
+  "noErrors": true,
+  "pinnedDataRule": true
+ },
+ "allPass": true
+}

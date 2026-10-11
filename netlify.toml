@@ -5,7 +5,7 @@
 # The build step copies the public files into dist/; everything else stays private.
 # If this command ever fails, Netlify keeps the previous deploy live.
 [build]
-  command = "rm -rf dist && mkdir -p dist && cp index.html dist/ && cp -r media dist/media"
+  command = "rm -rf dist && mkdir -p dist && cp index.html manifest.webmanifest sw.js dist/ && cp -r media icons dist/"
   publish = "dist"
   functions = "netlify/functions"
 
@@ -21,3 +21,15 @@
     # would block, without blocking it. After a week with no reports, switch the header name to
     # Content-Security-Policy to enforce it (one-line change, Obie's OK).
     Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://heppyuzvztjzhgfitrsb.supabase.co wss://heppyuzvztjzhgfitrsb.supabase.co https://cdn.jsdelivr.net https://router.project-osrm.org https://overpass-api.de https://overpass.kumi.systems https://maps.mail.ru; media-src 'self' blob: https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+# #50: the service worker must always be re-checked so a new release reaches families right away.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
