@@ -1,0 +1,22 @@
+{
+ "table-exists": {
+  "cardShown": true,
+  "offText": "📬 Email reminders Off Get an email 30, 14 and 3 days before each deadline on your board. Covers 4 of your 7 schools with a confirmed date — the rest say “check school si",
+  "saved": [
+   {
+    "email_on": true,
+    "hasFamily": true,
+    "own": true
+   }
+  ],
+  "onText": "📬 Email reminders On We'll email test@example.com 30, 14 and 3 days before each deadline. Covers 4 of your 7 schools with a confirmed date — the rest",
+  "afterTurnOff": false,
+  "restOfDeadlinesStillRenders": 7,
+  "pageErrors": []
+ },
+ "table-missing": {
+  "cardShown": false,
+  "restOfDeadlinesStillRenders": 7,
+  "pageErrors": []
+ }
+}

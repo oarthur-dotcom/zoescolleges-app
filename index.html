@@ -1227,7 +1227,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true };
+let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -2780,6 +2780,38 @@ function deadlinesICS(events){
 function downloadDeadlineICS(events){ if(!events.length){ alert("Tick at least one school with a dated deadline."); return; } const blob=new Blob([deadlinesICS(events)],{type:"text/calendar"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="zoes-colleges-deadlines.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
 function gcalUrl(e){ const d0=icsDate(e.date), d1=icsDate(new Date(e.date.getTime()+86400000)); return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(e.title)}&dates=${d0}/${d1}&details=${encodeURIComponent(e.desc||"")}`; }
 let dlSel=null;
+/* ---- Deadline reminder emails (improvement #1) ----
+   Each person's own switch (off until they turn it on). A daily server job emails them
+   30, 14 and 3 days before each dated deadline on the family board. */
+let _remind=null;   // {email_on} once loaded; null = not loaded; false = feature unavailable
+async function loadReminderPref(){
+  if(!BACKEND.reminders || !state.me) return false;
+  try{ const { data, error } = await sb.from("reminder_prefs").select("email_on").eq("user_id", state.me.user_id).maybeSingle();
+    if(error) throw error; return { email_on: !!(data && data.email_on) }; }
+  catch(e){ BACKEND.reminders=false; return false; }   // table not there yet (migration 010) -> hide the card
+}
+async function saveReminderPref(on){
+  const { error } = await sb.from("reminder_prefs").upsert({ user_id:state.me.user_id, family_id:state.family.id, email_on:on, updated_at:new Date().toISOString() });
+  if(error) throw error;
+}
+async function renderReminderCard(rows){
+  const el=$("dl-remind"); if(!el) return;
+  if(_remind===null || (_remind && _remind.uid!==(state.me&&state.me.user_id))){ const r=await loadReminderPref(); _remind = r ? {...r, uid:state.me.user_id} : false; }
+  if(!_remind){ el.innerHTML=""; return; }
+  const today=new Date(); today.setHours(0,0,0,0);
+  const covered=rows.filter(r=>deadlineList(r.info).some(x=>x.date>=today)).length;
+  const email=(state.session&&state.session.user&&state.session.user.email)||"your email";
+  const on=_remind.email_on;
+  el.innerHTML=`<div class="card dl-remind-card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="min-width:0;flex:1 1 220px"><b>📬 Email reminders</b> <span class="muted" style="font-size:12.5px">${on?"On":"Off"}</span>
+        <div class="muted" style="font-size:12.5px;margin-top:3px">${on?`We'll email <b>${esc(email)}</b> 30, 14 and 3 days before each deadline.`:`Get an email 30, 14 and 3 days before each deadline on your board.`}
+        Covers <b>${covered}</b> of your ${rows.length} school${rows.length===1?"":"s"} with a confirmed date${covered<rows.length?" — the rest say “check school site”":""}.</div></div>
+      <button class="small ${on?"ghost":"primary"}" id="dl-remind-btn">${on?"Turn off":"Turn on"}</button></div>
+    <div id="dl-remind-msg" class="muted" style="font-size:12px;margin-top:6px"></div></div>`;
+  $("dl-remind-btn").onclick=async()=>{ const b=$("dl-remind-btn"); b.disabled=true;
+    try{ await saveReminderPref(!on); _remind={email_on:!on, uid:state.me.user_id}; renderReminderCard(rows); }
+    catch(e){ b.disabled=false; $("dl-remind-msg").textContent="Couldn't save that — try again in a moment."; } };
+}
 function renderDeadlines(){
   const out=$("dl-out");
   const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
@@ -2799,7 +2831,7 @@ function renderDeadlines(){
       <button class="small" id="dl-apple">Apple</button>
       <button class="small" id="dl-outlook">Outlook</button>
     </div>`:""}</div>`;
-  out.innerHTML = header + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
+  out.innerHTML = header + `<div id="dl-remind"></div>` + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
     const done=DL_TASKS.filter(t=>chk[t]).length; const pctDone=Math.round(100*done/DL_TASKS.length);
@@ -2816,6 +2848,7 @@ function renderDeadlines(){
         <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
       </div></div></div>`;
   }).join("");
+  renderReminderCard(rows);
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(p=>p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); }); });
   out.querySelectorAll(".dl-chk").forEach(cb=>cb.onchange=()=>{ dlSel[cb.dataset.dlsel]=cb.checked; renderDeadlines(); });
