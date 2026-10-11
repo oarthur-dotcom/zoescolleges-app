@@ -193,6 +193,29 @@ a{color:var(--teal)}
 .act-seg button{flex:1;border:1px solid var(--line);background:var(--sunk);border-radius:9px;padding:9px 0;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
 .act-seg button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,transparent);color:var(--teal)}
 @media(max-width:560px){.act-controls{grid-template-columns:1fr}}
+/* #36 Common App-style activities */
+.act-head-row{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 8px}
+.act-num{flex:0 0 auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--sunk);color:var(--ink)}
+.act-glyph.sm{width:32px;height:32px;font-size:16px;border-radius:9px}
+.act-ttl{flex:1;min-width:0;font-size:15px;overflow-wrap:anywhere}
+.act-card.open{border-color:color-mix(in srgb,var(--teal) 55%,var(--line));box-shadow:0 2px 12px color-mix(in srgb,var(--teal) 14%,transparent)}
+.act-row{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:8px}
+.act-sum{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left;background:none;border:none;padding:4px 2px;cursor:pointer;color:var(--ink);font:inherit;min-height:40px;justify-content:center}
+.act-sum b{font-size:14.5px;overflow-wrap:anywhere}.act-sum span{font-size:12px}
+.act-sum:hover b{color:var(--teal)}
+.act-move{display:flex;gap:4px;flex:0 0 auto}
+.act-move button{width:36px;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:9px;cursor:pointer;color:var(--ink);font-size:15px}
+.act-move button:disabled{opacity:.35;cursor:default}
+.act-txt input,.act-txt textarea{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;font-family:var(--disp);color:var(--ink);resize:vertical}
+.act-sel.act-txt::after{display:none}
+.act-sel>span i{font-style:normal;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+.act-wide{grid-column:1/-1}
+.act-done-row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.act-done-row .a-done{min-height:40px;padding:0 18px}
+.act-add{display:block;width:100%;margin-top:4px;border:1.5px dashed color-mix(in srgb,var(--teal) 55%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));color:var(--teal);border-radius:14px;padding:13px;font-size:14.5px;font-weight:700;cursor:pointer;min-height:48px}
+.act-add:disabled{opacity:.6;cursor:default}
+.act-empty{display:flex;flex-direction:column;gap:4px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--paper);font-size:13px;margin-bottom:8px}
+.act-status{font-size:12.5px;font-weight:600}.act-status.ok{color:var(--good)}.act-status.warn{color:var(--amber)}.act-status.err{color:var(--warn)}
 #pf-act-add{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--teal);border-radius:12px;padding:11px;font-weight:600}
 #pf-act-add:hover{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 6%,transparent)}
 /* inline help tooltip (hover + tap) */
@@ -719,6 +742,36 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pulse-links{display:flex;flex-wrap:wrap;gap:8px}
 .pulse-links a{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;text-decoration:none;color:var(--ink);background:var(--surface)}
 .pulse-foot{padding:8px 16px 12px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+/* Pulse tab (#34) */
+.pt-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;padding:12px 16px}
+.pt-main{padding-top:14px}
+.pt-chips{padding:12px 0 2px}
+.pt-chips .ptab{display:inline-flex;align-items:center;gap:6px}
+.pt-feed .bp-item:last-child{border-bottom:none}
+.pt-new{background:var(--teal);color:#fff}
+.pdot.mini{width:7px;height:7px;display:inline-block;vertical-align:1px;margin-right:4px}
+.pdot.mini::after{inset:-3px}
+.pulse-new .pdot.mini{background:#fff}
+.pulse-new .pdot.mini::after{border-color:#fff}
+.pt-nudge{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 8px;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin:6px 0;cursor:pointer;color:var(--ink);font:inherit;font-size:13.5px;min-height:40px}
+.pt-nudge span{color:var(--muted);font-size:12.5px}
+.pt-nudge .pt-when{margin-left:auto;font-weight:700;color:var(--teal);font-size:12.5px}
+.pt-nudge.urgent{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:color-mix(in srgb,var(--warn) 7%,var(--surface))}
+.pt-nudge.urgent .pt-when,.pt-nudge.in-detail.urgent b{color:var(--warn)}
+.pt-nudge.in-detail{width:auto;display:inline-flex;margin:10px 0 0}
+.pt-visit{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.pt-visit:last-child{border-bottom:none}
+.pt-trip{flex:0 0 auto;border:1px solid var(--teal);color:var(--teal);background:var(--surface);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px;white-space:nowrap}
+.pt-trip.on{background:var(--teal);color:#fff}
+.pt-visit a.pi-t{color:var(--ink);text-decoration:none}
+.pt-visit a.pi-t:hover{color:var(--teal)}
+.pt-vtag{background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--warn)}
+.pt-nc{font-size:12.5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);line-height:1.6}
+.pt-ncs{background:none;border:none;padding:0;color:var(--teal);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.pt-weekly{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pt-foot{border:none;padding:4px 2px 20px}
+.pt-empty{text-align:center;padding:22px 16px}
+@media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
 /* Board: what's new at your schools */
 .bpulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;overflow:hidden}
 .bpulse-h{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 12%,var(--surface)),var(--surface) 70%);border:none;width:100%;text-align:left;color:var(--ink);font:inherit}
@@ -752,6 +805,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="compare">Compare</button>
     <button class="navbtn" data-nav="trip">Trips</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
+    <button class="navbtn" data-nav="pulse">📰 Pulse</button>
     <button class="navbtn" data-nav="zoe">💬 Ask Zoe</button>
     <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
@@ -919,7 +973,6 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="onboard-guide"></div>
     <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
     <div id="board-coach" class="coachwrap"></div>
-    <div id="board-pulse"></div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -1046,9 +1099,10 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
     <div class="card" id="pf-acts-card">
       <h2 style="margin-top:0">Activities &amp; work<span class="hint" tabindex="0" data-tip="A snapshot of what you do outside class. Colleges value a few deep commitments over a long thin list. This is guidance for you — not a score colleges ever see.">i</span></h2>
-      <p class="muted" style="font-size:12.5px;margin:0 0 10px;line-height:1.5">List up to 10 things you put real time into — clubs, sports, a job, volunteering, caring for family, research. For each one: <b>what you did</b>, <b>how involved</b> you are, and roughly <b>how many hours a week</b> and <b>how many years</b>. Depth beats a long list — this feeds your admission chance at selective schools.</p>
+      <p class="muted" style="font-size:12.5px;margin:0 0 10px;line-height:1.5">Set up just like the Common App: up to 10 activities, each with its type, your position, grade levels and time. Pick from the menus, tap <b>Done</b>, and it's saved. Use ↑ ↓ to put the most important first. Depth beats a long list — this feeds your admission chance at selective schools.</p>
+      <div class="act-head-row"><span class="pulse-h" style="margin:0">Your activities · most important first</span><span id="pf-act-count" class="muted" style="font-size:12px"></span></div>
       <div id="pf-acts"></div>
-      <button id="pf-act-add" class="small ghost" style="margin-top:8px" type="button">+ Add activity</button>
+      <button id="pf-act-add" class="act-add" type="button">+ Add your first activity</button>
       <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
       <div class="row" style="margin-top:12px"><button id="pf-save2" class="small primary">Save activities</button><span id="pf-savemsg2" class="muted" style="font-size:12px"></span></div>
     </div>
@@ -1123,6 +1177,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <h1>Deadlines &amp; tracker</h1>
     <p class="sub">Your board schools by soonest deadline, each with an application checklist. Saved on this device.</p>
     <div id="dl-out"></div>
+  </section>
+
+  <!-- CAMPUS PULSE (own tab, #34) -->
+  <section id="v-pulse" class="hidden">
+    <h1>📰 Campus Pulse</h1>
+    <p class="sub">What's new at the schools on your board — straight from each school's own news, admissions office and calendar.</p>
+    <div id="pt-out"></div>
   </section>
 
   <!-- ASK ZOE (full tab) -->
@@ -1322,7 +1383,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1343,6 +1404,7 @@ function goto(view){
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
+  else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
 }
@@ -2147,7 +2209,7 @@ function renderSchool(x){
     <div class="top">
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
-      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
+      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div></div>
       <span class="brk"></span>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
@@ -2171,6 +2233,8 @@ function renderSchool(x){
 }
 function hueFromName(name){ name=name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360; return h; }
 function phGrad(name){ const h=hueFromName(name); return `linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))`; }
+/* Founding year (#35): from Wikidata, matched by federal school ID. */
+function estText(info){ const y=info&&info.founded; return (Number.isInteger(y)&&y>=1600&&y<=2100)?` · Est. ${y}`:""; }
 function photoUrlFor(c){ return (c && c.photo && c.photo.url) || ""; }
 // Tile cover: a family campus photo when there is one, else a colored placeholder with the school's initial.
 function coverFor(s, info){
@@ -2302,7 +2366,7 @@ function renderExList(q){
     return `<div class="srow">
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)}</div>
-        <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
+        <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(sc.netPrice)}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
@@ -2385,7 +2449,7 @@ function pulseSection(rec){
   return `<section id="pulse" class="pulse" data-pulse-root="${esc(id)}">
     <div class="pulse-head"><h2>📰 Campus Pulse</h2>
       <div class="pulse-sub">What's happening at ${esc(rec.name)} right now — straight from the school, its admissions office and its calendar.</div>
-      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div><div data-pulse-ask></div></div>
+      <div class="pmeter" data-pulse-meter><span class="pdot"></span><span class="muted">Checking the latest…</span></div><div class="ptopics" data-pulse-topics></div>${(()=>{ const x=pulseNudge(catInfo(id)); return x?`<button class="pt-nudge in-detail ${x.days<=14?"urgent":""}" data-nav-deadlines>⏰ <b>${esc(x.kind)}</b> deadline ${esc(nudgeText(x))} <span>(${esc(_fmtD(x.date))})</span></button>`:""; })()}<div data-pulse-ask></div></div>
     <div class="ptabs" data-pulse-tabs></div>
     <div class="pbody" data-pulse-news="${esc(id)}"><div class="pskel" style="width:92%"></div><div class="pskel" style="width:76%"></div><div class="pskel" style="width:84%"></div></div>
     <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links" data-pulse-voices>${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
@@ -2393,6 +2457,9 @@ function pulseSection(rec){
     <div class="pulse-foot">Headlines and events come from the school's own public feeds and link to the school's site. Student links open each site's newest posts — we link out, we don't copy them.</div></section>`;
 }
 function pulseItemHtml(it){
+  if(it.kind==="events" && isVisit(it.title) && it.school){ const dd=_evDate(it.date);
+    return `<div class="pulse-item pt-visit"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
+      <span class="pi-main"><a class="pi-t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a><span class="pi-meta"><span class="ptag pt-vtag">🎟 Visit day</span>${esc(_evWhen(it))}${it.where?` · ${esc(it.where)}`:""}</span></span>${tripAddBtn(it.school)}</div>`; }
   if(it.kind==="events"){ const dd=_evDate(it.date);
     return `<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
       <span class="pi-main"><span class="pi-t">${esc(it.title)}</span><span class="pi-meta">${esc(_evWhen(it))}${it.where?` · ${esc(it.where)}`:""}</span></span></a>`; }
@@ -2403,7 +2470,7 @@ function renderPulseList(root, j, tab, expanded){
   const box=root.querySelector("[data-pulse-news]");
   const S=j.sections||{};
   const stories=["news","admissions","student"].flatMap(k=>(S[k]||[]).map(x=>({...x,kind:k}))).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  const events=(S.events||[]).map(x=>({...x,kind:"events"}));
+  const events=(S.events||[]).map(x=>({...x,kind:"events",school:root.dataset.pulseRoot})).sort((a,b)=>(isVisit(b.title)-isVisit(a.title))||a.date.localeCompare(b.date));
   let list = tab==="all" ? stories : tab==="events" ? events : stories.filter(x=>x.kind===tab);
   const shown = expanded ? list : list.slice(0,4);
   let html = shown.map(pulseItemHtml).join("");
@@ -2449,52 +2516,116 @@ async function loadPulse(id){
       const g=[...v.querySelectorAll("a")].find(a=>/student newspaper/i.test(a.textContent)); if(g){ g.href=j.studentSite; g.textContent=`🗞️ ${host} (student paper) ↗`; } }
   }catch(e){ fail("Couldn't reach the school's feeds right now — try again later."); }
 }
-/* Board: "What's new at your schools" — one request for the whole board, cached for 10 minutes. */
+/* Pulse digest (#34): one request for the whole board (stories + visit days), cached 10 minutes.
+   Feeds the Pulse tab, the dots on board cards and the count on the Pulse tab button. */
 let pulseDigest={at:0,key:"",data:null,busy:false};
-function pulseCollapsed(){ try{ return localStorage.getItem("zc_bpulse_closed")==="1"; }catch(e){ return false; } }
-function setPulseCollapsed(v){ try{ localStorage.setItem("zc_bpulse_closed",v?"1":"0"); }catch(e){} }
-function renderBoardPulse(){
-  const el=$("board-pulse"); if(!el) return;
-  const ids=state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30);
-  if(!ids.length){ el.innerHTML=""; return; }
+const PULSE_WEEK=7*86400e3;
+function boardPulseIds(){ return state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30); }
+function pulseData(){ const ids=boardPulseIds(); if(!ids.length) return {ids,key:"",d:null};
   const key=ids.slice().sort().join(",");
   const fresh=pulseDigest.data && pulseDigest.key===key && Date.now()-pulseDigest.at<10*60e3;
   if(!fresh && !pulseDigest.busy) fetchBoardPulse(ids,key);
-  const d=pulseDigest.key===key?pulseDigest.data:null;
-  if(!d){ el.innerHTML=`<div class="bpulse"><div class="bpulse-h"><span class="pdot active"></span><b>Campus Pulse</b><span class="cnt">checking your schools…</span></div></div>`; return; }
-  const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
-  const items=Object.entries(d.schools||{}).flatMap(([id,v])=>(v.top||[]).slice(0,2).map(x=>({...x,school:id}))).filter(x=>x.date).sort((a,b)=>b.date.localeCompare(a.date));
-  const week=items.filter(x=>Date.now()-Date.parse(x.date)<7*86400e3).length;
-  const live=Object.keys(d.schools||{}).length;
-  if(!items.length){ el.innerHTML=""; return; }
-  const closed=pulseCollapsed();
-  el.innerHTML=`<div class="bpulse"><button class="bpulse-h" data-bpulse-toggle aria-expanded="${!closed}"><span class="pdot ${week?"active":"steady"}"></span><b>What's new at your schools</b><span class="cnt">${week?`${week} new this week`:`${items.length} recent`} ${closed?"▸":"▾"}</span></button>
-    <div class="bpulse-list ${closed?"hidden":""}">${items.slice(0,6).map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
-      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span></span></span></div>`).join("")}
-      <div class="bp-foot">Live from ${live} of your ${ids.length} schools' own news feeds. Tap a school name for its full Pulse.</div></div></div>`;
-  el.querySelector("[data-bpulse-toggle]").onclick=()=>{ setPulseCollapsed(!pulseCollapsed()); renderBoardPulse(); };
-  // "N new" badges on the board cards' Pulse links
+  return {ids,key,d:pulseDigest.key===key?pulseDigest.data:null}; }
+function newThisWeek(v){ return ((v&&(v.stories||v.top))||[]).filter(x=>x.date && Date.now()-Date.parse(x.date)<PULSE_WEEK).length; }
+function renderBoardPulse(){   // name kept: renderBoard() calls it. Dots + nav count only — the feed lives on the Pulse tab.
+  const {d}=pulseData(); updatePulseNav(d); if(!d) return;
   for(const [id,v] of Object.entries(d.schools||{})){
-    const n=(v.top||[]).filter(x=>x.date && Date.now()-Date.parse(x.date)<7*86400e3).length;
-    document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new">${n} new</span>`); });
+    const n=newThisWeek(v);
+    document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new"><span class="pdot active mini"></span>${n} new</span>`); });
   }
 }
+function updatePulseNav(d){ const b=document.querySelector('#appnav .navbtn[data-nav="pulse"]'); if(!b) return;
+  const n=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; b.textContent = n? `📰 Pulse · ${n}` : "📰 Pulse"; }
 async function fetchBoardPulse(ids,key,retry){
   pulseDigest.busy=true;
   try{
-    const r=await fetch(`/.netlify/functions/campus-pulse?ids=${encodeURIComponent(ids.join(","))}`,{headers:await aiHeaders()});
+    const r=await fetch(`/.netlify/functions/campus-pulse?events=1&ids=${encodeURIComponent(ids.join(","))}`,{headers:await aiHeaders()});
     const j=await r.json().catch(()=>null);
     if(j && j.schools){
       const prev=(pulseDigest.key===key&&pulseDigest.data)?pulseDigest.data.schools:{};
-      pulseDigest={at:Date.now(),key,data:{...j,schools:{...prev,...j.schools}},busy:false};
-      if(currentView==="board") renderBoardPulse();
+      const none=[...new Set([...((pulseDigest.key===key&&pulseDigest.data&&pulseDigest.data.none)||[]),...(j.none||[])])];
+      pulseDigest={at:Date.now(),key,data:{...j,none,schools:{...prev,...j.schools}},busy:false};
+      if(currentView==="board") renderBoardPulse(); else updatePulseNav(pulseDigest.data);
+      if(currentView==="pulse") renderPulseTab();
       if(j.pending && j.pending.length && !retry) setTimeout(()=>fetchBoardPulse(j.pending,key,true),2500);
       return;
     }
   }catch(e){}
   pulseDigest.busy=false;
+  if(currentView==="pulse") renderPulseTab();
+}
+/* Visit days (#34): open houses, tours, preview days on the school's public calendar -> one tap to Trips. */
+const VISIT_RE=/\b(open houses?|campus (visits?|tours?)|guided tours?|admissions? (tours?|events?|sessions?)|visit days?|preview days?|info(rmation)? sessions?|admitted students?|accepted students?|prospective students?|future (students?|\w+s) day|discover \w+ day|explore \w+ day|experience \w+ day)\b/i;
+function isVisit(t){ return VISIT_RE.test(String(t||"")); }
+function tripAddBtn(id){ const on=getTrip().has(id); return `<button class="pt-trip ${on?"on":""}" type="button" data-trip-add="${esc(id)}">${on?"✓ In Trips":"+ Add to Trips"}</button>`; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-trip-add]"); if(!b) return; e.preventDefault(); e.stopPropagation();
+  const id=b.dataset.tripAdd, s=getTrip(); if(!s.has(id)){ s.add(id); saveTrip(s); updateTripBadge(); }
+  document.querySelectorAll(`[data-trip-add="${CSS.escape(id)}"]`).forEach(x=>{ x.classList.add("on"); x.textContent="✓ In Trips"; }); });
+/* Deadline nudge (#34): the nearest deadline, when it's within 45 days. */
+function pulseNudge(info){ const n=info?nextDeadline(info):null; if(!n) return null; const days=daysUntil(n.date);
+  if(days==null || days<0 || days>45) return null; return {kind:n.kind, date:n.date, days}; }
+function nudgeText(x){ return x.days===0?"today":x.days===1?"tomorrow":`in ${x.days} days`; }
+/* The Pulse tab */
+let ptSchool="all", ptMore=false;
+function renderPulseTab(){
+  const el=$("pt-out"); if(!el) return;
+  const {ids,d}=pulseData(); updatePulseNav(d);
+  if(!ids.length){ el.innerHTML=`<div class="card pt-empty"><b>Add schools to your board to see their news here.</b><div class="muted" style="margin:6px 0 12px;font-size:13px">Pulse follows each school's own news, admissions office and campus calendar.</div><button class="primary small" data-pt-go="explore">Browse schools</button></div>`; wirePt(el); return; }
+  const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
+  // Deadlines coming up (nudges)
+  const nudges=state.schools.map(s=>({id:s.school_id,x:pulseNudge(catInfo(s.school_id))})).filter(o=>o.x).sort((a,b)=>a.x.days-b.x.days).slice(0,3);
+  const nudgeHtml = nudges.length ? `<div class="pt-card pt-nudges"><div class="pulse-h">⏰ Deadlines coming up</div>${nudges.map(o=>`<button class="pt-nudge ${o.x.days<=14?"urgent":""}" data-pt-go="deadlines"><b>${esc(name(o.id))}</b> <span>${esc(o.x.kind)} · ${esc(_fmtD(o.x.date))}</span><span class="pt-when">${esc(nudgeText(o.x))}</span></button>`).join("")}</div>` : "";
+  if(!d){ el.innerHTML = nudgeHtml + `<div class="pt-card"><div class="pmeter"><span class="pdot active"></span><span class="muted">Checking your ${ids.length} school${ids.length>1?"s":""}…</span></div><div class="pskel" style="width:92%"></div><div class="pskel" style="width:70%"></div><div class="pskel" style="width:84%"></div></div>`; wirePt(el); return; }
+  const S=d.schools||{};
+  const live=ids.filter(id=>S[id] && ((S[id].stories||S[id].top||[]).length || (S[id].visits||[]).length));
+  const waiting=ids.filter(id=>!S[id] && !(d.none||[]).includes(id) && pulseDigest.busy);
+  const notConnected=ids.filter(id=>(d.none||[]).includes(id));
+  const quiet=ids.filter(id=>S[id] && !live.includes(id));
+  const week=live.reduce((t,id)=>t+newThisWeek(S[id]),0);
+  const visits=live.flatMap(id=>(S[id].visits||[]).map(x=>({...x,school:id}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
+  const visitHtml = visits.length ? `<div class="pt-card"><div class="pulse-h">🎟 Visit days &amp; open houses</div>${visits.map(x=>{ const dd=_evDate(x.date); return `<div class="pt-visit"><span class="pev-date"><span class="m">${esc(dd.m)}</span><span class="d">${esc(dd.d)}</span></span>
+      <span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button><a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta">${esc(_evWhen(x))}${x.where?` · ${esc(x.where)}`:""}</span></span>${tripAddBtn(x.school)}</div>`; }).join("")}</div>` : "";
+  if(ptSchool!=="all" && !live.includes(ptSchool)) ptSchool="all";
+  const stories=live.flatMap(id=>(S[id].stories||S[id].top||[]).map(x=>({...x,school:id}))).filter(x=>x.date && (ptSchool==="all"||x.school===ptSchool)).sort((a,b)=>b.date.localeCompare(a.date));
+  const shown=ptMore?stories:stories.slice(0,10);
+  const chips = live.length>1 ? `<div class="ptabs pt-chips"><button class="ptab ${ptSchool==="all"?"on":""}" data-pt-school="all">All<span class="n">${live.reduce((t,id)=>t+(S[id].stories||S[id].top||[]).length,0)}</span></button>${live.map(id=>`<button class="ptab ${ptSchool===id?"on":""}" data-pt-school="${esc(id)}">${esc(name(id))}${newThisWeek(S[id])?`<span class="pdot active mini"></span>`:""}</button>`).join("")}</div>` : "";
+  const feed = stories.length ? shown.map(x=>`<div class="bp-item"><span class="pi-main"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(name(x.school))}</button>
+      <a class="bp-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="pi-meta"><span class="ptag k-${esc(x.kind)}">${esc(PULSE_KIND[x.kind].label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}<span>${esc(_ago(x.date))}</span>${Date.now()-Date.parse(x.date)<PULSE_WEEK?`<span class="ptag pt-new">New</span>`:""}</span></span></div>`).join("")
+      + (stories.length>10?`<button class="pmore" data-pt-more>${ptMore?"Show less":`Show all ${stories.length}`}</button>`:"")
+    : `<div class="pempty">${live.length?"Nothing new from your schools right now.":"None of your schools' feeds are connected yet — we're adding schools every week."}</div>`;
+  const status=`<div class="pmeter"><span class="pdot ${week?"active":"steady"}"></span><b>${week?`${week} new this week`:"All caught up"}</b><span class="sep">·</span><span class="muted">live from ${live.length} of your ${ids.length} schools</span></div>`;
+  const nc = notConnected.length||quiet.length ? `<div class="pt-nc"><b>Not connected yet:</b> ${[...notConnected,...quiet].map(id=>`<button class="pt-ncs" data-pulse-open="${esc(id)}">${esc(name(id))}</button>`).join(", ")}. <span class="muted">We're connecting more schools every week. Their Pulse page still has student links.</span></div>` : "";
+  el.innerHTML = nudgeHtml + visitHtml + `<div class="pt-card pt-main">${status}${chips}<div class="pt-feed">${feed}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
+    + `<div id="pt-weekly"></div>`
+    + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Tap a school name for its full Pulse.</div>`;
+  wirePt(el); renderPulseWeekly();
+}
+function wirePt(el){
+  el.querySelectorAll("[data-pt-go]").forEach(b=>b.onclick=()=>goto(b.dataset.ptGo));
+  el.querySelectorAll("[data-pt-school]").forEach(b=>b.onclick=()=>{ ptSchool=b.dataset.ptSchool; ptMore=false; renderPulseTab(); });
+  const m=el.querySelector("[data-pt-more]"); if(m) m.onclick=()=>{ ptMore=!ptMore; renderPulseTab(); };
+}
+/* Weekly Pulse email (#34): each person's own switch, off until they turn it on. Needs migration 011. */
+let _pweekly=null;
+async function renderPulseWeekly(){
+  const el=$("pt-weekly"); if(!el) return;
+  if(BACKEND.pulseWeekly===false || !state.me){ el.innerHTML=""; return; }
+  if(_pweekly===null || _pweekly.uid!==state.me.user_id){
+    try{ const { data, error } = await sb.from("reminder_prefs").select("pulse_weekly").eq("user_id", state.me.user_id).maybeSingle(); if(error) throw error;
+      _pweekly={on:!!(data&&data.pulse_weekly), uid:state.me.user_id}; }
+    catch(e){ BACKEND.pulseWeekly=false; el.innerHTML=""; return; }   // column not there yet (migration 011) -> hide
+  }
+  const email=(state.session&&state.session.user&&state.session.user.email)||"your email";
+  el.innerHTML=`<div class="pt-card pt-weekly"><div style="flex:1 1 220px;min-width:0"><b>📬 Weekly Pulse email</b> <span class="muted" style="font-size:12.5px">${_pweekly.on?"On":"Off"}</span>
+    <div class="muted" style="font-size:12.5px;margin-top:3px">${_pweekly.on?`Every Monday morning to ${esc(email)}: the week's news and visit days at your schools.`:"One short email each Monday: the week's news and visit days at your board schools."}</div></div>
+    <button class="small ${_pweekly.on?"ghost":"primary"}" data-pw-toggle>${_pweekly.on?"Turn off":"Turn on"}</button><span class="msg" data-pw-msg></span></div>`;
+  el.querySelector("[data-pw-toggle]").onclick=async ev=>{ const b=ev.currentTarget; b.disabled=true;
+    try{ const { error } = await sb.from("reminder_prefs").upsert({ user_id:state.me.user_id, family_id:state.family.id, pulse_weekly:!_pweekly.on, updated_at:new Date().toISOString() }); if(error) throw error;
+      _pweekly.on=!_pweekly.on; renderPulseWeekly(); }
+    catch(e){ b.disabled=false; const m=el.querySelector("[data-pw-msg]"); m.className="msg err"; m.textContent="Couldn't save — try again."; } };
 }
 /* ========== SCHOOL DETAIL ========== */
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-nav-deadlines]"); if(!b) return; e.preventDefault(); goto("deadlines"); });
 document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-pulse-open]"); if(!a) return; e.preventDefault();
   openDetail(a.dataset.pulseOpen, currentView==="detail"?detailFrom:currentView); setTimeout(()=>{ const el=document.getElementById("pulse"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },120); });
 function renderDetail(id){
@@ -2550,7 +2681,7 @@ function renderDetail(id){
     ${photoBanner}
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
-    <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
+    <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
@@ -3287,7 +3418,7 @@ function renderProfile(){
     else el.innerHTML=`You've taken ${took} of ~${off} APs offered (${cov}%).`; };
   ["pf-hs-ap","pf-hs-honors","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.addEventListener("input",hsR); }); hsR();
   // activities
-  profActs = Array.isArray(p.activities)? p.activities.slice() : [];
+  profActs = Array.isArray(p.activities)? p.activities.map(normAct) : []; actOpen=-1; actDirty=false;
   renderActs();
   // sliders
   const w = myPrefs();
@@ -3363,7 +3494,7 @@ function renderProfileView(){
   const row=(k,v)=>v?`<div class="pv-row"><span class="pv-k">${esc(k)}</span><span class="pv-v">${v}</span></div>`:"";
   const testLine = p.testOptional? "Test-optional" : ([p.sat?("SAT "+esc(p.sat)):"", p.act?("ACT "+esc(p.act)):""].filter(Boolean).join(" · "));
   const rig=p.rigor||{}; const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"" ].filter(Boolean).join(" · ");
-  const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name)}</b>${a.hrs?` · ${esc(a.hrs)} hr/wk`:""}${a.yrs?` · ${esc(a.yrs)} yr`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
+  const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
     <div class="pv-head"><h2 style="margin:0">Your profile</h2><button class="small ghost" data-pf-edit>✏️ Edit profile</button></div>
     <div class="pv-grid">
@@ -3392,22 +3523,25 @@ function profileProblems(p){
   if(p.home_state && !US_STATES.has(p.home_state)) return "Home state should be a 2-letter code like SC or MA.";
   return "";
 }
-async function saveProfileForm(){
+async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so match % re-scores
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
-  const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs, ...(a.sport?{sport:String(a.sport).trim()}:{})}));
+  const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
+    for(const k of ["sport","position","org","weeks","college","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
   const hs = { name:($("pf-hs").value||"").trim(), apOffered:+$("pf-hs-ap").value||0, honorsOffered:+$("pf-hs-honors").value||0 };
   const bad = profileProblems(p);
-  if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad; e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return; }
+  if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
   lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs);
   if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
-  profActs = acts.slice();
-  ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
-  pfEdit=false; renderProfileView();
+  profActs = acts.slice(); actDirty=false;
+  if(stay){ renderProfileView(); return true; }
+  ["pf-savemsg","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
+  actStatus(`✓ Saved — ${acts.length} activit${acts.length===1?"y":"ies"} on your profile`,"ok"); actOpen=-1; renderActs();
+  pfEdit=false; renderProfileView(); return true;
 }
 $("pf-save").onclick = saveProfileForm;
 { const b2=$("pf-save2"); if(b2) b2.onclick = saveProfileForm; }
@@ -3469,47 +3603,96 @@ function showTxPreview(f){
   tabs.querySelectorAll("[data-ptab]").forEach(x=>x.classList.toggle("on",x===b));
   $("pf-acad").classList.toggle("hidden", t!=="acad"); $("pf-who").classList.toggle("hidden", t!=="who"); window.scrollTo(0,0); }); }
 let profActs = [];
-const ACT_CATS = ["Academic","Arts / Visual","Athletics: Varsity","Athletics: Club/JV","Career / Pre-professional","Community service / Volunteer","Cultural","Debate / Speech","Environmental","Family responsibilities","Internship","Journalism / Media","Music","Religious","Research","Robotics / Engineering","School spirit / Government","Science / Math","Theater / Drama","Work (paid)","Other"];
-const ACT_EMOJI={"Academic":"📚","Arts / Visual":"🎨","Athletics: Varsity":"🏅","Athletics: Club/JV":"⚽","Career / Pre-professional":"💼","Community service / Volunteer":"🤝","Cultural":"🌍","Debate / Speech":"🗣️","Environmental":"🌱","Family responsibilities":"🏠","Internship":"🧑‍💼","Journalism / Media":"📰","Music":"🎵","Religious":"🙏","Research":"🔬","Robotics / Engineering":"🤖","School spirit / Government":"🏛️","Science / Math":"🧪","Theater / Drama":"🎭","Work (paid)":"💰","Other":"⭐"};
-function actEmoji(cat){ return ACT_EMOJI[cat]||"⭐"; }
-function hrsLabel(v){ return v===""||v==null ? "—" : (+v>=40?"40+ hrs":(+v)+" hrs"); }
+/* Activities (#36, Oct 11): mirrors the Common App Activities section — same activity types, grade levels,
+   timing, hours/week and weeks/year, position, organization and a 150-character description — all dropdowns
+   except the optional organization and description. Sports are picked from a list. One activity is edited at a
+   time; tapping Done saves it. Older entries (free-text name, our earlier categories) are mapped over. */
+const ACT_TYPES = ["Academic","Art","Athletics: Club","Athletics: JV/Varsity","Career Oriented","Community Service (Volunteer)","Computer/Technology","Cultural","Dance","Debate/Speech","Environmental","Family Responsibilities","Foreign Exchange","Foreign Language","Internship","Journalism/Publication","Junior R.O.T.C.","LGBT","Music: Instrumental","Music: Vocal","Religious","Research","Robotics","School Spirit","Science/Math","Social Justice","Student Govt./Politics","Theater/Drama","Work (Paid)","Other Club/Activity"];
+const ACT_CATS = ACT_TYPES;   // old name, still used elsewhere
+const ACT_OLD = {"Arts / Visual":"Art","Athletics: Varsity":"Athletics: JV/Varsity","Athletics: Club/JV":"Athletics: Club","Career / Pre-professional":"Career Oriented","Community service / Volunteer":"Community Service (Volunteer)","Debate / Speech":"Debate/Speech","Family responsibilities":"Family Responsibilities","Journalism / Media":"Journalism/Publication","Music":"Music: Instrumental","Robotics / Engineering":"Robotics","School spirit / Government":"Student Govt./Politics","Science / Math":"Science/Math","Theater / Drama":"Theater/Drama","Work (paid)":"Work (Paid)","Other":"Other Club/Activity"};
+const SPORTS = ["Baseball","Basketball","Beach Volleyball","Bowling","Cheerleading","Cross Country","Dance Team","Diving","Equestrian","Esports","Fencing","Field Hockey","Figure Skating","Football","Golf","Gymnastics","Ice Hockey","Lacrosse","Rifle","Rowing / Crew","Rugby","Sailing","Skiing","Soccer","Softball","Squash","Swimming","Tennis","Track & Field","Ultimate Frisbee","Volleyball","Water Polo","Weightlifting","Wrestling","Other sport"];
+const ACT_POSITIONS = ["Member / participant","Starter","Captain","Co-captain","Team lead","Officer","Secretary","Treasurer","Vice president","President","Founder / co-founder","Editor","Editor-in-chief","Section leader / principal","Volunteer","Tutor / mentor","Employee","Shift lead / supervisor","Intern","Research assistant","Other"];
+const ACT_GRADES = ["9","10","11","12","PG"];
+const ACT_TIMING = ["During school year","During school break","All year"];
+const ACT_HOURS = [1,2,3,4,5,6,8,10,12,15,20,25,30,35,40];
+const ACT_WEEKS = [1,2,4,6,8,10,12,16,20,26,30,36,40,45,52];
+const ACT_EMOJI={"Academic":"📚","Art":"🎨","Athletics: Club":"⚽","Athletics: JV/Varsity":"🏅","Career Oriented":"💼","Community Service (Volunteer)":"🤝","Computer/Technology":"💻","Cultural":"🌍","Dance":"💃","Debate/Speech":"🗣️","Environmental":"🌱","Family Responsibilities":"🏠","Foreign Exchange":"✈️","Foreign Language":"🈶","Internship":"🧑‍💼","Journalism/Publication":"📰","Junior R.O.T.C.":"🎖️","LGBT":"🏳️‍🌈","Music: Instrumental":"🎸","Music: Vocal":"🎤","Religious":"🙏","Research":"🔬","Robotics":"🤖","School Spirit":"📣","Science/Math":"🧪","Social Justice":"⚖️","Student Govt./Politics":"🏛️","Theater/Drama":"🎭","Work (Paid)":"💵","Other Club/Activity":"⭐"};
+function actEmoji(cat){ return ACT_EMOJI[ACT_OLD[cat]||cat]||"⭐"; }
+const isSport = t => /^Athletics/.test(t||"");
+function normAct(a){ a={...a}; a.category=ACT_OLD[a.category]||a.category; if(!ACT_TYPES.includes(a.category)) a.category="Other Club/Activity";
+  if(a.sport && !SPORTS.includes(a.sport)){ const m=SPORTS.find(x=>x.toLowerCase()===String(a.sport).trim().toLowerCase()); a.sport = m || "Other sport"; }
+  if(!Array.isArray(a.grades)) a.grades=[]; return a; }
+function actTitle(a){ const base = isSport(a.category) && a.sport ? `${a.sport}${a.sport==="Other sport"?"":` (${a.category.includes("Club")?"club":"JV/Varsity"})`}` : (a.org||a.category||"Activity");
+  return a.position && a.position!=="Member / participant" && a.position!=="Other" ? `${base} — ${a.position}` : base; }
+function actGradesText(a){ const g=(a.grades||[]).slice().sort((x,y)=>ACT_GRADES.indexOf(x)-ACT_GRADES.indexOf(y)); if(!g.length) return a.yrs?`${a.yrs} yr`:"";
+  const n=g.map(x=>ACT_GRADES.indexOf(x)); const run=n.every((v,i)=>!i||v===n[i-1]+1); return "Gr "+(run&&g.length>1?`${g[0]}–${g[g.length-1]}`:g.join(", ")); }
+function actMeta(a){ return [a.position&&a.position!=="Member / participant"?"":"", actGradesText(a), a.hrs?`${a.hrs} hr/wk`:"", a.weeks?`${a.weeks} wk/yr`:"", a.timing&&a.timing!=="During school year"?a.timing.toLowerCase():""].filter(Boolean).join(" · "); }
+let actOpen=-1, actDirty=false;
+const selHtml=(cls,label,opts,val,ph)=>`<label class="act-sel"><span>${label}</span><select class="${cls}">${ph?`<option value="">${ph}</option>`:""}${opts.map(o=>{ const v=typeof o==="object"?o.v:o, t=typeof o==="object"?o.t:o; return `<option value="${esc(v)}" ${String(val??"")===String(v)?"selected":""}>${esc(t)}</option>`; }).join("")}</select></label>`;
 function renderActs(){
   const el=$("pf-acts"); if(!el) return;
-  el.innerHTML = profActs.length ? profActs.map((a,i)=>{
-    const hrs = (a.hrs===""||a.hrs==null) ? "" : +a.hrs; const yrs = +a.yrs||0;
-    return `
-    <div class="act-card" data-i="${i}">
-      <div class="act-card-top">
-        <span class="act-glyph">${actEmoji(a.category)}</span>
-        <input class="a-name" placeholder="e.g. Varsity field hockey — captain" value="${esc(a.name||"")}">
-        <button class="a-rm" title="Remove" type="button">✕</button>
-      </div>
+  profActs=profActs.map(normAct);
+  const n=profActs.length;
+  const cnt=$("pf-act-count"); if(cnt) cnt.textContent = n? `${n} of 10` : "";
+  el.innerHTML = n ? profActs.map((a,i)=> i===actOpen ? `
+    <div class="act-card open" data-i="${i}">
+      <div class="act-card-top"><span class="act-num">${i+1}</span><span class="act-glyph">${actEmoji(a.category)}</span><b class="act-ttl">${esc(actTitle(a))}</b><button class="a-rm" title="Remove this activity" aria-label="Remove activity ${i+1}" type="button">✕</button></div>
       <div class="act-controls">
-        <label class="act-sel"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
-        ${a.category && a.category.includes("Athletics")?`<label class="act-sel"><span>Sport</span><input type="text" class="a-sport" placeholder="e.g. Soccer, Basketball, Tennis" value="${esc(a.sport||"")}"></label>`:""}
-        <label class="act-sel"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
-        <div class="act-hrs"><div class="hrs-head"><span>Hours / week</span><span class="hrs-val">${hrsLabel(hrs)}</span></div><input class="a-hrs" type="range" min="0" max="40" step="1" value="${hrs===""?0:hrs}"></div>
-        <div class="act-yrs"><span class="yr-head">Years involved</span><div class="act-seg">${[1,2,3,4].map(n=>`<button type="button" class="a-yr ${yrs===n?"on":""}" data-yr="${n}">${n===4?"4+":n}</button>`).join("")}</div></div>
+        ${selHtml("a-cat","Activity type",ACT_TYPES,a.category)}
+        ${isSport(a.category)?selHtml("a-sport","Sport",SPORTS,a.sport,"Choose a sport…"):""}
+        ${selHtml("a-pos","Position / leadership",ACT_POSITIONS,a.position,"Choose…")}
+        ${selHtml("a-lvl","Highest recognition",ACT_LEVELS.map(l=>({v:l.tier,t:l.t})),+a.tier||4)}
+        <label class="act-sel act-txt"><span>Organization <i>optional</i></span><input class="a-org" maxlength="100" placeholder="e.g. Lincoln High School, Habitat for Humanity" value="${esc(a.org||"")}"></label>
+        <div class="act-yrs"><span class="yr-head">Grade levels</span><div class="act-seg">${ACT_GRADES.map(g=>`<button type="button" class="a-gr ${(a.grades||[]).includes(g)?"on":""}" data-gr="${g}" aria-pressed="${(a.grades||[]).includes(g)}">${g}</button>`).join("")}</div></div>
+        ${selHtml("a-time","When",ACT_TIMING,a.timing||"During school year")}
+        ${selHtml("a-hrs","Hours per week",ACT_HOURS.map(h=>({v:h,t:h===40?"40+":String(h)})),a.hrs,"Choose…")}
+        ${selHtml("a-wks","Weeks per year",ACT_WEEKS.map(w=>({v:w,t:String(w)})),a.weeks,"Choose…")}
+        ${selHtml("a-col","Continue in college?",[{v:"yes",t:"Yes"},{v:"no",t:"No"}],a.college,"Not sure")}
+        <label class="act-sel act-txt act-wide"><span>Description <i>optional · <b class="a-desc-n">${150-(a.desc||"").length}</b> left</i></span><textarea class="a-desc" maxlength="150" rows="2" placeholder="What you did and any results — Common App allows 150 characters.">${esc(a.desc||"")}</textarea></label>
       </div>
-    </div>`;}).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, a job, volunteering, research…</p>`;
-  el.querySelectorAll(".act-card").forEach(row=>{ const i=+row.dataset.i;
-    row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
-    row.querySelector(".a-cat").onchange=e=>{ profActs[i].category=e.target.value; row.querySelector(".act-glyph").textContent=actEmoji(e.target.value); renderActs(); };
-    const sportInput=row.querySelector(".a-sport"); if(sportInput) sportInput.oninput=e=>profActs[i].sport=e.target.value;
-    row.querySelector(".a-lvl").onchange=e=>{ profActs[i].tier=+e.target.value; updateActStrength(); };
-    const hr=row.querySelector(".a-hrs"), hv=row.querySelector(".hrs-val");
-    hr.oninput=e=>{ const v=+e.target.value; profActs[i].hrs = v===0?"":String(v); hv.textContent=hrsLabel(v===0?"":v); };
-    row.querySelectorAll(".a-yr").forEach(b=>b.onclick=()=>{ profActs[i].yrs=b.dataset.yr; row.querySelectorAll(".a-yr").forEach(x=>x.classList.toggle("on",x===b)); });
-    row.querySelector(".a-rm").onclick=()=>{ profActs.splice(i,1); renderActs(); };
-  });
-  updateActStrength();
+      <div class="act-done-row"><button class="primary small a-done" type="button">✓ Done</button><span class="muted" style="font-size:12px">Saves this activity to your profile.</span></div>
+    </div>` : `
+    <div class="act-row" data-i="${i}">
+      <span class="act-num">${i+1}</span><span class="act-glyph sm">${actEmoji(a.category)}</span>
+      <button class="act-sum" type="button" title="Edit"><b>${esc(actTitle(a))}</b><span class="muted">${esc(actMeta(a)||"Tap to add details")}</span></button>
+      <span class="act-move"><button class="a-up" type="button" aria-label="Move up" ${i===0?"disabled":""}>↑</button><button class="a-down" type="button" aria-label="Move down" ${i===n-1?"disabled":""}>↓</button></span>
+    </div>`).join("") : `<div class="act-empty"><b>No activities yet.</b><span class="muted">Add clubs, sports, a job, volunteering, family responsibilities, research — up to 10, most important first, just like the Common App.</span></div>`;
+  el.querySelectorAll(".act-row").forEach(row=>{ const i=+row.dataset.i;
+    row.querySelector(".act-sum").onclick=()=>{ actOpen=i; renderActs(); };
+    row.querySelector(".a-up").onclick=()=>moveAct(i,-1); row.querySelector(".a-down").onclick=()=>moveAct(i,1); });
+  const card=el.querySelector(".act-card.open");
+  if(card){ const i=+card.dataset.i, a=profActs[i]; const mark=()=>{ actDirty=true; actStatus(); card.querySelector(".act-ttl").textContent=actTitle(a); };
+    card.querySelector(".a-cat").onchange=e=>{ a.category=e.target.value; if(!isSport(a.category)) delete a.sport; mark(); renderActs(); };
+    const sp=card.querySelector(".a-sport"); if(sp) sp.onchange=e=>{ a.sport=e.target.value; mark(); };
+    card.querySelector(".a-pos").onchange=e=>{ a.position=e.target.value; mark(); };
+    card.querySelector(".a-lvl").onchange=e=>{ a.tier=+e.target.value; mark(); updateActStrength(); };
+    card.querySelector(".a-org").oninput=e=>{ a.org=e.target.value; mark(); };
+    card.querySelector(".a-time").onchange=e=>{ a.timing=e.target.value; mark(); };
+    card.querySelector(".a-hrs").onchange=e=>{ a.hrs=e.target.value; mark(); };
+    card.querySelector(".a-wks").onchange=e=>{ a.weeks=e.target.value; mark(); };
+    card.querySelector(".a-col").onchange=e=>{ a.college=e.target.value; mark(); };
+    card.querySelector(".a-desc").oninput=e=>{ a.desc=e.target.value; card.querySelector(".a-desc-n").textContent=150-a.desc.length; mark(); };
+    card.querySelectorAll(".a-gr").forEach(b=>b.onclick=()=>{ const g=b.dataset.gr; a.grades=(a.grades||[]).includes(g)?a.grades.filter(x=>x!==g):[...(a.grades||[]),g];
+      a.yrs=String(Math.min(4,a.grades.length)||""); b.classList.toggle("on"); b.setAttribute("aria-pressed",a.grades.includes(g)); mark(); });
+    card.querySelector(".a-rm").onclick=()=>{ profActs.splice(i,1); actOpen=-1; actDirty=true; renderActs(); saveActs(); };
+    card.querySelector(".a-done").onclick=()=>{ actOpen=-1; renderActs(); saveActs(); };
+  }
+  const add=$("pf-act-add"); if(add){ add.disabled=n>=10; add.textContent = n>=10 ? "10 of 10 — that's the Common App max" : (n?"+ Add another activity":"+ Add your first activity"); }
+  updateActStrength(); actStatus();
 }
+function moveAct(i,d){ const j=i+d; if(j<0||j>=profActs.length) return; [profActs[i],profActs[j]]=[profActs[j],profActs[i]]; actOpen=-1; actDirty=true; renderActs(); saveActs(); }
+function actStatus(msg,kind){ const el=$("pf-savemsg2"); if(!el) return;
+  if(msg){ el.textContent=msg; el.className="act-status "+(kind||""); return; }
+  el.textContent = actDirty ? "Unsaved changes — tap Done or Save activities" : ""; el.className="act-status "+(actDirty?"warn":""); }
+async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveProfileForm({stay:true}); if(okSave===false){ return; } actDirty=false; actStatus(`✓ Saved — ${profActs.length} activit${profActs.length===1?"y":"ies"} on your profile`,"ok"); }
+  catch(e){ actStatus("Couldn't save — check your connection and try again.","err"); } }
 function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; const s=activityStrength(profActs);
   if(s==null){ el.textContent=""; return; }
   const lvl = s>=0.7?"strong" : s>=0.4?"solid" : "light";
   el.innerHTML = `Activity profile: <b>${lvl}</b> (depth-weighted, best few count most). At more selective schools this can nudge a Reach toward Target — it never overrides your grades.`;
 }
-$("pf-act-add").onclick = () => { if(profActs.length>=10){ $("pf-act-strength").textContent="That's the Common App max of 10."; return; } profActs.push({name:"",category:ACT_CATS[0],tier:4,hrs:"",yrs:""}); renderActs(); const rows=$("pf-acts").querySelectorAll(".a-name"); if(rows.length) rows[rows.length-1].focus(); };
+$("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
+  const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };
 async function saveProfile(p){
   state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
   if(BACKEND.profiles){ try{

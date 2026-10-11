@@ -165,7 +165,11 @@ export async function pulseFor(id, { fetchImpl = fetch, blobs = undefined, now =
 
 // Board digest: newest stories across several schools, within a time budget. Anything not ready is
 // reported as pending so the page can ask again a moment later (by then it's cached).
-export async function digestFor(ids, { fetchImpl = fetch, blobs = undefined, now = Date.now(), budgetMs = 7000 } = {}) {
+// Calendar items a visiting family would want: open houses, tours, visit/preview days, info sessions.
+const VISIT = /\b(open houses?|campus (visits?|tours?)|guided tours?|admissions? (tours?|events?|sessions?)|visit days?|preview days?|info(rmation)? sessions?|admitted students?|accepted students?|prospective students?|future (students?|\w+s) day|discover \w+ day|explore \w+ day|experience \w+ day)\b/i;
+export function isVisitEvent(title) { return VISIT.test(String(title || "")); }
+
+export async function digestFor(ids, { fetchImpl = fetch, blobs = undefined, now = Date.now(), budgetMs = 7000, withEvents = false } = {}) {
   const map = await feedsMap(fetchImpl);
   const st = blobs === undefined ? await store() : blobs;
   const out = {}; const pending = []; const queue = ids.filter(id => map[id]);
@@ -176,9 +180,13 @@ export async function digestFor(ids, { fetchImpl = fetch, blobs = undefined, now
       const id = queue[i++];
       if (Date.now() - started > budgetMs) { pending.push(id); continue; }
       try {
-        const p = await pulseFor(id, { fetchImpl, blobs: st, now, kinds: STORY_KINDS });
-        const top = STORY_KINDS.flatMap(k => (p.sections[k] || []).map(x => ({ ...x, kind: k }))).sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 3);
-        out[id] = { top, meter: p.meter };
+        const p = await pulseFor(id, { fetchImpl, blobs: st, now, kinds: withEvents ? [...STORY_KINDS, "events"] : STORY_KINDS });
+        const stories = STORY_KINDS.flatMap(k => (p.sections[k] || []).map(x => ({ ...x, kind: k }))).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+        out[id] = { top: stories.slice(0, 3), meter: p.meter };
+        if (withEvents) {
+          out[id].stories = stories.slice(0, 8);
+          out[id].visits = (p.sections.events || []).filter(e => isVisitEvent(e.title)).slice(0, 3).map(e => ({ ...e, kind: "events" }));
+        }
       } catch (e) { pending.push(id); }
     }
   }
@@ -197,7 +205,7 @@ export default async (req) => {
   if (u.searchParams.has("ids")) {
     const ids = [...new Set(u.searchParams.get("ids").split(",").map(s => s.trim()).filter(Boolean))];
     if (!ids.length || ids.length > 30 || !ids.every(idOk)) return json({ error: "bad ids" }, 400);
-    try { return json(await digestFor(ids)); }
+    try { return json(await digestFor(ids, { withEvents: u.searchParams.get("events") === "1" })); }
     catch (e) { console.error("[campus-pulse] digest", e && e.message); return json({ schools: {}, pending: ids, none: [] }); }
   }
   const id = u.searchParams.get("id") || "";

@@ -43,16 +43,12 @@ async function run(vp, label, dark) {
   const out = {};
   out.boardStrip = await page.evaluate(() => { const el = document.querySelector('#board-pulse .bpulse'); return el ? el.innerText.replace(/\s+/g, ' ').slice(0, 400) : null; });
   out.badges = await page.evaluate(() => [...document.querySelectorAll('#schools .pulse-new')].map(x => x.closest('[data-pulse-open]').dataset.pulseOpen + ':' + x.textContent));
-  await page.locator('#board-pulse').screenshot({ path: `${SHOTS}${label}-board-pulse.png` });
+  // #34: the board strip moved to the Pulse tab (tests/pulse-tab-page-test.mjs); the board keeps the card badges.
   // re-rendering the board must not refetch (10-minute cache)
   await page.evaluate(() => { renderBoard(); renderBoard(); }); await page.waitForTimeout(300);
   out.digestCalls = digestCalls;
-  // collapse persists
-  await page.click('[data-bpulse-toggle]'); await page.waitForTimeout(100);
-  out.collapsed = await page.evaluate(() => document.querySelector('.bpulse-list').classList.contains('hidden') && localStorage.getItem('zc_bpulse_closed') === '1');
-  await page.click('[data-bpulse-toggle]'); await page.waitForTimeout(100);
-  // school name opens its Pulse
-  await page.evaluate(() => document.querySelector('.bp-school[data-pulse-open="sc-166683"]').click()); await page.waitForTimeout(1600);
+  // the card's Pulse link opens the school page at its Pulse
+  await page.evaluate(() => document.querySelector('#schools [data-pulse-open="sc-166683"]').click()); await page.waitForTimeout(1600);
   out.openedDetailAtPulse = await page.evaluate(() => { const el = document.getElementById('pulse'); const rc = el.getBoundingClientRect(); return !document.getElementById('v-detail').classList.contains('hidden') && rc.top < innerHeight && rc.bottom > 0; });
   out.meter = await page.evaluate(() => document.querySelector('[data-pulse-meter]').innerText.replace(/\s+/g, ' '));
   out.tabs = await page.evaluate(() => [...document.querySelectorAll('.ptab')].map(t => t.innerText.replace(/\s+/g, ' ')));
@@ -82,10 +78,9 @@ R.phone = await run({ width: 390, height: 844 }, 'phone');
 R.desktop = await run({ width: 1440, height: 900 }, 'desktop');
 R.phoneDark = await run({ width: 390, height: 844 }, 'phone-dark', true);
 for (const [k, o] of Object.entries(R)) {
-  ok[k + ':boardStrip'] = /What's new at your schools/.test(o.boardStrip || '') && /MIT engineers design a battery/.test(o.boardStrip) && /Massachusetts Institute of Technology/.test(o.boardStrip);
+  ok[k + ':boardStripMovedToPulseTab'] = o.boardStrip === null;
   ok[k + ':badges'] = o.badges.some(b => b.startsWith('sc-166683:3 new')) && o.badges.some(b => b.startsWith('college-of-charleston:1 new'));
   ok[k + ':oneDigestRequest'] = o.digestCalls === 1;
-  ok[k + ':collapsePersists'] = o.collapsed;
   ok[k + ':opensAtPulse'] = o.openedDetailAtPulse;
   ok[k + ':meter'] = /Very active/.test(o.meter) && /14 stories/.test(o.meter) && /3 events coming up/.test(o.meter);
   ok[k + ':tabs'] = o.tabs.join('|').replace(/\d/g, '') === 'All|News|Admissions|Events';

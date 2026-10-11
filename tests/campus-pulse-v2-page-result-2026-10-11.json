@@ -1,12 +1,11 @@
 {
  "phone": {
-  "boardStrip": "What's new at your schools 3 new this week ▾ Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago Live f",
+  "boardStrip": null,
   "badges": [
    "college-of-charleston:1 new",
    "sc-166683:3 new"
   ],
   "digestCalls": 1,
-  "collapsed": true,
   "openedDetailAtPulse": true,
   "meter": "Very active · 14 stories in the last 30 days · 3 events coming up · updated today",
   "tabs": [
@@ -20,16 +19,16 @@
    "Early action: what we look for in your essays Admissions office Admissions & aid yesterday",
    "Beavers hockey opens season with home win Campus news Sports 2 days ago",
    "Students celebrate Independent Activities Period kickoff Campus news Campus life 4 days ag",
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium"
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium"
   ],
   "studentPaperLink": "🗞️ thetech.com (student paper) ↗ -> https://thetech.com/",
   "pulseOrder": {
    "pulseBeforeTours": true
   },
   "eventsTab": [
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium",
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium",
    "OCT 20 Hackathon weekend Tue · all day"
   ],
   "showMoreCount": 9,
@@ -45,13 +44,12 @@
   "pageErrors": []
  },
  "desktop": {
-  "boardStrip": "What's new at your schools 3 new this week ▾ Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago Live f",
+  "boardStrip": null,
   "badges": [
    "college-of-charleston:1 new",
    "sc-166683:3 new"
   ],
   "digestCalls": 1,
-  "collapsed": true,
   "openedDetailAtPulse": true,
   "meter": "Very active · 14 stories in the last 30 days · 3 events coming up · updated today",
   "tabs": [
@@ -65,16 +63,16 @@
    "Early action: what we look for in your essays Admissions office Admissions & aid yesterday",
    "Beavers hockey opens season with home win Campus news Sports 2 days ago",
    "Students celebrate Independent Activities Period kickoff Campus news Campus life 4 days ag",
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium"
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium"
   ],
   "studentPaperLink": "🗞️ thetech.com (student paper) ↗ -> https://thetech.com/",
   "pulseOrder": {
    "pulseBeforeTours": true
   },
   "eventsTab": [
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium",
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium",
    "OCT 20 Hackathon weekend Tue · all day"
   ],
   "showMoreCount": 9,
@@ -90,13 +88,12 @@
   "pageErrors": []
  },
  "phoneDark": {
-  "boardStrip": "What's new at your schools 3 new this week ▾ Massachusetts Institute of Technology MIT engineers design a battery that charges in five minutes Campus news Research today Massachusetts Institute of Technology Early action: what we look for in your essays Admissions office Admissions & aid yesterday College of Charleston CofC breaks ground on new science center Campus news Research 2 days ago Live f",
+  "boardStrip": null,
   "badges": [
    "college-of-charleston:1 new",
    "sc-166683:3 new"
   ],
   "digestCalls": 1,
-  "collapsed": true,
   "openedDetailAtPulse": true,
   "meter": "Very active · 14 stories in the last 30 days · 3 events coming up · updated today",
   "tabs": [
@@ -110,16 +107,16 @@
    "Early action: what we look for in your essays Admissions office Admissions & aid yesterday",
    "Beavers hockey opens season with home win Campus news Sports 2 days ago",
    "Students celebrate Independent Activities Period kickoff Campus news Campus life 4 days ag",
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium"
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium"
   ],
   "studentPaperLink": "🗞️ thetech.com (student paper) ↗ -> https://thetech.com/",
   "pulseOrder": {
    "pulseBeforeTours": true
   },
   "eventsTab": [
-   "OCT 12 Campus tour and information session Mon · 11:44 AM · Lobby 7",
-   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 11:44 AM · Kresge Auditorium",
+   "OCT 12 Campus tour and information session 🎟 Visit day Mon · 12:58 PM · Lobby 7 + Add to ",
+   "OCT 15 Fall concert: MIT Symphony Orchestra Thu · 12:58 PM · Kresge Auditorium",
    "OCT 20 Hackathon weekend Tue · all day"
   ],
   "showMoreCount": 9,
@@ -135,10 +132,9 @@
   "pageErrors": []
  },
  "ok": {
-  "phone:boardStrip": true,
+  "phone:boardStripMovedToPulseTab": true,
   "phone:badges": true,
   "phone:oneDigestRequest": true,
-  "phone:collapsePersists": true,
   "phone:opensAtPulse": true,
   "phone:meter": true,
   "phone:tabs": true,
@@ -153,10 +149,9 @@
   "phone:noNiche": true,
   "phone:noErrors": true,
   "phone:token": true,
-  "desktop:boardStrip": true,
+  "desktop:boardStripMovedToPulseTab": true,
   "desktop:badges": true,
   "desktop:oneDigestRequest": true,
-  "desktop:collapsePersists": true,
   "desktop:opensAtPulse": true,
   "desktop:meter": true,
   "desktop:tabs": true,
@@ -171,10 +166,9 @@
   "desktop:noNiche": true,
   "desktop:noErrors": true,
   "desktop:token": true,
-  "phoneDark:boardStrip": true,
+  "phoneDark:boardStripMovedToPulseTab": true,
   "phoneDark:badges": true,
   "phoneDark:oneDigestRequest": true,
-  "phoneDark:collapsePersists": true,
   "phoneDark:opensAtPulse": true,
   "phoneDark:meter": true,
   "phoneDark:tabs": true,
