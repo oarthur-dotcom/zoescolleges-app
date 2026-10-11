@@ -4,16 +4,14 @@
 // Privacy: the file is sent to Google for parsing and NOT stored by us; we keep
 // no copy. Cost guard: global daily hard cap via Netlify Blobs.
 
-const MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"]; // vision-capable; lite is the cheaper fallback
+// Fix #8: both 2.5 models were failing live; the "-latest" aliases (also vision-capable) answer.
+const MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
+import { corsFor, requireUser, bumpDailyCap } from "../lib/guard.mjs";
 const DAILY_CAP = 150;                 // global transcript reads/day
-const MAX_BYTES = 7 * 1024 * 1024;     // ~7MB decoded file ceiling
+const MAX_BYTES = 4 * 1024 * 1024;     // 4MB file: base64 (+33%) must stay under Netlify's ~6MB request limit
 const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "image/webp", "application/pdf"];
 
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type"
-};
+let CORS = {};
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -37,7 +35,8 @@ function parseModelJson(txt) {
 }
 
 function clean(o) {
-  const num = (v, max) => { const n = Number(v); return Number.isFinite(n) && n >= 0 && (max == null || n <= max) ? n : null; };
+  // null/""/0 mean "not on the transcript" -> null (Number(null) is 0, which showed as "SAT 0")
+  const num = (v, max) => { if (v == null || v === "") return null; const n = Number(v); return Number.isFinite(n) && n > 0 && (max == null || n <= max) ? n : null; };
   const cnt = v => { const n = Number(v); return Number.isFinite(n) && n >= 0 && n <= 40 ? Math.round(n) : 0; };
   const out = {
     gpa: num(o.gpa, 6), gpaScale: num(o.gpaScale, 6), weightedGpa: num(o.weightedGpa, 6),
@@ -53,8 +52,11 @@ function clean(o) {
 }
 
 export default async (req) => {
+  CORS = corsFor(req);
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (req.method !== "POST") return json({ error: "method" }, 405);
+  const user = await requireUser(req);
+  if (!user) return json({ error: "Please sign in again, then retry." }, 401);
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) return json({ error: null, unconfigured: true });
@@ -64,19 +66,11 @@ export default async (req) => {
   const data = String(body.file || "");
   if (!data || !ALLOWED.includes(mime)) return json({ error: "Please upload a PDF or a photo (PNG/JPG) of the transcript." }, 400);
   // base64 length ~= 4/3 of byte size
-  if (data.length * 0.75 > MAX_BYTES) return json({ error: "That file is too large — keep it under 7MB." }, 413);
+  if (data.length * 0.75 > MAX_BYTES) return json({ error: "That file is too large — keep it under 4MB (a phone photo or a PDF export works)." }, 413);
 
-  // Global daily hard cap (best-effort)
-  let used = 0;
-  try {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: "transcript-usage", consistency: "strong" });
-    const d = today();
-    const cur = (await store.get(d, { type: "json" })) || { n: 0 };
-    used = cur.n || 0;
-    if (used >= DAILY_CAP) return json({ error: null, capped: true });
-    await store.setJSON(d, { n: used + 1 });
-  } catch (e) { /* no persistent cap available — carry on */ }
+  // Global daily hard cap (Netlify Blobs). Errors are now logged instead of silently ignored.
+  const capRes = await bumpDailyCap("transcript-usage", DAILY_CAP);
+  if (capRes.capped) return json({ error: null, capped: true });
 
   const payload = {
     systemInstruction: { parts: [{ text: SYS }] },

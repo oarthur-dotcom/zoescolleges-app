@@ -1,0 +1,9 @@
+{
+  "name": "zoescolleges-app",
+  "private": true,
+  "type": "module",
+  "description": "Zoe's Colleges — static site + Netlify functions",
+  "dependencies": {
+    "@netlify/blobs": "11.1.1"
+  }
+}

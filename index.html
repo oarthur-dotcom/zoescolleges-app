@@ -2955,13 +2955,13 @@ function showTxPreview(f){
       const f=file.files && file.files[0]; file.value=""; if(!f) return;
       const okTypes=["image/png","image/jpeg","image/jpg","image/webp","application/pdf"];
       if(!okTypes.includes(f.type)){ txStatus("Please pick a PDF or a photo (PNG/JPG).","err"); return; }
-      if(f.size>7*1024*1024){ txStatus("That file is over 7MB — try a smaller photo or PDF.","err"); return; }
+      if(f.size>4*1024*1024){ txStatus("That file is over 4MB — try a smaller photo or a PDF export.","err"); return; }
       $("tx-preview").classList.add("hidden");
       txStatus(`<span class="tx-spin"></span> Reading <b>${esc(f.name)}</b>… this can take a few seconds.`,"busy");
       let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }catch(e){ txStatus("Couldn't read that file.","err"); return; }
       const b64=String(dataUrl).split(",")[1]||"";
       try{
-        const r=await fetch("/.netlify/functions/transcript-read",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ file:b64, mime:f.type }) });
+        const r=await fetch("/.netlify/functions/transcript-read",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify({ file:b64, mime:f.type }) });
         const j=await r.json().catch(()=>({}));
         if(j.unconfigured){ txStatus("Transcript reading isn't switched on yet — type your numbers in for now.","err"); return; }
         if(j.capped){ txStatus("We've hit today's limit for transcript reads — type your numbers in, or try tomorrow.","err"); return; }
@@ -3260,6 +3260,12 @@ function safeHtml(html){
   }); };
   walk(tpl.content); return tpl.innerHTML;
 }
+// Fix #8: the AI functions now require a signed-in user — send the Supabase access token.
+async function aiHeaders(){
+  const h={"Content-Type":"application/json"};
+  try{ const { data } = await sb.auth.getSession(); const t=data&&data.session&&data.session.access_token; if(t) h.Authorization="Bearer "+t; }catch(e){}
+  return h;
+}
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
 const ZOE_BUSY = "I'm having trouble reaching my smarter brain just now — give it a few seconds and ask again. In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.";
@@ -3267,8 +3273,9 @@ let zoeInFlight=false;
 async function zoeFetchOnce(v){
   const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),30000);
   try{
-    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ q:v, ctx:zoeCtx() }), signal:ctrl.signal });
+    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify({ q:v, ctx:zoeCtx() }), signal:ctrl.signal });
     const j=await r.json().catch(()=>({}));
+    if(j && j.error==="signin") return { reply: "Your sign-in has expired — sign out and back in, then ask me again." };
     if(j && j.reply) return { reply: zoeRich(j.reply) };
     if(j && j.capped) return { reply: "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b> — ask about those!" };
     return { fail:true };

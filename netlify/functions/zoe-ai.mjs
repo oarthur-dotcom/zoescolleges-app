@@ -7,17 +7,15 @@
 // Lite first: higher free-tier quota, faster, and cheaper at scale; fall
 // through to full flash, then the self-updating aliases. Each model is a
 // separate quota pool, so a 429 on one tries the next.
-const MODELS = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-flash-latest"];
+// Fix #8: the self-updating "-latest" aliases answered every live test (Oct 11) while both 2.5
+// models failed, costing ~6s per question. Try the working aliases first; 2.5 stay as backups.
+const MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-2.5-flash"];
+import { corsFor, requireUser, bumpDailyCap } from "../lib/guard.mjs";
 const DAILY_CAP = 400;              // global requests/day across all users
 const MAXQ = 600;                   // max question length (chars)
 
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type"
-};
+let CORS = {};
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
-const today = () => new Date().toISOString().slice(0, 10);
 
 function sanitizeCtx(c) {
   c = c || {};
@@ -48,8 +46,11 @@ function sanitizeCtx(c) {
 }
 
 export default async (req) => {
+  CORS = corsFor(req);
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (req.method !== "POST") return json({ error: "method" }, 405);
+  const user = await requireUser(req);
+  if (!user) return json({ reply: null, error: "signin" }, 401);
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) return json({ reply: null, unconfigured: true });
@@ -58,17 +59,10 @@ export default async (req) => {
   const q = String(body.q || "").slice(0, MAXQ).trim();
   if (!q) return json({ error: "empty" }, 400);
 
-  // Global daily hard cap (best-effort; skips silently if Blobs unavailable).
-  let used = 0;
-  try {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: "zoe-ai-usage", consistency: "strong" });
-    const d = today();
-    const cur = (await store.get(d, { type: "json" })) || { n: 0 };
-    used = cur.n || 0;
-    if (used >= DAILY_CAP) return json({ reply: null, capped: true });
-    await store.setJSON(d, { n: used + 1 });
-  } catch (e) { /* no persistent cap available — carry on */ }
+  // Global daily hard cap (Netlify Blobs). Errors are now logged instead of silently ignored.
+  const capRes = await bumpDailyCap("zoe-ai-usage", DAILY_CAP);
+  if (capRes.capped) return json({ reply: null, capped: true });
+  const used = capRes.used == null ? 0 : capRes.used - 1;
 
   const ctx = sanitizeCtx(body.ctx);
   const sys = [
