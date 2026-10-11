@@ -1,0 +1,155 @@
+{
+ "desktop": {
+  "tileCrests": [
+   true,
+   true,
+   true
+  ],
+  "crestImagesDecode": [
+   true,
+   true,
+   true
+  ],
+  "initials": [
+   "RCC",
+   "UV",
+   "SMC",
+   "TAM"
+  ],
+  "exploreThumbs": [
+   true
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Stephens-Burnett_Memorial_Library"
+   ],
+   "bad": [],
+   "small": [
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x26",
+    "⇄ Compare 90x26",
+    "On board ✓ 98x33",
+    "Add 51x32"
+   ],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors": []
+ },
+ "phone": {
+  "tileCrests": [
+   true,
+   true,
+   true
+  ],
+  "crestImagesDecode": [
+   true,
+   true,
+   true
+  ],
+  "initials": [
+   "RCC",
+   "UV",
+   "SMC",
+   "TAM"
+  ],
+  "exploreThumbs": [
+   true
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Stephens-Burnett_Memorial_Library"
+   ],
+   "bad": [],
+   "small": [
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "On board ✓ 98x33",
+    "Add 51x32"
+   ],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "tileCrests": [
+   true,
+   true,
+   true
+  ],
+  "crestImagesDecode": [
+   true,
+   true,
+   true
+  ],
+  "initials": [
+   "RCC",
+   "UV",
+   "SMC",
+   "TAM"
+  ],
+  "exploreThumbs": [
+   true
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Stephens-Burnett_Memorial_Library"
+   ],
+   "bad": [],
+   "small": [
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "On board ✓ 98x33",
+    "Add 51x32"
+   ],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors": []
+ },
+ "ok": {
+  "desktop.tileCrests": true,
+  "desktop.crestsRender": true,
+  "desktop.initials": true,
+  "desktop.exploreThumbs": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone.tileCrests": true,
+  "phone.crestsRender": true,
+  "phone.initials": true,
+  "phone.exploreThumbs": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone-dark.tileCrests": true,
+  "phone-dark.crestsRender": true,
+  "phone-dark.initials": true,
+  "phone-dark.exploreThumbs": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

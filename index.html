@@ -2234,6 +2234,22 @@ function renderSchool(x){
   </div>`;
 }
 function hueFromName(name){ name=name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360; return h; }
+/* Crest (#39, Oct 11): schools without a campus photo get a monogram crest — initials on a shield, the state
+   on top, colors from the name (always the same for a school). Drawn by code: no image files, no logos. */
+const CREST_SKIP=new Set(["of","the","and","at","for","in","&","-","de","la","del"]);
+function crestInitials(n){ const w=String(n||"").replace(/['’]s\b/g,"").replace(/[-–—/,.()'’]/g," ").split(/\s+/).filter(x=>x&&!CREST_SKIP.has(x.toLowerCase())&&/[A-Za-z]/.test(x[0]));
+  return (w.map(x=>x[0].toUpperCase()).slice(0,3).join(""))||"?"; }
+function crestSvg(name,st){ const h=hueFromName(name),a=`hsl(${h},45%,30%)`,b=`hsl(${(h+45)%360},50%,20%)`,gold="#e9d8a6",i=crestInitials(name),stx=String(st||"").replace(/[^A-Za-z]/g,"").slice(0,2).toUpperCase();
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>`+
+  `<path d="M60 4 L112 18 V64 C112 98 88 122 60 134 C32 122 8 98 8 64 V18 Z" fill="url(#g)" stroke="${gold}" stroke-width="4"/>`+
+  `<path d="M60 13 L103 25 V64 C103 93 83 113 60 124 C37 113 17 93 17 64 V25 Z" fill="none" stroke="${gold}" stroke-opacity=".55" stroke-width="1.5"/>`+
+  (stx?`<line x1="22" y1="40" x2="98" y2="40" stroke="${gold}" stroke-opacity=".5"/><text x="60" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="9" letter-spacing="2" fill="${gold}">${stx}</text>`:"")+
+  `<text x="60" y="${i.length>2?86:88}" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="${i.length>2?34:42}" fill="#fff">${i}</text>`+
+  `<path d="M42 104 h36" stroke="${gold}" stroke-width="1.5"/><circle cx="60" cy="104" r="2.5" fill="${gold}"/></svg>`; }
+const _crestCache=new Map();
+function phBg(name,st,size){ const k=name+"|"+(st||"")+"|"+(size||""); if(_crestCache.has(k)) return _crestCache.get(k);
+  const uri="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(crestSvg(name,st)).replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29");
+  const v=`url('${uri}') center / auto ${size||"68%"} no-repeat, ${phGrad(name)}`; _crestCache.set(k,v); return v; }
 function phGrad(name){ const h=hueFromName(name); return `linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))`; }
 /* Founding year (#35): from Wikidata, matched by federal school ID. */
 function estText(info){ const y=info&&info.founded; return (Number.isInteger(y)&&y>=1600&&y<=2100)?` · Est. ${y}`:""; }
@@ -2247,7 +2263,7 @@ function coverFor(s, info){
   if(cat) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(info.photo.url)}')"><span class="cover-name">${esc(s.name)}</span></div>`};
   const name=s.name||"";
   const glyph=`<svg class="cover-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 26 L32 13 L56 26 Z" fill="currentColor"/><rect x="13" y="29" width="4.5" height="17" fill="currentColor"/><rect x="24" y="29" width="4.5" height="17" fill="currentColor"/><rect x="35.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="46.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="9" y="48" width="46" height="4.5" rx="1" fill="currentColor"/></svg>`;
-  return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phGrad(name)}">${glyph}<span class="cover-name">${esc(name)}</span></div>`};
+  return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phBg(name,s.state||(info&&info.state),"62%")}"><span class="cover-name">${esc(name)}</span></div>`};
 }
 function ratersHtml(schoolId){
   return state.members.map(m => {
@@ -2364,7 +2380,7 @@ function renderExList(q){
     const added = have.has(c.id); const sc=c.scorecard||{};
     const L=c.lifestyle||{}; const lifeBits=[L.politicalLean, L.gunLaws&&L.gunLaws.replace(" gun laws",""), (L.proximity||[]).length?("near "+L.proximity.join("/")):"", (L.religion&&L.religion.indexOf("Secular")!==0)?L.religion:""].filter(Boolean);
     const purl=photoUrlFor(c);
-    const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phGrad(c.name)}">${esc((c.name.trim()[0]||"?").toUpperCase())}</div>`;
+    const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phBg(c.name,c.state,"80%")}" role="img" aria-label="${esc(c.name)} crest"></div>`;
     return `<div class="srow">
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)}</div>
@@ -2811,11 +2827,11 @@ function renderTrip(){
   const count=$("trip-count"), hint=$("trip-hint"), chips=$("trip-chips"), add=$("trip-add");
   count.textContent = items.length? (items.length+" campus"+(items.length>1?"es":"")+" in this trip") : "No campuses yet";
   hint.innerHTML = items.length? "Remove with ✕, add more below, then plan your route." : "Add campuses with the 🗺 button on any school — on your board, in Schools, or Zoe Picks — or from your board below.";
-  chips.innerHTML = items.length? items.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(rec.name)}"`;
+  chips.innerHTML = items.length? items.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(rec.name,info&&info.state,"78%")}"`;
       return `<span class="trip-chip"><span class="th" ${th}></span>${esc(rec.name)}<button class="x" data-triprm="${esc(rec.school_id)}" aria-label="Remove">✕</button></span>`; }).join("")
     : `<div class="trip-empty">Nothing added yet — pick a few campuses to route.</div>`;
   const board=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && !getTrip().has(x.rec.school_id));
-  add.innerHTML = board.length? board.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(rec.name)}"`;
+  add.innerHTML = board.length? board.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(rec.name,info&&info.state,"78%")}"`;
       const noGeo=!(typeof info.lat==="number"&&typeof info.lon==="number");
       return `<div class="ta" data-tripadd="${esc(rec.school_id)}"><span class="th" ${th}></span><span>${esc(rec.name)} <span class="muted" style="font-size:11px">${esc([info.city,info.state].filter(Boolean).join(", "))}${noGeo?" · no map loc":""}</span></span><span class="plus">+ Add</span></div>`; }).join("")
     : `<div class="muted" style="font-size:13px">Everything on your board is already in the trip.</div>`;
@@ -2898,7 +2914,7 @@ function renderTripOut(){
         ? items.map((it,idx)=>`<span class="plan-item">${esc(it)}<button class="x" data-planrm="${esc(s.id)}|${idx}" aria-label="Remove">✕</button></span>`).join("")
         : `<span class="muted" style="font-size:12px">Plan what to do while you're in town ↓</span>`;
       return `${legHtml}<div class="trip-stop" data-stop="${esc(s.id)}">
-        <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phGrad(s.name)}`}"></span>
+        <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(s.name,s.state,"78%")}`}"></span>
           <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div></div>
         <div class="ts-visit">
           <a href="https://www.google.com/search?q=${nm}+admissions+visit+register" target="_blank" rel="noopener">🎟 Book a visit ↗</a>
@@ -3123,7 +3139,7 @@ function buildCompare(){
   let bestCallout="";
   if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>g(cc).netPrice,"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
     bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Best fit for you: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}. ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
-  const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.rec.name)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
+  const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(c.rec.name,c.info&&c.info.state)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
   const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:var(--cx-k,132px) repeat(${n},minmax(var(--cx-min,0px),1fr))">
     <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
     ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cx-k">${esc(m.k)}</div>`+cols.map((c,i)=>`<div class="cx-cell${i===bi?' best':''}">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</div>`).join(""); }).join("")}
@@ -3247,7 +3263,7 @@ function renderDeadlines(){
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
     const done=DL_TASKS.filter(t=>chk[t]).length; const pctDone=Math.round(100*done/DL_TASKS.length);
-    const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(r.rec.name)}"`;
+    const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(r.rec.name,i&&i.state,"78%")}"`;
     const dls=deadlineList(i);
     const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? dls.map(x=>`${x.kind} ${_fmtD(x.date)}`) : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
     return `<div class="card"><div class="dl-row">
@@ -3293,7 +3309,7 @@ function renderRecommends(){
   const groups=[["likely","Likely — strong odds for you"],["target","Target — right in your range"],["reach","Reach — worth a shot"]];
   const thin = !(p && (p.gpa||p.sat||p.act||viewerInterests().length));
   const head = thin ? `<div class="callout" style="margin:0 0 6px">Fill in <b>My Profile</b> (grades, interests, your sliders) and these picks sharpen a lot.</div>` : "";
-  const card=({c,m,ch})=>{ const u=photoUrlFor(c); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phGrad(c.name)}"`;
+  const card=({c,m,ch})=>{ const u=photoUrlFor(c); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(c.name,c.state)}"`;
     const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
