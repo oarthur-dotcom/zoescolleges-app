@@ -868,6 +868,19 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
+/* #55 visit kit */
+.vk-head{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.vk-k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--teal)}
+#vk-switch{max-width:220px}
+.vk-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.vk-links a{text-decoration:none;display:inline-flex;align-items:center;padding:9px 14px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:13.5px;min-height:40px;background:var(--surface)}.vk-links a.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.vk-card{margin:0 0 12px}.vk-h{font-weight:700;font-size:14.5px;margin-bottom:8px}.vk-h .muted{font-weight:400;font-size:12px}
+.vk-gut{display:flex;gap:6px;flex-wrap:wrap}.vk-g{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}.vk-g.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.vk-stars{display:flex;gap:2px;align-items:center;margin-top:10px}.vk-stars .s{font-size:28px;background:none;border:none;color:var(--line);cursor:pointer;padding:2px 4px;min-width:40px;min-height:40px}.vk-stars .s.on{color:var(--star,#e8ac45)}
+.vk-strip{display:flex;gap:6px;overflow-x:auto;margin-top:10px}.vk-strip img{width:84px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+#vk-note{width:100%}
+.vk-qg{margin-bottom:8px}.vk-qh{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:6px 0 4px}
+.vk-q{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 11px;margin:4px 0;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}
+.vk-q.star{border-color:color-mix(in srgb,var(--amber) 60%,var(--line));background:color-mix(in srgb,var(--amber) 8%,var(--surface))}.vk-q.asked{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.vk-next{display:block;width:100%;text-align:center;font:inherit;font-size:15px;cursor:pointer;color:var(--teal);border:1.5px dashed color-mix(in srgb,var(--teal) 50%,var(--line))}
 /* #52 costs */
 .cost-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
 .cost-sum>div{display:flex;flex-direction:column;gap:1px;padding:10px;border-radius:12px;background:var(--paper);min-width:0}.cost-sum b{font-size:18px}.cost-sum span:last-child{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.cost-sum .muted{font-size:11px}
@@ -1373,6 +1386,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="dl-out"></div>
   </section>
 
+  <!-- VISIT-DAY KIT (#55) -->
+  <section id="v-visit" class="hidden"><div id="vk-out"></div></section>
+
   <!-- COSTS (#52): real cost across the list + aid offers -->
   <section id="v-cost" class="hidden">
     <h1>💰 Costs</h1>
@@ -1601,7 +1617,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1622,6 +1638,7 @@ function goto(view){
   if (view==="today"){ show("v-today"); setNavActive("today"); renderToday(); }
   else if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="cost"){ show("v-cost"); setNavActive("cost"); renderCost(); }
+  else if (view==="visit"){ show("v-visit"); setNavActive("trip"); renderVisitKit(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
@@ -1633,7 +1650,7 @@ function goto(view){
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
-function refreshCurrent(){ if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
+function refreshCurrent(){ if(currentView==="visit") renderVisitKit(); else if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.innerHTML = text; }
 function clearmsg(id){ $(id).className = "msg"; }
 
@@ -3029,6 +3046,51 @@ function installCardHtml(){
 if("serviceWorker" in navigator && (location.protocol==="https:" || location.hostname==="localhost") && !/[?&]nosw=1/.test(location.search)){
   window.addEventListener("load",()=>{ navigator.serviceWorker.register("/sw.js").catch(()=>{}); });
 }
+/* ===== Visit-day kit (#55): everything for the day on one phone screen ===== */
+let visitId=null;
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-visitkit]"); if(!b) return; e.preventDefault(); visitId=b.dataset.visitkit; goto("visit"); });
+const VISIT_QS={ "Classes":["How big are first-year classes, really?","Who teaches intro courses — professors or grad students?","How easy is it to get into the classes you want?"],
+  "Living":["What's housing like after first year — guaranteed?","What do students do on weekends?","What's one thing you'd change about this place?"],
+  "Money":["What does a typical aid package look like for families like ours?","Are there merit scholarships, and do I need to apply separately?","How much do costs usually rise each year?"],
+  "After":["Where do graduates in my major end up?","How do internships and co-ops work here?","How active is career services for first-years?"],
+  "Feel":["Why did you (the tour guide) choose this school?","What surprised you most when you got here?","How safe do students feel at night?"] };
+function vkGet(id){ const v=getVisit(id); v.q=v.q||{}; v.gut=v.gut||""; return v; }
+function renderVisitKit(){
+  const el=$("vk-out"); if(!el) return;
+  const id=visitId || [...getTrip()][0] || ((state.schools||[])[0]||{}).school_id;
+  if(!id){ el.innerHTML=`<div class="card muted">Add a school to your board or trip first.</div>`; return; }
+  visitId=id; const info=catInfo(id)||{}; const name=schoolName(id); const v=vkGet(id);
+  const mine=(state.ratings||[]).find(r=>r.school_id===id&&state.me&&r.user_id===state.me.user_id)||{};
+  const hasGeo=typeof info.lat==="number"&&typeof info.lon==="number";
+  const dir=hasGeo?`https://www.google.com/maps/dir/?api=1&destination=${info.lat},${info.lon}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+  const vc=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+" visitor center admissions")}`;
+  const trip=[...getTrip()]; const ti=trip.indexOf(id); const next=ti>=0&&ti<trip.length-1?trip[ti+1]:null;
+  const photos=photosFor(id);
+  const gut=[["home","😍 Could see myself here"],["maybe","🤔 Need another look"],["no","🙅 Not for me"]];
+  const qHtml=Object.entries(VISIT_QS).map(([g,qs])=>`<div class="vk-qg"><div class="vk-qh">${esc(g)}</div>${qs.map((q,i)=>{ const k=g+i; const st=v.q[k]||""; return `<button class="vk-q ${st}" data-vq="${esc(k)}" aria-pressed="${st==="asked"}">${st==="asked"?"✓ ":st==="star"?"★ ":""}${esc(q)}</button>`; }).join("")}</div>`).join("");
+  el.innerHTML=`<div class="vk-head"><div style="min-width:0;flex:1"><div class="vk-k">🎒 Visit day${v.date?` · ${esc(new Date(v.date+"T12:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}))}`:""}</div><h1 style="margin:2px 0 0">${esc(name)}</h1></div>
+      ${trip.length>1?`<select id="vk-switch" aria-label="Switch school">${trip.map(t=>`<option value="${esc(t)}" ${t===id?"selected":""}>${esc(schoolName(t))}</option>`).join("")}</select>`:""}</div>
+    <div class="vk-links"><a class="small primary" href="${esc(dir)}" target="_blank" rel="noopener">📍 Directions</a><a class="small" href="${esc(vc)}" target="_blank" rel="noopener">🅿 Visitor center</a>${info.link?`<a class="small" href="${esc(info.link)}" target="_blank" rel="noopener">🎓 Site</a>`:""}</div>
+    <div class="card vk-card"><div class="vk-h">How does it feel?</div><div class="vk-gut">${gut.map(([k,t])=>`<button class="vk-g ${v.gut===k?"on":""}" data-vgut="${k}">${t}</button>`).join("")}</div>
+      <div class="vk-stars" aria-label="Your stars">${[1,2,3,4,5].map(n=>`<button class="s ${mine.rating>=n?"on":""}" data-rate="${esc(id)}|${n}" aria-label="${n} star${n>1?"s":""}">★</button>`).join("")}<span class="muted" style="font-size:12px">your stars — the family sees them</span></div></div>
+    <div class="card vk-card"><div class="vk-h">📷 Snap it <span class="muted">(goes straight to Memories)</span></div>
+      <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="vk-file" accept="image/*" capture="environment" style="display:none"><button class="small primary" id="vk-snap">📷 Take a photo</button><input type="text" id="vk-cap" placeholder="Caption (optional)" maxlength="120" style="flex:1;min-width:140px"><span class="muted" id="vk-snapmsg" style="font-size:12px"></span></div>
+      ${photos.length?`<div class="vk-strip">${photos.slice(0,8).map(p=>`<img src="${esc(p.url||p.data)}" alt="" loading="lazy">`).join("")}</div>`:""}</div>
+    <div class="card vk-card"><div class="vk-h">📝 Notes <span class="muted">(saved as you type · your family sees them)</span></div><textarea id="vk-note" rows="4" maxlength="1000" placeholder="What stood out? The dorms, the food, the people, the vibe…">${esc(mine.note||"")}</textarea><div class="muted" id="vk-notemsg" style="font-size:12px;min-height:16px"></div></div>
+    <div class="card vk-card"><div class="vk-h">🙋 Questions to ask <span class="muted">(tap once: ★ want to ask · twice: ✓ asked)</span></div>${qHtml}
+      <button class="small" id="vk-zoe">💬 Ask Zoe for questions about ${esc(name)}</button></div>
+    ${next?`<button class="card vk-next" data-visitkit="${esc(next)}">Next stop → <b>${esc(schoolName(next))}</b></button>`:""}`;
+  bindStars(el);
+  const sw=$("vk-switch"); if(sw) sw.onchange=()=>{ visitId=sw.value; renderVisitKit(); };
+  el.querySelectorAll("[data-vgut]").forEach(b=>b.onclick=()=>{ const v2=vkGet(id); v2.gut=v2.gut===b.dataset.vgut?"":b.dataset.vgut; saveVisit(id,v2); renderVisitKit(); });
+  el.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{ const v2=vkGet(id); const k=b.dataset.vq; const cur=v2.q[k]||""; v2.q[k]= cur===""?"star":cur==="star"?"asked":""; if(!v2.q[k]) delete v2.q[k]; saveVisit(id,v2); renderVisitKit(); });
+  const fi=$("vk-file"); $("vk-snap").onclick=()=>fi.click();
+  fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const m=$("vk-snapmsg"); m.textContent="Saving…"; try{ await addPhoto(id,f,($("vk-cap").value||"").trim()); await loadPhotos(); renderVisitKit(); }catch(e){ m.textContent="Couldn't save that photo — try again."; } };
+  let t=null; const ta=$("vk-note"), nm=$("vk-notemsg");
+  ta.oninput=()=>{ nm.textContent="…"; clearTimeout(t); t=setTimeout(async()=>{ try{ const cur=(state.ratings||[]).find(r=>r.school_id===id&&r.user_id===state.me.user_id);
+      await sb.from("ratings").upsert({ family_id:state.family.id, school_id:id, user_id:state.me.user_id, rating:cur?cur.rating:null, note:ta.value, updated_at:new Date().toISOString() }); await loadRatings(); nm.textContent="Saved ✓"; }catch(e){ nm.textContent="Couldn't save — check your connection."; } },900); };
+  $("vk-zoe").onclick=()=>{ goto("zoe"); setTimeout(()=>ztabAsk(`We're visiting ${name} today. Give me 6 sharp, specific questions to ask on the tour and at the info session, based on my profile and what matters to us.`,{mode:"chat"},`🙋 Questions for ${name}`),150); };
+}
 /* ===== Costs (#52) ===== */
 function offersGet(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_offers"))||"{}"); }catch(e){ return {}; } }
 function offersSet(o){ try{ localStorage.setItem(_tripKey("zc_offers"),JSON.stringify(o)); }catch(e){} }
@@ -3149,7 +3211,7 @@ function renderToday(){
   // 5 Visits
   const trip=getTrip().size, ph=(state.photos||[]).length;
   const visitCard=`<div class="td-card"><div class="td-h">🚗 Visits</div><div class="td-mid">${trip?`<b>${trip}</b> campus${trip>1?"es":""} on your trip.`:"No trip planned yet."} ${ph?`<b>${ph}</b> visit photo${ph>1?"s":""} saved.`:""}</div>
-    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button><button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button>${trip?`<button class="small" data-visitkit="${esc([...getTrip()][0])}">🎒 Visit-day kit</button>`:""}<button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
   el.innerHTML=dlCard+zoeCard+pulseCard+balCard+visitCard+installCardHtml();
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
@@ -3248,7 +3310,7 @@ function renderDetail(id){
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
-    <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
+    <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button>${onBoard?`<button class="openlink" data-visitkit="${esc(id)}">🎒 Visit-day kit</button>`:""}</div>
     ${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
@@ -3461,7 +3523,7 @@ function renderTripOut(){
         : `<span class="muted" style="font-size:12px">Plan what to do while you're in town ↓</span>`;
       return `${legHtml}<div class="trip-stop" data-stop="${esc(s.id)}">
         <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(s.name,s.state,"78%")}`}"></span>
-          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div></div>
+          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div><button class="small" data-visitkit="${esc(s.id)}">🎒 Start visit</button></div>
         <div class="ts-visit">
           <a href="https://www.google.com/search?q=${nm}+admissions+visit+register" target="_blank" rel="noopener">🎟 Book a visit ↗</a>
           <a href="https://www.google.com/search?q=${nm}+virtual+campus+tour" target="_blank" rel="noopener">▶ Virtual tour ↗</a>
