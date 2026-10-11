@@ -1463,7 +1463,7 @@ async function loadPrefs(){
 async function loadPhotos(){
   state.photos=[];
   if (BACKEND.photos){
-    try { const { data, error } = await sb.from("photos").select("*").order("created_at",{ascending:false}); if(error) throw error; state.photos=data||[]; return; }
+    try { const { data, error } = await sb.from("photos").select("*").order("created_at",{ascending:false}); if(error) throw error; state.photos=data||[]; await signPhotoUrls(state.photos); return; }
     catch(e){ if(isMissing(e)) BACKEND.photos=false; }
   }
   state.photos = lsGet("photos") || [];
@@ -2883,6 +2883,18 @@ function resizeImage(file, maxDim, quality){
     img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error("not an image")); }; img.src=url;
   });
 }
+// Fix #15: family photos are shown through short-lived signed links (works whether the storage
+// bucket is public or private), so the bucket can be made private as the privacy page promises.
+async function signPhotoUrls(list){
+  const withPath=(list||[]).filter(p=>p && p.path);
+  if(!withPath.length) return;
+  try{
+    const { data, error } = await sb.storage.from("campus-photos").createSignedUrls(withPath.map(p=>p.path), 60*60*12);
+    if(error || !Array.isArray(data)) return;
+    const byPath={}; data.forEach(d=>{ if(d && d.path && d.signedUrl) byPath[d.path]=d.signedUrl; });
+    withPath.forEach(p=>{ if(byPath[p.path]) p.url=byPath[p.path]; });
+  }catch(e){ /* keep stored url */ }
+}
 async function addPhoto(schoolId, file, caption){
   const blob = await resizeImage(file, 1400, 0.82);        // cap longest side 1400px
   // try Supabase Storage first
@@ -2891,9 +2903,8 @@ async function addPhoto(schoolId, file, caption){
       const path=`${state.family.id}/${schoolId}/${Date.now()}_${Math.random().toString(36).slice(2,7)}.jpg`;
       const up=await sb.storage.from("campus-photos").upload(path, blob, {contentType:"image/jpeg",upsert:false});
       if(up.error) throw up.error;
-      const pub=sb.storage.from("campus-photos").getPublicUrl(path);
-      const url=pub.data.publicUrl;
-      const ins=await sb.from("photos").insert({family_id:state.family.id, school_id:schoolId, user_id:state.me.user_id, path, url, caption});
+      // no permanent public link is stored any more; the page signs a fresh link when it shows the photo
+      const ins=await sb.from("photos").insert({family_id:state.family.id, school_id:schoolId, user_id:state.me.user_id, path, url:null, caption});
       if(ins.error) throw ins.error;
       return;
     }catch(e){ if(isMissing(e)){ BACKEND.photostore=false; } else throw e; }
