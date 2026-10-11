@@ -164,7 +164,7 @@ a{color:var(--teal)}
 .act-card .a-rm:hover{background:var(--sunk);color:var(--warn)}
 .act-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px 16px;margin-top:13px;align-items:start}
 .act-sel{position:relative;display:block}
-.act-sel>span,.act-hrs .hrs-head span,.act-yrs .yr-head{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.act-sel>span,.act-hrs .hrs-head span,.act-yrs .yr-head{font-size:10px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}
 .act-sel>span{display:block;margin-bottom:5px}
 .act-sel select{width:100%;appearance:none;-webkit-appearance:none;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 30px 10px 12px;font-size:13px;cursor:pointer}
 .act-sel::after{content:"▾";position:absolute;right:12px;bottom:10px;color:var(--muted);pointer-events:none;font-size:12px}
@@ -2923,6 +2923,7 @@ function renderActs(){
       </div>
       <div class="act-controls">
         <label class="act-sel"><span>Category</span><select class="a-cat">${ACT_CATS.map(c=>`<option ${c===a.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+        ${a.category && a.category.includes("Athletics")?`<label class="act-sel"><span>Sport</span><input type="text" class="a-sport" placeholder="e.g. Soccer, Basketball, Tennis" value="${esc(a.sport||"")}"></label>`:""}
         <label class="act-sel"><span>Your level</span><select class="a-lvl">${ACT_LEVELS.map(l=>`<option value="${l.tier}" ${(+a.tier||4)===l.tier?"selected":""}>${esc(l.t)}</option>`).join("")}</select></label>
         <div class="act-hrs"><div class="hrs-head"><span>Hours / week</span><span class="hrs-val">${hrsLabel(hrs)}</span></div><input class="a-hrs" type="range" min="0" max="40" step="1" value="${hrs===""?0:hrs}"></div>
         <div class="act-yrs"><span class="yr-head">Years involved</span><div class="act-seg">${[1,2,3,4].map(n=>`<button type="button" class="a-yr ${yrs===n?"on":""}" data-yr="${n}">${n===4?"4+":n}</button>`).join("")}</div></div>
@@ -2930,7 +2931,8 @@ function renderActs(){
     </div>`;}).join("") : `<p class="muted" style="font-size:13px">No activities yet — tap <b>+ Add activity</b> below to list clubs, sports, a job, volunteering, research…</p>`;
   el.querySelectorAll(".act-card").forEach(row=>{ const i=+row.dataset.i;
     row.querySelector(".a-name").oninput=e=>profActs[i].name=e.target.value;
-    row.querySelector(".a-cat").onchange=e=>{ profActs[i].category=e.target.value; row.querySelector(".act-glyph").textContent=actEmoji(e.target.value); };
+    row.querySelector(".a-cat").onchange=e=>{ profActs[i].category=e.target.value; row.querySelector(".act-glyph").textContent=actEmoji(e.target.value); renderActs(); };
+    const sportInput=row.querySelector(".a-sport"); if(sportInput) sportInput.oninput=e=>profActs[i].sport=e.target.value;
     row.querySelector(".a-lvl").onchange=e=>{ profActs[i].tier=+e.target.value; updateActStrength(); };
     const hr=row.querySelector(".a-hrs"), hv=row.querySelector(".hrs-val");
     hr.oninput=e=>{ const v=+e.target.value; profActs[i].hrs = v===0?"":String(v); hv.textContent=hrsLabel(v===0?"":v); };
