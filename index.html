@@ -2185,7 +2185,7 @@ function renderSchool(x){
     <div class="top">
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
-      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))} ${catChip}</div></div>
+      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div></div>
       <span class="brk"></span>
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
@@ -2209,6 +2209,8 @@ function renderSchool(x){
 }
 function hueFromName(name){ name=name||""; let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%360; return h; }
 function phGrad(name){ const h=hueFromName(name); return `linear-gradient(135deg,hsl(${h},42%,40%),hsl(${(h+45)%360},48%,26%))`; }
+/* Founding year (#35): from Wikidata, matched by federal school ID. */
+function estText(info){ const y=info&&info.founded; return (Number.isInteger(y)&&y>=1600&&y<=2100)?` · Est. ${y}`:""; }
 function photoUrlFor(c){ return (c && c.photo && c.photo.url) || ""; }
 // Tile cover: a family campus photo when there is one, else a colored placeholder with the school's initial.
 function coverFor(s, info){
@@ -2340,7 +2342,7 @@ function renderExList(q){
     return `<div class="srow">
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)}</div>
-        <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
+        <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(sc.netPrice)}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
@@ -2655,7 +2657,7 @@ function renderDetail(id){
     ${photoBanner}
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
-    <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}</div>
+    <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>

@@ -1,0 +1,21 @@
+// #35 founding year on cards, school page and Explore. Run: node tests/founded-year-page-test.mjs
+import { launch, newPage } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const SITE = '/tmp/claude-0/f35/site'; fs.mkdirSync(SITE, { recursive: true }); fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
+if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
+const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
+const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8797);
+const b = await launch(); const { page, log } = await newPage(b, { width: 390, height: 844 }, {});
+await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
+await page.goto('http://localhost:8797/index.html');
+await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(1200);
+const R = {};
+R.cards = await page.evaluate(() => [...document.querySelectorAll('#schools .loc')].map(x => x.textContent.replace(/\s+/g, ' ').trim()));
+await page.evaluate(() => openDetail('sc-166683')); await page.waitForTimeout(600);
+R.detail = await page.evaluate(() => document.querySelector('#v-detail .loc').textContent);
+await page.evaluate(() => goto('explore')); await page.fill('#exsearch', 'Harvard'); await page.waitForTimeout(800);
+R.explore = await page.evaluate(() => [...document.querySelectorAll('#v-explore .sl')].slice(0, 2).map(x => x.textContent));
+R.errors = log.pageerr;
+R.ok = { cards: R.cards.some(t => /Cambridge, MA · Est\. 1861/.test(t)) && R.cards.some(t => /Charleston, SC · Est\. 1770/.test(t)), detail: /Est\. 1861/.test(R.detail), explore: R.explore.some(t => /Est\. 1636/.test(t)), noErrors: !R.errors.length };
+R.allPass = Object.values(R.ok).every(Boolean); console.log(JSON.stringify(R, null, 1));
+fs.writeFileSync(new URL('./founded-year-page-result-2026-10-11.json', import.meta.url), JSON.stringify(R, null, 1));
+await b.close(); srv.close();

@@ -1,0 +1,22 @@
+{
+ "cards": [
+  "Charleston, SC · Est. 1770",
+  "Cambridge, MA · Est. 1861",
+  "Clemson, SC · Est. 1889",
+  "Wichita, KS · Est. 1998",
+  "Burlington, VT · Est. 1791",
+  "Beckley, WV · Est. 1895"
+ ],
+ "detail": "Cambridge, MA · Est. 1861",
+ "explore": [
+  "Cambridge, MA · Est. 1636"
+ ],
+ "errors": [],
+ "ok": {
+  "cards": true,
+  "detail": true,
+  "explore": true,
+  "noErrors": true
+ },
+ "allPass": true
+}
