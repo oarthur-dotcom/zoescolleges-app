@@ -1,0 +1,162 @@
+{
+ "old": {
+  "search: MIT": {
+   "count": "21 schools",
+   "top3": [
+    "Johnston Community College",
+    "Mitchell Community College",
+    "Mitchell Technical College"
+   ]
+  },
+  "search: Charleston": {
+   "count": "11 schools",
+   "top3": [
+    "Trident Technical College",
+    "College of Charleston",
+    "BridgeValley Community & Technical College"
+   ]
+  },
+  "search: UNC": {
+   "count": "9 schools",
+   "top3": [
+    "Iowa Western Community College",
+    "Institute of Taoist Education and Acupuncture",
+    "Ball State University"
+   ]
+  },
+  "search: ucla": {
+   "count": "0 schools",
+   "top3": []
+  },
+  "search: nyu": {
+   "count": "0 schools",
+   "top3": []
+  },
+  "search: penn state": {
+   "count": "20 schools",
+   "top3": [
+    "Pennsylvania State University-Penn State Great Valley",
+    "Pennsylvania State University-Penn State Shenango",
+    "Pennsylvania State University-Penn State Erie-Behrend College"
+   ]
+  },
+  "search: sc": {
+   "count": "319 schools",
+   "top3": [
+    "Clemson University",
+    "Midlands Technical College",
+    "Pasco-Hernando State College"
+   ]
+  },
+  "search: Boston": {
+   "count": "24 schools",
+   "top3": [
+    "Boston University",
+    "Northeastern University",
+    "Boston College"
+   ]
+  },
+  "search: zzqqxx": {
+   "count": "0 schools",
+   "top3": []
+  },
+  "defaultCount": "3180 schools",
+  "twoYearInTop50": 19,
+  "smallFilterCount": "2537 schools",
+  "smallFilterUnknownSizeIncluded": 8,
+  "showMoreButton": false,
+  "sizeSlider0": {
+   "williams": 68,
+   "ohioState": 56
+  },
+  "addDialogMIT": [
+   "University of Arkansas-Fort Smith",
+   "Southwest Mississippi Community College"
+  ],
+  "pageErrors": []
+ },
+ "new": {
+  "search: MIT": {
+   "count": "12 4-year schools · 11 more matches in other school types — show all types",
+   "top3": [
+    "Massachusetts Institute of Technology",
+    "Mitchell College",
+    "Smith College"
+   ]
+  },
+  "search: Charleston": {
+   "count": "7 4-year schools · 4 more matches in other school types — show all types",
+   "top3": [
+    "College of Charleston",
+    "University of Charleston",
+    "Charleston Southern University"
+   ]
+  },
+  "search: UNC": {
+   "count": "9 4-year schools · 8 more matches in other school types — show all types",
+   "top3": [
+    "University of North Carolina at Chapel Hill",
+    "University of Northern Colorado",
+    "University of North Carolina at Charlotte"
+   ]
+  },
+  "search: ucla": {
+   "count": "1 4-year school",
+   "top3": [
+    "University of California-Los Angeles"
+   ]
+  },
+  "search: nyu": {
+   "count": "1 4-year school",
+   "top3": [
+    "New York University"
+   ]
+  },
+  "search: penn state": {
+   "count": "20 4-year schools · 1 more match in other school types — show all types",
+   "top3": [
+    "Pennsylvania State University-Main Campus",
+    "Pennsylvania State University-Penn State Shenango",
+    "Pennsylvania State University-Penn State Erie-Behrend College"
+   ]
+  },
+  "search: sc": {
+   "count": "127 4-year schools · 163 more matches in other school types — show all types",
+   "top3": [
+    "Swarthmore College",
+    "Skidmore College",
+    "Scripps College"
+   ]
+  },
+  "search: Boston": {
+   "count": "20 4-year schools · 4 more matches in other school types — show all types",
+   "top3": [
+    "Boston University",
+    "Boston College",
+    "University of Massachusetts-Boston"
+   ]
+  },
+  "search: zzqqxx": {
+   "count": "0 4-year schools",
+   "top3": []
+  },
+  "defaultCount": "1944 4-year schools · showing the top 250",
+  "twoYearInTop50": 0,
+  "smallFilterCount": "1499 4-year schools · showing the top 250",
+  "smallFilterUnknownSizeIncluded": 0,
+  "showMoreButton": true,
+  "rowsBeforeAfterShowMore": [
+   250,
+   500
+  ],
+  "sizeSlider0": {
+   "williams": 76,
+   "ohioState": 47
+  },
+  "addDialogMIT": [
+   "Morrison Institute of Technology",
+   "Mitchell Community College"
+  ],
+  "pageErrors": []
+ }
+}

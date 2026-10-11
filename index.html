@@ -865,6 +865,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <p class="sub">Every school with official federal data, plus area context. Filter, open one for detail, or add it to your board.</p>
     <input id="exsearch" type="text" placeholder="Search by name, city, or state…">
     <div class="row" style="margin-top:8px">
+      <select id="ex-level" style="width:auto" aria-label="School type"><option value="4-year" selected>4-year colleges</option><option value="">All school types</option><option value="2-year">2-year / community</option><option value="graduate">Graduate-only</option></select>
       <select id="ex-size" style="width:auto"><option value="">Any size</option><option value="s">Small (&lt;5k)</option><option value="m">Medium (5–15k)</option><option value="l">Large (15k+)</option></select>
       <select id="ex-sel" style="width:auto"><option value="">Any selectivity</option><option value="r">Most selective (&lt;25%)</option><option value="t">Selective (25–60%)</option><option value="k">Accessible (60%+)</option></select>
       <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
@@ -1464,9 +1465,9 @@ function matchScore(c, w){
   // prestige (importance): more selective = higher
   if(typeof s.admissionRate==="number") comps.push({v:1-s.admissionRate, wt:w.prestige});
   // size (preference): closeness to preferred, on a robust fixed scale
-  const ss=sizeScale(s.size); if(ss!==null){ const sizePref=(w.size||5)/10; comps.push({v:1-Math.abs(ss-sizePref), wt:6}); }
+  const ss=sizeScale(s.size); if(ss!==null){ const sizePref=(typeof w.size==="number"?w.size:5)/10; comps.push({v:1-Math.abs(ss-sizePref), wt:6}); }
   // setting (preference): closeness to preferred urbanness (skip if we have no locale, so it's not a dead anchor)
-  const lu=localeUrban(c); if(lu!==null){ const setPref=(w.setting||5)/10; comps.push({v:1-Math.abs(lu-setPref), wt:6}); }
+  const lu=localeUrban(c); if(lu!==null){ const setPref=(typeof w.setting==="number"?w.setting:5)/10; comps.push({v:1-Math.abs(lu-setPref), wt:6}); }
   // lifestyle fit (preference → weighted by Lifestyle importance): share of stated area prefs this school meets
   const L=c.lifestyle||{}; const lp=[];
   if(w.lp_political) lp.push(L.politicalLean===w.lp_political);
@@ -2008,15 +2009,75 @@ function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id=
 
 /* ========== EXPLORE ========== */
 function renderExplore(){ renderExList($("exsearch").value||""); }
-["ex-size","ex-sel","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
+["ex-level","ex-size","ex-sel","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
+
+/* ===== Fix #9 (Oct 11): ranked search shared by Schools + Add-school ===== */
+// Common abbreviations families type. Each target is an exact catalog name (verified Oct 11).
+const SEARCH_ALIASES = {
+  "mit":"Massachusetts Institute of Technology","ucla":"University of California-Los Angeles","usc":"University of Southern California",
+  "uva":"University of Virginia-Main Campus","unc":"University of North Carolina at Chapel Hill","nyu":"New York University",
+  "bu":"Boston University","bc":"Boston College","upenn":"University of Pennsylvania","penn":"University of Pennsylvania",
+  "cmu":"Carnegie Mellon University","georgia tech":"Georgia Institute of Technology-Main Campus","gt":"Georgia Institute of Technology-Main Campus",
+  "uchicago":"University of Chicago","uiuc":"University of Illinois Urbana-Champaign","umich":"University of Michigan-Ann Arbor",
+  "michigan":"University of Michigan-Ann Arbor","uw":"University of Washington-Seattle Campus","ut austin":"The University of Texas at Austin",
+  "osu":"Ohio State University-Main Campus","ohio state":"Ohio State University-Main Campus","penn state":"Pennsylvania State University-Main Campus",
+  "psu":"Pennsylvania State University-Main Campus","lsu":"Louisiana State University and Agricultural & Mechanical College",
+  "tcu":"Texas Christian University","smu":"Southern Methodist University","byu":"Brigham Young University",
+  "ucsd":"University of California-San Diego","ucsb":"University of California-Santa Barbara","berkeley":"University of California-Berkeley",
+  "uc berkeley":"University of California-Berkeley","cal":"University of California-Berkeley","caltech":"California Institute of Technology",
+  "jhu":"Johns Hopkins University","hopkins":"Johns Hopkins University","umass":"University of Massachusetts-Amherst",
+  "uconn":"University of Connecticut","uvm":"University of Vermont","asu":"Arizona State University Campus Immersion",
+  "fsu":"Florida State University","uf":"University of Florida","uga":"University of Georgia",
+  "virginia tech":"Virginia Polytechnic Institute and State University","vt":"Virginia Polytechnic Institute and State University",
+  "tamu":"Texas A&M University-College Station","texas a&m":"Texas A&M University-College Station","cofc":"College of Charleston",
+  "w&m":"William & Mary","william and mary":"William & Mary","gwu":"George Washington University","gw":"George Washington University",
+  "rpi":"Rensselaer Polytechnic Institute","wpi":"Worcester Polytechnic Institute","uw madison":"University of Wisconsin-Madison",
+  "umn":"University of Minnesota-Twin Cities","rutgers":"Rutgers University-New Brunswick","umd":"University of Maryland-College Park",
+  "neu":"Northeastern University"
+};
+const _STOP = new Set(["of","the","and","at","in","for","&"]);
+function _norm(t){ return String(t||"").toLowerCase().replace(/&/g," & ").replace(/[^a-z0-9& ]+/g," ").replace(/\s+/g," ").trim(); }
+function _initials(name){ return _norm(name.replace(/-.*$/,"")).split(" ").filter(w=>w && !_STOP.has(w)).map(w=>w[0]).join(""); }
+let _searchIdx=null, _searchIdxFor=null;
+function _index(){
+  if(_searchIdxFor===state.catalog) return _searchIdx;
+  _searchIdx=state.catalog.map(c=>({c, n:_norm(c.name), ini:_initials(c.name), city:_norm(c.city), st:(c.state||"").toLowerCase()}));
+  _searchIdxFor=state.catalog; return _searchIdx;
+}
+// Returns [{c, rank}] best-first. Empty query -> null (caller keeps its own order).
+function searchCatalog(q){
+  const qn=_norm(q); if(!qn) return null;
+  const alias=SEARCH_ALIASES[qn]; const qc=qn.replace(/ /g,"");
+  const out=[];
+  for(const e of _index()){
+    let r=0;
+    if(alias && e.c.name===alias) r=100;
+    else if(e.n===qn) r=95;
+    else if(qc.length>=2 && e.ini===qc) r=85;
+    else if((" "+e.n).includes(" "+qn)) r=70;          // name or any word in it starts with the query
+    else if(qc.length>=3 && e.ini.startsWith(qc)) r=55;
+    else if(qn.length>=3 && e.n.includes(qn)) r=45;
+    else if(e.city && (e.city===qn || e.city.startsWith(qn))) r=40;
+    else if(qn.length===2 && e.st===qn) r=35;
+    else if(qn.length>=3 && (e.city+" "+e.st).includes(qn)) r=25;
+    if(r) out.push({c:e.c, rank:r});
+  }
+  const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
+  return out.sort((a,b)=>b.rank-a.rank || sz(b.c)-sz(a.c) || a.c.name.length-b.c.name.length);   // same rank: bigger school first
+}
 function renderExList(q){
   const have = new Set(state.schools.map(s=>s.school_id));
   const w = myPrefs();
   const fSize=$("ex-size").value, fSel=$("ex-sel").value, fCost=$("ex-cost").value, sort=$("ex-sort2").value;
   const fPol=$("ex-pol").value, fGuns=$("ex-guns").value, fLgbtq=$("ex-lgbtq").value, fRelig=$("ex-relig").value, fProx=$("ex-prox").value;
-  let list = state.catalog.filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase()));
+  const fLevel=($("ex-level")&&$("ex-level").value)||"";
+  const hits=searchCatalog(q); const rankOf=new Map((hits||[]).map(h=>[h.c,h.rank]));
+  let list = hits ? hits.map(h=>h.c) : state.catalog.slice();
+  const lvlOK=c=>!fLevel || (c.degreeType||"")===fLevel;
+  const hiddenByLevel = fLevel ? list.filter(c=>!lvlOK(c)).length : 0;
+  list = list.filter(lvlOK);
   list = list.filter(c=>{ const sc=c.scorecard||{}, L=c.lifestyle||{};
-    if(fSize){ const z=sc.size||0; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
+    if(fSize){ const z=sc.size; if(typeof z!=="number")return false; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
     if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
     if(fCost){ const n=(typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg; if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
     if(fPol && L.politicalLean!==fPol) return false;
@@ -2034,10 +2095,16 @@ function renderExList(q){
     if(sort==="sel") return (sa.admissionRate??2)-(sb2.admissionRate??2);
     if(sort==="cost"){ const na=(sa.netPrice??sa.costAvg??9e9), nb=(sb2.netPrice??sb2.costAvg??9e9); return na-nb; }
     if(sort==="earn") return (sb2.medianEarnings10yr??-1)-(sa.medianEarnings10yr??-1);
+    if(hits){ const d=(rankOf.get(b.c)||0)-(rankOf.get(a.c)||0); if(d) return d; }   // searching: best name match first
     return (b.m??-1)-(a.m??-1);
   });
-  $("excount").innerHTML = `<b>${withM.length}</b> school${withM.length===1?"":"s"}${state.catalog.length?"":" — catalog still loading"}`;
-  $("exlist").innerHTML = withM.slice(0,250).map(({c,m}) => {
+  if(renderExList._lastKey!==q+"|"+fLevel){ renderExList._limit=250; renderExList._lastKey=q+"|"+fLevel; }
+  const limit=renderExList._limit||250;
+  const lvlName={"4-year":"4-year","2-year":"2-year","graduate":"graduate-only"}[fLevel]||"";
+  $("excount").innerHTML = `<b>${withM.length}</b> ${lvlName?lvlName+" ":""}school${withM.length===1?"":"s"}${withM.length>limit?` · showing the top ${limit}`:""}${state.catalog.length?"":" — catalog still loading"}`
+    + (hiddenByLevel&&q?` <span class="muted">· ${hiddenByLevel} more match${hiddenByLevel===1?"":"es"} in other school types — <a href="#" id="ex-showall">show all types</a></span>`:"");
+  const sa=$("ex-showall"); if(sa) sa.onclick=e=>{ e.preventDefault(); $("ex-level").value=""; renderExList($("exsearch").value||""); };
+  $("exlist").innerHTML = withM.slice(0,limit).map(({c,m}) => {
     const added = have.has(c.id); const sc=c.scorecard||{};
     const L=c.lifestyle||{}; const lifeBits=[L.politicalLean, L.gunLaws&&L.gunLaws.replace(" gun laws",""), (L.proximity||[]).length?("near "+L.proximity.join("/")):"", (L.religion&&L.religion.indexOf("Secular")!==0)?L.religion:""].filter(Boolean);
     const purl=photoUrlFor(c);
@@ -2055,7 +2122,8 @@ function renderExList(q){
       <button class="openlink cmp-btn ${inCmp(c.id)?"on":""}" data-cmp="${esc(c.id)}">${inCmp(c.id)?"✓ Compare":"⇄ Compare"}</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
-  }).join("") || `<div class="card muted">No matches.</div>`;
+  }).join("") + (withM.length>limit?`<div style="text-align:center;margin:14px 0"><button class="small" id="ex-more">Show ${Math.min(250,withM.length-limit)} more</button></div>`:"") || `<div class="card muted">No matches.</div>`;
+  const more=$("ex-more"); if(more) more.onclick=()=>{ renderExList._limit=limit+250; renderExList($("exsearch").value||""); };
   wireOpen($("exlist"));
   $("exlist").querySelectorAll("[data-exadd]").forEach(el => el.onclick = async () => { await addFromCatalog(el.dataset.exadd); renderExList($("exsearch").value||""); });
 }
@@ -2984,7 +3052,8 @@ $("dlg-close").onclick = () => $("dlg-add").close();
 $("search").oninput = e => renderPicklist(e.target.value);
 function renderPicklist(q){
   const have = new Set(state.schools.map(s=>s.school_id));
-  const list = state.catalog.filter(c => !have.has(c.id)).filter(c => (c.name+" "+(c.city||"")+" "+(c.state||"")).toLowerCase().includes(q.toLowerCase())).slice(0, 50);
+  const hits = searchCatalog(q);
+  const list = (hits ? hits.map(h=>h.c) : state.catalog).filter(c => !have.has(c.id)).slice(0, 50);
   $("picklist").innerHTML = list.map(c =>
     `<div class="pick" data-pick="${esc(c.id)}"><div><div class="pn">${esc(c.name)}</div><div class="pl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div></div><button class="small primary add">Add</button></div>`).join("") || `<div class="pick muted">No matches — add your own below.</div>`;
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
