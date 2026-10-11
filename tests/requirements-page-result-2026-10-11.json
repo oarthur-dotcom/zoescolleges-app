@@ -1,0 +1,415 @@
+{
+ "phone": {
+  "card": "WHAT THEY ASK FOR SAT / ACT Required Essay / personal statement Required Recommendations Required High school record Required Application fee $75 (fee waivers often available) As the school reported to IPEDS for fall 2023. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.",
+  "pills": {
+   "sc-217882": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $70",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "college-of-charleston": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $60",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-166683": [
+    "✓ Essay",
+    "Recommendations",
+    "Transcript",
+    "Test scores",
+    "Fee $75",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "university-of-vermont": [
+    "Essay",
+    "Recommendations",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $55",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-155335": [
+    "Transcript",
+    "Fee $25",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-237950": [
+    "Transcript",
+    "Scores (optional)",
+    "FAFSA / CSS",
+    "Submitted"
+   ]
+  },
+  "kb": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "#dl-all on 20x20",
+    "#dl-gcal Google 70x32",
+    "#dl-apple Apple 62x32",
+    "#dl-outlook Outlook 75x32",
+    "#dl-remind-btn Turn on 74x32",
+    "on 20x20",
+    "source ↗ 49x14",
+    "Essay (optional) 114x27",
+    "Recs (optional) 108x27",
+    "✓ Transcript 97x27",
+    "Scores (optional) 119x27",
+    "Fee $70 68x27",
+    "FAFSA / CSS 94x27",
+    "Submitted 83x27",
+    "Transcript 81x27",
+    "Fee $60 70x27",
+    "✓ Essay 72x27",
+    "Recommendations 130x27",
+    "Test scores 89x27",
+    "Fee $75 68x27",
+    "Essay 58x27",
+    "Fee $55 69x27",
+    "Fee $25 69x27"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errors": []
+ },
+ "desktop": {
+  "card": "WHAT THEY ASK FOR SAT / ACT Required Essay / personal statement Required Recommendations Required High school record Required Application fee $75 (fee waivers often available) As the school reported to IPEDS for fall 2023. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.",
+  "pills": {
+   "sc-217882": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $70",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "college-of-charleston": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $60",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-166683": [
+    "✓ Essay",
+    "Recommendations",
+    "Transcript",
+    "Test scores",
+    "Fee $75",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "university-of-vermont": [
+    "Essay",
+    "Recommendations",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $55",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-155335": [
+    "Transcript",
+    "Fee $25",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-237950": [
+    "Transcript",
+    "Scores (optional)",
+    "FAFSA / CSS",
+    "Submitted"
+   ]
+  },
+  "kb": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#dl-all on 13x13",
+    "#dl-gcal Google 70x32",
+    "#dl-apple Apple 62x32",
+    "#dl-outlook Outlook 75x32",
+    "#dl-remind-btn Turn on 74x32",
+    "on 18x18",
+    "source ↗ 49x14",
+    "Essay (optional) 114x27",
+    "Recs (optional) 108x27",
+    "✓ Transcript 97x27",
+    "Scores (optional) 119x27",
+    "Fee $70 68x27",
+    "FAFSA / CSS 94x27",
+    "Submitted 83x27",
+    "Transcript 81x27",
+    "Fee $60 70x27",
+    "✓ Essay 72x27",
+    "Recommendations 130x27",
+    "Test scores 89x27",
+    "Fee $75 68x27",
+    "Essay 58x27",
+    "Fee $55 69x27",
+    "Fee $25 69x27"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "card": "WHAT THEY ASK FOR SAT / ACT Required Essay / personal statement Required Recommendations Required High school record Required Application fee $75 (fee waivers often available) As the school reported to IPEDS for fall 2023. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.",
+  "pills": {
+   "sc-217882": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $70",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "college-of-charleston": [
+    "Essay (optional)",
+    "Recs (optional)",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $60",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-166683": [
+    "✓ Essay",
+    "Recommendations",
+    "Transcript",
+    "Test scores",
+    "Fee $75",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "university-of-vermont": [
+    "Essay",
+    "Recommendations",
+    "Transcript",
+    "Scores (optional)",
+    "Fee $55",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-155335": [
+    "Transcript",
+    "Fee $25",
+    "FAFSA / CSS",
+    "Submitted"
+   ],
+   "sc-237950": [
+    "Transcript",
+    "Scores (optional)",
+    "FAFSA / CSS",
+    "Submitted"
+   ]
+  },
+  "kb": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "#dl-all on 20x20",
+    "#dl-gcal Google 70x32",
+    "#dl-apple Apple 62x32",
+    "#dl-outlook Outlook 75x32",
+    "#dl-remind-btn Turn on 74x32",
+    "on 20x20",
+    "source ↗ 49x14",
+    "Essay (optional) 114x27",
+    "Recs (optional) 108x27",
+    "✓ Transcript 97x27",
+    "Scores (optional) 119x27",
+    "Fee $70 68x27",
+    "FAFSA / CSS 94x27",
+    "Submitted 83x27",
+    "Transcript 81x27",
+    "Fee $60 70x27",
+    "✓ Essay 72x27",
+    "Recommendations 130x27",
+    "Test scores 89x27",
+    "Fee $75 68x27",
+    "Essay 58x27",
+    "Fee $55 69x27",
+    "Fee $25 69x27"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errors": []
+ },
+ "file-not-published": {
+  "card": null,
+  "pills": {
+   "sc-217882": [
+    "Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ],
+   "college-of-charleston": [
+    "Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ],
+   "sc-166683": [
+    "✓ Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ],
+   "university-of-vermont": [
+    "Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ],
+   "sc-155335": [
+    "Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ],
+   "sc-237950": [
+    "Essays",
+    "Recommendations",
+    "Transcript",
+    "FAFSA / CSS",
+    "Test scores",
+    "Submitted"
+   ]
+  },
+  "kb": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "#dl-all on 20x20",
+    "#dl-gcal Google 70x32",
+    "#dl-apple Apple 62x32",
+    "#dl-outlook Outlook 75x32",
+    "#dl-remind-btn Turn on 74x32",
+    "on 20x20",
+    "source ↗ 49x14",
+    "Essays 64x27",
+    "Recommendations 130x27",
+    "✓ Transcript 97x27",
+    "FAFSA / CSS 94x27",
+    "Test scores 89x27",
+    "Submitted 83x27",
+    "Transcript 81x27",
+    "✓ Essays 78x27"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.schoolCard": true,
+  "phone.mitChecklist": true,
+  "phone.clemsonChecklist": true,
+  "phone.keyboardToggles": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.schoolCard": true,
+  "desktop.mitChecklist": true,
+  "desktop.clemsonChecklist": true,
+  "desktop.keyboardToggles": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.schoolCard": true,
+  "phone-dark.mitChecklist": true,
+  "phone-dark.clemsonChecklist": true,
+  "phone-dark.keyboardToggles": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "file-not-published.fallsBackToStandard": true,
+  "file-not-published.keyboardToggles": true,
+  "file-not-published.noErrors": true,
+  "file-not-published.noSidewaysScroll": true
+ },
+ "allPass": true
+}

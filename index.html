@@ -897,6 +897,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .stand.compact .stand-me{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
 .stand-me.above{background:var(--good,#1a8f5a);box-shadow:0 0 0 1px var(--good,#1a8f5a)}.stand-me.below{background:var(--warn);box-shadow:0 0 0 1px var(--warn)}
 .stand-v{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.rq-row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}.rq-row:last-of-type{border-bottom:none}.rq-row b{text-align:right;font-weight:600}.rq-row b.warn{color:var(--warn)}
 .stand-mid.aid{background:color-mix(in srgb,var(--good,#1a8f5a) 55%,var(--sunk))}
 .cost-aid{display:block;font-size:11px;color:var(--muted);margin-top:2px}
 .stand-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:3px;font-family:var(--mono)}
@@ -1788,7 +1789,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadSchoolAid(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadSchoolAid(); loadReqs(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -3120,10 +3121,10 @@ function renderToday(){
   const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
   const nx=ups[0];
   let dlCard;
-  if(nx){ const days=daysUntil(nx.date); const chk=getChecklist(nx.id); const done=DL_TASKS.filter(t=>chk[t]).length; const left=DL_TASKS.filter(t=>!chk[t]);
+  if(nx){ const days=daysUntil(nx.date); const chk=getChecklist(nx.id); const TK=tasksFor(catInfo(nx.id)); const done=TK.filter(t=>chk[t.key]).length; const left=TK.filter(t=>!chk[t.key]).map(t=>t.label);
     dlCard=`<div class="td-card td-next ${days<=14?"urgent":""}"><div class="td-h">⏰ Next deadline</div>
       <div class="td-big">${esc(nx.name)}</div><div class="td-mid">${esc(nx.kind)} · ${esc(_fmtD(nx.date))} · <b>${days===0?"today":days===1?"tomorrow":"in "+days+" days"}</b></div>
-      <div class="dl-bar" style="margin:10px 0 6px"><i style="width:${Math.round(100*done/DL_TASKS.length)}%"></i></div>
+      <div class="dl-bar" style="margin:10px 0 6px"><i style="width:${Math.round(100*done/TK.length)}%"></i></div>
       <div class="muted" style="font-size:12.5px">${left.length?`Still to do: ${left.slice(0,3).map(esc).join(", ")}${left.length>3?"…":""}`:"Checklist complete ✓"}</div>
       ${ups.length>1?`<div class="td-more">Then: ${ups.slice(1,3).map(u=>`${esc(u.name)} · ${esc(_fmtD(u.date))}`).join(" · ")}</div>`:""}
       <button class="small primary" data-td-go="deadlines">Open Deadlines</button></div>`; }
@@ -3245,7 +3246,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
-    ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}
+    ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
     ${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
@@ -3746,6 +3747,30 @@ function buildCompare(){
 $("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
 const DL_TASKS=["Essays","Recommendations","Transcript","FAFSA / CSS","Test scores","Submitted"];
+/* #54 Each school's own checklist, from what it told IPEDS it requires. Keys stay the same so saved ticks still count. */
+const REQ_URL = CATALOG_URL.replace(/colleges\.json$/,"requirements.json");
+state.reqs=null;
+async function loadReqs(){ try{ const r=await fetch(REQ_URL); if(!r.ok) return; const j=await r.json(); state.reqs=j.schools||null; state.reqsYear=j.year||"";
+  if(currentView==="deadlines") renderDeadlines(); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="today") renderToday(); }catch(e){ state.reqs=null; } }
+function reqsFor(info){ return (info&&state.reqs&&state.reqs[info.id])||null; }
+function tasksFor(info){
+  const q=reqsFor(info); if(!q) return DL_TASKS.map(k=>({key:k,label:k}));
+  const t=[];
+  if(q.essay!=="not_considered") t.push({key:"Essays",label:q.essay==="required"?"Essay":"Essay (optional)"});
+  if(q.recs!=="not_considered") t.push({key:"Recommendations",label:q.recs==="required"?"Recommendations":"Recs (optional)"});
+  t.push({key:"Transcript",label:"Transcript"});
+  if(q.tests!=="not_considered") t.push({key:"Test scores",label:q.tests==="required"?"Test scores":"Scores (optional)"});
+  if(typeof q.fee==="number" && q.fee>0) t.push({key:"Application fee",label:`Fee $${q.fee}`});
+  t.push({key:"FAFSA / CSS",label:"FAFSA / CSS"}); t.push({key:"Submitted",label:"Submitted"});
+  return t; }
+function reqWord(v){ return v==="required"?"Required":v==="considered"?"Optional — considered if you send it":v==="not_considered"?"Not considered":"—"; }
+function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
+  const testW = q.tests==="required"?"Required":q.tests==="considered"?"Test-optional":q.tests==="not_considered"?"Test-blind (scores not considered)":"—";
+  const row=(k,v,cls)=>`<div class="rq-row"><span>${k}</span><b class="${cls||""}">${v}</b></div>`;
+  return `<div class="stand rq-box"><div class="stand-h">What they ask for</div>
+    ${row("SAT / ACT",testW,q.tests==="required"?"warn":"")}${row("Essay / personal statement",reqWord(q.essay),q.essay==="required"?"warn":"")}${row("Recommendations",reqWord(q.recs),q.recs==="required"?"warn":"")}${row("High school record",reqWord(q.record))}
+    ${row("Application fee",typeof q.fee==="number"?(q.fee===0?"None":"$"+q.fee+" <span class='muted'>(fee waivers often available)</span>"):"—")}
+    <div class="muted" style="font-size:11.5px;margin-top:6px">As the school reported to IPEDS for ${esc(state.reqsYear||"fall 2023")}. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.</div></div>`; }
 function dlKey(id){ return "dlcheck_"+id; }
 function getChecklist(id){ return lsGet(dlKey(id))||{}; }
 function setChecklist(id,o){ lsSet(dlKey(id),o); }
@@ -3861,7 +3886,7 @@ function renderDeadlines(){
   if(dlSel===null){ dlSel={}; rows.forEach(r=>{ if(r._d) dlSel[r.rec.school_id]=true; }); } // default: all dated selected
   const dated=rows.filter(r=>r._d);
   const upcoming=rows.filter(r=>r._n!=null && r._n>=0); const soonest=upcoming[0];
-  const totalTasks=rows.length*DL_TASKS.length, doneTasks=rows.reduce((a,r)=>a+DL_TASKS.filter(t=>getChecklist(r.rec.school_id)[t]).length,0);
+  const totalTasks=rows.reduce((a,r)=>a+tasksFor(r.info).length,0), doneTasks=rows.reduce((a,r)=>{ const c=getChecklist(r.rec.school_id); return a+tasksFor(r.info).filter(t=>c[t.key]).length; },0);
   const selN=dated.filter(r=>dlSel[r.rec.school_id]).length;
   const header=`<div class="card"><div class="dl-summary"><b style="font-size:16px">${rows.length} application${rows.length>1?"s":""}</b>${soonest?`<span class="dl-due ${dueClass(soonest._n)}"><span class="dot"></span>Next: ${esc(soonest.rec.name)} ${esc(soonest._kind)} · ${dueLabel(soonest._n)}</span>`:`<span class="muted" style="font-size:13px">No dated deadlines yet — confirm on each school's site.</span>`}<span class="muted" style="font-size:12.5px;margin-left:auto">${doneTasks}/${totalTasks} to-dos done</span></div>
     ${dated.length?`<div class="dl-export">
@@ -3874,7 +3899,7 @@ function renderDeadlines(){
   out.innerHTML = header + `<div id="dl-remind"></div>` + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
-    const done=DL_TASKS.filter(t=>chk[t]).length; const pctDone=Math.round(100*done/DL_TASKS.length);
+    const TK=tasksFor(i); const done=TK.filter(t=>chk[t.key]).length; const pctDone=Math.round(100*done/TK.length);
     const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(r.rec.name,i&&i.state,"78%")}"`;
     const dls=deadlineList(i);
     const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? dls.map(x=>`${x.kind} ${_fmtD(x.date)}`) : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
@@ -3886,12 +3911,13 @@ function renderDeadlines(){
         <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
-        <div class="dl-pills" data-dlid="${esc(id)}">${DL_TASKS.map(t=>`<span class="dl-pill ${chk[t]?"done":""}" data-task="${esc(t)}">${chk[t]?"✓ ":""}${esc(t)}</span>`).join("")}</div>
+        <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""}" data-task="${esc(t.key)}" role="button" tabindex="0" aria-pressed="${!!chk[t.key]}">${chk[t.key]?"✓ ":""}${esc(t.label)}</span>`).join("")}</div>
       </div></div></div>`;
   }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
-    box.querySelectorAll("[data-task]").forEach(p=>p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); }); });
+    box.querySelectorAll("[data-task]").forEach(p=>{ p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); };
+      p.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); p.click(); } }; }); });
   out.querySelectorAll(".dl-chk").forEach(cb=>cb.onchange=()=>{ dlSel[cb.dataset.dlsel]=cb.checked; renderDeadlines(); });
   const all=$("dl-all"); if(all) all.onchange=()=>{ dated.forEach(r=>{ dlSel[r.rec.school_id]=all.checked; }); renderDeadlines(); };
   const g=$("dl-gcal"); if(g) g.onclick=()=>{ const ev=deadlineEvents(rows); if(!ev.length){ alert("Tick at least one school with a dated deadline."); return; }
@@ -4694,7 +4720,7 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
 function zoeWeekCtx(){ const today=new Date(); today.setHours(0,0,0,0); const up=[], gaps=[];
   for(const s of state.schools||[]){ const info=catInfo(s.school_id); if(!info) continue;
     for(const x of deadlineList(info)){ const d=daysUntil(x.date); if(d!=null&&d>=0&&d<=45) up.push({school:info.name, kind:x.kind, date:x.date.toISOString().slice(0,10), days:d}); }
-    const chk=getChecklist(s.school_id); const todo=DL_TASKS.filter(t=>!chk[t]); if(todo.length&&todo.length<DL_TASKS.length+1) gaps.push({school:info.name, todo}); }
+    const chk=getChecklist(s.school_id); const todo=tasksFor(info).filter(t=>!chk[t.key]).map(t=>t.label); if(todo.length) gaps.push({school:info.name, todo}); }
   up.sort((a,b)=>a.days-b.days); return { today:today.toISOString().slice(0,10), upcoming:up.slice(0,12), gaps:gaps.slice(0,12) }; }
 function familyRoleLabels(){ const m=state.members||[]; let p=0; const map={}; m.forEach(x=>{ map[x.user_id] = x.role==="student" ? "Student" : `Parent ${++p}`; }); return map; }
 function zoeHuddleCtx(ids){ const who=familyRoleLabels();
