@@ -511,6 +511,14 @@ a{color:var(--teal)}
 .mem-empty .mem-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
 .mem-steps>div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:12px;background:var(--paper);font-size:13px}.mem-steps span{color:var(--muted);font-size:12px}
 @media (max-width:560px){.mem-empty .mem-steps{grid-template-columns:1fr}}
+/* #49 sample family */
+.demo-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin:12px 0 4px;padding:14px 16px;border-radius:16px;border:1.5px solid color-mix(in srgb,var(--teal) 55%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--ink);font:inherit;cursor:pointer}
+.demo-cta>span:nth-child(2){display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.demo-cta b{font-size:15.5px}.demo-cta span span{font-size:12.5px;color:var(--muted)}
+.demo-cta-i{font-size:26px}.demo-cta-go{font-size:22px;color:var(--teal);font-weight:800}
+.demo-bar{position:sticky;top:0;z-index:30;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 14px;background:linear-gradient(90deg,var(--plum),color-mix(in srgb,var(--plum) 70%,var(--teal)));color:#fff;font-size:13.5px}
+.demo-bar .linklike{color:#fff;opacity:.85}
+.demo-toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;z-index:70;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:min(92vw,520px);box-shadow:0 8px 24px rgba(0,0,0,.25);transition:all .25s;pointer-events:none}
+.demo-toast.on{opacity:1;transform:translate(-50%,0)}
 .sample-card{margin:10px 0 14px}.sample-h{font-size:14px;margin-bottom:8px}
 .sample-video{width:100%;border-radius:12px;background:#0b1220;aspect-ratio:16/9;display:block}
 .sample-credits{font-size:11.5px;color:var(--muted);margin-top:6px}.sample-credits p{margin:6px 0 0;line-height:1.5}
@@ -931,6 +939,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   </nav>
 </header>
 <!-- Phone navigation (#40): 4 main tabs + More, at the bottom where thumbs reach. Desktop keeps the top nav. -->
+<div id="demo-bar" class="demo-bar hidden" role="status"><span>👀 You're exploring a <b>sample family</b> — nothing here is saved.</span><button class="small primary" id="demo-join">Create my free account</button><button class="linklike" id="demo-exit">Exit</button></div>
 <nav id="tabbar" class="tabbar hidden" aria-label="Main">
   <button class="tb" data-nav="today"><span class="tb-i">☀️</span><span class="tb-l">Today</span></button>
   <button class="tb" data-nav="board"><span class="tb-i">📋</span><span class="tb-l">Board</span></button>
@@ -967,9 +976,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <section id="v-auth" class="hidden">
     <h1>The college search, as a family.</h1>
     <p class="sub">A roommate-style match for colleges: grounded academic research + what you care about beyond class + cost. Everyone rates; nobody can touch anyone else's stars.</p>
-    <div class="card sample-card"><div class="sample-h"><b>📸 Memories:</b> every campus visit becomes a reel your family keeps. <span class="muted">Here's a 20-second sample.</span></div>
-      <video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
-      <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
+    <button id="demo-start" class="demo-cta" type="button"><span class="demo-cta-i">👀</span><span><b>Look around first — explore a sample family</b><span>No account needed. See their board, chances, trip, memories and Zoe.</span></span><span class="demo-cta-go">→</span></button>
     <div class="card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -997,6 +1004,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       <p id="auth-fine" class="muted" style="font-size:12px;margin-top:12px">Invite-only beta — creating an account needs an access code. By continuing you're OK with us storing your ratings and school list so your family can see them. For ages 13 and up.</p>
       <p id="trust-link-wrap" style="font-size:12px;margin-top:10px;text-align:center"><a href="#" id="trust-link"><b>Who's behind this, where the data comes from &amp; how we handle your info →</b></a></p>
     </div>
+    <div class="card sample-card"><div class="sample-h"><b>📸 Memories:</b> every campus visit becomes a reel your family keeps. <span class="muted">Here's a 20-second sample.</span></div>
+      <video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
+      <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
   </section>
 
   <!-- MEMORIES (#47: its own tab) -->
@@ -2784,6 +2794,7 @@ function renderPulseList(root, j, tab, expanded){
 }
 async function loadPulse(id){
   const root=document.querySelector(`[data-pulse-root="${CSS.escape(id)}"]`); if(!root) return;
+  if(DEMO){ const box=root.querySelector("[data-pulse-news]"); if(box) box.innerHTML=`<div class="pempty">Live news from this school appears here with your own free account.</div>`; const m=root.querySelector("[data-pulse-meter]"); if(m) m.innerHTML=`<span class="pdot"></span><span class="muted">Sample family</span>`; return; }
   const box=root.querySelector("[data-pulse-news]"), meter=root.querySelector("[data-pulse-meter]"), tabs=root.querySelector("[data-pulse-tabs]");
   const fail=msg=>{ box.innerHTML=`<div class="pempty">${msg}</div>`; meter.innerHTML=`<span class="pdot"></span><span class="muted">Pulse not connected yet</span>`; };
   try{
@@ -2823,6 +2834,7 @@ let pulseDigest={at:0,key:"",data:null,busy:false};
 const PULSE_WEEK=7*86400e3;
 function boardPulseIds(){ return state.schools.map(s=>s.school_id).filter(id=>/^[a-z0-9-]{2,80}$/i.test(id)).slice(0,30); }
 function pulseData(){ const ids=boardPulseIds(); if(!ids.length) return {ids,key:"",d:null};
+  if(DEMO) return {ids,key:"demo",d:{schools:{},none:[],demo:true}};
   const key=ids.slice().sort().join(",");
   const fresh=pulseDigest.data && pulseDigest.key===key && Date.now()-pulseDigest.at<10*60e3;
   if(!fresh && !pulseDigest.busy) fetchBoardPulse(ids,key);
@@ -2884,6 +2896,7 @@ function renderPulseTab(){
   const name=id=>{ const s=state.schools.find(x=>x.school_id===id); return s?s.name:id; };
   if(!d){ el.innerHTML = `<div class="pt-card"><div class="pmeter"><span class="pdot active"></span><span class="muted">Checking your ${ids.length} school${ids.length>1?"s":""}…</span></div><div class="pskel" style="width:92%"></div><div class="pskel" style="width:70%"></div><div class="pskel" style="width:84%"></div></div>`; wirePt(el); return; }
   const S=d.schools||{};
+  if(d.demo){ el.innerHTML=`<div class="pt-card"><b>Live campus news is for members.</b><p class="muted" style="margin:6px 0 10px;font-size:13px">With your own account, Pulse shows the newest stories, events and open houses from each school on your board — straight from the schools' own sites, 981 schools and counting.</p><button class="small primary" data-demo-join2>Create my free account</button></div>`; const j=el.querySelector("[data-demo-join2]"); if(j) j.onclick=()=>exitDemoTo("signup"); return; }
   const live=ids.filter(id=>S[id] && ((S[id].stories||S[id].top||[]).length || (S[id].visits||[]).length));
   const waiting=ids.filter(id=>!S[id] && !(d.none||[]).includes(id) && pulseDigest.busy);
   const notConnected=ids.filter(id=>(d.none||[]).includes(id));
@@ -2956,7 +2969,7 @@ function renderToday(){
   const stories=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.stories||v.top||[]).map(x=>({...x,school:id}))).filter(x=>x.date&&!hidden.has(x.link)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3):[];
   const visits=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.visits||[]).map(x=>({...x,school:id}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,2):[];
   const nm=id=>{ const s=(state.schools||[]).find(x=>x.school_id===id); return s?s.name:id; };
-  const pulseCard=`<div class="td-card td-wide"><div class="td-h">📰 New at your schools</div>${!board.length?`<div class="td-mid">Add schools and their news shows up here.</div>`:!d?`<div class="pskel" style="width:90%"></div><div class="pskel" style="width:70%"></div>`:stories.length?stories.map(x=>`<div class="td-story"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(nm(x.school))}</button><a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="muted">${esc(_ago(x.date))}</span></div>`).join(""):`<div class="td-mid">Nothing new right now.</div>`}
+  const pulseCard=`<div class="td-card td-wide"><div class="td-h">📰 New at your schools</div>${d&&d.demo?`<div class="td-mid">With your own account, this fills with live news, events and open houses from each school's own site.</div>`:!board.length?`<div class="td-mid">Add schools and their news shows up here.</div>`:!d?`<div class="pskel" style="width:90%"></div><div class="pskel" style="width:70%"></div>`:stories.length?stories.map(x=>`<div class="td-story"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(nm(x.school))}</button><a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="muted">${esc(_ago(x.date))}</span></div>`).join(""):`<div class="td-mid">Nothing new right now.</div>`}
     ${visits.length?`<div class="td-visits">${visits.map(x=>`<span>🎟 <b>${esc(nm(x.school))}</b> · ${esc(x.title)} · ${esc(new Date(x.date).toLocaleDateString("en-US",{month:"short",day:"numeric"}))}</span>`).join("")}</div>`:""}
     <button class="small" data-td-go="pulse">All news</button></div>`;
   // 5 Visits
@@ -4422,7 +4435,8 @@ const ZOE_WHY={ busy:"Zoe's AI is very busy right now (too many questions at onc
   upstream:"Zoe's AI service didn't answer just now. Tap <b>Try again</b> in a moment.",
   unconfigured:"Zoe's AI isn't switched on yet.", timeout:"That took too long — Zoe's AI may be slow right now. Tap <b>Try again</b>.", offline:"You seem to be offline — check your connection and try again." };
 async function zoeFetchOnce(v, opt){
-  opt=opt||{}; const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),opt.mode==="essay"?45000:30000);
+  opt=opt||{};
+  if(DEMO) return { reply:"In the sample family I can answer questions about the board, chances, deadlines and trips. To chat with me about anything — essays, your week, your family's huddle — <b>create your free account</b> (it takes a minute)." }; const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),opt.mode==="essay"?45000:30000);
   try{
     const body={ q:v, ctx:{...zoeCtx(), ...(opt.ctx||{})}, mode:opt.mode||"chat", history:zoeHist.slice(-8) };
     const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify(body), signal:ctrl.signal });
@@ -4668,6 +4682,72 @@ function renderCoach(containerId){
 document.addEventListener("visibilitychange", async () => { if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); } });
 function esc(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
+/* ========== SAMPLE FAMILY (#49): try everything before signing up ==========
+   A fictional family, the Riveras, with real schools from the catalog. Runs on an in-memory stand-in for the
+   database: you can click, rate, add and plan, but nothing is sent anywhere or kept after you leave.
+   Live campus news and Zoe's AI answers need an account, and say so. */
+let DEMO=false, _demoToastShown=false;
+const DEMO_UID="demo-maya", DEMO_FID="demo-family";
+function demoData(){
+  const now=Date.now(), iso=d=>new Date(now-d*864e5).toISOString();
+  const M=[{user_id:DEMO_UID,family_id:DEMO_FID,role:"student",display_name:"Maya",created_at:iso(30)},{user_id:"demo-mom",family_id:DEMO_FID,role:"parent",display_name:"Mom",created_at:iso(30)},{user_id:"demo-dad",family_id:DEMO_FID,role:"parent",display_name:"Dad",created_at:iso(29)}];
+  const S=["sc-198516","college-of-charleston","sc-167358","university-of-vermont","sc-217882","umass-amherst","sc-199847","sc-164988"];
+  const sch=S.map((id,i)=>{ const c=catInfo(id)||{name:id}; return {family_id:DEMO_FID,school_id:id,name:c.name,city:c.city||"",state:c.state||"",url:"",is_custom:false,position:i,added_by:DEMO_UID,created_at:iso(20-i)}; });
+  const R=(id,uid,r,n)=>({family_id:DEMO_FID,school_id:id,user_id:uid,rating:r,note:n});
+  const rat=[R("sc-198516",DEMO_UID,5,"Felt like home — the oak trees!"),R("sc-198516","demo-mom",5,"Great advising, safe, gorgeous"),R("sc-198516","demo-dad",4,"Pricey, but the aid looked decent"),
+    R("college-of-charleston",DEMO_UID,5,"Downtown is amazing"),R("college-of-charleston","demo-mom",3,"Worried about the heat and hurricanes"),R("college-of-charleston","demo-dad",4,""),
+    R("sc-167358",DEMO_UID,4,"Co-op program is a big deal"),R("sc-167358","demo-dad",3,"Very urban, hard to get in"),
+    R("university-of-vermont",DEMO_UID,3,"Cold… but the town is cute"),R("university-of-vermont","demo-mom",4,"Loved Burlington"),
+    R("sc-217882",DEMO_UID,4,"School spirit is unreal"),R("sc-217882","demo-dad",5,"Best value on the list")];
+  const prof={user_id:DEMO_UID,family_id:DEMO_FID,gpa:"3.6",sat:"1290",act:"",major:"Marketing",home_state:"MA",notes:"Medium-sized school, warm weather, big school spirit, near a city",
+    rigor:{honors:4,ap:5,dual:0},hs:{name:"",apOffered:16,honorsOffered:10},
+    activities:[{name:"Soccer (JV/Varsity) — Captain",category:"Athletics: JV/Varsity",sport:"Soccer",position:"Captain",tier:3,hrs:"12",weeks:"30",grades:["9","10","11","12"],yrs:"4",timing:"During school year"},
+      {name:"Work (Paid) — Employee",category:"Work (Paid)",position:"Employee",org:"Ice cream shop",tier:4,hrs:"10",weeks:"20",grades:["11","12"],yrs:"2",timing:"During school break"},
+      {name:"Student Govt./Politics — Treasurer",category:"Student Govt./Politics",position:"Treasurer",tier:3,hrs:"3",weeks:"36",grades:["11","12"],yrs:"2"}]};
+  const photos=["sc-198516","college-of-charleston","sc-217882"].map((id,i)=>{ const c=catInfo(id); return c&&c.photo?{id:"demo-ph-"+i,family_id:DEMO_FID,school_id:id,user_id:DEMO_UID,url:c.photo.url,caption:["Our tour stop by the oaks","Randolph Hall at golden hour","Cooper Library pond"][i]+" (sample photo)",created_at:iso(9-i*2)}:null; }).filter(Boolean);
+  return { members:M, families:[{id:DEMO_FID,name:"The Rivera family (sample)",plan:"familyplus",invite_code:"sample",created_by:DEMO_UID,created_at:iso(30)}],
+    family_schools:sch, ratings:rat, profiles:[prof], preferences:[], photos, binder_chats:[], reminder_prefs:[], reel_submissions:[] };
+}
+function demoClient(){
+  const DB=demoData();
+  const note=()=>{ if(_demoToastShown) return; _demoToastShown=true; demoToast("This is a sample family — changes last until you leave. Create your free account to keep your own."); };
+  function qb(table){ let op="select", payload=null; const f=[]; const b={
+      select(){return b;}, order(){return b;}, limit(){return b;}, range(){return b;}, neq(){return b;}, is(){return b;}, match(){return b;},
+      eq(k,v){ f.push(r=>r[k]===v); return b; }, in(k,v){ f.push(r=>(v||[]).includes(r[k])); return b; },
+      insert(p){op="insert";payload=p;return b;}, update(p){op="update";payload=p;return b;}, upsert(p){op="upsert";payload=p;return b;}, delete(){op="delete";return b;},
+      single(){b._one=true;return b;}, maybeSingle(){b._one=true;return b;},
+      then(res,rej){ let data=null; const T=DB[table]||(DB[table]=[]);
+        if(op==="select"){ data=T.filter(r=>f.every(fn=>fn(r))); if(b._one) data=data[0]||null; }
+        else { note();
+          if(op==="insert"||op==="upsert"){ const arr=(Array.isArray(payload)?payload:[payload]).map(x=>({id:"demo-"+Math.random().toString(36).slice(2,8),created_at:new Date().toISOString(),...x}));
+            arr.forEach(r=>{ const i= op==="upsert" ? T.findIndex(x=>(r.user_id&&x.user_id===r.user_id&&(!r.school_id||x.school_id===r.school_id))) : -1; if(i>=0) T[i]={...T[i],...r}; else T.push(r); }); data=arr; }
+          else if(op==="update") T.filter(r=>f.every(fn=>fn(r))).forEach(r=>Object.assign(r,payload));
+          else if(op==="delete") DB[table]=T.filter(r=>!f.every(fn=>fn(r))); }
+        return Promise.resolve({data,error:null}).then(res,rej); } }; return b; }
+  const session={access_token:null,user:{id:DEMO_UID,email:"sample@zoescolleges.com"}};
+  return { from:qb, rpc(n){ return Promise.resolve({data: n==="my_referral_count"?0:null, error:null}); },
+    storage:{ from(){ return { upload(){ return Promise.resolve({data:null,error:{message:"bucket not found"}}); }, createSignedUrls(){ return Promise.resolve({data:[],error:null}); }, remove(){ return Promise.resolve({data:null,error:null}); }, getPublicUrl(){ return {data:{publicUrl:""}}; } }; } },
+    auth:{ getSession(){ return Promise.resolve({data:{session}}); }, signOut(){ exitDemo(); return Promise.resolve({}); }, onAuthStateChange(){ return {data:{subscription:{unsubscribe(){}}}}; } } };
+}
+function demoToast(t){ let el=$("demo-toast"); if(!el){ el=document.createElement("div"); el.id="demo-toast"; el.className="demo-toast"; el.setAttribute("role","status"); document.body.appendChild(el); }
+  el.textContent=t; el.classList.add("on"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),4200); }
+let _realSb=null;
+async function startDemo(){
+  if(!state.catalog||!state.catalog.length){ try{ await loadCatalog(); }catch(e){} }
+  DEMO=true; _realSb=sb; sb=demoClient(); _demoToastShown=false;
+  try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
+  BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false };
+  state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
+  document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family";
+  state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}
+  await loadFamily();
+}
+function exitDemo(){ DEMO=false; try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){} location.href=location.pathname; }
+{ const d=$("demo-start"); if(d) d.onclick=()=>startDemo();
+  const j=$("demo-join"); if(j) j.onclick=()=>{ exitDemoTo("signup"); };
+  const x=$("demo-exit"); if(x) x.onclick=()=>exitDemo(); }
+function exitDemoTo(mode){ try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){} location.href=location.pathname+"?signup=1"; }
+
 /* ========== BOOT ========== */
 let lastUserId = undefined;
 let _shareMode=false;
@@ -4700,7 +4780,7 @@ async function bootApp() {
   const acc = _p.get("ac"); if (acc) { try { localStorage.setItem("zc_ac", acc.trim()); } catch(e){} }
   // if arriving from a reset email, show the new-password screen instead of the board
   if (/type=recovery/.test(location.hash||"")) recovering = true;
-  setAuthMode(recovering ? "recovery" : "signin");
+  setAuthMode(recovering ? "recovery" : (_p.get("signup") ? "signup" : "signin"));
   if (!recovering) applyJoinContext();   // invitee from a deep link → signup + prefilled code
   const { data } = await sb.auth.getSession();
   if (recovering) { show("v-auth"); return; }
