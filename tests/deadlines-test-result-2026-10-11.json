@@ -1,0 +1,70 @@
+{
+ "old": {
+  "schoolsWithARealDate": 46,
+  "parsedToADate": 44,
+  "Clemson University": {
+   "early": "early action Oct 15, 2026",
+   "regular": "Jan 1, 2027",
+   "countdownTo": "Fri Jan 01 2027"
+  },
+  "University of Arizona": {
+   "early": "early action Nov 1, 2026",
+   "regular": "Check site",
+   "countdownTo": null
+  },
+  "University of Utah": {
+   "early": "early action Dec 1, 2026",
+   "regular": "Check site",
+   "countdownTo": null
+  },
+  "The University of Alabama": {
+   "early": "priority Dec 4, 2026",
+   "regular": "Check school site",
+   "countdownTo": "Fri Dec 04 2026"
+  },
+  "screenNextLine": "Next: Clemson University · in 82 days",
+  "screenClemsonRow": "7 applications Next: Clemson University · in 82 days 0/42 to-dos done 📅 Add deadlines to your calendar ALL (3) Google Apple Outlook",
+  "calendarEvents": [
+   "College of Charleston — application deadline @ Fri Jan 15 2027",
+   "University of Vermont — application deadline @ Fri Jan 15 2027",
+   "Clemson University — application deadline @ Fri Jan 01 2027"
+  ],
+  "pageErrors": []
+ },
+ "new": {
+  "schoolsWithARealDate": 46,
+  "parsedToADate": 46,
+  "Clemson University": {
+   "early": "early action Oct 15, 2026",
+   "regular": "Jan 1, 2027",
+   "countdownTo": "Thu Oct 15 2026"
+  },
+  "University of Arizona": {
+   "early": "early action Nov 1, 2026",
+   "regular": "Check site",
+   "countdownTo": "Sun Nov 01 2026"
+  },
+  "University of Utah": {
+   "early": "early action Dec 1, 2026",
+   "regular": "Check site",
+   "countdownTo": "Tue Dec 01 2026"
+  },
+  "The University of Alabama": {
+   "early": "priority Dec 4, 2026",
+   "regular": "Check school site",
+   "countdownTo": "Fri Dec 04 2026"
+  },
+  "screenNextLine": "Next: Clemson University Early Action · in 4 days",
+  "screenClemsonRow": "7 applications Next: Clemson University Early Action · in 4 days 0/42 to-dos done 📅 Add deadlines to your calendar ALL (4) Google Apple Out",
+  "calendarEvents": [
+   "College of Charleston — Early deadline @ Mon Nov 02 2026",
+   "College of Charleston — Regular deadline @ Fri Jan 15 2027",
+   "University of Vermont — Early deadline @ Sun Nov 01 2026",
+   "University of Vermont — Regular deadline @ Fri Jan 15 2027",
+   "Clemson University — Early Action deadline @ Thu Oct 15 2026",
+   "Clemson University — Regular deadline @ Fri Jan 01 2027",
+   "University of Arizona — Early Action deadline @ Sun Nov 01 2026"
+  ],
+  "pageErrors": []
+ }
+}
