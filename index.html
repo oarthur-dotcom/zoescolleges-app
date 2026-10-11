@@ -2411,15 +2411,19 @@ function initVisit(id, info){
 }
 /* ========== ROAD TRIP BUILDER ========== */
 let tripBuilt = null, tripMap = null;
-function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem("zc_trip")||"[]")); }catch(e){ return new Set(); } }
-function saveTrip(s){ try{ localStorage.setItem("zc_trip", JSON.stringify([...s])); }catch(e){} }
+// Fix #12: trips are stored per signed-in account (was one list shared by everyone on the device).
+function _tripKey(base){ const uid=(state.me&&state.me.user_id)||"anon"; const k=base+"_"+uid;
+  try{ if(localStorage.getItem(k)==null && localStorage.getItem(base)!=null && uid!=="anon"){ localStorage.setItem(k, localStorage.getItem(base)); localStorage.removeItem(base); } }catch(e){}
+  return k; }
+function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem(_tripKey("zc_trip"))||"[]")); }catch(e){ return new Set(); } }
+function saveTrip(s){ try{ localStorage.setItem(_tripKey("zc_trip"), JSON.stringify([...s])); }catch(e){} }
 function inTrip(id){ return getTrip().has(id); }
 function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
 function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } }
-function tripRec(id){ const rec=state.schools.find(s=>s.school_id===id); const info=catInfo(id); return (rec&&info)?{rec,info}:null; }
+function tripRec(id){ const info=catInfo(id); if(!info) return null; const rec=state.schools.find(s=>s.school_id===id) || {school_id:id, name:info.name, city:info.city, state:info.state}; return {rec,info}; }
 /* ---- per-stop "things to do" plan (local) ---- */
-function tripPlan(){ try{ return JSON.parse(localStorage.getItem("zc_tripplan")||"{}"); }catch(e){ return {}; } }
-function saveTripPlan(p){ try{ localStorage.setItem("zc_tripplan",JSON.stringify(p)); }catch(e){} }
+function tripPlan(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_tripplan"))||"{}"); }catch(e){ return {}; } }
+function saveTripPlan(p){ try{ localStorage.setItem(_tripKey("zc_tripplan"),JSON.stringify(p)); }catch(e){} }
 function stopPlan(id){ return tripPlan()[id]||[]; }
 function addStopPlan(id,item){ const p=tripPlan(); const list=p[id]||[]; if(!list.includes(item)){ list.push(item); } p[id]=list; saveTripPlan(p); }
 function rmStopPlan(id,idx){ const p=tripPlan(); if(p[id]){ p[id].splice(idx,1); if(!p[id].length) delete p[id]; saveTripPlan(p); } }
@@ -2474,10 +2478,32 @@ async function overpassNear(lat,lon){
   }
   throw new Error("overpass unavailable");
 }
-function tripDays(){ if(!tripBuilt) return []; const {ordered,days}=tripBuilt; const perDay=Math.ceil(ordered.length/days); const plan=[];
-  for(let d=0; d*perDay<ordered.length; d++){ plan.push(ordered.slice(d*perDay,(d+1)*perDay)); } return plan; }
-const TRIP_SLOTS=[9,12,15,18]; // start hours for campus visits within a day
-function stopTime(dayIdx, slotIdx){ const d=new Date(tripBuilt.start); d.setDate(d.getDate()+dayIdx); const h=TRIP_SLOTS[slotIdx]!=null?TRIP_SLOTS[slotIdx]:(9+slotIdx*2.5); d.setHours(Math.floor(h), (h%1)*60, 0, 0); return d; }
+// Fix #12: a schedule that respects real drive times (was: N stops split evenly, 9am/12pm/3pm,
+// so MIT 9am then College of Charleston noon, 973 miles apart). Times in minutes after midnight.
+const TRIP_VISIT=120, TRIP_DAY_START=9*60, TRIP_LAST_VISIT=16*60, TRIP_DRIVE_START=8*60, TRIP_DRIVE_END=20*60, TRIP_MAX_DRIVE=9*60;
+function tripSchedule(){
+  const {ordered,legs}=tripBuilt; const days=[]; let day=0, t=TRIP_DAY_START;
+  const ensure=d=>{ while(days.length<=d) days.push({stops:[], times:[], travelMin:0}); };
+  ordered.forEach((s,i)=>{
+    if(i>0){
+      const drive=(legs[i-1]&&legs[i-1].min)||0; const leave=t;
+      if(leave+drive<=TRIP_LAST_VISIT){ t=leave+drive; }
+      else {                                   // can't arrive in time for a visit today: drive, sleep, continue
+        let rem=drive-Math.max(0,TRIP_DRIVE_END-leave);
+        if(rem<0) rem=0;
+        day++; ensure(day);
+        while(rem>TRIP_MAX_DRIVE){ days[day].travelMin=TRIP_MAX_DRIVE; rem-=TRIP_MAX_DRIVE; day++; ensure(day); }   // full travel days
+        t=Math.max(TRIP_DAY_START, TRIP_DRIVE_START+rem);
+        if(t>TRIP_LAST_VISIT){ days[day].travelMin=rem; day++; ensure(day); t=TRIP_DAY_START; }
+      }
+    }
+    ensure(day); days[day].stops.push(s); days[day].times.push(t); t+=TRIP_VISIT;
+  });
+  return days;
+}
+function tripDays(){ if(!tripBuilt) return []; return tripSchedule().map(d=>{ const a=d.stops.slice(); a.times=d.times; a.travelMin=d.travelMin; return a; }); }
+function stopTime(dayIdx, slotIdx){ const plan=tripDays(); const m=(plan[dayIdx]&&plan[dayIdx].times[slotIdx]) ?? (TRIP_DAY_START+slotIdx*180);
+  const d=new Date(tripBuilt.start); d.setDate(d.getDate()+dayIdx); d.setHours(Math.floor(m/60), Math.round(m%60), 0, 0); return d; }
 function icsStamp(d){ return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+"00Z"; }
 function tripEvents(){ const plan=tripDays(); const evs=[]; plan.forEach((day,di)=>day.forEach((s,si)=>{ const start=stopTime(di,si); const end=new Date(start.getTime()+2*3600*1000); evs.push({s,start,end}); })); return evs; }
 function gcalLink(e){ const dates=icsStamp(e.start)+"/"+icsStamp(e.end); const loc=[e.s.city,e.s.state].filter(Boolean).join(", ");
@@ -2525,13 +2551,15 @@ function renderTripOut(){
         </div></div>`;
     }).join("");
     const dayDate=new Date(tripBuilt.start); dayDate.setDate(dayDate.getDate()+di);
-    return `<div class="trip-day"><h4>Day ${di+1} — ${dayDate.toLocaleDateString([], {weekday:"long",month:"short",day:"numeric"})}</h4>${rows}</div>`;
+    const travel = !day.length ? `<div class="muted" style="font-size:13px;margin:6px 0 10px">🚗 Travel day — about ${hrs(day.travelMin||0)} of driving. Break it up and stay overnight on the way.</div>` : "";
+    return `<div class="trip-day"><h4>Day ${di+1} — ${dayDate.toLocaleDateString([], {weekday:"long",month:"short",day:"numeric"})}</h4>${travel}${rows}</div>`;
   }).join("");
   out.innerHTML = `<div class="card">
     <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
       <div><b>${ordered.length}</b> campuses · <b>${Math.round(totMi)}</b> mi · ~<b>${hrs(totMin)}</b> driving${est?` <span class="muted" style="font-size:11px">(drive times estimated)</span>`:""}</div>
       <label style="margin:0;font-size:13px">Start <input type="date" id="trip-start" value="${tripBuilt.start.toISOString().slice(0,10)}" style="width:auto"></label>
     </div>
+    ${plan.length>tripBuilt.days?`<div class="msg" style="margin:8px 0">This route takes <b>${plan.length} days</b> at a comfortable pace (2-hour visits, real drive times, no visits after 4pm) — more than the ${tripBuilt.days} you picked. Remove a far-away campus to shorten it.</div>`:""}
     <div id="tripmap"></div>
     ${dayCards}
     <div class="trip-exports">
@@ -2584,7 +2612,7 @@ $("trip-build").onclick = async () => {
   if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;}
   out.innerHTML=`<div class="card muted">Planning your route…</div>`;
   const ordered=orderStops(stops); const legs= ordered.length>1 ? await osrmLegs(ordered) : [];
-  const days=Math.min(+$("trip-days").value||2, ordered.length);
+  const days=+$("trip-days").value||2;   // the family's preferred length; the schedule shows the real need
   tripBuilt={ordered,legs,days,start:nextSaturday()};
   renderTripOut();
 };
@@ -2600,6 +2628,7 @@ function syncCmpChips(){ document.querySelectorAll("[data-cmp]").forEach(b=>{ co
 function renderCompare(){
   updateCmpBadge();
   const cands=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  Object.keys(cmpSel).filter(id=>cmpSel[id] && !state.schools.some(s=>s.school_id===id)).forEach(id=>{ const info=catInfo(id); if(info) cands.push({rec:{school_id:id,name:info.name,city:info.city,state:info.state}, info}); });
   const pick=$("cmp-pick");
   if(!cands.length){ pick.innerHTML=`<p class="muted" style="font-size:13.5px">No schools on your board yet. Add a few from <b>Schools</b>, then compare.</p>`; $("cmp-out").innerHTML=""; return; }
   pick.innerHTML=cands.map(c=>{ const id=c.rec.school_id; const on=!!cmpSel[id];
@@ -2627,7 +2656,7 @@ function costCardHtml(){
 function buildCompare(){
   const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
   if(ids.length<2){ out.innerHTML=costCardHtml()+`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school) to compare them side by side.</div>`; return; }
-  const cols=ids.map(id=>({rec:state.schools.find(s=>s.school_id===id), info:catInfo(id)})).filter(c=>c.info&&c.rec);
+  const cols=ids.map(id=>{ const info=catInfo(id); return {rec:state.schools.find(s=>s.school_id===id) || (info&&{school_id:id,name:info.name,city:info.city,state:info.state}), info}; }).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
     ["My match %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],

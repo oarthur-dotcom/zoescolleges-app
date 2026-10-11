@@ -1,0 +1,73 @@
+{
+ "old": {
+  "setup": {
+   "onBoard": [
+    true,
+    true,
+    true,
+    true,
+    false
+   ]
+  },
+  "tripCountText": "4 campuses in this trip",
+  "schedule": {
+   "rows": [
+    "Day 1 9:00 AM University of Vermont",
+    "Day 1 12:00 PM Massachusetts Institute of Technology",
+    "Day 2 9:00 AM College of Charleston",
+    "Day 2 12:00 PM Clemson University"
+   ],
+   "impossibleLegs": [
+    "Massachusetts Institute of Technology: 60 min after previous visit but drive is 281 min",
+    "College of Charleston: 1140 min after previous visit but drive is 1278 min",
+    "Clemson University: 60 min after previous visit but drive is 330 min"
+   ],
+   "days": 2
+  },
+  "overPlanWarning": null,
+  "compare": [
+   "Massachusetts Institute of Technology"
+  ],
+  "perAccount": {
+   "thisAccount": 5,
+   "otherAccountSameDevice": 5,
+   "backToThisAccount": 5
+  },
+  "pageErrors": []
+ },
+ "new": {
+  "setup": {
+   "onBoard": [
+    true,
+    true,
+    true,
+    true,
+    false
+   ]
+  },
+  "tripCountText": "5 campuses in this trip",
+  "schedule": {
+   "rows": [
+    "Day 1 9:00 AM University of Vermont",
+    "Day 1 3:40 PM Boston College",
+    "Day 2 9:00 AM Massachusetts Institute of Technology",
+    "Day 3: travel day",
+    "Day 4 11:18 AM College of Charleston",
+    "Day 5 9:00 AM Clemson University"
+   ],
+   "impossibleLegs": [],
+   "days": 5
+  },
+  "overPlanWarning": "This route takes 5 days at a comfortable pace (2-hour visits, real drive times, no visits ",
+  "compare": [
+   "Boston College",
+   "Massachusetts Institute of Technology"
+  ],
+  "perAccount": {
+   "thisAccount": 5,
+   "otherAccountSameDevice": 0,
+   "backToThisAccount": 5
+  },
+  "pageErrors": []
+ }
+}
