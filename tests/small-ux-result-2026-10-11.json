@@ -1,0 +1,40 @@
+{
+ "old": {
+  "header": {
+   "logoLines": 2,
+   "signOutLines": 3
+  },
+  "limitMessageVisible": false,
+  "activeTabVisible": false,
+  "detailLabels": {
+   "school": "University of Arkansas-Fort Smith",
+   "shown": "SAT RANGE (25–75%) 1050 avg"
+  },
+  "reviewLinks": [
+   "Niche ↗ -> https://www.niche.com/?q=University%20of%20Arkansas-Fort%20Smith",
+   "College Confidential ↗ -> https://www.collegeconfidential.com/search?q=University%20of%20Arkansa"
+  ],
+  "copyLink": "https://zoescolleges.com/",
+  "onboardPrioritiesDone": true,
+  "pageErrors": []
+ },
+ "new": {
+  "header": {
+   "logoLines": 1,
+   "signOutLines": 2
+  },
+  "limitMessageVisible": true,
+  "activeTabVisible": true,
+  "detailLabels": {
+   "school": "University of Arkansas-Fort Smith",
+   "shown": "SAT AVERAGE 1050"
+  },
+  "reviewLinks": [
+   "Niche ↗ -> https://www.google.com/search?q=University%20of%20Arkansas-Fort%20Smit",
+   "College Confidential ↗ -> https://www.google.com/search?q=University%20of%20Arkansas-Fort%20Smit"
+  ],
+  "copyLink": "https://zoescolleges.com/?join=abc123def456&ac=ZOE2027",
+  "onboardPrioritiesDone": false,
+  "pageErrors": []
+ }
+}
