@@ -1864,7 +1864,7 @@ function studentAnchor(){
 }
 function anchorNoteHtml(){
   const a=studentAnchor();
-  if(a.anchored) return `<div class="anchor-note ok">Chances are based on <b>${esc(a.name)}</b>'s academic profile — the whole family sees the same odds.</div>`;
+  if(a.anchored) return `<div class="anchor-note ok">Chances are based on <b>${esc(a.name)}</b>'s academic profile — the whole family sees the same odds.${a.isMe&&isParentish(a.name)?` <button class="linklike" data-setparent>Not the student? Switch me to parent</button>`:(a.isMe?` <button class="linklike" data-setparent style="font-size:11px">Not you? Switch me to parent</button>`:"")}</div>`;
   const stu=(state.members||[]).find(m=>m.role==="student");
   if(stu) return `<div class="anchor-note warn">⚠ <b>${esc(stu.display_name||"The student")}</b> hasn't filled in a profile yet, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile for now — different family members can see different odds.</div>`;
   return `<div class="anchor-note warn">⚠ No student is set, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile — different family members can see different odds. <button class="linklike" data-setstudent>Use this profile as the student's ▸</button></div>`;
@@ -3924,6 +3924,13 @@ document.addEventListener("click", e => {
   const pan=b.parentElement.querySelector(".why-panel"); if(!pan) return;
   const nowHidden=pan.classList.toggle("hidden");
   b.innerHTML=b.innerHTML.replace(/[▾▴]/, nowHidden?"▾":"▴");
+});
+// #44: a parent who was marked as the student by mistake ("Dad" showing as the student) can switch back.
+function isParentish(n){ return /^(dad|mom|mum|father|mother|papa|mama|parent|grand(ma|pa|mother|father)|step ?(mom|dad))$/i.test(String(n||"").trim()); }
+document.addEventListener("click", async e => {
+  const b=e.target.closest("[data-setparent]"); if(!b) return;
+  if(!confirm("Switch your account to parent? Chances will then follow the student's profile once they've filled it in.")) return;
+  try{ await fixRole("parent"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // "Use this profile as the student's" — anchors chances so the whole family matches
 document.addEventListener("click", async e => {
