@@ -532,7 +532,7 @@ a{color:var(--teal)}
 .rep-grid .v{font-weight:600}
 .rep-visit{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-size:13px}
 @media print{
-  .no-print,#appnav,#zoe-fab,.fab,header.app{display:none!important}
+  .no-print,#appnav,#tabbar,#tb-sheet,#zoe-fab,.fab,header.app{display:none!important}
   body{background:#fff;color:#000}
   .rep-school{border-color:#ccc}
   #v-report{display:block!important}
@@ -661,6 +661,29 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 #schools.as-tiles .school .top .blend{order:1;margin-left:auto}
 #schools.as-tiles .school .top .brk{display:block;order:2;flex-basis:100%;height:0}
 #schools.as-tiles .school .top .openlink{order:3}
+/* #40 phone tab bar */
+.tabbar{display:none}
+.tb-sheet{display:none}
+.nav-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--warn);margin-left:5px;vertical-align:2px}
+@media (max-width:640px){
+  #appnav{display:none!important}
+  .tabbar:not(.hidden){display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+  .tb{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:var(--muted);font-family:var(--disp);font-size:11px;font-weight:600;padding:6px 0 4px;border-radius:12px;cursor:pointer;min-height:52px}
+  .tb .tb-i{font-size:20px;line-height:1.1;filter:grayscale(.6);opacity:.8}
+  .tb.active{color:var(--teal)}
+  .tb.active .tb-i{filter:none;opacity:1}
+  .tb-badge{position:absolute;top:3px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--teal);color:#fff;font-size:10.5px;font-weight:800;line-height:17px;text-align:center}
+  .tb-badge.dot{min-width:9px;width:9px;height:9px;padding:0;background:var(--warn);top:6px;left:calc(50% + 8px)}
+  .tb-sheet:not(.hidden){display:flex;align-items:flex-end;position:fixed;inset:0;z-index:19;background:rgba(10,16,30,.35)}
+  .tb-sheet-in{width:100%;background:var(--surface);border-radius:20px 20px 0 0;padding:10px 10px calc(76px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+  .tbs{display:grid;grid-template-columns:30px 1fr;grid-template-rows:auto auto;column-gap:8px;width:100%;text-align:left;background:none;border:none;border-radius:12px;padding:11px 10px;color:var(--ink);font:inherit;font-size:18px;cursor:pointer;min-height:52px}
+  .tbs b{font-size:15px;align-self:end}.tbs span{grid-column:2;font-size:12px;color:var(--muted)}
+  .tbs.active{background:color-mix(in srgb,var(--teal) 10%,var(--surface))}
+  body.has-tabbar .wrap{padding-bottom:200px}
+  body.has-tabbar .fab{bottom:calc(74px + env(safe-area-inset-bottom))}
+  body.has-tabbar #zoe-fab{bottom:calc(132px + env(safe-area-inset-bottom));font-size:0;gap:0;width:52px;height:52px;padding:0;justify-content:center;border-radius:50%}
+  body.has-tabbar #zoe-fab .zoe-ava,body.has-tabbar #zoe-fab-ava svg{width:30px;height:30px}
+}
 @media (max-width:640px){
   .school .top{flex-wrap:wrap;align-items:flex-start}
   .school .top>div:first-of-type{flex:1 1 150px}
@@ -810,6 +833,23 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="profile">My Profile</button>
   </nav>
 </header>
+<!-- Phone navigation (#40): 4 main tabs + More, at the bottom where thumbs reach. Desktop keeps the top nav. -->
+<nav id="tabbar" class="tabbar hidden" aria-label="Main">
+  <button class="tb" data-nav="board"><span class="tb-i">🏠</span><span class="tb-l">Board</span></button>
+  <button class="tb" data-nav="explore"><span class="tb-i">🔎</span><span class="tb-l">Schools</span></button>
+  <button class="tb" data-nav="pulse"><span class="tb-i">📰</span><span class="tb-l">Pulse</span><span class="tb-badge hidden" data-tb-badge="pulse"></span></button>
+  <button class="tb" data-nav="deadlines"><span class="tb-i">⏰</span><span class="tb-l">Deadlines</span><span class="tb-badge dot hidden" data-tb-badge="deadlines"></span></button>
+  <button class="tb" data-tb-more aria-haspopup="true" aria-expanded="false"><span class="tb-i">☰</span><span class="tb-l">More</span><span class="tb-badge dot hidden" data-tb-badge="more"></span></button>
+</nav>
+<div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
+  <div class="tb-sheet-in">
+    <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
+    <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
+    <button class="tbs" data-nav="trip">🚗 <b>Trips</b><span data-tbs-sub="trip">Plan campus visits</span></button>
+    <button class="tbs" data-nav="zoe">💬 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
+    <button class="tbs" data-nav="profile">👤 <b>My Profile</b><span>Grades, scores, activities</span></button>
+  </div>
+</div>
 
 <div class="wrap">
 
@@ -1329,7 +1369,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 </dialog>
 
 <!-- ZOE HELPER -->
-<button id="zoe-fab" class="hidden"><span id="zoe-fab-ava"></span> Ask Zoe</button>
+<button id="zoe-fab" class="hidden" aria-label="Ask Zoe" title="Ask Zoe"><span id="zoe-fab-ava"></span> Ask Zoe</button>
 <div id="zoe-panel" class="hidden">
   <div class="zhead"><span id="zoe-head-ava"></span><b>Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-gear" class="small ghost" title="Make Zoe yours" style="margin-left:auto;padding:2px 8px">⚙</button><button id="zoe-close" class="small ghost" style="padding:2px 8px">✕</button></div>
   <div id="zoe-settings" class="hidden"></div>
@@ -1390,11 +1430,14 @@ function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  $("tabbar").classList.toggle("hidden", !APP_VIEWS.includes(view)); document.body.classList.toggle("has-tabbar", APP_VIEWS.includes(view)); closeTbSheet();
   $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view) || view==="v-zoe");
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
 function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
+  const main=["board","explore","pulse","deadlines"]; document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : !main.includes(tab); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  document.querySelectorAll("#tb-sheet .tbs").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
   const a=document.querySelector("#appnav .navbtn.active"); if(a&&a.scrollIntoView){ try{ a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} } }
 function goto(view){
   currentView = view;
@@ -1964,6 +2007,7 @@ function renderBoard(){
   applyBoardView();
   bindStars($("schools")); wireOpen($("schools")); wireRanks(); renderGuidance(withMeta); renderBalance(withMeta);
   try{ renderBoardPulse(); }catch(e){}
+  try{ updateDlNav(); }catch(e){}
 }
 /* list-balance grade (CK-style: ~2–4 Likely, 3–5 Target, 2–6 Reach) */
 function listBalance(meta){
@@ -2553,7 +2597,7 @@ function renderBoardPulse(){   // name kept: renderBoard() calls it. Dots + nav 
   }
 }
 function updatePulseNav(d){ const b=document.querySelector('#appnav .navbtn[data-nav="pulse"]'); if(!b) return;
-  const n=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; b.textContent = n? `📰 Pulse · ${n}` : "📰 Pulse"; }
+  const n=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; b.textContent = n? `📰 Pulse · ${n}` : "📰 Pulse"; setTbBadge("pulse", n>9?"9+":String(n), n>0); }
 async function fetchBoardPulse(ids,key,retry){
   pulseDigest.busy=true;
   try{
@@ -2801,7 +2845,7 @@ function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem(_tripKey
 function saveTrip(s){ try{ localStorage.setItem(_tripKey("zc_trip"), JSON.stringify([...s])); }catch(e){} }
 function inTrip(id){ return getTrip().has(id); }
 function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
-function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } }
+function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } const t=document.querySelector('[data-tbs-sub="trip"]'); if(t){ const n=getTrip().size; t.textContent = n? `${n} school${n>1?"s":""} on your trip` : "Plan campus visits"; } }
 function tripRec(id){ const info=catInfo(id); if(!info) return null; const rec=state.schools.find(s=>s.school_id===id) || {school_id:id, name:info.name, city:info.city, state:info.state}; return {rec,info}; }
 /* ---- per-stop "things to do" plan (local) ---- */
 function tripPlan(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_tripplan"))||"{}"); }catch(e){ return {}; } }
@@ -3003,7 +3047,7 @@ const CMP_MAX=4;
 function cmpCount(){ return Object.values(cmpSel).filter(Boolean).length; }
 function inCmp(id){ return !!cmpSel[id]; }
 function toggleCmp(id){ if(!cmpSel[id] && cmpCount()>=CMP_MAX) return {ok:false,on:false}; if(cmpSel[id]){ delete cmpSel[id]; } else { cmpSel[id]=true; } updateCmpBadge(); return {ok:true,on:!!cmpSel[id]}; }
-function updateCmpBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="compare"]'); if(b){ const n=cmpCount(); b.textContent = n? ("Compare · "+n) : "Compare"; } }
+function updateCmpBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="compare"]'); if(b){ const n=cmpCount(); b.textContent = n? ("Compare · "+n) : "Compare"; } const t=document.querySelector('[data-tbs-sub="compare"]'); if(t){ const n=cmpCount(); t.textContent = n? `${n} school${n>1?"s":""} picked` : "Side by side"; } }
 function syncCmpChips(){ document.querySelectorAll("[data-cmp]").forEach(b=>{ const on=inCmp(b.dataset.cmp); b.classList.toggle("on",on); b.textContent = b.dataset.long ? (on?"✓ In compare":"⇄ Add to compare") : (on?"✓ Compare":"⇄ Compare"); }); }
 function renderCompare(){
   updateCmpBadge();
@@ -3737,6 +3781,17 @@ async function savePrefs(w){
 
 /* nav wiring */
 document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => goto(b.dataset.nav));
+document.querySelectorAll("#tabbar .tb[data-nav], #tb-sheet .tbs").forEach(b => b.onclick = () => { closeTbSheet(); goto(b.dataset.nav); });
+function closeTbSheet(){ const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); const m=document.querySelector("[data-tb-more]"); if(m) m.setAttribute("aria-expanded","false"); }
+{ const m=document.querySelector("[data-tb-more]"); if(m) m.onclick=()=>{ const sh=$("tb-sheet"); const open=sh.classList.contains("hidden"); sh.classList.toggle("hidden",!open); m.setAttribute("aria-expanded",String(open)); };
+  const sh=$("tb-sheet"); if(sh) sh.addEventListener("click",e=>{ if(e.target===sh) closeTbSheet(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeTbSheet(); }); }
+/* Nav badges (#40): Pulse new-this-week count; a dot on Deadlines when one is 14 days out or less. */
+function setTbBadge(k,text,on){ const el=document.querySelector(`[data-tb-badge="${k}"]`); if(!el) return; el.classList.toggle("hidden",!on); if(!el.classList.contains("dot")) el.textContent=text||""; }
+function updateDlNav(){ let soon=0; try{ const today=new Date(); today.setHours(0,0,0,0);
+    for(const s of state.schools||[]){ const n=nextDeadline(catInfo(s.school_id)||null); if(!n) continue; const d=daysUntil(n.date); if(d!=null && d>=0 && d<=14) soon++; } }catch(e){}
+  const b=document.querySelector('#appnav .navbtn[data-nav="deadlines"]'); if(b){ b.innerHTML = soon? `Deadlines <span class="nav-dot" title="${soon} deadline${soon>1?"s":""} in the next 14 days"></span>` : "Deadlines"; }
+  setTbBadge("deadlines","",soon>0); }
 $("logo-home").onclick = () => { if (state.family) goto("board"); };
 $("detail-back").onclick = () => goto(detailFrom);
 $("exsearch").oninput = e => renderExList(e.target.value);
@@ -4131,7 +4186,7 @@ async function createShareLink(){
 }
 async function renderPublicShare(token){
   _shareMode=true;
-  document.querySelectorAll("header.app, #appnav, #zoe-fab, #zoe-panel, #signout").forEach(el=>el&&el.classList.add("hidden"));
+  document.querySelectorAll("header.app, #appnav, #tabbar, #zoe-fab, #zoe-panel, #signout").forEach(el=>el&&el.classList.add("hidden"));
   document.querySelectorAll(".wrap > section").forEach(s=>s.classList.add("hidden"));
   const sec=$("v-share"); if(sec) sec.classList.remove("hidden");
   const body=$("share-body"); if(!body) return;

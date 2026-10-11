@@ -41,13 +41,13 @@ async function run(vp, label, dark) {
   await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 });
   await page.waitForTimeout(1800);
   const out = {};
-  out.navTabs = await page.evaluate(() => [...document.querySelectorAll('#appnav .navbtn')].map(b => b.textContent));
+  out.navTabs = await page.evaluate(() => [...document.querySelectorAll('#appnav .navbtn')].map(b => b.textContent.trim()));
   out.boardHasPulseBox = await page.evaluate(() => !!document.querySelector('#v-board .bpulse, #board-pulse'));
   out.cardBadges = await page.evaluate(() => [...document.querySelectorAll('#schools .pulse-new')].map(x => x.closest('[data-pulse-open]').dataset.pulseOpen + ':' + x.textContent));
   out.digestAsksForEvents = digestUrls.every(s => /events=1/.test(s)) && digestUrls.length >= 1;
   await page.screenshot({ path: `${SHOTS}${label}-board.png` });
   // Pulse tab
-  await page.click('#appnav .navbtn[data-nav="pulse"]'); await page.waitForTimeout(700);
+  await page.click(vp.width <= 640 ? '#tabbar [data-nav="pulse"]' : '#appnav .navbtn[data-nav="pulse"]'); await page.waitForTimeout(700);
   out.tabText = await page.evaluate(() => document.getElementById('pt-out').innerText.replace(/\s+/g, ' ').slice(0, 1400));
   out.feedOrder = await page.evaluate(() => [...document.querySelectorAll('.pt-feed .bp-t')].map(a => a.textContent.slice(0, 50)));
   out.visits = await page.evaluate(() => [...document.querySelectorAll('#pt-out .pt-visit')].map(x => x.innerText.replace(/\s+/g, ' ').slice(0, 120)));
