@@ -668,6 +668,16 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 }
 /* Fix #10 */
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
+
+/* Campus Pulse */
+#pulse{scroll-margin-top:140px}
+.pulse-block{margin:10px 0}
+.pulse-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+.pulse-item{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.35}
+.pulse-item:hover .pi-t{color:var(--teal)}
+.pi-d{color:var(--muted);font-size:12px;white-space:nowrap;flex:0 0 auto}
+.pulse-links{display:flex;flex-wrap:wrap;gap:8px}
+.pulse-links a{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;text-decoration:none;color:var(--ink);background:var(--surface)}
 </style>
 </head>
 <body>
@@ -2269,12 +2279,11 @@ function cardLinks(info, rec){
   const nm=rec.name+(rec.state?(" "+rec.state):""); const q=encodeURIComponent(nm);
   const hasCoords=typeof info.lat==="number"&&typeof info.lon==="number";
   const maps=hasCoords?`https://www.google.com/maps/search/?api=1&query=${info.lat},${info.lon}`:`https://www.google.com/maps/search/?api=1&query=${q}`;
-  const rev=`https://www.google.com/search?q=${encodeURIComponent(rec.name)}+reviews+site:niche.com/colleges`;
   return `<div class="card-links">`+
     `<a href="https://www.google.com/search?q=${q}+virtual+campus+tour" target="_blank" rel="noopener" title="Virtual tour">▶ Tour</a>`+
     `<a href="${maps}" target="_blank" rel="noopener" title="Map & directions">📍 Map</a>`+
     (info.link?`<a href="${esc(info.link)}" target="_blank" rel="noopener" title="Official site">🎓 Site</a>`:"")+
-    `<a href="${rev}" target="_blank" rel="noopener" title="Student voice & reviews">💬 Reviews</a>`+
+    `<a href="#" data-pulse-open="${esc(rec.school_id||info.id)}" title="Campus Pulse: latest news and student voices">📰 Pulse</a>`+
   `</div>`;
 }
 /* "See the campus": legal/ethical link-outs — official tour, map, site. */
@@ -2293,21 +2302,41 @@ function toursSection(info, rec){
     <p class="muted" style="font-size:11px">Tours are hosted by the schools or partners (YouVisit, Appily, CampusReel). We link out — we don't copy their content.</p>`;
 }
 /* Student voice: link-out only (their reviews, their ToS — we never copy). */
-const REVIEW_SITES=[
-  {label:"Niche",               u:q=>`https://www.google.com/search?q=${q}+site:niche.com/colleges`},
-  {label:"Reddit",              u:q=>`https://www.reddit.com/search/?q=${q}`},
-  {label:"RateMyProfessors",    u:q=>`https://www.ratemyprofessors.com/search/schools?q=${q}`},
-  {label:"College Confidential",u:q=>`https://www.google.com/search?q=${q}+site:collegeconfidential.com`},
-  {label:"Unigo",               u:q=>`https://www.google.com/search?q=${q}+site:unigo.com`},
-  {label:"Princeton Review",    u:q=>`https://www.google.com/search?q=${q}+site:princetonreview.com`},
+/* ===== Campus Pulse (Oct 11): what's happening at this school right now, plus where students talk.
+   Replaces the old "Student voice & reviews" link list. ===== */
+const STUDENT_VOICES=[
+  {icon:"🗨️", label:"Newest Reddit posts",        u:q=>`https://www.reddit.com/search/?q=%22${q}%22&sort=new`},
+  {icon:"▶️", label:"“Day in the life” videos",     u:q=>`https://www.youtube.com/results?search_query=${q}+day+in+the+life+${new Date().getFullYear()}`},
+  {icon:"🎵", label:"Students on TikTok",           u:q=>`https://www.tiktok.com/search?q=${q}`},
+  {icon:"🎓", label:"Professors (RateMyProfessors)",u:q=>`https://www.ratemyprofessors.com/search/schools?q=${q}`},
+  {icon:"🗞️", label:"Student newspaper",            u:q=>`https://www.google.com/search?q=${q}+student+newspaper`},
 ];
-function reviewsSection(rec){
-  const q=encodeURIComponent(rec.name);
-  return `<h2 style="margin-top:14px">Student voice &amp; reviews</h2>
-    <div class="facts">${REVIEW_SITES.map(s=>`<span><a href="${s.u(q)}" target="_blank" rel="noopener">${esc(s.label)} ↗</a></span>`).join("")}</div>
-    <p class="muted" style="font-size:11px">Opens each site's own page for this school. The reviews are theirs — we link out, we don't copy them.</p>`;
+function _ago(iso){ if(!iso) return ""; const d=Math.round((Date.now()-Date.parse(iso))/86400000); if(isNaN(d)) return ""; if(d<=0) return "today"; if(d===1) return "yesterday"; if(d<30) return d+" days ago"; const m=Math.round(d/30); return m<12?(m+" month"+(m>1?"s":"")+" ago"):"over a year ago"; }
+function pulseSection(rec){
+  const q=encodeURIComponent(rec.name); const id=rec.school_id||rec.id;
+  const rs=(state.ratings||[]).filter(r=>r.school_id===id && r.rating); const b=blended(id);
+  const fam = rs.length ? `Your family: <b>${b.toFixed(1)}★</b> from ${rs.length} rating${rs.length>1?"s":""}.` : `Nobody in your family has rated it yet.`;
+  return `<section id="pulse" class="pulse"><h2 style="margin-top:14px">📰 Campus Pulse</h2>
+    <p class="muted" style="font-size:12.5px;margin:2px 0 10px">What's happening at ${esc(rec.name)} right now, and where students are talking.</p>
+    <div class="pulse-block"><div class="pulse-h">Latest from campus</div><div class="pulse-news" data-pulse-news="${esc(id)}"><div class="muted" style="font-size:13px">Loading the latest news…</div></div></div>
+    <div class="pulse-block"><div class="pulse-h">Hear from students</div><div class="pulse-links">${STUDENT_VOICES.map(v=>`<a href="${v.u(q)}" target="_blank" rel="noopener">${v.icon} ${esc(v.label)} ↗</a>`).join("")}</div></div>
+    <div class="pulse-block"><div class="pulse-h">Your family's take</div><div style="font-size:13px">${fam} <span class="muted">Reviews from families who visited are coming to Zoe's Colleges.</span></div></div>
+    <p class="muted" style="font-size:11px;margin-top:8px">Headlines come from the school's own news feed and link to the school's site. Student links open each site's newest posts — we link out, we don't copy them.</p></section>`;
+}
+async function loadPulse(id){
+  const box=document.querySelector(`[data-pulse-news="${CSS.escape(id)}"]`); if(!box) return;
+  const fail=msg=>{ box.innerHTML=`<div class="muted" style="font-size:13px">${msg}</div>`; };
+  try{
+    const r=await fetch(`/.netlify/functions/campus-pulse?id=${encodeURIComponent(id)}`,{headers:await aiHeaders()});
+    const j=await r.json().catch(()=>({}));
+    if(!j.items || !j.items.length) return fail(j.reason==="no-feed" ? "We haven't connected this school's news feed yet — try the student links below." : "Couldn't reach the school's news right now — try again later.");
+    box.innerHTML=j.items.map(it=>`<a class="pulse-item" href="${esc(it.link)}" target="_blank" rel="noopener"><span class="pi-t">${esc(it.title)}</span><span class="pi-d">${esc(_ago(it.date))}</span></a>`).join("")
+      + (j.source?`<div class="muted" style="font-size:11px;margin-top:4px">From ${esc(j.source)}</div>`:"");
+  }catch(e){ fail("Couldn't reach the school's news right now — try again later."); }
 }
 /* ========== SCHOOL DETAIL ========== */
+document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-pulse-open]"); if(!a) return; e.preventDefault();
+  openDetail(a.dataset.pulseOpen, currentView==="detail"?detailFrom:currentView); setTimeout(()=>{ const el=document.getElementById("pulse"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },120); });
 function renderDetail(id){
   const info = catInfo(id);
   const onBoard = state.schools.find(s=>s.school_id===id);
@@ -2368,9 +2397,10 @@ function renderDetail(id){
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
-    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${reviewsSection(rec)}${rateBlock}
+    ${facts}${museSection(info)}${info?toursSection(info,rec):link}${pulseSection(rec)}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
+  loadPulse(id);
   const addBtn = $("detail-body").querySelector("[data-detailadd]");
   if (addBtn) addBtn.onclick = async () => { await addFromCatalog(id); renderDetail(id); };
   const rmBtn = $("detail-body").querySelector("[data-detailremove]");

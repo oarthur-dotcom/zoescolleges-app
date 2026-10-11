@@ -1,0 +1,22 @@
+{
+ "cardButton": "📰 Pulse",
+ "openedDetail": true,
+ "pulseInView": true,
+ "headlines": [
+  "CofC breaks ground on new science center 2 days ago",
+  "Homecoming weekend: what to know 6 days ago",
+  "Cougars sailing team wins regatta 1 month ago"
+ ],
+ "studentLinks": [
+  "🗨️ Newest Reddit posts ↗",
+  "▶️ “Day in the life” videos ↗",
+  "🎵 Students on TikTok ↗",
+  "🎓 Professors (RateMyProfessors) ↗",
+  "🗞️ Student newspaper ↗"
+ ],
+ "loginTokenSent": "Bearer fake",
+ "nicheAnywhere": false,
+ "noFeedMessage": "We haven't connected this school's news feed yet — try the student links below.",
+ "overflowX": false,
+ "pageErrors": []
+}
