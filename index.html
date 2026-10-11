@@ -868,6 +868,23 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
+/* #52 costs */
+.cost-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.cost-sum>div{display:flex;flex-direction:column;gap:1px;padding:10px;border-radius:12px;background:var(--paper);min-width:0}.cost-sum b{font-size:18px}.cost-sum span:last-child{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.cost-sum .muted{font-size:11px}
+.cost-tbl{display:grid;gap:0;margin-top:6px}
+.cost-tr{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.4fr 1fr;gap:8px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:13.5px}
+.cost-th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.cost-offer{color:var(--teal)}
+@media (max-width:640px){.cost-th{display:none}.cost-tr{grid-template-columns:1fr 1fr;row-gap:4px}.cost-tr .cost-nm{grid-column:1/-1}.cost-tr [data-l]::before{content:attr(data-l);display:block;font-size:10.5px;color:var(--muted);font-family:var(--mono);text-transform:uppercase}.cost-sum{grid-template-columns:1fr 1fr}.cost-sum>div:last-child{grid-column:1/-1}}
+.offer-card{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.offer-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
+.offer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.offer-grid>div{display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:10px;background:var(--paper)}.offer-grid span{font-size:11.5px;color:var(--muted)}.offer-grid b{font-size:16px}
+.offer-grid b.good{color:var(--good,#1a8f5a)}.offer-grid b.warn{color:var(--warn)}
+.offer-note{font-size:12.5px;margin:8px 0;color:var(--warn)}
+.offer-form{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px;background:var(--surface)}
+.of-row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}.of-row label{flex:1 1 160px;font-size:12.5px;color:var(--muted)}.of-row input{width:100%}
+.of-h{font-weight:700;font-size:13px;margin:10px 0 4px}
+.of-line{display:flex;gap:6px;align-items:center;margin:4px 0}.of-line .of-n{flex:2;min-width:0}.of-line .of-a{flex:1;min-width:0}
 /* #51 where you stand */
 .stand{margin:10px 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .stand.compact{display:flex;align-items:center;gap:8px;margin:6px 0 2px;padding:0;border:none;background:none}
@@ -952,6 +969,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="explore">Schools</button>
     <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
     <button class="navbtn" data-nav="compare">Compare</button>
+    <button class="navbtn" data-nav="cost">💰 Costs</button>
     <button class="navbtn" data-nav="trip">Trips</button>
     <button class="navbtn" data-nav="memories">📸 Memories</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
@@ -973,6 +991,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <div class="tb-sheet-in">
     <button class="tbs" data-nav="explore">🔎 <b>Schools</b><span>Search and explore all 3,180</span></button>
     <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
+    <button class="tbs" data-nav="cost">💰 <b>Costs</b><span>Real cost across your list, and aid offers</span></button>
     <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
     <button class="tbs" data-nav="trip">🚗 <b>Trips</b><span data-tbs-sub="trip">Plan campus visits</span></button>
     <button class="tbs" data-nav="memories">📸 <b>Memories</b><span>Visit photos, notes and reels</span></button>
@@ -1351,6 +1370,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="dl-out"></div>
   </section>
 
+  <!-- COSTS (#52): real cost across the list + aid offers -->
+  <section id="v-cost" class="hidden">
+    <h1>💰 Costs</h1>
+    <p class="sub">What each school on your list is likely to cost your family — and, once offers arrive, what they actually offer.</p>
+    <div id="cost-out"></div>
+  </section>
+
   <!-- TODAY (#48): what to do now, on one screen -->
   <section id="v-today" class="hidden">
     <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p></div>
@@ -1572,7 +1598,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-today","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1592,6 +1618,7 @@ function goto(view){
   try{ updateCmpBadge(); }catch(e){}
   if (view==="today"){ show("v-today"); setNavActive("today"); renderToday(); }
   else if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
+  else if (view==="cost"){ show("v-cost"); setNavActive("cost"); renderCost(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
@@ -1603,7 +1630,7 @@ function goto(view){
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
-function refreshCurrent(){ if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
+function refreshCurrent(){ if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.innerHTML = text; }
 function clearmsg(id){ $(id).className = "msg"; }
 
@@ -2999,6 +3026,85 @@ function installCardHtml(){
 if("serviceWorker" in navigator && (location.protocol==="https:" || location.hostname==="localhost") && !/[?&]nosw=1/.test(location.search)){
   window.addEventListener("load",()=>{ navigator.serviceWorker.register("/sw.js").catch(()=>{}); });
 }
+/* ===== Costs (#52) ===== */
+function offersGet(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_offers"))||"{}"); }catch(e){ return {}; } }
+function offersSet(o){ try{ localStorage.setItem(_tripKey("zc_offers"),JSON.stringify(o)); }catch(e){} }
+const sumAmt=a=>(a||[]).reduce((t,x)=>t+(+x.amount||0),0);
+function offerNet(o){ if(!o||!o.coa) return null; return Math.max(0,o.coa-sumAmt(o.grants)); }
+function renderCost(){
+  const el=$("cost-out"); if(!el) return;
+  const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)}));
+  if(!board.length){ el.innerHTML=`<div class="card muted">Add schools to your board to see what they'd cost.</div>`; return; }
+  const offers=offersGet(); const yb=myIncomeBand();
+  const rows=board.map(({s,info})=>{ const sc=(info&&info.scorecard)||{}; const y=info?yourNet(info):null; const typ=y?Math.max(0,y.v):(typeof sc.netPrice==="number"?sc.netPrice:null);
+    const o=offers[s.school_id]; const on=offerNet(o);
+    return {id:s.school_id, name:s.name, sticker:sc.costAvg, typ, yours:!!y, offer:o, offerNet:on, best:on!=null?on:typ, earn:sc.medianEarnings10yr, outOfState:y&&y.outOfState}; })
+    .sort((a,b)=>(a.best==null)-(b.best==null) || (a.best||0)-(b.best||0));
+  const known=rows.filter(r=>r.best!=null);
+  const opts=[["","Prefer not to say"],["0","Under $30k"],["1","$30k–48k"],["2","$48k–75k"],["3","$75k–110k"],["4","Over $110k"]].map(([v,t])=>`<option value="${v}" ${String(yb??"")===v?"selected":""}>${t}</option>`).join("");
+  const summary = known.length ? `<div class="cost-sum"><div><span class="muted">Lowest</span><b>${money(known[0].best)}</b><span>${esc(known[0].name)}</span></div><div><span class="muted">Highest</span><b>${money(known[known.length-1].best)}</b><span>${esc(known[known.length-1].name)}</span></div><div><span class="muted">4 years, lowest</span><b>~${money(known[0].best*4)}</b><span>before raises in cost</span></div></div>` : "";
+  const table=`<div class="cost-tbl" role="table" aria-label="Cost per school">
+    <div class="cost-tr cost-th" role="row"><span role="columnheader">School</span><span role="columnheader">Sticker / yr</span><span role="columnheader">${yb!==null&&state.incomePrices?`Typical for ${esc(INCOME_BANDS[yb])}`:"Typical after aid"}</span><span role="columnheader">Their offer</span><span role="columnheader">Earnings (10 yr)</span></div>
+    ${rows.map(r=>`<div class="cost-tr" role="row"><span class="cost-nm" role="cell"><b>${esc(r.name)}</b></span>
+      <span role="cell" data-l="Sticker / yr">${money(r.sticker)}</span>
+      <span role="cell" data-l="Typical after aid">${r.typ!=null?money(r.typ):"—"}${r.typ!=null&&!r.yours&&yb!==null?` <i class="muted">(avg)</i>`:""}${r.outOfState?` <i class="muted">(in-state)</i>`:""}</span>
+      <span role="cell" data-l="Their offer">${r.offer?`<b class="cost-offer">${money(r.offerNet)}</b>${sumAmt(r.offer.loans)?` <i class="muted">+ ${money(sumAmt(r.offer.loans))} loans</i>`:""}`:`<button class="linklike" data-offer-add="${esc(r.id)}">+ Add offer</button>`}</span>
+      <span role="cell" data-l="Earnings (10 yr)">${money(r.earn)}</span></div>`).join("")}</div>`;
+  const ocards=Object.entries(offers).filter(([id])=>board.some(b=>b.s.school_id===id)).map(([id,o])=>{ const net=offerNet(o), g=sumAmt(o.grants), l=sumAmt(o.loans);
+    return `<div class="offer-card"><div class="offer-h"><b>${esc(schoolName(id))}</b>${o.year?` <span class="muted">${esc(o.year)}</span>`:""}<span style="flex:1"></span><button class="linklike" data-offer-edit="${esc(id)}">Edit</button><button class="linklike" data-offer-del="${esc(id)}">Remove</button></div>
+      <div class="offer-grid"><div><span>Cost of attendance</span><b>${money(o.coa)}</b></div><div><span>Free money (grants & scholarships)</span><b class="good">${money(g)}</b></div><div><span>Your net cost / yr</span><b>${money(net)}</b></div><div><span>Loans offered</span><b class="${l?"warn":""}">${money(l)}</b></div>${o.workStudy?`<div><span>Work-study (you earn it)</span><b>${money(o.workStudy)}</b></div>`:""}<div><span>Net for 4 years</span><b>~${money(net*4)}</b></div></div>
+      ${l?`<div class="offer-note">⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.</div>`:""}
+      <button class="small" data-offer-zoe="${esc(id)}">💬 Ask Zoe to explain this offer</button></div>`; }).join("");
+  el.innerHTML=`<div class="card"><div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><label for="cost-income2" style="margin:0;font-size:13px">Family income:</label><select id="cost-income2" data-income-inline style="width:auto">${opts}</select><span class="muted" style="font-size:11.5px">Only your family sees this. It picks the typical price for families like yours.</span></div>
+      ${summary}${table}
+      <p class="muted" style="font-size:11px;margin:10px 0 0">"Typical after aid" is the federal College Scorecard net price for aided first-year students (public schools show the in-state price). Every family's real cost differs — use each school's net-price calculator, and compare real offers below once they arrive.</p></div>
+    <div class="card offers"><div class="pv-head"><h2 style="margin:0">📄 Aid offers</h2><button class="small primary" id="offer-upload">＋ Add an aid letter</button></div>
+      <p class="muted" style="font-size:12.5px;margin:6px 0 10px">Upload a photo or PDF of an award letter and Zoe reads the numbers for you to check — or type them in. Letters aren't kept: only the numbers you save, on this device.</p>
+      <input type="file" id="offer-file" accept="image/*,application/pdf" style="display:none"><div id="offer-form"></div>
+      ${ocards||`<div class="muted" style="font-size:13px">No offers yet. They usually arrive in March and April (earlier for early decision).</div>`}</div>`;
+  wireCost(el);
+}
+function wireCost(el){
+  const fi=$("offer-file");
+  $("offer-upload").onclick=()=>fi.click();
+  fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const box=$("offer-form");
+    if(f.size>4*1024*1024){ box.innerHTML=`<div class="msg err">That file is over 4MB — try a phone photo or a PDF export.</div>`; return; }
+    box.innerHTML=`<div class="msg">Reading <b>${esc(f.name)}</b>… this takes a few seconds.</div>`;
+    let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }catch(e){ box.innerHTML=`<div class="msg err">Couldn't read that file.</div>`; return; }
+    try{ const r=await fetch("/.netlify/functions/aid-letter-read",{method:"POST",headers:await aiHeaders(),body:JSON.stringify({file:String(dataUrl).split(",")[1]||"",mime:f.type})}); const j=await r.json().catch(()=>({}));
+      if(j.fields){ offerForm(matchSchool(j.fields.school), j.fields, true); return; }
+      box.innerHTML=`<div class="msg err">${j.notAidLetter?"That doesn't look like an aid offer.":j.capped?"We've hit today's limit for letter reading.":j.unconfigured?"Letter reading isn't switched on yet.":esc(j.error||"Couldn't read that one.")} <button class="linklike" data-offer-manual>Type the numbers in</button></div>`;
+      box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false);
+    }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
+  el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
+  el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
+  el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=()=>{ if(!confirm("Remove this offer from your list?")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
+  el.querySelectorAll("[data-offer-zoe]").forEach(b=>b.onclick=()=>{ const id=b.dataset.offerZoe, o=offersGet()[id]; if(!o) return;
+    const txt=`Explain this financial-aid offer from ${schoolName(id)} in plain English: cost of attendance ${money(o.coa)}; grants/scholarships ${(o.grants||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; loans ${(o.loans||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; work-study ${money(o.workStudy||0)}. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?`;
+    goto("zoe"); setTimeout(()=>ztabAsk(txt,{mode:"chat"},`💬 Explain ${schoolName(id)}'s aid offer`),150); });
+}
+function matchSchool(name){ if(!name) return ""; const n=_norm(name); const b=(state.schools||[]).find(s=>_norm(s.name)===n) || (state.schools||[]).find(s=>_norm(s.name).includes(n)||n.includes(_norm(s.name))); return b?b.school_id:""; }
+function offerForm(id, f, fromLetter){
+  const box=$("offer-form"); const board=state.schools||[];
+  const row=(kind,x)=>`<div class="of-line" data-line="${kind}"><input type="text" class="of-n" value="${esc(x&&x.name||"")}" placeholder="${kind==="grant"?"e.g. Merit scholarship":"e.g. Direct Unsubsidized Loan"}" maxlength="80"><input type="number" class="of-a" value="${x&&x.amount!=null?esc(x.amount):""}" placeholder="$ / yr" min="0" step="1"><button class="linklike of-x" type="button" aria-label="Remove line">✕</button></div>`;
+  box.innerHTML=`<div class="offer-form">${fromLetter?`<div class="msg ok" style="margin-bottom:8px">Here's what Zoe read${f.confidence&&f.confidence!=="high"?` <b>(${esc(f.confidence)} confidence — please check every number)</b>`:" — please check every number"}.${f.school?` Letter says: <b>${esc(f.school)}</b>.`:""}</div>`:""}
+    <label class="zm-lbl">School <select id="of-school"><option value="">Choose…</option>${board.map(s=>`<option value="${esc(s.school_id)}" ${s.school_id===id?"selected":""}>${esc(s.name)}</option>`).join("")}</select></label>
+    <div class="of-row"><label>Cost of attendance / yr<input type="number" id="of-coa" min="0" step="1" value="${f.costOfAttendance!=null?esc(f.costOfAttendance):""}" placeholder="e.g. 78000"></label><label>Year<input type="text" id="of-year" maxlength="20" value="${esc(f.academicYear||"")}" placeholder="2027–28"></label></div>
+    <div class="of-h">Free money (grants & scholarships)</div><div id="of-grants">${(f.grants&&f.grants.length?f.grants:[{}]).map(x=>row("grant",x)).join("")}</div><button class="linklike" data-of-add="grant" type="button">+ Add a grant</button>
+    <div class="of-h">Loans</div><div id="of-loans">${(f.loans&&f.loans.length?f.loans:[]).map(x=>row("loan",x)).join("")}</div><button class="linklike" data-of-add="loan" type="button">+ Add a loan</button>
+    <div class="of-row"><label>Work-study / yr<input type="number" id="of-ws" min="0" step="1" value="${f.workStudy!=null?esc(f.workStudy):""}"></label></div>
+    <div class="row" style="gap:8px;margin-top:10px;align-items:center"><button class="small primary" id="of-save">Save offer</button><button class="linklike" id="of-cancel">Cancel</button><span class="muted" id="of-msg" style="font-size:12.5px"></span></div></div>`;
+  const wire=()=>box.querySelectorAll(".of-x").forEach(x=>x.onclick=()=>x.closest(".of-line").remove()); wire();
+  box.querySelectorAll("[data-of-add]").forEach(b=>b.onclick=()=>{ const k=b.dataset.ofAdd; $(k==="grant"?"of-grants":"of-loans").insertAdjacentHTML("beforeend",row(k,{})); wire(); });
+  $("of-cancel").onclick=()=>{ box.innerHTML=""; };
+  $("of-save").onclick=()=>{ const sid=$("of-school").value, coa=Math.round(+$("of-coa").value||0), msg=$("of-msg");
+    if(!sid){ msg.textContent="Pick the school."; return; } if(!(coa>0&&coa<200000)){ msg.textContent="Enter the cost of attendance."; return; }
+    const lines=k=>[...box.querySelectorAll(`[data-line="${k}"]`)].map(l=>({name:l.querySelector(".of-n").value.trim().slice(0,80)||(k==="grant"?"Grant":"Loan"), amount:Math.round(+l.querySelector(".of-a").value||0)})).filter(x=>x.amount>0&&x.amount<200000);
+    const o=offersGet(); o[sid]={coa, grants:lines("grant"), loans:lines("loan"), workStudy:Math.round(+$("of-ws").value||0)||0, year:$("of-year").value.trim().slice(0,20), savedAt:new Date().toISOString()};
+    if(sumAmt(o[sid].grants)>coa){ msg.textContent="Grants are more than the cost — check the numbers."; return; }
+    offersSet(o); box.innerHTML=""; renderCost(); };
+  try{ box.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+}
 /* ===== Today (#48) ===== */
 function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
 function renderToday(){
@@ -3028,7 +3134,7 @@ function renderToday(){
   // 3 List balance
   const meta=board.map(x=>({ch:chanceFor(x.info)})); const bal=listBalance(meta);
   const balCard=`<div class="td-card"><div class="td-h">📋 Your list</div>${bal?`<div class="td-bal"><span class="bal-grade bal-${bal.grade}">${bal.grade}</span><div><div class="td-mid"><b>${bal.c.likely}</b> Likely · <b>${bal.c.target}</b> Target · <b>${bal.c.reach}</b> Reach</div><div class="muted" style="font-size:12.5px">${bal.tips.length?`For balance: ${bal.tips.slice(0,2).join(", ")}.`:"Nicely balanced."}</div></div></div>`:`<div class="td-mid">${board.length?"Add your grades in My Profile to see your chances.":"No schools yet."}</div>`}
-    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button></div></div>`;
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="cost">💰 Costs</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button></div></div>`;
   // 4 Pulse
   const {d}=pulseData(); const hidden=ptSet("hidden");
   const stories=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.stories||v.top||[]).map(x=>({...x,school:id}))).filter(x=>x.date&&!hidden.has(x.link)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3):[];
