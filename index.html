@@ -496,6 +496,30 @@ a{color:var(--teal)}
 .d-credit a{color:var(--muted)}
 /* memories */
 .mem-school{margin:14px 0}
+/* #47 Memories tab */
+.mem-hero{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}
+.mem-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mem-addbox{margin-bottom:12px}.mem-add-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mem-addbox input[type=text]{width:100%}
+.mem-count{font-size:12.5px;margin:0 0 8px 2px}
+.mem-visit{margin:0 0 12px}
+.mem-vh{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.mem-th{width:42px;height:42px;border-radius:10px;background-size:cover;background-position:center;flex:0 0 auto}
+.mem-vn{font-size:16px}
+.mem-takes{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:grid;gap:5px;font-size:13px}
+.mem-stars{color:var(--star,#e8ac45);letter-spacing:1px}
+.mem-empty .mem-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.mem-steps>div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:12px;background:var(--paper);font-size:13px}.mem-steps span{color:var(--muted);font-size:12px}
+@media (max-width:560px){.mem-empty .mem-steps{grid-template-columns:1fr}}
+.mem-sample-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;border-radius:12px;overflow:hidden}
+.mem-sample-strip span{aspect-ratio:3/4;background-size:cover;background-position:center}
+.mem-sharecard{margin-top:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 10%,var(--surface)),var(--surface))}
+.mem-share-h{font-size:15px}.mem-share-status{margin:0 0 10px;line-height:2}
+.mem-pick .mem-ph{cursor:pointer}.mem-pick input{position:absolute;top:6px;left:6px;width:20px;height:20px}
+.share-consent{display:grid;gap:6px;margin-top:10px;font-size:13px}.share-consent label{display:flex;gap:8px;align-items:flex-start}
+.share-consent input{margin-top:3px;flex:0 0 auto}
+#mem-share textarea{width:100%;margin-top:8px}
+.player .pcredit{font-size:11px;opacity:.75;margin-top:4px;text-shadow:0 1px 6px #000}
 .mem-school h3{font-size:15px;margin:0 0 6px}
 .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
 .mem-ph{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;border:2px solid transparent;background:var(--sunk)}
@@ -875,6 +899,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
     <button class="navbtn" data-nav="compare">Compare</button>
     <button class="navbtn" data-nav="trip">Trips</button>
+    <button class="navbtn" data-nav="memories">📸 Memories</button>
     <button class="navbtn" data-nav="deadlines">Deadlines</button>
     <button class="navbtn" data-nav="pulse">📰 Pulse</button>
     <button class="navbtn" data-nav="zoe">💬 Ask Zoe</button>
@@ -894,6 +919,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
     <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
     <button class="tbs" data-nav="trip">🚗 <b>Trips</b><span data-tbs-sub="trip">Plan campus visits</span></button>
+    <button class="tbs" data-nav="memories">📸 <b>Memories</b><span>Visit photos, notes and reels</span></button>
     <button class="tbs" data-nav="zoe">💬 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
     <button class="tbs" data-nav="profile">👤 <b>My Profile</b><span>Grades, scores, activities</span></button>
   </div>
@@ -945,21 +971,20 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
   </section>
 
-  <!-- MEMORIES -->
+  <!-- MEMORIES (#47: its own tab) -->
   <section id="v-memories" class="hidden">
-    <div class="row" style="justify-content:space-between;margin-bottom:6px">
-      <button id="mem-back" class="small ghost">← Back to board</button>
-      <button id="mem-play" class="small primary">▶ Play reel</button>
-    </div>
-    <h1 style="margin:.2rem 0">Memories</h1>
-    <p class="sub">Your visit photos, by school. Toggle which ones go in the reel, and ⭐ to feature a favorite first.</p>
-    <div class="card" style="background:linear-gradient(135deg,color-mix(in srgb,var(--plum) 14%,var(--surface)),var(--surface));border-color:var(--plum)">
-      <div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-        <div><b>✨ AI memory film</b><div class="muted" style="font-size:13px">A cinematic, music-scored film of your visits — <b>Family+</b> premium.</div></div>
-        <button id="mem-ai" class="small primary">Make AI film ✨</button>
+    <div class="mem-hero">
+      <div style="min-width:0;flex:1"><h1 style="margin:0">📸 Memories</h1>
+        <p class="sub" style="margin:4px 0 0">Every campus visit — your photos, what each of you thought, and a reel you can keep and share.</p></div>
+      <div class="mem-actions">
+        <button id="mem-add" class="small primary">＋ Add visit photos</button>
+        <button id="mem-play" class="small">▶ Play reel</button>
+        <button id="mem-ai" class="small">🎬 Make a video</button>
       </div>
     </div>
+    <div id="mem-addbox" class="card mem-addbox hidden"></div>
     <div id="mem-list"></div>
+    <div id="mem-share"></div>
   </section>
 
   <div class="player" id="player">
@@ -1222,8 +1247,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 
   <!-- TRIP BUILDER -->
   <section id="v-trip" class="hidden">
-    <button class="backbtn" id="trip-back">← Back to board</button>
-    <h1>Plan a road trip</h1>
+    <h1>🚗 Trips</h1>
     <p class="sub">Build a route across the campuses you want to see — drive times, nearby food &amp; stays, and a calendar you can import.</p>
     <div class="card">
       <div class="trip-head">
@@ -1481,9 +1505,9 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
-  for (const v of ["v-auth","v-trust","v-report","v-memories","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
+  for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("tabbar").classList.toggle("hidden", !APP_VIEWS.includes(view)); document.body.classList.toggle("has-tabbar", APP_VIEWS.includes(view)); closeTbSheet();
@@ -1503,6 +1527,7 @@ function goto(view){
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
+  else if (view==="memories"){ show("v-memories"); setNavActive("memories"); renderMemories(); }
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
   else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
@@ -2148,21 +2173,120 @@ $("report-print").onclick = () => window.print();
 function memPrefs(){ return lsGet("memprefs")||{}; }
 function setMemPref(pid, patch){ const m=memPrefs(); m[pid]=Object.assign({},m[pid],patch); lsSet("memprefs",m); }
 function schoolName(id){ const s=state.schools.find(x=>x.school_id===id); if(s) return s.name; const c=catInfo(id); return c?c.name:id; }
+/* #47 Memories: visits grouped by school (newest visit first), each with photos, the family's stars and notes,
+   and its own mini reel. Empty? A sample reel of real campuses shows how it works. */
+const SAMPLE_REEL=[["college-of-charleston","First look — Randolph Hall at golden hour"],["sc-234076","The Rotunda. Zoe: \"I could study here.\""],["sc-166683","The Dome at night, after the info session"],["sc-164924","Snow on the Dustbowl — Dad was freezing"],["sc-198419","Walking the East Campus path"],["sc-170976","Angell Hall: the tour guide was hilarious"]];
+function sampleReel(){ return SAMPLE_REEL.map(([id,cap])=>{ const c=catInfo(id); return c&&c.photo&&c.photo.url ? {url:c.photo.url, schoolName:c.name, caption:cap, credit:(c.photo.credit||"").replace(/ via Wikimedia Commons$/,"")+" via Wikimedia Commons", license:c.photo.license, id:"sample-"+id, school_id:id} : null; }).filter(Boolean); }
+function visitDate(list){ const t=list.map(p=>Date.parse(p.created_at||0)).filter(Boolean).sort((a,b)=>a-b)[0]; return t?new Date(t):null; }
 function renderMemories(){
   const photos=(state.photos||[]).slice();
   const el=$("mem-list");
-  if(!photos.length){ el.innerHTML=`<div class="card muted">No visit photos yet. Add campus photos on your visits (each school → <b>Plan your visit</b> / <b>Campus photos</b>) and they'll appear here for your reel.</div>`; return; }
+  const hasAny=photos.length>0;
+  $("mem-play").classList.toggle("hidden",!hasAny); $("mem-ai").classList.toggle("hidden",!hasAny);
+  if(!hasAny){
+    const sr=sampleReel();
+    el.innerHTML=`<div class="card mem-empty">
+      <div class="mem-steps"><div><b>1 · Visit</b><span>Plan it in Trips, then go.</span></div><div><b>2 · Snap</b><span>Add photos on the day — each one is filed under its school.</span></div><div><b>3 · Relive</b><span>Play the reel, or make a video to keep and share.</span></div></div>
+      ${sr.length?`<div class="mem-sample"><div class="mem-sample-strip">${sr.map(p=>`<span style="background-image:url('${esc(p.url)}')"></span>`).join("")}</div>
+        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" id="mem-sample-play">▶ Watch a sample reel</button><button class="small" id="mem-sample-video">🎬 Sample video</button>
+        <span class="muted" style="font-size:11.5px;align-self:center">Sample photos: Wikimedia Commons (credited in the reel).</span></div></div>`:""}
+      <button class="small primary" id="mem-first" style="margin-top:12px">＋ Add your first visit photos</button></div>`;
+    const sp=$("mem-sample-play"); if(sp) sp.onclick=()=>playReel(sr);
+    const sv=$("mem-sample-video"); if(sv) sv.onclick=()=>makeAiFilm(sr);
+    $("mem-first").onclick=()=>openMemAdd();
+    renderMemShare(false); return;
+  }
   const mp=memPrefs();
   const bySchool={}; photos.forEach(p=>{ (bySchool[p.school_id]=bySchool[p.school_id]||[]).push(p); });
-  el.innerHTML=Object.keys(bySchool).map(sid=>`<div class="mem-school"><h3>${esc(schoolName(sid))}</h3><div class="mem-grid">${
-    bySchool[sid].map(p=>{ const pr=mp[p.id]||{}; const off=pr.off?" off":"";
-      return `<div class="mem-ph${off}" data-ph="${esc(p.id)}"><img src="${esc(p.url||p.data)}" alt="">${p.caption?`<div class="mp-cap">${esc(p.caption)}</div>`:""}
-        <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first">★</button><button class="mp-btn inc" data-inc title="Include / skip">${pr.off?"＋":"✓"}</button></div></div>`;
-    }).join("")}</div></div>`).join("");
+  const order=Object.keys(bySchool).sort((a,b)=>(visitDate(bySchool[b])||0)-(visitDate(bySchool[a])||0));
+  const names=Object.fromEntries((state.members||[]).map(m=>[m.user_id,m.display_name||"Family"]));
+  el.innerHTML=`<div class="mem-count muted">${photos.length} photo${photos.length>1?"s":""} from ${order.length} campus${order.length>1?"es":""}</div>`+order.map(sid=>{
+    const list=bySchool[sid]; const info=catInfo(sid)||{}; const vd=visitDate(list); const u=photoUrlFor(info);
+    const takes=(state.ratings||[]).filter(r=>r.school_id===sid && (r.rating||r.note));
+    return `<div class="card mem-visit"><div class="mem-vh"><span class="mem-th" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(info.name||schoolName(sid),info.state,"78%")}`}"></span>
+      <div style="min-width:0;flex:1"><b class="mem-vn">${esc(schoolName(sid))}</b><div class="muted" style="font-size:12px">${vd?`Visited ${esc(vd.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}))} · `:""}${list.length} photo${list.length>1?"s":""}</div></div>
+      <button class="small" data-mem-reel="${esc(sid)}">▶ Reel</button><button class="small" data-mem-addto="${esc(sid)}">＋ Photo</button></div>
+      <div class="mem-grid">${list.map(p=>{ const pr=mp[p.id]||{}; const off=pr.off?" off":"";
+        return `<div class="mem-ph${off}" data-ph="${esc(p.id)}"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||"Visit photo")}" loading="lazy">${p.caption?`<div class="mp-cap">${esc(p.caption)}</div>`:""}
+          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button></div></div>`; }).join("")}</div>
+      ${takes.length?`<div class="mem-takes">${takes.map(r=>`<div class="mem-take"><b>${esc(names[r.user_id]||"Family")}</b> ${r.rating?`<span class="mem-stars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`:""}${r.note?` <span>“${esc(r.note)}”</span>`:""}</div>`).join("")}</div>`
+        :`<div class="mem-takes muted" style="font-size:12.5px">No one has rated ${esc(schoolName(sid))} yet — rate it on your board while it's fresh.</div>`}
+    </div>`; }).join("");
   el.querySelectorAll("[data-ph]").forEach(card=>{ const pid=card.dataset.ph;
     card.querySelector("[data-inc]").onclick=()=>{ const off=!(memPrefs()[pid]||{}).off; setMemPref(pid,{off}); renderMemories(); };
     card.querySelector("[data-feat]").onclick=()=>{ const feat=!(memPrefs()[pid]||{}).feat; setMemPref(pid,{feat}); renderMemories(); };
   });
+  el.querySelectorAll("[data-mem-reel]").forEach(b=>b.onclick=()=>playReel(reelPhotos().filter(p=>p.school_id===b.dataset.memReel)));
+  el.querySelectorAll("[data-mem-addto]").forEach(b=>b.onclick=()=>openMemAdd(b.dataset.memAddto));
+  renderMemShare(true);
+}
+/* Add visit photos: pick the school (trip + board first), pick one or many photos, optional caption. */
+function openMemAdd(pre){
+  const box=$("mem-addbox"); box.classList.remove("hidden");
+  const trip=[...getTrip()]; const ids=[...new Set([...trip, ...(state.schools||[]).map(s=>s.school_id)])].filter(id=>catInfo(id)||state.schools.some(s=>s.school_id===id));
+  box.innerHTML=`<div class="mem-add-h"><b>Add visit photos</b><button class="linklike" id="mem-add-x">Close</button></div>
+    ${ids.length?`<label class="zm-lbl">Which campus? <select id="mem-add-school">${ids.map(id=>`<option value="${esc(id)}" ${id===pre?"selected":""}>${esc(schoolName(id))}${trip.includes(id)?" · on your trip":""}</option>`).join("")}</select></label>
+    <input type="text" id="mem-add-cap" placeholder="Caption (optional) — e.g. Our tour guide, the dining hall" maxlength="120">
+    <input type="file" id="mem-add-file" accept="image/*" multiple style="display:none">
+    <div class="row" style="gap:8px;margin-top:8px;align-items:center"><button class="small primary" id="mem-add-pick">📷 Choose photos</button><span class="muted" id="mem-add-msg" style="font-size:12.5px">You can pick several at once.</span></div>`
+    :`<p class="muted" style="margin:6px 0 0">Add a school to your board or trip first.</p>`}`;
+  $("mem-add-x").onclick=()=>box.classList.add("hidden");
+  const pick=$("mem-add-pick"), fi=$("mem-add-file"), msg=$("mem-add-msg"); if(!pick) return;
+  pick.onclick=()=>fi.click();
+  fi.onchange=async()=>{ const files=[...fi.files].slice(0,20); if(!files.length) return; const sid=$("mem-add-school").value, cap=$("mem-add-cap").value.trim();
+    pick.disabled=true; let done=0, failed=0;
+    for(const f of files){ msg.textContent=`Adding ${done+1} of ${files.length}…`; try{ await addPhoto(sid,f,cap); done++; }catch(e){ failed++; } }
+    try{ await loadPhotos(); }catch(e){}
+    msg.textContent=`Added ${done} photo${done===1?"":"s"}${failed?` · ${failed} couldn't be added`:""}.`; pick.disabled=false; fi.value="";
+    renderMemories(); };
+  try{ box.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+}
+$("mem-add").onclick=()=>openMemAdd();
+/* #47 Share your reel with other families: opt-in, reviewed before anything is shown, withdraw anytime.
+   Needs migration 012; until then the card explains it's opening soon. */
+let _reelShare=null;   // null = not checked; false = table missing; array = this family's submissions
+async function loadReelShares(){ if(!state.family) return false; try{ const {data,error}=await sb.from("reel_submissions").select("id,status,created_at,photo_ids").eq("family_id",state.family.id).order("created_at",{ascending:false}); if(error) throw error; return data||[]; }catch(e){ return false; } }
+async function renderMemShare(hasPhotos){
+  const el=$("mem-share"); if(!el) return;
+  if(_reelShare===null) _reelShare=await loadReelShares();
+  const live=Array.isArray(_reelShare); const mine=live?_reelShare.filter(x=>x.status!=="withdrawn"):[];
+  const statusLine = mine.length ? `<div class="mem-share-status">${mine.map(x=>`<span class="ptag ${x.status==="approved"?"pt-new":""}">${x.status==="pending"?"⏳ In review":x.status==="approved"?"✓ Shared with families":"Not used"}</span> <span class="muted" style="font-size:12px">${(x.photo_ids||[]).length} photos · ${esc(new Date(x.created_at).toLocaleDateString("en-US",{month:"short",day:"numeric"}))}</span> ${x.status!=="rejected"?`<button class="linklike" data-reel-withdraw="${x.id}">Withdraw</button>`:""}`).join("<br>")}</div>` : "";
+  el.innerHTML=`<div class="card mem-sharecard"><div class="mem-share-h">🌎 <b>Help a family who hasn't visited yet</b></div>
+    <p class="muted" style="margin:4px 0 10px;font-size:13px">Share your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.</p>
+    ${statusLine}
+    ${!hasPhotos?`<div class="muted" style="font-size:12.5px">Add visit photos first — then you can share your reel.</div>`
+      : !live?`<div class="muted" style="font-size:12.5px">Sharing opens very soon.</div>`
+      : `<button class="small primary" id="mem-share-go">Share my reel…</button>`}</div>`;
+  el.querySelectorAll("[data-reel-withdraw]").forEach(b=>b.onclick=async()=>{ b.disabled=true; try{ const {error}=await sb.from("reel_submissions").update({status:"withdrawn"}).eq("id",+b.dataset.reelWithdraw); if(error) throw error; _reelShare=null; renderMemShare(hasPhotos); }catch(e){ b.disabled=false; b.textContent="Couldn't withdraw — try again"; } });
+  const go=$("mem-share-go"); if(go) go.onclick=()=>openReelShare();
+}
+function openReelShare(){
+  const el=$("mem-share"); const list=reelPhotos().filter(p=>p.id&&!String(p.id).startsWith("ls-")).slice(0,24);
+  const fam=(state.family&&state.family.name)||"Our family";
+  el.innerHTML=`<div class="card mem-sharecard"><div class="mem-share-h">🌎 <b>Share your reel</b></div>
+    ${list.length?`<p class="muted" style="font-size:12.5px;margin:4px 0 8px">Tick up to 12 photos (campus shots work best).</p>
+    <div class="mem-grid mem-pick">${list.map((p,i)=>`<label class="mem-ph sel"><img src="${esc(p.url||p.data)}" alt=""><input type="checkbox" data-share-ph="${esc(p.id)}" ${i<12?"checked":""}><span class="mp-cap">${esc(schoolName(p.school_id))}</span></label>`).join("")}</div>
+    <label class="zm-lbl" style="margin-top:10px">Show it as <select id="share-as"><option value="anonymous">A family (no name)</option><option value="family">${esc(fam)}</option></select></label>
+    <textarea id="share-note" maxlength="300" rows="2" placeholder="Optional note to other families — e.g. what surprised you"></textarea>
+    <div class="share-consent">
+      <label><input type="checkbox" data-consent="own"> We took these photos (or have permission to share them).</label>
+      <label><input type="checkbox" data-consent="people"> Anyone recognizable in them is OK with being shown.</label>
+      <label><input type="checkbox" data-consent="show"> Zoe's Colleges may show them to other families on the site and in its own posts; we can withdraw anytime.</label>
+    </div>
+    <div class="row" style="gap:8px;margin-top:10px;align-items:center"><button class="small primary" id="share-send">Send for review</button><button class="linklike" id="share-cancel">Cancel</button><span class="muted" id="share-msg" style="font-size:12.5px"></span></div>`
+    :`<p class="muted">Photos saved only on this device can't be shared yet — add them again once photo sync is on.</p><button class="linklike" id="share-cancel">Back</button>`}</div>`;
+  $("share-cancel").onclick=()=>renderMemShare(true);
+  const send=$("share-send"); if(!send) return;
+  send.onclick=async()=>{ const ids=[...el.querySelectorAll("[data-share-ph]:checked")].map(x=>x.dataset.sharePh); const msg=$("share-msg");
+    const consent=Object.fromEntries([...el.querySelectorAll("[data-consent]")].map(x=>[x.dataset.consent,x.checked]));
+    if(!ids.length){ msg.textContent="Pick at least one photo."; return; } if(ids.length>12){ msg.textContent="Pick 12 or fewer."; return; }
+    if(!Object.values(consent).every(Boolean)){ msg.textContent="Please tick all three boxes."; return; }
+    send.disabled=true; msg.textContent="Sending…";
+    const show=$("share-as").value; const schools=[...new Set(ids.map(id=>(state.photos.find(p=>p.id===id)||{}).school_id).filter(Boolean))];
+    try{ const {error}=await sb.from("reel_submissions").insert({ family_id:state.family.id, user_id:state.me.user_id, photo_ids:ids, school_ids:schools, show_as:show, family_label:show==="family"?fam:null,
+        note:($("share-note").value||"").trim().slice(0,300)||null, consent:{...consent, at:new Date().toISOString()}, status:"pending" });
+      if(error) throw error; _reelShare=null; await renderMemShare(true); const st=$("mem-share"); if(st) st.insertAdjacentHTML("afterbegin",`<div class="msg ok" style="margin-bottom:8px">Thank you! Your reel is in review — we'll show it to families looking at ${schools.length>1?"these schools":"this school"} once it's approved.</div>`); }
+    catch(e){ send.disabled=false; msg.textContent="Couldn't send — try again."; } };
 }
 function reelPhotos(){
   const mp=memPrefs();
@@ -2174,23 +2298,22 @@ function reelPhotos(){
 let _reel={list:[],i:0,timer:null,playing:false};
 function showSlide(){ const p=_reel.list[_reel.i]; if(!p) return;
   const img=$("player-img"); img.src=p.url||p.data;
-  $("player-cap").innerHTML=`<b>${esc(schoolName(p.school_id))}</b>${p.caption?" — "+esc(p.caption):""}`;
+  $("player-cap").innerHTML=`<b>${esc(p.schoolName||schoolName(p.school_id))}</b>${p.caption?" — "+esc(p.caption):""}${p.credit?`<div class="pcredit">Photo: ${esc(p.credit)}${p.license?` · ${esc(p.license)}`:""}</div>`:""}`;
   const pl=$("player"); pl.classList.remove("playing"); void pl.offsetWidth; pl.classList.add("playing");
 }
 function reelNext(step){ if(!_reel.list.length) return; _reel.i=(_reel.i+(step||1)+_reel.list.length)%_reel.list.length; showSlide(); }
 function reelStart(){ clearInterval(_reel.timer); _reel.playing=true; $("player-pause").textContent="⏸ Pause"; _reel.timer=setInterval(()=>reelNext(1),4500); }
 function reelStop(){ clearInterval(_reel.timer); _reel.playing=false; $("player-pause").textContent="▶ Play"; }
-function playReel(){ const list=reelPhotos(); if(!list.length){ alert("Add some visit photos (and keep at least one included) to play a reel."); return; }
+function playReel(arg){ const list=Array.isArray(arg)?arg:reelPhotos(); if(!list.length){ alert("Add some visit photos (and keep at least one included) to play a reel."); return; }
   _reel={list, i:0, timer:null, playing:false}; $("player").classList.add("open"); showSlide(); reelStart(); }
-$("btn-memories").onclick = () => { show("v-memories"); renderMemories(); };
-$("mem-back").onclick = () => show("v-board");
+$("btn-memories").onclick = () => goto("memories");
 $("mem-play").onclick = playReel;
 $("player-close").onclick = () => { reelStop(); $("player").classList.remove("open"); };
 $("player-prev").onclick = () => { reelStop(); reelNext(-1); };
 $("player-next").onclick = () => { reelStop(); reelNext(1); };
 $("player-pause").onclick = () => { _reel.playing? reelStop() : reelStart(); };
-async function makeAiFilm(){
-  const photos=reelPhotos();
+async function makeAiFilm(arg){
+  const sample=Array.isArray(arg); const photos=sample?arg:reelPhotos();
   if(photos.length<2){ alert("Add at least two visit photos first — open a school → Campus photos — then make your film."); return; }
   const ov=document.createElement("div"); ov.className="film-ov";
   ov.innerHTML=`<div class="film-stage"><canvas class="film-canvas" width="1280" height="720"></canvas></div>
@@ -2201,10 +2324,10 @@ async function makeAiFilm(){
   const note=t=>{ const n=ov.querySelector(".film-note"); if(n) n.textContent=t; };
   const load=src=>new Promise(res=>{ const im=new Image(); im.crossOrigin="anonymous"; im.onload=()=>res({im,clean:true}); im.onerror=()=>{ const im2=new Image(); im2.onload=()=>res({im:im2,clean:false}); im2.onerror=()=>res(null); im2.src=src; }; im.src=src; });
   note("Loading your photos…");
-  const imgs=[]; for(const p of photos){ const r=await load(p.url||p.data); if(r&&r.im&&r.im.width) imgs.push({im:r.im, clean:r.clean, cap:schoolName(p.school_id), caption:p.caption||""}); }
+  const imgs=[]; for(const p of photos){ const r=await load(p.url||p.data); if(r&&r.im&&r.im.width) imgs.push({im:r.im, clean:r.clean, cap:p.schoolName||schoolName(p.school_id), caption:p.caption||""}); }
   if(!imgs.length){ note("Couldn't load photos for the film."); return; }
   const anyTainted=imgs.some(x=>!x.clean); note("");
-  const famName=((state.family&&state.family.name)||"Our")+" College Tour", yr=String(new Date().getFullYear());
+  const famName=sample?"A family's college tour (sample)":((state.family&&state.family.name)||"Our")+" College Tour", yr=sample?"Made with Zoe's Colleges":String(new Date().getFullYear());
   const cover=im=>{ const r=Math.max(W/im.width,H/im.height); return {w:im.width*r,h:im.height*r}; };
   const card=(t,sub,a)=>{ ctx.fillStyle="#0b1220"; ctx.fillRect(0,0,W,H); ctx.globalAlpha=Math.max(0,Math.min(1,a)); ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 66px Georgia,serif"; ctx.fillText(t,W/2,H/2-6); ctx.font="400 30px -apple-system,Segoe UI,sans-serif"; ctx.fillStyle="#7fd8c6"; ctx.fillText(sub,W/2,H/2+48); ctx.globalAlpha=1; ctx.textAlign="left"; };
   const photo=(o,prog,a)=>{ ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H); const {w,h}=cover(o.im); const z=1.05+0.12*prog; const dw=w*z, dh=h*z; const dx=(W-dw)/2-(prog-0.5)*50, dy=(H-dh)/2-(prog-0.5)*24; ctx.globalAlpha=Math.max(0,Math.min(1,a)); ctx.drawImage(o.im,dx,dy,dw,dh); const g=ctx.createLinearGradient(0,H-180,0,H); g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.78)"); ctx.fillStyle=g; ctx.fillRect(0,H-180,W,180); ctx.fillStyle="#fff"; ctx.font="700 44px -apple-system,Segoe UI,sans-serif"; ctx.fillText(o.cap||"",60, o.caption?H-78:H-54); if(o.caption){ ctx.font="400 26px -apple-system,Segoe UI,sans-serif"; ctx.fillStyle="#e6e6e6"; ctx.fillText(o.caption.slice(0,70),60,H-38); } ctx.globalAlpha=1; };
@@ -2964,7 +3087,7 @@ function renderTripMemoriesCard(){
       <div class="muted" style="font-size:12.5px">${n? `${n} visit photo${n>1?"s":""} saved to your family.` : "Add photos on your visits — open a school and use <b>Campus photos</b>."} Relive them as a reel or make the AI film.</div></div>
     <button class="small primary" id="trip-mem-open">Open Memories →</button>
   </div>`;
-  const b=$("trip-mem-open"); if(b) b.onclick=()=>{ show("v-memories"); renderMemories(); };
+  const b=$("trip-mem-open"); if(b) b.onclick=()=>goto("memories");
 }
 function renderTrip(){
   const items=[...getTrip()].map(tripRec).filter(Boolean);
@@ -3128,7 +3251,7 @@ function renderTripOut(){
       btn.disabled=false; btn.textContent="🔎 Find things to do"; }
   }; });
 }
-$("trip-back").onclick = () => { if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} goto("board"); };
+
 $("trip-build").onclick = async () => {
   const out=$("trip-out");
   const stops=[...getTrip()].map(tripRec).filter(x=>x && typeof x.info.lat==="number" && typeof x.info.lon==="number")

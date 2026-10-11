@@ -1,0 +1,264 @@
+{
+ "phone": {
+  "nav": [
+   "My Board",
+   "Schools",
+   "✨ Zoe Picks",
+   "Compare",
+   "Trips",
+   "📸 Memories",
+   "Deadlines",
+   "📰 Pulse",
+   "💬 Ask Zoe",
+   "My Profile"
+  ],
+  "sheet": [
+   "Zoe Picks",
+   "Compare",
+   "Trips",
+   "Memories",
+   "Ask Zoe",
+   "My Profile"
+  ],
+  "empty": {
+   "steps": 3,
+   "strip": 6,
+   "play": true,
+   "playHidden": true
+  },
+  "player": {
+   "open": true,
+   "cap": "College of Charleston — First look — Randolph Hall at golden hour\nPhoto: Warren LeMay from Covington, KY, United States via Wikimedia Commons · CC0"
+  },
+  "film": true,
+  "addMsg": "Added 2 photos.",
+  "visits": [
+   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+  ],
+  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
+  "noConsentMsg": "Please tick all three boxes.",
+  "shareWrite": {
+   "n": 2,
+   "status": "pending",
+   "show": "anonymous",
+   "consent": "at,own,people,show"
+  },
+  "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
+  "trips": {
+   "title": "🚗 Trips",
+   "back": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "#trip-build Plan route → 106x33",
+    "+ Add campuses from your board 324x20",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "desktop": {
+  "nav": [
+   "My Board",
+   "Schools",
+   "✨ Zoe Picks",
+   "Compare",
+   "Trips",
+   "📸 Memories",
+   "Deadlines",
+   "📰 Pulse",
+   "💬 Ask Zoe",
+   "My Profile"
+  ],
+  "sheet": [
+   "Zoe Picks",
+   "Compare",
+   "Trips",
+   "Memories",
+   "Ask Zoe",
+   "My Profile"
+  ],
+  "empty": {
+   "steps": 3,
+   "strip": 6,
+   "play": true,
+   "playHidden": true
+  },
+  "player": {
+   "open": true,
+   "cap": "College of Charleston — First look — Randolph Hall at golden hour\nPhoto: Warren LeMay from Covington, KY, United States via Wikimedia Commons · CC0"
+  },
+  "film": true,
+  "addMsg": "Added 2 photos.",
+  "visits": [
+   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+  ],
+  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
+  "noConsentMsg": "Please tick all three boxes.",
+  "shareWrite": {
+   "n": 2,
+   "status": "pending",
+   "show": "anonymous",
+   "consent": "at,own,people,show"
+  },
+  "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
+  "trips": {
+   "title": "🚗 Trips",
+   "back": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "My Board 96x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#trip-build Plan route → 106x33",
+    "+ Add campuses from your board 1182x20",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "nav": [
+   "My Board",
+   "Schools",
+   "✨ Zoe Picks",
+   "Compare",
+   "Trips",
+   "📸 Memories",
+   "Deadlines",
+   "📰 Pulse",
+   "💬 Ask Zoe",
+   "My Profile"
+  ],
+  "sheet": [
+   "Zoe Picks",
+   "Compare",
+   "Trips",
+   "Memories",
+   "Ask Zoe",
+   "My Profile"
+  ],
+  "empty": {
+   "steps": 3,
+   "strip": 6,
+   "play": true,
+   "playHidden": true
+  },
+  "player": {
+   "open": true,
+   "cap": "College of Charleston — First look — Randolph Hall at golden hour\nPhoto: Warren LeMay from Covington, KY, United States via Wikimedia Commons · CC0"
+  },
+  "film": true,
+  "addMsg": "Added 2 photos.",
+  "visits": [
+   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+  ],
+  "shareCard": "🌎 Help a family who hasn't visited yet\n\nShare your reel and it can be shown to families looking at the same schools. We review every submission before anything is shown, you choose whether your family name appears, and you can withdraw anytime.\n\nShare my reel…",
+  "noConsentMsg": "Please tick all three boxes.",
+  "shareWrite": {
+   "n": 2,
+   "status": "pending",
+   "show": "anonymous",
+   "consent": "at,own,people,show"
+  },
+  "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
+  "trips": {
+   "title": "🚗 Trips",
+   "back": false
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "#trip-build Plan route → 106x33",
+    "+ Add campuses from your board 324x20",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.memoriesInNav": true,
+  "phone.emptyStateTeaches": true,
+  "phone.sampleReelCredited": true,
+  "phone.sampleVideo": true,
+  "phone.addSeveralPhotos": true,
+  "phone.familyTakesShown": true,
+  "phone.shareNeedsConsent": true,
+  "phone.shareSendsPending": true,
+  "phone.tripsStandsAlone": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.memoriesInNav": true,
+  "desktop.emptyStateTeaches": true,
+  "desktop.sampleReelCredited": true,
+  "desktop.sampleVideo": true,
+  "desktop.addSeveralPhotos": true,
+  "desktop.familyTakesShown": true,
+  "desktop.shareNeedsConsent": true,
+  "desktop.shareSendsPending": true,
+  "desktop.tripsStandsAlone": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.memoriesInNav": true,
+  "phone-dark.emptyStateTeaches": true,
+  "phone-dark.sampleReelCredited": true,
+  "phone-dark.sampleVideo": true,
+  "phone-dark.addSeveralPhotos": true,
+  "phone-dark.familyTakesShown": true,
+  "phone-dark.shareNeedsConsent": true,
+  "phone-dark.shareSendsPending": true,
+  "phone-dark.tripsStandsAlone": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
