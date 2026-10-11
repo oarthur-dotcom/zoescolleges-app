@@ -860,6 +860,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 /* Fix #10 */
 #v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 
+
+/* #59 Board cleanup: the Board is just the list; guidance lives on Today */
+.bd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.bd-title h1{margin:0 0 4px}
+.bd-sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 4px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px}
+.bd-sum .bal-grade{width:26px;height:26px;font-size:14px;flex:0 0 auto}
+.bd-counts{color:var(--ink)}.bd-top{color:var(--muted)}.bd-top b{color:var(--ink)}
+.bd-sum .calc-link{margin-left:auto}
+#v-today #howto{margin:0 0 12px}
 /* #57 Design polish pass */
 #v-detail .chiprow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .trip-pick{text-transform:none;font-family:inherit;letter-spacing:0;color:var(--ink);margin:0;min-height:44px}
@@ -1282,11 +1291,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 
   <!-- BOARD -->
   <section id="v-board" class="hidden">
-    <h1 id="famtitle"></h1>
-    <div class="fam" id="famrow"></div>
-    <div id="onboard-guide"></div>
-    <div class="zoe-banner" id="zoe-banner"><span id="zoe-banner-ava"></span><div><b>Ask Zoe</b><div class="zb-sub">Your guide — reaches &amp; targets, best fits, what to improve, recommendations</div></div><span class="zb-go">Chat →</span></div>
-    <div id="board-coach" class="coachwrap"></div>
+    <div class="bd-head">
+      <div class="bd-title"><h1 id="famtitle"></h1><div class="fam" id="famrow"></div></div>
+    </div>
     <div class="row" style="justify-content:space-between">
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
@@ -1323,20 +1330,6 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
       </div>
     </div>
     <div id="rank-hint" class="muted hidden" style="font-size:12px;margin-top:6px">Your personal ranking — type a number on each school. Give the same number to tie schools (three can share 3rd). Saved on this device.</div>
-    <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
-      <div class="row" style="justify-content:space-between;align-items:flex-start">
-        <b style="font-size:15px">How Zoe's Colleges works</b>
-        <button id="howto-x" class="small ghost" style="padding:2px 8px">Got it ✕</button>
-      </div>
-      <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict.</p>
-      <ol style="margin:10px 0 0;padding-left:20px;line-height:1.7">
-        <li><b>Build your profile first</b> — tap <b>My Profile</b> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
-        <li><b>Add schools</b> — anyone in the family can add or remove them; matches fill in automatically.</li>
-        <li><b>Rate with stars</b> — tap your row of stars. You only control your own; you see everyone's.</li>
-        <li><b>Invite your family</b> — share your code so everyone rates together.</li>
-      </ol>
-    </div>
-    <div id="nextstep" class="msg hidden"></div>
     <div id="balance" class="hidden"></div>
     <div id="board-msg" class="msg"></div>
     <div id="schools"></div>
@@ -1508,6 +1501,21 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   <!-- TODAY (#48): what to do now, on one screen -->
   <section id="v-today" class="hidden">
     <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p></div>
+    <div id="onboard-guide"></div>
+    <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <b style="font-size:15px">How Zoe's Colleges works</b>
+        <button id="howto-x" class="small ghost" style="padding:2px 8px">Got it ✕</button>
+      </div>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict.</p>
+      <ol style="margin:10px 0 0;padding-left:20px;line-height:1.7">
+        <li><b>Build your profile first</b> — tap <b>My Profile</b> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
+        <li><b>Add schools</b> — anyone in the family can add or remove them; matches fill in automatically.</li>
+        <li><b>Rate with stars</b> — tap your row of stars. You only control your own; you see everyone's.</li>
+        <li><b>Invite your family</b> — share your code so everyone rates together.</li>
+      </ol>
+    </div>
+
     <form id="td-search" class="td-search" role="search"><input id="td-q" type="search" placeholder="Find a school — name, nickname or city" autocomplete="off" aria-label="Find a school"><button class="primary small" type="submit">Search</button></form>
     <div id="td-out" class="td-grid"></div>
   </section>
@@ -2288,8 +2296,6 @@ function renderOnboard(){
   el.querySelectorAll(".ob-go").forEach(b=>b.onclick=()=>{ if(b.dataset.obact==="invite"){ openInvite(); } else if(b.dataset.obnav){ goto(b.dataset.obnav); } });
 }
 function renderBoard(){
-  try{ renderOnboard(); }catch(e){}
-  try{ renderCoach("board-coach"); }catch(e){}
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
   $("famrow").innerHTML = state.members.map(m =>
     `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
@@ -2335,11 +2341,12 @@ function renderBalance(meta){
   if(!b){ el.classList.add("hidden"); return; }
   const tip = b.tips.length? `For a balanced list: ${b.tips.slice(0,2).join(", ")}.` : `Nicely balanced — a healthy mix.`;
   const note = studentProfile()? "" : ` <i>Set My Profile to personalize.</i>`;
-  el.className="";
-  el.innerHTML=`<div class="bal-grade bal-${b.grade}" title="List balance grade">${b.grade}</div>
-    <div><div class="bal-counts"><b>${b.c.likely}</b> Likely · <b>${b.c.target}</b> Target · <b>${b.c.reach}</b> Reach</div>
-    <div class="bal-tip">${tip}${note}</div></div>
-    <span class="calc-link" data-calc>How we calculate this ▸</span>`;
+  const top=meta.filter(x=>x.b!=null).sort((x,y)=>y.b-x.b)[0];
+  el.className="bd-sum";
+  el.innerHTML=`<span class="bal-grade bal-${b.grade}" title="List balance: ${esc(tip.replace(/<[^>]+>/g,""))}">${b.grade}</span>
+    <span class="bd-counts"><b>${b.c.likely}</b> Likely · <b>${b.c.target}</b> Target · <b>${b.c.reach}</b> Reach</span>
+    ${top?`<span class="bd-top">🏆 Family favorite: <b>${esc(top.s.name)}</b> ${top.b.toFixed(1)}★</span>`:""}
+    <span class="calc-link" data-calc>How this works ▸</span>`;
 }
 /* ===== consolidated family report ===== */
 /* ===== Zoe's College Report (#58): one printable document — cover, profile, the list, costs, deadlines, next steps.
@@ -2656,7 +2663,7 @@ $("view-stacked").onclick=()=>setBoardView("stacked");
 $("view-tiles").onclick=()=>setBoardView("tiles");
 function renderGuidance(meta){
   let dismissed=false; try{ dismissed=localStorage.getItem("zc_howto")==="1"; }catch(e){}
-  $("howto").classList.toggle("hidden", dismissed);
+  const hw=$("howto"); if(hw) hw.classList.toggle("hidden", dismissed);
   const soloFamily = state.members.length < 2;
   const hasProfile = !!studentProfile();
   let tip="";
@@ -2664,7 +2671,7 @@ function renderGuidance(meta){
   else if(!state.schools.length) tip=`👋 Now add schools you're considering — search the catalog or add your own, and your match fills in automatically.`;
   else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>+ Add my family</b> so everyone rates too.`;
   else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
-  const n=$("nextstep"); n.className="msg ok"; n.innerHTML=tip; n.classList.remove("hidden");
+  state._guideTip=tip;   // #59: the Board stays clean; Today shows guidance
 }
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = renderBoard;
@@ -3344,6 +3351,8 @@ function offerForm(id, f, fromLetter){
 function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
 function renderToday(){
   const el=$("td-out"); if(!el) return;
+  try{ renderOnboard(); }catch(e){}
+  try{ let d=false; try{ d=localStorage.getItem("zc_howto")==="1"; }catch(e){} const hw=$("howto"); if(hw) hw.classList.toggle("hidden", d || (state.schools||[]).length>=3); }catch(e){}   // "How it works" only for new families
   const me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id); const first=(me&&me.display_name)||"";
   $("td-hi").textContent=`${tdGreeting()}${first?", "+first:""}`;
   const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);

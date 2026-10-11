@@ -948,17 +948,12 @@
     "📰 Pulse · 2 106x31",
     "💬 Ask Zoe 104x31",
     "My Profile 99x31",
-    "✕ 25x22",
-    "Set priorities 107x32",
-    "Open Deadlines 124x32",
-    "✕ 24x21",
     "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
-    "#howto-x Got it ✕ 66x22",
     "Open ↗ 67x27",
     "🗺 Trip 61x26",
     "⇄ Compare 90x26",
@@ -973,7 +968,7 @@
     "📰 Pulse2 new 125x25"
    ],
    "wide": [],
-   "dashCount": 9
+   "dashCount": 1
   },
   "errors": []
  },

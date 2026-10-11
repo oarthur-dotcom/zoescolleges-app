@@ -1,0 +1,176 @@
+{
+ "phone": {
+  "today": {
+   "onboard": true,
+   "howtoInToday": true,
+   "howtoShown": false,
+   "cards": 6
+  },
+  "board": {
+   "noOnboard": true,
+   "noZoeBanner": true,
+   "noCoach": true,
+   "noHowto": true,
+   "noNextstep": true,
+   "firstSchoolTop": 436,
+   "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
+   "schools": 6,
+   "controls": true
+  },
+  "howtoGone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "desktop": {
+  "today": {
+   "onboard": true,
+   "howtoInToday": true,
+   "howtoShown": false,
+   "cards": 6
+  },
+  "board": {
+   "noOnboard": true,
+   "noZoeBanner": true,
+   "noCoach": true,
+   "noHowto": true,
+   "noNextstep": true,
+   "firstSchoolTop": 327,
+   "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
+   "schools": 6,
+   "controls": true
+  },
+  "howtoGone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "✕ 25x22",
+    "Set priorities 107x32",
+    "Open Deadlines 124x32",
+    "Open profile 103x32",
+    "📅 Plan my week 132x32",
+    "All news 78x32",
+    "Open board 99x32",
+    "💰 Costs 81x32",
+    "✨ Zoe Picks 105x32",
+    "🔗 Share 82x32",
+    "Open report 102x32",
+    "🔗 Share instead 132x32",
+    "Plan a trip 89x32",
+    "📸 Memories 108x32"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "today": {
+   "onboard": true,
+   "howtoInToday": true,
+   "howtoShown": false,
+   "cards": 6
+  },
+  "board": {
+   "noOnboard": true,
+   "noZoeBanner": true,
+   "noCoach": true,
+   "noHowto": true,
+   "noNextstep": true,
+   "firstSchoolTop": 436,
+   "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
+   "schools": 6,
+   "controls": true
+  },
+  "howtoGone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "empty-phone": {
+  "today": {
+   "onboard": true,
+   "howtoInToday": true,
+   "howtoShown": true,
+   "cards": 5
+  },
+  "board": {
+   "noOnboard": true,
+   "noZoeBanner": true,
+   "noCoach": true,
+   "noHowto": true,
+   "noNextstep": true,
+   "firstSchoolTop": 333,
+   "sum": "",
+   "schools": 0,
+   "controls": true
+  },
+  "howtoGone": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 2
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.boardIsJustTheList": true,
+  "phone.schoolsVisibleImmediately": true,
+  "phone.oneLineSummary": true,
+  "phone.guidanceOnToday": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.boardIsJustTheList": true,
+  "desktop.schoolsVisibleImmediately": true,
+  "desktop.oneLineSummary": true,
+  "desktop.guidanceOnToday": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.boardIsJustTheList": true,
+  "phone-dark.schoolsVisibleImmediately": true,
+  "phone-dark.oneLineSummary": true,
+  "phone-dark.guidanceOnToday": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "empty-phone.boardIsJustTheList": true,
+  "empty-phone.guidanceOnToday": true,
+  "empty-phone.howtoForNewFamilies": true,
+  "empty-phone.noErrors": true,
+  "empty-phone.noSidewaysScroll": true
+ },
+ "allPass": true
+}

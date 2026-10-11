@@ -1,7 +1,7 @@
 {
  "phone": {
   "landing": "today",
-  "hi": "Good afternoon, Obie",
+  "hi": "Good evening, Obie",
   "cards": [
    "⏰ Next deadline",
    "Zoe suggests",
@@ -32,7 +32,7 @@
  },
  "desktop": {
   "landing": "today",
-  "hi": "Good afternoon, Obie",
+  "hi": "Good evening, Obie",
   "cards": [
    "⏰ Next deadline",
    "Zoe suggests",
@@ -87,7 +87,7 @@
  },
  "phone-dark": {
   "landing": "today",
-  "hi": "Good afternoon, Obie",
+  "hi": "Good evening, Obie",
   "cards": [
    "⏰ Next deadline",
    "Zoe suggests",
@@ -118,7 +118,7 @@
  },
  "empty-phone": {
   "landing": "today",
-  "hi": "Good afternoon, Obie",
+  "hi": "Good evening, Obie",
   "cards": [
    "⏰ Deadlines",
    "Zoe suggests",
@@ -134,7 +134,7 @@
    "bad": [],
    "small": [],
    "wide": [],
-   "dashCount": 0
+   "dashCount": 7
   },
   "errors": []
  },

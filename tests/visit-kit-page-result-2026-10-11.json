@@ -34,7 +34,7 @@
    "bad": [],
    "small": [],
    "wide": [],
-   "dashCount": 3
+   "dashCount": 5
   },
   "errors": []
  },
@@ -85,6 +85,8 @@
     "📰 Pulse 88x31",
     "💬 Ask Zoe 104x31",
     "My Profile 99x31",
+    "✕ 25x22",
+    "Set priorities 107x32",
     "Open Deadlines 124x32",
     "Open profile 103x32",
     "📅 Plan my week 132x32",
@@ -100,7 +102,7 @@
     "📸 Memories 108x32"
    ],
    "wide": [],
-   "dashCount": 3
+   "dashCount": 5
   },
   "errors": []
  },
@@ -139,7 +141,7 @@
    "bad": [],
    "small": [],
    "wide": [],
-   "dashCount": 3
+   "dashCount": 5
   },
   "errors": []
  },
