@@ -41,6 +41,9 @@ header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .appnav .navbtn{background:transparent;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:14.5px;padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
 .appnav .navbtn:hover{color:var(--ink)}
 .appnav .navbtn.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(16,28,46,.08),0 1px 6px rgba(16,28,46,.05)}
+/* Fix #13: phone header/nav — no wrapping logo or "Sign out"; fade shows more tabs scroll sideways */
+header.app .logo,#signout{white-space:nowrap}
+@media (max-width:480px){ #whoami{display:none} .appnav{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:28px} }
 .backbtn{background:transparent;border:none;color:var(--teal);font-family:var(--disp);font-weight:600;font-size:14px;padding:10px 0;cursor:pointer}
 .openlink{background:transparent;border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
 .openlink:hover{border-color:var(--teal);color:var(--teal)}
@@ -1213,7 +1216,8 @@ function show(view){
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
-function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab)); }
+function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
+  const a=document.querySelector("#appnav .navbtn.active"); if(a&&a.scrollIntoView){ try{ a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} } }
 function goto(view){
   currentView = view;
   try{ updateTripBadge(); }catch(e){}
@@ -1689,7 +1693,8 @@ function renderOnboard(){
   const el=$("onboard-guide"); if(!el) return;
   if(onboardDismissed()){ el.innerHTML=""; return; }
   const schools=(state.schools||[]).length;
-  const hasPrefs=!!(state.me && state.prefs && state.prefs[state.me.user_id]);
+  const _w=state.me && state.prefs && state.prefs[state.me.user_id];
+  const hasPrefs=!!(_w && JSON.stringify(_w)!==JSON.stringify(defaultPrefs()));   // defaults are filled in for everyone
   const members=(state.members||[]).length;
   const steps=[
     {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
@@ -2082,7 +2087,7 @@ function cardLinks(info, rec){
   const nm=rec.name+(rec.state?(" "+rec.state):""); const q=encodeURIComponent(nm);
   const hasCoords=typeof info.lat==="number"&&typeof info.lon==="number";
   const maps=hasCoords?`https://www.google.com/maps/search/?api=1&query=${info.lat},${info.lon}`:`https://www.google.com/maps/search/?api=1&query=${q}`;
-  const rev=`https://www.niche.com/?q=${encodeURIComponent(rec.name)}`;
+  const rev=`https://www.google.com/search?q=${encodeURIComponent(rec.name)}+reviews+site:niche.com/colleges`;
   return `<div class="card-links">`+
     `<a href="https://www.google.com/search?q=${q}+virtual+campus+tour" target="_blank" rel="noopener" title="Virtual tour">▶ Tour</a>`+
     `<a href="${maps}" target="_blank" rel="noopener" title="Map & directions">📍 Map</a>`+
@@ -2107,10 +2112,10 @@ function toursSection(info, rec){
 }
 /* Student voice: link-out only (their reviews, their ToS — we never copy). */
 const REVIEW_SITES=[
-  {label:"Niche",               u:q=>`https://www.niche.com/?q=${q}`},
+  {label:"Niche",               u:q=>`https://www.google.com/search?q=${q}+site:niche.com/colleges`},
   {label:"Reddit",              u:q=>`https://www.reddit.com/search/?q=${q}`},
   {label:"RateMyProfessors",    u:q=>`https://www.ratemyprofessors.com/search/schools?q=${q}`},
-  {label:"College Confidential",u:q=>`https://www.collegeconfidential.com/search?q=${q}`},
+  {label:"College Confidential",u:q=>`https://www.google.com/search?q=${q}+site:collegeconfidential.com`},
   {label:"Unigo",               u:q=>`https://www.google.com/search?q=${q}+site:unigo.com`},
   {label:"Princeton Review",    u:q=>`https://www.google.com/search?q=${q}+site:princetonreview.com`},
 ];
@@ -2132,8 +2137,8 @@ function renderDetail(id){
   const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"?"":"dim"}">${v||"—"}</div></div>`;
   const facts = info ? `<div class="d-grid">
       ${cell("Admission rate", pct(sc.admissionRate))}
-      ${cell("SAT range (25–75%)", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg} avg`:"—")))}
-      ${cell("ACT range (25–75%)", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid} mid`:"—")))}
+      ${cell(typeof sc.sat25==="number"?"SAT range (25–75%)":"SAT average", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg}`:"—")))}
+      ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
       ${cell("Net price / yr", money(sc.netPrice))}
       ${cell("Sticker cost / yr", money(sc.costAvg))}
       ${cell("In-state tuition", money(sc.tuitionInState))}
@@ -2977,7 +2982,7 @@ $("exsearch").oninput = e => renderExList(e.target.value);
 
 /* ========== ADD SCHOOL ========== */
 $("fab-add").onclick = () => {
-  if (state.schools.length >= plan().schools) return msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err");
+  if (state.schools.length >= plan().schools){ msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err"); try{ $("board-msg").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} return; }
   clearmsg("board-msg"); renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
 };
 $("dlg-close").onclick = () => $("dlg-add").close();
@@ -3061,7 +3066,7 @@ document.addEventListener("click", e => {
   document.querySelectorAll(".hint.open").forEach(x=>x.classList.remove("open"));
 });
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
-$("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
+$("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(state.family&&state.family.invite_code? inviteLink() : APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
 function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — beta access code: ${ACCESS_CODE}\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
