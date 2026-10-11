@@ -1,0 +1,12 @@
+import { launch, newPage } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const CAT=fs.readFileSync('/home/claude/zoescolleges-data/colleges.json');
+const srv=http.createServer((q,r)=>{const f=path.join('/tmp/claude-0/f8/site',decodeURIComponent(q.url.split('?')[0])); fs.readFile(f,(e,d)=>{ if(e){r.writeHead(404);return r.end();} r.writeHead(200,{'Content-Type':f.endsWith('.js')?'text/javascript':'text/html'}); r.end(d);});}).listen(8779);
+const b=await launch(); const {ctx,page,log}=await newPage(b,{width:1280,height:900},{plan:'family'});
+await page.route(/jsdelivr.*colleges\.json/,r=>r.fulfill({contentType:'application/json',body:CAT}));
+const seen=[];
+await page.route('**/.netlify/functions/zoe-ai', r=>{ seen.push(r.request().headers()['authorization']||'(none)'); r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({reply:"Stub answer"})}); });
+await page.goto('http://localhost:8779/index.html'); await page.waitForFunction(()=>typeof state!=="undefined"&&state.catalog&&state.catalog.length>0&&state.me,null,{timeout:60000});
+const r1=await page.evaluate(async()=>{ const x=await zoeFetchOnce("tell me something only the AI would know about essays"); return x; });
+await page.unroute('**/.netlify/functions/zoe-ai'); await page.route('**/.netlify/functions/zoe-ai', r=>r.fulfill({status:401,contentType:'application/json',body:JSON.stringify({reply:null,error:"signin"})}));
+const r2=await page.evaluate(async()=>zoeFetchOnce("hello?"));
+console.log(JSON.stringify({authHeaderSent:seen, normalReply:r1, expiredLoginReply:r2, pageErrors:log.pageerr},null,1)); await b.close(); srv.close();
