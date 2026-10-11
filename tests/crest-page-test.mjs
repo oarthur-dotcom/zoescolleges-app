@@ -11,6 +11,7 @@ for (const [label, vp, dark] of [['desktop', { width: 1280, height: 900 }], ['ph
   await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: JSON.stringify(CAT) }));
   await page.goto('http://localhost:8799/index.html');
   await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(900);
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(700);   // #48: the app now opens on Today
   const o = {};
   await page.evaluate(() => { const t = document.getElementById('view-tiles'); if (t) t.click(); }); await page.waitForTimeout(400);
   o.tileCrests = await page.evaluate(() => [...document.querySelectorAll('#schools .cover.cover-ph')].map(c => /data:image\/svg\+xml/.test(c.getAttribute('style')) ));

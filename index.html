@@ -853,6 +853,26 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
+/* #48 Today */
+.td-hello h1{margin:0}.td-hello .sub{margin:4px 0 0}
+.td-search{display:flex;gap:8px;margin:14px 0}.td-search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
+.td-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.td-grid{grid-template-columns:1fr}}
+.td-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px 16px;min-width:0}
+.td-card>button{margin-top:10px}
+.td-wide{grid-column:1/-1}
+.td-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.td-ava svg,.td-ava{width:20px;height:20px;display:inline-block}
+.td-big{font-size:20px;font-weight:800;letter-spacing:-.01em;overflow-wrap:anywhere}
+.td-mid{font-size:14px;line-height:1.45}
+.td-more{font-size:12px;color:var(--muted);margin-top:6px}
+.td-next{background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 10%,var(--surface)),var(--surface) 70%)}
+.td-next.urgent{background:linear-gradient(135deg,color-mix(in srgb,var(--warn) 10%,var(--surface)),var(--surface) 70%);border-color:color-mix(in srgb,var(--warn) 35%,var(--line))}
+.td-zoe{background:linear-gradient(135deg,color-mix(in srgb,var(--plum) 9%,var(--surface)),var(--surface) 70%)}
+.td-bal{display:flex;gap:12px;align-items:center}
+.td-story{display:flex;flex-direction:column;gap:1px;padding:8px 0;border-bottom:1px solid var(--line)}
+.td-story a{color:var(--ink);font-weight:600;font-size:14px;text-decoration:none;overflow-wrap:anywhere}.td-story a:hover{color:var(--teal)}.td-story .muted{font-size:11.5px}
+.td-visits{display:grid;gap:4px;margin-top:8px;font-size:12.5px}
 /* #45 Pulse tiles */
 .pt-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin:10px 0 4px}
 .pt-views{padding:0}
@@ -897,6 +917,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     </div>
   </div>
   <nav class="appnav hidden" id="appnav">
+    <button class="navbtn" data-nav="today">Today</button>
     <button class="navbtn" data-nav="board">My Board</button>
     <button class="navbtn" data-nav="explore">Schools</button>
     <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
@@ -911,14 +932,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 </header>
 <!-- Phone navigation (#40): 4 main tabs + More, at the bottom where thumbs reach. Desktop keeps the top nav. -->
 <nav id="tabbar" class="tabbar hidden" aria-label="Main">
-  <button class="tb" data-nav="board"><span class="tb-i">🏠</span><span class="tb-l">Board</span></button>
-  <button class="tb" data-nav="explore"><span class="tb-i">🔎</span><span class="tb-l">Schools</span></button>
+  <button class="tb" data-nav="today"><span class="tb-i">☀️</span><span class="tb-l">Today</span></button>
+  <button class="tb" data-nav="board"><span class="tb-i">📋</span><span class="tb-l">Board</span></button>
   <button class="tb" data-nav="pulse"><span class="tb-i">📰</span><span class="tb-l">Pulse</span><span class="tb-badge hidden" data-tb-badge="pulse"></span></button>
   <button class="tb" data-nav="deadlines"><span class="tb-i">⏰</span><span class="tb-l">Deadlines</span><span class="tb-badge dot hidden" data-tb-badge="deadlines"></span></button>
   <button class="tb" data-tb-more aria-haspopup="true" aria-expanded="false"><span class="tb-i">☰</span><span class="tb-l">More</span><span class="tb-badge dot hidden" data-tb-badge="more"></span></button>
 </nav>
 <div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
   <div class="tb-sheet-in">
+    <button class="tbs" data-nav="explore">🔎 <b>Schools</b><span>Search and explore all 3,180</span></button>
     <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
     <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
     <button class="tbs" data-nav="trip">🚗 <b>Trips</b><span data-tbs-sub="trip">Plan campus visits</span></button>
@@ -1297,6 +1319,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
     <div id="dl-out"></div>
   </section>
 
+  <!-- TODAY (#48): what to do now, on one screen -->
+  <section id="v-today" class="hidden">
+    <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p></div>
+    <form id="td-search" class="td-search" role="search"><input id="td-q" type="search" placeholder="Find a school — name, nickname or city" autocomplete="off" aria-label="Find a school"><button class="primary small" type="submit">Search</button></form>
+    <div id="td-out" class="td-grid"></div>
+  </section>
+
   <!-- CAMPUS PULSE (own tab, #34) -->
   <section id="v-pulse" class="hidden">
     <h1>📰 Campus Pulse</h1>
@@ -1511,7 +1540,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-today","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -1522,14 +1551,15 @@ function show(view){
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
 function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
-  const main=["board","explore","pulse","deadlines"]; document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : !main.includes(tab); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  const main=["today","board","pulse","deadlines"]; document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : !main.includes(tab); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
   document.querySelectorAll("#tb-sheet .tbs").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
   const a=document.querySelector("#appnav .navbtn.active"); if(a&&a.scrollIntoView){ try{ a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} } }
 function goto(view){
   currentView = view;
   try{ updateTripBadge(); }catch(e){}
   try{ updateCmpBadge(); }catch(e){}
-  if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
+  if (view==="today"){ show("v-today"); setNavActive("today"); renderToday(); }
+  else if (view==="board"){ show("v-board"); setNavActive("board"); renderBoard(); }
   else if (view==="explore"){ show("v-explore"); setNavActive("explore"); renderExplore(); }
   else if (view==="profile"){ show("v-profile"); setNavActive("profile"); renderProfile(); }
   else if (view==="trip"){ show("v-trip"); setNavActive("trip"); renderTrip(); }
@@ -1684,7 +1714,7 @@ async function loadFamily(){
     state.family = fams && fams[0];
     await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos()]);
     computeNorms();
-    goto("board");
+    goto("today");
   } catch(e){
     msg("board-msg", "Couldn't load your board: " + (e.message||e) + " — tap Try again.");
     show("v-board");
@@ -2818,6 +2848,7 @@ async function fetchBoardPulse(ids,key,retry){
       pulseDigest={at:Date.now(),key,data:{...j,none,schools:{...prev,...j.schools}},busy:false};
       if(currentView==="board") renderBoardPulse(); else updatePulseNav(pulseDigest.data);
       if(currentView==="pulse") renderPulseTab();
+      if(currentView==="today") renderToday();
       if(j.pending && j.pending.length && !retry) setTimeout(()=>fetchBoardPulse(j.pending,key,true),2500);
       return;
     }
@@ -2890,6 +2921,54 @@ function renderPulseTab(){
     + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Saved and read marks are kept on this device. Tap a school name for its full Pulse.</div>`;
   wirePt(el, all); renderPulseWeekly();
 }
+/* ===== Today (#48) ===== */
+function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
+function renderToday(){
+  const el=$("td-out"); if(!el) return;
+  const me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id); const first=(me&&me.display_name)||"";
+  $("td-hi").textContent=`${tdGreeting()}${first?", "+first:""}`;
+  const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  $("td-sub").textContent = board.length ? `${state.family?state.family.name+" · ":""}${board.length} school${board.length>1?"s":""} on your board` : "Let's get your college list started.";
+  // 1 Next deadline (+ checklist)
+  const today=new Date(); today.setHours(0,0,0,0);
+  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
+  const nx=ups[0];
+  let dlCard;
+  if(nx){ const days=daysUntil(nx.date); const chk=getChecklist(nx.id); const done=DL_TASKS.filter(t=>chk[t]).length; const left=DL_TASKS.filter(t=>!chk[t]);
+    dlCard=`<div class="td-card td-next ${days<=14?"urgent":""}"><div class="td-h">⏰ Next deadline</div>
+      <div class="td-big">${esc(nx.name)}</div><div class="td-mid">${esc(nx.kind)} · ${esc(_fmtD(nx.date))} · <b>${days===0?"today":days===1?"tomorrow":"in "+days+" days"}</b></div>
+      <div class="dl-bar" style="margin:10px 0 6px"><i style="width:${Math.round(100*done/DL_TASKS.length)}%"></i></div>
+      <div class="muted" style="font-size:12.5px">${left.length?`Still to do: ${left.slice(0,3).map(esc).join(", ")}${left.length>3?"…":""}`:"Checklist complete ✓"}</div>
+      ${ups.length>1?`<div class="td-more">Then: ${ups.slice(1,3).map(u=>`${esc(u.name)} · ${esc(_fmtD(u.date))}`).join(" · ")}</div>`:""}
+      <button class="small primary" data-td-go="deadlines">Open Deadlines</button></div>`; }
+  else dlCard=`<div class="td-card"><div class="td-h">⏰ Deadlines</div><div class="td-mid">${board.length?"No dated deadlines coming up on your board.":"Add schools to see their deadlines here."}</div><button class="small" data-td-go="${board.length?"deadlines":"explore"}">${board.length?"Open Deadlines":"Find schools"}</button></div>`;
+  // 2 Zoe's next step
+  const dis=coachDismissed(); const tip=zoeTips().filter(t=>!dis[t.id]&&t.id!=="dl")[0];
+  const zoeCard=`<div class="td-card td-zoe"><div class="td-h"><span class="td-ava">${zoeAva()}</span> Zoe suggests</div>
+    <div class="td-mid">${tip?tip.text:"You're in good shape. Want a plan for this week?"}</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">${tip&&tip.cta?`<button class="small primary" data-td-go="${esc(tip.cta.nav)}">${esc(tip.cta.label)}</button>`:""}<button class="small" data-td-week>📅 Plan my week</button></div></div>`;
+  // 3 List balance
+  const meta=board.map(x=>({ch:chanceFor(x.info)})); const bal=listBalance(meta);
+  const balCard=`<div class="td-card"><div class="td-h">📋 Your list</div>${bal?`<div class="td-bal"><span class="bal-grade bal-${bal.grade}">${bal.grade}</span><div><div class="td-mid"><b>${bal.c.likely}</b> Likely · <b>${bal.c.target}</b> Target · <b>${bal.c.reach}</b> Reach</div><div class="muted" style="font-size:12.5px">${bal.tips.length?`For balance: ${bal.tips.slice(0,2).join(", ")}.`:"Nicely balanced."}</div></div></div>`:`<div class="td-mid">${board.length?"Add your grades in My Profile to see your chances.":"No schools yet."}</div>`}
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button></div></div>`;
+  // 4 Pulse
+  const {d}=pulseData(); const hidden=ptSet("hidden");
+  const stories=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.stories||v.top||[]).map(x=>({...x,school:id}))).filter(x=>x.date&&!hidden.has(x.link)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3):[];
+  const visits=d?Object.entries(d.schools||{}).flatMap(([id,v])=>(v.visits||[]).map(x=>({...x,school:id}))).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,2):[];
+  const nm=id=>{ const s=(state.schools||[]).find(x=>x.school_id===id); return s?s.name:id; };
+  const pulseCard=`<div class="td-card td-wide"><div class="td-h">📰 New at your schools</div>${!board.length?`<div class="td-mid">Add schools and their news shows up here.</div>`:!d?`<div class="pskel" style="width:90%"></div><div class="pskel" style="width:70%"></div>`:stories.length?stories.map(x=>`<div class="td-story"><button class="bp-school" data-pulse-open="${esc(x.school)}">${esc(nm(x.school))}</button><a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a><span class="muted">${esc(_ago(x.date))}</span></div>`).join(""):`<div class="td-mid">Nothing new right now.</div>`}
+    ${visits.length?`<div class="td-visits">${visits.map(x=>`<span>🎟 <b>${esc(nm(x.school))}</b> · ${esc(x.title)} · ${esc(new Date(x.date).toLocaleDateString("en-US",{month:"short",day:"numeric"}))}</span>`).join("")}</div>`:""}
+    <button class="small" data-td-go="pulse">All news</button></div>`;
+  // 5 Visits
+  const trip=getTrip().size, ph=(state.photos||[]).length;
+  const visitCard=`<div class="td-card"><div class="td-h">🚗 Visits</div><div class="td-mid">${trip?`<b>${trip}</b> campus${trip>1?"es":""} on your trip.`:"No trip planned yet."} ${ph?`<b>${ph}</b> visit photo${ph>1?"s":""} saved.`:""}</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button><button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
+  el.innerHTML=dlCard+zoeCard+pulseCard+balCard+visitCard;
+  try{ updateDlNav(); }catch(e){}
+  el.querySelectorAll("[data-td-go]").forEach(b=>b.onclick=()=>goto(b.dataset.tdGo));
+  const wk=el.querySelector("[data-td-week]"); if(wk) wk.onclick=()=>{ goto("zoe"); setTimeout(()=>zmOpen("week"),150); };
+}
+{ const f=$("td-search"); if(f) f.onsubmit=e=>{ e.preventDefault(); const q=$("td-q").value.trim(); goto("explore"); if(q){ $("exsearch").value=q; renderExList(q); } }; }
 function wirePt(el, all){
   el.querySelectorAll("[data-pt-go]").forEach(b=>b.onclick=()=>goto(b.dataset.ptGo));
   el.querySelectorAll("[data-pt-school]").forEach(b=>b.onclick=()=>{ ptSchool=b.dataset.ptSchool; ptMore=false; renderPulseTab(); });
@@ -4075,7 +4154,7 @@ function updateDlNav(){ let soon=0; try{ const today=new Date(); today.setHours(
     for(const s of state.schools||[]){ const n=nextDeadline(catInfo(s.school_id)||null); if(!n) continue; const d=daysUntil(n.date); if(d!=null && d>=0 && d<=14) soon++; } }catch(e){}
   const b=document.querySelector('#appnav .navbtn[data-nav="deadlines"]'); if(b){ b.innerHTML = soon? `Deadlines <span class="nav-dot" title="${soon} deadline${soon>1?"s":""} in the next 14 days"></span>` : "Deadlines"; }
   setTbBadge("deadlines","",soon>0); }
-$("logo-home").onclick = () => { if (state.family) goto("board"); };
+$("logo-home").onclick = () => { if (state.family) goto("today"); };
 $("detail-back").onclick = () => goto(detailFrom);
 $("exsearch").oninput = e => renderExList(e.target.value);
 

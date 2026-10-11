@@ -13,6 +13,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['phone
   await page.route('**/.netlify/functions/campus-pulse*', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ schools: { 'sc-166683': { top: [{ title: 'MIT news', link: 'https://news.mit.edu/a', date: ago(1), kind: 'news' }], stories: [{ title: 'MIT news', link: 'https://news.mit.edu/a', date: ago(1), kind: 'news' }, { title: 'MIT 2', link: 'https://news.mit.edu/b', date: ago(2), kind: 'news' }], visits: [] } }, pending: [], none: [] }) }));
   await page.goto('http://localhost:8800/index.html');
   await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(1500);
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(700);   // #48: the app now opens on Today
   const o = {};
   o.topNavVisible = await page.evaluate(() => getComputedStyle(document.getElementById('appnav')).display !== 'none');
   o.tabbarVisible = await page.evaluate(() => { const t = document.getElementById('tabbar'); return getComputedStyle(t).display !== 'none' && t.getBoundingClientRect().bottom <= innerHeight + 1; });
@@ -37,12 +38,12 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['phone
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   if (vp.width <= 640) {
     ok[label + '.bottomBarNotTopNav'] = o.tabbarVisible && !o.topNavVisible;
-    ok[label + '.fiveTabs'] = o.tabs.length === 5 && /^🏠 Board\*$/.test(o.tabs[0]);
+    ok[label + '.fiveTabs'] = o.tabs.length === 5 && /^☀️ Today$/.test(o.tabs[0]) && /^📋 Board\*$/.test(o.tabs[1]);
     ok[label + '.pulseCountBadge'] = o.badges.includes('pulse:on(2)');
     ok[label + '.deadlineDot'] = o.badges.includes('deadlines:on');
     ok[label + '.fabsAboveBar'] = o.fabsAboveBar;
     ok[label + '.pulseTab'] = o.pulseOpens;
-    ok[label + '.moreSheet'] = o.sheet.length === 6 && /Trips/.test(o.sheet[2]) && /Memories/.test(o.sheet[3]) && o.tripOpens && o.escCloses;
+    ok[label + '.moreSheet'] = o.sheet.length === 7 && /Schools/.test(o.sheet[0]) && /Trips/.test(o.sheet[3]) && /Memories/.test(o.sheet[4]) && o.tripOpens && o.escCloses;
     ok[label + '.lastRowNotHidden'] = o.lastRowReachable === true;
     ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
   } else {
