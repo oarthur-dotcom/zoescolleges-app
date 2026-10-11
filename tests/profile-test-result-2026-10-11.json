@@ -1,0 +1,46 @@
+{
+ "old": {
+  "A_savedToSharedProfile": [],
+  "A_sportSaved": false,
+  "B_gpa99_blocked": false,
+  "B_message": "Saved ✓",
+  "B_sat2400_blocked": false,
+  "C_oldDatabase": {
+   "attemptsWithNewColumns": [
+    false
+   ],
+   "alertShown": null
+  },
+  "D_otherMemberTestOptional": false,
+  "E_hasStudentMember": true,
+  "E_anchorNote": "⚠ No student is set, so chances use Obier own profile — different family members can see different odds. Use t",
+  "F_cheapest_in_my_area": "Lowest net price in MY:",
+  "F_cheapest_in_co": "Lowest net price in CO:• Pikes Peak State College — Colorado Springs, ",
+  "pageErrors": []
+ },
+ "new": {
+  "A_savedToSharedProfile": [
+   "rigor",
+   "activities",
+   "test_optional",
+   "hs"
+  ],
+  "A_sportSaved": true,
+  "B_gpa99_blocked": true,
+  "B_message": "⚠ GPA should be a number from 0 to 5 (unweighted is usually 0–4.0).",
+  "B_sat2400_blocked": true,
+  "C_oldDatabase": {
+   "attemptsWithNewColumns": [
+    true,
+    false
+   ],
+   "alertShown": null
+  },
+  "D_otherMemberTestOptional": true,
+  "E_hasStudentMember": true,
+  "E_anchorNote": "⚠ Zoe hasn't filled in a profile yet, so chances use your own profile for now — different family members can s",
+  "F_cheapest_in_my_area": "Lowest net price:• Moorpark College — Moorpark, CA (admit —, net $-2,2",
+  "F_cheapest_in_co": "Lowest net price in CO:• Pikes Peak State College — Colorado Springs, ",
+  "pageErrors": []
+ }
+}

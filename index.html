@@ -619,6 +619,8 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .zoe-banner b{font-size:15px}
 .zoe-banner .zb-sub{color:var(--muted);font-size:13px;margin-top:1px}
 .zoe-banner .zb-go{margin-left:auto;color:var(--teal);font-weight:700;white-space:nowrap}
+/* Fix #10 */
+#v-detail .facts{display:flex;gap:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -1402,8 +1404,12 @@ async function loadProfiles(){
 function hydrateLocalProfile(){
   if(!state.me) return;
   const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={});
+  // Fix #10: these now sync through the family profile. Map DB columns, then use this
+  // device's older local copy ONLY where the shared profile has nothing yet.
+  Object.values(state.profiles).forEach(pr=>{ if(pr && pr.test_optional!=null && pr.testOptional==null) pr.testOptional=!!pr.test_optional; });
+  const hasR=prof.rigor && Object.keys(prof.rigor).length, hasA=Array.isArray(prof.activities) && prof.activities.length;
   const r=lsGet("rigor"), a=lsGet("activities"), to=lsGet("testOptional"), hs=lsGet("hs");
-  if(r)prof.rigor=r; if(Array.isArray(a))prof.activities=a; if(to!=null)prof.testOptional=!!to; if(hs)prof.hs=hs;
+  if(r && !hasR)prof.rigor=r; if(Array.isArray(a) && !hasA)prof.activities=a; if(to!=null && prof.testOptional==null)prof.testOptional=!!to; if(hs && !prof.hs)prof.hs=hs;
 }
 async function loadPrefs(){
   state.prefs = {};
@@ -1609,7 +1615,9 @@ function studentAnchor(){
 function anchorNoteHtml(){
   const a=studentAnchor();
   if(a.anchored) return `<div class="anchor-note ok">Chances are based on <b>${esc(a.name)}</b>'s academic profile — the whole family sees the same odds.</div>`;
-  return `<div class="anchor-note warn">⚠ No student is set, so chances use <b>${esc(a.name)}r</b> own profile — different family members can see different odds. <button class="linklike" data-setstudent>Use this profile as the student's ▸</button></div>`;
+  const stu=(state.members||[]).find(m=>m.role==="student");
+  if(stu) return `<div class="anchor-note warn">⚠ <b>${esc(stu.display_name||"The student")}</b> hasn't filled in a profile yet, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile for now — different family members can see different odds.</div>`;
+  return `<div class="anchor-note warn">⚠ No student is set, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile — different family members can see different odds. <button class="linklike" data-setstudent>Use this profile as the student's ▸</button></div>`;
 }
 // The exact derived inputs the predictor used — the apples-to-apples readout for
 // comparing two runs (e.g. if two family members get different results).
@@ -2772,11 +2780,11 @@ function sliderWeights(){
 function renderSliderImpact(){
   const host=$("sl-impact"); if(!host) return;
   const w=sliderWeights(); const sum=w.reduce((a,b)=>a+b.v,0);
-  if(sum<=0){ host.innerHTML=`<div class="sl-impact-head">How this shapes her matches</div><p class="muted" style="font-size:12px;margin:0">Slide a few of these up to see how they weigh each school.</p>`; return; }
+  if(sum<=0){ host.innerHTML=`<div class="sl-impact-head">How this shapes the matches</div><p class="muted" style="font-size:12px;margin:0">Slide a few of these up to see how they weigh each school.</p>`; return; }
   const withPct=w.map(x=>({...x, pct:Math.round(x.v/sum*100)}));
   let off=0; const segs=withPct.filter(x=>x.v>0).map(x=>{ const c=IMPACT_COLORS[x.key]||"#999"; const seg=`<circle r="15.915" cx="21" cy="21" fill="none" stroke="${c}" stroke-width="7" pathLength="100" stroke-dasharray="${x.pct} ${100-x.pct}" stroke-dashoffset="${-off}"></circle>`; off+=x.pct; return seg; }).join("");
   const legend=[...withPct].sort((a,b)=>b.v-a.v).map(x=>`<div class="imp-leg"><span class="imp-dot" style="background:${IMPACT_COLORS[x.key]}"></span><span class="imp-nm">${esc(x.nm)}</span><span class="imp-pct">${x.pct}%</span></div>`).join("");
-  host.innerHTML=`<div class="sl-impact-head">How this shapes her matches</div>
+  host.innerHTML=`<div class="sl-impact-head">How this shapes the matches</div>
     <div class="imp-wrap"><svg viewBox="0 0 42 42" class="imp-donut">${segs}</svg><div class="imp-legend">${legend}</div></div>
     <p class="muted" style="font-size:11.5px;margin:8px 0 0">Share of every school's <b>match %</b> driven by each factor, right now. Move a slider and it reshapes instantly. <span class="muted">(This is fit — separate from admission chance.)</span></p>`;
 }
@@ -2835,15 +2843,28 @@ function renderProfileView(){
   </div>` + choicePowerHtml();
   const eb=sum.querySelector("[data-pf-edit]"); if(eb) eb.onclick=()=>{ pfEdit=true; renderProfileView(); const g=$("pf-gpa"); if(g) setTimeout(()=>{ try{ g.focus(); $("pf-form-card").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },50); };
 }
+const US_STATES=new Set("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR GU VI AS MP".split(" "));
+// Fix #10: basic sanity checks before saving a profile. Returns a message, or "" if OK.
+function profileProblems(p){
+  const n=v=>v===""||v==null?null:Number(v);
+  const g=n(p.gpa), sat=n(p.sat), act=n(p.act);
+  if(g!==null && !(g>0 && g<=5)) return "GPA should be a number from 0 to 5 (unweighted is usually 0–4.0).";
+  if(sat!==null && !(sat>=400 && sat<=1600)) return "SAT should be between 400 and 1600.";
+  if(act!==null && !(act>=1 && act<=36)) return "ACT should be between 1 and 36.";
+  if(p.home_state && !US_STATES.has(p.home_state)) return "Home state should be a 2-letter code like SC or MA.";
+  return "";
+}
 async function saveProfileForm(){
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so match % re-scores
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
-  const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs}));
+  const acts = profActs.filter(a=>(a.name||"").trim()).map(a=>({name:a.name.trim(), category:a.category, tier:+a.tier||4, hrs:a.hrs, yrs:a.yrs, ...(a.sport?{sport:String(a.sport).trim()}:{})}));
   const hs = { name:($("pf-hs").value||"").trim(), apOffered:+$("pf-hs-ap").value||0, honorsOffered:+$("pf-hs-honors").value||0 };
-  await saveProfile(p);
+  const bad = profileProblems(p);
+  if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad; e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return; }
+  await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
   lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs);
   if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
   profActs = acts.slice();
@@ -2953,7 +2974,12 @@ function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; con
 $("pf-act-add").onclick = () => { if(profActs.length>=10){ $("pf-act-strength").textContent="That's the Common App max of 10."; return; } profActs.push({name:"",category:ACT_CATS[0],tier:4,hrs:"",yrs:""}); renderActs(); const rows=$("pf-acts").querySelectorAll(".a-name"); if(rows.length) rows[rows.length-1].focus(); };
 async function saveProfile(p){
   state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
-  if(BACKEND.profiles){ try{ const {error}=await sb.from("profiles").upsert({user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()}); if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
+  if(BACKEND.profiles){ try{
+      const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
+      let {error}=await sb.from("profiles").upsert(row);
+      if(error && /test_optional|\bhs\b|rigor|activities|column|schema cache/i.test(error.message||"")){   // migration 008/003 not applied yet
+        const {test_optional, hs, rigor, activities, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
+      if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
   lsSet("profile", p);
 }
 $("sl-save").onclick = async () => {
@@ -3102,7 +3128,8 @@ function zoeAnswer(qraw){
 const ZOE_FALLBACK = "I can help with how the app works (matching, chances, ratings, invites, photos, plans) and with the data — try \"cheapest schools\", \"most selective in Colorado\", \"biggest schools\", or \"schools with early deadline\". What would you like to know?";
 function zoeData(q){
   const cat=state.catalog; if(!cat.length) return null;
-  const stateAbbr=(q.match(/\b(in|near)\s+([a-z]{2})\b/)||[])[2]?.toUpperCase();
+  const _sa=(q.match(/\b(in|near)\s+([a-z]{2})\b/)||[]); let stateAbbr=_sa[2]?.toUpperCase();
+  if(stateAbbr && (!US_STATES.has(stateAbbr) || (_sa[1]==="near" && stateAbbr==="ME"))) stateAbbr=undefined;   // "in my", "near me" aren't states
   const byState=a=> stateAbbr? a.filter(c=>(c.state||"").toUpperCase()===stateAbbr):a;
   const fmt=list=> list.slice(0,6).map(c=>`• <b>${esc(c.name)}</b> — ${esc(c.city||"")}${c.state?", "+c.state:""} (admit ${pct(c.scorecard&&c.scorecard.admissionRate)}, net ${money(c.scorecard&&c.scorecard.netPrice)})`).join("<br>");
   if(/(cheap|afford|low.*cost|lowest net|least expensive)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&typeof(c.scorecard.netPrice)==="number")).sort((a,b)=>a.scorecard.netPrice-b.scorecard.netPrice); return "Lowest net price"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
