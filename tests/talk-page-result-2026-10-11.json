@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I want to be honest that ___ makes me nervous.",
+  "blank": "Can we talk about ___ before we decide?",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -162,7 +162,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I worry ___ might be hard for me, and I want to talk about it.",
+  "blank": "Distance is on my mind because ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -312,7 +312,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'd hate to choose it only because ___.",
+  "blank": "I worry ___ might be hard for me, and I want to talk about it.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {

@@ -77,7 +77,7 @@
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 10
+   "dashCount": 13
   },
   "errors": []
  },
@@ -176,7 +176,7 @@
     "🗺 Add to road trip 130x26",
     "⇄ Add to compare 129x26",
     "🎒 Visit-day kit 111x26",
-    "Add your voice 120x32",
+    "Talk about it 102x32",
     "see the source ↗ 92x14",
     "🗨️ Newest Reddit posts ↗ 186x35",
     "▶️ “Day in the life” videos ↗ 194x35",
@@ -202,7 +202,7 @@
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380",
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380"
    ],
-   "dashCount": 10
+   "dashCount": 13
   },
   "errors": []
  },
@@ -226,6 +226,10 @@
   "audit": {
    "overflowX": 0,
    "imgs": [
+    {
+     "src": "https://b.tile.openstreetmap.org/14/4421/6506.png",
+     "ok": true
+    },
     {
      "src": "https://c.tile.openstreetmap.org/14/4422/6506.png",
      "ok": true
@@ -280,7 +284,7 @@
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 10
+   "dashCount": 13
   },
   "errors": []
  },
