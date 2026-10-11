@@ -1,0 +1,97 @@
+{
+ "old": {
+  "badValuesInMemory": 357,
+  "cleaned": null,
+  "catalogSize": 3180,
+  "Bakersfield College": {
+   "negPct": true,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) -200%",
+   "minus200": true,
+   "netLine": "NET PRICE / YR $14,621"
+  },
+  "Moorpark College": {
+   "negPct": false,
+   "negMoney": true,
+   "retentionLine": "RETENTION (1ST YR) 79%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $-2,296"
+  },
+  "Belanger School of Nursing": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) 100%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $13,185"
+  },
+  "College of Charleston": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) 80%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $18,960"
+  },
+  "sort_cost_first3": [
+   "Moorpark College | admit — net $-2,296 12,082 students 69% ",
+   "Oxnard College | admit — net $-1,128 6,240 students 57% m",
+   "Ventura College | admit — net $-982 10,150 students 60% ma"
+  ],
+  "sort_sel_first3": [
+   "Belanger School of Nursing | admit 0% net $13,185 162 students 59% ma",
+   "California Institute of Technology | admit 3% net $16,075 987 students 64% ma",
+   "Minerva University | admit 3% net — 637 students 54% match"
+  ],
+  "pageErrors": []
+ },
+ "new": {
+  "badValuesInMemory": 0,
+  "cleaned": {
+   "retention no-data code": 329,
+   "negative net price": 4,
+   "grad rate 0%": 36,
+   "admit rate 0%": 1,
+   "size 0": 7,
+   "student-faculty ratio implausible": 1
+  },
+  "catalogSize": 3180,
+  "Bakersfield College": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "(no retention row)",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $14,621"
+  },
+  "Moorpark College": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) 79%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR —"
+  },
+  "Belanger School of Nursing": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) 100%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $13,185"
+  },
+  "College of Charleston": {
+   "negPct": false,
+   "negMoney": false,
+   "retentionLine": "RETENTION (1ST YR) 80%",
+   "minus200": false,
+   "netLine": "NET PRICE / YR $18,960"
+  },
+  "sort_cost_first3": [
+   "Canada College | admit — net $32 5,175 students 64% match",
+   "Fort Peck Community College | admit — net $400 282 students 53% match",
+   "College of San Mateo | admit — net $536 7,977 students 60% matc"
+  ],
+  "sort_sel_first3": [
+   "California Institute of Technology | admit 3% net $16,075 987 students 65% ma",
+   "Minerva University | admit 3% net — 637 students 54% match",
+   "Stanford University | admit 4% net $13,807 7,554 students 75% "
+  ],
+  "pageErrors": []
+ }
+}
