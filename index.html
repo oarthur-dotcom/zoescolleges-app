@@ -1535,6 +1535,9 @@ function chanceCompute(c, explain){
   const steps = explain ? [] : null;
   const log = (k,v,why)=>{ if(explain) steps.push({k,v,why,moved:/Reach|Target|Likely/.test(v)}); };
   let band = rate>0.7?"likely" : rate>=0.4?"target" : "reach";
+  // Very selective schools (admit under 15%) are a reach for EVERY applicant, however strong.
+  const floorReach = rate < 0.15;
+  const ease = b => b==="reach" ? (floorReach ? "reach" : "target") : "likely";
   log("Base band", bandLabel(band), `This school admits about ${Math.round(rate*100)}% of applicants`);
   const p = studentProfile();
   // adjust by student SAT (or ACT→SAT) vs school average
@@ -1542,23 +1545,25 @@ function chanceCompute(c, explain){
   const hasRange = typeof s.sat25==="number" && typeof s.sat75==="number";
   if(sat && hasRange){
     const before=band;
-    if(sat>=s.sat75){ band = band==="reach"?"target":"likely"; }        // above the school's 75th percentile
+    if(sat>=s.sat75){ band = ease(band); }        // above the school's 75th percentile
     else if(sat<=s.sat25){ band = band==="likely"?"target":"reach"; }   // below its 25th percentile
     const pos = sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range");
     log("Your test scores", band!==before?bandLabel(band):"no change", `Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${pos}`);
   } else if(sat && typeof s.satAvg==="number"){
     const d = sat - s.satAvg, before=band;
-    if(d>=70){ band = band==="reach"?"target":"likely"; }
+    if(d>=70){ band = ease(band); }
     else if(d<=-90){ band = band==="likely"?"target":"reach"; }
     log("Your test scores", band!==before?bandLabel(band):"no change", `Your ${sat} vs the school's ${s.satAvg} average (${d>=0?"+":""}${d}) — only the average is on file for this school`);
   } else { log("Your test scores", "not used", (p&&p.testOptional)?"You're applying test-optional":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile")); }
-  // nudge by GPA (rigor-adjusted when we have course rigor): strong GPA eases a reach, weak stiffens a likely
+  // nudge by GPA: compare the UNWEIGHTED GPA (rigor has its own step below, so it isn't counted twice).
+  // Strong GPA eases a reach, weak stiffens a likely.
   const gpa = rigorAdjustedGpa(p);
-  if(gpa && gpa>0 && gpa<=5){
-    const g = gpa>4.3? gpa/5*4 : gpa, before=band; // tolerate a weighted-scale entry
-    if(g>=3.9 && band==="reach") band="target";
+  const gpaU = p ? parseFloat(p.gpa) : NaN;
+  if(gpaU>0 && gpaU<=5){
+    const g = Math.min(gpaU, 4.0), before=band;   // the field is unweighted; anything above 4.0 counts as 4.0
+    if(g>=3.9 && band==="reach") band=ease(band);
     else if(g<=2.8 && band==="likely") band="target";
-    log("Your GPA", band!==before?bandLabel(band):"no change", `Rigor-adjusted GPA ${gpa.toFixed(2)}`);
+    log("Your GPA", band!==before?bandLabel(band):"no change", `Unweighted GPA ${g.toFixed(2)}${gpa&&gpa!==gpaU?` (rigor-adjusted ${gpa.toFixed(2)}, counted under rigor)`:""}`);
   } else { log("Your GPA", "not used", "No GPA in your profile"); }
   // course rigor in context — colleges read your AP load against what your school OFFERS.
   // Taking most of what's available can ease a reach at selective schools; a school with
@@ -1566,7 +1571,7 @@ function chanceCompute(c, explain){
   const hs = p && p.hs; const apTaken = (p && p.rigor && +p.rigor.ap) || 0;
   if(hs && +hs.apOffered>0){
     const offered=+hs.apOffered, cov=apTaken/offered, before=band;
-    if(rate<0.4 && cov>=0.6 && apTaken>=4 && band==="reach") band="target";
+    if(rate<0.4 && cov>=0.6 && apTaken>=4 && band==="reach") band=ease(band);
     else if(rate<0.4 && offered>=10 && cov<=0.2 && band==="likely") band="target";
     if(explain){
       const why = offered<=5 ? `Your school offers only ~${offered} APs — rigor is judged against that, so a lighter load isn't held against you`
@@ -1579,7 +1584,7 @@ function chanceCompute(c, explain){
   const astr = activityStrength(p && p.activities);
   if(astr!=null && rate<0.4){
     const before=band;
-    if(astr>=0.7 && band==="reach") band="target";
+    if(astr>=0.7 && band==="reach") band=ease(band);
     else if(astr<=0.25 && band==="likely") band="target";
     log("Your activities", band!==before?bandLabel(band):"no change", `A ${astrWord(astr)} activity profile${band!==before?", and this selective school weighs activities":""}`);
   } else { log("Your activities", rate>=0.4?"not used":"no change", rate>=0.4?"This school isn't selective enough for activities to move the band":(astr==null?"No activities in your profile":`A ${astrWord(astr)} activity profile`)); }
@@ -1589,6 +1594,7 @@ function chanceCompute(c, explain){
     if(band==="likely") band="target"; else if(band==="target") band="reach";
     log("Competitive major", band!==before?bandLabel(band):"no change", `${p.major} tends to admit tougher than the school overall`);
   }
+  if(floorReach) log("Very selective", "stays Reach", `Admits under 15% — a reach for every applicant, even with top grades and scores`);
   const out = { band, label:bandLabel(band) };
   if(explain){
     out.steps = steps;

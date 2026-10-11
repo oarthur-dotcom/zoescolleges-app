@@ -1,0 +1,311 @@
+{
+ "old": {
+  "P1_top_student": {
+   "counts": {
+    "sub15": {
+     "reach": 0,
+     "target": 62,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 95,
+     "likely": 1458
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "target",
+    "Massachusetts Institute of Technology": "target",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "target",
+    "College of Charleston": "likely",
+    "Clemson University": "target",
+    "Stanford University": "target"
+   }
+  },
+  "P2_3pt3_16APs": {
+   "counts": {
+    "sub15": {
+     "reach": 0,
+     "target": 62,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "target",
+    "Massachusetts Institute of Technology": "target",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "target",
+    "College of Charleston": "target",
+    "Clemson University": "target",
+    "Stanford University": "target"
+   }
+  },
+  "P3_weighted_4pt4_entry": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 116,
+     "target": 0,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "reach",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "reach",
+    "Princeton University": "reach",
+    "College of Charleston": "target",
+    "Clemson University": "reach",
+    "Stanford University": "reach"
+   }
+  },
+  "P4_avg_3pt0_1100": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 105,
+     "target": 11,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 133,
+     "target": 419,
+     "likely": 1001
+    }
+   },
+   "examples": {
+    "Boston College": "reach",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "reach",
+    "Princeton University": "reach",
+    "College of Charleston": "reach",
+    "Clemson University": "reach",
+    "Stanford University": "reach"
+   }
+  },
+  "P5_3pt95_no_tests": {
+   "counts": {
+    "sub15": {
+     "reach": 0,
+     "target": 62,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "target",
+    "Massachusetts Institute of Technology": "target",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "target",
+    "College of Charleston": "target",
+    "Clemson University": "target",
+    "Stanford University": "target"
+   }
+  },
+  "harvard_explain": [
+   "Base band: Reach — This school admits about 4% of applicants",
+   "Your test scores: Target — Your 1580 vs this school's 1490–1580 SAT range — above the school's 75th percentile",
+   "Your GPA: no change — Rigor-adjusted GPA 4.75",
+   "Your activities: no change — A strong activity profile"
+  ],
+  "pageErrors": []
+ },
+ "new": {
+  "P1_top_student": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 95,
+     "likely": 1458
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "reach",
+    "College of Charleston": "likely",
+    "Clemson University": "target",
+    "Stanford University": "reach"
+   }
+  },
+  "P2_3pt3_16APs": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 116,
+     "target": 0,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "reach",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "reach",
+    "Princeton University": "reach",
+    "College of Charleston": "target",
+    "Clemson University": "reach",
+    "Stanford University": "reach"
+   }
+  },
+  "P3_weighted_4pt4_entry": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "reach",
+    "College of Charleston": "target",
+    "Clemson University": "target",
+    "Stanford University": "reach"
+   }
+  },
+  "P4_avg_3pt0_1100": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 105,
+     "target": 11,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 133,
+     "target": 419,
+     "likely": 1001
+    }
+   },
+   "examples": {
+    "Boston College": "reach",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "reach",
+    "Princeton University": "reach",
+    "College of Charleston": "reach",
+    "Clemson University": "reach",
+    "Stanford University": "reach"
+   }
+  },
+  "P5_3pt95_no_tests": {
+   "counts": {
+    "sub15": {
+     "reach": 62,
+     "target": 0,
+     "likely": 0
+    },
+    "15to40": {
+     "reach": 0,
+     "target": 116,
+     "likely": 0
+    },
+    "over40": {
+     "reach": 0,
+     "target": 448,
+     "likely": 1105
+    }
+   },
+   "examples": {
+    "Boston College": "target",
+    "Harvard University": "reach",
+    "Massachusetts Institute of Technology": "reach",
+    "University of Michigan-Ann Arbor": "target",
+    "Princeton University": "reach",
+    "College of Charleston": "target",
+    "Clemson University": "target",
+    "Stanford University": "reach"
+   }
+  },
+  "harvard_explain": [
+   "Base band: Reach — This school admits about 4% of applicants",
+   "Your test scores: no change — Your 1580 vs this school's 1490–1580 SAT range — above the school's 75th percentile",
+   "Your GPA: no change — Unweighted GPA 4.00 (rigor-adjusted 4.75, counted under rigor)",
+   "Your activities: no change — A strong activity profile",
+   "Very selective: stays Reach — Admits under 15% — a reach for every applicant, even with top grades and scores"
+  ],
+  "pageErrors": []
+ }
+}
