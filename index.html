@@ -868,6 +868,20 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
+/* #51 where you stand */
+.stand{margin:10px 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.stand.compact{display:flex;align-items:center;gap:8px;margin:6px 0 2px;padding:0;border:none;background:none}
+.stand-h{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px}
+.stand-k{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex:0 0 auto}
+.stand-bar{position:relative;height:10px;border-radius:999px;background:var(--sunk);flex:1;min-width:80px}
+.stand.compact .stand-bar{height:7px;max-width:180px}
+.stand-mid{position:absolute;top:0;bottom:0;border-radius:999px;background:color-mix(in srgb,var(--teal) 45%,var(--sunk))}
+.stand-me{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--ink);border:2.5px solid var(--surface);box-shadow:0 0 0 1px var(--ink)}
+.stand.compact .stand-me{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+.stand-me.above{background:var(--good,#1a8f5a);box-shadow:0 0 0 1px var(--good,#1a8f5a)}.stand-me.below{background:var(--warn);box-shadow:0 0 0 1px var(--warn)}
+.stand-v{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.stand-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:3px;font-family:var(--mono)}
+.stand-txt{font-size:13px;margin-top:6px;line-height:1.45}
 /* #48 Today */
 .td-hello h1{margin:0}.td-hello .sub{margin:4px 0 0}
 .td-search{display:flex;gap:8px;margin:14px 0}.td-search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
@@ -2472,6 +2486,32 @@ function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=
   return `<span class="mring" title="${m}% match for you"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}</b></span>`; }
 function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">match —</span>`; const c=matchColor(m);
   return `<span class="mbar" title="${m}% match"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% match</span>`; }
+/* #51 "Where you stand": the school's middle 50% of admitted students' SAT or ACT (College Scorecard), with a dot for
+   the student. Compact on board cards, full on the school page. Federal data has no GPA ranges, so the page says so. */
+function standBarHtml(info, compact){
+  const sc=(info&&info.scorecard)||{}; const p=studentProfile()||{};
+  const hasSat=typeof sc.sat25==="number"&&typeof sc.sat75==="number", hasAct=typeof sc.act25==="number"&&typeof sc.act75==="number";
+  if(!hasSat&&!hasAct) return compact?"":`<div class="stand stand-none"><div class="stand-h">Where you stand</div><div class="muted" style="font-size:12.5px">This school doesn't report a test-score range (it may be test-optional or not report one).</div></div>`;
+  const mySat=parseInt(p.sat)||0, myAct=parseInt(p.act)||0;
+  // use the test the student actually took; else the one the school reports
+  let kind, lo, hi, me=null, min, max, step;
+  if(myAct && !mySat && hasAct){ kind="ACT"; lo=sc.act25; hi=sc.act75; me=myAct; min=1; max=36; step=1; }
+  else if(hasSat){ kind="SAT"; lo=sc.sat25; hi=sc.sat75; me=mySat||(myAct?actToSat(myAct):null); min=400; max=1600; step=10; }
+  else { kind="ACT"; lo=sc.act25; hi=sc.act75; me=myAct||null; min=1; max=36; step=1; }
+  if(p.testOptional) me=null;
+  const pad=(hi-lo)*0.9||(kind==="SAT"?100:3);
+  const a=Math.max(min, Math.min(lo, me||lo)-pad), z=Math.min(max, Math.max(hi, me||hi)+pad); const pc=v=>Math.max(0,Math.min(100,(v-a)/(z-a)*100));
+  const where = me==null ? null : me>hi ? "above" : me<lo ? "below" : "inside";
+  const word = where==="above"?`Your ${kind} is above their middle 50%`:where==="below"?`Your ${kind} is below their middle 50%`:where==="inside"?`Your ${kind} is inside their middle 50%`:"";
+  const conv = (kind==="SAT"&&!mySat&&myAct) ? ` (your ACT ${myAct} ≈ SAT ${me})` : "";
+  const bar=`<div class="stand-bar" role="img" aria-label="${esc(`${kind} middle 50% ${lo} to ${hi}${me!=null?`; you ${me}`:""}`)}"><span class="stand-mid" style="left:${pc(lo)}%;width:${Math.max(2,pc(hi)-pc(lo))}%"></span>
+    ${me!=null?`<span class="stand-me ${where}" style="left:${pc(me)}%"></span>`:""}</div>`;
+  if(compact){ return `<div class="stand compact"><span class="stand-k">${kind}</span>${bar}<span class="stand-v">${lo}–${hi}${me!=null?` · you ${me}`:""}</span></div>`; }
+  return `<div class="stand"><div class="stand-h">Where you stand · ${kind}</div>${bar}
+    <div class="stand-scale"><span>${Math.round(a/step)*step}</span><span>${Math.round(z/step)*step}</span></div>
+    <div class="stand-txt">${me!=null?`<b>${esc(word)}</b>${esc(conv)} — `:p.testOptional?`You're applying test-optional — `:`Add a score in My Profile to see your dot — `}half of admitted students scored between <b>${lo}</b> and <b>${hi}</b>; a quarter scored above ${hi}.${sc.satRangeYear?` <span class="muted">(${sc.satRangeYear} data, College Scorecard)</span>`:""}</div>
+    <div class="muted" style="font-size:11.5px;margin-top:4px">Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.</div></div>`;
+}
 function renderSchool(x){
   const s=x.s, info=x.info, b=x.b;
   const catChip = s.is_custom ? `<span class="chip">Custom</span>` : "";
@@ -2499,7 +2539,7 @@ function renderSchool(x){
       <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
     <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
-    ${info?chanceWordsHtml(info):""}
+    ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
     ${facts}
     ${cardLinks(info, s)}
     <div class="raters">${ratersHtml(s.school_id)}</div>
@@ -3097,6 +3137,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
+    ${info?standBarHtml(info,false):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button></div>
     ${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
