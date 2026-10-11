@@ -1,0 +1,32 @@
+{
+ "old": {
+  "fieldsWithoutAName": 48,
+  "tapTargets": {
+   "myStar": "25x24",
+   "cardButton": "67x27"
+  },
+  "mutedColor": "#79839c",
+  "head": {
+   "favicon": false,
+   "description": false,
+   "ogTitle": false
+  },
+  "ratingClickWorks": true,
+  "pageErrors": []
+ },
+ "new": {
+  "fieldsWithoutAName": 0,
+  "tapTargets": {
+   "myStar": "36x40",
+   "cardButton": "69x36"
+  },
+  "mutedColor": "#5f6982",
+  "head": {
+   "favicon": true,
+   "description": true,
+   "ogTitle": true
+  },
+  "ratingClickWorks": true,
+  "pageErrors": []
+ }
+}
