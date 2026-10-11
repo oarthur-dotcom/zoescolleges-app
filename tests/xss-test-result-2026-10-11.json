@@ -1,0 +1,30 @@
+{
+ "old": {
+  "majorShownAsText": false,
+  "binderBoldKept": true,
+  "binderGoodLinkKept": true,
+  "binderJsLinkPresent": true,
+  "injectedCodeRan": {
+   "major": false,
+   "reportGpa": true,
+   "reportAct": true,
+   "transcript": true,
+   "binderImg": true
+  },
+  "pageErrors": []
+ },
+ "new": {
+  "majorShownAsText": false,
+  "binderBoldKept": true,
+  "binderGoodLinkKept": true,
+  "binderJsLinkPresent": false,
+  "injectedCodeRan": {
+   "major": false,
+   "reportGpa": false,
+   "reportAct": false,
+   "transcript": false,
+   "binderImg": false
+  },
+  "pageErrors": []
+ }
+}

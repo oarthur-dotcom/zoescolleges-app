@@ -1666,7 +1666,7 @@ function predictorInputsHtml(inp){
 }
 function chanceMathHtml(c){
   const ex=chanceExplain(c); if(!ex) return "";
-  const rows=ex.steps.map(s=>`<div class="cm-step"><span class="cm-k">${esc(s.k)}</span><span class="cm-v${s.moved?" moved":""}">${esc(s.v)}</span><span class="cm-why">${s.why}</span></div>`).join("");
+  const rows=ex.steps.map(s=>`<div class="cm-step"><span class="cm-k">${esc(s.k)}</span><span class="cm-v${s.moved?" moved":""}">${esc(s.v)}</span><span class="cm-why">${esc(s.why)}</span></div>`).join("");
   return `<div class="cmath">
     <div class="cm-inputs"><div class="cm-h">What the predictor sees</div><div class="cm-seen">${predictorInputsHtml(ex.inputs)}</div></div>
     <div class="cm-steps">${rows}<div class="cm-step cm-final"><span class="cm-k">Final call</span><span class="chip ${ex.band}" style="margin:0">${ex.label}</span><span class="cm-why"></span></div></div>
@@ -1839,7 +1839,7 @@ function renderReport(){
   const when = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   let prof="";
   if(p){ const adj=rigorAdjustedGpa(p); const sat=studentSat(p);
-    prof=[p.gpa?`GPA ${p.gpa}${adj&&adj!=parseFloat(p.gpa)?` (rigor-adjusted ${adj.toFixed(2)})`:""}`:"", sat?`SAT ${sat}${p.act?` (ACT ${p.act})`:""}`:"", p.major?`Major: ${esc(p.major)}`:"", p.home_state?`Home: ${esc(p.home_state)}`:""].filter(Boolean).join(" · "); }
+    prof=[p.gpa?`GPA ${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` (rigor-adjusted ${adj.toFixed(2)})`:""}`:"", sat?`SAT ${sat}${p.act?` (ACT ${esc(p.act)})`:""}`:"", p.major?`Major: ${esc(p.major)}`:"", p.home_state?`Home: ${esc(p.home_state)}`:""].filter(Boolean).join(" · "); }
   const labels={reach:"Reach",target:"Target",likely:"Likely"};
   const cell=(k,v)=>`<div><div class="k">${k}</div><div class="v">${v||"—"}</div></div>`;
   const body = rows.map(r=>{ const sc=r.info&&r.info.scorecard||{}; const v=r.visit||{};
@@ -2923,7 +2923,7 @@ $("pf-save").onclick = saveProfileForm;
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
 function showTxPreview(f){
   const el=$("tx-preview"); if(!el) return;
-  const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${v}</b></div>`;
+  const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${esc(v==null?"—":String(v))}</b></div>`;
   const gpa = f.gpa!=null ? (f.gpa + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (weighted)" : "—");
   el.innerHTML=`<div class="txp-h">Here's what I read — check it, then fill your profile:</div>
     ${line("GPA", gpa)}
@@ -3242,6 +3242,24 @@ function zoeCtx(){
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
     schools, trip };
 }
+// Allow-list sanitizer for stored chat HTML (Fix #7): keeps simple formatting, drops scripts,
+// event handlers, images/iframes and any non-http(s) links.
+function safeHtml(html){
+  const tpl=document.createElement("template"); tpl.innerHTML=String(html||"");
+  const OK={B:1,STRONG:1,I:1,EM:1,BR:1,P:1,UL:1,OL:1,LI:1,SPAN:1,DIV:1,A:1,CODE:1,SMALL:1};
+  const walk=node=>{ [...node.childNodes].forEach(n=>{
+    if(n.nodeType===1){
+      if(!OK[n.tagName]){ n.replaceWith(document.createTextNode(n.textContent||"")); return; }
+      [...n.attributes].forEach(a=>{ const k=a.name.toLowerCase();
+        if(k==="class") return;
+        if(n.tagName==="A" && k==="href" && /^https?:\/\//i.test(a.value)) return;
+        n.removeAttribute(a.name); });
+      if(n.tagName==="A"){ n.setAttribute("target","_blank"); n.setAttribute("rel","noopener noreferrer"); }
+      walk(n);
+    } else if(n.nodeType!==3){ n.remove(); }
+  }); };
+  walk(tpl.content); return tpl.innerHTML;
+}
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
 const ZOE_BUSY = "I'm having trouble reaching my smarter brain just now — give it a few seconds and ask again. In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.";
@@ -3344,7 +3362,7 @@ function openSaveChat(){
 }
 function openBinderChat(entry){ const ov=zOverlay(`<div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="margin:0">${esc(entry.title)}</h3><button class="small ghost" id="bk-x">✕</button></div>
   <div class="muted" style="font-size:12px;margin-bottom:10px">${entry.school_id?esc(schoolName(entry.school_id))+" · ":""}${new Date(entry.ts).toLocaleDateString()}</div>
-  <div class="bk-log">${entry.msgs.map(m=>`<div class="zmsg ${m.who==="me"?"me":"z"}">${m.html}</div>`).join("")}</div>`);
+  <div class="bk-log">${(entry.msgs||[]).map(m=>`<div class="zmsg ${m.who==="me"?"me":"z"}">${safeHtml(m.html)}</div>`).join("")}</div>`);
   ov.querySelector("#bk-x").onclick=()=>ov.remove();
 }
 async function renderBinderPanel(){
