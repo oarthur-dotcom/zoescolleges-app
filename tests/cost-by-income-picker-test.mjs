@@ -1,0 +1,15 @@
+import { launch, newPage } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const CAT=fs.readFileSync('/home/claude/zoescolleges-data/colleges.json'), INC=fs.readFileSync('/tmp/claude-0/f18/income.json');
+const srv=http.createServer((q,r)=>{const f=path.join('/tmp/claude-0/f18/site',decodeURIComponent(q.url.split('?')[0])); fs.readFile(f,(e,d)=>{ if(e){r.writeHead(404);return r.end();} r.writeHead(200,{'Content-Type':f.endsWith('.js')?'text/javascript':'text/html'}); r.end(d);});}).listen(8791);
+const b=await launch(); const {ctx,page,log}=await newPage(b,{width:390,height:844},{plan:'family'});
+await page.route(/jsdelivr.*colleges\.json/,r=>r.fulfill({contentType:'application/json',body:CAT}));
+await page.route(/jsdelivr.*net-price-by-income\.json/,r=>r.fulfill({contentType:'application/json',body:INC}));
+await page.goto('http://localhost:8791/index.html'); await page.waitForFunction(()=>typeof state!=="undefined"&&state.catalog&&state.catalog.length>0&&state.me&&state.incomePrices,null,{timeout:60000});
+await page.evaluate(()=>{ Object.keys(cmpSel).forEach(k=>delete cmpSel[k]); state.schools.slice(0,3).forEach(s=>cmpSel[s.school_id]=true); goto('compare'); }); await page.waitForTimeout(700);
+const r={};
+r.pickerVisibleOnCostCard = await page.isVisible('#cost-income');
+await page.locator('.cost-card').screenshot({path:'/tmp/claude-0/f18/cost-before.png'});
+await page.selectOption('#cost-income','2'); await page.waitForTimeout(800);
+r.afterPick = await page.evaluate(()=>({band:myPrefs().incomeBand, header:document.querySelector('.cost-card').innerText.replace(/\s+/g,' ').slice(0,150), compareRow:[...document.querySelectorAll('.cx-k')].some(x=>/Your net price/.test(x.textContent))}));
+await page.locator('.cost-card').screenshot({path:'/tmp/claude-0/f18/cost-after.png'});
+r.pageErrors=log.pageerr; console.log(JSON.stringify(r,null,1)); await b.close(); srv.close();

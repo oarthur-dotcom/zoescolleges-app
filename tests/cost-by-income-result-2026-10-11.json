@@ -1,0 +1,38 @@
+{
+ "data-published": {
+  "dataLoaded": true,
+  "boardBefore": "size ~11k admit 60% net $18,960 grad 66%",
+  "costCardBefore": "💰 What will it cost us? avg $18,329/yr · ~$73,316 for 4 years Typical yearly net price (after grants and scholarships), average after aid — lowest first. Where",
+  "incomeSelectVisible": false,
+  "savedBand": 2,
+  "boardAfter": "size ~11k admit 60% your net $16,797 grad 66%",
+  "detailCofC": "YOUR NET PRICE / YR ($48–75K) $16,797 (in-state price; out-of-state pays more)",
+  "detailMIT_lowIncome": "YOUR NET PRICE / YR ($0–30K) $0 (aid can cover full cost)",
+  "compareRow": "Your net price ($48–75k)",
+  "costCardAfter": "💰 What will it cost us? avg $13,640/yr · ~$54,560 for 4 years Typical yearly net price (after grants and scholarships), for families earning $48–75k — lowest first. Wher",
+  "exploreCostSortFirst": [
+   "Williams College | admit 8% your net $0 2,076 students 68% ",
+   "University of Chicago | admit 4% your net $226 7,569 students 67"
+  ],
+  "incomeKeptAfterPrioritySave": 2,
+  "pageErrors": []
+ },
+ "data-not-published-yet": {
+  "dataLoaded": false,
+  "boardBefore": "size ~11k admit 60% net $18,960 grad 66%",
+  "costCardBefore": "💰 What will it cost us? avg $18,329/yr · ~$73,316 for 4 years Typical yearly net price (after grants and scholarships), average after aid — lowest first. Where",
+  "incomeSelectVisible": false,
+  "savedBand": 2,
+  "boardAfter": "size ~11k admit 60% net $18,960 grad 66%",
+  "detailCofC": null,
+  "detailMIT_lowIncome": null,
+  "compareRow": null,
+  "costCardAfter": "💰 What will it cost us? avg $18,329/yr · ~$73,316 for 4 years Typical yearly net price (after grants and scholarships), average after aid — lowest first. Where available",
+  "exploreCostSortFirst": [
+   "College of Biblical Studies-Houston | admit — net $672 419 students 52% match",
+   "San Diego Christian College | admit 31% net $992 87 students 59% match"
+  ],
+  "incomeKeptAfterPrioritySave": 2,
+  "pageErrors": []
+ }
+}

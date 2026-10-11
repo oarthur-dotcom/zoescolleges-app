@@ -956,6 +956,8 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
         <div><label>Intended major<span class="hint" tabindex="0" data-tip="Some schools admit by major. Competitive majors (CS, nursing, engineering, business, bio/pre-med) are harder to get into than the school overall — we factor that into your chance.">i</span></label><input id="pf-major" type="text" placeholder="undecided is fine"></div>
         <div><label>Class rank</label><input id="pf-rank" type="text" placeholder="if your school ranks"></div>
         <div><label>Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2"></div>
+        <div><label for="pf-income">Family income (for cost estimates)</label><select id="pf-income"><option value="">Prefer not to say</option><option value="0">Under $30k</option><option value="1">$30k–48k</option><option value="2">$48k–75k</option><option value="3">$75k–110k</option><option value="4">Over $110k</option></select>
+          <div class="muted" style="font-size:11.5px;margin-top:3px">Only your family sees this. It shows what each school typically costs families like yours.</div></div>
       </div>
       <div class="sl-subhead" style="margin-top:14px">Course rigor</div>
       <p class="muted" style="font-size:12px;margin:0 0 8px">How colleges recalculate GPA: Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (core courses). We'll show your rigor-adjusted GPA.</p>
@@ -1434,7 +1436,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -1780,7 +1782,8 @@ function renderOnboard(){
   if(onboardDismissed()){ el.innerHTML=""; return; }
   const schools=(state.schools||[]).length;
   const _w=state.me && state.prefs && state.prefs[state.me.user_id];
-  const hasPrefs=!!(_w && JSON.stringify(_w)!==JSON.stringify(defaultPrefs()));   // defaults are filled in for everyone
+  const _wNoIncome=_w?Object.fromEntries(Object.entries(_w).filter(([k])=>k!=="incomeBand")):null;
+  const hasPrefs=!!(_wNoIncome && JSON.stringify(_wNoIncome)!==JSON.stringify(defaultPrefs()));   // defaults are filled in for everyone
   const members=(state.members||[]).length;
   const steps=[
     {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
@@ -2041,7 +2044,7 @@ function renderSchool(x){
   const facts = info ? `<div class="facts">
       <span>size <b>${esc(info.sizeApprox||(sc.size?sc.size.toLocaleString():"—"))}</b></span>
       <span>admit <b>${pct(sc.admissionRate)}</b></span>
-      <span>net <b>${money(sc.netPrice)}</b></span>
+      ${yourNet(info)?`<span>your net <b>${netMoney(yourNet(info).v)}</b></span>`:`<span>net <b>${money(sc.netPrice)}</b></span>`}
       <span>grad <b>${pct(sc.gradRate)}</b></span></div>` : "";
   let tint="";
   if(rankMode && rankColorOn() && x.rank){ const pctm=Math.max(6, 30-(x.rank-1)*(24/Math.max(1,(x._maxRank-1)))); tint=` style="background:color-mix(in srgb,var(--teal) ${Math.round(pctm)}%,var(--surface));border-color:color-mix(in srgb,var(--teal) 40%,var(--line))"`; }
@@ -2170,7 +2173,7 @@ function renderExList(q){
   list = list.filter(c=>{ const sc=c.scorecard||{}, L=c.lifestyle||{};
     if(fSize){ const z=sc.size; if(typeof z!=="number")return false; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
     if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
-    if(fCost){ const n=(typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg; if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
+    if(fCost){ const yn=yourNet(c); const n=yn?Math.max(0,yn.v):((typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg); if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
     if(fPol && L.politicalLean!==fPol) return false;
     if(fGuns && L.gunLaws!==fGuns) return false;
     if(fLgbtq && L.lgbtqPolicy!==fLgbtq) return false;
@@ -2184,7 +2187,7 @@ function renderExList(q){
     const sa=a.c.scorecard||{}, sb2=b.c.scorecard||{};
     if(sort==="name") return a.c.name.localeCompare(b.c.name);
     if(sort==="sel") return (sa.admissionRate??2)-(sb2.admissionRate??2);
-    if(sort==="cost"){ const na=(sa.netPrice??sa.costAvg??9e9), nb=(sb2.netPrice??sb2.costAvg??9e9); return na-nb; }
+    if(sort==="cost"){ const ya=yourNet(a.c), yb=yourNet(b.c); const na=ya?Math.max(0,ya.v):(sa.netPrice??sa.costAvg??9e9), nb=yb?Math.max(0,yb.v):(sb2.netPrice??sb2.costAvg??9e9); return na-nb; }
     if(sort==="earn") return (sb2.medianEarnings10yr??-1)-(sa.medianEarnings10yr??-1);
     if(hits){ const d=(rankOf.get(b.c)||0)-(rankOf.get(a.c)||0); if(d) return d; }   // searching: best name match first
     return (b.m??-1)-(a.m??-1);
@@ -2204,7 +2207,7 @@ function renderExList(q){
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}</div>
-        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>net ${money(sc.netPrice)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
+        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(sc.netPrice)}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
       </div>
@@ -2293,7 +2296,8 @@ function renderDetail(id){
       ${cell("Admission rate", pct(sc.admissionRate))}
       ${cell(typeof sc.sat25==="number"?"SAT range (25–75%)":"SAT average", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg}`:"—")))}
       ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
-      ${cell("Net price / yr", money(sc.netPrice))}
+      ${yourNet(info)?cell(`Your net price / yr (${yourNet(info).label})`, yourNetHtml(info)):""}
+      ${cell(yourNet(info)?"Average net price / yr":"Net price / yr", money(sc.netPrice))}
       ${cell("Sticker cost / yr", money(sc.costAvg))}
       ${cell("In-state tuition", money(sc.tuitionInState))}
       ${cell("Out-of-state tuition", money(sc.tuitionOutState))}
@@ -2656,20 +2660,56 @@ function renderCompare(){
     if(cb.checked){ cmpSel[id]=true; } else { delete cmpSel[id]; } lab.classList.toggle("on",cb.checked); updateCmpBadge(); syncCmpChips(); buildCompare(); }; });
   buildCompare();
 }
-function costCardHtml(){
-  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && x.info.scorecard && typeof x.info.scorecard.netPrice==="number");
-  if(rows.length<2) return "";
-  rows.sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice);
-  const max=Math.max(...rows.map(r=>r.info.scorecard.netPrice))||1;
-  const avg=Math.round(rows.reduce((a,r)=>a+r.info.scorecard.netPrice,0)/rows.length);
-  const body=rows.map(r=>{ const sc=r.info.scorecard; const np=sc.netPrice; const earn=sc.medianEarnings10yr; const w=Math.round(np/max*100);
-    return `<div class="cost-row"><span class="cost-nm">${esc(r.rec.name)}</span><div class="cost-track"><div class="cost-fill" style="width:${Math.max(6,w)}%"></div></div><span class="cost-v">${money(np)}${earn?`<span class="cost-earn">grads earn ~${money(earn)}</span>`:""}</span></div>`;
-  }).join("");
-  return `<div class="card cost-card"><div class="pv-head"><h2 style="margin:0">💰 Cost &amp; value across your list</h2><span class="muted" style="font-size:12px">avg net ${money(avg)}/yr</span></div>
-    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Estimated <b>net price</b> per year after typical aid — lowest first. Where available, median earnings 10 years after enrolling.</p>
-    <div class="cost-rows">${body}</div>
-    <p class="muted" style="font-size:11px;margin:11px 0 0">Net price is the federal average after grants/scholarships; your real cost depends on your family's finances — run each school's net-price calculator for a personal number.</p></div>`;
+
+/* ===== Improvement #2: "What will it cost us" — net price at the family's income =====
+   Data: College Scorecard net price by income band (separate file next to the catalog; approved via @live).
+   The family picks an income range in Profile (stored in their private, family-only preferences). */
+const INCOME_URL = CATALOG_URL.replace(/colleges\.json$/,"net-price-by-income.json");
+const INCOME_BANDS = ["$0–30k","$30–48k","$48–75k","$75–110k","$110k+"];
+state.incomePrices = null;
+async function loadIncomePrices(){
+  try{ const r=await fetch(INCOME_URL,{cache:"no-cache"}); if(!r.ok) return; const j=await r.json(); state.incomePrices=j.schools||null; }
+  catch(e){ state.incomePrices=null; }   // file not published yet -> feature simply stays hidden
 }
+function myIncomeBand(){
+  const own=myPrefs().incomeBand; if(own!==undefined && own!=="" && own!==null) return +own;
+  for(const m of (state.members||[])){ const w=state.prefs[m.user_id]; if(w && w.incomeBand!==undefined && w.incomeBand!=="" && w.incomeBand!==null) return +w.incomeBand; }   // a parent may have set it
+  return null;
+}
+// -> {v, band, label, inState} or null
+function yourNet(info){
+  const b=myIncomeBand(); if(b===null || !state.incomePrices || !info) return null;
+  const row=state.incomePrices[info.id]; if(!row) return null; const v=row[b]; if(typeof v!=="number") return null;
+  const pub=/public/i.test(info.ownership||"") ; const home=((studentProfile()||{}).home_state||"").toUpperCase();
+  return { v, band:b, label:INCOME_BANDS[b], outOfState: pub && home && info.state && home!==info.state };
+}
+function netMoney(v){ return v<=0 ? "$0" : money(v); }
+function yourNetHtml(info){ const y=yourNet(info); if(!y) return null;
+  return `${netMoney(y.v)}${y.v<=0?` <span class="muted" style="font-size:11px">(aid can cover full cost)</span>`:""}${y.outOfState?` <span class="muted" style="font-size:11px">(in-state price; out-of-state pays more)</span>`:""}`; }
+async function setIncomeBand(v){ const w={...myPrefs(), incomeBand: v===""?"":+v}; await savePrefs(w); }
+function costCardHtml(){
+  const yb=myIncomeBand(); const useYour = yb!==null && !!state.incomePrices;
+  const price=info=>{ if(useYour){ const y=yourNet(info); if(y) return Math.max(0,y.v); } const sc=info.scorecard||{}; return typeof sc.netPrice==="number"?sc.netPrice:null; };
+  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && price(x.info)!=null).map(x=>({...x, np:price(x.info), yours:useYour && !!yourNet(x.info)}));
+  if(rows.length<2) return "";
+  rows.sort((a,b)=>a.np-b.np);
+  const max=Math.max(...rows.map(r=>r.np))||1;
+  const avg=Math.round(rows.reduce((a,r)=>a+r.np,0)/rows.length);
+  const body=rows.map(r=>{ const sc=r.info.scorecard||{}; const earn=sc.medianEarnings10yr; const w=Math.round(r.np/max*100);
+    const tag = useYour && !r.yours ? ` <span class="muted" style="font-size:10.5px">(avg — no income data)</span>` : "";
+    return `<div class="cost-row"><span class="cost-nm">${esc(r.rec.name)}${tag}</span><div class="cost-track"><div class="cost-fill" style="width:${Math.max(6,w)}%"></div></div><span class="cost-v">${money(r.np)}${earn?`<span class="cost-earn">grads earn ~${money(earn)}</span>`:""}</span></div>`;
+  }).join("");
+  const head = useYour ? `for families earning <b>${INCOME_BANDS[yb]}</b>` : `average after aid`;
+  const opts=[["","Prefer not to say"],["0","Under $30k"],["1","$30k–48k"],["2","$48k–75k"],["3","$75k–110k"],["4","Over $110k"]].map(([v,t])=>`<option value="${v}" ${String(yb??"")===v?"selected":""}>${t}</option>`).join("");
+  const nudge = state.incomePrices ? `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 0;font-size:12.5px">${useYour?"":"💡 "}<label for="cost-income" style="margin:0">${useYour?"Family income:":"Pick your family's income to see what each school typically costs <b>you</b>:"}</label>
+      <select id="cost-income" data-income-inline style="width:auto">${opts}</select><span class="muted" style="font-size:11px">Only your family sees this.</span></div>` : "";
+  return `<div class="card cost-card"><div class="pv-head"><h2 style="margin:0">💰 What will it cost us?</h2><span class="muted" style="font-size:12px">avg ${money(avg)}/yr · ~${money(avg*4)} for 4 years</span></div>
+    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Typical yearly <b>net price</b> (after grants and scholarships), ${head} — lowest first. Where available, median earnings 10 years after enrolling.</p>
+    <div class="cost-rows">${body}</div>${nudge}
+    <p class="muted" style="font-size:11px;margin:11px 0 0">Federal College Scorecard averages for aided first-year students; public schools show the in-state price. Your real cost depends on your finances — run each school's net-price calculator for a personal number.</p></div>`;
+}
+document.addEventListener("change",async e=>{ const sel=e.target.closest&&e.target.closest("[data-income-inline]"); if(!sel) return; await setIncomeBand(sel.value); try{ if(currentView==="compare") buildCompare(); else refreshCurrent(); }catch(_){} });
+document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-nav-profile-income]"); if(!a) return; e.preventDefault(); goto("profile"); setTimeout(()=>{ const el=$("pf-income"); if(el){ try{ el.scrollIntoView({behavior:"smooth",block:"center"}); el.focus(); }catch(_){} } },300); });
 function buildCompare(){
   const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
   if(ids.length<2){ out.innerHTML=costCardHtml()+`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school) to compare them side by side.</div>`; return; }
@@ -2698,6 +2738,7 @@ function buildCompare(){
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
+    ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${INCOME_BANDS[myIncomeBand()]})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
     {k:"Net price / yr", get:c=>g(c).netPrice, fmt:v=>v==null?"—":money(v), dir:"lo"},
     {k:"Grad rate", get:c=>g(c).gradRate, fmt:v=>v==null?"—":pct(v), dir:"hi"},
     {k:"Earnings (10yr)", get:c=>g(c).medianEarnings10yr, fmt:v=>v==null?"—":money(v), dir:"hi"},
@@ -2981,6 +3022,7 @@ function renderProfile(){
   const p = (state.me && state.profiles[state.me.user_id]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
   $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
+  { const ib=myPrefs().incomeBand; const sel=$("pf-income"); if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
   // test-optional toggle
   const noTest=$("pf-noTest"); noTest.checked=!!p.testOptional;
   const applyNoTest=()=>{ document.querySelectorAll("#v-profile .test-field").forEach(d=>d.style.display=noTest.checked?"none":""); };
@@ -3242,9 +3284,10 @@ $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
   $("lifeprefs").querySelectorAll("[data-lp]").forEach(el=>w[el.dataset.lp]=el.value);
   w.lp_prox=[...$("proxprefs").querySelectorAll("[data-prox]")].filter(cb=>cb.checked).map(cb=>cb.dataset.prox);
+  if(myPrefs().incomeBand!==undefined) w.incomeBand=myPrefs().incomeBand;   // don't drop the income choice
   await savePrefs(w); setPrefStatus("saved"); if(currentView==="profile"){}
 };
-$("sl-reset").onclick = async () => { await savePrefs(defaultPrefs()); renderProfile(); };
+$("sl-reset").onclick = async () => { const ib=myPrefs().incomeBand; const d=defaultPrefs(); if(ib!==undefined) d.incomeBand=ib; await savePrefs(d); renderProfile(); };
 async function savePrefs(w){
   state.prefs[state.me.user_id]=w;
   if(BACKEND.preferences){ try{ const {error}=await sb.from("preferences").upsert({user_id:state.me.user_id, family_id:state.family.id, weights:w, updated_at:new Date().toISOString()}); if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.preferences=false; else { alert("Save failed: "+(e.message||e)); return; } } }
