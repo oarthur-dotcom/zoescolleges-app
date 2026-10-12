@@ -1,0 +1,235 @@
+{
+ "phone": {
+  "start": {
+   "cards": 6,
+   "bar": [
+    "✓ Exploring 6",
+    "✓ Visiting 0",
+    "✓ Applying 0",
+    "✓ Deciding 0"
+   ],
+   "hint": true
+  },
+  "focused": {
+   "cards": 1,
+   "stage": "applying",
+   "pill": "Applying",
+   "saved": 1
+  },
+  "more": 6,
+  "visiting": "visiting",
+  "deciding": "deciding",
+  "boardPill": [
+   "Applying",
+   "Visiting"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "✓ Trip 62x36"
+   ],
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "desktop": {
+  "start": {
+   "cards": 6,
+   "bar": [
+    "✓ Exploring 6",
+    "✓ Visiting 0",
+    "✓ Applying 0",
+    "✓ Deciding 0"
+   ],
+   "hint": true
+  },
+  "focused": {
+   "cards": 1,
+   "stage": "applying",
+   "pill": "Applying",
+   "saved": 1
+  },
+  "more": 6,
+  "visiting": "visiting",
+  "deciding": "deciding",
+  "boardPill": [
+   "Applying",
+   "Visiting"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "👪 Invite 90x33",
+    "🔎 Search Ctrl K 159x33",
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
+    "#btn-report2 📄 Report 88x32",
+    "#btn-invite + Add my family 126x32",
+    "#btn-more More ▾ 68x32",
+    "#rank-toggle ⇅ My ranking 111x32",
+    "#view-stacked ☰ 38x32",
+    "#view-tiles ▦ 38x32",
+    "★ 25x24",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x27",
+    "⇄ Compare 90x27",
+    "More · where you stand, facts, links, no 357x17",
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "Save note 88x32",
+    "Remove from board 151x32",
+    "✓ Trip 60x27"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "start": {
+   "cards": 6,
+   "bar": [
+    "✓ Exploring 6",
+    "✓ Visiting 0",
+    "✓ Applying 0",
+    "✓ Deciding 0"
+   ],
+   "hint": true
+  },
+  "focused": {
+   "cards": 1,
+   "stage": "applying",
+   "pill": "Applying",
+   "saved": 1
+  },
+  "more": 6,
+  "visiting": "visiting",
+  "deciding": "deciding",
+  "boardPill": [
+   "Applying",
+   "Visiting"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "✓ Trip 62x36"
+   ],
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.allShownAtFirst": true,
+  "phone.applyingFocuses": true,
+  "phone.filterAddsStages": true,
+  "phone.visitingAutomatic": true,
+  "phone.decidingAfterSubmit": true,
+  "phone.boardShowsStage": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.allShownAtFirst": true,
+  "desktop.applyingFocuses": true,
+  "desktop.filterAddsStages": true,
+  "desktop.visitingAutomatic": true,
+  "desktop.decidingAfterSubmit": true,
+  "desktop.boardShowsStage": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.allShownAtFirst": true,
+  "phone-dark.applyingFocuses": true,
+  "phone-dark.filterAddsStages": true,
+  "phone-dark.visitingAutomatic": true,
+  "phone-dark.decidingAfterSubmit": true,
+  "phone-dark.boardShowsStage": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

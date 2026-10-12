@@ -565,6 +565,13 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .cost-merit{display:block;font-size:11.5px;color:var(--star);margin-top:2px}.cost-npc{display:block;font-size:11.5px;margin-top:3px;color:var(--teal)}
 .sn-tab.sn-act{color:var(--teal);font-weight:700;border-style:dashed}
 .navbtn.nav-invite{color:var(--teal);font-weight:700}
+.dl-stagebar{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.dl-sb-l{font-size:12.5px;font-weight:700;color:var(--muted);margin-right:2px}
+.dl-sb{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;min-height:36px;cursor:pointer}.dl-sb span{color:var(--muted);font-size:12px}
+.dl-sb.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface));font-weight:600}
+.dl-sb-hint{font-size:12.5px;color:var(--muted);margin-top:8px}
+.dl-stage{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.st-pill{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--muted)}
+.st-pill.st-visiting{color:var(--amber);border-color:var(--amber)}.st-pill.st-applying{color:var(--teal);border-color:var(--teal)}.st-pill.st-deciding{color:var(--plum);border-color:var(--plum)}
 .dl-what{margin-top:6px;font-size:12.5px}.dl-what>summary{cursor:pointer;color:var(--teal);font-weight:600}.dl-what ul{margin:6px 0 0;padding-left:18px;line-height:1.5}
 .dl-cl-h{font-size:12.5px;font-weight:700;margin:8px 0 6px}.dl-cl-h span{font-weight:400;color:var(--muted)}
 .dl-pill:hover{border-color:var(--teal)}
@@ -3930,7 +3937,8 @@ function standBarHtml(info, compact){
 }
 function renderSchool(x){
   const s=x.s, info=x.info, b=x.b;
-  const catChip = (s.is_custom ? `<span class="chip">Custom</span>` : "") + (s.app_status&&s.app_status!=="planning"&&APP_STATUS[s.app_status] ? `<span class="chip dd-pill ${esc(s.app_status)}">${APP_STATUS[s.app_status].ico} ${esc(APP_STATUS[s.app_status].label)}</span>` : "");
+  const stg=schoolStage(s.school_id);
+  const catChip = (s.is_custom ? `<span class="chip">Custom</span>` : "") + (s.app_status&&s.app_status!=="planning"&&APP_STATUS[s.app_status] ? `<span class="chip dd-pill ${esc(s.app_status)}">${APP_STATUS[s.app_status].ico} ${esc(APP_STATUS[s.app_status].label)}</span>` : (stg!=="exploring"?` <span class="st-pill st-${stg}">${esc(stageLabel(stg))}</span>`:""));
   const sc = info && info.scorecard || {};
   const facts = info ? `<div class="facts">
       <span>size <b>${esc(info.sizeApprox||(sc.size?sc.size.toLocaleString():"—"))}</b></span>
@@ -5331,6 +5339,16 @@ function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
 function dlKey(id){ return "dlcheck_"+id; }
 // #70: the application checklist is shared with the family (family_schools.checklist, migration 017).
 // This device's older copy is used only until the shared one exists; if the column isn't there yet it stays on this device.
+// #81 (Oct 11): each school has a stage — Exploring → Visiting → Applying → Deciding (the same four as the family journey).
+// Visiting and Deciding follow what the family does (a visit planned or made; an application in). Applying is the one
+// choice the family makes ("we're applying here"), kept in the shared checklist so everyone sees it.
+const SCHOOL_STAGES=[["exploring","Exploring"],["visiting","Visiting"],["applying","Applying"],["deciding","Deciding"]];
+function schoolStage(id){ const st=schoolStatus(id); if(st && st!=="planning") return "deciding";
+  const c=getChecklist(id); if(c._stage==="applying" || Object.keys(c).some(k=>k!=="_stage"&&c[k])) return "applying";
+  const v=(typeof getVisits==="function")?getVisits()[id]:null; if(v && (typeof visitState==="function") && visitState(v)) return "visiting";
+  return "exploring"; }
+function setApplying(id,on){ const c=getChecklist(id); if(on) c._stage="applying"; else delete c._stage; setChecklist(id,c); }
+function stageLabel(k){ return (SCHOOL_STAGES.find(x=>x[0]===k)||[,k])[1]; }
 function getChecklist(id){ const row=(state.schools||[]).find(s=>s.school_id===id);
   if(row && row.checklist && typeof row.checklist==="object" && Object.keys(row.checklist).length) return {...row.checklist};
   return lsGet(dlKey(id))||{}; }
@@ -5445,10 +5463,19 @@ function pastDeadlinesHtml(rows){
       <span class="dl-past-tag ${i.submitted?"ok":"missed"}">${i.submitted?"✓ Submitted":"Missed?"}</span></div>`).join("")}
     <p class="muted" style="font-size:11.5px;margin:8px 0 0">"Submitted" comes from each school's checklist above — tick it when you apply.</p></details>`;
 }
+function wireDlStages(out, filt){ out.querySelectorAll("[data-dlstage]").forEach(b=>b.onclick=()=>{ const k=b.dataset.dlstage; let f=filt.includes(k)?filt.filter(x=>x!==k):[...filt,k]; lsSet("dlStages", f.length?f:null); renderDeadlines(); }); }
 function renderDeadlines(){
   const out=$("dl-out");
-  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info);
-  if(!rows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
+  const allRows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id),stage:schoolStage(s.school_id)})).filter(x=>x.info);
+  if(!allRows.length){ out.innerHTML=`<div class="card muted">No schools on your board yet. Add some from <b>Schools</b> to track their deadlines.</div>`; return; }
+  // #81: which stages to track. Default: everything until the family marks a school "Applying"; then Applying + Deciding.
+  const anyApplying=allRows.some(r=>r.stage==="applying"||r.stage==="deciding");
+  let filt=lsGet("dlStages"); if(!Array.isArray(filt)||!filt.length) filt = anyApplying ? ["applying","deciding"] : ["exploring","visiting","applying","deciding"];
+  const counts=Object.fromEntries(SCHOOL_STAGES.map(([k])=>[k, allRows.filter(r=>r.stage===k).length]));
+  const rows=allRows.filter(r=>filt.includes(r.stage));
+  const filterBar=`<div class="dl-stagebar" role="group" aria-label="Which schools to track"><span class="dl-sb-l">Tracking:</span>${SCHOOL_STAGES.map(([k,l])=>`<button type="button" class="dl-sb ${filt.includes(k)?"on":""}" data-dlstage="${k}" aria-pressed="${filt.includes(k)}">${filt.includes(k)?"✓ ":""}${l} <span>${counts[k]}</span></button>`).join("")}</div>
+    ${!anyApplying?`<div class="dl-sb-hint">Tip: tap <b>We're applying</b> on a school to focus this page on the applications you're actually sending.</div>`:""}`;
+  if(!rows.length){ out.innerHTML=`<div class="card">${filterBar}<p class="muted" style="margin:10px 0 0">No schools in the stages you picked. Tap a stage above to show its schools.</p></div>`; wireDlStages(out, filt); return; }
   rows.forEach(r=>{ const nx=nextDeadline(r.info); r._d=nx?nx.date:null; r._kind=nx?nx.kind:""; r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
   if(dlSel===null){ dlSel={}; rows.forEach(r=>{ if(r._d) dlSel[r.rec.school_id]=true; }); } // default: all dated selected
@@ -5464,7 +5491,7 @@ function renderDeadlines(){
       <button class="small" id="dl-apple">Apple</button>
       <button class="small" id="dl-outlook">Outlook</button>
     </div>`:""}</div>`;
-  out.innerHTML = header + `<div id="dl-remind"></div>` + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
+  out.innerHTML = `<div class="card dl-filtercard">${filterBar}</div>` + header + `<div id="dl-remind"></div>` + rows.map(r=>{ const i=r.info; const id=r.rec.school_id; const chk=getChecklist(id);
     const ed=i.earlyDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.early_date)||"";
     const rd=i.regularDeadline||(i.muse&&i.muse.deadlines&&i.muse.deadlines.regular_date)||"";
     const TK=tasksFor(i); const done=TK.filter(t=>chk[t.key]).length; const pctDone=Math.round(100*done/TK.length);
@@ -5477,6 +5504,7 @@ function renderDeadlines(){
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
         <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
+        <div class="dl-stage"><span class="st-pill st-${r.stage}">${esc(stageLabel(r.stage))}</span>${r.stage==="deciding"?"":r.stage==="applying"?`<button type="button" class="linklike" data-dlapply="${esc(id)}" data-on="0">Not applying after all</button>`:`<button type="button" class="small" data-dlapply="${esc(id)}" data-on="1">＋ We're applying</button>`}</div>
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
@@ -5489,6 +5517,8 @@ function renderDeadlines(){
     box.querySelectorAll("[data-task]").forEach(p=>{ p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); };
       p.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); p.click(); } }; }); });
   out.querySelectorAll(".dl-chk").forEach(cb=>cb.onchange=()=>{ dlSel[cb.dataset.dlsel]=cb.checked; renderDeadlines(); });
+  out.querySelectorAll("[data-dlapply]").forEach(b=>b.onclick=()=>{ setApplying(b.dataset.dlapply, b.dataset.on==="1"); renderDeadlines(); });
+  wireDlStages(out, filt);
   const all=$("dl-all"); if(all) all.onchange=()=>{ dated.forEach(r=>{ dlSel[r.rec.school_id]=all.checked; }); renderDeadlines(); };
   const g=$("dl-gcal"); if(g) g.onclick=()=>{ const ev=deadlineEvents(rows); if(!ev.length){ alert("Tick at least one school with a dated deadline."); return; }
     if(ev.length===1){ window.open(gcalUrl(ev[0]),"_blank","noopener"); }
