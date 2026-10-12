@@ -1,0 +1,314 @@
+{
+ "bigBytes": 30841713,
+ "phone": {
+  "leak": {
+   "sp": null,
+   "report": "",
+   "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
+   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"hs\":null}}"
+  },
+  "copyBox": true,
+  "insertNoCopy": 0,
+  "inputStyled": {
+   "pad": "11px",
+   "bg": "rgb(233, 236, 231)",
+   "color": "rgb(16, 28, 46)"
+  },
+  "prioBtn": true,
+  "prio": {
+   "view": "profile",
+   "whoShown": true,
+   "acadHidden": true,
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "h": "What matters to you (Obie)"
+  },
+  "errA": [],
+  "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
+  "sent": {
+   "mime": "image/jpeg",
+   "kb": 1295
+  },
+  "tx2": {
+   "text": "Here's what I read — check it, then fill your profile:\nGPA\n3.8 / 4\nAP / IB courses\n1\nHonors courses\n6\nDual-enrollment\n0\nSAT\n—\nACT\n—\nCourses I read (2)\nFill my profile\nDiscard\nNothing saves until you tap Save academic profile.",
+   "fg": "rgb(16, 28, 46)",
+   "bg": "rgb(255, 255, 255)",
+   "courses": 2
+  },
+  "txContrast": 17.106762131762412,
+  "btnContrast": [
+   "rgb(255, 255, 255)",
+   "rgb(11, 127, 129)"
+  ],
+  "btnRatio": 4.8088217901383965,
+  "words": [
+   "you and Zoe",
+   "you, Zoe and Usha",
+   "Obie"
+  ],
+  "fabDesk": "flex",
+  "tucked": true,
+  "back": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "★ 36x40",
+    "★ 25x24",
+    "My note · remove school 324x17"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errB": [],
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "errC": []
+ },
+ "desktop": {
+  "leak": {
+   "sp": null,
+   "report": "",
+   "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
+   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"hs\":null}}"
+  },
+  "copyBox": true,
+  "insertNoCopy": 0,
+  "inputStyled": {
+   "pad": "11px",
+   "bg": "rgb(233, 236, 231)",
+   "color": "rgb(16, 28, 46)"
+  },
+  "prioBtn": true,
+  "prio": {
+   "view": "profile",
+   "whoShown": true,
+   "acadHidden": true,
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "h": "What matters to you (Obie)"
+  },
+  "errA": [],
+  "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
+  "sent": {
+   "mime": "image/jpeg",
+   "kb": 1295
+  },
+  "tx2": {
+   "text": "Here's what I read — check it, then fill your profile:\nGPA\n3.8 / 4\nAP / IB courses\n1\nHonors courses\n6\nDual-enrollment\n0\nSAT\n—\nACT\n—\nCourses I read (2)\nFill my profile\nDiscard\nNothing saves until you tap Save academic profile.",
+   "fg": "rgb(16, 28, 46)",
+   "bg": "rgb(255, 255, 255)",
+   "courses": 2
+  },
+  "txContrast": 17.106762131762412,
+  "btnContrast": [
+   "rgb(255, 255, 255)",
+   "rgb(11, 127, 129)"
+  ],
+  "btnRatio": 4.8088217901383965,
+  "words": [
+   "you and Zoe",
+   "you, Zoe and Usha",
+   "Obie"
+  ],
+  "fabDesk": "none",
+  "tucked": false,
+  "back": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "#btn-report2 📄 Report 88x32",
+    "#btn-invite + Add my family 126x32",
+    "#btn-more More ▾ 68x32",
+    "#rank-toggle ⇅ My ranking 111x32",
+    "#view-stacked ☰ 38x32",
+    "#view-tiles ▦ 38x32",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x26",
+    "⇄ Compare 90x26",
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "★ 25x24",
+    "My note · remove school 357x17",
+    "Save note 88x32",
+    "Remove from board 151x32"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1336",
+    "BUTTON.navbtn# right=1437"
+   ],
+   "dashCount": 6
+  },
+  "errB": [],
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "errC": []
+ },
+ "phone-dark": {
+  "leak": {
+   "sp": null,
+   "report": "",
+   "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
+   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"hs\":null}}"
+  },
+  "copyBox": true,
+  "insertNoCopy": 0,
+  "inputStyled": {
+   "pad": "11px",
+   "bg": "rgb(16, 24, 40)",
+   "color": "rgb(233, 237, 246)"
+  },
+  "prioBtn": true,
+  "prio": {
+   "view": "profile",
+   "whoShown": true,
+   "acadHidden": true,
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "h": "What matters to you (Obie)"
+  },
+  "errA": [],
+  "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
+  "sent": {
+   "mime": "image/jpeg",
+   "kb": 1295
+  },
+  "tx2": {
+   "text": "Here's what I read — check it, then fill your profile:\nGPA\n3.8 / 4\nAP / IB courses\n1\nHonors courses\n6\nDual-enrollment\n0\nSAT\n—\nACT\n—\nCourses I read (2)\nFill my profile\nDiscard\nNothing saves until you tap Save academic profile.",
+   "fg": "rgb(233, 237, 246)",
+   "bg": "rgb(21, 30, 51)",
+   "courses": 2
+  },
+  "txContrast": 14.15298585363281,
+  "btnContrast": [
+   "rgb(11, 20, 36)",
+   "rgb(60, 194, 196)"
+  ],
+  "btnRatio": 8.515733936527964,
+  "words": [
+   "you and Zoe",
+   "you, Zoe and Usha",
+   "Obie"
+  ],
+  "fabDesk": "flex",
+  "tucked": true,
+  "back": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#view-stacked ☰ 38x40",
+    "#view-tiles ▦ 38x40",
+    "Open ↗ 69x36",
+    "🗺 Trip 63x36",
+    "⇄ Compare 92x36",
+    "▶ Tour 57x34",
+    "📍 Map 61x34",
+    "🎓 Site 58x34",
+    "📰 Pulse 67x34",
+    "★ 36x40",
+    "★ 25x24",
+    "My note · remove school 324x17"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errB": [],
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "errC": []
+ },
+ "ok": {
+  "phone.noParentGradeLeak": true,
+  "phone.askBeforeCopyingParentGrades": true,
+  "phone.plainInputsStyled": true,
+  "phone.setPrioritiesOpensSliders": true,
+  "phone.photoShrunk": true,
+  "phone.emptyReadHonest": true,
+  "phone.readShowsCourses": true,
+  "phone.transcriptReadable": true,
+  "phone.buttonsReadable": true,
+  "phone.naturalWording": true,
+  "phone.floatingButtons": true,
+  "phone.whosePrioritiesWithStudent": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.noParentGradeLeak": true,
+  "desktop.askBeforeCopyingParentGrades": true,
+  "desktop.plainInputsStyled": true,
+  "desktop.setPrioritiesOpensSliders": true,
+  "desktop.photoShrunk": true,
+  "desktop.emptyReadHonest": true,
+  "desktop.readShowsCourses": true,
+  "desktop.transcriptReadable": true,
+  "desktop.buttonsReadable": true,
+  "desktop.naturalWording": true,
+  "desktop.floatingButtons": true,
+  "desktop.whosePrioritiesWithStudent": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.noParentGradeLeak": true,
+  "phone-dark.askBeforeCopyingParentGrades": true,
+  "phone-dark.plainInputsStyled": true,
+  "phone-dark.setPrioritiesOpensSliders": true,
+  "phone-dark.photoShrunk": true,
+  "phone-dark.emptyReadHonest": true,
+  "phone-dark.readShowsCourses": true,
+  "phone-dark.transcriptReadable": true,
+  "phone-dark.buttonsReadable": true,
+  "phone-dark.naturalWording": true,
+  "phone-dark.floatingButtons": true,
+  "phone-dark.whosePrioritiesWithStudent": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

@@ -26,18 +26,18 @@
 <style>
 :root{
   --paper:#f3f5f1;--surface:#ffffff;--sunk:#e9ece7;--ink:#101c2e;--muted:#5f6982;
-  --line:#dbdfe6;--teal:#0b7f81;--amber:#b06f0c;--plum:#8e3b7a;--warn:#c2410c;
+  --line:#dbdfe6;--teal:#0b7f81;--on-teal:#ffffff;--amber:#b06f0c;--plum:#8e3b7a;--warn:#c2410c;
   --disp:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
   --mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
   --star:#d99a06;--good:#15803d;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
-  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
+  --line:#27314d;--teal:#3cc2c4;--on-teal:#0b1424;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
 }}
 :root[data-theme="dark"]{
   --paper:#0d1322;--surface:#151e33;--sunk:#101828;--ink:#e9edf6;--muted:#8691ab;
-  --line:#27314d;--teal:#3cc2c4;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
+  --line:#27314d;--teal:#3cc2c4;--on-teal:#0b1424;--amber:#e8ac45;--plum:#d27fbd;--warn:#fb923c;--star:#e8ac45;--good:#4ade80;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--disp);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
@@ -65,10 +65,10 @@ h2{font-size:18px;font-weight:700;margin:18px 0 8px}
 p.sub{color:var(--muted);margin:0 0 18px}
 .card{background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(16,28,46,.04),0 12px 32px rgba(16,28,46,.035)}
 label{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
-input[type=email],input[type=password],input[type=text],input[type=number],input[type=date],select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px;transition:box-shadow .15s,border-color .15s}
+input:not([type]),input[type=search],input[type=url],input[type=tel],input[type=email],input[type=password],input[type=text],input[type=number],input[type=date],select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:16px;transition:box-shadow .15s,border-color .15s}
 input:focus,select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--teal) 22%,transparent)}
 button{font-family:var(--disp);font-size:15px;font-weight:600;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;cursor:pointer;transition:filter .15s,border-color .15s,background .15s}
-button.primary{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 1px 2px rgba(11,127,129,.25)}
+button.primary{background:var(--teal);border-color:var(--teal);color:var(--on-teal);box-shadow:0 1px 2px rgba(11,127,129,.25)}
 button.primary:hover{filter:brightness(1.06)}
 button.ghost{background:transparent}
 button.ghost:hover{border-color:var(--muted)}
@@ -129,7 +129,11 @@ button:disabled{opacity:.5;cursor:default}
 details.extra{margin-top:8px}
 details.extra summary{font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer}
 textarea{width:100%;min-height:60px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:14px}
-.fab{position:fixed;right:18px;bottom:18px;z-index:6;background:var(--teal);color:#fff;border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+/* #65: floating buttons stop covering content — none for Zoe on wide screens (Ask Zoe is in the menu); on phones they tuck away while scrolling down */
+@media (min-width:900px){ #zoe-fab{display:none!important} }
+#zoe-fab,.fab{transition:transform .25s ease,opacity .25s ease}
+body.fab-tuck #zoe-fab,body.fab-tuck .fab{transform:translateY(140%);opacity:0;pointer-events:none}
+.fab{position:fixed;right:18px;bottom:18px;z-index:6;background:var(--teal);color:var(--on-teal);border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:18px;max-width:560px;width:calc(100vw - 32px)}
 dialog::backdrop{background:rgba(10,14,25,.55)}
 .picklist{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
@@ -148,7 +152,7 @@ dialog::backdrop{background:rgba(10,14,25,.55)}
 .counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .counter b{color:var(--amber)}
 a{color:var(--teal)}
-.plan-btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px}
+.plan-btn{display:inline-block;background:var(--teal);color:var(--on-teal);text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px}
 /* detail */
 .d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
 #v-detail{max-width:1000px;margin:0 auto}
@@ -226,7 +230,7 @@ a{color:var(--teal)}
 #pf-act-add{width:100%;border:1.5px dashed var(--line);background:transparent;color:var(--teal);border-radius:12px;padding:11px;font-weight:600}
 #pf-act-add:hover{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 6%,transparent)}
 /* inline help tooltip (hover + tap) */
-.hint{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;margin-left:5px;vertical-align:middle;position:relative;font-family:var(--disp);line-height:1}
+.hint{text-transform:none;font-style:italic;font-family:Georgia,serif;letter-spacing:0;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;margin-left:5px;vertical-align:middle;position:relative;font-family:var(--disp);line-height:1}
 .hint:hover,.hint:focus{border-color:var(--teal);color:var(--teal);outline:none}
 .hint::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:230px;max-width:72vw;background:var(--ink);color:var(--paper);padding:8px 10px;border-radius:8px;font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0;text-transform:none;text-align:left;z-index:30;opacity:0;pointer-events:none;transition:opacity .12s;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .hint:hover::after,.hint:focus::after,.hint.open::after{opacity:1}
@@ -272,7 +276,7 @@ a{color:var(--teal)}
 .near-fallback{margin-top:5px}
 .near-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .near-links a{font-size:12px;text-decoration:none;background:#f4f1ea;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--teal)}
-.near-links a:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.near-links a:hover{background:var(--teal);color:var(--on-teal);border-color:var(--teal)}
 .trip-exports{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .trip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .trip-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -326,8 +330,8 @@ a{color:var(--teal)}
 .share-dl{display:flex;gap:10px;font-size:13px;padding:3px 0}.share-dl b{min-width:96px}
 .share-extra{display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;font-size:12px}.share-stars{color:#e0a100;letter-spacing:1px}.share-stars i{color:var(--line);font-style:normal}
 .share-fine{font-size:11.5px;text-align:center;margin:14px 0 0}
-.share-aud-pick{display:flex;gap:6px;flex-wrap:wrap}.sh-audbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}.sh-audbtn.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
-.share-made{margin-top:10px;font-size:13px}.share-made.warn{color:#9a5b00}
+.share-aud-pick{display:flex;gap:6px;flex-wrap:wrap}.sh-audbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}.sh-audbtn.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal);font-weight:700}
+.share-made{margin-top:10px;font-size:13px}.share-made.warn{color:var(--amber)}
 a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;padding:6px 12px;text-decoration:none;color:var(--ink);background:var(--surface);font-size:13px}
 .share-mine{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}.share-mrow{display:flex;gap:12px;align-items:center;font-size:12.5px;padding:3px 0}.share-mrow span{flex:1}
 .zmodal.share-pv .zmodal-box{max-width:640px;max-height:86vh;overflow:auto;background:var(--paper)}
@@ -393,7 +397,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
   .wrap{padding:0!important;max-width:none!important}
 }
 
-.share-cta .btn-primary,.share-cta a.btn-primary{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700}
+.share-cta .btn-primary,.share-cta a.btn-primary{display:inline-block;background:var(--teal);color:var(--on-teal);text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700}
 /* binder */
 .ztab-actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .bk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -430,7 +434,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .ob-step{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
 .ob-step.done{opacity:.72}
 .ob-ic{flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px;background:var(--sunk)}
-.ob-step.done .ob-ic{background:var(--teal);color:#fff;font-weight:800}
+.ob-step.done .ob-ic{background:var(--teal);color:var(--on-teal);font-weight:800}
 .ob-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
 .ob-tx b{font-size:14px}
 .ob-tx span{font-size:12px;color:var(--muted);line-height:1.3}
@@ -527,17 +531,17 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .cm-why{color:var(--muted,#8a857c);font-size:11.5px;line-height:1.4}
 .cm-final{border-top:1px solid var(--line,#e7e4dd);margin-top:4px;padding-top:8px}
 .anchor-note{font-size:12px;line-height:1.5;border-radius:10px;padding:8px 10px}
-.anchor-note.ok{background:rgba(70,150,120,.1);color:#2f6b52}
-.anchor-note.warn{background:rgba(210,150,60,.13);color:#7a5410}
+.anchor-note.ok{background:color-mix(in srgb,var(--teal) 10%,var(--surface));color:var(--ink)}
+.anchor-note.warn{background:color-mix(in srgb,var(--amber) 13%,var(--surface));color:var(--ink)}
 .anchor-note .linklike{color:inherit;text-decoration:underline;font-weight:600}
 @media(max-width:560px){.cm-step{grid-template-columns:96px 70px 1fr;gap:6px}}
 /* Profile v2: themes readout + slider-impact donut */
 .int-readout{margin-top:8px;font-size:12.5px;line-height:1.5}
 .int-readout.none{color:var(--muted,#8a857c);background:var(--sunk,#f3f1ec);border-radius:10px;padding:8px 10px}
 .int-readout.has{background:rgba(63,176,163,.1);border-radius:10px;padding:10px}
-.ir-h{font-weight:600;color:#2f6b52;margin-bottom:6px}
+.ir-h{font-weight:600;color:var(--teal);margin-bottom:6px}
 .ir-chips{display:flex;flex-wrap:wrap;gap:6px}
-.ir-chip{background:#fff;border:1px solid rgba(63,176,163,.4);color:#2f6b52;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+.ir-chip{background:var(--surface);border:1px solid color-mix(in srgb,var(--teal) 40%,var(--line));color:var(--teal);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
 .ir-foot{color:var(--muted,#8a857c);font-size:11.5px;margin-top:8px}
 .sl-impact{margin-top:16px;padding-top:14px;border-top:1px solid var(--line,#e7e4dd)}
 .sl-impact-head{font-size:13px;font-weight:700;margin-bottom:10px}
@@ -557,15 +561,16 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .tx-up-sub{color:var(--muted,#8a857c);font-size:12px;line-height:1.4;margin-top:2px}
 .tx-status{font-size:13px;border-radius:10px;padding:9px 11px;margin:0 0 10px}
 .tx-status.busy{background:var(--sunk,#f3f1ec);color:var(--ink,#2a2721)}
-.tx-status.err{background:rgba(210,90,70,.1);color:#9a3b2c}
-.tx-status.ok{background:rgba(63,176,163,.12);color:#2f6b52}
+.tx-status.err{background:color-mix(in srgb,var(--warn) 12%,var(--surface));color:var(--warn)}
+.tx-status.ok{background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal)}
 .tx-spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(0,0,0,.18);border-top-color:var(--teal,#3fb0a3);border-radius:50%;animation:tx-sp .8s linear infinite;vertical-align:-2px;margin-right:4px}
 @keyframes tx-sp{to{transform:rotate(360deg)}}
-.tx-preview{background:#fff;border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:14px;margin:0 0 12px}
+.tx-preview{background:var(--surface);color:var(--ink);border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:14px;margin:0 0 12px}
 .txp-h{font-weight:700;font-size:13px;margin-bottom:8px}
 .txp-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line,#f0ede7)}
 .txp-row:last-of-type{border-bottom:none}
-.txp-warn{background:rgba(210,150,60,.13);color:#7a5410;font-size:12px;border-radius:8px;padding:7px 9px;margin-top:8px}
+.txp-courses{margin-top:8px;font-size:12.5px}.txp-courses ul{margin:6px 0 0;padding-left:18px;columns:2;column-gap:18px}.txp-lv{font-size:10.5px;font-weight:700;color:var(--teal)}
+.txp-warn{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber);font-size:12px;border-radius:8px;padding:7px 9px;margin-top:8px}
 .vmap{height:280px;border-radius:12px;border:1px solid var(--line);margin:8px 0;z-index:0}
 .vmap .leaflet-container{border-radius:12px}
 .spots{display:flex;flex-direction:column;gap:6px;margin:6px 0}
@@ -731,7 +736,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 #zoe-panel .zhead b{font-size:15px}
 #zoe-log{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
 .zmsg{font-size:14px;line-height:1.45}
-.zmsg.me{align-self:flex-end;background:var(--teal);color:#fff;border-radius:12px 12px 2px 12px;padding:8px 11px;max-width:85%}
+.zmsg.me{align-self:flex-end;background:var(--teal);color:var(--on-teal);border-radius:12px 12px 2px 12px;padding:8px 11px;max-width:85%}
 .zmsg.z{align-self:flex-start;background:var(--sunk);border-radius:12px 12px 12px 2px;padding:8px 11px;max-width:92%}
 .zmsg.z b{color:var(--ink)}
 .zsugg{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
@@ -811,7 +816,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cmp-tile .lc{color:var(--muted);font-size:11px;padding:0 10px 6px}
 .cmp-tile .ph{position:relative}
 .cmp-tile.cx-win{border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 35%,transparent)}
-.cx-badge{position:absolute;top:7px;left:7px;background:var(--teal);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
+.cx-badge{position:absolute;top:7px;left:7px;background:var(--teal);color:var(--on-teal);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
 .cx-tilestat{display:flex;align-items:center;gap:8px;padding:0 10px 10px;flex-wrap:wrap}
 .cx-best{display:flex;gap:11px;align-items:center;border:1px solid color-mix(in srgb,var(--teal) 30%,var(--line));background:color-mix(in srgb,var(--teal) 7%,var(--surface))}
 .cx-best-ic{font-size:22px}
@@ -829,7 +834,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cxm{display:none}
 .cxm-legend{display:grid;gap:6px;margin:6px 0 12px;font-size:13px;font-weight:600}
 .cxm-leg{display:flex;gap:8px;align-items:center;min-width:0;overflow-wrap:anywhere}
-.cxm-n{flex:0 0 auto;width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:800;color:#fff;background:var(--teal)}
+.cxm-n{flex:0 0 auto;width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:800;color:var(--on-teal);background:var(--teal)}
 .cxm-n.n1{background:var(--plum)}.cxm-n.n2{background:var(--amber)}.cxm-n.n3{background:#4a6cd4}
 .cxm-row{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 12px;margin:8px 0}
 .cxm-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:6px}
@@ -877,7 +882,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
   .tb .tb-i{font-size:20px;line-height:1.1;filter:grayscale(.6);opacity:.8}
   .tb.active{color:var(--teal)}
   .tb.active .tb-i{filter:none;opacity:1}
-  .tb-badge{position:absolute;top:3px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--teal);color:#fff;font-size:10.5px;font-weight:800;line-height:17px;text-align:center}
+  .tb-badge{position:absolute;top:3px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--teal);color:var(--on-teal);font-size:10.5px;font-weight:800;line-height:17px;text-align:center}
   .tb-badge.dot{min-width:9px;width:9px;height:9px;padding:0;background:var(--warn);top:6px;left:calc(50% + 8px)}
   .tb-sheet:not(.hidden){display:flex;align-items:flex-end;position:fixed;inset:0;z-index:19;background:rgba(10,16,30,.35)}
   .tb-sheet-in{width:100%;background:var(--surface);border-radius:20px 20px 0 0;padding:10px 10px calc(76px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2)}
@@ -963,7 +968,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .tk-start{color:var(--teal)}
 .tk-dots{display:inline-flex;flex-shrink:0;padding-left:5px}
 .tk-dot{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-left:-5px;border:1.5px dashed var(--line);color:var(--muted);background:var(--surface)}
-.tk-dot.on{border:2px solid var(--surface);background:var(--teal);color:#fff}
+.tk-dot.on{border:2px solid var(--surface);background:var(--teal);color:var(--on-teal)}
 .tk-foot{font-size:12.5px;color:var(--muted);margin:10px 2px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .tk-head{display:flex;align-items:center;gap:8px;margin:0 0 10px}
 .tk-back{border:0;background:none;color:var(--teal);cursor:pointer;padding:0;min-width:40px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;margin-left:-8px}
@@ -996,7 +1001,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .tk-inrow{display:flex;align-items:flex-end;gap:8px}
 .tk-inrow textarea{flex:1;border:0;background:none;resize:none;font-size:15.5px;line-height:1.4;padding:6px 2px;min-height:38px;box-shadow:none;color:var(--ink)}
 .tk-inrow textarea:focus{outline:none;box-shadow:none}
-.tk-send{width:40px;height:40px;border-radius:50%;border:0;background:var(--teal);color:#fff;font-size:19px;font-weight:800;cursor:pointer;flex-shrink:0;padding:0}
+.tk-send{width:40px;height:40px;border-radius:50%;border:0;background:var(--teal);color:var(--on-teal);font-size:19px;font-weight:800;cursor:pointer;flex-shrink:0;padding:0}
 .tk-send:disabled{opacity:.5}
 .tk-starters{display:flex;flex-direction:column;margin:2px 0 4px}
 .tk-starter{border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);padding:9px 2px;font-size:13.5px;cursor:pointer;text-align:left;border-radius:0}
@@ -1013,7 +1018,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .tk-order{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
 .tk-order:empty{display:none}
 .tk-order li{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 12px;border-top:1px solid var(--line)}.tk-order li:first-child{border-top:0}
-.tk-rk{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.tk-rk{width:24px;height:24px;border-radius:50%;background:var(--teal);color:var(--on-teal);font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .tk-rn{flex:1;min-width:0;font-weight:600}
 .tk-ib{border:0;background:none;color:var(--muted);font-size:16px;cursor:pointer;min-width:38px;min-height:38px}
 .tk-addlist{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -1097,7 +1102,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .ptabs{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px 0}
 .ptab{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;cursor:pointer;min-height:34px}
 @media (max-width:420px){.ptabs{gap:5px;padding:10px 12px 0}.ptab{padding:6px 9px}}
-.ptab.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.ptab.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
 .ptab .n{opacity:.7;margin-left:4px;font-family:var(--mono);font-size:11px}
 .pbody{padding:4px 16px 12px}
 .pulse-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;line-height:1.35;align-items:flex-start}
@@ -1129,7 +1134,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .pt-chips{padding:12px 0 2px}
 .pt-chips .ptab{display:inline-flex;align-items:center;gap:6px}
 .pt-feed .bp-item:last-child{border-bottom:none}
-.pt-new{background:var(--teal);color:#fff}
+.pt-new{background:var(--teal);color:var(--on-teal)}
 .pdot.mini{width:7px;height:7px;display:inline-block;vertical-align:1px;margin-right:4px}
 .pdot.mini::after{inset:-3px}
 .pulse-new .pdot.mini{background:#fff}
@@ -1143,7 +1148,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .pt-visit{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .pt-visit:last-child{border-bottom:none}
 .pt-trip{flex:0 0 auto;border:1px solid var(--teal);color:var(--teal);background:var(--surface);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px;white-space:nowrap}
-.pt-trip.on{background:var(--teal);color:#fff}
+.pt-trip.on{background:var(--teal);color:var(--on-teal)}
 .pt-visit a.pi-t{color:var(--ink);text-decoration:none}
 .pt-visit a.pi-t:hover{color:var(--teal)}
 .pt-vtag{background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--warn)}
@@ -1156,9 +1161,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 /* #55 visit kit */
 .vk-head{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.vk-k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--teal)}
 #vk-switch{max-width:220px}
-.vk-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.vk-links a{text-decoration:none;display:inline-flex;align-items:center;padding:9px 14px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:13.5px;min-height:40px;background:var(--surface)}.vk-links a.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.vk-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.vk-links a{text-decoration:none;display:inline-flex;align-items:center;padding:9px 14px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:13.5px;min-height:40px;background:var(--surface)}.vk-links a.primary{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
 .vk-card{margin:0 0 12px}.vk-h{font-weight:700;font-size:14.5px;margin-bottom:8px}.vk-h .muted{font-weight:400;font-size:12px}
-.vk-gut{display:flex;gap:6px;flex-wrap:wrap}.vk-g{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}.vk-g.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.vk-gut{display:flex;gap:6px;flex-wrap:wrap}.vk-g{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}.vk-g.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
 .vk-stars{display:flex;gap:2px;align-items:center;margin-top:10px}.vk-stars .s{font-size:28px;background:none;border:none;color:var(--line);cursor:pointer;padding:2px 4px;min-width:40px;min-height:40px}.vk-stars .s.on{color:var(--star,#e8ac45)}
 .vk-strip{display:flex;gap:6px;overflow-x:auto;margin-top:10px}.vk-strip img{width:84px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto}
 #vk-note{width:100%}
@@ -1251,7 +1256,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .bp-t{display:block;font-size:14px;font-weight:600;line-height:1.35;overflow-wrap:anywhere;color:var(--ink);text-decoration:none;margin-top:2px}
 .bp-t:hover{color:var(--teal)}
 .bp-foot{font-size:11.5px;color:var(--muted);padding:6px 0 4px}
-.pulse-new{display:inline-block;margin-left:4px;background:var(--teal);color:#fff;border-radius:999px;padding:0 6px;font-size:10.5px;font-weight:700;vertical-align:1px}
+.pulse-new{display:inline-block;margin-left:4px;background:var(--teal);color:var(--on-teal);border-radius:999px;padding:0 6px;font-size:10.5px;font-weight:700;vertical-align:1px}
 </style>
 </head>
 <body>
@@ -1620,7 +1625,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <div class="tx-up">
         <div class="tx-up-main"><div class="tx-up-ico">📄</div><div><div class="tx-up-h">Upload your transcript to auto-fill</div><div class="tx-up-sub">PDF or a clear photo — we read the GPA, rigor and test scores for you. You review everything first, and nothing is stored.</div></div></div>
         <button id="tx-btn" class="small primary" type="button">Choose file</button>
-        <input id="tx-file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf,.png,.jpg,.jpeg" style="display:none">
+        <input id="tx-file" type="file" accept="image/png,image/jpeg,image/webp,image/heic,image/heif,application/pdf,.pdf,.png,.jpg,.jpeg,.heic,.heif" style="display:none">
       </div>
       <div id="tx-status" class="tx-status hidden"></div>
       <div id="tx-preview" class="tx-preview hidden"></div>
@@ -1673,7 +1678,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <div class="row" style="margin-top:12px"><button id="pf-save3" class="small primary">Save</button><span id="pf-savemsg3" class="muted" style="font-size:12px"></span></div>
     </div>
     <div class="card">
-      <h2 style="margin-top:0">What matters to you</h2>
+      <h2 style="margin-top:0" id="pr-h">What matters to you</h2>
+      <div id="pr-whose" class="anchor-note ok hidden" style="margin:0 0 10px"></div>
       <p class="muted" style="font-size:13px;margin-top:0">Slide toward what counts, then set your lifestyle preferences. Match % re-scores every school for you instantly. <span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span></p>
       <div class="sl-subhead">How much each counts</div>
       <div id="sliders"></div>
@@ -2311,10 +2317,10 @@ function matchScore(c, w){
 /* admission chance for the STUDENT: Reach/Target/Likely */
 function studentProfile(){
   const stu = state.members.find(m=>m.role==="student");
-  if(stu && state.profiles[stu.user_id]) return state.profiles[stu.user_id];
-  if(!stu && state.profiles.pending) return state.profiles.pending;   // #64: the student a parent set up, before they join
-  // fall back to current user's profile if no student yet
-  return (state.me && state.profiles[state.me.user_id]) || null;
+  if(stu) return state.profiles[stu.user_id] || null;
+  if(state.profiles.pending) return state.profiles.pending;   // #64: the student a parent set up, before they join
+  // #65: never fall back to whoever is signed in — a parent's grades must never show up as the student's
+  return null;
 }
 // Official ACT→SAT concordance (ACT/College Board, rounded to nearest composite).
 const ACT_SAT = {36:1590,35:1540,34:1500,33:1460,32:1430,31:1400,30:1370,29:1340,28:1310,27:1280,26:1240,25:1210,24:1180,23:1140,22:1110,21:1080,20:1040,19:1010,18:970,17:930,16:890,15:850,14:800,13:760,12:710,11:670,10:630};
@@ -2433,6 +2439,7 @@ function studentAnchor(){
   const ms = state.members||[];
   const stu = ms.find(m=>m.role==="student");
   if(stu && state.profiles[stu.user_id]) return { anchored:true, name:(stu.display_name||"the student"), isMe:(state.me&&stu.user_id===state.me.user_id) };
+  if(!stu && state.pending) return { anchored:true, pending:true, name:state.pending.display_name, isMe:false };
   const meM = state.me && ms.find(m=>m.user_id===state.me.user_id);
   return { anchored:false, name:(meM&&meM.display_name)||"you", isMe:true };
 }
@@ -2440,8 +2447,9 @@ function anchorNoteHtml(){
   const a=studentAnchor();
   if(a.anchored) return `<div class="anchor-note ok">Chances are based on <b>${esc(a.name)}</b>'s academic profile — the whole family sees the same odds.${a.isMe&&isParentish(a.name)?` <button class="linklike" data-setparent>Not the student? Switch me to parent</button>`:(a.isMe?` <button class="linklike" data-setparent style="font-size:11px">Not you? Switch me to parent</button>`:"")}</div>`;
   const stu=(state.members||[]).find(m=>m.role==="student");
-  if(stu) return `<div class="anchor-note warn">⚠ <b>${esc(stu.display_name||"The student")}</b> hasn't filled in a profile yet, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile for now — different family members can see different odds.</div>`;
-  return `<div class="anchor-note warn">⚠ No student is set, so chances use ${a.isMe?"your":`<b>${esc(a.name)}</b>'s`} own profile — different family members can see different odds. <button class="linklike" data-setstudent>Use this profile as the student's ▸</button></div>`;
+  if(a.pending) return `<div class="anchor-note ok">Chances are based on the profile you're filling in for <b>${esc(a.name)}</b>. It moves to ${esc(a.name)}'s account when ${esc(a.name)} joins.</div>`;
+  if(stu) return `<div class="anchor-note warn">⚠ <b>${esc(stu.display_name||"The student")}</b> hasn't added grades yet. Chances appear once ${esc(stu.display_name||"they")} fill${stu.display_name?"s":""} in ${stu.display_name?"their":"the"} profile.</div>`;
+  return `<div class="anchor-note warn">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class="linklike" data-setstudent>Mark me as the student ▸</button></div>`;
 }
 // The exact derived inputs the predictor used — the apples-to-apples readout for
 // comparing two runs (e.g. if two family members get different results).
@@ -2552,7 +2560,7 @@ function renderOnboard(){
   const members=(state.members||[]).length;
   const steps=[
     {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
-    {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so match % fits you.", cta:"Set priorities", nav:"profile"},
+    {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so match % fits you.", cta:"Set priorities", nav:"profile", act:"priorities"},
     {done:members>=2, icon:"👨‍👩‍👧", title:"Invite your family", desc:"Everyone rates together — share your invite code.", cta:"Invite family", act:"invite"},
   ];
   const doneN=steps.filter(s=>s.done).length, allDone=doneN===steps.length;
@@ -2568,7 +2576,7 @@ function renderOnboard(){
     </div>`).join("")}</div>
   </div>`;
   const dx=el.querySelector("[data-obdismiss]"); if(dx) dx.onclick=()=>{ dismissOnboard(); renderOnboard(); };
-  el.querySelectorAll(".ob-go").forEach(b=>b.onclick=()=>{ if(b.dataset.obact==="invite"){ openInvite(); } else if(b.dataset.obnav){ goto(b.dataset.obnav); } });
+  el.querySelectorAll(".ob-go").forEach(b=>b.onclick=()=>{ if(b.dataset.obact==="invite"){ openInvite(); } else if(b.dataset.obact==="priorities"){ openPriorities(); } else if(b.dataset.obnav){ goto(b.dataset.obnav); } });
 }
 function renderBoard(){
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
@@ -2704,12 +2712,14 @@ function whoDots(k){ const s=sharedIn(k);
   return `<span class="tk-dots" aria-label="${s.size} of ${(state.members||[]).length} have shared">${(state.members||[]).map(m=>`<span class="tk-dot ${s.has(m.user_id)?"on":""}" title="${esc(m.display_name)}${s.has(m.user_id)?" has shared":" hasn't shared yet"}">${esc((m.display_name||"?")[0].toUpperCase())}</span>`).join("")}</span>`; }
 function movieMoments(){ return talk.posts.filter(p=>p.in_movie&&["voice","post","agreement","pick","milestone","decision"].includes(p.kind)); }
 /* ---- home ---- */
+// #65: "you and Zoe", not "you, Zoe" (read like a name)
+function peopleList(names){ const a=names.slice().sort((x,y)=>(y==="you")-(x==="you")).map(esc); return a.length<=1?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1]; }
 function voteCardHtml(){
   if((state.schools||[]).length<2) return "";
   const r=ballot.res||{members:(state.members||[]).length,voted:0,revealed:false,voters:[]}; let line, btn;
   if(r.revealed&&r.ballots){ const top=ballotTally(r)[0]; line=top?`Family pick this round: <b>${esc(schoolName(top.id))}</b>`:"The results are in."; btn="See results"; }
   else { const voters=new Set(r.voters||[]); const waiting=(state.members||[]).filter(m=>!voters.has(m.user_id)).map(m=>isMe(m.user_id)?"you":m.display_name);
-    line=`${r.voted} of ${r.members} voted${waiting.length?` · waiting on ${waiting.map(esc).join(", ")}`:""}`; btn=ballot.mine?"Change":"Vote"; }
+    line=`${r.voted} of ${r.members} voted${waiting.length?` · waiting on ${peopleList(waiting)}`:""}`; btn=ballot.mine?"Change":"Vote"; }
   return `<button class="tk-votecard" data-tkgoto="vote"><span class="tk-vc-t"><span class="tk-vc-h">🗳 Family vote</span><span class="tk-vc-s">${line}</span></span><span class="tk-vc-b">${btn} ›</span></button>`;
 }
 function talkHomeHtml(){
@@ -2814,7 +2824,7 @@ function talkVoteHtml(){
   const board=state.schools||[]; if(board.length<2) return head+`<div class="card muted">Add at least two schools to your board to vote.</div>`;
   const r=ballot.res||{members:(state.members||[]).length,voted:0,revealed:false,voters:[]};
   const voters=new Set(r.voters||[]); const waiting=(state.members||[]).filter(m=>!voters.has(m.user_id)).map(m=>isMe(m.user_id)?"you":m.display_name);
-  const status=`<div class="tk-status">${r.voted} of ${r.members} voted${waiting.length&&!r.revealed?` · waiting on ${waiting.map(esc).join(", ")}`:""}</div>`;
+  const status=`<div class="tk-status">${r.voted} of ${r.members} voted${waiting.length&&!r.revealed?` · waiting on ${peopleList(waiting)}`:""}</div>`;
   if(r.revealed && r.ballots){
     const rows=ballotTally(r); const top=rows[0]; const LAB={agree:"🤝 You agree",close:"👍 Close",talk:"💬 Talk about it"};
     return head+`<div class="tk-intro">Not a final decision. A map of where you agree and where to listen more.</div>
@@ -2878,7 +2888,7 @@ function talkTodayCard(){
   const spoke=new Set(talk.posts.filter(p=>!SYS_KINDS.includes(p.kind)).map(p=>p.user_id)); const quiet=(state.members||[]).filter(m=>!spoke.has(m.user_id)).map(m=>isMe(m.user_id)?"you":m.display_name);
   const r=ballot.res; const canVote=r&&!r.revealed&&!ballot.mine&&(state.schools||[]).length>=2;
   const bline=r?(r.revealed?"Vote results are in.":`${r.voted} of ${r.members} voted.`):"";
-  return `<div class="td-card td-talk"><div class="td-h">💬 Talk It Out</div><div class="td-mid">${quiet.length?`Waiting to hear from ${quiet.map(esc).join(", ")}.`:"Everyone has shared."} ${bline}</div>
+  return `<div class="td-card td-talk"><div class="td-h">💬 Talk It Out</div><div class="td-mid">${quiet.length?`Waiting to hear from ${peopleList(quiet)}.`:"Everyone has shared."} ${bline}</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-talk="home">Open</button>${canVote?`<button class="small" data-td-talk="vote">🗳 Vote</button>`:""}</div></div>`;
 }
 function talkDetailHtml(id){
@@ -2912,7 +2922,8 @@ async function maybeClaimPending(){
 function studentSetupCard(){
   if(DEMO||BACKEND.pending===false||!state.family||!state.me||studentMember()||myRole()==="student") return "";
   if(!state.pending) return `<div class="td-card td-student"><div class="td-h">🎓 Who's the student?</div><div class="td-mid">Add your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.</div>
-    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div><div class="tk-msg" id="ss-msg" role="status"></div></div>`;
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
+    ${profileBuilt(state.profiles[state.me.user_id])?`<label class="tk-check"><input type="checkbox" id="ss-copy"> <span>Use the grades I already entered on my profile as the student's</span></label>`:""}<div class="tk-msg" id="ss-msg" role="status"></div></div>`;
   const n=esc(state.pending.display_name); const has=profileBuilt(state.profiles.pending||{});
   return `<div class="td-card td-student"><div class="td-h">🎓 ${n} hasn't joined yet</div><div class="td-mid">Send ${n} the invite so ${n} can rate schools too. ${has?`The profile you filled in moves to ${n}'s account when ${n} joins.`:`You can fill in ${n}'s grades now. They move over when ${n} joins.`}</div>
     <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" id="ss-invite">Send ${n} the invite</button><button class="small" id="ss-profile">${has?`Edit ${n}'s profile`:`Fill in ${n}'s grades`}</button></div><div class="tk-msg" id="ss-msg" role="status"></div></div>`;
@@ -2920,14 +2931,14 @@ function studentSetupCard(){
 function wireStudentSetup(el){
   const save=el.querySelector("#ss-save"); if(save) save.onclick=async()=>{ const name=el.querySelector("#ss-name").value.trim(); const m=el.querySelector("#ss-msg");
     if(!name){ m.textContent="Type your student's first name first."; return; } save.disabled=true;
-    const mine=state.profiles[state.me.user_id]; const profile = (mine&&profileBuilt(mine)) ? _pendProfile(mine) : {};   // anything a parent already typed carries over
+    const mine=state.profiles[state.me.user_id]; const cp=el.querySelector("#ss-copy"); const profile = (cp&&cp.checked&&mine&&profileBuilt(mine)) ? _pendProfile(mine) : {};   // #65: only when the parent says so
     const row={family_id:state.family.id, display_name:name.slice(0,40), profile, created_by:state.me.user_id, updated_at:new Date().toISOString()};
     const {error}=await sb.from("pending_students").insert(row);
     if(error){ save.disabled=false; m.textContent= isMissing(error) ? "This needs a quick setup step on our side. Try again soon." : "Couldn't save that. Please try again."; if(isMissing(error)) BACKEND.pending=false; return; }
     await loadPending(); computeNorms(); renderToday(); };
   const inv=el.querySelector("#ss-invite"); if(inv) inv.onclick=async()=>{ const t=inviteMsg();
     try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); inv.textContent="Invite copied ✓ Paste it in a text"; } }catch(e){} };
-  const pf=el.querySelector("#ss-profile"); if(pf) pf.onclick=()=>goto("profile");
+  const pf=el.querySelector("#ss-profile"); if(pf) pf.onclick=()=>{ goto("profile"); profileTab("acad"); };
 }
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
@@ -4986,6 +4997,10 @@ function renderProfile(){
     ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
     : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
   { const h=$("pf-h1"); if(h) h.textContent = pendingMode() ? `${state.pending.display_name}'s profile` : "My profile"; }
+  { const w=$("pr-whose"), me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id), nm=(me&&me.display_name)||"you";   // #65: whose priorities these are
+    if(w){ const stu=studentMember(); const other = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");
+      w.classList.toggle("hidden", !other); if(other) w.innerHTML=`These priorities are <b>yours (${esc(nm)})</b>. Everyone in the family sets their own, so your match % reflects what matters to you. ${esc(other)} sets ${esc(other)}'s own.`; }
+    const ph=$("pr-h"); if(ph) ph.textContent = (pendingMode()||(studentMember()&&!isMe(studentMember().user_id))) ? `What matters to you (${nm})` : "What matters to you"; }
   if(pendingMode()){ const n=esc(state.pending.display_name); $("profile-scope").innerHTML=`🎓 <b>You're filling this in for ${n}.</b> It moves to ${n}'s own account when ${n} joins with your invite.`; }
   const p = (state.me && state.profiles[profKey()]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
@@ -5157,6 +5172,7 @@ function showTxPreview(f){
     ${line("Dual-enrollment", f.dualEnrollment)}
     ${line("SAT", f.sat!=null?f.sat:"—")}
     ${line("ACT", f.act!=null?f.act:"—")}
+    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses"><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}</li>`).join("")}</ul></details>`:""}
     ${f.confidence==="low"?`<div class="txp-warn">⚠ The image was hard to read — double-check these before saving.</div>`:""}
     <div class="row" style="margin-top:10px;gap:8px"><button class="small primary" id="txp-fill" type="button">Fill my profile</button><button class="small ghost" id="txp-cancel" type="button">Discard</button></div>
     <div class="muted" style="font-size:11px;margin-top:6px">Nothing saves until you tap <b>Save academic profile</b>.</div>`;
@@ -5178,25 +5194,35 @@ function showTxPreview(f){
     btn.onclick=()=>file.click();
     file.onchange=async ()=>{
       const f=file.files && file.files[0]; file.value=""; if(!f) return;
-      const okTypes=["image/png","image/jpeg","image/jpg","image/webp","application/pdf"];
-      if(!okTypes.includes(f.type)){ txStatus("Please pick a PDF or a photo (PNG/JPG).","err"); return; }
-      if(f.size>4*1024*1024){ txStatus("That file is over 4MB — try a smaller photo or a PDF export.","err"); return; }
+      // #65: phone photos are shrunk on the phone first (about 1800px, still sharp enough to read), so size is never a problem.
+      const isPdf = f.type==="application/pdf" || /\.pdf$/i.test(f.name);
+      const isHeic = /image\/hei[cf]/.test(f.type) || /\.hei[cf]$/i.test(f.name);
+      const isImg = /^image\//.test(f.type) || isHeic;
+      if(!isPdf && !isImg){ txStatus("Please pick a PDF or a photo of the transcript.","err"); return; }
+      if(isPdf && f.size>4*1024*1024){ txStatus("That PDF is over 4MB. Try exporting it again, or take a photo of each page instead.","err"); return; }
       $("tx-preview").classList.add("hidden");
       txStatus(`<span class="tx-spin"></span> Reading <b>${esc(f.name)}</b>… this can take a few seconds.`,"busy");
-      let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }catch(e){ txStatus("Couldn't read that file.","err"); return; }
+      let blob=f, mime=isPdf?"application/pdf":f.type;
+      if(isImg){ try{ blob=await resizeImage(f, 1800, 0.85); mime="image/jpeg"; }
+        catch(e){ txStatus(isHeic?"This browser can't open iPhone (HEIC) photos. Take a screenshot of the photo and upload that, or use a PDF.":"Couldn't open that photo. Try a screenshot of it, or a PDF.","err"); return; } }
+      let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(blob); }); }catch(e){ txStatus("Couldn't read that file.","err"); return; }
       const b64=String(dataUrl).split(",")[1]||"";
       try{
-        const r=await fetch("/.netlify/functions/transcript-read",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify({ file:b64, mime:f.type }) });
+        const r=await fetch("/.netlify/functions/transcript-read",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify({ file:b64, mime }) });
         const j=await r.json().catch(()=>({}));
         if(j.unconfigured){ txStatus("Transcript reading isn't switched on yet — type your numbers in for now.","err"); return; }
         if(j.capped){ txStatus("We've hit today's limit for transcript reads — type your numbers in, or try tomorrow.","err"); return; }
         if(j.notTranscript){ txStatus("That doesn't look like a transcript — upload your school transcript, or just type your numbers in.","err"); return; }
+        if(j.empty){ txStatus("I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.","err"); return; }
         if(j.fields){ txStatus("","hide"); showTxPreview(j.fields); return; }
         txStatus(esc(j.error||"I couldn't read that one — try a clearer photo or type your numbers in."),"err");
       }catch(e){ txStatus("Something went wrong reading that — type your numbers in instead.","err"); }
     };
   }
 }
+// #65: "Set priorities" lands on the sliders, not the grades tab
+function profileTab(t){ const b=document.querySelector(`#pf-tabs [data-ptab="${t}"]`); if(b) b.click(); }
+function openPriorities(){ goto("profile"); profileTab("who"); setTimeout(()=>{ const s=$("sliders"); if(s&&s.scrollIntoView) s.scrollIntoView({behavior:"smooth",block:"center"}); },120); }
 { const tabs=$("pf-tabs"); if(tabs) tabs.querySelectorAll("[data-ptab]").forEach(b=>b.onclick=()=>{ const t=b.dataset.ptab;
   tabs.querySelectorAll("[data-ptab]").forEach(x=>x.classList.toggle("on",x===b));
   $("pf-acad").classList.toggle("hidden", t!=="acad"); $("pf-who").classList.toggle("hidden", t!=="who"); window.scrollTo(0,0); }); }
@@ -5638,6 +5664,13 @@ function zoeSay(text, who){ const d=document.createElement("div"); d.className="
 const ZOE_SUGG=["Analyze my whole profile","What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
 function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
 $("zoe-fab").onclick=zoeOpen;
+/* #65: tuck floating buttons away while scrolling down, bring them back on scroll up or near the end */
+{ let lastY=window.scrollY||0, tick=false;
+  window.addEventListener("scroll",()=>{ if(tick) return; tick=true; requestAnimationFrame(()=>{ const y=window.scrollY||0, d=y-lastY;
+    const nearEnd = (window.innerHeight+y) >= (document.documentElement.scrollHeight-40);
+    if(nearEnd || y<80 || d<-6) document.body.classList.remove("fab-tuck"); else if(d>6) document.body.classList.add("fab-tuck");
+    lastY=y; tick=false; }); }, {passive:true}); }
+
 { const zb=$("zoe-banner"); if(zb) zb.onclick=zoeOpen; }
 $("zoe-close").onclick=()=>$("zoe-panel").classList.add("hidden");
 /* ---- shared "Make Zoe yours" settings (panel + full tab) ---- */

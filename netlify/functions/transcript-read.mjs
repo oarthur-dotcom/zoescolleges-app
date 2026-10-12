@@ -34,6 +34,31 @@ function parseModelJson(txt) {
   try { return JSON.parse(s.slice(a, b + 1)); } catch { return null; }
 }
 
+// #65: models sometimes wrap the answer ({"transcript":{...}}) or use other key names; an empty read
+// used to come back as a "successful" table of blanks. Normalize, count from the course list, and
+// tell the page honestly when nothing usable was found.
+const ALIASES = { gpa: ["gpa", "unweightedGpa", "unweighted_gpa", "cumulativeGpa", "cumulative_gpa", "gpaUnweighted"],
+  gpaScale: ["gpaScale", "gpa_scale", "scale"], weightedGpa: ["weightedGpa", "weighted_gpa", "gpaWeighted"],
+  apIb: ["apIb", "ap_ib", "apIbCount", "ap", "apCount", "ap_courses"], honors: ["honors", "honorsCount", "honors_courses", "honorsCourses"],
+  dualEnrollment: ["dualEnrollment", "dual_enrollment", "dual", "dualCount"], sat: ["sat", "satTotal", "sat_total"], act: ["act", "actComposite", "act_composite"],
+  courses: ["courses", "courseList", "course_list"], confidence: ["confidence"], error: ["error"] };
+function normalize(o) {
+  if (!o || typeof o !== "object") return {};
+  const keys = Object.keys(o);
+  if (keys.length === 1 && o[keys[0]] && typeof o[keys[0]] === "object" && !Array.isArray(o[keys[0]])) o = o[keys[0]];   // unwrap {"transcript":{...}}
+  const out = {};
+  for (const [k, al] of Object.entries(ALIASES)) for (const a of al) if (o[a] !== undefined && o[a] !== null && o[a] !== "") { out[k] = o[a]; break; }
+  return out;
+}
+function fromCourses(f) {
+  const n = lv => f.courses.filter(c => c.level === lv).length;
+  if (!f.apIb) f.apIb = n("AP") + n("IB");
+  if (!f.honors) f.honors = n("Honors");
+  if (!f.dualEnrollment) f.dualEnrollment = n("Dual");
+  return f;
+}
+const isEmpty = f => f.gpa == null && f.weightedGpa == null && f.sat == null && f.act == null && !f.apIb && !f.honors && !f.dualEnrollment && !f.courses.length;
+
 function clean(o) {
   // null/""/0 mean "not on the transcript" -> null (Number(null) is 0, which showed as "SAT 0")
   const num = (v, max) => { if (v == null || v === "") return null; const n = Number(v); return Number.isFinite(n) && n > 0 && (max == null || n <= max) ? n : null; };
@@ -78,10 +103,10 @@ export default async (req) => {
       { text: "Extract this transcript into the JSON shape. Return JSON only." },
       { inline_data: { mime_type: mime === "image/jpg" ? "image/jpeg" : mime, data } }
     ] }],
-    generationConfig: { temperature: 0, maxOutputTokens: 1200, responseMimeType: "application/json" }
+    generationConfig: { temperature: 0, maxOutputTokens: 8192, responseMimeType: "application/json" }   // #65: was 1200 — thinking models ran out before answering
   };
 
-  let lastStatus = 0, lastErr = null;
+  let lastStatus = 0, lastErr = null, sawEmpty = false;
   for (const model of MODELS) {
     try {
       const r = await fetch(
@@ -91,9 +116,13 @@ export default async (req) => {
       if (!r.ok) { lastStatus = r.status; lastErr = (await r.text()).slice(0, 300); if (r.status === 404 || r.status === 400 || r.status === 429) continue; return json({ error: "The reader is unavailable right now — you can type your numbers in instead." }, 200); }
       const parsed = parseModelJson(extractText(await r.json()));
       if (!parsed) { lastStatus = 200; lastErr = "unparseable"; continue; }
-      if (parsed.error === "not_a_transcript") return json({ notTranscript: true });
-      return json({ fields: clean(parsed), model });
+      const norm = normalize(parsed);
+      if (norm.error === "not_a_transcript") return json({ notTranscript: true });
+      const fields = fromCourses(clean(norm));
+      if (isEmpty(fields)) { sawEmpty = true; console.log("transcript-read: empty read from", model, "keys:", Object.keys(parsed).slice(0, 12).join(",")); continue; }   // keys only, never content
+      return json({ fields, model });
     } catch (e) { lastErr = "fetch failed"; }
   }
+  if (sawEmpty) return json({ empty: true });
   return json({ error: "I couldn't read that one — try a clearer photo or a PDF, or type your numbers in.", detail: lastErr, status: lastStatus }, 200);
 };
