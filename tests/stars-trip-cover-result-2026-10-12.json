@@ -1,0 +1,286 @@
+{
+ "ok": {
+  "phone.pastTripGrey": true,
+  "phone.upcomingTripTeal": true,
+  "phone.plainTrip": true,
+  "phone.doubleClickHalf": true,
+  "phone.singleClickWhole": true,
+  "phone.officialPhotoByDefault": true,
+  "phone.pickYourPhoto": true,
+  "phone.backToOfficial": true,
+  "phone.noErrors": true,
+  "desktop.pastTripGrey": true,
+  "desktop.upcomingTripTeal": true,
+  "desktop.plainTrip": true,
+  "desktop.doubleClickHalf": true,
+  "desktop.singleClickWhole": true,
+  "desktop.officialPhotoByDefault": true,
+  "desktop.pickYourPhoto": true,
+  "desktop.backToOfficial": true,
+  "desktop.noErrors": true,
+  "desktop-dark.pastTripGrey": true,
+  "desktop-dark.upcomingTripTeal": true,
+  "desktop-dark.plainTrip": true,
+  "desktop-dark.doubleClickHalf": true,
+  "desktop-dark.singleClickWhole": true,
+  "desktop-dark.officialPhotoByDefault": true,
+  "desktop-dark.pickYourPhoto": true,
+  "desktop-dark.backToOfficial": true,
+  "desktop-dark.noErrors": true
+ },
+ "R": {
+  "phone": {
+   "pastBtn": {
+    "cls": "openlink trip-btn past",
+    "text": "✓ Visited",
+    "color": "rgb(95, 105, 130)"
+   },
+   "soonBtn": {
+    "cls": "openlink trip-btn on",
+    "text": "✓ Trip",
+    "color": "rgb(11, 127, 129)"
+   },
+   "plainBtn": {
+    "cls": "openlink trip-btn ",
+    "text": "🗺 Trip",
+    "color": "rgb(16, 28, 46)"
+   },
+   "afterDbl": {
+    "saved": 4.5,
+    "half": true,
+    "on4": true,
+    "hint": true,
+    "num": "4.5"
+   },
+   "afterClick": {
+    "saved": 3,
+    "ups": [
+     4.5,
+     3
+    ]
+   },
+   "coverDefault": false,
+   "coverNote": "✓ College of Charleston now shows your photo on the board.",
+   "coverPicked": true,
+   "stillNotApplying": true,
+   "coverBack": false,
+   "audit": {
+    "overflowX": 0,
+    "imgs": [],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+    ],
+    "bad": [],
+    "small": [
+     "My Board 93x34",
+     "Discover 86x34",
+     "Search 75x34",
+     "Zoe Picks 91x34",
+     "Compare 89x34",
+     "Pulse 65x34",
+     "#view-stacked ☰ 38x40",
+     "#view-tiles ▦ 38x40",
+     "★ 36x40",
+     "★ 25x24",
+     "Open ↗ 69x36",
+     "✓ Visited 80x36",
+     "⇄ Compare 92x36",
+     "More · where you stand, facts, links, no 324x17",
+     "▶ Tour 57x34",
+     "📍 Map 61x34",
+     "🎓 Site 58x34",
+     "📰 Pulse 67x34",
+     "✓ Trip 62x36",
+     "🗺 Trip 63x36"
+    ],
+    "wide": [
+     "BUTTON.sn-tab # right=478",
+     "BUTTON.sn-tab # right=549"
+    ],
+    "dashCount": 4
+   },
+   "errors": []
+  },
+  "desktop": {
+   "pastBtn": {
+    "cls": "openlink trip-btn past",
+    "text": "✓ Visited",
+    "color": "rgb(95, 105, 130)"
+   },
+   "soonBtn": {
+    "cls": "openlink trip-btn on",
+    "text": "✓ Trip",
+    "color": "rgb(11, 127, 129)"
+   },
+   "plainBtn": {
+    "cls": "openlink trip-btn ",
+    "text": "🗺 Trip",
+    "color": "rgb(16, 28, 46)"
+   },
+   "afterDbl": {
+    "saved": 4.5,
+    "half": true,
+    "on4": true,
+    "hint": true,
+    "num": "4.5"
+   },
+   "afterClick": {
+    "saved": 3,
+    "ups": [
+     4.5,
+     3
+    ]
+   },
+   "coverDefault": false,
+   "coverNote": "✓ College of Charleston now shows your photo on the board.",
+   "coverPicked": true,
+   "stillNotApplying": true,
+   "coverBack": false,
+   "audit": {
+    "overflowX": 0,
+    "imgs": [],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+    ],
+    "bad": [],
+    "small": [
+     "#signout Sign out 78x32",
+     "Today 70x33",
+     "Schools 84x33",
+     "Plan 70x33",
+     "Family 74x33",
+     "Ask Zoe 83x33",
+     "Profile 74x33",
+     "👪 Invite 90x33",
+     "🔎 Search Ctrl K 159x33",
+     "My Board 93x34",
+     "Discover 86x34",
+     "Search 75x34",
+     "Zoe Picks 91x34",
+     "Compare 89x34",
+     "Pulse 65x34",
+     "#btn-report2 📄 Report 88x32",
+     "#btn-invite + Add my family 126x32",
+     "#btn-more More ▾ 68x32",
+     "#rank-toggle ⇅ My ranking 111x32",
+     "#view-stacked ☰ 38x32",
+     "#view-tiles ▦ 38x32",
+     "★ 25x24",
+     "Open ↗ 67x27",
+     "✓ Visited 78x27",
+     "⇄ Compare 90x27",
+     "More · where you stand, facts, links, no 357x17",
+     "▶ Tour 57x25",
+     "📍 Map 61x25",
+     "🎓 Site 58x25",
+     "📰 Pulse 67x25",
+     "Save note 88x32",
+     "Remove from board 151x32",
+     "✓ Trip 60x27",
+     "🗺 Trip 61x27"
+    ],
+    "wide": [],
+    "dashCount": 4
+   },
+   "errors": []
+  },
+  "desktop-dark": {
+   "pastBtn": {
+    "cls": "openlink trip-btn past",
+    "text": "✓ Visited",
+    "color": "rgb(134, 145, 171)"
+   },
+   "soonBtn": {
+    "cls": "openlink trip-btn on",
+    "text": "✓ Trip",
+    "color": "rgb(60, 194, 196)"
+   },
+   "plainBtn": {
+    "cls": "openlink trip-btn ",
+    "text": "🗺 Trip",
+    "color": "rgb(233, 237, 246)"
+   },
+   "afterDbl": {
+    "saved": 4.5,
+    "half": true,
+    "on4": true,
+    "hint": true,
+    "num": "4.5"
+   },
+   "afterClick": {
+    "saved": 3,
+    "ups": [
+     4.5,
+     3
+    ]
+   },
+   "coverDefault": false,
+   "coverNote": "✓ College of Charleston now shows your photo on the board.",
+   "coverPicked": true,
+   "stillNotApplying": true,
+   "coverBack": false,
+   "audit": {
+    "overflowX": 0,
+    "imgs": [],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+    ],
+    "bad": [],
+    "small": [
+     "#signout Sign out 78x32",
+     "Today 70x33",
+     "Schools 84x33",
+     "Plan 70x33",
+     "Family 74x33",
+     "Ask Zoe 83x33",
+     "Profile 74x33",
+     "👪 Invite 90x33",
+     "🔎 Search Ctrl K 159x33",
+     "My Board 93x34",
+     "Discover 86x34",
+     "Search 75x34",
+     "Zoe Picks 91x34",
+     "Compare 89x34",
+     "Pulse 65x34",
+     "#btn-report2 📄 Report 88x32",
+     "#btn-invite + Add my family 126x32",
+     "#btn-more More ▾ 68x32",
+     "#rank-toggle ⇅ My ranking 111x32",
+     "#view-stacked ☰ 38x32",
+     "#view-tiles ▦ 38x32",
+     "★ 25x24",
+     "Open ↗ 67x27",
+     "✓ Visited 78x27",
+     "⇄ Compare 90x27",
+     "More · where you stand, facts, links, no 357x17",
+     "▶ Tour 57x25",
+     "📍 Map 61x25",
+     "🎓 Site 58x25",
+     "📰 Pulse 67x25",
+     "Save note 88x32",
+     "Remove from board 151x32",
+     "✓ Trip 60x27",
+     "🗺 Trip 61x27"
+    ],
+    "wide": [],
+    "dashCount": 4
+   },
+   "errors": []
+  }
+ }
+}

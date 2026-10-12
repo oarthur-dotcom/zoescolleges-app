@@ -118,6 +118,10 @@ button:disabled{opacity:.5;cursor:default}
 .stars{display:flex;gap:2px}
 .stars .s{font-size:20px;line-height:1;color:var(--line);cursor:default;user-select:none;background:none;border:none;padding:2px}
 .stars .s.on{color:var(--star)}
+.stars .s.half,.vk-stars .s.half{background:linear-gradient(90deg,var(--star) 50%,var(--line) 50%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars .s,.vk-stars .s{touch-action:manipulation}
+#schools .school:not(:first-of-type) .half-hint{display:none}
+.half-n{font-size:12px;font-weight:700;color:var(--muted);margin-left:2px}.half-hint{font-size:11.5px;color:var(--muted);margin:-2px 0 4px}
 .stars.mine .s{cursor:pointer}
 .stars.mine .s:hover{transform:scale(1.15)}
 /* Fix #16: comfortable tap targets on phones (stars were 25px, card buttons 26px, checkboxes 13px) */
@@ -343,6 +347,7 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+.trip-btn.past{border-color:var(--line);color:var(--muted);font-weight:600;background:color-mix(in srgb,var(--muted) 10%,transparent)}
 .cmp-btn.on{border-color:var(--plum,#8e3b7a);color:var(--plum,#8e3b7a);font-weight:600}
 .card-links{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
 .card-links a{font-size:11.5px;text-decoration:none;color:var(--teal);background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}
@@ -771,6 +776,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .film-bar{display:flex;gap:10px}
 .film-bar .film-x{color:#cbd5e1;border-color:rgba(255,255,255,.25)}
 .mem-ph .mp-btn.on{background:var(--star,#e8ac45);color:#000}
+.mem-ph .mp-btn.cov.on{background:var(--teal);color:#fff}
 .mem-ph .mp-btn.del{background:rgba(160,20,20,.82)}.mem-ph .mp-btn.del:hover,.mem-ph .mp-btn.del:focus-visible{background:#c62828}
 .mem-delmine{margin:4px 2px 14px;font-size:13px}.mem-note{color:var(--good);font-weight:600;font-size:13px;margin:0 0 6px}
 .player{position:fixed;inset:0;z-index:60;background:#000;display:none;align-items:center;justify-content:center;overflow:hidden}
@@ -3719,11 +3725,12 @@ function renderMemories(){
       <button class="small" data-mem-reel="${esc(sid)}">▶ Reel</button><button class="small" data-mem-addto="${esc(sid)}">＋ Photo</button>${list.some(memMine)?`<button class="small ghost mem-delall" data-mem-delall="${esc(sid)}" title="Delete all your photos from this visit">🗑 Delete all</button>`:""}</div>
       <div class="mem-grid">${list.map(p=>{ const pr=mp[p.id]||{}; const off=pr.off?" off":"";
         return `<div class="mem-ph${off}" data-ph="${esc(p.id)}"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||"Visit photo")}" loading="lazy">${p.caption?`<div class="mp-cap">${esc(p.caption)}</div>`:""}
-          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button>${memMine(p)?`<button class="mp-btn del" data-del title="Delete this photo" aria-label="Delete this photo">✕</button>`:""}</div></div>`; }).join("")}</div>
+          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button>${(state.schools||[]).some(x=>x.school_id===sid)?`<button class="mp-btn cov ${(getChecklist(sid)||{})._cover===p.id?"on":""}" data-cover title="${(getChecklist(sid)||{})._cover===p.id?"This is the school's picture on your board — tap to go back to the official photo":"Use as this school's picture on your board"}" aria-label="Use as school picture">🖼</button>`:""}${memMine(p)?`<button class="mp-btn del" data-del title="Delete this photo" aria-label="Delete this photo">✕</button>`:""}</div></div>`; }).join("")}</div>
       ${takes.length?`<div class="mem-takes">${takes.map(r=>`<div class="mem-take"><b>${esc(names[r.user_id]||"Family")}</b> ${r.rating?`<span class="mem-stars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`:""}${r.note?` <span>“${esc(r.note)}”</span>`:""}</div>`).join("")}</div>`
         :`<div class="mem-takes muted" style="font-size:12.5px">No one has rated ${esc(schoolName(sid))} yet — rate it on your board while it's fresh.</div>`}
     </div>`; }).join("")+(photos.some(memMine)?`<div class="mem-delmine"><button class="linklike" id="mem-delmine">🗑 Delete all my photos</button> <span class="muted" style="font-size:12px">Only photos you added. Can't be undone.</span></div>`:"");
   el.querySelectorAll("[data-ph]").forEach(card=>{ const pid=card.dataset.ph;
+    const cv=card.querySelector("[data-cover]"); if(cv) cv.onclick=()=>{ const sid=(state.photos.find(x=>x.id===pid)||{}).school_id; const c=getChecklist(sid); const on=c._cover!==pid; if(on) c._cover=pid; else delete c._cover; setChecklist(sid,c); renderMemories(); memNote(on?`${schoolName(sid)} now shows your photo on the board.`:`${schoolName(sid)} is back to its official photo.`); };
     const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; del.disabled=true; await removePhoto(pid); await loadPhotos(); renderMemories(); memNote("Photo deleted."); };
     card.querySelector("[data-inc]").onclick=()=>{ const off=!(memPrefs()[pid]||{}).off; setMemPref(pid,{off}); renderMemories(); };
     card.querySelector("[data-feat]").onclick=()=>{ const feat=!(memPrefs()[pid]||{}).feat; setMemPref(pid,{feat}); renderMemories(); };
@@ -3994,7 +4001,7 @@ function renderSchool(x){
     <div class="raters">${ratersHtml(s.school_id)}</div>
     <div class="card-acts">
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
-      <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
+      ${tripBtn(s.school_id)}
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
     </div>
     <details class="extra card-more"><summary>More · where you stand, facts, links, note</summary>
@@ -4032,10 +4039,10 @@ function phGrad(name){ const h=hueFromName(name); return `linear-gradient(135deg
 /* Founding year (#35): from Wikidata, matched by federal school ID. */
 function estText(info){ const y=info&&info.founded; return (Number.isInteger(y)&&y>=1600&&y<=2100)?` · Est. ${y}`:""; }
 function photoUrlFor(c){ return (c && c.photo && c.photo.url) || ""; }
-// Tile cover: a family campus photo when there is one, else a colored placeholder with the school's initial.
+// Tile cover (Oct 12): the official campus photo by default. A family photo is used only when someone picks it
+// in Memories ("Use as school picture"); the choice is shared through the school's row (checklist._cover).
 function coverFor(s, info){
-  // 1) the family's own visit photo wins; 2) then the catalog campus photo; 3) else a colored placeholder
-  const ph = (photosFor(s.school_id)[0]||{}); const famUrl = ph.url||ph.data;
+  const cid = (getChecklist(s.school_id)||{})._cover; const ph = cid ? (photosFor(s.school_id).find(p=>p.id===cid)||{}) : {}; const famUrl = ph.url||ph.data;
   if(famUrl) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(famUrl)}')"><span class="cover-tag">📷 your visit</span><span class="cover-name">${esc(s.name)}</span></div>`};
   const cat = info && info.photo && info.photo.url;
   if(cat) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(info.photo.url)}')"><span class="cover-name">${esc(s.name)}</span></div>`};
@@ -4043,12 +4050,16 @@ function coverFor(s, info){
   const glyph=`<svg class="cover-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 26 L32 13 L56 26 Z" fill="currentColor"/><rect x="13" y="29" width="4.5" height="17" fill="currentColor"/><rect x="24" y="29" width="4.5" height="17" fill="currentColor"/><rect x="35.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="46.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="9" y="48" width="46" height="4.5" rx="1" fill="currentColor"/></svg>`;
   return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phBg(name,s.state||(info&&info.state),"62%")}"><span class="cover-name">${esc(name)}</span></div>`};
 }
+/* Oct 12: half stars. Click a star = that many stars (click again to clear). Double-click a star = half of it (e.g. double-click the 5th = 4.5). */
+function starCls(rating,n){ return rating>=n ? "on" : (rating===n-0.5 ? "half" : ""); }
+function starLabel(r){ return r==null ? "no rating" : `${r} star${r===1?"":"s"}`; }
 function ratersHtml(schoolId){
   return state.members.map(m => {
     const r = state.ratings.find(x => x.school_id===schoolId && x.user_id===m.user_id);
     const mine = m.user_id === state.me.user_id;
-    const stars = [1,2,3,4,5].map(n => `<button class="s ${r && r.rating>=n ? "on":""}" ${mine?`data-rate="${schoolId}|${n}"`:""} ${mine?"":"disabled"}>★</button>`).join("");
-    return `<div class="rater ${mine?"me":""}"><span class="who">${esc(m.display_name)}</span><span class="stars ${mine?"mine":""}">${stars}</span>${mine?"":'<span class="lock">theirs</span>'}</div>`;
+    const rv = r && r.rating!=null ? +r.rating : null;
+    const stars = [1,2,3,4,5].map(n => `<button class="s ${starCls(rv,n)}" ${mine?`data-rate="${schoolId}|${n}" title="Click for ${n} · double-click for ${n-0.5}" aria-label="${n} stars (double-click for ${n-0.5})"`:""} ${mine?"":"disabled"}>★</button>`).join("");
+    return `<div class="rater ${mine?"me":""}"><span class="who">${esc(m.display_name)}</span><span class="stars ${mine?"mine":""}" aria-label="${esc(m.display_name)}: ${starLabel(rv)}">${stars}</span>${rv!=null&&rv%1?`<span class="half-n">${rv}</span>`:""}${mine?"":'<span class="lock">theirs</span>'}</div>${mine?'<div class="half-hint">Tip: double-click a star for a half — like 4.5</div>':""}`;
   }).join("");
 }
 function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id===schoolId && x.user_id===state.me.user_id)?.note || ""; return `<textarea data-note="${esc(schoolId)}" placeholder="What stood out to you?">${esc(myNote)}</textarea>`; }
@@ -4194,7 +4205,7 @@ function renderExList(q){
         ${cardLinks(c, c)}
       </div>
       <button class="openlink" data-open="${esc(c.id)}">Open ↗</button>
-      <button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button>
+      ${tripBtn(c.id)}
       <button class="openlink cmp-btn ${inCmp(c.id)?"on":""}" data-cmp="${esc(c.id)}">${inCmp(c.id)?"✓ Compare":"⇄ Compare"}</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
@@ -4491,7 +4502,7 @@ function renderVisitKit(){
       ${trip.length>1?`<select id="vk-switch" aria-label="Switch school">${trip.map(t=>`<option value="${esc(t)}" ${t===id?"selected":""}>${esc(schoolName(t))}</option>`).join("")}</select>`:""}</div>
     <div class="vk-links"><a class="small primary" href="${esc(dir)}" target="_blank" rel="noopener">📍 Directions</a><a class="small" href="${esc(vc)}" target="_blank" rel="noopener">🅿 Visitor center</a>${info.link?`<a class="small" href="${esc(info.link)}" target="_blank" rel="noopener">🎓 Site</a>`:""}</div>
     <div class="card vk-card"><div class="vk-h">How does it feel?</div><div class="vk-gut">${gut.map(([k,t])=>`<button class="vk-g ${v.gut===k?"on":""}" data-vgut="${k}">${t}</button>`).join("")}</div>
-      <div class="vk-stars" aria-label="Your stars">${[1,2,3,4,5].map(n=>`<button class="s ${mine.rating>=n?"on":""}" data-rate="${esc(id)}|${n}" aria-label="${n} star${n>1?"s":""}">★</button>`).join("")}<span class="muted" style="font-size:12px">your stars — the family sees them</span></div></div>
+      <div class="vk-stars" aria-label="Your stars">${[1,2,3,4,5].map(n=>`<button class="s ${starCls(mine.rating!=null?+mine.rating:null,n)}" data-rate="${esc(id)}|${n}" aria-label="${n} star${n>1?"s":""} (double-click for ${n-0.5})">★</button>`).join("")}<span class="muted" style="font-size:12px">your stars — the family sees them · double-click a star for a half</span></div></div>
     <div class="card vk-card"><div class="vk-h">📷 Snap it <span class="muted">(goes straight to Memories)</span></div>
       <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="vk-file" accept="image/*" capture="environment" style="display:none"><button class="small primary" id="vk-snap">📷 Take a photo</button><input type="text" id="vk-cap" placeholder="Caption (optional)" maxlength="120" style="flex:1;min-width:140px"><span class="muted" id="vk-snapmsg" style="font-size:12px"></span></div>
       ${photos.length?`<div class="vk-strip">${photos.slice(0,8).map(p=>`<img src="${esc(p.url||p.data)}" alt="" loading="lazy">`).join("")}</div>`:""}</div>
@@ -4759,7 +4770,7 @@ function renderDetail(id){
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
-    <div class="row" style="margin:6px 0 2px;gap:8px"><button class="openlink trip-btn ${inTrip(id)?"on":""}" data-trip="${esc(id)}" data-long="1">${inTrip(id)?"✓ In road trip":"🗺 Add to road trip"}</button><button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button>${onBoard?`<button class="openlink" data-visitkit="${esc(id)}">🎒 Visit-day kit</button>`:""}</div>
+    <div class="row" style="margin:6px 0 2px;gap:8px">${tripBtn(id,true)}<button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button>${onBoard?`<button class="openlink" data-visitkit="${esc(id)}">🎒 Visit-day kit</button>`:""}</div>
     ${onBoard?talkDetailHtml(id):""}${facts}${pulseSection(rec)}${museSection(info)}${info?toursSection(info,rec):link}${rateBlock}
     ${onBoard?`<div class="row" style="margin-top:16px"><button class="small ghost" style="color:var(--warn)" data-detailremove="${esc(id)}">Remove from board</button></div>`:""}`;
   bindStars($("detail-body")); wirePhotos(id); if(onBoard) initVisit(id, info);
@@ -4777,12 +4788,16 @@ function renderDetail(id){
 }
 function bindStars(root){
   root = root || document;
-  root.querySelectorAll("[data-rate]").forEach(el => el.onclick = async () => {
-    const [sid, n] = el.dataset.rate.split("|");
+  const saveStar = async (sid, val) => {
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
-    const rating = (cur && cur.rating === +n) ? null : +n;
+    const rating = (cur && cur.rating!=null && +cur.rating === val) ? null : val;   // same value again clears it
     await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating, updated_at: new Date().toISOString() });
     await loadRatings(); refreshCurrent();
+  };
+  root.querySelectorAll("[data-rate]").forEach(el => {
+    const [sid, n] = el.dataset.rate.split("|"); let t = null;
+    el.onclick = () => { clearTimeout(t); t = setTimeout(() => saveStar(sid, +n), 260); };       // wait a beat in case it's a double-click
+    el.ondblclick = e => { e.preventDefault(); clearTimeout(t); saveStar(sid, +n - 0.5); };
   });
   root.querySelectorAll("[data-savenote]").forEach(el => el.onclick = async () => {
     const sid = el.dataset.savenote; const ta = root.querySelector(`[data-note="${CSS.escape(sid)}"]`); if (!ta) return;
@@ -4881,6 +4896,10 @@ function _tripKey(base){ const uid=(state.me&&state.me.user_id)||"anon"; const k
   try{ if(localStorage.getItem(k)==null && localStorage.getItem(base)!=null && uid!=="anon"){ localStorage.setItem(k, localStorage.getItem(base)); localStorage.removeItem(base); } }catch(e){}
   return k; }
 function ymdToday(){ const n=new Date(); return new Date(n.getTime()-n.getTimezoneOffset()*6e4).toISOString().slice(0,10); }
+/* Oct 12: the Trip button shows where a visit stands — teal for planned/upcoming, grey "✓ Visited" once it's past. */
+function tripBtn(id, long){ const st=visitState(getVisits()[id]); const on=inTrip(id);
+  if(st==="past") return `<button class="openlink trip-btn past" data-trip="${esc(id)}" data-past="1" title="You visited — open your visits">${long?"✓ Visited — see your notes":"✓ Visited"}</button>`;
+  return `<button class="openlink trip-btn ${on?"on":""}" data-trip="${esc(id)}"${long?' data-long="1"':""}>${on?(long?"✓ In road trip":"✓ Trip"):(long?"🗺 Add to road trip":"🗺 Trip")}</button>`; }
 function visitState(v){ if(!v) return null; if(v.past) return "past"; if(v.date) return v.date < ymdToday() ? "past" : "upcoming"; return v.wish ? "wish" : null; }
 function visitHasMemories(v){ return !!(v && (v.notes || v.rating || (v.spots&&v.spots.length) || v.gut || (v.q&&Object.keys(v.q).length))); }
 // The old one-device trip list (and its per-stop plans) move into shared visits, once.
@@ -5371,7 +5390,7 @@ function dlKey(id){ return "dlcheck_"+id; }
 // choice the family makes ("we're applying here"), kept in the shared checklist so everyone sees it.
 const SCHOOL_STAGES=[["exploring","Exploring"],["visiting","Visiting"],["applying","Applying"],["deciding","Deciding"]];
 function schoolStage(id){ const st=schoolStatus(id); if(st && st!=="planning") return "deciding";
-  const c=getChecklist(id); if(c._stage==="applying" || Object.keys(c).some(k=>k!=="_stage"&&c[k])) return "applying";
+  const c=getChecklist(id); if(c._stage==="applying" || Object.keys(c).some(k=>k[0]!=="_"&&c[k])) return "applying";
   const v=(typeof getVisits==="function")?getVisits()[id]:null; if(v && (typeof visitState==="function") && visitState(v)) return "visiting";
   return "exploring"; }
 function setApplying(id,on){ const c=getChecklist(id); if(on) c._stage="applying"; else delete c._stage; setChecklist(id,c); }
@@ -5582,7 +5601,7 @@ function renderRecommends(){
         ${chanceWordsHtml(c)}
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
-        <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button><button class="openlink trip-btn ${inTrip(c.id)?"on":""}" data-trip="${esc(c.id)}">${inTrip(c.id)?"✓ Trip":"🗺 Trip"}</button><button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
+        <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button>${tripBtn(c.id)}<button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
       </div></div>`; };
   out.innerHTML = head + (groups.map(([b,label])=>{ const items=byBand(b); if(!items.length) return "";
     return `<h2 class="rec-h">${esc(label)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span></h2><div class="rec-grid">${items.map(card).join("")}</div>`;
@@ -6177,6 +6196,7 @@ document.addEventListener("click", async e => {
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-trip]"); if(!b) return;
   e.preventDefault();
+  if(b.dataset.past){ goto("trip"); return; }   // a past visit: open visits instead of un-planning it
   const on = toggleTrip(b.dataset.trip);
   b.classList.toggle("on", on);
   b.textContent = b.dataset.long ? (on?"✓ In road trip":"🗺 Add to road trip") : (on?"✓ Trip":"🗺 Trip");
