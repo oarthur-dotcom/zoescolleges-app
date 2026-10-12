@@ -28,7 +28,9 @@
    "bad": [],
    "small": [
     "#demo-report 📄 See her report 104x18",
-    "#demo-exit Exit 22x18"
+    "#demo-exit Exit 22x18",
+    "▶ How this works 136x28",
+    "#rate-undo Undo 59x26"
    ],
    "wide": [],
    "dashCount": 7
@@ -81,6 +83,7 @@
     "#demo-report 📄 See her report 104x18",
     "#demo-join Create my free account 173x32",
     "#demo-exit Exit 22x18",
+    "▶ How this works 136x28",
     "#ztab-save 💾 Save chat 107x32",
     "#ztab-binder 📒 Binder 87x32",
     "#ztab-gear ⚙ Make Zoe yours 140x32",
@@ -90,7 +93,8 @@
     "Recommend schools for me 182x26",
     "When are my deadlines? 161x26",
     "Is my list balanced? 133x26",
-    "What should my essay be about? 210x26"
+    "What should my essay be about? 210x26",
+    "#rate-undo Undo 59x26"
    ],
    "wide": [],
    "dashCount": 7
@@ -132,7 +136,9 @@
    "bad": [],
    "small": [
     "#demo-report 📄 See her report 104x18",
-    "#demo-exit Exit 22x18"
+    "#demo-exit Exit 22x18",
+    "▶ How this works 136x28",
+    "#rate-undo Undo 59x26"
    ],
    "wide": [],
    "dashCount": 7

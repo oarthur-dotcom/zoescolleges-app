@@ -60,6 +60,8 @@
     "🗺 Add to road trip 132x36",
     "⇄ Add to compare 131x36",
     "🎒 Visit-day kit 113x36",
+    "Athletics site & schedules ↗ 178x20",
+    "Current NCAA rankings ↗ 160x20",
     "see the source ↗ 312x31",
     "🗨️ Newest Reddit posts ↗ 186x35",
     "▶️ “Day in the life” videos ↗ 194x35",
@@ -83,7 +85,7 @@
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 14
+   "dashCount": 16
   },
   "errors": []
  },
@@ -182,6 +184,8 @@
     "⇄ Add to compare 129x26",
     "🎒 Visit-day kit 111x26",
     "Talk about it 102x32",
+    "Athletics site & schedules ↗ 178x20",
+    "Current NCAA rankings ↗ 160x20",
     "see the source ↗ 92x14",
     "🗨️ Newest Reddit posts ↗ 186x35",
     "▶️ “Day in the life” videos ↗ 194x35",
@@ -198,15 +202,13 @@
     "IMG 25x41",
     "× 24x24",
     "+ 30x30",
-    "− 30x30",
-    "Leaflet 54x15",
-    "#visit-notes-save Save notes 95x32"
+    "− 30x30"
    ],
    "wide": [
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380",
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380"
    ],
-   "dashCount": 14
+   "dashCount": 16
   },
   "errors": []
  },
@@ -271,6 +273,8 @@
     "🗺 Add to road trip 132x36",
     "⇄ Add to compare 131x36",
     "🎒 Visit-day kit 113x36",
+    "Athletics site & schedules ↗ 178x20",
+    "Current NCAA rankings ↗ 160x20",
     "see the source ↗ 312x31",
     "🗨️ Newest Reddit posts ↗ 186x35",
     "▶️ “Day in the life” videos ↗ 194x35",
@@ -294,7 +298,7 @@
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 14
+   "dashCount": 16
   },
   "errors": []
  },

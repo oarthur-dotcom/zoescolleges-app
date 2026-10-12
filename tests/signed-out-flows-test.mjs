@@ -17,7 +17,9 @@ for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['desktop', {
   await page.goto('http://localhost:8834/index.html'); await page.waitForTimeout(2500);
   o.landing = { sample: await vis('#demo-start'), invite: await vis('[data-lp-account="signup"]'), tour: await vis('.lnd-tour'), signout: await vis('#signout') };
   await page.click('.lnd-tour'); await page.waitForTimeout(500);
-  o.tourFromLanding = await page.evaluate(() => { const d = document.getElementById('dlg-guide'); const src = d && d.querySelector('source') && d.querySelector('source').getAttribute('src'); const open = d && d.open; if (d) { d.querySelector('video').pause(); d.close(); } return { open, src }; });
+  // Oct 12: the landing tour button scrolls to the inline tour video and plays it (muted autoplay rules may block audio; we only check it starts)
+  await page.waitForTimeout(600);
+  o.tourFromLanding = await page.evaluate(() => { const v = document.querySelector('#lnd-video video'); const src = v && (v.currentSrc || v.getAttribute('src') || (v.querySelector('source') || {}).src); const r = document.getElementById('lnd-video').getBoundingClientRect(); const open = !!v && r.top < innerHeight && r.bottom > 0; try { v.pause(); } catch (e) {} return { open, src }; });
   await page.click('#demo-start'); await page.waitForTimeout(2500);
   o.sample = await page.evaluate(() => ({ demo: DEMO, signout: document.getElementById('signout').textContent.trim(), who: document.getElementById('whoami').textContent, bar: !document.getElementById('demo-bar').classList.contains('hidden'), token: state.session && state.session.access_token, view: currentView }));
   if (label === 'phone') { await page.click('[data-tb-more]'); await page.waitForTimeout(300); await page.click('#tb-sheet [data-guide-open]'); }

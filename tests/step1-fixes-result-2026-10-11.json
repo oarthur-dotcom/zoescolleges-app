@@ -1,5 +1,5 @@
 {
- "bigBytes": 30841673,
+ "bigBytes": 30841743,
  "phone": {
   "leak": {
    "sp": null,
@@ -19,14 +19,14 @@
    "view": "profile",
    "whoShown": true,
    "acadHidden": true,
-   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
    "h": "What matters to you (Obie)"
   },
   "errA": [],
   "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
   "sent": {
    "mime": "image/jpeg",
-   "kb": 1295
+   "kb": 1296
   },
   "tx2": {
    "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
@@ -62,11 +62,11 @@
    "bad": [],
    "small": [
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
+    "▶ How this works 140x36",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
     "★ 36x40",
@@ -81,13 +81,12 @@
     "📰 Pulse 67x34"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=478",
-    "BUTTON.sn-tab # right=549"
+    "BUTTON.sn-tab # right=457"
    ],
-   "dashCount": 4
+   "dashCount": 5
   },
   "errB": [],
-  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
   "errC": []
  },
  "desktop": {
@@ -109,14 +108,14 @@
    "view": "profile",
    "whoShown": true,
    "acadHidden": true,
-   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
    "h": "What matters to you (Obie)"
   },
   "errA": [],
   "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
   "sent": {
    "mime": "image/jpeg",
-   "kb": 1295
+   "kb": 1296
   },
   "tx2": {
    "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
@@ -135,7 +134,7 @@
    "you, Zoe and Usha",
    "Obie"
   ],
-  "fabDesk": "none",
+  "fabDesk": "flex",
   "tucked": false,
   "back": true,
   "audit": {
@@ -158,14 +157,14 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "👪 Invite 90x33",
+    "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
+    "▶ How this works 140x36",
     "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
@@ -185,10 +184,10 @@
     "Remove from board 151x32"
    ],
    "wide": [],
-   "dashCount": 4
+   "dashCount": 5
   },
   "errB": [],
-  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
   "errC": []
  },
  "phone-dark": {
@@ -210,14 +209,14 @@
    "view": "profile",
    "whoShown": true,
    "acadHidden": true,
-   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+   "whose": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
    "h": "What matters to you (Obie)"
   },
   "errA": [],
   "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
   "sent": {
    "mime": "image/jpeg",
-   "kb": 1295
+   "kb": 1296
   },
   "tx2": {
    "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
@@ -253,11 +252,11 @@
    "bad": [],
    "small": [
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
+    "▶ How this works 140x36",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
     "★ 36x40",
@@ -272,13 +271,12 @@
     "📰 Pulse 67x34"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=478",
-    "BUTTON.sn-tab # right=549"
+    "BUTTON.sn-tab # right=457"
    ],
-   "dashCount": 4
+   "dashCount": 5
   },
   "errB": [],
-  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
+  "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your fit % reflects what matters to you. Zoe sets Zoe's own.",
   "errC": []
  },
  "ok": {

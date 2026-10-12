@@ -1,6 +1,6 @@
 {
  "phone": {
-  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
@@ -9,7 +9,7 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so the fit % fits you.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
@@ -35,6 +35,7 @@
    "small": [
     "Profile 72x34",
     "College Report 126x34",
+    "▶ How this works 136x28",
     "🎓 Zoe's grades & activities 215x33",
     "🧭 My priorities 139x33"
    ],
@@ -62,7 +63,7 @@
   "errC": []
  },
  "desktop": {
-  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
@@ -71,7 +72,7 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so the fit % fits you.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
@@ -102,10 +103,11 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "👪 Invite 90x33",
+    "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Profile 72x34",
     "College Report 126x34",
+    "▶ How this works 136x28",
     "🎓 Zoe's grades & activities 215x33",
     "🧭 My priorities 139x33",
     "📄 Report 88x32",
@@ -136,7 +138,7 @@
   "errC": []
  },
  "phone-dark": {
-  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
@@ -145,7 +147,7 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so the fit % fits you.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 4-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
@@ -171,6 +173,7 @@
    "small": [
     "Profile 72x34",
     "College Report 126x34",
+    "▶ How this works 136x28",
     "🎓 Zoe's grades & activities 215x33",
     "🧭 My priorities 139x33"
    ],

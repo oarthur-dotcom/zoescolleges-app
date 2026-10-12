@@ -2,7 +2,7 @@
 import { launch, audit } from '/tmp/claude-0/audit-ui/lib.mjs'; import http from 'http'; import fs from 'fs'; import path from 'path';
 const SITE = '/tmp/claude-0/f63/site', SHOTS = '/tmp/claude-0/f63/'; fs.mkdirSync(SITE + '/media', { recursive: true });
 fs.copyFileSync(new URL('../index.html', import.meta.url), SITE + '/index.html');
-for (const f of fs.readdirSync(new URL('../media', import.meta.url))) fs.copyFileSync(new URL('../media/' + f, import.meta.url), SITE + '/media/' + f);
+for (const f of fs.readdirSync(new URL('../media', import.meta.url))) if (fs.statSync(new URL('../media/' + f, import.meta.url)).isFile()) fs.copyFileSync(new URL('../media/' + f, import.meta.url), SITE + '/media/' + f);
 if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
 const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
 const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'Content-Type': f.endsWith('.webp') ? 'image/webp' : f.endsWith('.html') ? 'text/html' : 'application/octet-stream' }); r.end(d); }); }).listen(8863);

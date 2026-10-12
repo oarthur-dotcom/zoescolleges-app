@@ -28,7 +28,9 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "▶ How this works 136x28"
+   ],
    "wide": [],
    "dashCount": 3
   },
@@ -73,6 +75,7 @@
     "Profile 74x33",
     "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
+    "▶ How this works 136x28",
     "#ztab-save 💾 Save chat 107x32",
     "#ztab-binder 📒 Binder 87x32",
     "#ztab-gear ⚙ Make Zoe yours 140x32",
@@ -118,7 +121,9 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "▶ How this works 136x28"
+   ],
    "wide": [],
    "dashCount": 3
   },

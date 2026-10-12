@@ -43,7 +43,7 @@
    "recAfter": 20,
    "recGrew": true,
    "howtoPicks": true,
-   "dsize": "25,621 students · Large · Suburb",
+   "dsize": "25,621 students · Large · Suburb 🏟 Junior college",
    "fabVisible": true,
    "zoe": {
     "page": "Asking about: American River College",
@@ -63,6 +63,8 @@
      "admitRate": null,
      "size": "25,621 students",
      "setting": "Suburb",
+     "athletics": "Junior college",
+     "myTeam": null,
      "likelyCost": "$19k (typical cost, sticker $28k)",
      "onBoard": false
     }
@@ -84,7 +86,7 @@
     "chips": 225,
     "noRate": 25
    },
-   "exFilterMs": 446,
+   "exFilterMs": 452,
    "exReach": {
     "n": 132,
     "allReach": true
@@ -130,7 +132,7 @@
      "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
-     "▶ How this works 136x28",
+     "▶ How this works 140x36",
      "#view-stacked ☰ 38x40",
      "#view-tiles ▦ 38x40",
      "★ 36x40",
@@ -165,7 +167,7 @@
    "recAfter": 20,
    "recGrew": true,
    "howtoPicks": true,
-   "dsize": "25,621 students · Large · Suburb",
+   "dsize": "25,621 students · Large · Suburb 🏟 Junior college",
    "fabVisible": true,
    "zoe": {
     "page": "Asking about: American River College",
@@ -185,6 +187,8 @@
      "admitRate": null,
      "size": "25,621 students",
      "setting": "Suburb",
+     "athletics": "Junior college",
+     "myTeam": null,
      "likelyCost": "$19k (typical cost, sticker $28k)",
      "onBoard": false
     }
@@ -206,7 +210,7 @@
     "chips": 225,
     "noRate": 25
    },
-   "exFilterMs": 445,
+   "exFilterMs": 462,
    "exReach": {
     "n": 132,
     "allReach": true
@@ -261,7 +265,7 @@
      "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
-     "▶ How this works 136x28",
+     "▶ How this works 140x36",
      "#btn-report2 📄 Report 88x32",
      "#btn-invite + Add my family 126x32",
      "#btn-more More ▾ 68x32",

@@ -82,6 +82,7 @@
      "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
+     "▶ How this works 136x28",
      "#view-stacked ☰ 38x40",
      "#view-tiles ▦ 38x40",
      "★ 36x40",
@@ -95,7 +96,8 @@
      "🎓 Site 58x34",
      "📰 Pulse 67x34",
      "✓ Trip 62x36",
-     "🗺 Trip 63x36"
+     "🗺 Trip 63x36",
+     "#rate-undo Undo 59x26"
     ],
     "wide": [
      "BUTTON.sn-tab # right=457"
@@ -166,6 +168,7 @@
      "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
+     "▶ How this works 136x28",
      "#btn-report2 📄 Report 88x32",
      "#btn-invite + Add my family 126x32",
      "#btn-more More ▾ 68x32",
@@ -184,7 +187,8 @@
      "Save note 88x32",
      "Remove from board 151x32",
      "✓ Trip 60x27",
-     "🗺 Trip 61x27"
+     "🗺 Trip 61x27",
+     "#rate-undo Undo 59x26"
     ],
     "wide": [],
     "dashCount": 4
@@ -253,6 +257,7 @@
      "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
+     "▶ How this works 136x28",
      "#btn-report2 📄 Report 88x32",
      "#btn-invite + Add my family 126x32",
      "#btn-more More ▾ 68x32",
@@ -271,7 +276,8 @@
      "Save note 88x32",
      "Remove from board 151x32",
      "✓ Trip 60x27",
-     "🗺 Trip 61x27"
+     "🗺 Trip 61x27",
+     "#rate-undo Undo 59x26"
     ],
     "wide": [],
     "dashCount": 4

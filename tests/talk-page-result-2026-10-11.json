@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "My concern isn't the school itself, it's ___.",
+  "blank": "I want to be honest that ___ makes me nervous.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -120,6 +120,7 @@
     "Decision Day 114x34",
     "Memories 95x34",
     "+ Invite family 121x34",
+    "▶ How this works 136x28",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [
@@ -170,7 +171,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "The cost makes me pause because ___.",
+  "blank": "I'm a little worried about ___ — can we look into it together?",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -262,13 +263,14 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "👪 Invite 90x33",
+    "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
     "+ Invite family 121x34",
+    "▶ How this works 136x28",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [],
@@ -316,7 +318,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'd feel better if we knew more about ___.",
+  "blank": "I'm not sure yet about ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -406,6 +408,7 @@
     "Decision Day 114x34",
     "Memories 95x34",
     "+ Invite family 121x34",
+    "▶ How this works 136x28",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [

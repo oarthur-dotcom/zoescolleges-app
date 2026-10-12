@@ -9,6 +9,7 @@
   "phone.detailSports": true,
   "phone.zoeKnowsSport": true,
   "phone.pulseSportsTab": true,
+  "phone.regionalBreak": true,
   "phone.noErrors": true,
   "desktop.boardChips": true,
   "desktop.williamsD3Nescac": true,
@@ -19,6 +20,7 @@
   "desktop.detailSports": true,
   "desktop.zoeKnowsSport": true,
   "desktop.pulseSportsTab": true,
+  "desktop.regionalBreak": true,
   "desktop.noErrors": true,
   "profileUI.playInCollegeFields": true
  },
@@ -82,6 +84,14 @@
    "pulseTeams": 6,
    "pulseSports": {
     "n": 1
+   },
+   "reg": {
+    "unh": "nersp",
+    "inState": null,
+    "priv": null,
+    "farAway": null,
+    "html": true,
+    "wue": "wue"
    },
    "audit": {
     "overflowX": 0,
@@ -179,6 +189,14 @@
    "pulseTeams": 6,
    "pulseSports": {
     "n": 1
+   },
+   "reg": {
+    "unh": "nersp",
+    "inState": null,
+    "priv": null,
+    "farAway": null,
+    "html": true,
+    "wue": "wue"
    },
    "audit": {
     "overflowX": 0,

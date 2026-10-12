@@ -64,7 +64,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   ok[label + '.transcriptReadable'] = o.txContrast >= 7;
   ok[label + '.buttonsReadable'] = o.btnRatio >= 4.5;
   ok[label + '.naturalWording'] = o.words[0] === 'you and Zoe' && o.words[1] === 'you, Zoe and Usha' && o.words[2] === 'Obie';
-  ok[label + '.floatingButtons'] = vp.width >= 900 ? o.fabDesk === 'none' : (o.tucked && o.back);
+  ok[label + '.floatingButtons'] = vp.width >= 900 ? o.fabDesk !== 'none' : (o.tucked && o.back);   // Oct 12: "Ask Zoe about this page" shows on desktop too
   ok[label + '.whosePrioritiesWithStudent'] = /yours \(Obie\)/.test(o.whoseStudent) && /Zoe sets/.test(o.whoseStudent);
   ok[label + '.noErrors'] = !o.errA.length && !o.errB.length && !o.errC.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
 }

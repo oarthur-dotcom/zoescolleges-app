@@ -59,6 +59,11 @@ for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['desktop', {
   await page.evaluate(() => goto('pulse')); await page.waitForTimeout(800);
   o.pulseTab = await page.evaluate(() => !!document.querySelector('[data-pt-view="sports"]'));
   if (o.pulseTab) { await page.click('[data-pt-view="sports"]'); await page.waitForTimeout(400); o.pulseTeams = await page.evaluate(() => document.querySelectorAll('.pt-teams a').length); o.pulseSports = await page.evaluate(() => ({ n: document.querySelectorAll('.pt-tile').length })); await page.screenshot({ path: `${SHOTS}${label}-pulse.png` }); }
+  // regional tuition break (NE + WUE) on public out-of-state school pages
+  o.reg = await page.evaluate(() => { const real = window.homeState; window.homeState = () => 'MA';
+    const unh = state.catalog.find(c => c.name === 'University of New Hampshire-Main Campus'), umass = state.catalog.find(c => c.state === 'MA' && /public/i.test(c.ownership || '')), priv = state.catalog.find(c => c.state === 'NH' && !/public/i.test(c.ownership || '')), oreg = state.catalog.find(c => c.state === 'OR' && /public/i.test(c.ownership || ''));
+    const r = { unh: (regionalBreak(unh) || {}).key, inState: regionalBreak(umass), priv: regionalBreak(priv), farAway: regionalBreak(oreg), html: /Check eligible majors/.test(regionalHtml(unh)) };
+    window.homeState = () => 'CA'; r.wue = (regionalBreak(oreg) || {}).key; window.homeState = real; return r; });
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   ok[label + '.boardChips'] = o.boardChips.chips >= o.boardChips.cards - 1 && o.boardChips.chips > 0;
   ok[label + '.williamsD3Nescac'] = /NCAA D3 · New England Small College Athletic/.test(o.williams || '');
@@ -69,6 +74,7 @@ for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['desktop', {
   ok[label + '.detailSports'] = o.detail && /NCAA D3/.test(o.detail.top) && o.detail.mine >= 1 && o.detail.links.some(t => /recruiting questionnaire/.test(t)) && /✓/.test(o.detail.myTeam || '');
   ok[label + '.zoeKnowsSport'] = !!(o.zoe && o.zoe.athlete && o.zoe.athlete.sport === 'Soccer' && /D3/.test(o.zoe.school.athletics || '') && /has a women's soccer team/.test(o.zoe.school.myTeam || ''));
   ok[label + '.pulseSportsTab'] = o.pulseTab === true && o.pulseTeams > 0 && o.pulseSports && o.pulseSports.n === 1;
+  ok[label + '.regionalBreak'] = o.reg.unh === 'nersp' && o.reg.inState === null && o.reg.priv === null && o.reg.farAway === null && o.reg.html && o.reg.wue === 'wue';
   ok[label + '.noErrors'] = !o.errors.length;
 }
 // Profile editor as the student: "Play in college?" → Team + Level appear, and save onto the activity
