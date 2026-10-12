@@ -1,0 +1,233 @@
+{
+ "phone": {
+  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
+  "firstCard": "td-card td-student",
+  "emptyMsg": "Type your student's first name first.",
+  "insert": {
+   "name": "Zoe",
+   "gpa": "3.7",
+   "major": "Biology",
+   "hasUid": false
+  },
+  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "profile": {
+   "view": "profile",
+   "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
+   "title": "Edit Zoe's profile",
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+  },
+  "formGpa": "3.7",
+  "saved": {
+   "upd": [
+    "3.9"
+   ],
+   "ownWrites": 0,
+   "student": "3.9",
+   "own": "3.7",
+   "report": "Zoe",
+   "first": "Zoe"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "🎓 Academics & Activities 207x33",
+    "🧭 Who You Are 139x33",
+    "Use this profile as the student's ▸ 199x19"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errA": [],
+  "claim": {
+   "up": [
+    {
+     "uid": "22222222-2222-2222-2222-222222222222",
+     "gpa": "3.9",
+     "acts": 1,
+     "to": true
+    }
+   ],
+   "del": 1,
+   "pending": null,
+   "card": false,
+   "mine": "3.9",
+   "to": true
+  },
+  "errB": [],
+  "noCard": true,
+  "errC": []
+ },
+ "desktop": {
+  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
+  "firstCard": "td-card td-student",
+  "emptyMsg": "Type your student's first name first.",
+  "insert": {
+   "name": "Zoe",
+   "gpa": "3.7",
+   "major": "Biology",
+   "hasUid": false
+  },
+  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "profile": {
+   "view": "profile",
+   "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
+   "title": "Edit Zoe's profile",
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+  },
+  "formGpa": "3.7",
+  "saved": {
+   "upd": [
+    "3.9"
+   ],
+   "ownWrites": 0,
+   "student": "3.9",
+   "own": "3.7",
+   "report": "Zoe",
+   "first": "Zoe"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 112x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "🎓 Academics & Activities 207x33",
+    "🧭 Who You Are 139x33",
+    "📄 Report 88x32",
+    "✏️ Edit profile 114x32",
+    "Use this profile as the student's ▸ 199x19",
+    "#pf-save2 Save activities 117x32"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errA": [],
+  "claim": {
+   "up": [
+    {
+     "uid": "22222222-2222-2222-2222-222222222222",
+     "gpa": "3.9",
+     "acts": 1,
+     "to": true
+    }
+   ],
+   "del": 1,
+   "pending": null,
+   "card": false,
+   "mine": "3.9",
+   "to": true
+  },
+  "errB": [],
+  "noCard": true,
+  "errC": []
+ },
+ "phone-dark": {
+  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
+  "firstCard": "td-card td-student",
+  "emptyMsg": "Type your student's first name first.",
+  "insert": {
+   "name": "Zoe",
+   "gpa": "3.7",
+   "major": "Biology",
+   "hasUid": false
+  },
+  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "profile": {
+   "view": "profile",
+   "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
+   "title": "Edit Zoe's profile",
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+  },
+  "formGpa": "3.7",
+  "saved": {
+   "upd": [
+    "3.9"
+   ],
+   "ownWrites": 0,
+   "student": "3.9",
+   "own": "3.7",
+   "report": "Zoe",
+   "first": "Zoe"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "🎓 Academics & Activities 207x33",
+    "🧭 Who You Are 139x33",
+    "Use this profile as the student's ▸ 199x19"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errA": [],
+  "claim": {
+   "up": [
+    {
+     "uid": "22222222-2222-2222-2222-222222222222",
+     "gpa": "3.9",
+     "acts": 1,
+     "to": true
+    }
+   ],
+   "del": 1,
+   "pending": null,
+   "card": false,
+   "mine": "3.9",
+   "to": true
+  },
+  "errB": [],
+  "noCard": true,
+  "errC": []
+ },
+ "ok": {
+  "phone.askWhoIsStudent": true,
+  "phone.addStudentCarriesParentEntries": true,
+  "phone.waitingCard": true,
+  "phone.profileForStudent": true,
+  "phone.savesToStudentNotParent": true,
+  "phone.studentJoinsAndClaims": true,
+  "phone.noCardWithStudent": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.askWhoIsStudent": true,
+  "desktop.addStudentCarriesParentEntries": true,
+  "desktop.waitingCard": true,
+  "desktop.profileForStudent": true,
+  "desktop.savesToStudentNotParent": true,
+  "desktop.studentJoinsAndClaims": true,
+  "desktop.noCardWithStudent": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.askWhoIsStudent": true,
+  "phone-dark.addStudentCarriesParentEntries": true,
+  "phone-dark.waitingCard": true,
+  "phone-dark.profileForStudent": true,
+  "phone-dark.savesToStudentNotParent": true,
+  "phone-dark.studentJoinsAndClaims": true,
+  "phone-dark.noCardWithStudent": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

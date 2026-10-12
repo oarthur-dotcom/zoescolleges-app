@@ -1608,7 +1608,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 
   <!-- PROFILE + SLIDERS -->
   <section id="v-profile" class="hidden">
-    <h1>My profile</h1>
+    <h1 id="pf-h1">My profile</h1>
     <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
@@ -1747,6 +1747,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <!-- TODAY (#48): what to do now, on one screen -->
   <section id="v-today" class="hidden">
     <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p></div>
+    <div id="td-student"></div>
     <div id="onboard-guide"></div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
       <div class="row" style="justify-content:space-between;align-items:flex-start">
@@ -1968,7 +1969,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true };
+let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -2184,6 +2185,7 @@ async function loadFamily(){
     state.family = fams && fams[0];
     await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos(), loadTalk(), loadBallot()]);
     try{ await loadOffers(); }catch(e){}
+    try{ await loadPending(); await maybeClaimPending(); }catch(e){}
     computeNorms();
     goto("today");
   } catch(e){
@@ -2310,6 +2312,7 @@ function matchScore(c, w){
 function studentProfile(){
   const stu = state.members.find(m=>m.role==="student");
   if(stu && state.profiles[stu.user_id]) return state.profiles[stu.user_id];
+  if(!stu && state.profiles.pending) return state.profiles.pending;   // #64: the student a parent set up, before they join
   // fall back to current user's profile if no student yet
   return (state.me && state.profiles[state.me.user_id]) || null;
 }
@@ -2331,7 +2334,7 @@ const INTEREST_DEFS = [
 ];
 function parseInterests(notes){ const t=(notes||"").toString(); return INTEREST_DEFS.filter(d=>d.rx.test(t)).map(d=>d.tag); }
 let _intCache={notes:null,tags:[]};
-function viewerInterests(){ const p=(state.me&&state.profiles[state.me.user_id])||null; const notes=(p&&p.notes)||""; if(notes!==_intCache.notes){ _intCache={notes, tags:parseInterests(notes)}; } return _intCache.tags; }
+function viewerInterests(){ const p=(state.me&&state.profiles[profKey()])||null; const notes=(p&&p.notes)||""; if(notes!==_intCache.notes){ _intCache={notes, tags:parseInterests(notes)}; } return _intCache.tags; }
 // returns 0..1 how well this school fits a theme, or null if we lack the data (so it isn't a dead anchor)
 function interestSat(tag,c,s,L){
   if(tag==="greek"){ const g=c.greekLife||""; if(!g) return null; return /present|yes|strong|large|high/i.test(g)?1 : /small|limited|minimal|some/i.test(g)?0.6 : 0.2; }
@@ -2884,6 +2887,48 @@ function talkDetailHtml(id){
   return `<div class="pulse-block tk-detail"><div class="pulse-h">💬 Family voices</div>${vs.length?vs.map(v=>`<div class="tk-dline">${TALK_FEELS[v.feel]?TALK_FEELS[v.feel].ico:"💬"} <b>${esc(memberName(v.user_id))}:</b> ${esc(v.body)}</div>`).join(""):`<div class="muted" style="font-size:13px">No one has shared yet.</div>`}
     <button class="small" data-talkgo="${esc(id)}" style="margin-top:8px">Talk about it</button></div>`;
 }
+/* ===== Student setup (#64, Oct 11): a parent adds the student (and their grades) before the student joins.
+   The profile waits in pending_students; when the student joins with the invite it moves to their own account. ===== */
+state.pending = null;
+function myRole(){ return (state.me&&state.me.role)||""; }
+function studentMember(){ return (state.members||[]).find(m=>m.role==="student")||null; }
+function pendingMode(){ return !!(state.pending && state.me && !studentMember() && myRole()!=="student"); }
+function profKey(){ return pendingMode() ? "pending" : (state.me&&state.me.user_id); }
+function _pendProfile(pr){ const o={...(pr||{})}; delete o.user_id; delete o.family_id; delete o.updated_at; if(o.testOptional!=null&&o.test_optional==null) o.test_optional=!!o.testOptional; delete o.testOptional; return o; }
+async function loadPending(){
+  state.pending=null; if(state.profiles) delete state.profiles.pending;
+  if(BACKEND.pending===false||!state.family) return;
+  try{ const {data,error}=await sb.from("pending_students").select("*").maybeSingle(); if(error) throw error; state.pending=data||null; }
+  catch(e){ if(isMissing(e)) BACKEND.pending=false; }
+  if(state.pending){ const pr=state.pending.profile||{}; state.profiles.pending={...pr, user_id:"pending", testOptional: pr.test_optional!=null?!!pr.test_optional:undefined}; }
+}
+async function maybeClaimPending(){
+  if(!state.pending || myRole()!=="student") return;
+  const mine=state.profiles[state.me.user_id]; const pp=state.pending.profile||{};
+  if((!mine||!profileBuilt(mine)) && Object.keys(pp).length){ await saveProfile({...pp}); const m=state.profiles[state.me.user_id]; if(m&&pp.test_optional!=null) m.testOptional=!!pp.test_optional; }
+  try{ await sb.from("pending_students").delete().eq("family_id",state.family.id); }catch(e){}
+  state.pending=null; delete state.profiles.pending;
+}
+function studentSetupCard(){
+  if(DEMO||BACKEND.pending===false||!state.family||!state.me||studentMember()||myRole()==="student") return "";
+  if(!state.pending) return `<div class="td-card td-student"><div class="td-h">🎓 Who's the student?</div><div class="td-mid">Add your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.</div>
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div><div class="tk-msg" id="ss-msg" role="status"></div></div>`;
+  const n=esc(state.pending.display_name); const has=profileBuilt(state.profiles.pending||{});
+  return `<div class="td-card td-student"><div class="td-h">🎓 ${n} hasn't joined yet</div><div class="td-mid">Send ${n} the invite so ${n} can rate schools too. ${has?`The profile you filled in moves to ${n}'s account when ${n} joins.`:`You can fill in ${n}'s grades now. They move over when ${n} joins.`}</div>
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" id="ss-invite">Send ${n} the invite</button><button class="small" id="ss-profile">${has?`Edit ${n}'s profile`:`Fill in ${n}'s grades`}</button></div><div class="tk-msg" id="ss-msg" role="status"></div></div>`;
+}
+function wireStudentSetup(el){
+  const save=el.querySelector("#ss-save"); if(save) save.onclick=async()=>{ const name=el.querySelector("#ss-name").value.trim(); const m=el.querySelector("#ss-msg");
+    if(!name){ m.textContent="Type your student's first name first."; return; } save.disabled=true;
+    const mine=state.profiles[state.me.user_id]; const profile = (mine&&profileBuilt(mine)) ? _pendProfile(mine) : {};   // anything a parent already typed carries over
+    const row={family_id:state.family.id, display_name:name.slice(0,40), profile, created_by:state.me.user_id, updated_at:new Date().toISOString()};
+    const {error}=await sb.from("pending_students").insert(row);
+    if(error){ save.disabled=false; m.textContent= isMissing(error) ? "This needs a quick setup step on our side. Try again soon." : "Couldn't save that. Please try again."; if(isMissing(error)) BACKEND.pending=false; return; }
+    await loadPending(); computeNorms(); renderToday(); };
+  const inv=el.querySelector("#ss-invite"); if(inv) inv.onclick=async()=>{ const t=inviteMsg();
+    try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); inv.textContent="Invite copied ✓ Paste it in a text"; } }catch(e){} };
+  const pf=el.querySelector("#ss-profile"); if(pf) pf.onclick=()=>goto("profile");
+}
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
   deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
@@ -2893,7 +2938,7 @@ function acceptedSchools(){ return (state.schools||[]).filter(s=>s.app_status===
 function decisionPost(){ return talk.posts.filter(p=>p.kind==="decision").slice(-1)[0]||null; }
 function nextMay1(){ const d=new Date(); const y=(d.getMonth()>4||(d.getMonth()===4&&d.getDate()>1))?d.getFullYear()+1:d.getFullYear(); return new Date(y,4,1); }
 function replyDeadline(){ const ds=acceptedSchools().map(s=>s.reply_by?_ymdDate(String(s.reply_by).slice(0,10)):null).filter(Boolean).sort((a,b)=>a-b); return ds[0]||nextMay1(); }
-function studentFirst(){ const st=(state.members||[]).find(m=>m.role==="student"); return st?st.display_name:"We"; }
+function studentFirst(){ const st=(state.members||[]).find(m=>m.role==="student"); return st?st.display_name:(state.pending?state.pending.display_name:"We"); }
 async function setSchoolStatus(sid, status){
   const s=(state.schools||[]).find(x=>x.school_id===sid); if(!s) return;
   const was=s.app_status; const patch={app_status:status, status_at:new Date().toISOString()};
@@ -2995,7 +3040,7 @@ async function loadOffers(){
 
 /* ===== Zoe's College Report (#58): one printable document — cover, profile, the list, costs, deadlines, next steps.
    Built only from what's already on the site (no AI, no credits). "Save as PDF" uses the phone/computer's own print-to-PDF. */
-function reportStudentName(){ const stu=(state.members||[]).find(m=>m.role==="student"); return (stu&&stu.display_name)||""; }
+function reportStudentName(){ const stu=(state.members||[]).find(m=>m.role==="student"); return (stu&&stu.display_name)||(state.pending&&state.pending.display_name)||""; }
 function reportTake(rows, bal, p){
   const out=[]; const withM=rows.filter(r=>r.m!=null).sort((a,b)=>b.m-a.m);
   if(bal){ out.push(bal.tips.length?`The list leans ${bal.c.reach>bal.c.likely?"ambitious":"safe"} — for balance, add ${bal.tips.slice(0,2).join(" and ")}.`:`The list is well balanced across Likely, Target and Reach schools.`); }
@@ -4040,6 +4085,7 @@ function renderToday(){
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button>${trip?`<button class="small" data-visitkit="${esc([...getTrip()][0])}">🎒 Visit-day kit</button>`:""}<button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
   const repCard=board.length?`<div class="td-card td-report"><div class="td-h">📄 College report</div><div class="td-mid">${esc(reportStudentName()||"Your")}${reportStudentName()?"'s":""} whole picture — profile, every school, costs, deadlines and next steps — in one PDF for family, counselors or your own files.</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-go="report">Open report</button><button class="small" data-td-share>🔗 Share instead</button></div></div>`:"";
+  { const ss=$("td-student"); if(ss){ ss.innerHTML=studentSetupCard(); wireStudentSetup(ss); } }   // #64: top of Today, above the welcome checklist
   el.innerHTML=decideTodayCard()+dlCard+zoeCard+talkTodayCard()+pulseCard+balCard+repCard+visitCard+installCardHtml();
   el.querySelectorAll("[data-td-talk]").forEach(b=>b.onclick=()=>openTalk({tab:b.dataset.tdTalk}));
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
@@ -4939,7 +4985,9 @@ function renderProfile(){
   $("profile-scope").innerHTML = shared
     ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
     : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
-  const p = (state.me && state.profiles[state.me.user_id]) || {};
+  { const h=$("pf-h1"); if(h) h.textContent = pendingMode() ? `${state.pending.display_name}'s profile` : "My profile"; }
+  if(pendingMode()){ const n=esc(state.pending.display_name); $("profile-scope").innerHTML=`🎓 <b>You're filling this in for ${n}.</b> It moves to ${n}'s own account when ${n} joins with your invite.`; }
+  const p = (state.me && state.profiles[profKey()]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
   $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
   { const ib=myPrefs().incomeBand; const sel=$("pf-income"); if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
@@ -5032,11 +5080,11 @@ function choicePowerHtml(){
   </div>`;
 }
 function renderProfileView(){
-  const p=(state.me&&state.profiles[state.me.user_id])||{}; const built=profileBuilt(p);
+  const p=(state.me&&state.profiles[profKey()])||{}; const built=profileBuilt(p);
   const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
   const showForm = !built || pfEdit;
   form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
-  const ft=$("pf-form-title"); if(ft) ft.textContent = built? "Edit your profile" : "Build your profile";
+  const ft=$("pf-form-title"); if(ft) ft.textContent = pendingMode() ? `${built?"Edit":"Build"} ${state.pending.display_name}'s profile` : (built? "Edit your profile" : "Build your profile");
   if(showForm) return;
   const adj=rigorAdjustedGpa(p); const tags=parseInterests(p.notes||""); const acts=Array.isArray(p.activities)?p.activities:[];
   const astr=activityStrength(acts); const astrLvl = astr==null?null:(astr>=0.7?"strong":astr>=0.4?"solid":"light");
@@ -5045,7 +5093,7 @@ function renderProfileView(){
   const rig=p.rigor||{}; const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"" ].filter(Boolean).join(" · ");
   const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
-    <div class="pv-head"><h2 style="margin:0">Your profile</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button><button class="small ghost" data-pf-edit>✏️ Edit profile</button></div></div>
+    <div class="pv-head"><h2 style="margin:0">${pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button><button class="small ghost" data-pf-edit>✏️ Edit profile</button></div></div>
     <div class="pv-grid">
       ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adj ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
@@ -5085,8 +5133,8 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
-  lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs);
-  if(state.me){ const prof=state.profiles[state.me.user_id]||(state.profiles[state.me.user_id]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
+  if(!pendingMode()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
+  if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
   profActs = acts.slice(); actDirty=false;
   if(stay){ renderProfileView(); return true; }
   ["pf-savemsg","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
@@ -5244,6 +5292,10 @@ function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; con
 $("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
   const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };
 async function saveProfile(p){
+  if(pendingMode()){   // #64: a parent filling in the student's profile before they join
+    state.profiles.pending = {...p, user_id:"pending", testOptional: p.test_optional!=null ? !!p.test_optional : p.testOptional};
+    const {error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id);
+    if(error){ alert("Save failed: "+(error.message||error)); return; } state.pending.profile=p; return; }
   state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
   if(BACKEND.profiles){ try{
       const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
@@ -5965,7 +6017,7 @@ async function startDemo(){
   if(!state.catalog||!state.catalog.length){ try{ await loadCatalog(); }catch(e){} }
   DEMO=true; _realSb=sb; sb=demoClient(); _demoToastShown=false;
   try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
-  BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false };
+  BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
   state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
   document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family";
   state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}
