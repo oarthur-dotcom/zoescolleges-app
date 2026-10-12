@@ -1,0 +1,90 @@
+{
+ "phone": {
+  "sheet": true,
+  "sheetClosed": true,
+  "family": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "+ Invite family 121x34"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "desktop": {
+  "header": true,
+  "viewAfter": "today",
+  "family": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "👪 Invite 90x33",
+    "🔎 Search Ctrl K 159x33",
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "+ Invite family 121x34",
+    "🎬 Turn it into our movie 179x32"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "sheet": true,
+  "sheetClosed": true,
+  "family": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "+ Invite family 121x34"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.oneTapInvite": true,
+  "phone.familyTabInvite": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.oneTapInvite": true,
+  "desktop.familyTabInvite": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.oneTapInvite": true,
+  "phone-dark.familyTabInvite": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

@@ -1,0 +1,472 @@
+{
+ "phone": {
+  "migrated": {
+   "wish": [
+    "Massachusetts Institute of Technology",
+    "Boston University"
+   ],
+   "past": [
+    "College of Charleston"
+   ],
+   "dbVisits": [
+    "college-of-charleston",
+    "sc-166683",
+    "sc-164988"
+   ],
+   "todo": [
+    "🍽 Food Flour Bakery"
+   ],
+   "oldList": "[]"
+  },
+  "dateInput": {
+   "type": "date",
+   "min": "2026-10-11"
+  },
+  "roadTrip": {
+   "trips": 1,
+   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "cards": 2,
+   "saved": "2026-10-21"
+  },
+  "booked": {
+   "v": true,
+   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+  },
+  "split": {
+   "trips": 0,
+   "singles": 2
+  },
+  "armed": "Tap again to cancel",
+  "cancelled": true,
+  "planDlg": {
+   "title": "Plan a visit",
+   "starsHidden": true,
+   "min": "2026-10-11"
+  },
+  "planned": {
+   "date": "2026-10-23",
+   "booked": true,
+   "who": 2
+  },
+  "past": {
+   "v": {
+    "date": "2026-03-20",
+    "notes": "Big city energy, great food trucks",
+    "spots": [],
+    "name": "Temple University",
+    "who": [
+     "11111111-1111-1111-1111-111111111111",
+     "22222222-2222-2222-2222-222222222222"
+    ],
+    "past": true,
+    "wish": false,
+    "rating": 4,
+    "updated": "2026-10-12T03:40:34.092Z"
+   },
+   "row": [
+    "College of Charleston",
+    "Temple University"
+   ],
+   "onBoard": false,
+   "boardBtn": true
+  },
+  "rated": 3,
+  "futurePast": "That's in the future — use “Plan a visit” instead.",
+  "journey": [
+   "Visited Temple University",
+   "Visited College of Charleston"
+  ],
+  "badge": "Trips · 2",
+  "oldApi": {
+   "before": false,
+   "on": true,
+   "off": false,
+   "trip": [
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "dl": {
+   "uvm": [
+    "Early Decision or Early Action 2026-11-01",
+    "Early Decision II or Regular Decision 2027-01-15"
+   ],
+   "cofc": [
+    "Early Decision or Early Action",
+    "Early Decision II or Regular Decision"
+   ]
+  },
+  "chk": {
+   "boxes": 36,
+   "head": "Application checklist · 0 of 7 done — tick each one as you finish it; your family sees it"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/WTP_B20_Audrey_1.jpg/960px-WTP_B2"
+   ],
+   "bad": [],
+   "small": [
+    "Route, map & drive times 324x20",
+    "on 20x13",
+    "🎟 Tour & visit info ↗ 132x20",
+    "📍 Directions ↗ 101x20",
+    "📅 Add to calendar 123x20",
+    "Plan your time in town (1) 324x20",
+    "✕ 14x12",
+    "🍽 Food 70x34",
+    "☕ Coffee 83x34",
+    "🛏 Stay 67x34",
+    "📍 Things to do 116x34",
+    "🎵 Music & arts 119x34",
+    "🌲 Outdoors 99x34",
+    "Cancel this visit 92x18",
+    "Plan your time in town 324x20",
+    "★ 30x32"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "desktop": {
+  "migrated": {
+   "wish": [
+    "Massachusetts Institute of Technology",
+    "Boston University"
+   ],
+   "past": [
+    "College of Charleston"
+   ],
+   "dbVisits": [
+    "college-of-charleston",
+    "sc-166683",
+    "sc-164988"
+   ],
+   "todo": [
+    "🍽 Food Flour Bakery"
+   ],
+   "oldList": "[]"
+  },
+  "dateInput": {
+   "type": "date",
+   "min": "2026-10-11"
+  },
+  "roadTrip": {
+   "trips": 1,
+   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "cards": 2,
+   "saved": "2026-10-21"
+  },
+  "booked": {
+   "v": true,
+   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+  },
+  "split": {
+   "trips": 0,
+   "singles": 2
+  },
+  "armed": "Tap again to cancel",
+  "cancelled": true,
+  "planDlg": {
+   "title": "Plan a visit",
+   "starsHidden": true,
+   "min": "2026-10-11"
+  },
+  "planned": {
+   "date": "2026-10-23",
+   "booked": true,
+   "who": 2
+  },
+  "past": {
+   "v": {
+    "date": "2026-03-20",
+    "notes": "Big city energy, great food trucks",
+    "spots": [],
+    "name": "Temple University",
+    "who": [
+     "11111111-1111-1111-1111-111111111111",
+     "22222222-2222-2222-2222-222222222222"
+    ],
+    "past": true,
+    "wish": false,
+    "rating": 4,
+    "updated": "2026-10-12T03:40:42.208Z"
+   },
+   "row": [
+    "College of Charleston",
+    "Temple University"
+   ],
+   "onBoard": false,
+   "boardBtn": true
+  },
+  "rated": 3,
+  "futurePast": "That's in the future — use “Plan a visit” instead.",
+  "journey": [
+   "Visited Temple University",
+   "Visited College of Charleston"
+  ],
+  "badge": "Trips · 2",
+  "oldApi": {
+   "before": false,
+   "on": true,
+   "off": false,
+   "trip": [
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "dl": {
+   "uvm": [
+    "Early Decision or Early Action 2026-11-01",
+    "Early Decision II or Regular Decision 2027-01-15"
+   ],
+   "cofc": [
+    "Early Decision or Early Action",
+    "Early Decision II or Regular Decision"
+   ]
+  },
+  "chk": {
+   "boxes": 36,
+   "head": "Application checklist · 0 of 7 done — tick each one as you finish it; your family sees it"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/WTP_B20_Audrey_1.jpg/960px-WTP_B2"
+   ],
+   "bad": [],
+   "small": [
+    "📅 Calendar for this trip 175x32",
+    "Route, map & drive times 1167x20",
+    "on 13x13",
+    "🎟 Tour & visit info ↗ 132x20",
+    "📍 Directions ↗ 101x20",
+    "📅 Add to calendar 123x20",
+    "📍 I'm on campus — start visit 212x32",
+    "Plan your time in town (1) 1167x20",
+    "✕ 14x12",
+    "🍽 Food 70x34",
+    "☕ Coffee 83x34",
+    "🛏 Stay 67x34",
+    "📍 Things to do 116x34",
+    "🎵 Music & arts 119x34",
+    "🌲 Outdoors 99x34",
+    "Add your own, e.g. dinner at Leunig's 1111x32",
+    "Add 51x32",
+    "Cancel this visit 92x18",
+    "Plan your time in town 1167x20",
+    "★ 30x32",
+    "Open 59x32",
+    "Edit 51x32",
+    "+ Board 74x32",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "migrated": {
+   "wish": [
+    "Massachusetts Institute of Technology",
+    "Boston University"
+   ],
+   "past": [
+    "College of Charleston"
+   ],
+   "dbVisits": [
+    "college-of-charleston",
+    "sc-166683",
+    "sc-164988"
+   ],
+   "todo": [
+    "🍽 Food Flour Bakery"
+   ],
+   "oldList": "[]"
+  },
+  "dateInput": {
+   "type": "date",
+   "min": "2026-10-11"
+  },
+  "roadTrip": {
+   "trips": 1,
+   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "cards": 2,
+   "saved": "2026-10-21"
+  },
+  "booked": {
+   "v": true,
+   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+  },
+  "split": {
+   "trips": 0,
+   "singles": 2
+  },
+  "armed": "Tap again to cancel",
+  "cancelled": true,
+  "planDlg": {
+   "title": "Plan a visit",
+   "starsHidden": true,
+   "min": "2026-10-11"
+  },
+  "planned": {
+   "date": "2026-10-23",
+   "booked": true,
+   "who": 2
+  },
+  "past": {
+   "v": {
+    "date": "2026-03-20",
+    "notes": "Big city energy, great food trucks",
+    "spots": [],
+    "name": "Temple University",
+    "who": [
+     "11111111-1111-1111-1111-111111111111",
+     "22222222-2222-2222-2222-222222222222"
+    ],
+    "past": true,
+    "wish": false,
+    "rating": 4,
+    "updated": "2026-10-12T03:40:50.039Z"
+   },
+   "row": [
+    "College of Charleston",
+    "Temple University"
+   ],
+   "onBoard": false,
+   "boardBtn": true
+  },
+  "rated": 3,
+  "futurePast": "That's in the future — use “Plan a visit” instead.",
+  "journey": [
+   "Visited Temple University",
+   "Visited College of Charleston"
+  ],
+  "badge": "Trips · 2",
+  "oldApi": {
+   "before": false,
+   "on": true,
+   "off": false,
+   "trip": [
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "dl": {
+   "uvm": [
+    "Early Decision or Early Action 2026-11-01",
+    "Early Decision II or Regular Decision 2027-01-15"
+   ],
+   "cofc": [
+    "Early Decision or Early Action",
+    "Early Decision II or Regular Decision"
+   ]
+  },
+  "chk": {
+   "boxes": 36,
+   "head": "Application checklist · 0 of 7 done — tick each one as you finish it; your family sees it"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/WTP_B20_Audrey_1.jpg/960px-WTP_B2"
+   ],
+   "bad": [],
+   "small": [
+    "Route, map & drive times 324x20",
+    "on 20x13",
+    "🎟 Tour & visit info ↗ 132x20",
+    "📍 Directions ↗ 101x20",
+    "📅 Add to calendar 123x20",
+    "Plan your time in town (1) 324x20",
+    "✕ 14x12",
+    "🍽 Food 70x34",
+    "☕ Coffee 83x34",
+    "🛏 Stay 67x34",
+    "📍 Things to do 116x34",
+    "🎵 Music & arts 119x34",
+    "🌲 Outdoors 99x34",
+    "Cancel this visit 92x18",
+    "Plan your time in town 324x20",
+    "★ 30x32"
+   ],
+   "wide": [],
+   "dashCount": 4
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.oldTripListMoves": true,
+  "phone.deviceVisitMovesUp": true,
+  "phone.realDatePicker": true,
+  "phone.roadTripForms": true,
+  "phone.tourBooked": true,
+  "phone.changeDateSplits": true,
+  "phone.cancelTwoTaps": true,
+  "phone.planDialog": true,
+  "phone.pastVisitAnySchool": true,
+  "phone.rateInline": true,
+  "phone.pastRefusesFuture": true,
+  "phone.journeyShowsVisits": true,
+  "phone.badgeCounts": true,
+  "phone.oldButtonsStillWork": true,
+  "phone.sameDayRoundsMerge": true,
+  "phone.checklistLooksTickable": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "phone.noBadText": true,
+  "desktop.oldTripListMoves": true,
+  "desktop.deviceVisitMovesUp": true,
+  "desktop.realDatePicker": true,
+  "desktop.roadTripForms": true,
+  "desktop.tourBooked": true,
+  "desktop.changeDateSplits": true,
+  "desktop.cancelTwoTaps": true,
+  "desktop.planDialog": true,
+  "desktop.pastVisitAnySchool": true,
+  "desktop.rateInline": true,
+  "desktop.pastRefusesFuture": true,
+  "desktop.journeyShowsVisits": true,
+  "desktop.badgeCounts": true,
+  "desktop.oldButtonsStillWork": true,
+  "desktop.sameDayRoundsMerge": true,
+  "desktop.checklistLooksTickable": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop.noBadText": true,
+  "phone-dark.oldTripListMoves": true,
+  "phone-dark.deviceVisitMovesUp": true,
+  "phone-dark.realDatePicker": true,
+  "phone-dark.roadTripForms": true,
+  "phone-dark.tourBooked": true,
+  "phone-dark.changeDateSplits": true,
+  "phone-dark.cancelTwoTaps": true,
+  "phone-dark.planDialog": true,
+  "phone-dark.pastVisitAnySchool": true,
+  "phone-dark.rateInline": true,
+  "phone-dark.pastRefusesFuture": true,
+  "phone-dark.journeyShowsVisits": true,
+  "phone-dark.badgeCounts": true,
+  "phone-dark.oldButtonsStillWork": true,
+  "phone-dark.sameDayRoundsMerge": true,
+  "phone-dark.checklistLooksTickable": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true,
+  "phone-dark.noBadText": true
+ },
+ "allPass": true
+}

@@ -280,6 +280,42 @@ a{color:var(--teal)}
 .near-chip b{color:var(--teal)}
 /* trips -> memories bridge */
 .mem-bridge{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+/* #78 campus visits (Trips rethought) */
+.tv-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.tv-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tv-h{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:22px 2px 8px}
+.tv-card{padding:2px 0}.tv-trip-list .tv-card{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.tv-card.today{outline:2px solid var(--teal);outline-offset:6px;border-radius:12px}
+.tv-top{display:flex;gap:12px;align-items:center}.tv-th{width:56px;height:56px;border-radius:12px;background-size:cover;background-position:center;flex-shrink:0}
+.tv-main{flex:1;min-width:0}.tv-name{font-weight:700;font-size:15.5px}.tv-meta{font-size:13px;color:var(--muted);margin-top:1px}.tv-meta b{color:var(--ink)}
+.tv-ok{color:var(--good);font-weight:600}
+.tv-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.tv-date{display:flex!important;align-items:center;gap:8px;margin:0!important;font-size:13px!important;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important;color:var(--ink)!important}
+.tv-date input{width:auto;min-height:40px}
+.tv-check{display:flex!important;gap:8px;align-items:center;margin:0!important;font-size:13.5px!important;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important;color:var(--ink)!important;cursor:pointer}.tv-check input{width:auto;min-height:0}
+.tv-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:13.5px}.tv-links a,.tv-links .linklike{color:var(--teal);font-weight:600;text-decoration:none;font-size:13.5px}
+.tv-onsite{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:12.5px}
+.tv-more{margin-top:10px}.tv-more>summary{cursor:pointer;color:var(--teal);font-size:13.5px;font-weight:600}.tv-more[open]>summary{margin-bottom:8px}
+.tv-foot{margin-top:8px}.tv-cancel{color:var(--muted);font-size:12.5px}.tv-cancel.armed,.tv-x.armed{color:var(--warn);font-weight:700}
+.tv-trip-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tv-route{margin-top:10px}.tv-route>summary{cursor:pointer;color:var(--teal);font-weight:600;font-size:13.5px}.tv-route-sum{margin:8px 0 0;font-size:13.5px}
+.tv-legs{margin:6px 0 0;padding-left:20px;font-size:13.5px}.tv-legs li{margin:4px 0}
+.tv-wish{padding:4px 14px}.tv-wrow{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}.tv-wrow:first-child{border-top:0}
+.tv-wrow .tv-th{width:44px;height:44px;border-radius:10px}
+.tv-x{border:0;background:none;color:var(--muted);font-size:15px;cursor:pointer;min-width:40px;min-height:40px}
+.tv-past{padding:0;overflow:hidden}.tv-rate{display:flex;align-items:center;margin-top:2px}.tv-rate button{border:0;background:none;font-size:20px;line-height:1;color:var(--line);cursor:pointer;padding:2px;min-width:30px;min-height:32px}.tv-rate button.on{color:var(--star)}
+.tv-sugg{display:flex;gap:8px;flex-wrap:wrap}.tv-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 13px;font-size:13.5px;cursor:pointer;min-height:40px}
+@media (max-width:600px){ .tv-wrow .tv-date{width:100%} .tv-head .tv-acts{width:100%} .tv-head .tv-acts button{flex:1} }
+/* past-visit rows */
+.pv-card{margin-top:14px}.pv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pv-list{display:flex;flex-direction:column;margin-top:10px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pv-row{display:flex;gap:12px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);background:var(--surface)}.pv-row:first-child{border-top:0}
+.pv-th{width:52px;height:52px;border-radius:10px;background-size:cover;background-position:center;flex-shrink:0}
+.pv-main{flex:1;min-width:0}.pv-name{font-weight:700;font-size:14.5px}.pv-meta{font-size:12.5px;color:var(--muted)}.pv-note{font-size:13px;margin-top:2px;overflow-wrap:anywhere}
+.pv-stars{color:var(--star);letter-spacing:1px}.pv-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pv-who{display:flex;gap:6px;flex-wrap:wrap}.pv-who button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;min-height:36px;cursor:pointer}
+.pv-who button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface))}
+.pv-stars-in{display:flex;gap:2px}.pv-stars-in button{border:0;background:none;font-size:26px;line-height:1;color:var(--line);cursor:pointer;padding:2px;min-width:36px;min-height:36px}.pv-stars-in button.on{color:var(--star)}
+@media (max-width:600px){ .pv-row{flex-wrap:wrap} .pv-acts{width:100%;justify-content:flex-start} }
 .mem-bridge h3{font-size:15px}
 .mem-bridge button{white-space:nowrap}
 .trip-near{font-size:12.5px;color:var(--muted);margin-top:4px}
@@ -511,9 +547,15 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .dl-bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:10px 0;max-width:280px}
 .dl-bar>i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .2s}
 .dl-pills{display:flex;flex-wrap:wrap;gap:6px}
-.dl-pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--muted);background:var(--surface);user-select:none}
+.dl-pill{font-size:12.5px;border:1px solid var(--line);border-radius:10px;padding:6px 11px 6px 8px;cursor:pointer;color:var(--ink);background:var(--surface);user-select:none;display:inline-flex;align-items:center;gap:7px;min-height:36px}
+.dl-pill .dl-box{width:16px;height:16px;border:1.5px solid var(--muted);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;line-height:1;flex-shrink:0}
+.dl-pill.opt{color:var(--muted);border-style:dashed}
+.dl-pill.done .dl-box{background:var(--good);border-color:var(--good);color:#fff}
+.sn-tab.sn-act{color:var(--teal);font-weight:700;border-style:dashed}
+.navbtn.nav-invite{color:var(--teal);font-weight:700}
+.dl-cl-h{font-size:12.5px;font-weight:700;margin:8px 0 6px}.dl-cl-h span{font-weight:400;color:var(--muted)}
 .dl-pill:hover{border-color:var(--teal)}
-.dl-pill.done{background:color-mix(in srgb,var(--good) 15%,var(--surface));border-color:var(--good);color:var(--good);font-weight:600}
+.dl-pill.done{background:color-mix(in srgb,var(--good) 12%,var(--surface));border-color:var(--good);color:var(--good);font-weight:600;border-style:solid}
 /* overflow menu */
 .menu-wrap{position:relative;display:inline-block}
 .menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(16,28,46,.16);padding:6px;z-index:8;min-width:196px;display:flex;flex-direction:column;gap:2px}
@@ -1367,6 +1409,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <button class="navbtn" data-grp="family">Family</button>
     <button class="navbtn" data-nav="zoe">Ask Zoe</button>
     <button class="navbtn" data-grp="me">Profile</button>
+    <button class="navbtn nav-invite" data-invite type="button" aria-label="Invite family">👪 <span>Invite</span></button>
     <button class="navbtn nav-search" data-cmdk type="button" aria-label="Search or jump to anything">🔎 <span>Search</span> <kbd>⌘K</kbd></button>
   </nav>
   <div id="subnav" class="subnav hidden" aria-label="Section"></div>
@@ -1383,6 +1426,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
   <div class="tb-sheet-in">
     <div class="tb-sheet-h"><b>More</b><button class="small ghost" type="button" data-tb-close aria-label="Close">✕</button></div>
+    <button class="tbs" data-invite type="button">👪 <b>Invite family</b><span>Email a parent, the student, a grandparent…</span></button>
     <button class="tbs" data-cmdk>🔎 <b>Search</b><span>Find a school or jump anywhere</span></button>
     <button class="tbs" data-nav="zoe">🎓 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
     <button class="tbs" data-nav="profile" data-ptab-go="acad">👤 <b data-tbs-prof>Profile</b><span>Grades, scores, activities</span></button>
@@ -1649,6 +1693,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
           <option value="match">My match %</option>
           <option value="chance">Admission chance</option>
           <option value="name">Name (A–Z)</option>
+          <option value="visited">Visited first</option>
         </select>
       </div>
       <div class="row" style="align-items:center">
@@ -1777,20 +1822,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 
   <!-- TRIP BUILDER -->
   <section id="v-trip" class="hidden">
-    <h1>🚗 Trips</h1>
-    <p class="sub">Build a route across the campuses you want to see — drive times, nearby food &amp; stays, and a calendar you can import.</p>
-    <div class="card">
-      <div class="trip-head">
-        <div><b id="trip-count">No campuses yet</b><div class="muted" id="trip-hint" style="font-size:12.5px;margin-top:2px"></div></div>
-        <div class="row" style="align-items:center;gap:8px">
-          <label style="margin:0">Days</label>
-          <select id="trip-days" style="width:auto"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-          <button class="small primary" id="trip-build">Plan route →</button>
-        </div>
-      </div>
-      <div id="trip-chips" class="trip-chips"></div>
-      <details id="trip-addwrap" class="trip-addwrap"><summary>+ Add campuses from your board</summary><div id="trip-add" class="trip-add"></div></details>
-    </div>
+    <div class="tv-head"><div><h1>🚗 Campus visits</h1><p class="sub">Plan visits, book tours, and remember what you saw — shared with your family.</p></div>
+      <div class="tv-acts"><button class="primary" id="tv-plan" type="button">+ Plan a visit</button><button class="ghost" id="tv-past" type="button">+ Add a past visit</button></div></div>
     <div id="trip-out"></div>
     <div id="trip-memories"></div>
   </section>
@@ -2024,6 +2057,21 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 </dialog>
 
 <!-- INVITE DIALOG -->
+<dialog id="dlg-pastvisit" aria-labelledby="pvd-h">
+  <h2 id="pvd-h" style="margin-top:0">Plan a visit</h2>
+  <p class="muted" id="pvd-sub" style="font-size:13.5px;margin-top:0"></p>
+  <label for="pvd-school">School</label>
+  <input id="pvd-school" list="pvd-schools" autocomplete="off" placeholder="Start typing a school name">
+  <datalist id="pvd-schools"></datalist>
+  <div class="pf-grid" style="margin-top:8px"><div><label for="pvd-date">Date</label><input id="pvd-date" type="date"></div>
+    <div data-pvmode="plan" style="align-self:end"><label class="tv-check"><input type="checkbox" id="pvd-booked"> Tour already booked</label></div></div>
+  <label style="margin-top:8px">Who's going</label><div class="pv-who" id="pvd-who"></div>
+  <div data-pvmode="past"><label style="margin-top:8px">How did it feel?</label><div class="pv-stars-in" id="pvd-stars"></div>
+  <label for="pvd-note" style="margin-top:8px">A line to remember it by <span class="muted">(optional)</span></label>
+  <textarea id="pvd-note" maxlength="600" rows="3" placeholder="The tour guide, the dorms, the dining hall, the vibe…"></textarea></div>
+  <div id="pvd-boardrow"><label class="tv-check" style="margin-top:8px"><input type="checkbox" id="pvd-board"> Also add it to our board</label></div>
+  <div class="row" style="margin-top:12px;gap:8px;align-items:center"><button class="primary" id="pvd-save" type="button">Save</button><button class="ghost" id="pvd-cancel" type="button">Cancel</button><span id="pvd-msg" class="muted" style="font-size:12.5px" role="status"></span></div>
+</dialog>
 <dialog id="dlg-invite">
   <h2 style="margin-top:0">Invite your family</h2>
   <p class="muted" style="font-size:14px;margin-top:0">We'll email them a one-tap link to join your family board.</p>
@@ -2137,7 +2185,7 @@ function gotoGroup(g){ const d=NAV_GROUPS[g]; if(!d) return; goto(_grpLast[g] ||
 function renderSubnav(tab){ const el=$("subnav"); if(!el) return; const g=groupOf(tab);
   if(!g || !state.family){ el.classList.add("hidden"); el.innerHTML=""; return; } _grpLast[g]=tab==="visit"?"trip":tab;
   const cur=tab==="visit"?"trip":tab;
-  el.innerHTML = NAV_GROUPS[g].views.map(([v,l])=>`<button type="button" class="sn-tab ${v===cur?"on":""}" data-nav="${v}" ${v===cur?'aria-current="page"':""}>${esc(l)}${v==="pulse"?'<span class="nav-count hidden" data-sn-badge="pulse"></span>':v==="deadlines"?'<span class="nav-dot hidden" data-sn-dot="deadlines"></span>':""}</button>`).join("");
+  el.innerHTML = (g==="family" ? (x=>x+`<button type="button" class="sn-tab sn-act" data-invite>+ Invite family</button>`) : (x=>x))(NAV_GROUPS[g].views.map(([v,l])=>`<button type="button" class="sn-tab ${v===cur?"on":""}" data-nav="${v}" ${v===cur?'aria-current="page"':""}>${esc(l)}${v==="pulse"?'<span class="nav-count hidden" data-sn-badge="pulse"></span>':v==="deadlines"?'<span class="nav-dot hidden" data-sn-dot="deadlines"></span>':""}</button>`).join(""));
   el.classList.remove("hidden");
   el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>goto(b.dataset.nav));
   try{ updateDlNav(); updatePulseBadge&&updatePulseBadge(); }catch(e){}
@@ -2332,6 +2380,7 @@ async function loadFamily(){
     try{ await loadOffers(); }catch(e){}
     try{ await loadPending(); await maybeClaimPending(); }catch(e){}
     try{ await loadSwipes(); }catch(e){}
+    try{ await loadVisits(); }catch(e){}
     computeNorms();
     goto("today");
   } catch(e){
@@ -2758,6 +2807,7 @@ function renderBoard(){
   withMeta.sort((a,b)=>{
     if(rankMode){ const ra=(a.rank??9999), rb=(b.rank??9999); if(ra!==rb) return ra-rb; return (b.b??-1)-(a.b??-1); }
     if(sortBy==="name") return a.s.name.localeCompare(b.s.name);
+    if(sortBy==="visited"){ const va=visitDone(getVisits()[a.s.school_id])?0:1, vb=visitDone(getVisits()[b.s.school_id])?0:1; if(va!==vb) return va-vb; return (b.b??-1)-(a.b??-1); }
     if(sortBy==="match") return (b.m??-1)-(a.m??-1);
     if(sortBy==="chance"){ const o={likely:0,target:1,reach:2}; return (o[a.ch&&a.ch.band]??3)-(o[b.ch&&b.ch.band]??3); }
     if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
@@ -3304,7 +3354,10 @@ function journeyEvents(){
   const adds={}; (state.schools||[]).forEach(s=>{ const t=day(s.created_at); if(!t) return; const k=new Date(t).toDateString(); (adds[k]=adds[k]||{t,names:[]}).names.push(s.name); });
   Object.values(adds).forEach(a=>ev.push({t:a.t, ic:"🏫", h:a.names.length===1?`Added ${a.names[0]}`:`Added ${a.names.length} schools`, s:a.names.length>1?a.names.slice(0,4).join(" · ")+(a.names.length>4?"…":""):""}));
   const vis={}; (state.photos||[]).forEach(p=>{ const t=day(p.created_at); if(!t) return; const k=p.school_id+new Date(t).toDateString(); (vis[k]=vis[k]||{t,id:p.school_id,n:0}).n++; });
-  Object.values(vis).forEach(v=>ev.push({t:v.t, ic:"📸", h:`Visited ${schoolName(v.id)}`, s:`${v.n} photo${v.n>1?"s":""} saved`}));
+  const vRec=getVisits(); const vDays=new Set();
+  Object.entries(vRec).forEach(([id,v])=>{ if(!visitDone(v)) return; const t=day(v.date)||day(v.updated); if(!t) return; vDays.add(id+new Date(t).toDateString());
+    const who=(v.who||[]).map(memberName).filter(Boolean); ev.push({t, ic:"🚗", h:`Visited ${v.name||schoolName(id)}`, s:[who.length?who.join(", "):"", v.rating?"★".repeat(v.rating):"", (v.notes||"").slice(0,90)].filter(Boolean).join(" · ")}); });
+  Object.values(vis).forEach(v=>{ if(vDays.has(v.id+new Date(v.t).toDateString())) return; ev.push({t:v.t, ic:"📸", h:`Visited ${schoolName(v.id)}`, s:`${v.n} photo${v.n>1?"s":""} saved`}); });
   (talk.posts||[]).forEach(p=>{ const t=day(p.created_at); if(!t) return;
     if(p.kind==="agreement") ev.push({t, ic:"🤝", h:"We agreed", s:p.body});
     else if(p.kind==="milestone") ev.push({t, ic:"🎉", h:p.body, s:"", big:true});
@@ -4664,9 +4717,29 @@ function bindStars(root){
 }
 
 /* ========== VISITS (plan a visit, map pins, notes) ========== */
-function getVisits(){ return lsGet("visits")||{}; }
-function getVisit(id){ return getVisits()[id]||{date:"",notes:"",spots:[]}; }
-function saveVisit(id,v){ const all=getVisits(); all[id]=v; lsSet("visits",all); }
+// #78: visits are shared with the family (table "visits"), with this device's copy kept as a backup.
+let _visitsDB=null;
+function getVisits(){ return _visitsDB || lsGet("visits") || {}; }
+function getVisit(id){ const v=getVisits()[id]; return v?JSON.parse(JSON.stringify(v)):{date:"",notes:"",spots:[]}; }
+function saveVisit(id,v){ v={...v, updated:new Date().toISOString()}; const loc=lsGet("visits")||{}; loc[id]=v; lsSet("visits",loc);
+  if(_visitsDB) _visitsDB[id]=v;
+  if(_visitsDB && state.family && BACKEND.visits!==false && !DEMO){ sb.from("visits").upsert({family_id:state.family.id, school_id:id, visit:v, updated_by:state.me&&state.me.user_id, updated_at:v.updated})
+    .then(r=>{ if(r&&r.error) console.warn("[visits] save", r.error.message); }, ()=>{}); } }
+function removeVisit(id){ const loc=lsGet("visits")||{}; delete loc[id]; lsSet("visits",loc); if(_visitsDB) delete _visitsDB[id];
+  if(state.family && BACKEND.visits!==false && !DEMO){ sb.from("visits").delete().eq("family_id",state.family.id).eq("school_id",id).then(()=>{},()=>{}); } }
+async function loadVisits(){
+  if(DEMO || BACKEND.visits===false || !state.family){ _visitsDB=null; return; }
+  try{ const {data,error}=await sb.from("visits").select("*"); if(error) throw error;
+    const db={}; (data||[]).forEach(r=>{ if(r.visit) db[r.school_id]=r.visit; });
+    // move visits saved only on this device up to the family (once; the family copy wins if both exist)
+    const loc=lsGet("visits")||{};
+    for(const [sid,v] of Object.entries(loc)){ const has = v && (v.date||v.notes||v.rating||(v.spots&&v.spots.length)||v.gut||(v.q&&Object.keys(v.q).length));
+      if(has && !db[sid]){ db[sid]=v; try{ await sb.from("visits").upsert({family_id:state.family.id, school_id:sid, visit:v, updated_by:state.me&&state.me.user_id, updated_at:new Date().toISOString()}); }catch(e){} } }
+    _visitsDB=db;
+  }catch(e){ if(isMissing(e)) BACKEND.visits=false; _visitsDB=null; } }
+// a visit "happened" when it has a date on or before today, or it was logged as a past visit
+function visitDone(v){ return visitState(v)==="past"; }
+function visitedIds(){ return Object.entries(getVisits()).filter(([,v])=>visitDone(v)).map(([k])=>k); }
 function visitSection(id, info){
   const v=getVisit(id);
   const hasCoords = info && typeof info.lat==="number" && typeof info.lon==="number";
@@ -4680,7 +4753,7 @@ function visitSection(id, info){
     <div class="row" style="margin-top:8px;align-items:center;gap:8px"><label style="margin:0">How was the visit?</label>
       <span id="visit-stars" class="vstars">${[1,2,3,4,5].map(n=>`<span data-vs="${n}" class="vstar ${(v.rating||0)>=n?"on":""}">★</span>`).join("")}</span></div>
     ${hasCoords ? `<div class="vmap" id="vmap"></div>
-      <p class="vhint">Tap the map to pin an off-campus spot — coffee, a view, the best taco — then name it. Saved on this device for now.</p>
+      <p class="vhint">Tap the map to pin an off-campus spot — coffee, a view, the best taco — then name it. Your family sees these too.</p>
       <div class="spots" id="spots"></div>`
       : `<p class="vhint">No map location on file for this school yet.</p>`}
     <label style="margin-top:8px">Visit notes</label>
@@ -4715,52 +4788,44 @@ function initVisit(id, info){
   }catch(e){}
 }
 /* ========== ROAD TRIP BUILDER ========== */
-let tripBuilt = null, tripMap = null;
-// Fix #12: trips are stored per signed-in account (was one list shared by everyone on the device).
+/* ========== CAMPUS VISITS (#78, Oct 11 — Trips rethought) ==========
+   One shared list of campus visits per family (table "visits", one record per school). A visit with a date today or
+   later is Upcoming; once the date passes it is Past and asks for stars + a line. A visit without a date is
+   "Not scheduled yet". Upcoming visits within a few days (and a few hours' drive) of each other become a road trip
+   on their own — map, drive times and a calendar file. No route settings to fiddle with. */
+let tripMap = null;
+// Fix #12: device-local keys are per signed-in account (still used by offers, Pulse and the old trip list migration).
 function _tripKey(base){ const uid=(state.me&&state.me.user_id)||"anon"; const k=base+"_"+uid;
   try{ if(localStorage.getItem(k)==null && localStorage.getItem(base)!=null && uid!=="anon"){ localStorage.setItem(k, localStorage.getItem(base)); localStorage.removeItem(base); } }catch(e){}
   return k; }
-function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem(_tripKey("zc_trip"))||"[]")); }catch(e){ return new Set(); } }
-function saveTrip(s){ try{ localStorage.setItem(_tripKey("zc_trip"), JSON.stringify([...s])); }catch(e){} }
-function inTrip(id){ return getTrip().has(id); }
-function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
-function updateTripBadge(){ const b=document.querySelector('#subnav [data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; }   /* #68: count now on the Plan → Trips sub-tab */ const t=document.querySelector('[data-tbs-sub="trip"]'); if(t){ const n=getTrip().size; t.textContent = n? `${n} school${n>1?"s":""} on your trip` : "Plan campus visits"; } }
+function ymdToday(){ const n=new Date(); return new Date(n.getTime()-n.getTimezoneOffset()*6e4).toISOString().slice(0,10); }
+function visitState(v){ if(!v) return null; if(v.past) return "past"; if(v.date) return v.date < ymdToday() ? "past" : "upcoming"; return v.wish ? "wish" : null; }
+function visitHasMemories(v){ return !!(v && (v.notes || v.rating || (v.spots&&v.spots.length) || v.gut || (v.q&&Object.keys(v.q).length))); }
+// The old one-device trip list (and its per-stop plans) move into shared visits, once.
+function migrateOldTrip(){ try{ const k=_tripKey("zc_trip"); const ids=JSON.parse(localStorage.getItem(k)||"[]"); if(!Array.isArray(ids)||!ids.length) return;
+  const pk=_tripKey("zc_tripplan"); let plans={}; try{ plans=JSON.parse(localStorage.getItem(pk)||"{}"); }catch(e){}
+  ids.forEach(id=>{ const cur=getVisits()[id]; if(!cur){ const v={wish:true, name:schoolName(id)}; if(Array.isArray(plans[id])&&plans[id].length) v.todo=plans[id]; saveVisit(id,v); } });
+  localStorage.setItem(k,"[]"); }catch(e){} }
+function plannedIds(){ migrateOldTrip(); const all=getVisits();
+  const up=Object.keys(all).filter(id=>visitState(all[id])==="upcoming").sort((a,b)=>all[a].date.localeCompare(all[b].date));
+  const wish=Object.keys(all).filter(id=>visitState(all[id])==="wish"); return [...up, ...wish]; }
+// Older code asks for "the trip" as a set of campus ids: that's now every planned visit (dated first, by date).
+function getTrip(){ return new Set(plannedIds()); }
+function saveTrip(s){ for(const id of s){ const v=getVisits()[id]; if(!v || visitState(v)==="past" || visitState(v)===null) saveVisit(id,{...(v||{}), wish:true, name:schoolName(id)}); } }
+function inTrip(id){ const st=visitState(getVisits()[id]); return st==="wish"||st==="upcoming"; }
+function planVisit(id){ const v=getVisit(id); v.wish=true; v.past=false; if(v.date && v.date<ymdToday()) v.date=""; v.name=schoolName(id); saveVisit(id,v); }
+function cancelVisit(id){ const v=getVisits()[id]; if(!v) return;
+  if(visitHasMemories(v) && visitState(v)==="past") return;            // never throw away a visit that happened
+  if(visitHasMemories(v)){ const w=getVisit(id); w.date=""; w.wish=false; w.booked=false; saveVisit(id,w); } else removeVisit(id); }
+function toggleTrip(id){ if(inTrip(id)) cancelVisit(id); else planVisit(id); updateTripBadge(); return inTrip(id); }
+function updateTripBadge(){ const n=plannedIds().length; const b=document.querySelector('#subnav [data-nav="trip"]'); if(b) b.textContent = n? ("Trips · "+n) : "Trips";   /* #68: count on the Plan → Trips sub-tab */
+  const t=document.querySelector('[data-tbs-sub="trip"]'); if(t) t.textContent = n? `${n} campus visit${n>1?"s":""} planned` : "Plan campus visits"; }
 function tripRec(id){ const info=catInfo(id); if(!info) return null; const rec=state.schools.find(s=>s.school_id===id) || {school_id:id, name:info.name, city:info.city, state:info.state}; return {rec,info}; }
-/* ---- per-stop "things to do" plan (local) ---- */
-function tripPlan(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_tripplan"))||"{}"); }catch(e){ return {}; } }
-function saveTripPlan(p){ try{ localStorage.setItem(_tripKey("zc_tripplan"),JSON.stringify(p)); }catch(e){} }
-function stopPlan(id){ return tripPlan()[id]||[]; }
-function addStopPlan(id,item){ const p=tripPlan(); const list=p[id]||[]; if(!list.includes(item)){ list.push(item); } p[id]=list; saveTripPlan(p); }
-function rmStopPlan(id,idx){ const p=tripPlan(); if(p[id]){ p[id].splice(idx,1); if(!p[id].length) delete p[id]; saveTripPlan(p); } }
-function rerenderTrip(){ if(tripMap){ try{tripMap.remove();}catch(e){} tripMap=null; } renderTripOut(); }
-/* ---- Trips → Memories bridge (uses the shared, cloud-synced photo system) ---- */
-function renderTripMemoriesCard(){
-  const el=$("trip-memories"); if(!el) return;
-  const n=(state.photos||[]).length;
-  el.innerHTML=`<div class="card mem-bridge">
-    <div><h3 style="margin:0 0 2px">📸 Trip memories</h3>
-      <div class="muted" style="font-size:12.5px">${n? `${n} visit photo${n>1?"s":""} saved to your family.` : "Add photos on your visits — open a school and use <b>Campus photos</b>."} Relive them as a reel or make the AI film.</div></div>
-    <button class="small primary" id="trip-mem-open">Open Memories →</button>
-  </div>`;
-  const b=$("trip-mem-open"); if(b) b.onclick=()=>goto("memories");
-}
-function renderTrip(){
-  const items=[...getTrip()].map(tripRec).filter(Boolean);
-  try{ renderTripMemoriesCard(); }catch(e){}
-  const count=$("trip-count"), hint=$("trip-hint"), chips=$("trip-chips"), add=$("trip-add");
-  count.textContent = items.length? (items.length+" campus"+(items.length>1?"es":"")+" in this trip") : "No campuses yet";
-  hint.innerHTML = items.length? "Remove with ✕, add more below, then plan your route." : "Add campuses with the 🗺 button on any school — on your board, in Schools, or Zoe Picks — or from your board below.";
-  chips.innerHTML = items.length? items.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(rec.name,info&&info.state,"78%")}"`;
-      return `<span class="trip-chip"><span class="th" ${th}></span>${esc(rec.name)}<button class="x" data-triprm="${esc(rec.school_id)}" aria-label="Remove">✕</button></span>`; }).join("")
-    : `<div class="trip-empty">Nothing added yet — pick a few campuses to route.</div>`;
-  const board=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && !getTrip().has(x.rec.school_id));
-  add.innerHTML = board.length? board.map(({rec,info})=>{ const u=photoUrlFor(info); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(rec.name,info&&info.state,"78%")}"`;
-      const noGeo=!(typeof info.lat==="number"&&typeof info.lon==="number");
-      return `<div class="ta" data-tripadd="${esc(rec.school_id)}"><span class="th" ${th}></span><span>${esc(rec.name)} <span class="muted" style="font-size:11px">${esc([info.city,info.state].filter(Boolean).join(", "))}${noGeo?" · no map loc":""}</span></span><span class="plus">+ Add</span></div>`; }).join("")
-    : `<div class="muted" style="font-size:13px">Everything on your board is already in the trip.</div>`;
-  chips.querySelectorAll("[data-triprm]").forEach(b=>b.onclick=()=>{ toggleTrip(b.dataset.triprm); renderTrip(); });
-  add.querySelectorAll("[data-tripadd]").forEach(d=>d.onclick=()=>{ toggleTrip(d.dataset.tripadd); renderTrip(); });
-}
+/* things to do in town, per visit (shared) */
+function stopPlan(id){ const v=getVisits()[id]; return (v&&Array.isArray(v.todo))?v.todo:[]; }
+function addStopPlan(id,item){ const v=getVisit(id); const list=Array.isArray(v.todo)?v.todo:[]; if(!list.includes(item)) list.push(String(item).slice(0,120)); v.todo=list.slice(0,30); saveVisit(id,v); }
+function rmStopPlan(id,idx){ const v=getVisit(id); if(Array.isArray(v.todo)){ v.todo.splice(idx,1); saveVisit(id,v); } }
+/* ---- distance + drive times ---- */
 function haversineMi(a,b){ const R=3958.8,dLat=(b.lat-a.lat)*Math.PI/180,dLon=(b.lon-a.lon)*Math.PI/180,la1=a.lat*Math.PI/180,la2=b.lat*Math.PI/180; const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 function orderStops(stops){ if(stops.length<=2) return stops.slice(); const rem=stops.slice(); rem.sort((a,b)=>b.lat-a.lat); const out=[rem.shift()];
   while(rem.length){ let bi=0,bd=Infinity; const last=out[out.length-1]; rem.forEach((s,i)=>{ const d=haversineMi(last,s); if(d<bd){bd=d;bi=i;} }); out.push(rem.splice(bi,1)[0]); } return out; }
@@ -4772,114 +4837,121 @@ async function osrmLegs(ordered){
     return j.routes[0].legs.map(l=>({mi:l.distance/1609.34, min:l.duration/60, est:false}));
   }catch(e){ return fallback(); }
 }
-// (#69) the browser no longer calls Overpass directly — see netlify/functions/places-near.mjs
-// Fix #12: a schedule that respects real drive times (was: N stops split evenly, 9am/12pm/3pm,
-// so MIT 9am then College of Charleston noon, 973 miles apart). Times in minutes after midnight.
-const TRIP_VISIT=120, TRIP_DAY_START=9*60, TRIP_LAST_VISIT=16*60, TRIP_DRIVE_START=8*60, TRIP_DRIVE_END=20*60, TRIP_MAX_DRIVE=9*60;
-function tripSchedule(){
-  const {ordered,legs}=tripBuilt; const days=[]; let day=0, t=TRIP_DAY_START;
-  const ensure=d=>{ while(days.length<=d) days.push({stops:[], times:[], travelMin:0}); };
-  ordered.forEach((s,i)=>{
-    if(i>0){
-      const drive=(legs[i-1]&&legs[i-1].min)||0; const leave=t;
-      if(leave+drive<=TRIP_LAST_VISIT){ t=leave+drive; }
-      else {                                   // can't arrive in time for a visit today: drive, sleep, continue
-        let rem=drive-Math.max(0,TRIP_DRIVE_END-leave);
-        if(rem<0) rem=0;
-        day++; ensure(day);
-        while(rem>TRIP_MAX_DRIVE){ days[day].travelMin=TRIP_MAX_DRIVE; rem-=TRIP_MAX_DRIVE; day++; ensure(day); }   // full travel days
-        t=Math.max(TRIP_DAY_START, TRIP_DRIVE_START+rem);
-        if(t>TRIP_LAST_VISIT){ days[day].travelMin=rem; day++; ensure(day); t=TRIP_DAY_START; }
-      }
-    }
-    ensure(day); days[day].stops.push(s); days[day].times.push(t); t+=TRIP_VISIT;
-  });
-  return days;
-}
-function tripDays(){ if(!tripBuilt) return []; return tripSchedule().map(d=>{ const a=d.stops.slice(); a.times=d.times; a.travelMin=d.travelMin; return a; }); }
-function stopTime(dayIdx, slotIdx){ const plan=tripDays(); const m=(plan[dayIdx]&&plan[dayIdx].times[slotIdx]) ?? (TRIP_DAY_START+slotIdx*180);
-  const d=new Date(tripBuilt.start); d.setDate(d.getDate()+dayIdx); d.setHours(Math.floor(m/60), Math.round(m%60), 0, 0); return d; }
+const TRIP_REGION_MI=300, TRIP_GAP_DAYS=3;
+const hasLL=i=>i&&typeof i.lat==="number"&&typeof i.lon==="number";
+function upcomingVisits(){ const all=getVisits(); return Object.keys(all).filter(id=>visitState(all[id])==="upcoming").map(id=>({id,v:all[id],info:catInfo(id)}))
+  .sort((a,b)=>a.v.date.localeCompare(b.v.date) || ((a.info&&a.info.name)||"").localeCompare((b.info&&b.info.name)||"")); }
+// visits a few days apart and within a few hours' drive form one road trip
+function tripGroups(list){ const groups=[]; let cur=null;
+  list.forEach(x=>{ const prev=cur&&cur[cur.length-1];
+    const close = prev && (Date.parse(x.v.date)-Date.parse(prev.v.date)) <= TRIP_GAP_DAYS*864e5 && (!hasLL(x.info)||!hasLL(prev.info)||haversineMi(prev.info,x.info)<=TRIP_REGION_MI);
+    if(close) cur.push(x); else { cur=[x]; groups.push(cur); } });
+  return groups; }
+// route order: by date, and nearest-next within the same day
+function routeOrder(group){ const byDay={}; group.forEach(x=>{ (byDay[x.v.date]=byDay[x.v.date]||[]).push(x); });
+  const out=[]; Object.keys(byDay).sort().forEach(d=>{ const day=byDay[d]; const withLL=day.filter(x=>hasLL(x.info)), without=day.filter(x=>!hasLL(x.info));
+    const ord=orderStops(withLL.map(x=>({...x, lat:x.info.lat, lon:x.info.lon}))); out.push(...ord, ...without); }); return out; }
+const _legCache={};
+/* ---- calendar file ---- */
 function icsStamp(d){ return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+"00Z"; }
-function tripEvents(){ const plan=tripDays(); const evs=[]; plan.forEach((day,di)=>day.forEach((s,si)=>{ const start=stopTime(di,si); const end=new Date(start.getTime()+2*3600*1000); evs.push({s,start,end}); })); return evs; }
-function downloadICS(){ const evs=tripEvents(); const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Trip//EN","CALSCALE:GREGORIAN"];
-  evs.forEach((e,i)=>{ const loc=[e.s.city,e.s.state].filter(Boolean).join(", ");
-    lines.push("BEGIN:VEVENT","UID:zc-trip-"+i+"-"+Date.now()+"@zoescolleges","DTSTAMP:"+icsStamp(new Date()),"DTSTART:"+icsStamp(e.start),"DTEND:"+icsStamp(e.end),"SUMMARY:Visit "+e.s.name.replace(/[,;\\]/g,""),"LOCATION:"+loc.replace(/[,;\\]/g," "),"DESCRIPTION:Campus visit planned in Zoe's Colleges","END:VEVENT"); });
+function icsFor(items, file){ const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Visits//EN","CALSCALE:GREGORIAN"]; const perDay={};
+  items.forEach(x=>{ const n=perDay[x.v.date]=(perDay[x.v.date]||0)+1; const start=new Date(x.v.date+"T00:00:00"); start.setHours(n===1?10:14,0,0,0); const end=new Date(start.getTime()+2*3600e3);
+    const info=x.info||{}; const nm=(info.name||x.v.name||"Campus visit").replace(/[,;\\]/g,""); const loc=[info.city,info.state].filter(Boolean).join(" ").replace(/[,;\\]/g," ");
+    lines.push("BEGIN:VEVENT","UID:zc-visit-"+x.id+"-"+x.v.date+"@zoescolleges","DTSTAMP:"+icsStamp(new Date()),"DTSTART:"+icsStamp(start),"DTEND:"+icsStamp(end),"SUMMARY:Campus visit: "+nm,"LOCATION:"+loc,"DESCRIPTION:Planned in Zoe's Colleges"+(x.v.booked?" (tour booked)":""),"END:VEVENT"); });
   lines.push("END:VCALENDAR");
   const blob=new Blob([lines.join("\r\n")],{type:"text/calendar"}); const url=URL.createObjectURL(blob);
-  const a=document.createElement("a"); a.href=url; a.download="zoes-colleges-trip.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
+  const a=document.createElement("a"); a.href=url; a.download=file||"campus-visits.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
+// old callers
+function downloadICS(){ icsFor(upcomingVisits(), "campus-visits.ics"); }
 const NEAR_CATS=[["food","🍽 Food"],["coffee","☕ Coffee"],["stay","🛏 Stay"],["see","📍 Things to do"],["music","🎵 Music & arts"],["outdoors","🌲 Outdoors"]];
-function renderTripOut(){
-  const out=$("trip-out"); if(!tripBuilt){ out.innerHTML=""; return; }
-  const {ordered,legs}=tripBuilt; const plan=tripDays();
-  const totMi=legs.reduce((a,l)=>a+l.mi,0), totMin=legs.reduce((a,l)=>a+l.min,0);
-  const est=legs.some(l=>l.est);
-  const hrs=m=>{ m=Math.round(m); const h=Math.floor(m/60), mm=m%60; return (h?h+"h ":"")+(mm?mm+"m":(h?"":"0m")); };
-  let li=0; // running leg index between consecutive stops across the whole route
-  const dayCards=plan.map((day,di)=>{
-    const rows=day.map((s,si)=>{
-      let legHtml="";
-      if(!(di===0&&si===0) && li<legs.length){ const l=legs[li]; legHtml=`<div class="trip-leg">↓ ${Math.round(l.mi)} mi · ~${hrs(l.min)} drive</div>`; }
-      if(!(di===0&&si===0)) li++;
-      const t=stopTime(di,si); const tstr=t.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-      const isVisitDay = (()=>{ const d=new Date(tripBuilt.start); d.setDate(d.getDate()+di); const n=new Date(); return d.toDateString()===n.toDateString(); })();
-      const info=catInfo(s.id)||{}; const u=photoUrlFor(info); const nm=encodeURIComponent(s.name+(s.state?(" "+s.state):""));
-      const maps=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
-      const items=stopPlan(s.id);
-      const planList = items.length
-        ? items.map((it,idx)=>`<span class="plan-item">${esc(it)}<button class="x" data-planrm="${esc(s.id)}|${idx}" aria-label="Remove">✕</button></span>`).join("")
-        : `<span class="muted" style="font-size:12px">Plan what to do while you're in town ↓</span>`;
-      return `${legHtml}<div class="trip-stop" data-stop="${esc(s.id)}">
-        <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(s.name,s.state,"78%")}`}"></span>
-          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div><button class="small ${isVisitDay?"primary":""}" data-visitkit="${esc(s.id)}" title="Use this on campus: checklist, photos and quick notes">📍 I'm on campus</button></div>
-        <div class="ts-onsite ${isVisitDay?"today":""}">${isVisitDay?"🎉 Visit day! Tap <b>I'm on campus</b> when you arrive — checklist, photos and quick notes as you walk.":"On visit day, tap <b>I'm on campus</b> for a checklist, photos and quick notes as you walk."}</div>
-        <div class="ts-visit">
-          ${(()=>{ const v=visitLinkFor(s.id); return v?`<a href="${esc(v.url)}" target="_blank" rel="noopener">🎟 ${v.label} ↗</a>`:""; })()}
-          <a href="https://www.google.com/search?q=${nm}+virtual+campus+tour" target="_blank" rel="noopener">▶ Find a virtual tour ↗</a>
-          <a href="${maps}" target="_blank" rel="noopener">📍 Directions ↗</a>
-        </div>
-        <div class="ts-plan">
-          <div class="ts-plan-list" data-planlist="${esc(s.id)}">${planList}</div>
-          <div class="ts-plan-add">
-            <div class="near-cats" role="group" aria-label="Find nearby">${NEAR_CATS.map(([k,l])=>`<button type="button" class="near-cat" data-near="${esc(s.id)}" data-cat="${k}" data-lat="${s.lat}" data-lon="${s.lon}">${l}</button>`).join("")}</div>
-            <form class="plan-form" data-planform="${esc(s.id)}"><input class="plan-in" type="text" placeholder="Add your own stop, e.g. dinner at Leunig's" aria-label="Add your own stop" autocomplete="off"><button class="small" type="submit">Add</button></form>
-          </div>
-          <div class="near-out" data-nearout="${esc(s.id)}"></div>
-        </div></div>`;
-    }).join("");
-    const dayDate=new Date(tripBuilt.start); dayDate.setDate(dayDate.getDate()+di);
-    const travel = !day.length ? `<div class="muted" style="font-size:13px;margin:6px 0 10px">🚗 Travel day — about ${hrs(day.travelMin||0)} of driving. Break it up and stay overnight on the way.</div>` : "";
-    return `<div class="trip-day"><h4>Day ${di+1} — ${dayDate.toLocaleDateString([], {weekday:"long",month:"short",day:"numeric"})}</h4>${travel}${rows}</div>`;
-  }).join("");
-  out.innerHTML = `<div class="card">
-    <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-      <div><b>${ordered.length}</b> campuses · <b>${Math.round(totMi)}</b> mi · ~<b>${hrs(totMin)}</b> driving${est?` <span class="muted" style="font-size:11px">(drive times estimated)</span>`:""}</div>
-      <label style="margin:0;font-size:13px">Start <input type="date" id="trip-start" value="${tripBuilt.start.toISOString().slice(0,10)}" style="width:auto"></label>
-    </div>
-    ${plan.length>tripBuilt.days?`<div class="msg" style="margin:8px 0">This route takes <b>${plan.length} days</b> at a comfortable pace (2-hour visits, real drive times, no visits after 4pm) — more than the ${tripBuilt.days} you picked. Remove a far-away campus to shorten it.</div>`:""}
-    <div id="tripmap"></div>
-    ${dayCards}
-    <div class="trip-exports">
-      <button class="small primary" id="trip-ics">⬇ Download calendar (.ics)</button>
-      <span class="muted" style="font-size:12px;align-self:center">Imports into Google Calendar, Apple Calendar, or TripIt (TripIt → add via your calendar or email the .ics).</span>
-    </div>
-    <p class="muted" style="font-size:11px;margin-top:8px">Driving via OpenStreetMap routing. Nearby places from OpenStreetMap. Order is a simple nearest-next route — tweak by removing campuses above and planning again.</p>
+/* ---- Trips → Memories bridge ---- */
+function renderTripMemoriesCard(){
+  const el=$("trip-memories"); if(!el) return;
+  const n=(state.photos||[]).length;
+  el.innerHTML=`<div class="card mem-bridge">
+    <div><h3 style="margin:0 0 2px">📸 Visit memories</h3>
+      <div class="muted" style="font-size:12.5px">${n? `${n} visit photo${n>1?"s":""} saved to your family.` : "Add photos on your visits — open a school and use <b>Campus photos</b>."} Relive them as a reel or make the AI film.</div></div>
+    <button class="small primary" id="trip-mem-open">Open Memories →</button>
   </div>`;
-  // map
-  if(window.L){ try{
-    const el=$("tripmap"); tripMap=L.map(el,{scrollWheelZoom:false});
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(tripMap);
-    const pts=ordered.map(s=>[s.lat,s.lon]);
-    ordered.forEach((s,i)=>L.marker([s.lat,s.lon]).addTo(tripMap).bindPopup(`<b>${i+1}. ${esc(s.name)}</b>`));
-    if(pts.length>1) L.polyline(pts,{color:"#2b8a7a",weight:3,opacity:.7,dashArray:"6 6"}).addTo(tripMap);
-    tripMap.fitBounds(pts.length>1?pts:[pts[0]], {padding:[30,30], maxZoom:11});
-    setTimeout(()=>{ try{ tripMap.invalidateSize(); }catch(e){} },250);
-  }catch(e){} }
-  // date change
-  const ds=$("trip-start"); if(ds) ds.onchange=()=>{ const v=ds.value; if(v){ const d=new Date(v+"T09:00:00"); if(!isNaN(d)){ tripBuilt.start=d; if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;} renderTripOut(); } } };
-  $("trip-ics").onclick=downloadICS;
-  // plan: add your own + remove
-  out.querySelectorAll("[data-planform]").forEach(f=>f.onsubmit=e=>{ e.preventDefault(); const id=f.dataset.planform; const inp=f.querySelector(".plan-in"); const v=(inp.value||"").trim(); if(v){ addStopPlan(id,v); rerenderTrip(); } });
-  out.querySelectorAll("[data-planrm]").forEach(b=>b.onclick=()=>{ const parts=b.dataset.planrm.split("|"); rmStopPlan(parts[0],+parts[1]); rerenderTrip(); });
+  const b=$("trip-mem-open"); if(b) b.onclick=()=>goto("memories");
+}
+/* ---- the page ---- */
+const fmtDay=ymd=>{ const t=Date.parse((ymd||"")+"T12:00:00"); return isFinite(t)?new Date(t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}):""; };
+const fmtMonth=ymd=>{ const t=Date.parse((ymd||"")+"T12:00:00"); return isFinite(t)?new Date(t).toLocaleDateString("en-US",{month:"short",year:"numeric"}):"Date not set"; };
+function daysAway(ymd){ const t=Date.parse(ymd+"T12:00:00"), n=Date.parse(ymdToday()+"T12:00:00"); const d=Math.round((t-n)/864e5); return d===0?"today":d===1?"tomorrow":`in ${d} days`; }
+function tvThumb(nm, info){ const u=photoUrlFor(info); return `<div class="tv-th" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(nm,info&&info.state,"60%")}`}"></div>`; }
+function tvUpcomingCard(x){ const {id,v,info}=x; const nm=(info&&info.name)||v.name||id; const today=v.date===ymdToday();
+  const link=visitLinkFor(id); const maps=hasLL(info)?`https://www.google.com/maps/dir/?api=1&destination=${info.lat},${info.lon}`:"";
+  const todo=stopPlan(id);
+  return `<div class="tv-card${today?" today":""}" data-tv="${esc(id)}">
+    <div class="tv-top">${tvThumb(nm,info)}<div class="tv-main"><div class="tv-name">${esc(nm)}</div>
+      <div class="tv-meta">${esc([info&&info.city,info&&info.state].filter(Boolean).join(", "))}${info&&info.city?" · ":""}<b>${esc(fmtDay(v.date))}</b> · ${esc(daysAway(v.date))}${v.booked?` · <span class="tv-ok">✓ Tour booked</span>`:""}</div></div></div>
+    <div class="tv-row"><label class="tv-date">Date <input type="date" data-tvdate="${esc(id)}" value="${esc(v.date)}" min="${ymdToday()}" aria-label="Visit date for ${esc(nm)}"></label>
+      <label class="tv-check"><input type="checkbox" data-tvbooked="${esc(id)}" ${v.booked?"checked":""}> Tour booked</label></div>
+    <div class="tv-links">${link?`<a href="${esc(link.url)}" target="_blank" rel="noopener">🎟 ${esc(v.booked?"Tour & visit info":link.label)} ↗</a>`:""}${maps?`<a href="${maps}" target="_blank" rel="noopener">📍 Directions ↗</a>`:""}<button type="button" class="linklike" data-tvics="${esc(id)}">📅 Add to calendar</button></div>
+    <div class="tv-onsite"><button class="small ${today?"primary":"ghost"}" data-visitkit="${esc(id)}">📍 I'm on campus — start visit</button><span class="muted">${today?"It's visit day! Checklist, photos and quick notes as you walk.":"Use this on the day: checklist, photos and quick notes."}</span></div>
+    <details class="tv-more"><summary>Plan your time in town${todo.length?` (${todo.length})`:""}</summary>
+      <div class="ts-plan-list">${todo.length?todo.map((it,i)=>`<span class="plan-item">${esc(it)}<button class="x" data-planrm="${esc(id)}|${i}" aria-label="Remove">✕</button></span>`).join(""):`<span class="muted" style="font-size:12px">Nothing yet — find places nearby or add your own.</span>`}</div>
+      ${hasLL(info)?`<div class="near-cats" role="group" aria-label="Find nearby">${NEAR_CATS.map(([k,l])=>`<button type="button" class="near-cat" data-near="${esc(id)}" data-cat="${k}" data-lat="${info.lat}" data-lon="${info.lon}">${l}</button>`).join("")}</div>`:""}
+      <form class="plan-form" data-planform="${esc(id)}"><input class="plan-in" type="text" placeholder="Add your own, e.g. dinner at Leunig's" aria-label="Add your own stop" autocomplete="off" maxlength="120"><button class="small" type="submit">Add</button></form>
+      <div class="near-out" data-nearout="${esc(id)}"></div></details>
+    <div class="tv-foot"><button type="button" class="linklike tv-cancel" data-tvcancel="${esc(id)}">Cancel this visit</button></div>
+  </div>`; }
+function tvTripCard(group, gi){ const first=group[0].v.date, last=group[group.length-1].v.date;
+  return `<div class="card tv-trip"><div class="tv-trip-h"><div><b>🛣 Road trip</b> · ${esc(fmtDay(first))}${last!==first?` – ${esc(fmtDay(last))}`:""} · ${group.length} campuses</div>
+      <button type="button" class="small ghost" data-tvtripics="${gi}">📅 Calendar for this trip</button></div>
+    <details class="tv-route" data-tvroute="${gi}"><summary>Route, map &amp; drive times</summary><div class="tv-route-body" data-tvroutebody="${gi}"><span class="muted" style="font-size:12.5px">Loading the route…</span></div></details>
+    <div class="tv-trip-list">${group.map(tvUpcomingCard).join("")}</div></div>`; }
+function renderTrip(){
+  migrateOldTrip();
+  const out=$("trip-out"); if(!out) return;
+  if(tripMap){ try{ tripMap.remove(); }catch(e){} tripMap=null; }
+  const all=getVisits(); const up=upcomingVisits(); const groups=tripGroups(up);
+  const wish=Object.keys(all).filter(id=>visitState(all[id])==="wish").map(id=>({id,v:all[id],info:catInfo(id)}));
+  const past=Object.keys(all).filter(id=>visitState(all[id])==="past").map(id=>({id,v:all[id],info:catInfo(id)})).sort((a,b)=>(b.v.date||"").localeCompare(a.v.date||""));
+  const onBoard=id=>(state.schools||[]).some(s=>s.school_id===id);
+  let h="";
+  if(!up.length && !wish.length && !past.length){
+    const sugg=(state.schools||[]).slice(0,6);
+    h+=`<div class="card tv-empty"><h3 style="margin:0 0 4px">No visits yet</h3><p class="muted" style="margin:0 0 10px;font-size:13.5px">Pick a school and a date — that's it. Visits a few days apart turn into a road trip with a map, drive times and a calendar file.</p>
+      ${sugg.length?`<div class="tv-sugg">${sugg.map(s=>`<button type="button" class="tv-chip" data-tvplan="${esc(s.school_id)}">+ ${esc(s.name)}</button>`).join("")}</div>`:""}</div>`;
+  }
+  if(up.length){ h+=`<h2 class="tv-h">Upcoming</h2>`; groups.forEach((g,gi)=>{ h+= g.length>1 ? tvTripCard(g,gi) : `<div class="card tv-single">${tvUpcomingCard(g[0])}</div>`; }); }
+  if(wish.length){ h+=`<h2 class="tv-h">Not scheduled yet</h2><div class="card tv-wish">${wish.map(({id,v,info})=>{ const nm=(info&&info.name)||v.name||id;
+      return `<div class="tv-wrow">${tvThumb(nm,info)}<div class="tv-main"><div class="tv-name">${esc(nm)}</div><div class="tv-meta">${esc([info&&info.city,info&&info.state].filter(Boolean).join(", "))}</div></div>
+        <label class="tv-date">Pick a date <input type="date" data-tvdate="${esc(id)}" min="${ymdToday()}" aria-label="Pick a visit date for ${esc(nm)}"></label>
+        <button type="button" class="tv-x" data-tvcancel="${esc(id)}" aria-label="Remove ${esc(nm)}">✕</button></div>`; }).join("")}</div>`; }
+  if(past.length){ h+=`<h2 class="tv-h">Past visits</h2><div class="card tv-past">${past.map(({id,v,info})=>{ const nm=(info&&info.name)||v.name||id; const who=(v.who||[]).map(memberName).filter(Boolean);
+      return `<div class="pv-row">${tvThumb(nm,info).replace('tv-th','pv-th')}<div class="pv-main"><div class="pv-name">${esc(nm)}</div>
+        <div class="pv-meta">${esc(fmtMonth(v.date))}${who.length?` · ${esc(who.join(", "))}`:""}</div>
+        <div class="tv-rate" role="group" aria-label="Rate the visit to ${esc(nm)}">${[1,2,3,4,5].map(n=>`<button type="button" data-tvrate="${esc(id)}|${n}" class="${(v.rating||0)>=n?"on":""}" aria-label="${n} star${n>1?"s":""}">★</button>`).join("")}${v.rating?"":`<span class="muted" style="font-size:12px;margin-left:6px">How was it?</span>`}</div>
+        ${v.notes?`<div class="pv-note">${esc(String(v.notes).slice(0,180))}</div>`:""}</div>
+        <div class="pv-acts">${info?`<button class="small ghost" data-pv-open="${esc(id)}">Open</button>`:""}${info&&!onBoard(id)?`<button class="small ghost" data-pv-board="${esc(id)}">+ Board</button>`:""}<button class="small ghost" data-pv-edit="${esc(id)}">${v.notes?"Edit":"Add a note"}</button></div></div>`; }).join("")}</div>`; }
+  out.innerHTML=h;
+  try{ renderTripMemoriesCard(); }catch(e){}
+  wireTrip(out, groups);
+}
+function wireTrip(out, groups){
+  const re=()=>{ renderTrip(); updateTripBadge(); };
+  out.querySelectorAll("[data-tvplan]").forEach(b=>b.onclick=()=>openVisitDialog("plan", b.dataset.tvplan));
+  out.querySelectorAll("[data-tvdate]").forEach(inp=>inp.onchange=()=>{ const id=inp.dataset.tvdate, val=inp.value; if(!val) return;
+    if(val<ymdToday()){ inp.setCustomValidity("Pick today or later — for a visit that already happened use + Add a past visit."); inp.reportValidity(); return; }
+    const v=getVisit(id); v.date=val; v.wish=false; v.past=false; saveVisit(id,v); re(); });
+  out.querySelectorAll("[data-tvbooked]").forEach(c=>c.onchange=()=>{ const v=getVisit(c.dataset.tvbooked); v.booked=c.checked; saveVisit(c.dataset.tvbooked,v); re(); });
+  out.querySelectorAll("[data-tvics]").forEach(b=>b.onclick=()=>{ const id=b.dataset.tvics; icsFor([{id,v:getVisits()[id],info:catInfo(id)}], "campus-visit.ics"); });
+  out.querySelectorAll("[data-tvtripics]").forEach(b=>b.onclick=()=>icsFor(groups[+b.dataset.tvtripics]||[], "road-trip.ics"));
+  out.querySelectorAll("[data-tvcancel]").forEach(b=>b.onclick=()=>{
+    if(!b.dataset.armed){ b.dataset.armed="1"; const t=b.textContent; b.textContent= b.classList.contains("tv-x")?"Remove?":"Tap again to cancel"; b.classList.add("armed");
+      setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent=t; b.classList.remove("armed"); } },4000); return; }
+    cancelVisit(b.dataset.tvcancel); re(); });
+  out.querySelectorAll("[data-tvrate]").forEach(b=>b.onclick=()=>{ const [id,n]=b.dataset.tvrate.split("|"); const v=getVisit(id); v.rating=(v.rating===+n)?0:+n; if(!v.past && !v.date) v.past=true; saveVisit(id,v); re(); });
+  out.querySelectorAll("[data-pv-open]").forEach(b=>b.onclick=()=>openDetail(b.dataset.pvOpen,"trip"));
+  out.querySelectorAll("[data-pv-edit]").forEach(b=>b.onclick=()=>openVisitDialog("past", b.dataset.pvEdit));
+  out.querySelectorAll("[data-pv-board]").forEach(b=>b.onclick=async()=>{ b.disabled=true; const ok=await addFromCatalog(b.dataset.pvBoard); if(ok===false){ b.disabled=false; alert((typeof _addErr!=="undefined"&&_addErr)||"Couldn't add it."); return; } re(); });
+  // things to do
+  out.querySelectorAll("[data-planform]").forEach(f=>f.onsubmit=e=>{ e.preventDefault(); const id=f.dataset.planform; const inp=f.querySelector(".plan-in"); const v=(inp.value||"").trim(); if(v){ addStopPlan(id,v); reopen(id); } });
+  out.querySelectorAll("[data-planrm]").forEach(b=>b.onclick=()=>{ const p=b.dataset.planrm.split("|"); rmStopPlan(p[0],+p[1]); reopen(p[0]); });
+  function reopen(id){ renderTrip(); const d=document.querySelector(`#trip-out [data-tv="${CSS.escape(id)}"] .tv-more`); if(d) d.open=true; }
   // #69 nearby by category, through our server (cached), with an honest map fallback
   out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const id=btn.dataset.near, cat=btn.dataset.cat, la=btn.dataset.lat, lo=btn.dataset.lon; const box=out.querySelector(`[data-nearout="${CSS.escape(id)}"]`);
     btn.parentElement.querySelectorAll(".near-cat").forEach(x=>x.classList.toggle("on", x===btn));
@@ -4889,57 +4961,68 @@ function renderTripOut(){
     const fallback=(why)=>`<div class="near-fallback"><span class="muted">${why}</span> <a href="https://www.google.com/maps/search/${encodeURIComponent(mapQ)}/@${la},${lo},14z" target="_blank" rel="noopener">Open ${esc(mapQ)} on the map ↗</a></div>`;
     try{ const r=await fetch(`/.netlify/functions/places-near?cat=${encodeURIComponent(cat)}&lat=${encodeURIComponent(la)}&lon=${encodeURIComponent(lo)}`,{headers:await aiHeaders()}); const j=await r.json().catch(()=>({}));
       if(j.places && j.places.length){ box.innerHTML=`<div class="near-chips">${j.places.map(p=>{ const v=`${label.split(" ")[0]} ${p.name}`; return `<button class="near-chip" data-planadd="${esc(id)}" data-val="${esc(v)}" title="${esc(p.kind||"")}">${esc(p.name)} <span class="muted">${p.mi} mi</span> <b>+</b></button>`; }).join("")}</div><div class="muted" style="font-size:11px;margin-top:4px">Tap to add to your plan · from OpenStreetMap</div>`;
-        box.querySelectorAll("[data-planadd]").forEach(c=>c.onclick=()=>{ addStopPlan(c.dataset.planadd, c.dataset.val); rerenderTrip(); }); }
+        box.querySelectorAll("[data-planadd]").forEach(c=>c.onclick=()=>{ addStopPlan(c.dataset.planadd, c.dataset.val); reopen(c.dataset.planadd); }); }
       else if(j.places) box.innerHTML=fallback("Nothing tagged right around campus.");
       else box.innerHTML=fallback("Places are slow to load right now.");
     }catch(e){ box.innerHTML=fallback("Places are slow to load right now."); }
   }; });
+  // road-trip route: built only when opened
+  out.querySelectorAll("[data-tvroute]").forEach(d=>d.ontoggle=async()=>{ if(!d.open) return; const gi=+d.dataset.tvroute; const body=out.querySelector(`[data-tvroutebody="${gi}"]`);
+    const ord=routeOrder(groups[gi]||[]).filter(x=>hasLL(x.info)); if(ord.length<2){ body.innerHTML=`<span class="muted" style="font-size:12.5px">Not enough map locations for a route.</span>`; return; }
+    const key=ord.map(x=>x.id).join(","); const legs=_legCache[key] || (_legCache[key]=await osrmLegs(ord.map(x=>({lat:x.info.lat,lon:x.info.lon}))));
+    const hrs=m=>{ m=Math.round(m); const h=Math.floor(m/60), mm=m%60; return (h?h+"h ":"")+(mm?mm+"m":(h?"":"0m")); };
+    const tot=legs.reduce((a,l)=>a+l.mi,0), totMin=legs.reduce((a,l)=>a+l.min,0), est=legs.some(l=>l.est);
+    body.innerHTML=`<div class="tv-route-sum"><b>${Math.round(tot)}</b> mi · ~<b>${hrs(totMin)}</b> driving${est?` <span class="muted" style="font-size:11px">(estimated)</span>`:""}</div><div id="tripmap"></div>
+      <ol class="tv-legs">${ord.map((x,i)=>`<li><b>${esc(x.info.name)}</b> <span class="muted">${esc(fmtDay(x.v.date))}</span>${i<legs.length?`<div class="trip-leg">↓ ${Math.round(legs[i].mi)} mi · ~${hrs(legs[i].min)} drive${legs[i].min>TRIP_LONG_DRIVE?" — a long drive; consider staying over":""}</div>`:""}</li>`).join("")}</ol>`;
+    if(window.L){ try{ if(tripMap){ try{tripMap.remove();}catch(e){} } const el=$("tripmap"); tripMap=L.map(el,{scrollWheelZoom:false});
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(tripMap);
+      const pts=ord.map(x=>[x.info.lat,x.info.lon]); ord.forEach((x,i)=>L.marker(pts[i]).addTo(tripMap).bindPopup(`<b>${i+1}. ${esc(x.info.name)}</b>`));
+      L.polyline(pts,{color:"#2b8a7a",weight:3,opacity:.7,dashArray:"6 6"}).addTo(tripMap); tripMap.fitBounds(pts,{padding:[30,30],maxZoom:11}); setTimeout(()=>{ try{ tripMap.invalidateSize(); }catch(e){} },250);
+    }catch(e){} } });
 }
-
-$("trip-build").onclick = async () => {
-  const out=$("trip-out");
-  const stops=[...getTrip()].map(tripRec).filter(x=>x && typeof x.info.lat==="number" && typeof x.info.lon==="number")
-    .map(({rec,info})=>({id:rec.school_id,name:rec.name,city:info.city,state:info.state,lat:info.lat,lon:info.lon}));
-  if(stops.length<1){ out.innerHTML=`<div class="card muted">Add at least one campus with a map location to plan a route.</div>`; return; }
-  if(tripMap){try{tripMap.remove();}catch(e){} tripMap=null;}
-  out.innerHTML=`<div class="card muted">Planning your route…</div>`;
-  // #43: campuses far apart (e.g. Boston and Charleston) are split into regional trips instead of one long drive.
-  const regions=tripRegions(stops);
-  if(regions.length>1 && !tripAllowLong){ renderRegionChooser(regions); return; }
-  tripAllowLong=false;
-  await buildTripFor(stops);
-};
-let tripAllowLong=false;
-async function buildTripFor(stops){
-  const out=$("trip-out"); out.innerHTML=`<div class="card muted">Planning your route…</div>`;
-  const ordered=orderStops(stops); const legs= ordered.length>1 ? await osrmLegs(ordered) : [];
-  const days=+$("trip-days").value||2;   // the family's preferred length; the schedule shows the real need
-  tripBuilt={ordered,legs,days,start:nextSaturday()};
-  renderTripOut();
+const TRIP_LONG_DRIVE=5*60;
+/* ---- one dialog for "Plan a visit" and "Add a past visit" ---- */
+let _pvd={id:null, who:[], rating:0, mode:"plan"};
+function openVisitDialog(mode, id){
+  const d=$("dlg-pastvisit"); if(!d) return; mode = mode==="past" ? "past" : "plan";
+  const v=id?getVisit(id):{}; const info=id?catInfo(id):null;
+  _pvd={id:id||null, mode, who: (v.who&&v.who.length)?v.who.slice():(state.members||[]).map(m=>m.user_id), rating:+v.rating||0};
+  $("pvd-h").textContent = mode==="past" ? (id&&visitState(getVisits()[id])==="past"?"Your visit":"Add a past visit") : "Plan a visit";
+  $("pvd-sub").textContent = mode==="past" ? "For a campus you've already seen — even one that isn't on your board. Your family sees it." : "Pick a school and a date. Leave the date empty if you don't know it yet.";
+  const dl=$("pvd-schools"); if(dl){ const board=new Set((state.schools||[]).map(s=>s.school_id)); const cat=(state.catalog||[]).slice().sort((a,b)=>(board.has(b.id)-board.has(a.id)));
+    dl.innerHTML=cat.map(c=>`<option value="${esc(c.name)}">${board.has(c.id)?"On your board · ":""}${esc([c.city,c.state].filter(Boolean).join(", "))}</option>`).join(""); }
+  $("pvd-school").value = info?info.name:(v.name||""); $("pvd-school").disabled=!!id;
+  const today=ymdToday(); const dt=$("pvd-date"); dt.value = (mode==="plan" ? (v.date&&v.date>=today?v.date:"") : (v.date||""));
+  if(mode==="past"){ dt.max=today; dt.removeAttribute("min"); } else { dt.min=today; dt.removeAttribute("max"); }
+  $("pvd-note").value=v.notes||""; $("pvd-booked").checked=!!v.booked; $("pvd-board").checked=false; $("pvd-msg").textContent="";
+  document.querySelectorAll("#dlg-pastvisit [data-pvmode]").forEach(e=>e.classList.toggle("hidden", e.dataset.pvmode!==mode));
+  $("pvd-boardrow").classList.toggle("hidden", !!(id && (state.schools||[]).some(s=>s.school_id===id)));
+  const drawWho=()=>{ $("pvd-who").innerHTML=(state.members||[]).map(m=>`<button type="button" data-w="${esc(m.user_id)}" class="${_pvd.who.includes(m.user_id)?"on":""}" aria-pressed="${_pvd.who.includes(m.user_id)}">${esc(m.display_name)}</button>`).join("")||`<span class="muted" style="font-size:13px">Just you for now</span>`;
+    $("pvd-who").querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{ const u=b.dataset.w; _pvd.who=_pvd.who.includes(u)?_pvd.who.filter(x=>x!==u):[..._pvd.who,u]; drawWho(); }); };
+  const drawStars=()=>{ $("pvd-stars").innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-s="${n}" class="${_pvd.rating>=n?"on":""}" aria-label="${n} star${n>1?"s":""}">★</button>`).join("");
+    $("pvd-stars").querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{ const n=+b.dataset.s; _pvd.rating=_pvd.rating===n?0:n; drawStars(); }); };
+  drawWho(); drawStars();
+  try{ d.showModal(); }catch(e){ d.setAttribute("open",""); }
+  if(!id) setTimeout(()=>{ try{ $("pvd-school").focus(); }catch(e){} },50);
 }
-/* Regions (#43): group campuses that are within ~250 straight-line miles (about a 4–5 hour drive) of another
-   campus in the group. Each region becomes its own trip; Zoe's Colleges never plans a 900-mile day. */
-const TRIP_REGION_MI=250;
-function tripRegions(stops){
-  const groups=[]; const seen=new Set();
-  for(const s of stops){ if(seen.has(s.id)) continue; const g=[s]; seen.add(s.id);
-    for(let k=0;k<g.length;k++){ for(const t of stops){ if(!seen.has(t.id) && haversineMi(g[k],t)<=TRIP_REGION_MI){ g.push(t); seen.add(t.id); } } }
-    groups.push(g); }
-  return groups.sort((a,b)=>b.length-a.length);
-}
-function regionName(g){ const st=[...new Set(g.map(s=>s.state).filter(Boolean))]; return st.length<=3? st.join(" · ") : st.slice(0,3).join(" · ")+" +"+(st.length-3); }
-function regionMiles(g){ const o=orderStops(g); let m=0; for(let i=1;i<o.length;i++) m+=haversineMi(o[i-1],o[i])*1.3; return m; }
-function renderRegionChooser(regions){
-  const out=$("trip-out"); const total=regions.reduce((t,g)=>t+g.length,0);
-  out.innerHTML=`<div class="card trip-regions"><h3 style="margin:0 0 4px">Your ${total} campuses are in ${regions.length} different regions</h3>
-    <p class="muted" style="margin:0 0 12px;font-size:13px">Driving between them would take whole days. Plan each region as its own trip — pick one to start.</p>
-    ${regions.map((g,i)=>`<div class="tr-reg"><div style="min-width:0;flex:1"><b>${esc(regionName(g))}</b> <span class="muted" style="font-size:12.5px">· ${g.length} campus${g.length>1?"es":""}${g.length>1?` · ~${Math.round(regionMiles(g))} mi of driving`:""}</span>
-      <div class="tr-names">${g.map(s=>esc(s.name)).join(" · ")}</div></div><button class="small primary" data-plan-region="${i}">Plan this trip</button></div>`).join("")}
-    <button class="linklike" data-plan-all style="margin-top:10px;font-size:12.5px">Plan everything as one long road trip anyway</button></div>`;
-  out.querySelectorAll("[data-plan-region]").forEach(b=>b.onclick=()=>buildTripFor(regions[+b.dataset.planRegion]));
-  out.querySelector("[data-plan-all]").onclick=()=>{ tripAllowLong=true; $("trip-build").click(); };
-}
-function nextSaturday(){ const d=new Date(); const add=((6-d.getDay()+7)%7)||7; d.setDate(d.getDate()+add); d.setHours(9,0,0,0); return d; }
+function openPastVisit(id){ openVisitDialog("past", id); }
+function pastVisitSchoolId(){ if(_pvd.id) return _pvd.id; const q=($("pvd-school").value||"").trim().toLowerCase(); if(!q) return null;
+  const c=(state.catalog||[]).find(c=>c.name.toLowerCase()===q) || (state.catalog||[]).find(c=>c.name.toLowerCase().startsWith(q)); return c?c.id:null; }
+{ const sv=$("pvd-save"); if(sv) sv.onclick=async()=>{
+    const id=pastVisitSchoolId(); const msg=$("pvd-msg"); const date=$("pvd-date").value||""; const today=ymdToday();
+    if(!id){ msg.textContent="Pick the school from the list as you type."; return; }
+    if(_pvd.mode==="plan" && date && date<today){ msg.textContent="That date has passed — use “Add a past visit” for that."; return; }
+    if(_pvd.mode==="past" && date && date>today){ msg.textContent="That's in the future — use “Plan a visit” instead."; return; }
+    const v=getVisit(id); const info=catInfo(id); if(info) v.name=info.name; v.who=_pvd.who;
+    if(_pvd.mode==="plan"){ v.date=date; v.wish=!date; v.past=false; v.booked=$("pvd-booked").checked; }
+    else { v.past=true; v.wish=false; v.date=date||v.date||""; v.rating=_pvd.rating||0; v.notes=$("pvd-note").value.trim().slice(0,600); }
+    saveVisit(id,v);
+    if($("pvd-board").checked && !(state.schools||[]).some(s=>s.school_id===id)){ const ok=await addFromCatalog(id); if(ok===false){ msg.textContent=(typeof _addErr!=="undefined"&&_addErr)||"Saved the visit, but couldn't add it to the board."; return; } }
+    try{ $("dlg-pastvisit").close(); }catch(e){}
+    updateTripBadge(); if(currentView==="trip") renderTrip(); else refreshCurrent();
+  }; }
+{ const c=$("pvd-cancel"); if(c) c.onclick=()=>{ try{ $("dlg-pastvisit").close(); }catch(e){} }; }
+{ const a=$("tv-plan"); if(a) a.onclick=()=>openVisitDialog("plan"); const b=$("tv-past"); if(b) b.onclick=()=>openVisitDialog("past"); }
 /* ========== COMPARE ========== */
 let cmpSel={};
 const CMP_MAX=4;
@@ -5185,7 +5268,10 @@ function _kindOf(str, fallback){
 }
 function deadlineList(info){
   const v=dl2627(info);
-  if(v) return v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
+  if(v){ const L=v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
+    // #78: rounds due the same day are one deadline for the family ("Early Action or Early Decision I") — you apply in one round
+    const out=[]; for(const x of L){ const prev=out[out.length-1]; if(prev && prev.date.getTime()===x.date.getTime()){ prev.kinds.push(x.kind); prev.kind=prev.kinds.join(" or "); prev.text=prev.kind; } else out.push({...x, kinds:[x.kind]}); }
+    return out; }
   const md=(info.muse&&info.muse.deadlines)||{};
   const raw=[[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey=new Map();   // same date in two source fields = one deadline; keep the most specific label
@@ -5293,14 +5379,15 @@ function renderDeadlines(){
     const dls=deadlineList(i);
     const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? dls.map(x=>`${x.kind} ${_fmtD(x.date)}`) : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
     return `<div class="card"><div class="dl-row">
-      ${r._d?`<label class="dl-chk-wrap"><input type="checkbox" class="dl-chk" data-dlsel="${esc(id)}" ${dlSel[id]?"checked":""}></label>`:`<span class="dl-chk-wrap"></span>`}
+      ${r._d?`<label class="dl-chk-wrap" title="Include this school's deadlines when you add them to your calendar"><input type="checkbox" class="dl-chk" data-dlsel="${esc(id)}" ${dlSel[id]?"checked":""} aria-label="Include ${esc(r.rec.name)} in the calendar export"></label>`:`<span class="dl-chk-wrap"></span>`}
       <span class="dl-thumb" ${th}></span>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
         <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
+        <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
-        <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""}" data-task="${esc(t.key)}" role="button" tabindex="0" aria-pressed="${!!chk[t.key]}">${chk[t.key]?"✓ ":""}${esc(t.label)}</span>`).join("")}</div>
+        <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""} ${/optional/.test(t.label)?"opt":""}" data-task="${esc(t.key)}" role="checkbox" tabindex="0" aria-checked="${!!chk[t.key]}"><span class="dl-box" aria-hidden="true">${chk[t.key]?"✓":""}</span>${esc(t.label)}</span>`).join("")}</div>
       </div></div></div>`;
   }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);
@@ -5830,9 +5917,9 @@ async function savePrefs(w){
 }
 
 /* nav wiring */
-document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => { if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp) gotoGroup(b.dataset.grp); else goto(b.dataset.nav); });
+document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => { if(b.dataset.invite!==undefined) return; if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp) gotoGroup(b.dataset.grp); else goto(b.dataset.nav); });
 document.querySelectorAll("#tabbar .tb[data-nav], #tabbar .tb[data-grp], #tb-sheet .tbs").forEach(b => b.onclick = () => { closeTbSheet();
-  if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp){ gotoGroup(b.dataset.grp); return; } goto(b.dataset.nav); if(b.dataset.ptabGo) profileTab(b.dataset.ptabGo); });
+  if(b.dataset.invite!==undefined) return; if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp){ gotoGroup(b.dataset.grp); return; } goto(b.dataset.nav); if(b.dataset.ptabGo) profileTab(b.dataset.ptabGo); });
 { const x=document.querySelector("[data-tb-close]"); if(x) x.onclick=()=>closeTbSheet(); }
 function closeTbSheet(){ const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); const m=document.querySelector("[data-tb-more]"); if(m) m.setAttribute("aria-expanded","false"); }
 { const m=document.querySelector("[data-tb-more]"); if(m) m.onclick=()=>{ const sh=$("tb-sheet"); const open=sh.classList.contains("hidden"); sh.classList.toggle("hidden",!open); m.setAttribute("aria-expanded",String(open)); };
@@ -5883,6 +5970,9 @@ $("go-custom").onclick = async () => {
 
 /* ========== INVITE / SHARE / PLANS ========== */
 $("btn-invite").onclick = () => openInvite();
+// #78: Invite is always one tap away — header (desktop), More sheet (phone), and the Family tabs
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-invite]"); if(!b) return; e.preventDefault();
+  const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); openInvite(); });
 $("inv-close").onclick = () => $("dlg-invite").close();
 function inviteLink(){ const code = state.family.invite_code; return `${APP_LINK}?join=${encodeURIComponent(code)}`; }
 function inviteMsg(){ return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\nOpen this link and create your account — your invite code is already applied, nothing to type:\n${inviteLink()}`; }
