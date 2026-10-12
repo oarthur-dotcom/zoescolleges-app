@@ -1030,6 +1030,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .cel-box{position:relative;z-index:2;background:var(--surface);border-radius:20px;padding:26px 22px;text-align:center;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .cel-t{font-size:24px;font-weight:800;font-family:var(--disp);line-height:1.25}.cel-s{color:var(--muted);margin:10px 0 0;font-size:14px}.cel-box button{margin-top:16px}
 .confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.fireworks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:conf 2.6s ease-in forwards}
 @keyframes conf{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
 @media (prefers-reduced-motion:reduce){.confetti{display:none}}
@@ -2139,7 +2140,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 // #37: exact data release (jsDelivr's @live link lagged hours behind). Keep equal to netlify/lib/data-ref.mjs.
-const DATA_REF = "0606019";
+const DATA_REF = "ab28d37";
 const CATALOG_URL = `https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/colleges.json`;
 const APP_LINK = "https://zoescolleges.com/";
 // Beta sign-up gate is enforced on the server (migration 007): codes live in private.beta_codes.
@@ -3454,12 +3455,33 @@ async function setSchoolStatus(sid, status){
   if(status==="accepted" && was!=="accepted"){ celebrate(`🎉 Accepted to ${s.name}!`);
     try{ await talkInsert({school_id:sid, kind:"milestone", body:`🎉 ${studentFirst()==="We"?"We":studentFirst()} got into ${s.name}!`, in_movie:true}); }catch(e){} }
 }
-function celebrate(text, sub){
+function celebrate(text, sub, opts){
   const ov=document.createElement("div"); ov.className="celebrate"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-label",text);
   const bits=Array.from({length:60},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%12)*.08}s;background:hsl(${(i*47)%360},80%,60%)"></i>`).join("");
   ov.innerHTML=`<div class="confetti" aria-hidden="true">${bits}</div><div class="cel-box"><div class="cel-t">${esc(text)}</div>${sub?`<div class="cel-s">${sub}</div>`:""}<button class="small primary" data-celx>Yay! Close</button></div>`;
   document.body.appendChild(ov); ov.querySelector("[data-celx]").onclick=()=>ov.remove(); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  if(opts&&opts.fireworks) try{ fireworks(ov); }catch(e){}
   setTimeout(()=>{ try{ ov.querySelector("[data-celx]").focus(); }catch(e){} },50); return ov;
+}
+/* Oct 12: the final college choice gets real fireworks (canvas bursts for ~5s). Skipped for reduced-motion users. */
+function fireworks(ov){
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c=document.createElement("canvas"); c.className="fireworks"; c.setAttribute("aria-hidden","true"); ov.insertBefore(c, ov.firstChild);
+  const dpr=Math.min(window.devicePixelRatio||1,2), W=c.width=innerWidth*dpr, H=c.height=innerHeight*dpr, g=c.getContext("2d");
+  const parts=[], rockets=[]; let t0=performance.now(), last=t0, nextLaunch=0;
+  const launch=()=>{ rockets.push({x:W*(.15+Math.random()*.7), y:H, vy:-(H*.0105)*(0.85+Math.random()*.3), ty:H*(.15+Math.random()*.3), hue:Math.floor(Math.random()*360)}); };
+  const burst=(x,y,hue)=>{ const n=70; for(let i=0;i<n;i++){ const a=Math.PI*2*i/n, sp=(W*.0028)*(0.5+Math.random()); parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,hue:(hue+Math.random()*40)%360}); } };
+  function frame(now){
+    if(!ov.isConnected) return; const dt=Math.min(32,now-last)/16.7; last=now; const el=now-t0;
+    if(el<4200 && now>=nextLaunch){ launch(); if(Math.random()<.5) launch(); nextLaunch=now+380+Math.random()*320; }
+    g.globalCompositeOperation="destination-out"; g.fillStyle="rgba(0,0,0,.22)"; g.fillRect(0,0,W,H); g.globalCompositeOperation="lighter";
+    for(let i=rockets.length-1;i>=0;i--){ const r=rockets[i]; r.y+=r.vy*dt; g.fillStyle=`hsl(${r.hue},90%,70%)`; g.fillRect(r.x-dpr,r.y,2*dpr,6*dpr); if(r.y<=r.ty){ burst(r.x,r.y,r.hue); rockets.splice(i,1); } }
+    for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=H*.00006*dt; p.vx*=.985; p.vy*=.985; p.life-=.012*dt;
+      if(p.life<=0){ parts.splice(i,1); continue; } g.globalAlpha=Math.max(0,p.life); g.fillStyle=`hsl(${p.hue},95%,62%)`; g.beginPath(); g.arc(p.x,p.y,2.2*dpr,0,Math.PI*2); g.fill(); }
+    g.globalAlpha=1;
+    if(el<6500 || parts.length) requestAnimationFrame(frame); else c.remove();
+  }
+  requestAnimationFrame(frame);
 }
 function offerCost(sid){ const info=catInfo(sid); const o=offersGet()[sid]; const on=offerNet(o); if(on!=null) return {v:on, src:"their offer", loans:sumAmt(o.loans)};
   const y=info?yourNet(info):null; if(y) return {v:Math.max(0,y.v), src:"typical for you"}; const sc=(info&&info.scorecard)||{}; const an=avgNet(info); return an!=null?{v:an,src:oosSurcharge(info)?"typical after aid, out-of-state":"typical after aid"}:null; }
@@ -3522,7 +3544,7 @@ function renderDecide(){
   const nn=$("dd-notyet"); if(nn) nn.onclick=()=>{ decideConfirm=false; renderDecide(); };
   const yy=$("dd-yes"); if(yy) yy.onclick=async()=>{ const sid=$("dd-final").value; yy.disabled=true; decideConfirm=false;
     try{ await talkInsert({school_id:sid, kind:"decision", body:`${studentFirst()==="We"?"We":studentFirst()} chose ${schoolName(sid)}. We decided together.`, in_movie:true});
-      renderDecide(); celebrate(`🎓 ${studentFirst()==="We"?"We're":studentFirst()+" is"} going to ${schoolName(sid)}!`, "This is the big moment of your family movie. Congratulations to all of you. 💛"); try{ renderToday(); }catch(e){} }
+      renderDecide(); celebrate(`🎓 ${studentFirst()==="We"?"We're":studentFirst()+" is"} going to ${schoolName(sid)}!`, "This is the big moment of your family movie. Congratulations to all of you. 💛", {fireworks:true}); try{ renderToday(); }catch(e){} }
     catch(e){ yy.disabled=false; } };
   const un=$("dd-undo"); if(un) un.onclick=async()=>{ if(un.dataset.armed!=="1"){ un.dataset.armed="1"; un.textContent="Tap again to undo the decision"; return; }
     await sb.from("talk_posts").delete().eq("id",dec.id).eq("user_id",state.me.user_id); await loadTalk(); renderDecide(); };

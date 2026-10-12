@@ -61,41 +61,41 @@
   },
   "explain": "{\"band\":\"reach\",\"far\":false,\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 vs about 3.5 for a typical admitted student here (+0.05) · rigor-adjusted 3.73 counted under rigor\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.174285,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
   "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n73%\n🎯 Target\n11%\n🌟 Reach\n16%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
-  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 12, 2026",
   "audit": {
    "overflowX": 0,
    "imgs": [
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-     "ok": true
+     "ok": false
     }
    ],
    "bgs": [],
@@ -183,7 +183,7 @@
   },
   "explain": "{\"band\":\"reach\",\"far\":false,\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 vs about 3.5 for a typical admitted student here (+0.05) · rigor-adjusted 3.73 counted under rigor\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.174285,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
   "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n73%\n🎯 Target\n11%\n🌟 Reach\n16%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
-  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 12, 2026",
   "audit": {
    "overflowX": 0,
    "imgs": [
@@ -308,7 +308,7 @@
   },
   "explain": "{\"band\":\"reach\",\"far\":false,\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 vs about 3.5 for a typical admitted student here (+0.05) · rigor-adjusted 3.73 counted under rigor\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.174285,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
   "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n73%\n🎯 Target\n11%\n🌟 Reach\n16%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
-  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 12, 2026",
   "audit": {
    "overflowX": 0,
    "imgs": [

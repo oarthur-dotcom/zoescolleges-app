@@ -20,17 +20,17 @@
   },
   "dateInput": {
    "type": "date",
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "roadTrip": {
    "trips": 1,
-   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "head": "🛣 Road trip · Thu, Oct 22 – Fri, Oct 23 · 2 campuses\n      📅 Calendar for this trip",
    "cards": 2,
-   "saved": "2026-10-21"
+   "saved": "2026-10-22"
   },
   "booked": {
    "v": true,
-   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+   "txt": "Cambridge, MA · Thu, Oct 22 · in 10 days · ✓ Tour booked"
   },
   "split": {
    "trips": 0,
@@ -41,10 +41,10 @@
   "planDlg": {
    "title": "Plan a visit",
    "starsHidden": true,
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "planned": {
-   "date": "2026-10-23",
+   "date": "2026-10-24",
    "booked": true,
    "who": 2
   },
@@ -61,7 +61,7 @@
     "past": true,
     "wish": false,
     "rating": 4,
-    "updated": "2026-10-12T03:50:37.907Z"
+    "updated": "2026-10-12T04:42:53.961Z"
    },
    "row": [
     "College of Charleston",
@@ -154,17 +154,17 @@
   },
   "dateInput": {
    "type": "date",
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "roadTrip": {
    "trips": 1,
-   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "head": "🛣 Road trip · Thu, Oct 22 – Fri, Oct 23 · 2 campuses\n      📅 Calendar for this trip",
    "cards": 2,
-   "saved": "2026-10-21"
+   "saved": "2026-10-22"
   },
   "booked": {
    "v": true,
-   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+   "txt": "Cambridge, MA · Thu, Oct 22 · in 10 days · ✓ Tour booked"
   },
   "split": {
    "trips": 0,
@@ -175,10 +175,10 @@
   "planDlg": {
    "title": "Plan a visit",
    "starsHidden": true,
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "planned": {
-   "date": "2026-10-23",
+   "date": "2026-10-24",
    "booked": true,
    "who": 2
   },
@@ -195,7 +195,7 @@
     "past": true,
     "wish": false,
     "rating": 4,
-    "updated": "2026-10-12T03:50:50.239Z"
+    "updated": "2026-10-12T04:43:04.877Z"
    },
    "row": [
     "College of Charleston",
@@ -296,17 +296,17 @@
   },
   "dateInput": {
    "type": "date",
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "roadTrip": {
    "trips": 1,
-   "head": "🛣 Road trip · Wed, Oct 21 – Thu, Oct 22 · 2 campuses\n      📅 Calendar for this trip",
+   "head": "🛣 Road trip · Thu, Oct 22 – Fri, Oct 23 · 2 campuses\n      📅 Calendar for this trip",
    "cards": 2,
-   "saved": "2026-10-21"
+   "saved": "2026-10-22"
   },
   "booked": {
    "v": true,
-   "txt": "Cambridge, MA · Wed, Oct 21 · in 10 days · ✓ Tour booked"
+   "txt": "Cambridge, MA · Thu, Oct 22 · in 10 days · ✓ Tour booked"
   },
   "split": {
    "trips": 0,
@@ -317,10 +317,10 @@
   "planDlg": {
    "title": "Plan a visit",
    "starsHidden": true,
-   "min": "2026-10-11"
+   "min": "2026-10-12"
   },
   "planned": {
-   "date": "2026-10-23",
+   "date": "2026-10-24",
    "booked": true,
    "who": 2
   },
@@ -337,7 +337,7 @@
     "past": true,
     "wish": false,
     "rating": 4,
-    "updated": "2026-10-12T03:51:01.453Z"
+    "updated": "2026-10-12T04:43:13.423Z"
    },
    "row": [
     "College of Charleston",

@@ -14,7 +14,7 @@
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n75%\n🎯 Target\n12%\n🌟 Reach\n13%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -39,7 +39,7 @@
     "🧭 My priorities 139x33"
    ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 6
   },
   "errA": [],
   "claim": {
@@ -76,7 +76,7 @@
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n75%\n🎯 Target\n12%\n🌟 Reach\n13%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -102,6 +102,7 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Profile 72x34",
     "College Report 126x34",
@@ -109,10 +110,10 @@
     "🧭 My priorities 139x33",
     "📄 Report 88x32",
     "✏️ Edit profile 114x32",
-    "#pf-save2 Save activities 117x32"
+    "#pf-save2 Saved ✓ 79x33"
    ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 6
   },
   "errA": [],
   "claim": {
@@ -149,7 +150,7 @@
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n75%\n🎯 Target\n12%\n🌟 Reach\n13%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -174,7 +175,7 @@
     "🧭 My priorities 139x33"
    ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 6
   },
   "errA": [],
   "claim": {

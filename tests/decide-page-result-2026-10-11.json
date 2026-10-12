@@ -2,14 +2,14 @@
  "phone": {
   "todayBefore": false,
   "empty": {
-   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "hero": "201\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
    "rows": 6,
    "compare": false
   },
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T01:55:30.816Z",
+   "status_at": "2026-10-12T04:38:40.724Z",
    "reply_by": "2027-05-01",
    "checklist": {
     "Submitted": true
@@ -25,7 +25,7 @@
     "💰 Lowest cost",
     "🎯 Best match"
    ],
-   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+   "hero": "201\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
@@ -36,7 +36,7 @@
   "confirm": true,
   "bigCel": "🎓 Zoe is going to College of Charleston!",
   "done": {
-   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 12, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
    "decline": [
     "sc-166683"
    ],
@@ -65,9 +65,12 @@
     "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
-    "Memories 95x34"
+    "Memories 95x34",
+    "+ Invite family 121x34"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.sn-tab sn-act# right=481"
+   ],
    "dashCount": 2
   },
   "errors": []
@@ -75,14 +78,14 @@
  "desktop": {
   "todayBefore": false,
   "empty": {
-   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "hero": "201\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
    "rows": 6,
    "compare": false
   },
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T01:55:42.833Z",
+   "status_at": "2026-10-12T04:38:54.081Z",
    "reply_by": "2027-05-01",
    "checklist": {
     "Submitted": true
@@ -98,7 +101,7 @@
     "💰 Lowest cost",
     "🎯 Best match"
    ],
-   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+   "hero": "201\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
@@ -109,7 +112,7 @@
   "confirm": true,
   "bigCel": "🎓 Zoe is going to College of Charleston!",
   "done": {
-   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 12, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
    "decline": [
     "sc-166683"
    ],
@@ -142,11 +145,13 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
+    "+ Invite family 121x34",
     "Update 72x32",
     "Edit offer 85x32",
     "💬 Talk 70x32",
@@ -162,14 +167,14 @@
  "phone-dark": {
   "todayBefore": false,
   "empty": {
-   "hero": "202\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
+   "hero": "201\ndays until May 1\nWhen decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie.",
    "rows": 6,
    "compare": false
   },
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T01:55:55.180Z",
+   "status_at": "2026-10-12T04:39:09.383Z",
    "reply_by": "2027-05-01",
    "checklist": {
     "Submitted": true
@@ -185,7 +190,7 @@
     "💰 Lowest cost",
     "🎯 Best match"
    ],
-   "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
+   "hero": "201\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
@@ -196,7 +201,7 @@
   "confirm": true,
   "bigCel": "🎓 Zoe is going to College of Charleston!",
   "done": {
-   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 11, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
+   "hero": "🎓 We're going to College of Charleston!\nDecided Oct 12, 2026 · Zoe chose College of Charleston. We decided together.\n🎬 Make our movie\n🔗 Share the news\nWe changed our minds",
    "decline": [
     "sc-166683"
    ],
@@ -225,9 +230,12 @@
     "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
-    "Memories 95x34"
+    "Memories 95x34",
+    "+ Invite family 121x34"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.sn-tab sn-act# right=481"
+   ],
    "dashCount": 2
   },
   "errors": []

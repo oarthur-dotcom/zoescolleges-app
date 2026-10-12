@@ -1,11 +1,11 @@
 {
- "bigBytes": 30841651,
+ "bigBytes": 30841673,
  "phone": {
   "leak": {
    "sp": null,
    "report": "",
    "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
-   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
+   "chance": "{\"band\":\"target\",\"far\":false,\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
   },
   "copyBox": true,
   "insertNoCopy": 0,
@@ -29,7 +29,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(16, 28, 46)",
    "bg": "rgb(255, 255, 255)",
    "courses": 2
@@ -95,7 +95,7 @@
    "sp": null,
    "report": "",
    "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
-   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
+   "chance": "{\"band\":\"target\",\"far\":false,\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
   },
   "copyBox": true,
   "insertNoCopy": 0,
@@ -119,7 +119,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(16, 28, 46)",
    "bg": "rgb(255, 255, 255)",
    "courses": 2
@@ -158,6 +158,7 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
     "Discover 86x34",
@@ -195,7 +196,7 @@
    "sp": null,
    "report": "",
    "note": "<div class=\"anchor-note warn\">⚠ No student yet. Add your student on Today so chances and the report are about them. Is this the student's own account? <button class=\"linklike\" data-setstudent>Mark me as the student ▸</button></div>",
-   "chance": "{\"band\":\"target\",\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
+   "chance": "{\"band\":\"target\",\"far\":false,\"label\":\"Target\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Target\",\"why\":\"This school admits about 60% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No test score in your profile\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"not used\",\"why\":\"No GPA in your profile\",\"moved\":false},{\"k\":\"Your activities\",\"v\":\"not used\",\"why\":\"This school isn't selective enough for activities to move the band\",\"moved\":false}],\"inputs\":{\"gpaRaw\":null,\"gpaAdj\":null,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":null,\"activityWord\":null,\"major\":null,\"majorImpacted\":false,\"rigor\":null}}"
   },
   "copyBox": true,
   "insertNoCopy": 0,
@@ -219,7 +220,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(233, 237, 246)",
    "bg": "rgb(21, 30, 51)",
    "courses": 2

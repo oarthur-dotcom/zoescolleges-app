@@ -7,7 +7,8 @@
     "Plan",
     "Family",
     "Ask Zoe",
-    "Profile"
+    "Profile",
+    "👪 Invite"
    ],
    "overflow": false,
    "bar": [
@@ -40,10 +41,12 @@
     "Journey",
     "Talk It Out",
     "Decision Day",
-    "Memories"
+    "Memories",
+    "+ Invite family"
    ]
   },
   "sheet": [
+   "Invite family",
    "Search",
    "Ask Zoe",
    "Profile",
@@ -94,13 +97,19 @@
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
+    "✓ Exploring 7 109x36",
+    "✓ Visiting 0 99x36",
+    "✓ Applying 0 107x36",
+    "✓ Deciding 0 106x36",
     "#dl-all on 20x20",
     "on 20x20",
     "source ↗ 49x14",
+    "What these mean 221x18",
+    "What these mean 248x18",
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 302x29"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 8
   },
   "errors": []
  },
@@ -112,7 +121,8 @@
     "Plan",
     "Family",
     "Ask Zoe",
-    "Profile"
+    "Profile",
+    "👪 Invite"
    ],
    "overflow": false,
    "bar": [
@@ -145,7 +155,8 @@
     "Journey",
     "Talk It Out",
     "Decision Day",
-    "Memories"
+    "Memories",
+    "+ Invite family"
    ]
   },
   "cmdOpen": true,
@@ -196,6 +207,7 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
     "Discover 86x34",
@@ -235,7 +247,8 @@
     "Plan",
     "Family",
     "Ask Zoe",
-    "Profile"
+    "Profile",
+    "👪 Invite"
    ],
    "overflow": false,
    "bar": [
@@ -268,7 +281,8 @@
     "Journey",
     "Talk It Out",
     "Decision Day",
-    "Memories"
+    "Memories",
+    "+ Invite family"
    ]
   },
   "cmdOpen": true,
@@ -319,6 +333,7 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
     "Discover 86x34",
@@ -355,29 +370,29 @@
   "phone.sectionTabs": true,
   "phone.remembersPlace": true,
   "phone.deadlineDotOnPlan": true,
-  "phone.familyGroup": true,
-  "phone.moreSheetShort": true,
+  "phone.familyGroup": false,
+  "phone.moreSheetShort": false,
   "phone.searchCost": true,
   "phone.searchAddWithTypo": true,
   "phone.searchPagesAndActions": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
-  "desktop.sixPlaces": true,
+  "desktop.sixPlaces": false,
   "desktop.sectionTabs": true,
   "desktop.remembersPlace": true,
   "desktop.deadlineDotOnPlan": true,
-  "desktop.familyGroup": true,
+  "desktop.familyGroup": false,
   "desktop.searchCost": true,
   "desktop.searchAddWithTypo": true,
   "desktop.searchPagesAndActions": true,
   "desktop.slashOpens": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
-  "desktop-dark.sixPlaces": true,
+  "desktop-dark.sixPlaces": false,
   "desktop-dark.sectionTabs": true,
   "desktop-dark.remembersPlace": true,
   "desktop-dark.deadlineDotOnPlan": true,
-  "desktop-dark.familyGroup": true,
+  "desktop-dark.familyGroup": false,
   "desktop-dark.searchCost": true,
   "desktop-dark.searchAddWithTypo": true,
   "desktop-dark.searchPagesAndActions": true,
@@ -385,5 +400,5 @@
   "desktop-dark.noErrors": true,
   "desktop-dark.noSidewaysScroll": true
  },
- "allPass": true
+ "allPass": false
 }

@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'm not sure yet about ___.",
+  "blank": "My concern isn't the school itself, it's ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -119,10 +119,12 @@
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
+    "+ Invite family 121x34",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=423"
+    "BUTTON.sn-tab # right=423",
+    "BUTTON.sn-tab sn-act# right=550"
    ],
    "dashCount": 0
   },
@@ -138,150 +140,6 @@
   "errors2": []
  },
  "desktop": {
-  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
-  "view": "talk",
-  "home": {
-   "rows": [
-    "College of Charleston Start the conversation O Z",
-    "Massachusetts Institute of Technology Start the conversation O Z",
-    "University of Vermont Start the conversation O Z",
-    "Clemson University Start the conversation O Z",
-    "Newman University Start the conversation O Z",
-    "West Virginia University Institute of Technology Start the conversation O Z",
-    "The whole family Start the conversation O Z"
-   ],
-   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you and Zoe\nVote ›",
-   "tabs": 0,
-   "intro": true,
-   "checkbox": 0
-  },
-  "thread0": {
-   "title": "College of Charleston",
-   "introHidden": true,
-   "chips": 0,
-   "checkbox": 0,
-   "nudge": "Waiting to hear from Zoe · Ask them"
-  },
-  "kind": [
-   "💞 Softer: “you never listen” → “I'd love to feel heard about this”\nUse\n(+1 more)"
-  ],
-  "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
-  "kindAfter": 0,
-  "starters": 4,
-  "blank": "I worry ___ might be hard for me, and I want to talk about it.",
-  "startersClosed": true,
-  "blankMsg": "Fill in the blank (___) with your own words first.",
-  "saved": {
-   "kind": "voice",
-   "feel": "worry",
-   "school": "college-of-charleston",
-   "body": "I'm not drawn to the humidity and I'd love to feel heard about this",
-   "movie": true
-  },
-  "shown": {
-   "mine": [
-    "You · 🤔 worried I'm not drawn to the humidity and I'd love to feel heard about this"
-   ],
-   "text": "",
-   "feel": ""
-  },
-  "menuHidden": true,
-  "react": {
-   "w": 1,
-   "count": "💛 1",
-   "menuClosed": true
-  },
-  "replyMode": "↪ Replying to Zoe · Cancel",
-  "agreePrefill": "Downtown felt like my kind of place.",
-  "agreeFeelHidden": true,
-  "thread": {
-   "bubbles": 3,
-   "quotes": 1,
-   "agree": 1,
-   "rows": [
-    "voice::college-of-charleston:true",
-    "voice::college-of-charleston:true",
-    "post:reply:college-of-charleston:true",
-    "agreement::college-of-charleston:true"
-   ]
-  },
-  "movieOff": {
-   "db": false,
-   "label": "just now\n· not in movie\n⋯"
-  },
-  "homeAfter": {
-   "first": "College of Charleston\nYou: We keep Charleston and visit in March.\nO\nZ",
-   "dotsOn": 2
-  },
-  "after1": {
-   "status": "1 of 2 voted · waiting on Zoe",
-   "hidden": true,
-   "mine": [
-    "college-of-charleston",
-    "sc-166683",
-    "university-of-vermont"
-   ]
-  },
-  "results": {
-   "pick": "🏆 Family pick this round: College of Charleston",
-   "rows": [
-    "College of Charleston 🤝 You agree Obie #1 Zoe #2",
-    "Massachusetts Institute of Technology 🤝 You agree Obie #2 Zoe #1",
-    "University of Vermont 👍 Close Obie #3 Zoe —"
-   ],
-   "talkBtns": 0
-  },
-  "newRound": {
-   "voted": 0,
-   "form": true
-  },
-  "moments": {
-   "n": 3,
-   "agree": 1
-  },
-  "family": {
-   "title": "The whole family",
-   "ph": "What's on your mind?"
-  },
-  "familySaved": true,
-  "detail": "💬 FAMILY VOICES\n🤔 Obie: I'm not drawn to the humidity and I'd love to feel heard about this\n💛 Zoe: Downtown felt like my kind of place.\n💬 Obie: I hear you. Could we visit in March?\nTalk about it",
-  "detailGo": "talk|college-of-charleston|thread",
-  "xss": false,
-  "audit": {
-   "overflowX": 0,
-   "imgs": [],
-   "bgs": [],
-   "bad": [],
-   "small": [
-    "#signout Sign out 78x32",
-    "Today 70x33",
-    "Schools 84x33",
-    "Plan 70x33",
-    "Family 74x33",
-    "Ask Zoe 83x33",
-    "Profile 74x33",
-    "🔎 Search Ctrl K 159x33",
-    "Journey 81x34",
-    "Talk It Out 94x34",
-    "Decision Day 114x34",
-    "Memories 95x34",
-    "🎬 5 moments for your movie 175x18"
-   ],
-   "wide": [],
-   "dashCount": 0
-  },
-  "errors": [],
-  "demo": {
-   "rows": 9,
-   "vote": "🗳 Family vote\n2 of 3 voted · waiting on you\nVote ›"
-  },
-  "demoThread": {
-   "bubbles": 3,
-   "agree": 1
-  },
-  "errors2": []
- },
- "phone-dark": {
   "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
   "view": "talk",
   "home": {
@@ -397,14 +255,162 @@
    "bgs": [],
    "bad": [],
    "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "👪 Invite 90x33",
+    "🔎 Search Ctrl K 159x33",
     "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
+    "+ Invite family 121x34",
+    "🎬 5 moments for your movie 175x18"
+   ],
+   "wide": [],
+   "dashCount": 0
+  },
+  "errors": [],
+  "demo": {
+   "rows": 9,
+   "vote": "🗳 Family vote\n2 of 3 voted · waiting on you\nVote ›"
+  },
+  "demoThread": {
+   "bubbles": 3,
+   "agree": 1
+  },
+  "errors2": []
+ },
+ "phone-dark": {
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
+  "view": "talk",
+  "home": {
+   "rows": [
+    "College of Charleston Start the conversation O Z",
+    "Massachusetts Institute of Technology Start the conversation O Z",
+    "University of Vermont Start the conversation O Z",
+    "Clemson University Start the conversation O Z",
+    "Newman University Start the conversation O Z",
+    "West Virginia University Institute of Technology Start the conversation O Z",
+    "The whole family Start the conversation O Z"
+   ],
+   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you and Zoe\nVote ›",
+   "tabs": 0,
+   "intro": true,
+   "checkbox": 0
+  },
+  "thread0": {
+   "title": "College of Charleston",
+   "introHidden": true,
+   "chips": 0,
+   "checkbox": 0,
+   "nudge": "Waiting to hear from Zoe · Ask them"
+  },
+  "kind": [
+   "💞 Softer: “you never listen” → “I'd love to feel heard about this”\nUse\n(+1 more)"
+  ],
+  "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
+  "kindAfter": 0,
+  "starters": 4,
+  "blank": "I'd feel better if we knew more about ___.",
+  "startersClosed": true,
+  "blankMsg": "Fill in the blank (___) with your own words first.",
+  "saved": {
+   "kind": "voice",
+   "feel": "worry",
+   "school": "college-of-charleston",
+   "body": "I'm not drawn to the humidity and I'd love to feel heard about this",
+   "movie": true
+  },
+  "shown": {
+   "mine": [
+    "You · 🤔 worried I'm not drawn to the humidity and I'd love to feel heard about this"
+   ],
+   "text": "",
+   "feel": ""
+  },
+  "menuHidden": true,
+  "react": {
+   "w": 1,
+   "count": "💛 1",
+   "menuClosed": true
+  },
+  "replyMode": "↪ Replying to Zoe · Cancel",
+  "agreePrefill": "Downtown felt like my kind of place.",
+  "agreeFeelHidden": true,
+  "thread": {
+   "bubbles": 3,
+   "quotes": 1,
+   "agree": 1,
+   "rows": [
+    "voice::college-of-charleston:true",
+    "voice::college-of-charleston:true",
+    "post:reply:college-of-charleston:true",
+    "agreement::college-of-charleston:true"
+   ]
+  },
+  "movieOff": {
+   "db": false,
+   "label": "just now\n· not in movie\n⋯"
+  },
+  "homeAfter": {
+   "first": "College of Charleston\nYou: We keep Charleston and visit in March.\nO\nZ",
+   "dotsOn": 2
+  },
+  "after1": {
+   "status": "1 of 2 voted · waiting on Zoe",
+   "hidden": true,
+   "mine": [
+    "college-of-charleston",
+    "sc-166683",
+    "university-of-vermont"
+   ]
+  },
+  "results": {
+   "pick": "🏆 Family pick this round: College of Charleston",
+   "rows": [
+    "College of Charleston 🤝 You agree Obie #1 Zoe #2",
+    "Massachusetts Institute of Technology 🤝 You agree Obie #2 Zoe #1",
+    "University of Vermont 👍 Close Obie #3 Zoe —"
+   ],
+   "talkBtns": 0
+  },
+  "newRound": {
+   "voted": 0,
+   "form": true
+  },
+  "moments": {
+   "n": 3,
+   "agree": 1
+  },
+  "family": {
+   "title": "The whole family",
+   "ph": "What's on your mind?"
+  },
+  "familySaved": true,
+  "detail": "💬 FAMILY VOICES\n🤔 Obie: I'm not drawn to the humidity and I'd love to feel heard about this\n💛 Zoe: Downtown felt like my kind of place.\n💬 Obie: I hear you. Could we visit in March?\nTalk about it",
+  "detailGo": "talk|college-of-charleston|thread",
+  "xss": false,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "+ Invite family 121x34",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=423"
+    "BUTTON.sn-tab # right=423",
+    "BUTTON.sn-tab sn-act# right=550"
    ],
    "dashCount": 0
   },
