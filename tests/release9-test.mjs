@@ -40,6 +40,15 @@ for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['desktop', {
   o.costHelp = await page.evaluate(() => { const l = document.getElementById('zoe-log'); return { text: l.lastElementChild.innerText, howto: !!l.querySelector('[data-howto="cost"]') }; }); o.costHelpNoAI = aiBody === null;
   // plain Ask Zoe (tab/banner) is not page-scoped
   await page.click('#zoe-close'); o.plainNoPage = await page.evaluate(() => { zoeOpen(); return document.getElementById('zoe-page').classList.contains('hidden') && _zoePage === null; }); await page.click('#zoe-close');
+  // Search: chance badge on every row, filter, sort
+  await page.evaluate(() => goto('explore')); await page.waitForTimeout(800);
+  o.ex = await page.evaluate(() => { const rows = [...document.querySelectorAll('#exlist .srow')]; const noRate = rows.filter(r => /admit —/.test(r.innerText)).length; return { rows: rows.length, chips: rows.filter(r => r.querySelector('.sn .chip')).length, noRate }; });
+  const t0 = Date.now(); await page.selectOption('#ex-ch', 'reach'); await page.waitForTimeout(400); o.exFilterMs = Date.now() - t0;
+  o.exReach = await page.evaluate(() => { const c = [...document.querySelectorAll('#exlist .srow .sn .chip')]; return { n: c.length, allReach: c.length > 0 && c.every(x => x.classList.contains('reach') && !x.classList.contains('far')) }; });
+  await page.selectOption('#ex-ch', ''); await page.selectOption('#ex-sort2', 'chance'); await page.waitForTimeout(500);
+  o.exSort = await page.evaluate(() => [...document.querySelectorAll('#exlist .srow .sn .chip')].slice(0, 5).map(x => x.textContent));
+  await page.screenshot({ path: `${SHOTS}${label}-search.png` });
+  await page.selectOption('#ex-sort2', 'match');
   // board: rating holds the order + Undo
   await page.evaluate(() => goto('board')); await page.waitForTimeout(600);
   const order = () => page.evaluate(() => [...document.querySelectorAll("#schools .school [data-rate$='|1']")].map(e => e.dataset.rate.split('|')[0]));
@@ -71,6 +80,7 @@ for (const [label, vp] of [['phone', { width: 390, height: 844 }], ['desktop', {
   ok[label + '.ratingHoldsOrder'] = o.held && o.holdNote && o.saved5 === 5 && o.snack && o.snack.on && /You rated/.test(o.snack.text);
   ok[label + '.undo'] = o.undone && o.stillHeld && o.resortHidesNote && o.holdClearedOnLeave;
   ok[label + '.howtoClip'] = o.howto.open && o.howto.status === 200;
+  ok[label + '.searchChance'] = o.ex.rows > 0 && o.ex.chips + o.ex.noRate === o.ex.rows && o.exReach.allReach && o.exSort.every(t => /Likely/.test(t));
   ok[label + '.noErrors'] = !o.errors.length;
 }
 // signed-out: landing video + tour-once flag

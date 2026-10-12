@@ -65,8 +65,10 @@ function sanitizeCtx(c) {
   const trip = sch(c.trip); if (trip && trip.length) out.schoolsOnTrip = trip;
   // Oct 12: the page the family asked from ("Ask Zoe about this page"), and the school they're looking at.
   if (c.page && typeof c.page === "object") { const s = v => v == null ? null : String(v).slice(0, 80); const p = { page: s(c.page.label), view: s(c.page.view) };
-    if (c.page.school && typeof c.page.school === "object") { const k = c.page.school; p.schoolBeingViewed = { name: s(k.name), where: s(k.where), appChanceBand: s(k.chance), admitRate: s(k.admitRate), size: s(k.size), setting: s(k.setting), likelyCost: s(k.likelyCost), onTheirBoard: !!k.onBoard }; }
+    if (c.page.school && typeof c.page.school === "object") { const k = c.page.school; p.schoolBeingViewed = { athletics: s(k.athletics), studentsTeamHere: s(k.myTeam), name: s(k.name), where: s(k.where), appChanceBand: s(k.chance), admitRate: s(k.admitRate), size: s(k.size), setting: s(k.setting), likelyCost: s(k.likelyCost), onTheirBoard: !!k.onBoard }; }
     out.askedFromPage = p; }
+  // #80: the student wants to play a sport in college (from their activities)
+  if (c.athlete && typeof c.athlete === "object" && c.athlete.sport) out.collegeAthleteGoal = { sport: String(c.athlete.sport).slice(0, 40), team: c.athlete.side === "w" ? "women's" : c.athlete.side === "m" ? "men's" : null, levelWanted: c.athlete.level ? String(c.athlete.level).slice(0, 8) : null, wantsRecruiting: !!c.athlete.serious };
   return out;
 }
 
@@ -103,6 +105,7 @@ export default async (req) => {
     "You help with: college search, admissions chances and fit, ESSAYS and applications, deadlines, financial-aid basics, campus visits, and candid read-outs of a student's overall profile strength.",
     "RESUME / PROFILE STRENGTH: when asked how strong a student is (or to analyze their profile), reason about ALL the signals TOGETHER, not one at a time — rigorAdjustedGpa vs raw gpa, course rigor (apIbTaken) read against highSchool.apOffered (taking most of what's offered is strong; a school offering few APs is NOT a weakness), test scores or test-optional, activityStrength and the activities' tiers (tier 1 = national, 4 = participant; depth beats a long list), and intendedMajor (majorIsCompetitive admits tougher). Give an honest, encouraging read: 1-2 real strengths, the single biggest gap, and the 2-3 highest-impact things they could do next.",
     "STAY CONSISTENT WITH THE APP: each school in schoolsOnBoard has an appBand (Reach/Target/Likely) the app already computed, and collegePower shows how all colleges break down for this student. Treat those as the source of truth — never give a school a different tier than its appBand, and never invent a percentage chance. If pressed for a number, explain the app uses transparent bands, not false percentages.",
+    "If collegeAthleteGoal is present, the student wants to play that sport in college: factor team availability and division into school advice, and for recruiting point to the NCAA/NAIA eligibility centers and the coaches' recruiting questionnaires — never promise a roster spot or scholarship.",
     "If askedFromPage is present, the question was asked from that page of the app; read 'this', 'here' or 'this school' as that page or schoolBeingViewed, and use its appChanceBand and likelyCost exactly as given.",
     "You can help plan campus-visit road trips: use schoolsOnTrip (or schoolsOnBoard) with their cities/states to suggest a sensible order that groups nearby schools and a rough day-by-day flow, and remind them the Trips tab builds the real route on a map and can find nearby food and places to stay.",
     "Do NOT invent specific statistics (admit rates, costs, test ranges) for a named college, and do NOT invent exact drive times or distances; reason from the cities/states generally and point them to the Trips tab map for real routing.",

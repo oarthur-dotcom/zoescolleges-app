@@ -953,6 +953,15 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .rec-facts .rf{background:color-mix(in srgb,var(--teal) 6%,var(--surface));border:1px solid var(--line);border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;min-width:0}
 .rec-facts .rf span{font-size:11px;color:var(--muted)}.rec-facts .rf b{font-size:16px;line-height:1.2}.rec-facts .rf em{font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .d-size{font-size:14px;margin:2px 0 0}
+.ath-line{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;margin:4px 0 2px;font-size:12.5px}
+.ath-chip{display:inline-block;font-size:12px;color:var(--muted);white-space:nowrap}
+.my-team{font-size:12.5px;font-weight:600}.my-team.yes{color:var(--teal)}.my-team.no{color:var(--warn)}
+.sports-card .sp-top{font-size:15px}.sp-grp{display:flex;flex-wrap:wrap;gap:5px;align-items:baseline;margin:5px 0}
+.sp-l{font-size:12px;color:var(--muted);width:62px;flex:none}
+.sp-t{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:var(--surface)}.sp-t i{font-style:normal;color:var(--muted);font-size:11px}
+.sp-t.mine{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface));font-weight:700}
+.sp-links{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13.5px}
+.act-college{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:flex-end}.act-college-tip{font-size:12px;flex-basis:100%}
 #rate-snack{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:30;background:var(--ink);color:var(--paper);border-radius:12px;padding:10px 14px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.2s;max-width:calc(100vw - 32px)}
 #rate-snack.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #rate-snack button{margin-left:10px;background:none;border:1px solid currentColor;color:inherit;border-radius:8px;padding:2px 10px;font:inherit;font-weight:700;cursor:pointer}
@@ -1260,6 +1269,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .pt-weekly{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .pt-foot{border:none;padding:4px 2px 20px}
 .pt-empty{text-align:center;padding:22px 16px}
+.pt-teams{margin-top:12px;font-size:13.5px;line-height:1.7}
 @media (max-width:480px){.pt-card{padding:12px}.pt-visit{flex-wrap:wrap}.pt-visit .pi-main{flex:1 1 calc(100% - 60px)}.pt-visit .pt-trip{margin-left:56px}}
 /* #55 visit kit */
 .vk-head{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.vk-k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--teal)}
@@ -1776,8 +1786,10 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <select id="ex-level" style="width:auto" aria-label="School type"><option value="4-year" selected>4-year colleges</option><option value="">All school types</option><option value="2-year">2-year / community</option><option value="graduate">Graduate-only</option></select>
       <select id="ex-size" style="width:auto"><option value="">Any size</option><option value="s">Small (&lt;5k)</option><option value="m">Medium (5–15k)</option><option value="l">Large (15k+)</option></select>
       <select id="ex-sel" style="width:auto"><option value="">Any selectivity</option><option value="r">Most selective (&lt;25%)</option><option value="t">Selective (25–60%)</option><option value="k">Accessible (60%+)</option></select>
+      <select id="ex-ch" style="width:auto" aria-label="Your chance"><option value="">Any chance (for you)</option><option value="likely">Likely</option><option value="target">Target</option><option value="reach">Reach</option><option value="far">Far reach</option></select>
+      <select id="ex-sport" style="width:auto" aria-label="Sport"><option value="">Any sport</option></select><select id="ex-div" style="width:auto" aria-label="Division"><option value="">Any division</option><option value="D1">NCAA D1</option><option value="D2">NCAA D2</option><option value="D3">NCAA D3</option><option value="NAIA">NAIA</option><option value="JUCO">Junior college</option></select>
       <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
-      <select id="ex-sort2" style="width:auto"><option value="match">Sort: My fit</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
+      <select id="ex-sort2" style="width:auto"><option value="match">Sort: My fit</option><option value="chance">Sort: Best chance</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
     </div>
     <button id="ex-filters-btn" class="small ghost ex-filters-btn" aria-expanded="false" aria-controls="ex-more-filters">⚙ More filters</button>
     <div class="row ex-more" id="ex-more-filters" style="margin-top:6px">
@@ -2180,7 +2192,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 // #37: exact data release (jsDelivr's @live link lagged hours behind). Keep equal to netlify/lib/data-ref.mjs.
-const DATA_REF = "ab28d37";
+const DATA_REF = "714eeb9";
 const CATALOG_URL = `https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/colleges.json`;
 const APP_LINK = "https://zoescolleges.com/";
 // Beta sign-up gate is enforced on the server (migration 007): codes live in private.beta_codes.
@@ -2469,7 +2481,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadSchoolAid(); loadReqs(); loadVisitLinks(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -2566,6 +2578,8 @@ function matchScore(c, w){
   const ss=sizeScale(s.size); if(ss!==null){ const sizePref=(typeof w.size==="number"?w.size:5)/10; comps.push({v:1-Math.abs(ss-sizePref), wt:6}); }
   // setting (preference): closeness to preferred urbanness (skip if we have no locale, so it's not a dead anchor)
   const lu=localeUrban(c); if(lu!==null){ const setPref=(typeof w.setting==="number"?w.setting:5)/10; comps.push({v:1-Math.abs(lu-setPref), wt:6}); }
+  // #80: a student who wants to play in college — does this school have the team (at the level they want)?
+  { const g=athleteGoal(); if(g){ const af=athleteFit(c,g); if(af!==null) comps.push({v:af, wt:g.serious?14:5}); } }
   // lifestyle fit (preference → weighted by Lifestyle importance): share of stated area prefs this school meets
   const L=c.lifestyle||{}; const lp=[];
   if(w.lp_political) lp.push(L.politicalLean===w.lp_political);
@@ -3416,7 +3430,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
       <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
-    <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div></div>`; }
+    <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
 function renderDiscover(){
   const out=$("disc-out"); if(!out) return;
   if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Loading schools…</div>`; return; }
@@ -4049,7 +4063,7 @@ function renderSchool(x){
     <div class="top">
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
-      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div></div>
+      <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div>${x.info?`<div class="ath-line">${athChip(x.info)}${myTeamLine(x.info)}</div>`:""}</div>
       ${x.m!=null?`<span class="fit-pill" title="How well ${esc(s.name)} fits your family's priorities (cost, size, setting…) — not your odds of getting in"><b>${x.m}%</b> fit</span>`:""}
     </div>
     ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
@@ -4127,7 +4141,13 @@ function noteHtml(schoolId){ const myNote = state.ratings.find(x => x.school_id=
 
 /* ========== EXPLORE ========== */
 function renderExplore(){ renderExList($("exsearch").value||""); }
-["ex-level","ex-size","ex-sel","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
+// sport filter: "My sport" first when the student plays in college, then every sport (any team / women's / men's)
+function fillSportSelect(){ const el=$("ex-sport"); if(!el) return; const g=athleteGoal(); const key=(g?g.sport+"|"+g.side:"")+"|"+SEARCH_SPORTS.length;
+  if(el.dataset.k===key) return; const cur=el.value; el.dataset.k=key;
+  const opts=[`<option value="">Any sport</option>`]; if(g && !SPORT_UNTRACKED.includes(g.sport)) opts.push(`<option value="${esc(g.sport+"|"+g.side)}">⭐ My sport: ${esc(goalText(g))}</option>`);
+  SEARCH_SPORTS.forEach(sp=>{ opts.push(`<option value="${esc(sp)}|">${esc(sp)}</option><option value="${esc(sp)}|w">${esc(sp)} — women's</option><option value="${esc(sp)}|m">${esc(sp)} — men's</option>`); });
+  el.innerHTML=opts.join(""); el.value=cur; }
+["ex-level","ex-size","ex-sel","ex-ch","ex-sport","ex-div","ex-cost","ex-sort2","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>$(id).onchange=()=>renderExList($("exsearch").value||""));
 /* #57: on phones the area filters sit behind "More filters" so results show sooner; the count shows what's on */
 function exFiltersLabel(){ const b=$("ex-filters-btn"); if(!b) return; const n=["ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].filter(id=>$(id).value).length; const open=$("ex-more-filters").classList.contains("open");
   b.textContent=`${open?"▴ Fewer filters":"⚙ More filters"}${n?` (${n} on)`:""}`; b.setAttribute("aria-expanded",open?"true":"false"); }
@@ -4216,7 +4236,8 @@ function _searchOne(qn){
 function renderExList(q){
   const have = new Set(state.schools.map(s=>s.school_id));
   const w = myPrefs();
-  const fSize=$("ex-size").value, fSel=$("ex-sel").value, fCost=$("ex-cost").value, sort=$("ex-sort2").value;
+  fillSportSelect(); const fSport=($("ex-sport")&&$("ex-sport").value)||"", fDiv=($("ex-div")&&$("ex-div").value)||"";
+  const fSize=$("ex-size").value, fSel=$("ex-sel").value, fCh=($("ex-ch")&&$("ex-ch").value)||"", fCost=$("ex-cost").value, sort=$("ex-sort2").value;
   const fPol=$("ex-pol").value, fGuns=$("ex-guns").value, fLgbtq=$("ex-lgbtq").value, fRelig=$("ex-relig").value, fProx=$("ex-prox").value;
   const fLevel=($("ex-level")&&$("ex-level").value)||"";
   const hits=searchCatalog(q); const rankOf=new Map((hits||[]).map(h=>[h.c,h.rank]));
@@ -4236,13 +4257,19 @@ function renderExList(q){
     if(fProx && !((L.proximity||[]).includes(fProx))) return false;
     return true;
   });
-  const withM = list.map(c=>({c, m:matchScore(c,w)}));
+  // Oct 12: Likely / Target / Reach / Far reach for THIS student, on every row, plus a filter and a sort
+  const chOf=c=>{ try{ return chanceFor(c); }catch(e){ return null; } };
+  if(fDiv && state.athletics) list = list.filter(c=>{ const a=athOf(c); return a && a.level===fDiv; });
+  if(fSport && state.athletics){ const [sp,sd]=fSport.split("|"); list = list.filter(c=>!!teamAt(c,sp,sd||"")); }
+  if(fCh) list = list.filter(c=>{ const ch=chOf(c); if(!ch) return false; return fCh==="far" ? !!ch.far : (ch.band===fCh && !ch.far); });
+  const withM = list.map(c=>({c, m:matchScore(c,w), ch:(fCh||sort==="chance")?chOf(c):undefined}));
   withM.sort((a,b)=>{
     const sa=a.c.scorecard||{}, sb2=b.c.scorecard||{};
     if(sort==="name") return a.c.name.localeCompare(b.c.name);
     if(sort==="sel") return (sa.admissionRate??2)-(sb2.admissionRate??2);
     if(sort==="cost"){ const ya=yourNet(a.c), yb=yourNet(b.c); const na=ya?Math.max(0,ya.v):(avgNet(a.c)??stickerPrice(a.c)??9e9), nb=yb?Math.max(0,yb.v):(avgNet(b.c)??stickerPrice(b.c)??9e9); return na-nb; }
     if(sort==="earn") return (sb2.medianEarnings10yr??-1)-(sa.medianEarnings10yr??-1);
+    if(sort==="chance"){ const o=x=>!x?9:x.far?3:({likely:0,target:1,reach:2}[x.band]??9); const d=o(a.ch)-o(b.ch); if(d) return d; return (b.m??-1)-(a.m??-1); }
     if(hits){ const d=(rankOf.get(b.c)||0)-(rankOf.get(a.c)||0); if(d) return d; }   // searching: best name match first
     return (b.m??-1)-(a.m??-1);
   });
@@ -4252,16 +4279,17 @@ function renderExList(q){
   $("excount").innerHTML = `<b>${withM.length}</b> ${lvlName?lvlName+" ":""}school${withM.length===1?"":"s"}${withM.length>limit?` · showing the top ${limit}`:""}${state.catalog.length?"":" — catalog still loading"}`
     + (hiddenByLevel&&q?` <span class="muted">· ${hiddenByLevel} more match${hiddenByLevel===1?"":"es"} in other school types — <a href="#" id="ex-showall">show all types</a></span>`:"");
   const sa=$("ex-showall"); if(sa) sa.onclick=e=>{ e.preventDefault(); $("ex-level").value=""; renderExList($("exsearch").value||""); };
-  $("exlist").innerHTML = withM.slice(0,limit).map(({c,m}) => {
-    const added = have.has(c.id); const sc=c.scorecard||{};
+  $("exlist").innerHTML = withM.slice(0,limit).map(({c,m,ch}) => {
+    const added = have.has(c.id); const sc=c.scorecard||{}; if(ch===undefined) ch=chOf(c);
     const L=c.lifestyle||{}; const lifeBits=[(L.proximity||[]).length?("near "+L.proximity.join("/")):"", fPol?L.politicalLean:"", fGuns?(L.gunLaws&&L.gunLaws.replace(" gun laws","")):"", fRelig&&L.religion&&L.religion.indexOf("Secular")!==0?L.religion:""].filter(Boolean);   // #70: area politics/gun/religion tags only when you filter by them
     const purl=photoUrlFor(c);
     const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phBg(c.name,c.state,"80%")}" role="img" aria-label="${esc(c.name)} crest"></div>`;
     return `<div class="srow">
       ${thumb}
-      <div class="sbody"><div class="sn">${esc(c.name)}</div>
+      <div class="sbody"><div class="sn">${esc(c.name)} ${chanceChip(ch)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(avgNet(c))}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
+        <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
       </div>
@@ -4503,7 +4531,7 @@ function renderPulseTab(){
   list=list.filter(x=>ptSchool==="all"||x.school===ptSchool).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
   const shown=ptMore?list:list.slice(0,12);
   const cnt={new:all.filter(x=>!hidden.has(x.link)).length, saved:saved.size, sports:all.filter(x=>x.topic==="Sports"&&!hidden.has(x.link)).length, hidden:all.filter(x=>hidden.has(x.link)).length};
-  const views=`<div class="ptabs pt-views">${[["new","Latest"],["saved","☆ Saved"],["sports","🏟 Sports"],["hidden","Hidden"]].filter(([k])=>k==="new"||k==="saved"||cnt[k]).map(([k,l])=>`<button class="ptab ${ptView===k?"on":""}" data-pt-view="${k}">${l}<span class="n">${cnt[k]}</span></button>`).join("")}</div>`;
+  const views=`<div class="ptabs pt-views">${[["new","Latest"],["saved","☆ Saved"],["sports","🏟 Sports"],["hidden","Hidden"]].filter(([k])=>k==="new"||k==="saved"||k==="sports"||cnt[k]).map(([k,l])=>`<button class="ptab ${ptView===k?"on":""}" data-pt-view="${k}">${l}<span class="n">${cnt[k]}</span></button>`).join("")}</div>`;
   const chips = live.length>1 ? `<div class="pt-schools"><select class="pt-school-sel" data-pt-school-sel aria-label="Filter by school"><option value="all">All ${live.length} schools</option>${live.map(id=>`<option value="${esc(id)}" ${ptSchool===id?"selected":""}>${esc(name(id))}${newThisWeek(S[id])?" •":""}</option>`).join("")}</select></div>` : "";
   const tile=x=>{ const info=catInfo(x.school)||{}; const u=photoUrlFor(info); const isNew=Date.now()-Date.parse(x.date)<PULSE_WEEK; const sv=saved.has(x.link), hd=hidden.has(x.link);
     return `<article class="pt-tile ${isNew&&!hd?"is-new":""}"><div class="pt-tile-top"><span class="pt-tile-th" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(name(x.school),info.state,"78%")}`}"></span>
@@ -4511,11 +4539,13 @@ function renderPulseTab(){
       <a class="pt-tile-t" href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.title)}</a>
       <div class="pt-tile-foot"><span class="ptag k-${esc(x.kind)}">${esc((PULSE_KIND[x.kind]||{label:"News"}).label)}</span>${x.topic&&x.topic!=="News"?`<span class="ptag">${esc(x.topic)}</span>`:""}${isNew&&!hd?`<span class="ptag pt-new">New</span>`:""}
         <span class="pt-acts"><button class="pt-act ${sv?"on":""}" data-pt-save="${esc(x.link)}" aria-pressed="${sv}" title="${sv?"Saved":"Save"}">${sv?"★ Saved":"☆ Save"}</button><button class="pt-act" data-pt-hide="${esc(x.link)}" title="${hd?"Show again":"Hide (read)"}">${hd?"↩ Unhide":"✓ Read"}</button></span></div></article>`; };
-  const emptyMsg = ptView==="saved" ? "Nothing saved yet — tap ☆ Save on a story to keep it here." : ptView==="hidden" ? "Nothing hidden." : (live.length?"You're all caught up. Stories you mark ✓ Read move to Hidden.":"None of your schools' feeds are connected yet — we're adding schools every week.");
+  const sportsMsg = "No sports headlines in your schools' news right now.";
+  const teamSites = ptView==="sports" ? `<div class="pt-teams"><b>Scores &amp; schedules:</b> ${ids.map(id=>{ const c=catInfo(id); if(!c) return ""; const a=athOf(c); return `<a href="https://www.google.com/search?q=${encodeURIComponent(c.name+" athletics schedule")}" target="_blank" rel="noopener">${esc(name(id))}${a?` <span class="muted">(${esc(ATH_LEVEL[a.level]||"")})</span>`:""} ↗</a>`; }).filter(Boolean).join(" · ")}<div class="muted" style="font-size:12px;margin-top:4px">Sports stories here come from each school's own news. Team athletics sites block automatic readers, so these links open them for you.</div></div>` : "";
+  const emptyMsg = ptView==="sports" ? sportsMsg : ptView==="saved" ? "Nothing saved yet — tap ☆ Save on a story to keep it here." : ptView==="hidden" ? "Nothing hidden." : (live.length?"You're all caught up. Stories you mark ✓ Read move to Hidden.":"None of your schools' feeds are connected yet — we're adding schools every week.");
   const feed = list.length ? `<div class="pt-tiles">${shown.map(tile).join("")}</div>` + (list.length>12?`<button class="pmore" data-pt-more>${ptMore?"Show less":`Show all ${list.length}`}</button>`:"") : `<div class="pempty">${emptyMsg}</div>`;
   const status=`<div class="pmeter"><span class="pdot ${week?"active":"steady"}"></span><b>${week?`${week} new this week`:"All caught up"}</b><span class="sep">·</span><span class="muted">live from ${live.length} of your ${ids.length} schools</span></div>`;
   const nc = notConnected.length||quiet.length ? `<div class="pt-nc"><b>Not connected yet:</b> ${[...notConnected,...quiet].map(id=>`<button class="pt-ncs" data-pulse-open="${esc(id)}">${esc(name(id))}</button>`).join(", ")}. <span class="muted">We're connecting more schools every week. Their Pulse page still has student links.</span></div>` : "";
-  el.innerHTML = `<div class="pt-card pt-main">${status}<div class="pt-bar">${views}${chips}</div><div class="pt-feed">${feed}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
+  el.innerHTML = `<div class="pt-card pt-main">${status}<div class="pt-bar">${views}${chips}</div><div class="pt-feed">${feed}${teamSites}</div>${waiting.length?`<div class="muted" style="font-size:12px;padding:6px 0">Still checking ${waiting.length} more…</div>`:""}${nc}</div>`
     + visitHtml + `<div id="pt-weekly"></div>`
     + `<div class="pulse-foot pt-foot">Headlines, events and dates come from each school's own public feeds and link to the school's site. Saved and read marks are kept on this device. Tap a school name for its full Pulse.</div>`;
   wirePt(el, all); renderPulseWeekly();
@@ -4806,6 +4836,7 @@ function renderDetail(id){
       ${info.greekLife?`<span>Greek: <b>${esc(info.greekLife)}</b></span>`:""}
       ${info.athleticsNetwork?`<span>Athletics: <b>${esc(info.athleticsNetwork)}</b></span>`:""}
     </div>
+    ${sportsSection(info)}
     ${detailDeadlines(info,cell)}
     ${lifestyleSection(info)}
     <p class="muted" style="font-size:12px">Figures: U.S. Dept. of Education College Scorecard. Retention, student–faculty ratio &amp; yield: IPEDS via Urban Institute. Deadlines: confirm on the school's site.</p>`
@@ -4829,7 +4860,7 @@ function renderDetail(id){
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
-    ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""}</div>`:""; })()}
+    ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""} ${athChip(info)}</div>`:""; })()}
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
@@ -5242,6 +5273,58 @@ function schoolAidHtml(info){ const a=schoolAid(info); if(!a) return "";
     <div class="stand-bar" role="img" aria-label="${a.pct}% of first-year students get the school's own grants"><span class="stand-mid aid" style="left:0;width:${Math.max(2,a.pct)}%"></span></div>
     <div class="stand-txt">${schoolAidLine(info,false)} <span class="muted">(${esc(state.schoolAidYear||"2022–23")}, IPEDS)</span></div>
     <div class="muted" style="font-size:11.5px;margin-top:4px">This mixes need-based and merit aid. Ask the school whether you'd qualify for merit scholarships, and run its net-price calculator.</div></div>`; }
+/* ========== SPORTS (#80, Oct 12) ==========
+   Every varsity team at every school, all divisions: EADA 2024-25 (U.S. Dept. of Education) + conferences from IPEDS IC2024.
+   No rankings in the data (polls are licensed and change weekly) — we link to NCAA.com / NAIA instead.
+   Athletics websites block automatic readers, so sports NEWS comes from each school's own news feed (Pulse → Sports). */
+const ATH_URL = CATALOG_URL.replace(/colleges\.json$/,"athletics.json");
+state.athletics=null;
+async function loadAthletics(){ try{ const r=await fetch(ATH_URL); if(!r.ok) return; const j=await r.json(); state.athletics=j.schools||null; state.athleticsYear=j.year||"";
+  try{ if(["board","recommends","explore","compare","detail","profile"].includes(currentView)) refreshCurrent(); }catch(e){} }catch(e){ state.athletics=null; } }
+function athOf(c){ return (c&&state.athletics&&state.athletics[c.id])||null; }
+const ATH_LEVEL={D1:"NCAA D1",D2:"NCAA D2",D3:"NCAA D3",NAIA:"NAIA",JUCO:"Junior college",NCCAA:"NCCAA",USCAA:"USCAA",Other:"Other association"};
+function athShort(c){ const a=athOf(c); if(!a) return state.athletics?"No varsity sports reported":""; return [ATH_LEVEL[a.level]+(a.sub?` ${a.sub}`:""), a.conf&&a.conf.replace(/ Conference$/,"")].filter(Boolean).join(" · "); }
+const GAMEDAY={power:"Big-time game days — Power-conference football",big:"FBS football Saturdays",d1:"Division I sports",small:"Small-college sports — more chances to play, closer to the action"};
+// the app's sport names → the federal data's sport names
+const SPORT_MAP={"Track & Field":["Track and Field (Outdoor)","Track and Field (Indoor)","Track and Field and Cross Country (combined)"],"Cross Country":["Cross Country","Track and Field and Cross Country (combined)"],
+  "Swimming":["Swimming","Swimming and Diving (combined)"],"Diving":["Diving","Swimming and Diving (combined)"],"Rowing / Crew":["Rowing"],"Weightlifting":["Weight Lifting"]};
+const SPORT_UNTRACKED=["Cheerleading","Dance Team","Esports","Figure Skating","Rugby","Ultimate Frisbee","Other sport"];
+const SEARCH_SPORTS=["Baseball","Basketball","Beach Volleyball","Bowling","Cross Country","Diving","Equestrian","Fencing","Field Hockey","Football","Golf","Gymnastics","Ice Hockey","Lacrosse","Rifle","Rowing / Crew","Sailing","Skiing","Soccer","Softball","Squash","Swimming","Tennis","Track & Field","Volleyball","Water Polo","Wrestling"];
+function sportNames(sp){ return SPORT_MAP[sp]||[sp]; }
+// team at a school: {n roster, side} or null (no team) or undefined (no data / untracked sport)
+function teamAt(c, sport, side){ if(!state.athletics || !sport || SPORT_UNTRACKED.includes(sport)) return undefined; const a=athOf(c); if(!a) return null;
+  const names=sportNames(sport); const hits=a.teams.filter(t=>names.includes(t[0]) && (!side || t[1]===side || t[1]==="c"));
+  return hits.length?{n:Math.max(...hits.map(t=>t[2])), side:hits[0][1]}:null; }
+// the student's college sport, from Profile → Activities ("Play in college?")
+function athleteGoal(p){ p=p||studentProfile()||{}; const acts=Array.isArray(p.activities)?p.activities:[];
+  const a=acts.find(x=>isSport(x.category) && x.sport && (x.college==="yes"||x.college==="maybe")); if(!a) return null;
+  return { sport:a.sport, side:a.team==="m"?"m":a.team==="w"?"w":"", level:a.collegeLevel||"", serious:a.college==="yes" }; }
+function sideWord(sd){ return sd==="m"?"men's":sd==="w"?"women's":""; }
+function goalText(g){ return [sideWord(g.side), g.sport.toLowerCase()].filter(Boolean).join(" "); }
+// how well a school fits the athlete goal: 1 team at the level they want, 0.6 team at another level, 0 no team; null unknown
+function athleteFit(c, g){ g=g||athleteGoal(); if(!g) return null; const t=teamAt(c,g.sport,g.side); if(t===undefined) return null; if(!t) return 0;
+  const a=athOf(c); return (!g.level || (a&&a.level===g.level))?1:0.6; }
+function myTeamLine(c){ const g=athleteGoal(); if(!g) return ""; const t=teamAt(c,g.sport,g.side); if(t===undefined) return "";
+  const a=athOf(c); if(!t) return `<div class="my-team no">✕ No ${esc(goalText(g))} team</div>`;
+  return `<div class="my-team yes">✓ ${esc(goalText(g)[0].toUpperCase()+goalText(g).slice(1))} · ${esc(ATH_LEVEL[a.level]||"")}${t.n?` · ${t.n} on the roster`:""}${g.level&&a.level!==g.level?` <span class="muted">(you're aiming for ${esc(ATH_LEVEL[g.level]||g.level)})</span>`:""}</div>`; }
+function athChip(c){ const t=athShort(c); return t?`<span class="ath-chip" title="Athletics (EADA ${esc(state.athleticsYear||"2024–25")})">🏟 ${esc(t)}</span>`:""; }
+function sportsSection(info){ if(!state.athletics) return ""; const a=athOf(info); const g=athleteGoal(); const q=s=>"https://www.google.com/search?q="+encodeURIComponent(s);
+  if(!a) return `<h2 style="font-size:18px;margin:18px 0 6px">🏟 Sports</h2><div class="card muted" style="font-size:14px">This school reports no varsity (intercollegiate) teams to the U.S. Dept. of Education. Club and intramural sports may still be available — <a href="${q(info.name+" club sports intramurals")}" target="_blank" rel="noopener">look them up ↗</a>.</div>`;
+  const groups=[["w","Women's"],["m","Men's"],["c","Co-ed"]].map(([k,l])=>[l,a.teams.filter(t=>t[1]===k)]).filter(x=>x[1].length);
+  const mine=g?sportNames(g.sport):[];
+  const isMine=t=>g && mine.includes(t[0]) && (!g.side||t[1]===g.side||t[1]==="c");
+  const elig = a.level==="D1"||a.level==="D2" ? `<a href="https://web3.ncaa.org/ecwebsite/" target="_blank" rel="noopener">NCAA Eligibility Center ↗</a>` : a.level==="NAIA" ? `<a href="https://play.mynaia.org/" target="_blank" rel="noopener">NAIA Eligibility Center ↗</a>` : a.level==="JUCO" ? `<a href="https://www.njcaa.org/" target="_blank" rel="noopener">NJCAA ↗</a>` : "";
+  const rank = /^D[123]$/.test(a.level) ? `<a href="https://www.ncaa.com/rankings" target="_blank" rel="noopener">Current NCAA rankings ↗</a>` : a.level==="NAIA" ? `<a href="https://www.naia.org/" target="_blank" rel="noopener">NAIA rankings ↗</a>` : "";
+  return `<h2 style="font-size:18px;margin:18px 0 6px">🏟 Sports</h2>
+  <div class="card sports-card">
+    <div class="sp-top"><b>${esc(ATH_LEVEL[a.level]||a.level)}${a.sub?` · ${esc(a.sub)} football`:""}</b>${a.conf?` · ${esc(a.conf)}`:""}${a.fbConf?` <span class="muted">(football: ${esc(a.fbConf)})</span>`:""}</div>
+    <div class="muted" style="font-size:13.5px;margin:2px 0 8px">${esc(GAMEDAY[a.gameDay]||"")} · ${a.teams.length} varsity teams · ${a.athletes.toLocaleString()} athletes</div>
+    ${g?myTeamLine(info):""}
+    ${groups.map(([l,ts])=>`<div class="sp-grp"><span class="sp-l">${l}</span>${ts.map(t=>`<span class="sp-t ${isMine(t)?"mine":""}">${esc(t[0].replace(" (combined)","").replace("Track and Field","Track"))}${t[2]?` <i>${t[2]}</i>`:""}</span>`).join("")}</div>`).join("")}
+    <div class="sp-links">${g&&teamAt(info,g.sport,g.side)?`<a href="${q(info.name+" "+goalText(g)+" recruiting questionnaire")}" target="_blank" rel="noopener">${esc(goalText(g))} recruiting questionnaire ↗</a>`:""}
+      <a href="${q(info.name+" athletics")}" target="_blank" rel="noopener">Athletics site &amp; schedules ↗</a>${rank}${g?elig:""}</div>
+    <div class="muted" style="font-size:11.5px;margin-top:6px">Numbers are roster sizes. Source: EADA ${esc(state.athleticsYear||"2024–25")} (U.S. Dept. of Education); conferences: IPEDS. Rankings aren't included — they change weekly.</div>
+  </div>`; }
 async function loadIncomePrices(){
   try{ const r=await fetch(INCOME_URL,{cache:"no-cache"}); if(!r.ok) return; const j=await r.json(); state.incomePrices=j.schools||null; }
   catch(e){ state.incomePrices=null; }   // file not published yet -> feature simply stays hidden
@@ -5383,7 +5466,8 @@ function buildCompare(){
     ["Yield (enroll ÷ admit)", c=>{const y=c.info.ipeds&&c.info.ipeds.yield; return y!=null?pct(y):"—";}],
     ["Student–faculty ratio", c=>{const sf=c.info.ipeds&&c.info.ipeds.studentFacultyRatio; return sf?sf+":1":"—";}],
     ["Greek life", c=>esc(c.info.greekLife||"—")],
-    ["Athletics", c=>esc(c.info.athleticsNetwork||"—")],
+    ["Athletics", c=>esc(athShort(c.info)||c.info.athleticsNetwork||"—")],
+    ...(athleteGoal()?[["Your team", c=>{ const g=athleteGoal(), t=teamAt(c.info,g.sport,g.side); return t===undefined?"—":t?`✓ ${t.n?t.n+" on roster":"Yes"}`:"✕ None"; }]]:[]),
     ["Next deadline", c=>esc(nextDlText(c.info)||c.info.regularDeadline||(c.info.muse&&c.info.muse.deadlines&&c.info.muse.deadlines.regular_date)||"—")],
   ];
   const n=cols.length;
@@ -5683,6 +5767,7 @@ function renderRecommends(){
         ${chanceWordsHtml(c)}
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
+        <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
         <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button>${tripBtn(c.id)}<button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
       </div></div>`; };
   out.innerHTML = head + (groups.map(([b,label])=>{ const items=byBand(b); if(!items.length) return ""; const total=allBand(b).length;
@@ -5947,7 +6032,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
-    for(const k of ["sport","position","org","weeks","college","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
+    for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
   const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
@@ -6093,6 +6178,9 @@ function renderActs(){
       <div class="act-controls">
         ${selHtml("a-cat","Activity type",ACT_TYPES,a.category)}
         ${isSport(a.category)?selHtml("a-sport","Sport",SPORTS,a.sport,"Choose a sport…"):""}
+        ${isSport(a.category)?`<div class="act-wide act-college">${selHtml("a-col","Play in college?",[{v:"yes",t:"Yes — I want to be recruited"},{v:"maybe",t:"Maybe"},{v:"no",t:"No"}],a.college,"Not sure")}
+          ${(a.college==="yes"||a.college==="maybe")?selHtml("a-team","Team",[{v:"w",t:"Women's"},{v:"m",t:"Men's"}],a.team,"Choose…")+selHtml("a-clvl","Level you're aiming for",[{v:"D1",t:"NCAA D1"},{v:"D2",t:"NCAA D2"},{v:"D3",t:"NCAA D3"},{v:"NAIA",t:"NAIA"},{v:"JUCO",t:"Junior college"}],a.collegeLevel,"Any level"):""}
+          ${(a.college==="yes"||a.college==="maybe")?`<span class="muted act-college-tip">Zoe will show which schools have this team, filter Search by it, and count it in your fit.</span>`:""}</div>`:""}
         ${selHtml("a-pos",isWorkType(a.category)?"Your role":isFamilyType(a.category)?"What you do":"Your role",actPositions(a.category),a.position,"Choose…")}
         <div class="act-yrs act-wide"><span class="yr-head">Grade levels</span><div class="act-seg">${ACT_GRADES.map(g=>`<button type="button" class="a-gr ${(a.grades||[]).includes(g)?"on":""}" data-gr="${g}" aria-pressed="${(a.grades||[]).includes(g)}">${g}</button>`).join("")}</div></div>
         <div class="act-wide">${chipRow("a-tm",ACT_TIMING.map(t=>({v:t,t:ACT_TIMING_LABEL[t]})),a.timing||"During school year","When")}</div>
@@ -6101,7 +6189,7 @@ function renderActs(){
         ${selHtml("a-lvl",isWorkType(a.category)?"Responsibility":isFamilyType(a.category)?"How often":"Highest recognition",actLevels(a.category),+a.tier||4)}
         <details class="act-more act-wide"${(a.org||a.desc||a.college)?" open":""}><summary>More details <i>optional</i></summary>
         <label class="act-sel act-txt"><span>Organization <i>optional</i></span><input class="a-org" maxlength="100" placeholder="e.g. Lincoln High School, Habitat for Humanity" value="${esc(a.org||"")}"></label>
-        ${selHtml("a-col","Continue in college?",[{v:"yes",t:"Yes"},{v:"no",t:"No"}],a.college,"Not sure")}
+        ${isSport(a.category)?"":selHtml("a-col","Continue in college?",[{v:"yes",t:"Yes"},{v:"no",t:"No"}],a.college,"Not sure")}
         <label class="act-sel act-txt act-wide"><span>Description <i>optional · <b class="a-desc-n">${150-(a.desc||"").length}</b> left</i></span><textarea class="a-desc" maxlength="150" rows="2" placeholder="What you did and any results — Common App allows 150 characters.">${esc(a.desc||"")}</textarea></label></details>
       </div>
       <div class="act-done-row"><button class="primary small a-done" type="button">✓ Done</button><span class="muted" style="font-size:12px">Saves this activity to your profile.</span></div>
@@ -6127,7 +6215,8 @@ function renderActs(){
     pick("a-tm", v=>{ a.timing=v; if(a._autoWk || !a.weeks){ a.weeks=defaultWeeks(a); a._autoWk=true; } });   // weeks follow "When" until you pick them yourself
     pick("a-hr", v=>{ a.hrs=+v; });
     pick("a-wk", v=>{ a.weeks=+v; a._autoWk=false; });
-    card.querySelector(".a-col").onchange=e=>{ a.college=e.target.value; mark(); };
+    card.querySelector(".a-col").onchange=e=>{ a.college=e.target.value; mark(); if(isSport(a.category)) renderActs(); };
+    { const tm=card.querySelector(".a-team"); if(tm) tm.onchange=e=>{ a.team=e.target.value; mark(); }; const cl=card.querySelector(".a-clvl"); if(cl) cl.onchange=e=>{ a.collegeLevel=e.target.value; mark(); }; }
     card.querySelector(".a-desc").oninput=e=>{ a.desc=e.target.value; card.querySelector(".a-desc-n").textContent=150-a.desc.length; mark(); };
     card.querySelectorAll(".a-gr").forEach(b=>b.onclick=()=>{ const g=b.dataset.gr; a.grades=(a.grades||[]).includes(g)?a.grades.filter(x=>x!==g):[...(a.grades||[]),g];
       a.yrs=String(Math.min(4,a.grades.length)||""); b.classList.toggle("on"); b.setAttribute("aria-pressed",a.grades.includes(g)); mark(); });
@@ -6418,7 +6507,7 @@ function zoeCtx(){
     highSchool:{name:hs.name||""}, schedule:(()=>{ const rl=rigorLevel(p); return rl?RIGOR_WORD[rl.lv]+(rl.est?" (estimated)":""):null; })(),
     activitiesCount:acts.length, activityStrength:astrWord(astr), activities:actTiers,
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
-    schools, trip, page:_zoePage||null };
+    schools, trip, page:_zoePage||null, athlete:athleteGoal() };
 }
 // Allow-list sanitizer for stored chat HTML (Fix #7): keeps simple formatting, drops scripts,
 // event handlers, images/iframes and any non-http(s) links.
@@ -6552,7 +6641,7 @@ function zoePageNow(){ const v=currentView; const label=v==="detail"?"this schoo
   const o={ view:v, label };
   if(v==="detail" && currentDetailId){ const c=catInfo(currentDetailId); if(c){ const ch=chanceFor(c), z=schoolSize(c), k=costFact(c);
     o.school={ name:c.name, where:[c.city,c.state].filter(Boolean).join(", "), chance:ch?ch.label:null, admitRate:c.scorecard&&c.scorecard.admissionRate!=null?pct(c.scorecard.admissionRate):null,
-      size:z?z.txt:null, setting:settingWord(c)||null, likelyCost:k?`${k.v} (${k.k.toLowerCase()}${k.s.startsWith("sticker")?", "+k.s:""})`:null, onBoard:!!state.schools.find(s=>s.school_id===c.id) }; o.label=c.name; } }
+      size:z?z.txt:null, setting:settingWord(c)||null, athletics:athShort(c)||null, myTeam:(()=>{ const g=athleteGoal(); if(!g) return null; const t=teamAt(c,g.sport,g.side); return t===undefined?null:t?`has a ${goalText(g)} team (${t.n} on roster)`:`no ${goalText(g)} team`; })(), likelyCost:k?`${k.v} (${k.k.toLowerCase()}${k.s.startsWith("sticker")?", "+k.s:""})`:null, onBoard:!!state.schools.find(s=>s.school_id===c.id) }; o.label=c.name; } }
   return o; }
 let _zoePage=null;
 const ZOE_SUGG=["Analyze my whole profile","What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
@@ -6903,7 +6992,7 @@ function demoData(){
     R("sc-217882",DEMO_UID,4,"School spirit is unreal"),R("sc-217882","demo-dad",5,"Best value on the list")];
   const prof={user_id:DEMO_UID,family_id:DEMO_FID,gpa:"3.6",sat:"1290",act:"",major:"Marketing",home_state:"MA",notes:"Medium-sized school, warm weather, big school spirit, near a city",
     rigor:{honors:4,ap:5,dual:0,grade:11,level:4},hs:{name:"Lakeside High School"},
-    activities:[{name:"Soccer (JV/Varsity) — Captain",category:"Athletics: JV/Varsity",sport:"Soccer",position:"Captain",tier:3,hrs:"12",weeks:"30",grades:["9","10","11","12"],yrs:"4",timing:"During school year"},
+    activities:[{name:"Soccer (JV/Varsity) — Captain",category:"Athletics: JV/Varsity",sport:"Soccer",position:"Captain",college:"maybe",team:"w",collegeLevel:"D3",tier:3,hrs:"12",weeks:"30",grades:["9","10","11","12"],yrs:"4",timing:"During school year"},
       {name:"Work (Paid) — Employee",category:"Work (Paid)",position:"Employee",org:"Ice cream shop",tier:4,hrs:"10",weeks:"20",grades:["11","12"],yrs:"2",timing:"During school break"},
       {name:"Student Govt./Politics — Treasurer",category:"Student Govt./Politics",position:"Treasurer",tier:3,hrs:"3",weeks:"36",grades:["11","12"],yrs:"2"}]};
   const photos=["sc-198516","college-of-charleston","sc-217882"].map((id,i)=>{ const c=catInfo(id); return c&&c.photo?{id:"demo-ph-"+i,family_id:DEMO_FID,school_id:id,user_id:DEMO_UID,url:c.photo.url,caption:["Our tour stop by the oaks","Randolph Hall at golden hour","Cooper Library pond"][i]+" (sample photo)",created_at:iso(9-i*2)}:null; }).filter(Boolean);

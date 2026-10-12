@@ -10,6 +10,7 @@
   "phone.ratingHoldsOrder": true,
   "phone.undo": true,
   "phone.howtoClip": true,
+  "phone.searchChance": true,
   "phone.noErrors": true,
   "desktop.picksFacts": true,
   "desktop.picksShowMore": true,
@@ -21,6 +22,7 @@
   "desktop.ratingHoldsOrder": true,
   "desktop.undo": true,
   "desktop.howtoClip": true,
+  "desktop.searchChance": true,
   "desktop.noErrors": true,
   "landing.videoSection": true,
   "landing.tourOnceAfterSignup": true,
@@ -77,6 +79,23 @@
    },
    "costHelpNoAI": true,
    "plainNoPage": true,
+   "ex": {
+    "rows": 250,
+    "chips": 225,
+    "noRate": 25
+   },
+   "exFilterMs": 446,
+   "exReach": {
+    "n": 132,
+    "allReach": true
+   },
+   "exSort": [
+    "Likely",
+    "Likely",
+    "Likely",
+    "Likely",
+    "Likely"
+   ],
    "held": true,
    "snack": {
     "on": true,
@@ -182,6 +201,23 @@
    },
    "costHelpNoAI": true,
    "plainNoPage": true,
+   "ex": {
+    "rows": 250,
+    "chips": 225,
+    "noRate": 25
+   },
+   "exFilterMs": 445,
+   "exReach": {
+    "n": 132,
+    "allReach": true
+   },
+   "exSort": [
+    "Likely",
+    "Likely",
+    "Likely",
+    "Likely",
+    "Likely"
+   ],
    "held": true,
    "snack": {
     "on": true,
