@@ -11,7 +11,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.goto('http://localhost:8907/index.html'); await page.waitForFunction(() => typeof state !== 'undefined' && state.me && state.catalog && state.catalog.length > 0, null, { timeout: 60000 }); await page.waitForTimeout(600);
   const o = {};
   // 1 out-of-state prices (family is in MA)
-  o.money = await page.evaluate(() => { const c = id => state.catalog.find(x => x.id === id); return { home: homeState(), cofc: avgNet(c('college-of-charleston')), cofcSur: oosSurcharge(c('college-of-charleston')), umass: oosSurcharge(c('umass-amherst')), umassNet: avgNet(c('umass-amherst')) === c('umass-amherst').scorecard.netPrice }; });
+  o.money = await page.evaluate(() => { const c = id => state.catalog.find(x => x.id === id); return { home: homeState(), cofc: avgNet(c('college-of-charleston')), cofcSur: oosSurcharge(c('college-of-charleston')), umass: oosSurcharge(c('umass-amherst')), umassNet: avgNet(c('umass-amherst')) === c('umass-amherst').scorecard.netPrice, cofcSticker: stickerPrice(c('college-of-charleston')), cofcCoa: c('college-of-charleston').scorecard.costAvg, umassSticker: stickerPrice(c('umass-amherst')) === c('umass-amherst').scorecard.costAvg }; });
+  o.costTable = await page.evaluate(async () => { goto('cost'); await new Promise(r => setTimeout(r, 400)); const t = (document.getElementById('cost-out') || {}).innerText || ''; return { inState: /\(in-state\)/.test(t), incl: /incl\. ~\$25,318 out-of-state tuition/.test(t), foot: /add the out-of-state tuition difference/.test(t) }; });
   await page.evaluate(() => openDetail('college-of-charleston', 'board')); await page.waitForTimeout(500);
   o.detail = await page.evaluate(() => [...document.querySelectorAll('#detail-body *')].filter(x => !x.children.length && /net price/i.test(x.textContent)).map(x => x.parentElement.innerText.replace(/\s+/g, ' ')));
   await page.evaluate(() => setIncomeBand('2')); await page.waitForTimeout(200);
@@ -37,6 +38,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.evaluate(() => goto('board')); await page.waitForTimeout(400); o.ring = await page.evaluate(() => (document.querySelector('.mring b') || {}).textContent || '');
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; await b.close(); R[label] = o;
   ok[label + '.outOfStatePrice'] = o.money.home === 'MA' && o.money.cofcSur === 38296 - 12978 && o.money.cofc === 18960 + 25318 && o.money.umass === 0 && o.money.umassNet && o.detail.some(t => /out-of-state/i.test(t) && /44,278/.test(t));
+  ok[label + '.stickerIncludesIt'] = o.money.cofcSticker === o.money.cofcCoa + 25318 && o.money.umassSticker && o.money.cofcSticker >= o.money.cofc;
+  ok[label + '.costTableHonest'] = !o.costTable.inState && o.costTable.incl && o.costTable.foot;
   ok[label + '.yourPriceIncludesIt'] = o.yours && o.yours.oos && o.yours.sur === 25318 && /out-of-state tuition/.test(o.yours.html);
   ok[label + '.checklistShared'] = o.chk.patch && o.chk.patch.checklist && o.chk.patch.checklist.Transcript === true && o.chk.shared.Submitted === true && o.chk.status === 'applied' && o.chk.patch.app_status === 'applied';
   ok[label + '.oneStatusBothWays'] = o.dd && o.dd.app_status === 'applied' && o.dd.checklist && o.dd.checklist.Submitted === true;
