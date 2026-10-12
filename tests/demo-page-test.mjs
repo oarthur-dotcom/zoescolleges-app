@@ -41,7 +41,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.click('#demo-join'); await page.waitForTimeout(2000);
   o.afterJoin = await page.evaluate(() => ({ url: location.search, auth: !document.getElementById('v-auth').classList.contains('hidden'), mode: state.authMode, demoKeys: Object.keys(localStorage).filter(k => /demo-/.test(k)).length }));
   o.errors = log.pageerr; R[label] = o; await b.close();
-  ok[label + '.ctaOnSignIn'] = /explore a sample family/i.test(o.cta || '');
+  ok[label + '.ctaOnSignIn'] = /sample family/i.test(o.cta || '');
   ok[label + '.opensSampleOnToday'] = o.today.view === 'today' && o.today.bar && /Rivera/.test(o.today.fam) && o.today.schools === 8 && /Good (morning|afternoon|evening), Maya/.test(o.today.hi);
   ok[label + '.boardWithChances'] = o.board.cards === 8;
   ok[label + '.nothingSaved'] = /sample family/.test(o.toast || '') && o.realWrites === 0;

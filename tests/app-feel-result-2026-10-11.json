@@ -9,9 +9,11 @@
   ],
   "zc-img": [],
   "zc-data": [
-   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/colleges.json",
-   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/net-price-by-income",
-   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@4dee74b/deadlines-2026-27.j"
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@e328fc1/colleges.json",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@e328fc1/net-price-by-income",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@e328fc1/school-aid.json",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@e328fc1/deadlines-2026-27.j",
+   "cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@e328fc1/requirements.json"
   ]
  },
  "icons": [
