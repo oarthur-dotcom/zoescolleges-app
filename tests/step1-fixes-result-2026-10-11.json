@@ -1,5 +1,5 @@
 {
- "bigBytes": 30841679,
+ "bigBytes": 30841640,
  "phone": {
   "leak": {
    "sp": null,
@@ -61,21 +61,30 @@
    ],
    "bad": [],
    "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
     "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
     "▶ Tour 57x34",
     "📍 Map 61x34",
     "🎓 Site 58x34",
-    "📰 Pulse 67x34",
-    "★ 36x40",
-    "★ 25x24",
-    "My note · remove school 324x17"
+    "📰 Pulse 67x34"
    ],
-   "wide": [],
-   "dashCount": 6
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 4
   },
   "errB": [],
   "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
@@ -143,43 +152,39 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
-    "⇄ Compare 90x26",
+    "🗺 Trip 61x27",
+    "⇄ Compare 90x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1336",
-    "BUTTON.navbtn# right=1437"
-   ],
-   "dashCount": 6
+   "wide": [],
+   "dashCount": 4
   },
   "errB": [],
   "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
@@ -208,7 +213,7 @@
    "h": "What matters to you (Obie)"
   },
   "errA": [],
-  "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
+  "tx1": " Reading big-transcript.png… this can take a few seconds.",
   "sent": {
    "mime": "image/jpeg",
    "kb": 1295
@@ -246,21 +251,30 @@
    ],
    "bad": [],
    "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
     "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
     "▶ Tour 57x34",
     "📍 Map 61x34",
     "🎓 Site 58x34",
-    "📰 Pulse 67x34",
-    "★ 36x40",
-    "★ 25x24",
-    "My note · remove school 324x17"
+    "📰 Pulse 67x34"
    ],
-   "wide": [],
-   "dashCount": 6
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 4
   },
   "errB": [],
   "whoseStudent": "These priorities are yours (Obie). Everyone in the family sets their own, so your match % reflects what matters to you. Zoe sets Zoe's own.",
@@ -300,7 +314,7 @@
   "phone-dark.plainInputsStyled": true,
   "phone-dark.setPrioritiesOpensSliders": true,
   "phone-dark.photoShrunk": true,
-  "phone-dark.emptyReadHonest": true,
+  "phone-dark.emptyReadHonest": false,
   "phone-dark.readShowsCourses": true,
   "phone-dark.transcriptReadable": true,
   "phone-dark.buttonsReadable": true,
@@ -310,5 +324,5 @@
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true
  },
- "allPass": true
+ "allPass": false
 }

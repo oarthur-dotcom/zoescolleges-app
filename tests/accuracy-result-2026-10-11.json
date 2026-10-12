@@ -23,7 +23,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:05:55.920Z"
+    "status_at": "2026-10-12T01:12:20.658Z"
    },
    "shared": {
     "Transcript": true,
@@ -33,7 +33,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:05:56.225Z",
+   "status_at": "2026-10-12T01:12:20.964Z",
    "checklist": {
     "Submitted": true
    }
@@ -74,28 +74,30 @@
    "bad": [],
    "small": [
     "My Board 93x34",
+    "Discover 86x34",
     "Search 75x34",
     "Zoe Picks 91x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
     "✓ Compare 93x36",
+    "More · where you stand, facts, links, no 324x17",
     "▶ Tour 57x34",
     "📍 Map 61x34",
     "🎓 Site 58x34",
     "📰 Pulse 67x34",
-    "★ 36x40",
-    "★ 25x24",
-    "My note · remove school 324x17",
     "⇄ Compare 92x36"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=457"
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
    ],
-   "dashCount": 6
+   "dashCount": 4
   },
   "errors": []
  },
@@ -123,7 +125,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:06:02.287Z"
+    "status_at": "2026-10-12T01:12:27.372Z"
    },
    "shared": {
     "Transcript": true,
@@ -133,7 +135,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:06:02.595Z",
+   "status_at": "2026-10-12T01:12:27.677Z",
    "checklist": {
     "Submitted": true
    }
@@ -182,6 +184,7 @@
     "Profile 74x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
+    "Discover 86x34",
     "Search 75x34",
     "Zoe Picks 91x34",
     "Compare 89x34",
@@ -192,21 +195,21 @@
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
+    "🗺 Trip 61x27",
     "✓ Compare 91x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32",
-    "⇄ Compare 90x26"
+    "⇄ Compare 90x27"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 4
   },
   "errors": []
  },
@@ -234,7 +237,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:06:08.771Z"
+    "status_at": "2026-10-12T01:12:33.829Z"
    },
    "shared": {
     "Transcript": true,
@@ -244,7 +247,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:06:09.075Z",
+   "status_at": "2026-10-12T01:12:34.138Z",
    "checklist": {
     "Submitted": true
    }
@@ -293,6 +296,7 @@
     "Profile 74x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
+    "Discover 86x34",
     "Search 75x34",
     "Zoe Picks 91x34",
     "Compare 89x34",
@@ -303,21 +307,21 @@
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
+    "🗺 Trip 61x27",
     "✓ Compare 91x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32",
-    "⇄ Compare 90x26"
+    "⇄ Compare 90x27"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 4
   },
   "errors": []
  },

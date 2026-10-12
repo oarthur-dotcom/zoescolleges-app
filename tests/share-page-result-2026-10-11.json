@@ -9,13 +9,13 @@
   },
   "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
   "preview": {
-   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n60% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n66% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
    "stars": 2,
    "cta": false,
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=97e9965d40214a2e81034390",
+   "url": "https://zoescolleges.com/?share=6418321ff40949308f8c208c",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -24,7 +24,7 @@
      {
       "name": "College of Charleston",
       "where": "Charleston, SC",
-      "match": 59,
+      "match": 60,
       "chance": "Target",
       "stars": 4.5,
       "deadline": {
@@ -62,7 +62,7 @@
      {
       "name": "Clemson University",
       "where": "Clemson, SC",
-      "match": 73,
+      "match": 66,
       "chance": "Reach",
       "deadline": {
        "kind": "Early Action",
@@ -88,7 +88,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791763667486,
+    "created": 1791767369697,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -126,7 +126,7 @@
   "counselor": {
    "hasAcad": true,
    "acts": 0,
-   "gpa": "3.7",
+   "gpa": "",
    "hasStars": false,
    "html": true
   },
@@ -149,23 +149,31 @@
    ],
    "bad": [],
    "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
     "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
     "▶ Tour 57x34",
     "📍 Map 61x34",
     "🎓 Site 58x34",
     "📰 Pulse 67x34",
-    "★ 36x40",
-    "★ 25x24",
-    "My note · remove school 324x17",
-    "on 20x20",
-    "#sh-url https://zoescolleges.com/?share= 312x21"
+    "on 20x20"
    ],
-   "wide": [],
-   "dashCount": 4
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 7
   },
   "errors": [],
   "publicOld": {
@@ -194,13 +202,13 @@
   },
   "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
   "preview": {
-   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n60% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n66% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
    "stars": 2,
    "cta": false,
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=cde498643aab4d7b98bc9d99",
+   "url": "https://zoescolleges.com/?share=fc0415c1d00a426bb927a470",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -209,7 +217,7 @@
      {
       "name": "College of Charleston",
       "where": "Charleston, SC",
-      "match": 59,
+      "match": 60,
       "chance": "Target",
       "stars": 4.5,
       "deadline": {
@@ -247,7 +255,7 @@
      {
       "name": "Clemson University",
       "where": "Clemson, SC",
-      "match": 73,
+      "match": 66,
       "chance": "Reach",
       "deadline": {
        "kind": "Early Action",
@@ -273,7 +281,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791763680351,
+    "created": 1791767384169,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -311,7 +319,7 @@
   "counselor": {
    "hasAcad": true,
    "acts": 0,
-   "gpa": "3.7",
+   "gpa": "",
    "hasStars": false,
    "html": true
   },
@@ -335,51 +343,48 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#btn-report2 📄 Report 88x32",
     "#btn-invite + Add my family 126x32",
     "#btn-more More ▾ 68x32",
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
-    "⇄ Compare 90x26",
+    "🗺 Trip 61x27",
+    "⇄ Compare 90x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32",
     "👵 Grandparents & family 192x32",
     "🎓 School counselor 154x32",
     "🔗 Anyone 93x32",
     "on 13x13",
-    "#sh-url https://zoescolleges.com/?share= 518x21",
     "#sh-copy Copy link 84x32",
     "💬 Text 71x33",
-    "✉️ Email 78x33"
+    "✉️ Email 78x33",
+    "#sh-x Close 61x32",
+    "#sh-prev 👀 Preview 96x32"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1336",
-    "BUTTON.navbtn# right=1437"
-   ],
-   "dashCount": 4
+   "wide": [],
+   "dashCount": 7
   },
   "errors": [],
   "publicOld": {
@@ -408,13 +413,13 @@
   },
   "counselorParts": "stars:false,deadlines:true,costs:false,academics:true",
   "preview": {
-   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n59% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n73% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
+   "text": "Zoe's Colleges\n👵 Shared with family · October 11, 2026\nWhere Arthur Family is looking 🎓\n\n6 schools they're considering\n\n2 Target\n3 Reach\n1 Likely\n“Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite”\n— Arthur Family\n⏰ Coming up\nOct 15, 2026\nClemson University · Early Action\nNov 1, 2026\nCollege of Charleston · Early Decision\nNov 1, 2026\nMassachusetts Institute of Technology · Early Action\nNov 1, 2026\nUniversity of Vermont · Early Decision\nCollege of Charleston\nCharleston, SC\n★★★★★\n⏰ Early Decision · Nov 1, 2026\n💰 ~$18,960/yr after aid (sticker $32,362)\n60% match\nTarget\nMassachusetts Institute of Technology\nCambridge, MA\n★★★★★\n⏰ Early Action · Nov 1, 2026\n💰 ~$20,111/yr after aid (sticker $82,730)\n67% match\nReach\nUniversity of Vermont\nBurlington, VT\n⏰ Early Decision · Nov 1, 2026\n💰 ~$19,343/yr after aid (sticker $35,649)\n61% match\nTarget\nClemson University\nClemson, SC\n⏰ Early Action · Oct 15, 2026\n💰 ~$22,253/yr after aid (sticker $35,015)\n66% match\nReach\nNewman University\nWichita, KS\n💰 ~$19,971/yr after aid (sticker $46,489)\n46% match\nLikely\nWest Virginia University Institute of Technology\nBeckley, WV\n💰 ~$9,337/yr after aid (sticker $18,907)\n52% match\nReach\n\nWant to help? Ask them about their favorite so far — and if you know anyone at these schools, they'd love to hear about it.",
    "stars": 2,
    "cta": false,
    "xss": false
   },
   "made": {
-   "url": "https://zoescolleges.com/?share=169e8ffb42724cb9ac72f66b",
+   "url": "https://zoescolleges.com/?share=7556f08511df4e99a0fd43dc",
    "payload": {
     "v": 2,
     "audience": "family",
@@ -423,7 +428,7 @@
      {
       "name": "College of Charleston",
       "where": "Charleston, SC",
-      "match": 59,
+      "match": 60,
       "chance": "Target",
       "stars": 4.5,
       "deadline": {
@@ -461,7 +466,7 @@
      {
       "name": "Clemson University",
       "where": "Clemson, SC",
-      "match": 73,
+      "match": 66,
       "chance": "Reach",
       "deadline": {
        "kind": "Early Action",
@@ -487,7 +492,7 @@
       "sticker": 18907
      }
     ],
-    "created": 1791763691564,
+    "created": 1791767396114,
     "note": "Hi Grandma! <img src=x onerror=\"window.__x=1\"> Michigan is the favorite",
     "sections": {
      "stars": true,
@@ -525,7 +530,7 @@
   "counselor": {
    "hasAcad": true,
    "acts": 0,
-   "gpa": "3.7",
+   "gpa": "",
    "hasStars": false,
    "html": true
   },
@@ -548,23 +553,31 @@
    ],
    "bad": [],
    "small": [
+    "My Board 93x34",
+    "Discover 86x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
     "#view-stacked ☰ 38x40",
     "#view-tiles ▦ 38x40",
+    "★ 36x40",
+    "★ 25x24",
     "Open ↗ 69x36",
     "🗺 Trip 63x36",
     "⇄ Compare 92x36",
+    "More · where you stand, facts, links, no 324x17",
     "▶ Tour 57x34",
     "📍 Map 61x34",
     "🎓 Site 58x34",
     "📰 Pulse 67x34",
-    "★ 36x40",
-    "★ 25x24",
-    "My note · remove school 324x17",
-    "on 20x20",
-    "#sh-url https://zoescolleges.com/?share= 312x21"
+    "on 20x20"
    ],
-   "wide": [],
-   "dashCount": 4
+   "wide": [
+    "BUTTON.sn-tab # right=478",
+    "BUTTON.sn-tab # right=549"
+   ],
+   "dashCount": 7
   },
   "errors": [],
   "publicOld": {

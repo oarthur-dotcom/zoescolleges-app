@@ -2,31 +2,18 @@
  "phone": {
   "nav": [
    "Today",
-   "My Board",
-   "💬 Talk It Out",
-   "🎓 Decision Day",
    "Schools",
-   "✨ Zoe Picks",
-   "Compare",
-   "💰 Costs",
-   "Trips",
-   "📸 Memories",
-   "Deadlines",
-   "📰 Pulse",
-   "💬 Ask Zoe",
-   "My Profile"
+   "Plan",
+   "Family",
+   "Ask Zoe",
+   "Profile",
+   "🔎 Search Ctrl K"
   ],
   "sheet": [
-   "Schools",
-   "Talk It Out",
-   "Decision Day",
-   "Zoe Picks",
-   "Costs",
-   "Compare",
-   "Trips",
-   "Memories",
+   "Search",
    "Ask Zoe",
-   "My Profile",
+   "Profile",
+   "My priorities",
    "College Report"
   ],
   "empty": {
@@ -71,6 +58,9 @@
    ],
    "bad": [],
    "small": [
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
     "+ Add campuses from your board 324x20"
    ],
    "wide": [],
@@ -81,31 +71,18 @@
  "desktop": {
   "nav": [
    "Today",
-   "My Board",
-   "💬 Talk It Out",
-   "🎓 Decision Day",
    "Schools",
-   "✨ Zoe Picks",
-   "Compare",
-   "💰 Costs",
-   "Trips",
-   "📸 Memories",
-   "Deadlines",
-   "📰 Pulse",
-   "💬 Ask Zoe",
-   "My Profile"
+   "Plan",
+   "Family",
+   "Ask Zoe",
+   "Profile",
+   "🔎 Search Ctrl K"
   ],
   "sheet": [
-   "Schools",
-   "Talk It Out",
-   "Decision Day",
-   "Zoe Picks",
-   "Costs",
-   "Compare",
-   "Trips",
-   "Memories",
+   "Search",
    "Ask Zoe",
-   "My Profile",
+   "Profile",
+   "My priorities",
    "College Report"
   ],
   "empty": {
@@ -151,20 +128,16 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
     "#trip-build Plan route → 106x33",
     "+ Add campuses from your board 1182x20",
     "#trip-mem-open Open Memories → 141x33"
@@ -177,31 +150,18 @@
  "phone-dark": {
   "nav": [
    "Today",
-   "My Board",
-   "💬 Talk It Out",
-   "🎓 Decision Day",
    "Schools",
-   "✨ Zoe Picks",
-   "Compare",
-   "💰 Costs",
-   "Trips",
-   "📸 Memories",
-   "Deadlines",
-   "📰 Pulse",
-   "💬 Ask Zoe",
-   "My Profile"
+   "Plan",
+   "Family",
+   "Ask Zoe",
+   "Profile",
+   "🔎 Search Ctrl K"
   ],
   "sheet": [
-   "Schools",
-   "Talk It Out",
-   "Decision Day",
-   "Zoe Picks",
-   "Costs",
-   "Compare",
-   "Trips",
-   "Memories",
+   "Search",
    "Ask Zoe",
-   "My Profile",
+   "Profile",
+   "My priorities",
    "College Report"
   ],
   "empty": {
@@ -246,6 +206,9 @@
    ],
    "bad": [],
    "small": [
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
     "+ Add campuses from your board 324x20"
    ],
    "wide": [],
@@ -260,7 +223,7 @@
   "credits": 6
  },
  "ok": {
-  "phone.memoriesInNav": true,
+  "phone.memoriesInNav": false,
   "phone.emptyStateTeaches": true,
   "phone.sampleReelCredited": true,
   "phone.sampleVideo": true,
@@ -272,7 +235,7 @@
   "phone.tripsStandsAlone": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
-  "desktop.memoriesInNav": true,
+  "desktop.memoriesInNav": false,
   "desktop.emptyStateTeaches": true,
   "desktop.sampleReelCredited": true,
   "desktop.sampleVideo": true,
@@ -284,7 +247,7 @@
   "desktop.tripsStandsAlone": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
-  "phone-dark.memoriesInNav": true,
+  "phone-dark.memoriesInNav": false,
   "phone-dark.emptyStateTeaches": true,
   "phone-dark.sampleReelCredited": true,
   "phone-dark.sampleVideo": true,
@@ -299,5 +262,5 @@
   "signedOut.sampleVideo": true,
   "signedOut.noErrors": true
  },
- "allPass": true
+ "allPass": false
 }

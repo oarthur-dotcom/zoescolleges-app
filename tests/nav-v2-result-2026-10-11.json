@@ -22,6 +22,7 @@
    "view": "board",
    "tabs": [
     "My Board",
+    "Discover",
     "Search",
     "Zoe Picks",
     "Compare",
@@ -34,8 +35,9 @@
   "plan2": "cost",
   "planDot": true,
   "family": {
-   "view": "talk",
+   "view": "journey",
    "tabs": [
+    "Journey",
     "Talk It Out",
     "Decision Day",
     "Memories"
@@ -125,6 +127,7 @@
    "view": "board",
    "tabs": [
     "My Board",
+    "Discover",
     "Search",
     "Zoe Picks",
     "Compare",
@@ -137,8 +140,9 @@
   "plan2": "cost",
   "planDot": true,
   "family": {
-   "view": "talk",
+   "view": "journey",
    "tabs": [
+    "Journey",
     "Talk It Out",
     "Decision Day",
     "Memories"
@@ -192,8 +196,9 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "🔎 Search ⌘K 134x33",
+    "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
+    "Discover 86x34",
     "Search 75x34",
     "Zoe Picks 91x34",
     "Compare 89x34",
@@ -204,21 +209,21 @@
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
-    "⇄ Compare 90x26",
+    "🗺 Trip 61x27",
+    "⇄ Compare 90x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32",
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
    ],
    "wide": [],
-   "dashCount": 7
+   "dashCount": 5
   },
   "errors": []
  },
@@ -245,6 +250,7 @@
    "view": "board",
    "tabs": [
     "My Board",
+    "Discover",
     "Search",
     "Zoe Picks",
     "Compare",
@@ -257,8 +263,9 @@
   "plan2": "cost",
   "planDot": true,
   "family": {
-   "view": "talk",
+   "view": "journey",
    "tabs": [
+    "Journey",
     "Talk It Out",
     "Decision Day",
     "Memories"
@@ -312,8 +319,9 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "🔎 Search ⌘K 134x33",
+    "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
+    "Discover 86x34",
     "Search 75x34",
     "Zoe Picks 91x34",
     "Compare 89x34",
@@ -324,21 +332,21 @@
     "#rank-toggle ⇅ My ranking 111x32",
     "#view-stacked ☰ 38x32",
     "#view-tiles ▦ 38x32",
+    "★ 25x24",
     "Open ↗ 67x27",
-    "🗺 Trip 61x26",
-    "⇄ Compare 90x26",
+    "🗺 Trip 61x27",
+    "⇄ Compare 90x27",
+    "More · where you stand, facts, links, no 357x17",
     "▶ Tour 57x25",
     "📍 Map 61x25",
     "🎓 Site 58x25",
     "📰 Pulse 67x25",
-    "★ 25x24",
-    "My note · remove school 357x17",
     "Save note 88x32",
     "Remove from board 151x32",
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
    ],
    "wide": [],
-   "dashCount": 7
+   "dashCount": 5
   },
   "errors": []
  },

@@ -1,6 +1,6 @@
 {
  "phone": {
-  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you, Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
   "view": "talk",
   "home": {
    "rows": [
@@ -12,7 +12,7 @@
     "West Virginia University Institute of Technology Start the conversation O Z",
     "The whole family Start the conversation O Z"
    ],
-   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you, Zoe\nVote ›",
+   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you and Zoe\nVote ›",
    "tabs": 0,
    "intro": true,
    "checkbox": 0
@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "Distance is on my mind because ___.",
+  "blank": "I'm torn: I like ___, but I'm unsure about ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -115,6 +115,9 @@
    "bgs": [],
    "bad": [],
    "small": [
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [],
@@ -132,7 +135,7 @@
   "errors2": []
  },
  "desktop": {
-  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you, Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
   "view": "talk",
   "home": {
    "rows": [
@@ -144,7 +147,7 @@
     "West Virginia University Institute of Technology Start the conversation O Z",
     "The whole family Start the conversation O Z"
    ],
-   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you, Zoe\nVote ›",
+   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you and Zoe\nVote ›",
    "tabs": 0,
    "intro": true,
    "checkbox": 0
@@ -162,7 +165,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I want to be honest that ___ makes me nervous.",
+  "blank": "Part of me hesitates because ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -248,26 +251,19 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
     "🎬 5 moments for your movie 175x18"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1336",
-    "BUTTON.navbtn# right=1437"
-   ],
+   "wide": [],
    "dashCount": 0
   },
   "errors": [],
@@ -282,7 +278,7 @@
   "errors2": []
  },
  "phone-dark": {
-  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you, Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
+  "todayCard": "💬 TALK IT OUT\nWaiting to hear from you and Zoe. 0 of 2 voted.\nOpen\n🗳 Vote",
   "view": "talk",
   "home": {
    "rows": [
@@ -294,7 +290,7 @@
     "West Virginia University Institute of Technology Start the conversation O Z",
     "The whole family Start the conversation O Z"
    ],
-   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you, Zoe\nVote ›",
+   "vote": "🗳 Family vote\n0 of 2 voted · waiting on you and Zoe\nVote ›",
    "tabs": 0,
    "intro": true,
    "checkbox": 0
@@ -312,7 +308,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'm worried I'm missing something about ___.",
+  "blank": "I'm not sure yet about ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -397,6 +393,9 @@
    "bgs": [],
    "bad": [],
    "small": [
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
     "🎬 5 moments for your movie 175x18"
    ],
    "wide": [],

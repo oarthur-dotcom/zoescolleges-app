@@ -1,0 +1,245 @@
+{
+ "phone": {
+  "cards": {
+   "n": 6,
+   "big3": 6,
+   "labels": [
+    "Typical cost",
+    "Chance",
+    "Family"
+   ],
+   "moreClosed": true,
+   "visibleBtns": 5
+  },
+  "recap": "📅 THIS WEEK\n6 schools added · a deadline in 4 days\nSee our journey",
+  "disc": {
+   "view": "discover",
+   "top": "University of Massachusetts-Amherst",
+   "id": "umass-amherst",
+   "b3": 3,
+   "under": true
+  },
+  "yes": {
+   "w": [
+    "umass-amherst:yes"
+   ],
+   "next": "sc-110529",
+   "undo": true,
+   "likes": 1
+  },
+  "undo": {
+   "back": "umass-amherst",
+   "del": 1
+  },
+  "drag": "yes",
+  "famLiked": "💛 Zoe liked this",
+  "match": {
+   "cel": "💛 It's a match!\nYou and Zoe both liked California State Polytechnic University-Pomona.\nYay! Close",
+   "banner": "💛 You and Zoe both liked California State Polytechnic University-Pomona\nAdd to board"
+  },
+  "added": true,
+  "journey": {
+   "text": "Exploring\nVisiting\nApplying\nDeciding\nOCTOBER 2026\n🌱\nArthur Family started\nThe college search begins.\nSun, Oct 11\n👋\nZoe joined\nThe student is in.\nSun, Oct 11\n🏫\nAdded 7 schools\nCollege of Charleston · Massachusetts Institute of Technology · University of Vermont · Clemson University…\nSun, Oct 11\n💛\nA match: California State Polytechnic University-Pomona\nYou and Zoe both liked it\nSun, Oct 11\nCOMING UP\n⏰\nClemson University — Early Action\nOct 15, 2026 · in 4 days\n⏰\nCollege of Charleston — Early Decision\nNov 1, 2026 · in 21 days\n⏰\nMassachusetts Institute of Technology — Early Action\nNov 1, 2026 · in 21 days\n⏰\nUniversity of Vermont — Early Decision\nNov 1, 2026 · in 21 days\n🎬 Turn it into our movie",
+   "stages": 4,
+   "tabs": [
+    "Journey",
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34"
+   ],
+   "wide": [
+    "BUTTON.sn-tab # right=423"
+   ],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "desktop": {
+  "cards": {
+   "n": 6,
+   "big3": 6,
+   "labels": [
+    "Typical cost",
+    "Chance",
+    "Family"
+   ],
+   "moreClosed": true,
+   "visibleBtns": 5
+  },
+  "recap": "📅 THIS WEEK\n6 schools added · a deadline in 4 days\nSee our journey",
+  "disc": {
+   "view": "discover",
+   "top": "University of Massachusetts-Amherst",
+   "id": "umass-amherst",
+   "b3": 3,
+   "under": true
+  },
+  "yes": {
+   "w": [
+    "umass-amherst:yes"
+   ],
+   "next": "sc-110529",
+   "undo": true,
+   "likes": 1
+  },
+  "undo": {
+   "back": "umass-amherst",
+   "del": 1
+  },
+  "drag": "yes",
+  "key": "no",
+  "famLiked": "💛 Zoe liked this",
+  "match": {
+   "cel": "💛 It's a match!\nYou and Zoe both liked California Polytechnic State University-San Luis Obispo.\nYay! Close",
+   "banner": "💛 You and Zoe both liked California Polytechnic State University-San Luis Obispo\nAdd to board"
+  },
+  "added": true,
+  "journey": {
+   "text": "Exploring\nVisiting\nApplying\nDeciding\nOCTOBER 2026\n🌱\nArthur Family started\nThe college search begins.\nSun, Oct 11\n👋\nZoe joined\nThe student is in.\nSun, Oct 11\n🏫\nAdded 7 schools\nCollege of Charleston · Massachusetts Institute of Technology · University of Vermont · Clemson University…\nSun, Oct 11\n💛\nA match: California Polytechnic State University-San Luis Obispo\nYou and Zoe both liked it\nSun, Oct 11\nCOMING UP\n⏰\nClemson University — Early Action\nOct 15, 2026 · in 4 days\n⏰\nCollege of Charleston — Early Decision\nNov 1, 2026 · in 21 days\n⏰\nMassachusetts Institute of Technology — Early Action\nNov 1, 2026 · in 21 days\n⏰\nUniversity of Vermont — Early Decision\nNov 1, 2026 · in 21 days\n🎬 Turn it into our movie",
+   "stages": 4,
+   "tabs": [
+    "Journey",
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "🎬 Turn it into our movie 179x32"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "cards": {
+   "n": 6,
+   "big3": 6,
+   "labels": [
+    "Typical cost",
+    "Chance",
+    "Family"
+   ],
+   "moreClosed": true,
+   "visibleBtns": 5
+  },
+  "recap": "📅 THIS WEEK\n6 schools added · a deadline in 4 days\nSee our journey",
+  "disc": {
+   "view": "discover",
+   "top": "University of Massachusetts-Amherst",
+   "id": "umass-amherst",
+   "b3": 3,
+   "under": true
+  },
+  "yes": {
+   "w": [
+    "umass-amherst:yes"
+   ],
+   "next": "sc-110529",
+   "undo": true,
+   "likes": 1
+  },
+  "undo": {
+   "back": "umass-amherst",
+   "del": 1
+  },
+  "drag": "yes",
+  "famLiked": "💛 Zoe liked this",
+  "match": {
+   "cel": "💛 It's a match!\nYou and Zoe both liked California State Polytechnic University-Pomona.\nYay! Close",
+   "banner": "💛 You and Zoe both liked California State Polytechnic University-Pomona\nAdd to board"
+  },
+  "added": true,
+  "journey": {
+   "text": "Exploring\nVisiting\nApplying\nDeciding\nOCTOBER 2026\n🌱\nArthur Family started\nThe college search begins.\nSun, Oct 11\n👋\nZoe joined\nThe student is in.\nSun, Oct 11\n🏫\nAdded 7 schools\nCollege of Charleston · Massachusetts Institute of Technology · University of Vermont · Clemson University…\nSun, Oct 11\n💛\nA match: California State Polytechnic University-Pomona\nYou and Zoe both liked it\nSun, Oct 11\nCOMING UP\n⏰\nClemson University — Early Action\nOct 15, 2026 · in 4 days\n⏰\nCollege of Charleston — Early Decision\nNov 1, 2026 · in 21 days\n⏰\nMassachusetts Institute of Technology — Early Action\nNov 1, 2026 · in 21 days\n⏰\nUniversity of Vermont — Early Decision\nNov 1, 2026 · in 21 days\n🎬 Turn it into our movie",
+   "stages": 4,
+   "tabs": [
+    "Journey",
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Journey 81x34",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34"
+   ],
+   "wide": [
+    "BUTTON.sn-tab # right=423"
+   ],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.calmCards": true,
+  "phone.weeklyRecap": true,
+  "phone.discoverCard": true,
+  "phone.yesSavedAndAdvances": true,
+  "phone.undo": true,
+  "phone.dragToSwipe": true,
+  "phone.familyMatch": true,
+  "phone.journey": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.calmCards": true,
+  "desktop.weeklyRecap": true,
+  "desktop.discoverCard": true,
+  "desktop.yesSavedAndAdvances": true,
+  "desktop.undo": true,
+  "desktop.dragToSwipe": true,
+  "desktop.arrowKeys": true,
+  "desktop.familyMatch": true,
+  "desktop.journey": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.calmCards": true,
+  "phone-dark.weeklyRecap": true,
+  "phone-dark.discoverCard": true,
+  "phone-dark.yesSavedAndAdvances": true,
+  "phone-dark.undo": true,
+  "phone-dark.dragToSwipe": true,
+  "phone-dark.familyMatch": true,
+  "phone-dark.journey": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}

@@ -1,10 +1,10 @@
 {
  "phone": {
   "today": {
-   "onboard": true,
+   "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 7
+   "cards": 6
   },
   "board": {
    "noOnboard": true,
@@ -12,7 +12,7 @@
    "noCoach": true,
    "noHowto": true,
    "noNextstep": true,
-   "firstSchoolTop": 436,
+   "firstSchoolTop": 480,
    "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
    "schools": 6,
    "controls": true
@@ -23,18 +23,25 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 2
   },
   "errors": []
  },
  "desktop": {
   "today": {
-   "onboard": true,
+   "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 7
+   "cards": 6
   },
   "board": {
    "noOnboard": true,
@@ -42,7 +49,7 @@
    "noCoach": true,
    "noHowto": true,
    "noNextstep": true,
-   "firstSchoolTop": 327,
+   "firstSchoolTop": 373,
    "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
    "schools": 6,
    "controls": true
@@ -55,25 +62,21 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
-    "✕ 25x22",
-    "Set priorities 107x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Ask Zoe 75x32",
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19",
     "Open Deadlines 124x32",
-    "Open profile 103x32",
-    "📅 Plan my week 132x32",
     "Open 59x32",
     "🗳 Vote 71x32",
     "All news 78x32",
@@ -86,20 +89,17 @@
     "Plan a trip 89x32",
     "📸 Memories 108x32"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1336",
-    "BUTTON.navbtn# right=1437"
-   ],
-   "dashCount": 5
+   "wide": [],
+   "dashCount": 2
   },
   "errors": []
  },
  "phone-dark": {
   "today": {
-   "onboard": true,
+   "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 7
+   "cards": 6
   },
   "board": {
    "noOnboard": true,
@@ -107,7 +107,7 @@
    "noCoach": true,
    "noHowto": true,
    "noNextstep": true,
-   "firstSchoolTop": 436,
+   "firstSchoolTop": 480,
    "sum": "C\n1 Likely · 2 Target · 3 Reach\n🏆 Family favorite: College of Charleston 4.5★\nHow this works ▸",
    "schools": 6,
    "controls": true
@@ -118,18 +118,25 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 2
   },
   "errors": []
  },
  "empty-phone": {
   "today": {
-   "onboard": true,
+   "onboard": false,
    "howtoInToday": true,
-   "howtoShown": true,
-   "cards": 5
+   "howtoShown": false,
+   "cards": 0
   },
   "board": {
    "noOnboard": true,
@@ -137,7 +144,7 @@
    "noCoach": true,
    "noHowto": true,
    "noNextstep": true,
-   "firstSchoolTop": 333,
+   "firstSchoolTop": 377,
    "sum": "",
    "schools": 0,
    "controls": true
@@ -148,9 +155,16 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "✓ Student 83x32",
+    "2 Schools 79x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
    "wide": [],
-   "dashCount": 2
+   "dashCount": 1
   },
   "errors": []
  },
@@ -158,26 +172,26 @@
   "phone.boardIsJustTheList": true,
   "phone.schoolsVisibleImmediately": true,
   "phone.oneLineSummary": true,
-  "phone.guidanceOnToday": true,
+  "phone.guidanceOnToday": false,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
   "desktop.boardIsJustTheList": true,
   "desktop.schoolsVisibleImmediately": true,
   "desktop.oneLineSummary": true,
-  "desktop.guidanceOnToday": true,
+  "desktop.guidanceOnToday": false,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
   "phone-dark.boardIsJustTheList": true,
   "phone-dark.schoolsVisibleImmediately": true,
   "phone-dark.oneLineSummary": true,
-  "phone-dark.guidanceOnToday": true,
+  "phone-dark.guidanceOnToday": false,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true,
   "empty-phone.boardIsJustTheList": true,
-  "empty-phone.guidanceOnToday": true,
-  "empty-phone.howtoForNewFamilies": true,
+  "empty-phone.guidanceOnToday": false,
+  "empty-phone.howtoForNewFamilies": false,
   "empty-phone.noErrors": true,
   "empty-phone.noSidewaysScroll": true
  },
- "allPass": true
+ "allPass": false
 }

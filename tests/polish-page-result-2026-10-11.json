@@ -1,7 +1,7 @@
 {
  "phone": {
   "small": {
-   "today": 0,
+   "today": 5,
    "board": 3,
    "explore": 0,
    "cost": 0,
@@ -52,18 +52,18 @@
  },
  "desktop": {
   "small": {
-   "today": 31,
-   "board": 31,
-   "explore": 25,
-   "cost": 16,
-   "deadlines": 34,
-   "pulse": 15,
-   "trip": 18,
-   "memories": 19,
-   "profile": 20,
-   "zoe": 25,
-   "compare": 16,
-   "recommends": 17
+   "today": 26,
+   "board": 24,
+   "explore": 18,
+   "cost": 9,
+   "deadlines": 27,
+   "pulse": 8,
+   "trip": 11,
+   "memories": 12,
+   "profile": 10,
+   "zoe": 18,
+   "compare": 9,
+   "recommends": 10
   },
   "ox": {
    "today": 0,
@@ -97,7 +97,7 @@
  },
  "phone-dark": {
   "small": {
-   "today": 0,
+   "today": 5,
    "board": 3,
    "explore": 0,
    "cost": 0,

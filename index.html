@@ -1250,6 +1250,43 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dd-cpill.applied{background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal)}.dd-cpill.accepted{background:color-mix(in srgb,var(--good) 16%,var(--surface));color:var(--good)}
 .dd-cpill.waitlisted,.dd-cpill.deferred{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber)}
 .mr-pct{font-style:normal;font-size:.62em;font-weight:700;margin-left:1px}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 6px}
+.b3{background:var(--sunk);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
+.b3-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.b3-v{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b3-ch.likely{color:var(--good)}.b3-ch.target{color:var(--teal)}.b3-ch.reach{color:var(--plum)}
+.b3-s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.card-more summary{font-size:12.5px}
+.disc-stage{position:relative;max-width:420px;margin:6px auto 0;min-height:430px}
+.disc-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 18px 40px -22px rgba(16,28,46,.45);touch-action:pan-y;user-select:none;transition:transform .2s ease,opacity .2s ease;z-index:2}
+.disc-under{position:absolute;inset:0;transform:scale(.95) translateY(10px);opacity:.6;pointer-events:none;z-index:1}
+.disc-ph{height:250px;background-size:cover;background-position:center;position:relative}
+.disc-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
+.disc-nm{position:absolute;left:14px;right:14px;bottom:12px;color:#fff;z-index:1;display:flex;flex-direction:column}.disc-nm b{font-size:21px;line-height:1.15}.disc-nm span{font-size:13px;opacity:.9}
+.disc-fam{position:absolute;top:12px;left:12px;z-index:1;background:rgba(255,255,255,.92);color:#101c2e;font-size:12px;font-weight:800;border-radius:999px;padding:4px 10px}
+.disc-why{font-size:13.5px;color:var(--muted);padding:2px 14px 14px;line-height:1.45}
+.disc-stamp{position:absolute;top:18px;z-index:2;font-weight:900;font-size:22px;border:3px solid;border-radius:10px;padding:2px 10px;opacity:0;transform:rotate(-12deg);transition:opacity .1s}
+.disc-stamp.yes{left:16px;color:#16a34a}.disc-stamp.no{right:16px;color:#dc2626;transform:rotate(12deg)}.disc-stamp.maybe{left:50%;margin-left:-60px;color:#d97706;transform:none}
+.lean-yes .disc-stamp.yes,.lean-no .disc-stamp.no,.lean-maybe .disc-stamp.maybe{opacity:1}
+.disc-card.gone-yes{transform:translateX(130%) rotate(18deg);opacity:0}.disc-card.gone-no{transform:translateX(-130%) rotate(-18deg);opacity:0}.disc-card.gone-maybe{transform:translateY(-120%);opacity:0}
+.disc-btns{display:flex;justify-content:center;gap:18px;margin:14px 0 4px}
+.disc-b{width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:24px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px -8px rgba(0,0,0,.35)}
+.disc-b.no{color:#dc2626}.disc-b.yes{color:#16a34a}.disc-b.maybe{color:#d97706;width:48px;height:48px;font-size:20px;align-self:center}
+.disc-hint{text-align:center;font-size:12px}
+.disc-matches{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.disc-match{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid color-mix(in srgb,var(--star) 45%,var(--line));background:color-mix(in srgb,var(--star) 12%,var(--surface));border-radius:14px;padding:10px 12px;font-size:14px}
+.disc-likes{max-width:520px;margin:18px auto 0}.disc-like{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.disc-empty{max-width:420px;margin:0 auto;text-align:center}
+.jr-stages{display:flex;gap:4px;margin:4px 0 18px;max-width:640px}.jr-stages span{flex:1;text-align:center;font-size:12px;font-weight:800;padding:7px 0;border-radius:8px;background:var(--sunk);color:var(--muted)}
+.jr-stages span.done{background:color-mix(in srgb,var(--teal) 18%,var(--surface));color:var(--teal)}.jr-stages span.cur{background:var(--teal);color:var(--on-teal)}
+.jr-month{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 6px}
+.jr-list{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);max-width:640px}
+.jr-list li{position:relative;display:flex;gap:10px;padding:8px 0 8px 12px}.jr-list li::before{content:"";position:absolute;left:-21px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--teal)}
+.jr-list li.big b{font-size:16px}.jr-list li.big::before{background:var(--teal)}
+.jr-list.next li::before{border-color:var(--amber)}
+.jr-ic{font-size:18px;line-height:1.3}.jr-d{font-size:11.5px;color:var(--muted);margin-top:2px}.jr-list .muted{font-size:13px}
+.td-recap .td-mid{font-size:14.5px}
 .ns-card{border:1.5px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
 .ns-card.urgent{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--surface))}
 .ns-top{display:flex;gap:14px;align-items:flex-start}.ns-ring{flex-shrink:0}.ns-txt{min-width:0}
@@ -1759,6 +1796,20 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   </section>
 
   <!-- ZOE PICKS (recommends) -->
+  <!-- JOURNEY (#71, idea 5): the family's story so far, from first list to Decision Day -->
+  <section id="v-journey" class="hidden">
+    <h1>Our journey</h1>
+    <p class="sub">Everything your family has done so far, in order — and what's coming up. It's the outline of your movie.</p>
+    <div id="jr-out"></div>
+  </section>
+
+  <!-- DISCOVER (#71, idea 2): swipe through schools; family matches -->
+  <section id="v-discover" class="hidden">
+    <h1>Discover</h1>
+    <p class="sub">Swipe through schools picked for your family. ♥ the ones you'd look at — when two of you like the same school, it's a match.</p>
+    <div id="disc-out"></div>
+  </section>
+
   <section id="v-recommends" class="hidden">
     <h1>✨ Zoe Picks</h1>
     <p class="sub">Schools that fit your profile but aren't on your board yet — ranked by your match, with why each could work.</p>
@@ -2062,7 +2113,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-decide","v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-journey","v-discover","v-decide","v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -2070,15 +2121,15 @@ function show(view){
   { const hs=$("hdr-signin"); if(hs) hs.classList.toggle("hidden", view!=="v-auth"); }
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("tabbar").classList.toggle("hidden", !APP_VIEWS.includes(view)); document.body.classList.toggle("has-tabbar", APP_VIEWS.includes(view)); closeTbSheet();
-  $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view) || view==="v-zoe" || view==="v-talk");   // #62: Talk It Out is a family space; the floating button covered Send
+  $("zoe-fab").classList.toggle("hidden", !APP_VIEWS.includes(view) || view==="v-zoe" || view==="v-talk" || view==="v-discover");   // #62: Talk It Out is a family space; the floating button covered Send
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
 /* #68: six top-level places; each group has a small tab strip for its pages. */
 const NAV_GROUPS = {
-  schools:{label:"Schools", views:[["board","My Board"],["explore","Search"],["recommends","Zoe Picks"],["compare","Compare"],["pulse","Pulse"]]},
+  schools:{label:"Schools", views:[["board","My Board"],["discover","Discover"],["explore","Search"],["recommends","Zoe Picks"],["compare","Compare"],["pulse","Pulse"]]},
   plan:{label:"Plan", views:[["deadlines","Deadlines"],["cost","Costs"],["trip","Trips"]]},
-  family:{label:"Family", views:[["talk","Talk It Out"],["decide","Decision Day"],["memories","Memories"]]},
+  family:{label:"Family", views:[["journey","Journey"],["talk","Talk It Out"],["decide","Decision Day"],["memories","Memories"]]},
   me:{label:"Profile", views:[["profile","Profile"],["report","College Report"]]} };
 const _grpLast = {};
 function groupOf(view){ if(view==="visit") return "plan"; for(const [g,d] of Object.entries(NAV_GROUPS)) if(d.views.some(v=>v[0]===view)) return g; return null; }
@@ -2118,6 +2169,8 @@ function goto(view){
   else if (view==="compare"){ show("v-compare"); setNavActive("compare"); renderCompare(); }
   else if (view==="deadlines"){ show("v-deadlines"); setNavActive("deadlines"); renderDeadlines(); }
   else if (view==="pulse"){ show("v-pulse"); setNavActive("pulse"); renderPulseTab(); }
+  else if (view==="journey"){ show("v-journey"); setNavActive("journey"); renderJourney(); try{ scrollTo(0,0); }catch(e){} }
+  else if (view==="discover"){ show("v-discover"); setNavActive("discover"); renderDiscover(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
   else if (view==="decide"){ show("v-decide"); setNavActive("decide"); renderDecide(); try{ scrollTo(0,0); }catch(e){} }
@@ -2277,6 +2330,7 @@ async function loadFamily(){
     await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos(), loadTalk(), loadBallot()]);
     try{ await loadOffers(); }catch(e){}
     try{ await loadPending(); await maybeClaimPending(); }catch(e){}
+    try{ await loadSwipes(); }catch(e){}
     computeNorms();
     goto("today");
   } catch(e){
@@ -3040,7 +3094,7 @@ function setupSteps(){
   const sName = stu ? stu.display_name : (state.pending ? state.pending.display_name : "your student");
   const steps=[];
   if(me!=="student") steps.push({k:"student", c:"Student", ic:"🎓", t:"Add your student", d:"So chances, costs and the report are about them.", done:!!(stu||state.pending)});
-  steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Start with a few you're curious about — you can always change them.", done:schools>=3, cta:"Find schools", go:()=>goto("explore")});
+  steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Swipe through a few picked for you, or search by name. You can always change them.", done:schools>=3, cta:"Discover schools", go:()=>goto("discover")});
   const gradesMine = me==="student" || pendingMode();
   steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
     cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
@@ -3103,10 +3157,10 @@ function guideSeen(){ try{ return localStorage.getItem("zc_guide_seen")==="1"; }
 function openGuide(){ try{ localStorage.setItem("zc_guide_seen","1"); }catch(e){} const d=$("dlg-guide"); if(d){ d.showModal(); const v=d.querySelector("video"); if(v){ try{ v.currentTime=0; const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} } } }
 /* ===== Search or jump to anything (#68, idea 3): schools, pages and actions from one box. ⌘K / Ctrl+K / "/" ===== */
 const CMD_PAGES = [
-  ["today","Today","home start next step"],["board","My Board","board list schools mine favorites"],["explore","Search schools","explore find browse search colleges"],
+  ["today","Today","home start next step"],["board","My Board","board list schools mine favorites"],["explore","Search schools","explore find browse search colleges"],["discover","Discover","discover swipe browse like new ideas"],
   ["recommends","Zoe Picks","picks recommendations suggest match"],["compare","Compare","compare side by side"],["pulse","Campus Pulse","pulse news events"],
   ["deadlines","Deadlines","deadlines due dates checklist applications"],["cost","Costs","cost costs price money aid net tuition afford"],["trip","Trips","trip trips visit visits drive route tour"],
-  ["talk","Talk It Out","talk family voice discuss vote ballot"],["decide","Decision Day","decision decide accepted acceptance offers may 1"],["memories","Memories","memories photos reel movie"],
+  ["journey","Our journey","journey timeline story history milestones movie"],["talk","Talk It Out","talk family voice discuss vote ballot"],["decide","Decision Day","decision decide accepted acceptance offers may 1"],["memories","Memories","memories photos reel movie"],
   ["zoe","Ask Zoe","ask zoe ai help question chat"],["profile","Profile","profile grades gpa sat act activities"],["report","College Report","report pdf counselor print"] ];
 const CMD_ACTIONS = [
   ["Invite family","invite email family mom dad parent student add person", ()=>openInvite()],
@@ -3149,6 +3203,126 @@ function closeCmd(){ const d=$("dlg-cmd"); if(d&&d.open) d.close(); }
   document.addEventListener("keydown",e=>{ const t=e.target, typing=t&&(/INPUT|TEXTAREA|SELECT/.test(t.tagName)||t.isContentEditable);
     if((e.key==="k"||e.key==="K")&&(e.metaKey||e.ctrlKey)){ e.preventDefault(); openCmd(); }
     else if(e.key==="/" && !typing && !e.metaKey && !e.ctrlKey){ e.preventDefault(); openCmd(); } }); }
+/* ===== Discover (#71, idea 2): swipe Yes / Maybe / No; when two people like the same school it's a match. =====
+   Swipes are per person and shared with the family (table swipes, migration 018); this device keeps a copy if the table isn't there yet. */
+let swipes=[], _discDeck=null, _discUndo=null;
+async function loadSwipes(){ swipes=[]; if(BACKEND.swipes===false||!state.family) { swipes=lsGet("swipes")||[]; return; }
+  try{ const {data,error}=await sb.from("swipes").select("*"); if(error) throw error; swipes=data||[]; }
+  catch(e){ if(isMissing(e)) BACKEND.swipes=false; swipes=lsGet("swipes")||[]; } }
+function mySwipe(id){ const r=swipes.find(x=>x.school_id===id && state.me && x.user_id===state.me.user_id); return r?r.verdict:null; }
+async function saveSwipe(id, verdict){
+  const row={user_id:state.me.user_id, family_id:state.family.id, school_id:id, verdict, created_at:new Date().toISOString()};
+  swipes=swipes.filter(x=>!(x.school_id===id && x.user_id===state.me.user_id)); if(verdict) swipes.push(row);
+  lsSet("swipes", swipes.filter(x=>x.user_id===state.me.user_id));
+  if(BACKEND.swipes===false||DEMO) return;
+  try{ if(verdict){ const {error}=await sb.from("swipes").upsert(row); if(error) throw error; } else await sb.from("swipes").delete().eq("user_id",state.me.user_id).eq("school_id",id); }
+  catch(e){ if(isMissing(e)) BACKEND.swipes=false; } }
+function discMatches(){ const have=new Set((state.schools||[]).map(s=>s.school_id)); const by={};
+  swipes.filter(x=>x.verdict==="yes").forEach(x=>{ (by[x.school_id]=by[x.school_id]||new Set()).add(x.user_id); });
+  return Object.entries(by).filter(([id,u])=>u.size>=2 && !have.has(id)).map(([id,u])=>({id, users:[...u]})); }
+function discDeck(){
+  const w=myPrefs(); const have=new Set((state.schools||[]).map(s=>s.school_id)); const seen=new Set(swipes.filter(x=>state.me&&x.user_id===state.me.user_id).map(x=>x.school_id));
+  const famYes=new Set(swipes.filter(x=>x.verdict==="yes"&&state.me&&x.user_id!==state.me.user_id).map(x=>x.school_id));
+  const pool=state.catalog.filter(c=>!have.has(c.id)&&!seen.has(c.id)&&c.scorecard&&!isGradOnly(c)&&typeof c.scorecard.admissionRate==="number")
+    .map(c=>({c, m:matchScore(c,w), ch:chanceFor(c)})).filter(x=>x.m!=null)
+    .map(x=>({...x, sc:x.m + (photoUrlFor(x.c)?8:0) + (famYes.has(x.c.id)?30:0)})).sort((a,b)=>b.sc-a.sc).slice(0,90);
+  const bands={likely:[],target:[],reach:[],other:[]}; pool.forEach(x=>(bands[x.ch?x.ch.band:"other"]||bands.other).push(x));
+  const out=[]; const order=["target","likely","reach","target","other"]; let i=0;   // a mix, Targets first
+  while(out.length<pool.length && i<400){ const b=order[i%order.length]; if(bands[b].length) out.push(bands[b].shift()); i++; }
+  return out.concat(...Object.values(bands));
+}
+function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c); const cost=y?Math.max(0,y.v):avgNet(c);
+  const why=recWhy(c,myPrefs()); const famYes=swipes.filter(s=>s.school_id===c.id&&s.verdict==="yes"&&state.me&&s.user_id!==state.me.user_id).map(s=>memberName(s.user_id));
+  const sz=c.sizeApprox||((c.scorecard&&c.scorecard.size)?c.scorecard.size.toLocaleString():"");
+  return `<div class="disc-card" data-disc="${esc(c.id)}"><div class="disc-ph" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(c.name,c.state)}`}">
+      ${famYes.length?`<span class="disc-fam">💛 ${esc(famYes.join(" & "))} liked this</span>`:""}
+      <div class="disc-nm"><b>${esc(c.name)}</b><span>${esc([c.city,c.state].filter(Boolean).join(", "))}${sz?` · ${esc(sz)} students`:""}</span></div>
+      <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
+    <div class="big3" style="margin:10px 12px 4px">
+      <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year":"no data"}</span></div>
+      <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
+      <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">match for you</span></div></div>
+    <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div></div>`; }
+function renderDiscover(){
+  const out=$("disc-out"); if(!out) return;
+  if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Loading schools…</div>`; return; }
+  if(!_discDeck) _discDeck=discDeck();
+  const m=discMatches(); const likes=swipes.filter(x=>x.verdict!=="no"&&state.me&&x.user_id===state.me.user_id&&!(state.schools||[]).some(s=>s.school_id===x.school_id));
+  const top=_discDeck[0], next=_discDeck[1];
+  out.innerHTML=`${m.length?`<div class="disc-matches">${m.map(x=>{ const c=catInfo(x.id); return c?`<div class="disc-match"><span>💛 <b>${(t=>t.charAt(0).toUpperCase()+t.slice(1))(peopleList(x.users.map(u=>isMe(u)?"you":memberName(u))))}</b> both liked <b>${esc(c.name)}</b></span><button class="small primary" data-discadd="${esc(x.id)}">Add to board</button></div>`:""; }).join("")}</div>`:""}
+    <div class="disc-stage">${top?`${next?`<div class="disc-under">${discCardHtml(next)}</div>`:""}${discCardHtml(top)}`:`<div class="card disc-empty"><b>That's everyone for now.</b><p class="muted" style="margin:6px 0 0">Adjust your priorities for fresh picks, or search for a school by name.</p></div>`}</div>
+    ${top?`<div class="disc-btns"><button class="disc-b no" data-discgo="no" aria-label="No">✕</button><button class="disc-b maybe" data-discgo="maybe" aria-label="Maybe">?</button><button class="disc-b yes" data-discgo="yes" aria-label="Yes">♥</button></div>
+      <div class="disc-hint muted">Swipe right for yes, left for no, up for maybe${_discUndo?` · <button class="linklike" data-discundo>Undo</button>`:""}</div>`:""}
+    ${likes.length?`<div class="disc-likes"><div class="pulse-h">Your yes & maybe (${likes.length})</div>${likes.slice(-12).reverse().map(x=>{ const c=catInfo(x.school_id); return c?`<div class="disc-like"><span>${x.verdict==="yes"?"♥":"?"} ${esc(c.name)}</span><span class="row" style="gap:6px"><button class="openlink" data-open="${esc(c.id)}">Open ↗</button><button class="small" data-discadd="${esc(c.id)}">Add</button></span></div>`:""; }).join("")}</div>`:""}`;
+  out.querySelectorAll("[data-discgo]").forEach(b=>b.onclick=()=>discDecide(b.dataset.discgo));
+  out.querySelectorAll("[data-discadd]").forEach(b=>b.onclick=async()=>{ b.disabled=true; b.textContent="Adding…"; const okAdd=await addFromCatalog(b.dataset.discadd); if(okAdd===false){ b.disabled=false; b.textContent="Add"; b.insertAdjacentHTML("afterend",`<span class="tk-msg">${esc(_addErr)}</span>`); return; } _discDeck=null; renderDiscover(); });
+  const u=out.querySelector("[data-discundo]"); if(u) u.onclick=async()=>{ const x=_discUndo; _discUndo=null; await saveSwipe(x.c.id,null); _discDeck.unshift(x); renderDiscover(); };
+  wireOpen(out);
+  const card=out.querySelector(".disc-stage > .disc-card"); if(card) wireSwipe(card);
+}
+async function discDecide(v){ const x=_discDeck&&_discDeck[0]; if(!x) return; const card=document.querySelector(".disc-stage > .disc-card");
+  if(card){ card.classList.add("gone-"+v); await new Promise(r=>setTimeout(r,180)); }
+  _discDeck.shift(); _discUndo=x; await saveSwipe(x.c.id, v);
+  if(v==="yes"){ const others=swipes.filter(s=>s.school_id===x.c.id&&s.verdict==="yes"&&!isMe(s.user_id)).map(s=>memberName(s.user_id)); if(others.length) try{ celebrate(`💛 It's a match!`, `You and ${others.join(" & ")} both liked ${x.c.name}.`); }catch(e){} }
+  renderDiscover(); }
+function wireSwipe(card){ let x0=null,y0=null,dx=0,dy=0;
+  card.addEventListener("pointerdown",e=>{ if(e.target.closest("button,a")) return; x0=e.clientX; y0=e.clientY; card.setPointerCapture(e.pointerId); card.style.transition="none"; });
+  card.addEventListener("pointermove",e=>{ if(x0==null) return; dx=e.clientX-x0; dy=e.clientY-y0; card.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/18}deg)`;
+    card.classList.toggle("lean-yes",dx>40); card.classList.toggle("lean-no",dx<-40); card.classList.toggle("lean-maybe",dy<-50&&Math.abs(dx)<40); });
+  const end=()=>{ if(x0==null) return; card.style.transition=""; const v = dx>90?"yes":dx<-90?"no":(dy<-90&&Math.abs(dx)<60?"maybe":null); x0=null;
+    if(v) discDecide(v); else { card.style.transform=""; card.classList.remove("lean-yes","lean-no","lean-maybe"); } dx=dy=0; };
+  card.addEventListener("pointerup",end); card.addEventListener("pointercancel",end); }
+document.addEventListener("keydown",e=>{ if(currentView!=="discover"||/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||"")||document.querySelector("dialog[open]")) return;
+  if(e.key==="ArrowRight") discDecide("yes"); else if(e.key==="ArrowLeft") discDecide("no"); else if(e.key==="ArrowUp") discDecide("maybe"); });
+/* ===== The journey (#71, idea 5): a family timeline built from what you've actually done, a weekly recap, and
+   small celebrations at milestones. Nothing new is stored — it's all read from the family's own data. ===== */
+function journeyEvents(){
+  const ev=[]; const day=d=>{ const t=Date.parse(d); return isFinite(t)?t:null; };
+  if(state.family&&state.family.created_at) ev.push({t:day(state.family.created_at), ic:"🌱", h:`${state.family.name} started`, s:"The college search begins."});
+  (state.members||[]).forEach(m=>{ const t=day(m.created_at); if(t&&!(state.family&&Math.abs(t-day(state.family.created_at))<6e4&&m.user_id===state.family.created_by)) ev.push({t, ic:"👋", h:`${m.display_name} joined`, s:m.role==="student"?"The student is in.":"Another voice at the table."}); });
+  const adds={}; (state.schools||[]).forEach(s=>{ const t=day(s.created_at); if(!t) return; const k=new Date(t).toDateString(); (adds[k]=adds[k]||{t,names:[]}).names.push(s.name); });
+  Object.values(adds).forEach(a=>ev.push({t:a.t, ic:"🏫", h:a.names.length===1?`Added ${a.names[0]}`:`Added ${a.names.length} schools`, s:a.names.length>1?a.names.slice(0,4).join(" · ")+(a.names.length>4?"…":""):""}));
+  const vis={}; (state.photos||[]).forEach(p=>{ const t=day(p.created_at); if(!t) return; const k=p.school_id+new Date(t).toDateString(); (vis[k]=vis[k]||{t,id:p.school_id,n:0}).n++; });
+  Object.values(vis).forEach(v=>ev.push({t:v.t, ic:"📸", h:`Visited ${schoolName(v.id)}`, s:`${v.n} photo${v.n>1?"s":""} saved`}));
+  (talk.posts||[]).forEach(p=>{ const t=day(p.created_at); if(!t) return;
+    if(p.kind==="agreement") ev.push({t, ic:"🤝", h:"We agreed", s:p.body});
+    else if(p.kind==="milestone") ev.push({t, ic:"🎉", h:p.body, s:"", big:true});
+    else if(p.kind==="decision") ev.push({t, ic:"🎓", h:"The decision", s:p.body, big:true});
+    else if(p.kind==="pick") ev.push({t, ic:"🗳", h:`${memberName(p.user_id)} picked ${schoolName(p.school_id)}`, s:p.body}); });
+  (state.schools||[]).forEach(s=>{ const t=day(s.status_at); if(t && s.app_status==="applied") ev.push({t, ic:"📮", h:`Applied to ${s.name}`, s:""}); });
+  discMatches && (()=>{ const by={}; swipes.filter(x=>x.verdict==="yes").forEach(x=>{ (by[x.school_id]=by[x.school_id]||[]).push(x); });
+    Object.entries(by).forEach(([id,a])=>{ if(a.length>=2){ const t=Math.max(...a.map(x=>day(x.created_at)||0)); if(t) ev.push({t, ic:"💛", h:`A match: ${schoolName(id)}`, s:`${(t=>t.charAt(0).toUpperCase()+t.slice(1))(peopleList(a.map(x=>isMe(x.user_id)?"you":memberName(x.user_id))))} both liked it`}); } }); })();
+  return ev.filter(e=>e.t).sort((a,b)=>a.t-b.t);
+}
+function renderJourney(){
+  const out=$("jr-out"); if(!out) return; const ev=journeyEvents();
+  const today=new Date(); today.setHours(0,0,0,0);
+  const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,name:x.s.name}))).sort((a,b)=>a.date-b.date).slice(0,4);
+  const st=journeyStage(); const months={};
+  ev.forEach(e=>{ const k=new Date(e.t).toLocaleDateString("en-US",{month:"long",year:"numeric"}); (months[k]=months[k]||[]).push(e); });
+  out.innerHTML=`<div class="jr-stages">${STAGES.map((x,i)=>`<span class="${i<st?"done":i===st?"cur":""}">${x}</span>`).join("")}</div>
+    ${Object.entries(months).map(([m,list])=>`<div class="jr-month">${esc(m)}</div><ol class="jr-list">${list.map(e=>`<li class="${e.big?"big":""}"><span class="jr-ic">${e.ic}</span><div><b>${esc(e.h)}</b>${e.s?`<div class="muted">${esc(e.s)}</div>`:""}<div class="jr-d">${esc(new Date(e.t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}))}</div></div></li>`).join("")}</ol>`).join("") || `<div class="card muted">Your story starts as soon as you add a school.</div>`}
+    ${ups.length?`<div class="jr-month">Coming up</div><ol class="jr-list next">${ups.map(u=>`<li><span class="jr-ic">⏰</span><div><b>${esc(u.name)} — ${esc(u.kind)}</b><div class="jr-d">${esc(_fmtD(u.date))} · ${daysUntil(u.date)===0?"today":daysUntil(u.date)===1?"tomorrow":"in "+daysUntil(u.date)+" days"}</div></div></li>`).join("")}</ol>`:""}
+    <div class="row" style="justify-content:center;margin-top:16px"><button class="small primary" data-jrgo="memories">🎬 Turn it into our movie</button></div>`;
+  out.querySelectorAll("[data-jrgo]").forEach(b=>b.onclick=()=>goto(b.dataset.jrgo));
+}
+function weekRecapHtml(){
+  if(!state.family||!(state.schools||[]).length) return "";
+  const since=Date.now()-7*864e5, rec=t=>Date.parse(t||"")>since; const bits=[];
+  const voices=(talk.posts||[]).filter(p=>rec(p.created_at)&&!SYS_KINDS.includes(p.kind)).length; if(voices) bits.push(`${voices} new voice${voices>1?"s":""}`);
+  const added=(state.schools||[]).filter(s=>rec(s.created_at)); if(added.length) bits.push(added.length===1?`${memberName(added[0].added_by)} added ${added[0].name}`:`${added.length} schools added`);
+  const rated=(state.ratings||[]).filter(r=>rec(r.updated_at||r.created_at)).length; if(rated) bits.push(`${rated} rating${rated>1?"s":""}`);
+  const ph=(state.photos||[]).filter(p=>rec(p.created_at)).length; if(ph) bits.push(`${ph} visit photo${ph>1?"s":""}`);
+  const today=new Date(); today.setHours(0,0,0,0); const nx=(state.schools||[]).map(s=>nextDeadline(catInfo(s.school_id)||null)).filter(Boolean).filter(d=>d.date>=today).sort((a,b)=>a.date-b.date)[0];
+  if(nx){ const d=daysUntil(nx.date); if(d<=21) bits.push(`a deadline ${d===0?"today":d===1?"tomorrow":"in "+d+" days"}`); }
+  if(!bits.length) return "";
+  return `<div class="td-card td-recap"><div class="td-h">📅 This week</div><div class="td-mid">${bits.map(esc).join(" · ")}</div><div class="row" style="margin-top:8px"><button class="small" data-td-go="journey">See our journey</button></div></div>`;
+}
+// small celebrations, once per family per milestone (this device)
+function milestoneCheck(){ if(!state.family||DEMO) return; const k=m=>`zc_ms_${state.family.id}_${m}`; const once=(m,fn)=>{ try{ if(localStorage.getItem(k(m))) return; localStorage.setItem(k(m),"1"); fn(); }catch(e){} };
+  const n=(state.schools||[]).length; if(n>=3) once("three",()=>{ if(n<5) celebrate("🎉 Your list is taking shape!","3 schools on the board — that's a real start."); });
+  if(discMatches().length) once("match",()=>{}); }
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
   deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
@@ -3670,18 +3844,25 @@ function renderSchool(x){
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div></div>
-      <span class="brk"></span>
+    </div>
+    ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
+      const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
+      return `<div class="big3">
+        <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year"+(oosSurcharge(info)?" · out-of-state":""):"no data"}</span></div>
+        <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.m!=null?x.m+"% match":"add grades"}</span></div>
+        <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
+      </div>`; })()}
+    <div class="raters">${ratersHtml(s.school_id)}</div>
+    <div class="card-acts">
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
       <button class="openlink trip-btn ${inTrip(s.school_id)?"on":""}" data-trip="${esc(s.school_id)}">${inTrip(s.school_id)?"✓ Trip":"🗺 Trip"}</button>
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
-      <div class="blend">${b!==null?`<div class="n">${b.toFixed(1)}</div><div class="l">family avg</div>`:`<div class="l" style="margin-top:8px">no ratings</div>`}</div>
     </div>
-    <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
-    ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
-    ${facts}
-    ${cardLinks(info, s)}
-    <div class="raters">${ratersHtml(s.school_id)}</div>
-    <details class="extra"><summary>My note · remove school</summary>
+    <details class="extra card-more"><summary>More · where you stand, facts, links, note</summary>
+      <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
+      ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
+      ${facts}
+      ${cardLinks(info, s)}
       ${noteHtml(s.school_id)}
       <div class="row" style="margin-top:8px;justify-content:space-between">
         <button class="small" data-savenote="${esc(s.school_id)}">Save note</button>
@@ -4322,7 +4503,7 @@ function renderToday(){
   const setupDone = setupSteps().every(x=>x.done);
   const hasBoard = board.length>0;   // #67: no empty cards for a brand-new family
   const heroIsDeadline = setupDone && ongoingStep().k==="deadline";   // don't say the same deadline twice
-  el.innerHTML=decideTodayCard()+(hasBoard&&!heroIsDeadline?dlCard:"")+(setupDone?zoeCard:"")+talkTodayCard()+(hasBoard?pulseCard:"")+(hasBoard?balCard:"")+repCard+(hasBoard?visitCard:"")+installCardHtml();
+  el.innerHTML=decideTodayCard()+weekRecapHtml()+(hasBoard&&!heroIsDeadline?dlCard:"")+(setupDone?zoeCard:"")+talkTodayCard()+(hasBoard?pulseCard:"")+(hasBoard?balCard:"")+repCard+(hasBoard?visitCard:"")+installCardHtml();
   el.querySelectorAll("[data-td-talk]").forEach(b=>b.onclick=()=>openTalk({tab:b.dataset.tdTalk}));
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
@@ -5656,12 +5837,13 @@ function renderPicklist(q){
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
 }
 async function addFromCatalog(id){
-  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
+  if (state.schools.length >= plan().schools){ try{ $("dlg-add").close(); }catch(e){} msg("board-msg", `School limit reached for the ${plan().label} plan.`); _addErr=`Your ${plan().label} plan holds ${plan().schools} schools — remove one to add another.`; return false; }
   const c = state.catalog.find(x=>x.id===id); if (!c) return;
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: c.id, name: c.name, city: c.city, state: c.state, url: c.link, is_custom:false, added_by: state.me.user_id });
   if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
-  await loadSchools(); renderBoard(); renderPicklist($("search").value);
+  await loadSchools(); renderBoard(); renderPicklist($("search").value); try{ milestoneCheck(); }catch(e){} _addErr=""; return true;
 }
+let _addErr="";
 $("go-custom").onclick = async () => {
   const name = $("cname").value.trim(); let cs = $("ccity").value.trim(); if (!name) return;
   if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }

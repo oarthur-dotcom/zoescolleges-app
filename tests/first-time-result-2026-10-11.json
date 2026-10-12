@@ -61,7 +61,7 @@
     "▶ Watch the 1-minute tour 160x19"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 0
   },
   "errA": [],
   "mid": {
@@ -141,21 +141,14 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 97x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
-    "Find schools 105x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 58x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Discover schools 133x32",
     "✓ Student 83x32",
     "2 Schools 79x32",
     "3 Grades 75x32",
@@ -163,11 +156,8 @@
     "5 Family 72x32",
     "▶ Watch the 1-minute tour 160x19"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1320",
-    "BUTTON.navbtn# right=1421"
-   ],
-   "dashCount": 1
+   "wide": [],
+   "dashCount": 0
   },
   "errA": [],
   "mid": {
@@ -254,7 +244,7 @@
     "▶ Watch the 1-minute tour 160x19"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 0
   },
   "errA": [],
   "mid": {

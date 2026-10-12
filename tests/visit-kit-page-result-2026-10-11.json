@@ -32,9 +32,16 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 2
   },
   "errors": []
  },
@@ -73,25 +80,22 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips · 2 81x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
-    "✕ 25x22",
-    "Set priorities 107x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Ask Zoe 75x32",
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19",
+    "See our journey 125x32",
     "Open Deadlines 124x32",
-    "Open profile 103x32",
-    "📅 Plan my week 132x32",
     "Open 59x32",
     "🗳 Vote 71x32",
     "All news 78x32",
@@ -105,11 +109,8 @@
     "🎒 Visit-day kit 120x32",
     "📸 Memories 108x32"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1354",
-    "BUTTON.navbtn# right=1455"
-   ],
-   "dashCount": 5
+   "wide": [],
+   "dashCount": 2
   },
   "errors": []
  },
@@ -146,9 +147,16 @@
    "imgs": [],
    "bgs": [],
    "bad": [],
-   "small": [],
+   "small": [
+    "✓ Student 83x32",
+    "✓ Schools 83x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "✓ Family 75x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
    "wide": [],
-   "dashCount": 5
+   "dashCount": 2
   },
   "errors": []
  },

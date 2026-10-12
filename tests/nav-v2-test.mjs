@@ -44,10 +44,10 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   if (!phone) { await page.evaluate(() => goto('board')); await page.waitForTimeout(200); await page.keyboard.press('/'); await page.waitForTimeout(200); o.slash = await page.evaluate(() => document.getElementById('dlg-cmd').open); await page.keyboard.press('Escape'); }
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; await b.close(); R[label] = o;
   ok[label + '.sixPlaces'] = phone ? o.top.bar.join('|') === 'Today|Schools|Plan|Family|More' : (o.top.desk.join('|') === 'Today|Schools|Plan|Family|Ask Zoe|Profile' && !o.top.overflow);
-  ok[label + '.sectionTabs'] = o.schools.view === 'board' && o.schools.tabs.join('|').replace(/\d+/g, '') === 'My Board|Search|Zoe Picks|Compare|Pulse' && o.schools.on === 'My Board' && o.cmp === 'compare';
+  ok[label + '.sectionTabs'] = o.schools.view === 'board' && o.schools.tabs.join('|').replace(/\d+/g, '') === 'My Board|Discover|Search|Zoe Picks|Compare|Pulse' && o.schools.on === 'My Board' && o.cmp === 'compare';
   ok[label + '.remembersPlace'] = o.plan1 === 'deadlines' && o.plan2 === 'cost';
   ok[label + '.deadlineDotOnPlan'] = o.planDot === true;
-  ok[label + '.familyGroup'] = o.family.view === 'talk' && o.family.tabs.join('|') === 'Talk It Out|Decision Day|Memories';
+  ok[label + '.familyGroup'] = o.family.view === 'journey' && o.family.tabs.join('|') === 'Journey|Talk It Out|Decision Day|Memories';
   if (phone) ok[label + '.moreSheetShort'] = o.sheet.join('|') === 'Search|Ask Zoe|Profile|My priorities|College Report' && o.prio === 'profile|true';
   ok[label + '.searchCost'] = o.cmdOpen && /College of Charleston — cost/.test(o.r1[0] || '') && o.afterCost.view === 'detail' && o.afterCost.id === 'college-of-charleston' && o.afterCost.flash;
   ok[label + '.searchAddWithTypo'] = /Add Stanford/.test(o.r2[0] || '') && o.added.some(n => /Stanford/.test(n));
