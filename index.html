@@ -174,7 +174,7 @@ a{color:var(--teal)}
 .sl .nm small{display:block;color:var(--muted);font-weight:400;font-size:.76rem}
 .sl input[type=range]{width:100%;accent-color:var(--teal)}
 .sl b{font-family:var(--mono);font-size:.85rem;color:var(--teal);text-align:right}
-.ends{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);font-family:var(--mono);margin-top:-4px}
+.ends{display:flex;justify-content:space-between;gap:10px;font-size:.72rem;color:var(--muted);font-family:var(--mono);margin-top:-4px}
 .sl-subhead{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:4px 0 8px}
 .lp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .lp-row label{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
@@ -201,6 +201,11 @@ a{color:var(--teal)}
 .act-hrs input[type=range]{width:100%;accent-color:var(--teal);margin:2px 0 0;cursor:pointer}
 .act-yrs .yr-head{display:block;margin-bottom:6px}
 .act-seg{display:flex;gap:5px}
+.act-chips{display:flex;gap:6px;flex-wrap:wrap}
+.act-chips button{border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:8px 11px;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);display:inline-flex;flex-direction:column;align-items:center;line-height:1.2;min-height:40px;justify-content:center}
+.act-chips button small{font-weight:500;font-size:10.5px;opacity:.85}
+.act-chips button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,transparent);color:var(--teal)}
+.act-more{margin-top:4px}.act-more summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted);padding:6px 0}.act-more summary i{font-weight:400}
 .act-seg button{flex:1;border:1px solid var(--line);background:var(--sunk);border-radius:9px;padding:9px 0;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
 .act-seg button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,transparent);color:var(--teal)}
 @media(max-width:560px){.act-controls{grid-template-columns:1fr}}
@@ -441,6 +446,9 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .ob-tag{font-size:11.5px;color:var(--teal);font-weight:700;white-space:nowrap}
 .ob-go{white-space:nowrap}
 /* profile sub-tabs */
+.pf-sec-h{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);margin:18px 0 2px}.pf-sec-h .muted{text-transform:none;letter-spacing:0;font-weight:500}
+.pf-adj{font-size:13px;margin:10px 0 2px;line-height:1.5}
+.pf-more{margin-top:16px;border-top:1px solid var(--line);padding-top:10px}.pf-more summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 0}.pf-more summary .muted{font-weight:400;font-size:13px}
 .pf-tabs{display:flex;gap:4px;margin:4px 0 14px;background:var(--sunk);padding:4px;border-radius:12px;width:fit-content;max-width:100%}
 .pf-tabs button{border:none;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
 .pf-tabs button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
@@ -604,59 +612,59 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 /* #49 sample family */
 /* Landing page (#63) */
 #v-auth{max-width:1180px;margin:0 auto}
-.lp-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding:56px 0 40px}
-.lp-eyebrow{font-size:13px;font-weight:700;color:var(--teal);letter-spacing:.02em;margin-bottom:14px}
-.lp-h1{font-size:clamp(38px,5.4vw,64px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 18px}
-.lp-lede{font-size:18.5px;line-height:1.55;color:var(--muted);margin:0 0 26px;max-width:34em}
-.lp-ctas{display:flex;gap:12px;flex-wrap:wrap}
-.lp-btn{min-height:50px;padding:0 24px;font-size:16px;border-radius:999px;font-weight:700}
-.lp-btn2{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
-.lp-small{font-size:13.5px;color:var(--muted);margin:14px 0 0}
-.lp-hero-art{position:relative;padding:0 0 40px 0}
-.lp-browser{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 30px 60px -20px rgba(16,28,46,.35)}
-.lp-browser-bar{display:flex;gap:6px;padding:9px 12px;background:var(--sunk);border-bottom:1px solid var(--line)}
-.lp-browser-bar i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--muted) 45%,var(--sunk))}
-.lp-browser img,.lp-shot img,.lp-phone img{display:block;width:100%;height:auto}
-.lp-phone{position:absolute;right:-14px;bottom:0;width:30%;border-radius:26px;overflow:hidden;border:6px solid #101c2e;background:#101c2e;box-shadow:0 24px 50px -16px rgba(16,28,46,.5)}
-.lp-proof{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;margin:8px 0 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14.5px;color:var(--muted)}
-.lp-proof b{color:var(--ink)}
-.lp-sec{padding:72px 0 8px;text-align:center}
-.lp-kicker{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:10px}
-.lp-h2{font-size:clamp(26px,3.2vw,38px);line-height:1.12;letter-spacing:-.025em;font-weight:800;margin:0 0 14px}
-.lp-steps{list-style:none;padding:0;margin:34px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;text-align:left}
-.lp-steps li{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
-.lp-steps b{display:block;font-size:17.5px;margin:12px 0 6px}.lp-steps p{margin:0;color:var(--muted);line-height:1.5;font-size:15px}
-.lp-num{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:color-mix(in srgb,var(--teal) 14%,var(--surface));color:var(--teal);font-weight:800}
-.lp-row{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:56px;align-items:center;padding:72px 0 0}
-.lp-row.lp-flip .lp-row-txt{order:2}
-.lp-row-txt p{font-size:17px;line-height:1.6;color:var(--muted);margin:0}
-.lp-shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 24px 50px -24px rgba(16,28,46,.35)}
-.lp-shot-phone{max-width:300px;justify-self:center;border-radius:30px;border:7px solid #101c2e;background:#101c2e}
-.lp-shot-phone img{aspect-ratio:780/1300;object-fit:cover;object-position:top}
-.lp-video{border:0;box-shadow:none;background:none;overflow:visible}.lp-video .sample-video{border-radius:16px}
-.lp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;text-align:left}
-.lp-f{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
-.lp-f b{font-size:16px}.lp-f p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.5}
-.lp-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:80px 0 0;padding:34px;border-radius:22px;background:color-mix(in srgb,var(--teal) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 22%,var(--line))}
-.lp-trust b{font-size:16.5px}.lp-trust p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.55}
-.lp-account{max-width:460px;margin:0 auto;padding:80px 0 10px;text-align:center;scroll-margin-top:80px}
-.lp-acc-sub{color:var(--muted);margin:0 0 18px;line-height:1.5}
-.lp-card{text-align:left}
-.lp-foot{text-align:center;font-size:13px;color:var(--muted);padding:40px 0 10px}
-.lp-backlink{display:none;font-size:13.5px;margin:20px 0 0}
-.lp-fo{display:none}.lp.focus .lp-fo:not(:empty){display:block;margin-top:6px}.lp.focus .lp-mk{display:none}.lp.focus .lp-backlink{display:inline-block}.lp.focus .lp-account{padding-top:24px}
+.lnd-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding:56px 0 40px}
+.lnd-eyebrow{font-size:13px;font-weight:700;color:var(--teal);letter-spacing:.02em;margin-bottom:14px}
+.lnd-h1{font-size:clamp(38px,5.4vw,64px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 18px}
+.lnd-lede{font-size:18.5px;line-height:1.55;color:var(--muted);margin:0 0 26px;max-width:34em}
+.lnd-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.lnd-btn{min-height:50px;padding:0 24px;font-size:16px;border-radius:999px;font-weight:700}
+.lnd-btn2{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
+.lnd-small{font-size:13.5px;color:var(--muted);margin:14px 0 0}
+.lnd-hero-art{position:relative;padding:0 0 40px 0}
+.lnd-browser{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 30px 60px -20px rgba(16,28,46,.35)}
+.lnd-browser-bar{display:flex;gap:6px;padding:9px 12px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.lnd-browser-bar i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--muted) 45%,var(--sunk))}
+.lnd-browser img,.lnd-shot img,.lnd-phone img{display:block;width:100%;height:auto}
+.lnd-phone{position:absolute;right:-14px;bottom:0;width:30%;border-radius:26px;overflow:hidden;border:6px solid #101c2e;background:#101c2e;box-shadow:0 24px 50px -16px rgba(16,28,46,.5)}
+.lnd-proof{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;margin:8px 0 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.lnd-proof b{color:var(--ink)}
+.lnd-sec{padding:72px 0 8px;text-align:center}
+.lnd-kicker{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:10px}
+.lnd-h2{font-size:clamp(26px,3.2vw,38px);line-height:1.12;letter-spacing:-.025em;font-weight:800;margin:0 0 14px}
+.lnd-steps{list-style:none;padding:0;margin:34px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;text-align:left}
+.lnd-steps li{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.lnd-steps b{display:block;font-size:17.5px;margin:12px 0 6px}.lnd-steps p{margin:0;color:var(--muted);line-height:1.5;font-size:15px}
+.lnd-num{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:color-mix(in srgb,var(--teal) 14%,var(--surface));color:var(--teal);font-weight:800}
+.lnd-row{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:56px;align-items:center;padding:72px 0 0}
+.lnd-row.lnd-flip .lnd-row-txt{order:2}
+.lnd-row-txt p{font-size:17px;line-height:1.6;color:var(--muted);margin:0}
+.lnd-shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 24px 50px -24px rgba(16,28,46,.35)}
+.lnd-shot-phone{max-width:300px;justify-self:center;border-radius:30px;border:7px solid #101c2e;background:#101c2e}
+.lnd-shot-phone img{aspect-ratio:780/1300;object-fit:cover;object-position:top}
+.lnd-video{border:0;box-shadow:none;background:none;overflow:visible}.lnd-video .sample-video{border-radius:16px}
+.lnd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;text-align:left}
+.lnd-f{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.lnd-f b{font-size:16px}.lnd-f p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.lnd-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:80px 0 0;padding:34px;border-radius:22px;background:color-mix(in srgb,var(--teal) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 22%,var(--line))}
+.lnd-trust b{font-size:16.5px}.lnd-trust p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.lnd-account{max-width:460px;margin:0 auto;padding:80px 0 10px;text-align:center;scroll-margin-top:80px}
+.lnd-acc-sub{color:var(--muted);margin:0 0 18px;line-height:1.5}
+.lnd-card{text-align:left}
+.lnd-foot{text-align:center;font-size:13px;color:var(--muted);padding:40px 0 10px}
+.lnd-backlink{display:none;font-size:13.5px;margin:20px 0 0}
+.lnd-fo{display:none}.lnd.focus .lnd-fo:not(:empty){display:block;margin-top:6px}.lnd.focus .lnd-mk{display:none}.lnd.focus .lnd-backlink{display:inline-block}.lnd.focus .lnd-account{padding-top:24px}
 #hdr-signin{margin-left:auto}
 @media (max-width:900px){
-  .lp-hero{grid-template-columns:1fr;gap:28px;padding:28px 0 24px}
-  .lp-hero-art{padding-bottom:26px;margin-right:10px}
-  .lp-row,.lp-row.lp-flip{grid-template-columns:1fr;gap:22px;padding-top:52px}.lp-row.lp-flip .lp-row-txt{order:0}
-  .lp-steps,.lp-grid,.lp-trust{grid-template-columns:1fr}.lp-steps{gap:12px}.lp-trust{gap:18px;padding:24px;margin-top:56px}
-  .lp-sec{padding-top:52px}.lp-account{padding-top:56px}
+  .lnd-hero{grid-template-columns:1fr;gap:28px;padding:28px 0 24px}
+  .lnd-hero-art{padding-bottom:26px;margin-right:10px}
+  .lnd-row,.lnd-row.lnd-flip{grid-template-columns:1fr;gap:22px;padding-top:52px}.lnd-row.lnd-flip .lnd-row-txt{order:0}
+  .lnd-steps,.lnd-grid,.lnd-trust{grid-template-columns:1fr}.lnd-steps{gap:12px}.lnd-trust{gap:18px;padding:24px;margin-top:56px}
+  .lnd-sec{padding-top:52px}.lnd-account{padding-top:56px}
 }
 @media (max-width:640px){
-  .lp-h1{font-size:40px}.lp-lede{font-size:16.5px}.lp-btn{flex:1 1 100%;width:100%}
-  .lp-phone{width:34%;right:-8px;border-width:4px;border-radius:18px}
-  .lp-proof{gap:8px 18px;font-size:13px}
+  .lnd-h1{font-size:40px}.lnd-lede{font-size:16.5px}.lnd-btn{flex:1 1 100%;width:100%}
+  .lnd-phone{width:34%;right:-8px;border-width:4px;border-radius:18px}
+  .lnd-proof{gap:8px 18px;font-size:13px}
 }
 .demo-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin:12px 0 4px;padding:14px 16px;border-radius:16px;border:1.5px solid color-mix(in srgb,var(--teal) 55%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--ink);font:inherit;cursor:pointer}
 .demo-cta>span:nth-child(2){display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.demo-cta b{font-size:15.5px}.demo-cta span span{font-size:12.5px;color:var(--muted)}
@@ -1327,79 +1335,79 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 
   <!-- AUTH + LANDING (#63, Oct 11: a real landing page for new families; the sign-in card is unchanged) -->
   <section id="v-auth" class="hidden">
-  <div class="lp" id="lp">
-    <a href="#" class="lp-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
-    <div class="lp-hero lp-mk">
-      <div class="lp-hero-txt">
-        <div class="lp-eyebrow">For families with a high schooler · Free during the beta</div>
-        <h1 class="lp-h1">College, decided together.</h1>
-        <p class="lp-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
-        <div class="lp-ctas"><button id="demo-start" class="primary lp-btn" type="button">See a sample family</button><button class="lp-btn lp-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
-        <p class="lp-small">No account needed to look around. Already a member? <a href="#" data-lp-account="signin">Sign in</a></p>
+  <div class="lnd" id="lp">
+    <a href="#" class="lnd-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
+    <div class="lnd-hero lnd-mk">
+      <div class="lnd-hero-txt">
+        <div class="lnd-eyebrow">For families with a high schooler · Free during the beta</div>
+        <h1 class="lnd-h1">College, decided together.</h1>
+        <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
+        <div class="lnd-ctas"><button id="demo-start" class="primary lnd-btn" type="button">See a sample family</button><button class="lnd-btn lnd-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
+        <p class="lnd-small">No account needed to look around. Already a member? <a href="#" data-lp-account="signin">Sign in</a></p>
       </div>
-      <div class="lp-hero-art" aria-hidden="true">
-        <div class="lp-browser"><div class="lp-browser-bar"><i></i><i></i><i></i></div><img src="/media/lp-board.webp" alt="" width="1600" height="938"></div>
-        <div class="lp-phone"><img src="/media/lp-phone-thread.webp" alt="" width="780" height="1688"></div>
+      <div class="lnd-hero-art" aria-hidden="true">
+        <div class="lnd-browser"><div class="lnd-browser-bar"><i></i><i></i><i></i></div><img src="/media/lp-board.webp" alt="" width="1600" height="938"></div>
+        <div class="lnd-phone"><img src="/media/lp-phone-thread.webp" alt="" width="780" height="1688"></div>
       </div>
     </div>
-    <ul class="lp-proof lp-mk"><li><b>3,180</b> U.S. colleges</li><li>Official federal data</li><li>Private to your family</li><li>No ads</li></ul>
+    <ul class="lnd-proof lnd-mk"><li><b>3,180</b> U.S. colleges</li><li>Official federal data</li><li>Private to your family</li><li>No ads</li></ul>
 
-    <div class="lp-sec lp-mk">
-      <div class="lp-kicker">How it works</div>
-      <h2 class="lp-h2">From “where do we even start?” to “we chose.”</h2>
-      <ol class="lp-steps">
-        <li><span class="lp-num">1</span><b>Build your list together</b><p>Search 3,180 U.S. colleges. Everyone in the family adds schools and rates them on their own.</p></li>
-        <li><span class="lp-num">2</span><b>See what really matters</b><p>Real cost for your income, honest chances, and every deadline, side by side.</p></li>
-        <li><span class="lp-num">3</span><b>Decide as a family</b><p>Everyone gets a voice, a secret vote shows where you agree, and Decision Day makes it a moment.</p></li>
+    <div class="lnd-sec lnd-mk">
+      <div class="lnd-kicker">How it works</div>
+      <h2 class="lnd-h2">From “where do we even start?” to “we chose.”</h2>
+      <ol class="lnd-steps">
+        <li><span class="lnd-num">1</span><b>Build your list together</b><p>Search 3,180 U.S. colleges. Everyone in the family adds schools and rates them on their own.</p></li>
+        <li><span class="lnd-num">2</span><b>See what really matters</b><p>Real cost for your income, honest chances, and every deadline, side by side.</p></li>
+        <li><span class="lnd-num">3</span><b>Decide as a family</b><p>Everyone gets a voice, a secret vote shows where you agree, and Decision Day makes it a moment.</p></li>
       </ol>
     </div>
 
-    <div class="lp-row lp-mk">
-      <div class="lp-row-txt"><div class="lp-kicker">Cost</div><h2 class="lp-h2">The price your family will actually pay</h2>
+    <div class="lnd-row lnd-mk">
+      <div class="lnd-row-txt"><div class="lnd-kicker">Cost</div><h2 class="lnd-h2">The price your family will actually pay</h2>
         <p>The sticker price isn't your price. See the typical cost after grants for families at your income, compare schools side by side, then add real aid offers as they arrive.</p></div>
-      <div class="lp-shot"><img src="/media/lp-cost.webp" alt="Cost table comparing sticker price, typical cost after aid and earnings for each school" width="1600" height="875" loading="lazy"></div>
+      <div class="lnd-shot"><img src="/media/lp-cost.webp" alt="Cost table comparing sticker price, typical cost after aid and earnings for each school" width="1600" height="875" loading="lazy"></div>
     </div>
-    <div class="lp-row lp-flip lp-mk">
-      <div class="lp-row-txt"><div class="lp-kicker">Talk it out</div><h2 class="lp-h2">Everyone gets a voice. Nobody has to win.</h2>
+    <div class="lnd-row lnd-flip lnd-mk">
+      <div class="lnd-row-txt"><div class="lnd-kicker">Talk it out</div><h2 class="lnd-h2">Everyone gets a voice. Nobody has to win.</h2>
         <p>Each school gets its own family conversation. Built-in help with wording keeps it kind, and a secret vote shows where you already agree before anyone argues.</p></div>
-      <div class="lp-shot lp-shot-phone"><img src="/media/lp-phone-talk.webp" alt="Talk It Out: a family vote card and one conversation per school" width="780" height="1688" loading="lazy"></div>
+      <div class="lnd-shot lnd-shot-phone"><img src="/media/lp-phone-talk.webp" alt="Talk It Out: a family vote card and one conversation per school" width="780" height="1688" loading="lazy"></div>
     </div>
-    <div class="lp-row lp-mk">
-      <div class="lp-row-txt"><div class="lp-kicker">Decision Day</div><h2 class="lp-h2">Make the big moment feel like one</h2>
+    <div class="lnd-row lnd-mk">
+      <div class="lnd-row-txt"><div class="lnd-kicker">Decision Day</div><h2 class="lnd-h2">Make the big moment feel like one</h2>
         <p>Track every acceptance, compare offers side by side, hear everyone's pick, and celebrate the decision together.</p></div>
-      <div class="lp-shot"><img src="/media/lp-decide.webp" alt="Decision Day: days until May 1 and each school's application status" width="1600" height="875" loading="lazy"></div>
+      <div class="lnd-shot"><img src="/media/lp-decide.webp" alt="Decision Day: days until May 1 and each school's application status" width="1600" height="875" loading="lazy"></div>
     </div>
 
-    <div class="lp-sec lp-mk">
-      <div class="lp-kicker">Also inside</div>
-      <div class="lp-grid">
-        <div class="lp-f"><b>🎯 Honest chances</b><p>Reach, Target or Likely for each school, with the math shown and adjustable.</p></div>
-        <div class="lp-f"><b>⏰ Every deadline</b><p>Early, regular and aid deadlines for your list, in one place.</p></div>
-        <div class="lp-f"><b>🚗 Visit planning</b><p>Plan campus trips, with a checklist of what to see and ask.</p></div>
-        <div class="lp-f"><b>📰 Campus Pulse</b><p>News and events from the schools on your list.</p></div>
-        <div class="lp-f"><b>💬 Ask Zoe</b><p>A college-planning sidekick for the questions that come up at 11pm.</p></div>
-        <div class="lp-f"><b>📄 College report</b><p>Your student's whole picture as a PDF to bring to the counselor.</p></div>
+    <div class="lnd-sec lnd-mk">
+      <div class="lnd-kicker">Also inside</div>
+      <div class="lnd-grid">
+        <div class="lnd-f"><b>🎯 Honest chances</b><p>Reach, Target or Likely for each school, with the math shown and adjustable.</p></div>
+        <div class="lnd-f"><b>⏰ Every deadline</b><p>Early, regular and aid deadlines for your list, in one place.</p></div>
+        <div class="lnd-f"><b>🚗 Visit planning</b><p>Plan campus trips, with a checklist of what to see and ask.</p></div>
+        <div class="lnd-f"><b>📰 Campus Pulse</b><p>News and events from the schools on your list.</p></div>
+        <div class="lnd-f"><b>💬 Ask Zoe</b><p>A college-planning sidekick for the questions that come up at 11pm.</p></div>
+        <div class="lnd-f"><b>📄 College report</b><p>Your student's whole picture as a PDF to bring to the counselor.</p></div>
       </div>
     </div>
 
-    <div class="lp-row lp-flip lp-mk">
-      <div class="lp-row-txt"><div class="lp-kicker">Memories</div><h2 class="lp-h2">Every visit becomes a memory</h2>
+    <div class="lnd-row lnd-flip lnd-mk">
+      <div class="lnd-row-txt"><div class="lnd-kicker">Memories</div><h2 class="lnd-h2">Every visit becomes a memory</h2>
         <p>Your photos and what each of you thought turn into a short reel your family keeps. Here's a 20-second sample.</p></div>
-      <div class="lp-shot lp-video"><video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
+      <div class="lnd-shot lnd-video"><video id="auth-sample" class="sample-video" controls muted playsinline preload="none" poster="/media/sample-reel-poster.jpg"><source src="/media/sample-reel.mp4" type="video/mp4"><source src="/media/sample-reel.webm" type="video/webm"></video>
         <details class="sample-credits"><summary>Sample photos · credits</summary><p>College of Charleston: <a href="https://commons.wikimedia.org/wiki/File:Randolph_Hall,_College_of_Charleston,_Harleston_Village,_Charleston,_SC_(49364204051).jpg" target="_blank" rel="noopener">Warren LeMay  from Covington, KY, United States</a> (CC0) · University of Virginia-Main Campus: <a href="https://commons.wikimedia.org/wiki/File:University_of_Virginia_Rotunda_2006.jpg" target="_blank" rel="noopener">Aaron Josephson; cropped by  Ibn Battuta</a> (Public domain) · Massachusetts Institute of Technology: <a href="https://commons.wikimedia.org/wiki/File:MIT_Dome_night1_Edit.jpg" target="_blank" rel="noopener">Fcb981, this edited version by  Thermos</a> (CC BY-SA 3.0) · Boston College: <a href="https://commons.wikimedia.org/wiki/File:Dustbowlsnow.jpg" target="_blank" rel="noopener">Yelm</a> (CC BY-SA 3.0) · Duke University: <a href="https://commons.wikimedia.org/wiki/File:Campus_Drive_Underpass,_East_Campus,_Duke_University,_Durham,_NC_(48960427633).jpg" target="_blank" rel="noopener">Warren LeMay  from Cullowhee, NC, United States</a> (CC0) · University of Michigan-Ann Arbor: <a href="https://commons.wikimedia.org/wiki/File:AngellHall2010.JPG" target="_blank" rel="noopener">AndrewHorne</a> (CC BY 3.0). Captions are illustrative.</p></details></div>
     </div>
 
-    <div class="lp-trust lp-mk">
+    <div class="lnd-trust lnd-mk">
       <div><b>Official data</b><p>Admissions, cost, graduation and earnings come from the U.S. Department of Education's College Scorecard.</p></div>
       <div><b>Private to your family</b><p>Only your family sees your list, ratings, notes and photos, enforced in the database. We don't sell your data.</p></div>
       <div><b>Independent</b><p>Built by a family, for families. Not affiliated with any college or ranking company.</p></div>
     </div>
 
-    <div class="lp-account" id="lp-account">
-      <h2 class="lp-h2 lp-mk">Join the beta</h2>
-      <h2 class="lp-h2 lp-fo" id="lp-fo-title"></h2>
-      <p class="lp-acc-sub lp-mk">Zoe's Colleges is invite-only and free while we build it. Have a code or a family invite? Create your account below.</p>
-    <div class="card lp-card">
+    <div class="lnd-account" id="lp-account">
+      <h2 class="lnd-h2 lnd-mk">Join the beta</h2>
+      <h2 class="lnd-h2 lnd-fo" id="lp-fo-title"></h2>
+      <p class="lnd-acc-sub lnd-mk">Zoe's Colleges is invite-only and free while we build it. Have a code or a family invite? Create your account below.</p>
+    <div class="card lnd-card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
         <button id="t-signup" class="small">Create account</button>
@@ -1427,7 +1435,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <p id="trust-link-wrap" style="font-size:12px;margin-top:10px;text-align:center"><a href="#" id="trust-link"><b>Who's behind this, where the data comes from &amp; how we handle your info →</b></a></p>
     </div>
     </div>
-    <footer class="lp-foot lp-mk">© 2026 Wotupski Productions · <a href="#" id="lp-trust2">Who's behind this and how we handle your info</a></footer>
+    <footer class="lnd-foot lnd-mk">© 2026 Wotupski Productions · <a href="#" id="lp-trust2">Who's behind this and how we handle your info</a></footer>
   </div>
   </section>
 
@@ -1621,7 +1629,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div id="pf-summary" class="hidden"></div>
     <div class="card" id="pf-form-card">
       <h2 style="margin-top:0" id="pf-form-title">Build your profile</h2>
-      <p class="muted" style="font-size:13px;margin-top:0">The student's profile is what drives admission-chance labels. Parents can fill their own too — it's just not used for chances.</p>
+      <p class="muted" style="font-size:13px;margin-top:0">This drives the Reach / Target / Likely labels. Only a few basics are needed; everything else is optional.</p>
       <div class="tx-up">
         <div class="tx-up-main"><div class="tx-up-ico">📄</div><div><div class="tx-up-h">Upload your transcript to auto-fill</div><div class="tx-up-sub">PDF or a clear photo — we read the GPA, rigor and test scores for you. You review everything first, and nothing is stored.</div></div></div>
         <button id="tx-btn" class="small primary" type="button">Choose file</button>
@@ -1629,33 +1637,35 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       </div>
       <div id="tx-status" class="tx-status hidden"></div>
       <div id="tx-preview" class="tx-preview hidden"></div>
-      <label class="chkline" style="display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0 10px;cursor:pointer"><input type="checkbox" id="pf-noTest" style="width:auto"> Not submitting test scores (test-optional) — hide SAT/ACT</label>
+      <div class="pf-sec-h">The basics</div>
       <div class="pf-grid">
-        <div><label>GPA (unweighted)</label><input id="pf-gpa" type="text" inputmode="decimal" placeholder="e.g. 3.4"></div>
-        <div class="test-field"><label>SAT total</label><input id="pf-sat" type="number" placeholder="e.g. 1280"></div>
-        <div class="test-field"><label>ACT composite</label><input id="pf-act" type="number" placeholder="e.g. 27"></div>
-        <div><label>Intended major<span class="hint" tabindex="0" data-tip="Some schools admit by major. Competitive majors (CS, nursing, engineering, business, bio/pre-med) are harder to get into than the school overall — we factor that into your chance.">i</span></label><input id="pf-major" type="text" placeholder="undecided is fine"></div>
-        <div><label>Class rank</label><input id="pf-rank" type="text" placeholder="if your school ranks"></div>
-        <div><label>Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2"></div>
-        <div><label for="pf-income">Family income (for cost estimates)</label><select id="pf-income"><option value="">Prefer not to say</option><option value="0">Under $30k</option><option value="1">$30k–48k</option><option value="2">$48k–75k</option><option value="3">$75k–110k</option><option value="4">Over $110k</option></select>
-          <div class="muted" style="font-size:11.5px;margin-top:3px">Only your family sees this. It shows what each school typically costs families like yours.</div></div>
+        <div><label for="pf-gpa">GPA (unweighted)<span class="hint" tabindex="0" data-tip="The plain GPA on a 4.0 scale, before any honors or AP bonus. It's usually printed on the transcript as 'unweighted'.">i</span></label><input id="pf-gpa" type="text" inputmode="decimal" placeholder="e.g. 3.4"></div>
+        <div><label for="pf-grade">Grade now</label><select id="pf-grade"><option value="">Choose…</option><option value="9">9th</option><option value="10">10th</option><option value="11">11th</option><option value="12">12th (senior)</option></select></div>
+        <div><label for="pf-state">Home state</label><input id="pf-state" type="text" placeholder="e.g. MA" maxlength="2" autocapitalize="characters"></div>
       </div>
-      <div class="sl-subhead" style="margin-top:14px">Course rigor</div>
-      <p class="muted" style="font-size:12px;margin:0 0 8px">How colleges recalculate GPA: Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (core courses). We'll show your rigor-adjusted GPA.</p>
+      <label class="chkline" style="display:flex;align-items:center;gap:8px;font-size:13px;margin:12px 0 4px;cursor:pointer;text-transform:none;letter-spacing:0;font-family:inherit;color:var(--ink)"><input type="checkbox" id="pf-noTest" style="width:auto"> Applying test-optional (no SAT/ACT)</label>
       <div class="pf-grid">
-        <div><label>Honors courses<span class="hint" tabindex="0" data-tip="Honors = harder versions of standard classes. Most high schools add about +0.5 GPA weight for each. We factor your count into the rigor-adjusted GPA below.">i</span></label><input id="pf-honors" type="number" min="0" placeholder="0"></div>
-        <div><label>AP / IB courses<span class="hint" tabindex="0" data-tip="Advanced Placement / International Baccalaureate — college-level courses with national exams, usually worth about +1.0 GPA weight. Colleges read these as the strongest sign of rigor.">i</span></label><input id="pf-ap" type="number" min="0" placeholder="0"></div>
-        <div><label>Dual-enrollment<span class="hint" tabindex="0" data-tip="Actual college courses taken for credit while in high school, usually worth about +0.5 GPA weight.">i</span></label><input id="pf-dual" type="number" min="0" placeholder="0"></div>
-        <div><label>Rigor-adjusted GPA<span class="hint" tabindex="0" data-tip="Your unweighted GPA, bumped up for the Honors/AP/IB/dual courses you listed — our estimate of how a college's own recalculation might read, spread over ~16 core courses and capped at +1.0.">i</span></label><input id="pf-adjgpa" type="text" readonly placeholder="—" style="background:var(--sunk)"></div>
+        <div class="test-field"><label for="pf-sat">SAT total</label><input id="pf-sat" type="number" placeholder="e.g. 1280"></div>
+        <div class="test-field"><label for="pf-act">ACT composite</label><input id="pf-act" type="number" placeholder="e.g. 27"></div>
       </div>
-      <div class="sl-subhead" style="margin-top:14px">Your high school <span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">— optional, but it sharpens your chances</span></div>
-      <p class="muted" style="font-size:12px;margin:0 0 8px;line-height:1.5">Colleges read your courses <b>against what your school offers</b> — taking most of the APs available counts more than a few out of many, and a school with few APs is never held against you. Tell us the offerings and we judge rigor in context.</p>
+      <div class="pf-sec-h">Course rigor <span class="muted">— taken or taking now</span></div>
       <div class="pf-grid">
-        <div style="grid-column:1/-1"><label>High school name</label><input id="pf-hs" type="text" placeholder="e.g. Brookline High School"></div>
-        <div><label>AP/IB courses your school <i>offers</i><span class="hint" tabindex="0" data-tip="Roughly how many AP or IB courses are available at your high school in total. We compare the ones you took against this, the way admissions officers read your transcript against your school's profile.">i</span></label><input id="pf-hs-ap" type="number" min="0" placeholder="e.g. 20"></div>
-        <div><label>Honors courses your school offers</label><input id="pf-hs-honors" type="number" min="0" placeholder="optional"></div>
+        <div><label for="pf-honors">Honors courses</label><input id="pf-honors" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label for="pf-ap">AP / IB courses</label><input id="pf-ap" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label for="pf-dual">Dual-enrollment<span class="hint" tabindex="0" data-tip="Real college courses taken for credit while in high school.">i</span></label><input id="pf-dual" type="number" min="0" inputmode="numeric" placeholder="0"></div>
       </div>
-      <div id="pf-hs-context" class="muted" style="font-size:12px;margin-top:6px;line-height:1.5"></div>
+      <label for="pf-level" style="margin-top:12px">Compared with what your school offers, the schedule is…<span class="hint" tabindex="0" data-tip="This is the question the school counselor answers on every college application (the Common App School Report). Colleges judge rigor against what YOUR school offers, so a school with few APs is never held against you.">i</span></label>
+      <select id="pf-level"><option value="">Not sure</option><option value="5">Most demanding — about as hard as the school allows</option><option value="4">Very demanding</option><option value="3">Demanding</option><option value="2">Average</option><option value="1">Less demanding than most college-prep students</option></select>
+      <div id="pf-adj" class="pf-adj"></div>
+      <details class="pf-more" id="pf-more"><summary>Optional details <span class="muted">— major, class rank, high school</span></summary>
+        <div class="pf-grid">
+          <div><label for="pf-major1">Main interest<span class="hint" tabindex="0" data-tip="Undecided is completely normal — about a third of students change majors. It only matters at schools that admit by major (like engineering or nursing).">i</span></label><select id="pf-major1"><option value="Undecided / not sure yet">Undecided / not sure yet</option><option value="Arts & design">Arts & design</option><option value="Biology & life sciences">Biology & life sciences</option><option value="Business">Business</option><option value="Communications & media">Communications & media</option><option value="Computer science">Computer science</option><option value="Education">Education</option><option value="Engineering">Engineering</option><option value="English & humanities">English & humanities</option><option value="Environmental science">Environmental science</option><option value="Health & nursing">Health & nursing</option><option value="Math & physics">Math & physics</option><option value="Pre-med / pre-health">Pre-med / pre-health</option><option value="Psychology">Psychology</option><option value="Social sciences & government">Social sciences & government</option><option value="Sports & exercise science">Sports & exercise science</option></select></div>
+          <div><label for="pf-major2">Second interest <i class="muted" style="text-transform:none">optional</i></label><select id="pf-major2"><option value="">None</option><option value="Arts & design">Arts & design</option><option value="Biology & life sciences">Biology & life sciences</option><option value="Business">Business</option><option value="Communications & media">Communications & media</option><option value="Computer science">Computer science</option><option value="Education">Education</option><option value="Engineering">Engineering</option><option value="English & humanities">English & humanities</option><option value="Environmental science">Environmental science</option><option value="Health & nursing">Health & nursing</option><option value="Math & physics">Math & physics</option><option value="Pre-med / pre-health">Pre-med / pre-health</option><option value="Psychology">Psychology</option><option value="Social sciences & government">Social sciences & government</option><option value="Sports & exercise science">Sports & exercise science</option></select></div>
+          <input id="pf-major" type="hidden">
+          <div><label for="pf-rank">Class rank</label><select id="pf-rank"><option value="">My school doesn't rank / not sure</option><option value="Top 5%">Top 5%</option><option value="Top 10%">Top 10%</option><option value="Top 25%">Top 25%</option><option value="Top 50%">Top 50%</option><option value="Below top 50%">Below top 50%</option></select></div>
+          <div style="grid-column:1/-1"><label for="pf-hs">High school name<span class="hint" tabindex="0" data-tip="Shown on the College Report header so a counselor knows whose report it is.">i</span></label><input id="pf-hs" type="text" placeholder="e.g. Brookline High School"></div>
+        </div>
+      </details>
       <div class="row" style="margin-top:14px"><button id="pf-save" class="small primary">Save academic profile</button><span id="pf-savemsg" class="muted" style="font-size:12px"></span></div>
     </div>
     <div class="card" id="pf-acts-card">
@@ -1987,8 +1997,8 @@ const SLIDERS = [
   {key:"spirit",   nm:"Spirit & sports",       sub:"big games, school pride", lo:"meh", hi:"love it", def:5, kind:"importance"},
   {key:"proximity",nm:"Proximity / location",  sub:"beach, mountains, city nearby", lo:"meh", hi:"crucial", def:5, kind:"importance"},
   {key:"lifestyle",nm:"Lifestyle & vibe",      sub:"area culture, policy, fit", lo:"meh", hi:"crucial", def:5, kind:"importance"},
-  {key:"size",     nm:"Size",                  sub:"how big",                lo:"small LAC", hi:"big university", def:5, kind:"pref"},
-  {key:"setting",  nm:"Setting",               sub:"where",                  lo:"town/rural", hi:"big city", def:5, kind:"pref"},
+  {key:"size",     nm:"Size",                  sub:"how big",                lo:"small college", hi:"big university", def:5, kind:"pref"},
+  {key:"setting",  nm:"Setting",               sub:"where",                  lo:"small town", hi:"big city", def:5, kind:"pref"},
 ];
 // lifestyle preference controls (what you want; feeds the Lifestyle/Proximity importance)
 const LIFEPREFS = [
@@ -2328,11 +2338,11 @@ function actToSat(act){ const a=Math.round(parseFloat(act)); if(!a) return 0; if
 function studentSat(p){ if(!p || p.testOptional) return 0; const s=parseInt(p.sat); if(s) return s; if(p.act) return actToSat(p.act); return 0; }
 // Impacted / competitive majors: at a selective school these admit tougher than the school overall.
 const IMPACTED_MAJOR = [/comput|\bcs\b|software|data scien|informatics/i, /nurs/i, /engineer/i, /business|finance|account|marketing/i, /biolog|pre-?med|neuro|kinesiolog/i, /architect/i, /\bfilm\b|animation|game design/i];
-function majorIsImpacted(p){ const m=(p&&p.major)||""; return m.trim().length>2 && IMPACTED_MAJOR.some(rx=>rx.test(m)); }
+function majorIsImpacted(p){ const m=String((p&&p.major)||"").replace(/Undecided \/ not sure yet/,""); return m.trim().length>2 && IMPACTED_MAJOR.some(rx=>rx.test(m)); }
 /* Interests free-text → a few recognized theme tags that nudge match %. */
 const INTEREST_DEFS = [
   {tag:"greek",   label:"greek/party scene", rx:/greek|frat|sororit|\bparty|rush\b|tailgat|social scene|preppy/i},
-  {tag:"sports",  label:"big-time sports",   rx:/sport|athletic|football|basketball|\bd1\b|division ?1|division ?i\b|game ?day|tailgat/i},
+  {tag:"sports",  label:"big-time sports",   rx:/sport|athletic|football|basketball|soccer|lacrosse|hockey|baseball|softball|volleyball|swim|track|tennis|\bd1\b|division ?1|division ?i\b|game ?day|tailgat/i},
   {tag:"outdoors",label:"outdoorsy",         rx:/outdoor|hik|\bski|snowboard|mountain|beach|surf|camp|nature|trail|lake/i},
   {tag:"city",    label:"city life",         rx:/\bcity|urban|nightlife|downtown|metropol/i},
   {tag:"small",   label:"small & close-knit",rx:/small|liberal arts|\blac\b|intimate|tight.?knit|close.?knit|personal/i},
@@ -2392,20 +2402,12 @@ function chanceCompute(c, explain){
     else if(g<=2.8 && band==="likely") band="target";
     log("Your GPA", band!==before?bandLabel(band):"no change", `Unweighted GPA ${g.toFixed(2)}${gpa&&gpa!==gpaU?` (rigor-adjusted ${gpa.toFixed(2)}, counted under rigor)`:""}`);
   } else { log("Your GPA", "not used", "No GPA in your profile"); }
-  // course rigor in context — colleges read your AP load against what your school OFFERS.
-  // Taking most of what's available can ease a reach at selective schools; a school with
-  // few APs is never penalized. Capped one step, selective schools only.
-  const hs = p && p.hs; const apTaken = (p && p.rigor && +p.rigor.ap) || 0;
-  if(hs && +hs.apOffered>0){
-    const offered=+hs.apOffered, cov=apTaken/offered, before=band;
-    if(rate<0.4 && cov>=0.6 && apTaken>=4 && band==="reach") band=ease(band);
-    else if(rate<0.4 && offered>=10 && cov<=0.2 && band==="likely") band="target";
-    if(explain){
-      const why = offered<=5 ? `Your school offers only ~${offered} APs — rigor is judged against that, so a lighter load isn't held against you`
-        : `You took ${apTaken} of ~${offered} APs your school offers (${Math.round(cov*100)}%)${band!==before?", and this selective school rewards making the most of what's available":""}`;
-      log("Rigor in context", band!==before?bandLabel(band):"noted", why);
-    }
-  }
+  // course rigor in context (#66): the counselor's 5-level rating of the schedule against what the school offers
+  // (Common App School Report). Honors count. Selective schools only, capped one step.
+  { const rl=rigorLevel(p); if(rl){ const before=band;
+      if(rate<0.4 && rl.lv>=5 && band==="reach") band=ease(band);
+      else if(rate<0.4 && rl.lv<=1 && band==="likely") band="target";
+      log("Course rigor", band!==before?bandLabel(band):(rate<0.4?"no change":"not used"), `${rl.est?"Estimated as":"Rated"} ${RIGOR_WORD[rl.lv]} for your school${rate<0.4?(band!==before?", and this selective school rewards a demanding schedule":""):" — this school isn't selective enough for rigor to move the band"}`); } }
   // activities nudge — selectivity-scaled, capped at one step (honest): strong profile eases a reach
   // at selective schools; thin profile stiffens a likely. Minimal effect at open-admission schools.
   const astr = activityStrength(p && p.activities);
@@ -2427,7 +2429,7 @@ function chanceCompute(c, explain){
     out.steps = steps;
     out.inputs = { gpaRaw:(p&&p.gpa)||null, gpaAdj:(gpa&&gpa>0)?gpa:null, sat:sat||null, testOptional:!!(p&&p.testOptional),
       act:(p&&p.act)||null, activityStrength:astr, activityWord:astrWord(astr), major:(p&&p.major)||null, majorImpacted:majorIsImpacted(p),
-      hs:(hs&&+hs.apOffered>0)?{name:hs.name||"",apOffered:+hs.apOffered,apTaken}:null };
+      rigor:(()=>{ const rl=rigorLevel(p); return rl?{level:rl.lv, word:RIGOR_WORD[rl.lv], estimated:rl.est}:null; })() };
   }
   return out;
 }
@@ -2460,7 +2462,7 @@ function predictorInputsHtml(inp){
     inp.testOptional?`<b>Test-optional</b>`:(inp.sat?`${inp.act?`ACT ${esc(inp.act)} → `:""}SAT <b>${inp.sat}</b>`:`Test <span class="muted">—</span>`),
     inp.activityWord?`Activities <b>${esc(inp.activityWord)}</b>`:`Activities <span class="muted">—</span>`,
     inp.majorImpacted?`Major <b>${esc(inp.major)}</b> <span class="muted">(competitive)</span>`:"",
-    inp.hs?`HS rigor <b>${inp.hs.apTaken}/${inp.hs.apOffered}</b> <span class="muted">APs offered</span>`:""
+    inp.rigor?`Schedule <b>${esc(inp.rigor.word)}</b>${inp.rigor.estimated?' <span class="muted">(est.)</span>':""}`:""
   ].filter(Boolean);
   return parts.join(" · ");
 }
@@ -2475,12 +2477,20 @@ function chanceMathHtml(c){
   </div>`;
 }
 // Rigor-adjusted GPA (approx., transparent): Honors +0.5, AP/IB +1.0, dual +0.5 over ~16 core courses.
+// #66: the standard weighted-GPA math — Honors +0.5, AP/IB/dual +1.0 per course — spread over the student's
+// ACTUAL number of courses (about 6 a year, counting this year), not a fixed 16. Labeled an estimate.
+function rigorCourses(p){ const g=+((p&&p.rigor&&p.rigor.grade)||0); return g>=9&&g<=12 ? 6*(g-8) : 18; }
 function rigorAdjustedGpa(p){
   const base = p && parseFloat(p.gpa); if(!base || base<=0) return base||0;
   const r = (p && p.rigor) || {};
-  const bonus = ((+r.honors||0)*0.5 + (+r.ap||0)*1.0 + (+r.dual||0)*0.5)/16;
+  const bonus = ((+r.honors||0)*0.5 + ((+r.ap||0)+(+r.dual||0))*1.0)/rigorCourses(p);
   return Math.min(5, Math.round((base + Math.min(1.0, bonus))*100)/100);
 }
+// Rigor level 1-5 on the counselor's scale; from the family's answer, or estimated from the counts.
+function rigorLevel(p){ const r=(p&&p.rigor)||{}; if(+r.level>=1&&+r.level<=5) return {lv:+r.level, est:false};
+  const pts=(+r.ap||0)+(+r.dual||0)+0.5*(+r.honors||0); if(!pts) return null; const yrs=Math.max(1,(rigorCourses(p))/6); const py=pts/yrs;
+  return {lv: py>=2.5?5 : py>=1.6?4 : py>=0.8?3 : 2, est:true}; }
+const RIGOR_WORD={5:"most demanding",4:"very demanding",3:"demanding",2:"average",1:"less demanding"};
 const ACT_LEVELS = [
   {v:"4", t:"Participant / member", tier:4},
   {v:"3", t:"School leadership / multi-year", tier:3},
@@ -2489,9 +2499,12 @@ const ACT_LEVELS = [
 ];
 const ACT_POINTS = {1:10,2:6,3:3,4:1};
 // 0..1 strength: points for best ~6, diminishing; depth beats a long list.
+// #66: commitment counts too (years + time), not just the recognition level. Missing time info is neutral.
+function actDepth(a){ const yrs=(Array.isArray(a.grades)&&a.grades.length)?a.grades.length:(+a.yrs||0); const hw=(+a.hrs||0)*(+a.weeks||0);
+  const y = yrs ? Math.min(1, yrs/3) : 0.5, t = hw ? Math.min(1, hw/300) : 0.5; return 0.5*y + 0.5*t; }
 function activityStrength(acts){
   if(!Array.isArray(acts) || !acts.length) return null;
-  const pts = acts.map(a=>ACT_POINTS[+(a.tier||4)]||1).sort((x,y)=>y-x).slice(0,6);
+  const pts = acts.map(a=>(ACT_POINTS[+(a.tier||4)]||1)*(0.6+0.4*actDepth(a))).sort((x,y)=>y-x).slice(0,6);
   const sum = pts.reduce((x,y)=>x+y,0);
   return Math.max(0, Math.min(1, sum/18));
 }
@@ -3084,7 +3097,7 @@ function renderReport(){
   const cover=`<section class="rp-page rp-cover">
     <div class="rp-brand">Zoe's Colleges</div>
     <h1>${stu?`${esc(stu)}'s`:esc(fam)+"'s"} College Report</h1>
-    <div class="rp-sub">${esc(fam)} · ${esc(when)}</div>
+    <div class="rp-sub">${p.hs&&p.hs.name?esc(p.hs.name)+" · ":""}${(p.rigor&&+p.rigor.grade)?`Grade ${+p.rigor.grade} · `:""}${esc(fam)} · ${esc(when)}</div>
     <div class="rp-stats">
       ${stat("Schools on the list",rows.length)}
       ${bal?stat("Likely",bal.c.likely,"lk")+stat("Target",bal.c.target,"tg")+stat("Reach",bal.c.reach,"rc"):""}
@@ -3099,13 +3112,14 @@ function renderReport(){
   const rig=p.rigor||{}; const prio=SLIDERS.filter(s=>s.kind==="importance").map(s=>({s,v:+w[s.key]||0})).sort((a,b)=>b.v-a.v).slice(0,3);
   const profile=`<section class="rp-page"><h2>📚 Student profile</h2>
     <div class="rp-stats rp-stats-sm">
-      ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj?stat("Rigor-adjusted GPA",adj.toFixed(2)):""}
+      ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Weighted GPA (est.)",adj.toFixed(2)):""}
       ${stat("Testing",p.testOptional?"Test-optional":sat?`SAT ${sat}${p.act?` · ACT ${esc(p.act)}`:""}`:"—")}
       ${(rig.ap||rig.honors||rig.dual)?stat("Course rigor",[rig.ap?`${+rig.ap} AP/IB`:"",rig.honors?`${+rig.honors} Honors`:"",rig.dual?`${+rig.dual} dual`:""].filter(Boolean).join(" · ")):""}
-      ${stat("Intended major",p.major?esc(p.major):"Undecided")}${p.home_state?stat("Home state",esc(p.home_state)):""}
+      ${(()=>{ const rl=rigorLevel(p); return rl?stat("Schedule",RIGOR_WORD[rl.lv][0].toUpperCase()+RIGOR_WORD[rl.lv].slice(1)+(rl.est?" (est.)":"")):""; })()}
+      ${stat("Interests",p.major?esc(p.major):"Undecided")}${p.rank?stat("Class rank",esc(p.rank)):""}${p.home_state?stat("Home state",esc(p.home_state)):""}
     </div>
     <h3>Activities</h3>
-    ${acts.length?`<ol class="rp-acts">${acts.map(a=>{ const n=normAct(a); const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; const meta=actMeta(n); return `<li><b>${esc(a.name||actTitle(n))}</b>${meta?` · ${esc(meta)}`:""}${lvl?` · <i>${esc(lvl)}</i>`:""}</li>`; }).join("")}</ol>`:`<p class="rp-muted">No activities listed yet.</p>`}
+    ${acts.length?`<ol class="rp-acts">${acts.map(a=>{ const n=normAct(a); const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; const meta=actMeta(n); return `<li><b>${esc(a.name||actTitle(n))}</b>${meta?` · ${esc(meta)}`:""}${lvl?` · <i>${esc(lvl)}</i>`:""}</li>`; }).join("")}</ol>`:`<p class="rp-muted">No activities listed yet.</p>`}
     ${prio.length?`<h3>What matters most to the family</h3><div class="rp-prio">${prio.map(x=>`<span>${esc(x.s.nm)} <i>${"●".repeat(Math.round(x.v/2))}${"○".repeat(5-Math.round(x.v/2))}</i></span>`).join("")}</div>`:""}
   </section>`;
   // 3 the list
@@ -4638,7 +4652,7 @@ function costCardHtml(){
     <p class="muted" style="font-size:11px;margin:11px 0 0">Federal College Scorecard averages for aided first-year students; public schools show the in-state price. Your real cost depends on your finances — run each school's net-price calculator for a personal number.</p></div>`;
 }
 document.addEventListener("change",async e=>{ const sel=e.target.closest&&e.target.closest("[data-income-inline]"); if(!sel) return; await setIncomeBand(sel.value); try{ if(currentView==="compare") buildCompare(); else refreshCurrent(); }catch(_){} });
-document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-nav-profile-income]"); if(!a) return; e.preventDefault(); goto("profile"); setTimeout(()=>{ const el=$("pf-income"); if(el){ try{ el.scrollIntoView({behavior:"smooth",block:"center"}); el.focus(); }catch(_){} } },300); });
+document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-nav-profile-income]"); if(!a) return; e.preventDefault(); goto("cost"); setTimeout(()=>{ const el=$("cost-income")||$("cost-income2"); if(el){ try{ el.scrollIntoView({behavior:"smooth",block:"center"}); el.focus(); }catch(_){} } },300); });
 function buildCompare(){
   const w=myPrefs(); const ids=Object.keys(cmpSel).filter(id=>cmpSel[id]); const out=$("cmp-out");
   if(ids.length<2){ out.innerHTML=costCardHtml()+`<div class="card muted">Pick at least two schools (tap <b>⇄ Compare</b> on any school) to compare them side by side.</div>`; return; }
@@ -4997,6 +5011,10 @@ function renderProfile(){
     ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
     : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
   { const h=$("pf-h1"); if(h) h.textContent = pendingMode() ? `${state.pending.display_name}'s profile` : "My profile"; }
+  { const stu=studentMember(); const sn = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");   // #66: clear whose is whose
+    const ta=document.querySelector('#pf-tabs [data-ptab="acad"]'), tw=document.querySelector('#pf-tabs [data-ptab="who"]');
+    if(ta) ta.textContent = myRole()==="student" ? "🎓 My grades & activities" : (sn ? `🎓 ${sn}'s grades & activities` : "🎓 Grades & activities");
+    if(tw) tw.textContent = "🧭 My priorities"; }
   { const w=$("pr-whose"), me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id), nm=(me&&me.display_name)||"you";   // #65: whose priorities these are
     if(w){ const stu=studentMember(); const other = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");
       w.classList.toggle("hidden", !other); if(other) w.innerHTML=`These priorities are <b>yours (${esc(nm)})</b>. Everyone in the family sets their own, so your match % reflects what matters to you. ${esc(other)} sets ${esc(other)}'s own.`; }
@@ -5004,8 +5022,14 @@ function renderProfile(){
   if(pendingMode()){ const n=esc(state.pending.display_name); $("profile-scope").innerHTML=`🎓 <b>You're filling this in for ${n}.</b> It moves to ${n}'s own account when ${n} joins with your invite.`; }
   const p = (state.me && state.profiles[profKey()]) || {};
   $("pf-gpa").value=p.gpa||""; $("pf-sat").value=p.sat||""; $("pf-act").value=p.act||"";
-  $("pf-major").value=p.major||""; $("pf-rank").value=p.rank||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
-  { const ib=myPrefs().incomeBand; const sel=$("pf-income"); if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
+  $("pf-major").value=p.major||""; $("pf-state").value=p.home_state||""; $("pf-notes").value=p.notes||"";
+  { const parts=String(p.major||"").split(" + ").map(x=>x.trim()).filter(Boolean); const m1=$("pf-major1"), m2=$("pf-major2");   // #66: interest areas, not exact majors
+    const setSel=(sel,v)=>{ if(!sel) return; if(v && ![...sel.options].some(o=>o.value===v)){ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); } sel.value=v||sel.options[0].value; };
+    setSel(m1, parts[0]||"Undecided / not sure yet"); setSel(m2, parts[1]||"");
+    const rk=$("pf-rank"); setSel(rk, p.rank||""); }
+  { const g=$("pf-grade"); if(g) g.value=String((p.rigor&&p.rigor.grade)||""); const lv=$("pf-level"); if(lv) lv.value=String((p.rigor&&p.rigor.level)||""); }
+  { const m=$("pf-more"); if(m) m.open = !!((p.rank)||(p.hs&&p.hs.name)||(p.major&&!/^Undecided/.test(p.major))); }
+  { const ib=myPrefs().incomeBand; const sel=null; if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
   // test-optional toggle
   const noTest=$("pf-noTest"); noTest.checked=!!p.testOptional;
   const applyNoTest=()=>{ document.querySelectorAll("#v-profile .test-field").forEach(d=>d.style.display=noTest.checked?"none":""); };
@@ -5018,17 +5042,15 @@ function renderProfile(){
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
   const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||"";
-  const recalc=()=>{ const prof={gpa:$("pf-gpa").value.trim(), rigor:{honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0}}; const adj=rigorAdjustedGpa(prof); $("pf-adjgpa").value=adj?adj.toFixed(2):"—"; };
-  ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); recalc();
+  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
+    const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
+    const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
+    el.innerHTML = (base>0 && any) ? `Weighted GPA estimate: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
+      : (base>0 ? `<span class="muted">Add honors or AP courses to see a weighted GPA estimate.</span>` : "");
+    if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`; };
+  ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level"].forEach(id=>$(id).onchange=recalc); recalc();
   // high school context
-  const hs=p.hs||{}; if($("pf-hs")){ $("pf-hs").value=hs.name||""; $("pf-hs-ap").value=hs.apOffered||""; $("pf-hs-honors").value=hs.honorsOffered||""; }
-  const hsR=()=>{ const el=$("pf-hs-context"); if(!el) return; const off=+$("pf-hs-ap").value||0, took=+$("pf-ap").value||0;
-    if(!off){ el.textContent=""; return; } const cov=Math.round(took/off*100);
-    if(off<=5) el.innerHTML=`✓ Your school offers ~${off} APs — a lighter AP load is read in that context, not held against you.`;
-    else if(took/off>=0.6) el.innerHTML=`✓ Strong: you've taken ${took} of ~${off} APs offered (${cov}%) — colleges read that as making the most of what's available.`;
-    else if(took/off<=0.2 && off>=10) el.innerHTML=`Your school offers ~${off} APs; you've listed ${took}. More rigor helps most at selective schools — but only if it's manageable.`;
-    else el.innerHTML=`You've taken ${took} of ~${off} APs offered (${cov}%).`; };
-  ["pf-hs-ap","pf-hs-honors","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.addEventListener("input",hsR); }); hsR();
+  const hs=p.hs||{}; if($("pf-hs")) $("pf-hs").value=hs.name||"";
   // activities
   profActs = Array.isArray(p.activities)? p.activities.map(normAct) : []; actOpen=-1; actDirty=false;
   renderActs();
@@ -5094,10 +5116,17 @@ function choicePowerHtml(){
     <div style="margin-top:10px">${anchorNoteHtml()}</div>
   </div>`;
 }
+// #66: a parent looking at the grades tab sees the STUDENT's profile (read-only once she has her own account),
+// not an empty profile of their own.
+function studentReadOnly(){ const stu=studentMember(); return !!(stu && state.me && !isMe(stu.user_id)); }
 function renderProfileView(){
-  const p=(state.me&&state.profiles[profKey()])||{}; const built=profileBuilt(p);
+  const ro=studentReadOnly(); const stuM=studentMember();
+  const p=(state.me&&state.profiles[ro?stuM.user_id:profKey()])||{}; const built=profileBuilt(p);
   const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
-  const showForm = !built || pfEdit;
+  { const ac=$("pf-acts-card"); if(ac) ac.classList.toggle("hidden", ro); }
+  if(ro && !built){ form.classList.add("hidden"); sum.classList.remove("hidden");
+    sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
+  const showForm = !ro && (!built || pfEdit);
   form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
   const ft=$("pf-form-title"); if(ft) ft.textContent = pendingMode() ? `${built?"Edit":"Build"} ${state.pending.display_name}'s profile` : (built? "Edit your profile" : "Build your profile");
   if(showForm) return;
@@ -5105,22 +5134,23 @@ function renderProfileView(){
   const astr=activityStrength(acts); const astrLvl = astr==null?null:(astr>=0.7?"strong":astr>=0.4?"solid":"light");
   const row=(k,v)=>v?`<div class="pv-row"><span class="pv-k">${esc(k)}</span><span class="pv-v">${v}</span></div>`:"";
   const testLine = p.testOptional? "Test-optional" : ([p.sat?("SAT "+esc(p.sat)):"", p.act?("ACT "+esc(p.act)):""].filter(Boolean).join(" · "));
-  const rig=p.rigor||{}; const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"" ].filter(Boolean).join(" · ");
-  const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
+  const rig=p.rigor||{}; const rl=rigorLevel(p); const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"", rl?`${RIGOR_WORD[rl.lv]}${rl.est?" (est.)":""}`:"" ].filter(Boolean).join(" · ");
+  const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
-    <div class="pv-head"><h2 style="margin:0">${pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button><button class="small ghost" data-pf-edit>✏️ Edit profile</button></div></div>
+    <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
     <div class="pv-grid">
-      ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adj ${adj.toFixed(2)})</span>`:""}`:"")}
+      ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(weighted est. ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
-      ${row("Intended major", p.major?esc(p.major):"")}
+      ${row("Grade", rig.grade?`${rig.grade}th`:"")}
+      ${row("Interests", p.major?esc(p.major):"")}
       ${row("Class rank", p.rank?esc(p.rank):"")}
       ${row("Home state", p.home_state?esc(p.home_state):"")}
       ${row("Course rigor", rigLine)}
-      ${row("High school", p.hs&&p.hs.name?`${esc(p.hs.name)}${p.hs.apOffered?` <span class="muted" style="font-weight:400">· ${(p.rigor&&+p.rigor.ap)||0}/${p.hs.apOffered} APs</span>`:""}`:"")}
+      ${row("High school", p.hs&&p.hs.name?esc(p.hs.name):"")}
       ${row("Looking for", tags.length?tags.map(t=>`<span class="pv-tag">${esc((INTEREST_DEFS.find(d=>d.tag===t)||{}).label||t)}</span>`).join(" "):"")}
     </div>
     ${acts.length&&astrLvl?`<div class="pv-sub" style="margin-bottom:0">Activities · <span class="muted" style="text-transform:none;letter-spacing:0">${astrLvl} profile (${acts.length}) — edit below</span></div>`:""}
-    <p class="muted" style="font-size:12px;margin:12px 0 0">This drives your admission-chance labels across the app. Edit anytime.</p>
+    <p class="muted" style="font-size:12px;margin:12px 0 0">${ro?`This drives the admission-chance labels the whole family sees. Only ${esc(stuM.display_name)} can edit it.`:"This drives the admission-chance labels across the app. Edit anytime."}</p>
   </div>` + choicePowerHtml();
   const eb=sum.querySelector("[data-pf-edit]"); if(eb) eb.onclick=()=>{ pfEdit=true; renderProfileView(); const g=$("pf-gpa"); if(g) setTimeout(()=>{ try{ g.focus(); $("pf-form-card").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },50); };
   { const rb=document.querySelector("[data-pf-report]"); if(rb) rb.onclick=()=>openReport(); }
@@ -5138,13 +5168,13 @@ function profileProblems(p){
 }
 async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
-    major:$("pf-major").value.trim(), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
+    major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so match % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0 };
+  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
-  const hs = { name:($("pf-hs").value||"").trim(), apOffered:+$("pf-hs-ap").value||0, honorsOffered:+$("pf-hs-honors").value||0 };
+  const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
@@ -5237,8 +5267,29 @@ const ACT_OLD = {"Arts / Visual":"Art","Athletics: Varsity":"Athletics: JV/Varsi
 const SPORTS = ["Baseball","Basketball","Beach Volleyball","Bowling","Cheerleading","Cross Country","Dance Team","Diving","Equestrian","Esports","Fencing","Field Hockey","Figure Skating","Football","Golf","Gymnastics","Ice Hockey","Lacrosse","Rifle","Rowing / Crew","Rugby","Sailing","Skiing","Soccer","Softball","Squash","Swimming","Tennis","Track & Field","Ultimate Frisbee","Volleyball","Water Polo","Weightlifting","Wrestling","Other sport"];
 const ACT_POSITIONS = ["Member / participant","Starter","Captain","Co-captain","Team lead","Officer","Secretary","Treasurer","Vice president","President","Founder / co-founder","Editor","Editor-in-chief","Section leader / principal","Volunteer","Tutor / mentor","Employee","Shift lead / supervisor","Intern","Research assistant","Other"];
 const ACT_GRADES = ["9","10","11","12","PG"];
-const ACT_TIMING = ["During school year","During school break","All year"];
+const ACT_TIMING = ["During school year","During school break","All year"];   // stored exactly as the Common App names them
+const ACT_TIMING_LABEL = {"During school year":"School year","During school break":"Summer & breaks","All year":"All year"};   // #66: friendly labels
 const ACT_HOURS = [1,2,3,4,5,6,8,10,12,15,20,25,30,35,40];
+// #66: time as tap-to-pick ranges (the Common App asks hours/week; a range is honest about the estimate)
+const ACT_HRS_CHIPS = [{v:2,t:"1–2"},{v:4,t:"3–5"},{v:8,t:"6–10"},{v:13,t:"11–15"},{v:18,t:"16–20"},{v:25,t:"20+"}];
+const ACT_WKS_CHIPS = [{v:14,t:"One season",s:"~14 wks"},{v:26,t:"Two seasons",s:"~26 wks"},{v:34,t:"School year",s:"~34 wks"},{v:8,t:"Summer",s:"~8 wks"},{v:50,t:"All year",s:"~50 wks"}];
+const nearestChip=(list,v)=>{ v=+v; if(!v) return null; return list.reduce((b,c)=>Math.abs(c.v-v)<Math.abs(b.v-v)?c:b, list[0]).v; };
+const isWorkType = c => c==="Work (Paid)" || c==="Internship";
+const isFamilyType = c => c==="Family Responsibilities";
+// Recognition that fits the activity: honors levels for clubs/sports/academics (Common App), responsibility for jobs.
+function actLevels(c){
+  if(isWorkType(c)) return [{v:4,t:"Employee"},{v:3,t:"Given more responsibility / promoted"},{v:2,t:"Supervisor, manager, or a workplace award"}];
+  if(isFamilyType(c)) return [{v:4,t:"Some of the time"},{v:3,t:"Regular, ongoing responsibility"}];
+  return [{v:4,t:"None yet — I take part"},{v:3,t:"School level (award or leadership)"},{v:2,t:"State / regional"},{v:1,t:"National / international"}];
+}
+function actPositions(c){
+  if(isWorkType(c)) return ["Employee","Intern","Shift lead / supervisor","Manager","Self-employed / own business","Other"];
+  if(isFamilyType(c)) return ["Caring for siblings or relatives","Household responsibilities","Family business","Translating for family","Other"];
+  if(isSport(c)) return ["Team member","Starter","Captain","Co-captain","Other"];
+  return ACT_POSITIONS.filter(x=>!["Employee","Shift lead / supervisor","Intern","Starter"].includes(x));
+}
+function defaultWeeks(a){ const t=a.timing||"During school year"; if(t==="During school break") return 8; if(t==="All year") return 50; return isSport(a.category)?14:34; }
+const chipRow=(cls,list,val,label)=>`<div class="act-yrs"><span class="yr-head">${label}</span><div class="act-chips">${list.map(c=>`<button type="button" class="${cls} ${String(val)===String(c.v)?"on":""}" data-v="${c.v}" aria-pressed="${String(val)===String(c.v)}">${c.t}${c.s?`<small>${c.s}</small>`:""}</button>`).join("")}</div></div>`;
 const ACT_WEEKS = [1,2,4,6,8,10,12,16,20,26,30,36,40,45,52];
 const ACT_EMOJI={"Academic":"📚","Art":"🎨","Athletics: Club":"⚽","Athletics: JV/Varsity":"🏅","Career Oriented":"💼","Community Service (Volunteer)":"🤝","Computer/Technology":"💻","Cultural":"🌍","Dance":"💃","Debate/Speech":"🗣️","Environmental":"🌱","Family Responsibilities":"🏠","Foreign Exchange":"✈️","Foreign Language":"🈶","Internship":"🧑‍💼","Journalism/Publication":"📰","Junior R.O.T.C.":"🎖️","LGBT":"🏳️‍🌈","Music: Instrumental":"🎸","Music: Vocal":"🎤","Religious":"🙏","Research":"🔬","Robotics":"🤖","School Spirit":"📣","Science/Math":"🧪","Social Justice":"⚖️","Student Govt./Politics":"🏛️","Theater/Drama":"🎭","Work (Paid)":"💵","Other Club/Activity":"⭐"};
 function actEmoji(cat){ return ACT_EMOJI[ACT_OLD[cat]||cat]||"⭐"; }
@@ -5250,7 +5301,7 @@ function actTitle(a){ const base = isSport(a.category) && a.sport ? `${a.sport}$
   return a.position && a.position!=="Member / participant" && a.position!=="Other" ? `${base} — ${a.position}` : base; }
 function actGradesText(a){ const g=(a.grades||[]).slice().sort((x,y)=>ACT_GRADES.indexOf(x)-ACT_GRADES.indexOf(y)); if(!g.length) return a.yrs?`${a.yrs} yr`:"";
   const n=g.map(x=>ACT_GRADES.indexOf(x)); const run=n.every((v,i)=>!i||v===n[i-1]+1); return "Gr "+(run&&g.length>1?`${g[0]}–${g[g.length-1]}`:g.join(", ")); }
-function actMeta(a){ return [a.position&&a.position!=="Member / participant"?"":"", actGradesText(a), a.hrs?`${a.hrs} hr/wk`:"", a.weeks?`${a.weeks} wk/yr`:"", a.timing&&a.timing!=="During school year"?a.timing.toLowerCase():""].filter(Boolean).join(" · "); }
+function actMeta(a){ const hc=ACT_HRS_CHIPS.find(c=>c.v===nearestChip(ACT_HRS_CHIPS,a.hrs)); return [actGradesText(a), a.hrs&&hc?`${hc.t} hr/wk`:"", a.weeks?`~${a.weeks} wk/yr`:"", a.timing&&a.timing!=="During school year"?(ACT_TIMING_LABEL[a.timing]||a.timing).toLowerCase():""].filter(Boolean).join(" · "); }
 let actOpen=-1, actDirty=false;
 const selHtml=(cls,label,opts,val,ph)=>`<label class="act-sel"><span>${label}</span><select class="${cls}">${ph?`<option value="">${ph}</option>`:""}${opts.map(o=>{ const v=typeof o==="object"?o.v:o, t=typeof o==="object"?o.t:o; return `<option value="${esc(v)}" ${String(val??"")===String(v)?"selected":""}>${esc(t)}</option>`; }).join("")}</select></label>`;
 function renderActs(){
@@ -5264,15 +5315,16 @@ function renderActs(){
       <div class="act-controls">
         ${selHtml("a-cat","Activity type",ACT_TYPES,a.category)}
         ${isSport(a.category)?selHtml("a-sport","Sport",SPORTS,a.sport,"Choose a sport…"):""}
-        ${selHtml("a-pos","Position / leadership",ACT_POSITIONS,a.position,"Choose…")}
-        ${selHtml("a-lvl","Highest recognition",ACT_LEVELS.map(l=>({v:l.tier,t:l.t})),+a.tier||4)}
+        ${selHtml("a-pos",isWorkType(a.category)?"Your role":isFamilyType(a.category)?"What you do":"Your role",actPositions(a.category),a.position,"Choose…")}
+        <div class="act-yrs act-wide"><span class="yr-head">Grade levels</span><div class="act-seg">${ACT_GRADES.map(g=>`<button type="button" class="a-gr ${(a.grades||[]).includes(g)?"on":""}" data-gr="${g}" aria-pressed="${(a.grades||[]).includes(g)}">${g}</button>`).join("")}</div></div>
+        <div class="act-wide">${chipRow("a-tm",ACT_TIMING.map(t=>({v:t,t:ACT_TIMING_LABEL[t]})),a.timing||"During school year","When")}</div>
+        <div class="act-wide">${chipRow("a-hr",ACT_HRS_CHIPS,nearestChip(ACT_HRS_CHIPS,a.hrs),"Hours per week")}</div>
+        <div class="act-wide">${chipRow("a-wk",ACT_WKS_CHIPS,nearestChip(ACT_WKS_CHIPS,a.weeks),"Weeks per year")}</div>
+        ${selHtml("a-lvl",isWorkType(a.category)?"Responsibility":isFamilyType(a.category)?"How often":"Highest recognition",actLevels(a.category),+a.tier||4)}
+        <details class="act-more act-wide"${(a.org||a.desc||a.college)?" open":""}><summary>More details <i>optional</i></summary>
         <label class="act-sel act-txt"><span>Organization <i>optional</i></span><input class="a-org" maxlength="100" placeholder="e.g. Lincoln High School, Habitat for Humanity" value="${esc(a.org||"")}"></label>
-        <div class="act-yrs"><span class="yr-head">Grade levels</span><div class="act-seg">${ACT_GRADES.map(g=>`<button type="button" class="a-gr ${(a.grades||[]).includes(g)?"on":""}" data-gr="${g}" aria-pressed="${(a.grades||[]).includes(g)}">${g}</button>`).join("")}</div></div>
-        ${selHtml("a-time","When",ACT_TIMING,a.timing||"During school year")}
-        ${selHtml("a-hrs","Hours per week",ACT_HOURS.map(h=>({v:h,t:h===40?"40+":String(h)})),a.hrs,"Choose…")}
-        ${selHtml("a-wks","Weeks per year",ACT_WEEKS.map(w=>({v:w,t:String(w)})),a.weeks,"Choose…")}
         ${selHtml("a-col","Continue in college?",[{v:"yes",t:"Yes"},{v:"no",t:"No"}],a.college,"Not sure")}
-        <label class="act-sel act-txt act-wide"><span>Description <i>optional · <b class="a-desc-n">${150-(a.desc||"").length}</b> left</i></span><textarea class="a-desc" maxlength="150" rows="2" placeholder="What you did and any results — Common App allows 150 characters.">${esc(a.desc||"")}</textarea></label>
+        <label class="act-sel act-txt act-wide"><span>Description <i>optional · <b class="a-desc-n">${150-(a.desc||"").length}</b> left</i></span><textarea class="a-desc" maxlength="150" rows="2" placeholder="What you did and any results — Common App allows 150 characters.">${esc(a.desc||"")}</textarea></label></details>
       </div>
       <div class="act-done-row"><button class="primary small a-done" type="button">✓ Done</button><span class="muted" style="font-size:12px">Saves this activity to your profile.</span></div>
     </div>` : `
@@ -5286,14 +5338,17 @@ function renderActs(){
     row.querySelector(".a-up").onclick=()=>moveAct(i,-1); row.querySelector(".a-down").onclick=()=>moveAct(i,1); });
   const card=el.querySelector(".act-card.open");
   if(card){ const i=+card.dataset.i, a=profActs[i]; const mark=()=>{ actDirty=true; actStatus(); card.querySelector(".act-ttl").textContent=actTitle(a); };
-    card.querySelector(".a-cat").onchange=e=>{ a.category=e.target.value; if(!isSport(a.category)) delete a.sport; mark(); renderActs(); };
+    card.querySelector(".a-cat").onchange=e=>{ a.category=e.target.value; if(!isSport(a.category)) delete a.sport;
+      if(!actLevels(a.category).some(l=>l.v===(+a.tier||4))) a.tier=4; if(a.position && !actPositions(a.category).includes(a.position)) delete a.position;
+      if(a._autoWk || !a.weeks){ a.weeks=defaultWeeks(a); a._autoWk=true; } mark(); renderActs(); };
     const sp=card.querySelector(".a-sport"); if(sp) sp.onchange=e=>{ a.sport=e.target.value; mark(); };
     card.querySelector(".a-pos").onchange=e=>{ a.position=e.target.value; mark(); };
     card.querySelector(".a-lvl").onchange=e=>{ a.tier=+e.target.value; mark(); updateActStrength(); };
     card.querySelector(".a-org").oninput=e=>{ a.org=e.target.value; mark(); };
-    card.querySelector(".a-time").onchange=e=>{ a.timing=e.target.value; mark(); };
-    card.querySelector(".a-hrs").onchange=e=>{ a.hrs=e.target.value; mark(); };
-    card.querySelector(".a-wks").onchange=e=>{ a.weeks=e.target.value; mark(); };
+    const pick=(cls,fn)=>card.querySelectorAll("."+cls).forEach(b=>b.onclick=()=>{ fn(b.dataset.v); mark(); updateActStrength(); renderActs(); });
+    pick("a-tm", v=>{ a.timing=v; if(a._autoWk || !a.weeks){ a.weeks=defaultWeeks(a); a._autoWk=true; } });   // weeks follow "When" until you pick them yourself
+    pick("a-hr", v=>{ a.hrs=+v; });
+    pick("a-wk", v=>{ a.weeks=+v; a._autoWk=false; });
     card.querySelector(".a-col").onchange=e=>{ a.college=e.target.value; mark(); };
     card.querySelector(".a-desc").oninput=e=>{ a.desc=e.target.value; card.querySelector(".a-desc-n").textContent=150-a.desc.length; mark(); };
     card.querySelectorAll(".a-gr").forEach(b=>b.onclick=()=>{ const g=b.dataset.gr; a.grades=(a.grades||[]).includes(g)?a.grades.filter(x=>x!==g):[...(a.grades||[]),g];
@@ -5566,7 +5621,7 @@ function zoeCtx(){
   return { gpa:p.gpa||null, gpaAdjusted:(adj&&adj>0)?+adj.toFixed(2):null, sat:studentSat(p)||null, act:p.act||null, testOptional:!!p.testOptional,
     major:p.major||"", majorCompetitive:majorIsImpacted(p), notes:p.notes||"", gradYear:p.gradYear||null, rank:p.rank||null,
     rigor:{honors:(p.rigor&&+p.rigor.honors)||0, ap:(p.rigor&&+p.rigor.ap)||0, dual:(p.rigor&&+p.rigor.dual)||0},
-    highSchool:{name:hs.name||"", apOffered:+hs.apOffered||0, honorsOffered:+hs.honorsOffered||0},
+    highSchool:{name:hs.name||""}, schedule:(()=>{ const rl=rigorLevel(p); return rl?RIGOR_WORD[rl.lv]+(rl.est?" (estimated)":""):null; })(),
     activitiesCount:acts.length, activityStrength:astrWord(astr), activities:actTiers,
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
     schools, trip };
@@ -5829,7 +5884,7 @@ function boardSharePayload(opt){
   if(inc.academics){ const pr=studentProfile()||{}; const adj=rigorAdjustedGpa(pr); const acts=Array.isArray(pr.activities)?pr.activities:[];
     p.academics={ gpa:String(pr.gpa||"").slice(0,6), adjGpa:adj?adj.toFixed(2):"", sat:pr.testOptional?"":String(pr.sat||"").slice(0,5), act:pr.testOptional?"":String(pr.act||"").slice(0,3), testOptional:!!pr.testOptional,
       major:String(pr.major||"").slice(0,80), rigor:pr.rigor?{honors:+pr.rigor.honors||0, ap:+pr.rigor.ap||0, dual:+pr.rigor.dual||0}:null,
-      activities:acts.slice(0,10).map(a=>{ const n=normAct(a); const lvl=(ACT_LEVELS.find(l=>l.tier===(+a.tier||4))||{}).t||""; return { title:String(a.name||actTitle(n)).slice(0,100), meta:String(actMeta(n)||"").slice(0,120), level:lvl }; }) };
+      activities:acts.slice(0,10).map(a=>{ const n=normAct(a); const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; return { title:String(a.name||actTitle(n)).slice(0,100), meta:String(actMeta(n)||"").slice(0,120), level:lvl }; }) };
     p.sections={academics:true}; }
   p.sections=Object.assign(p.sections||{}, {stars:!!inc.stars, deadlines:!!inc.deadlines, costs:!!inc.costs});
   return p;
@@ -6003,7 +6058,7 @@ function demoData(){
     R("university-of-vermont",DEMO_UID,3,"Cold… but the town is cute"),R("university-of-vermont","demo-mom",4,"Loved Burlington"),
     R("sc-217882",DEMO_UID,4,"School spirit is unreal"),R("sc-217882","demo-dad",5,"Best value on the list")];
   const prof={user_id:DEMO_UID,family_id:DEMO_FID,gpa:"3.6",sat:"1290",act:"",major:"Marketing",home_state:"MA",notes:"Medium-sized school, warm weather, big school spirit, near a city",
-    rigor:{honors:4,ap:5,dual:0},hs:{name:"",apOffered:16,honorsOffered:10},
+    rigor:{honors:4,ap:5,dual:0,grade:11,level:4},hs:{name:"Lakeside High School"},
     activities:[{name:"Soccer (JV/Varsity) — Captain",category:"Athletics: JV/Varsity",sport:"Soccer",position:"Captain",tier:3,hrs:"12",weeks:"30",grades:["9","10","11","12"],yrs:"4",timing:"During school year"},
       {name:"Work (Paid) — Employee",category:"Work (Paid)",position:"Employee",org:"Ice cream shop",tier:4,hrs:"10",weeks:"20",grades:["11","12"],yrs:"2",timing:"During school break"},
       {name:"Student Govt./Politics — Treasurer",category:"Student Govt./Politics",position:"Treasurer",tier:3,hrs:"3",weeks:"36",grades:["11","12"],yrs:"2"}]};

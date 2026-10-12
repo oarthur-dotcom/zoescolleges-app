@@ -14,9 +14,9 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await p.evaluate(() => document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager')); await p.waitForTimeout(1200);
   await p.screenshot({ path: `${SHOTS}${label}-full.png`, fullPage: true });
   o.view = await p.evaluate(() => currentView);
-  o.hero = await p.evaluate(() => ({ h1: document.querySelector('.lp-h1').textContent, ctas: [...document.querySelectorAll('.lp-ctas button')].map(x => x.textContent), headerSignin: !document.getElementById('hdr-signin').classList.contains('hidden'), sections: document.querySelectorAll('.lp-row').length, imgs: [...document.querySelectorAll('#v-auth img')].map(i => i.naturalWidth > 0), card: !!document.querySelector('#lp-account #go-auth') }));
+  o.hero = await p.evaluate(() => ({ h1: document.querySelector('.lnd-h1').textContent, ctas: [...document.querySelectorAll('.lnd-ctas button')].map(x => x.textContent), headerSignin: !document.getElementById('hdr-signin').classList.contains('hidden'), sections: document.querySelectorAll('.lnd-row').length, imgs: [...document.querySelectorAll('#v-auth img')].map(i => i.naturalWidth > 0), card: !!document.querySelector('#lp-account #go-auth') }));
   o.audit = await audit(p, 'body');
-  await p.click('.lp-ctas [data-lp-account="signup"]'); await p.waitForTimeout(900);
+  await p.click('.lnd-ctas [data-lp-account="signup"]'); await p.waitForTimeout(900);
   o.signup = await p.evaluate(() => ({ mode: state.authMode, code: !document.getElementById('code-wrap').classList.contains('hidden'), top: Math.round(document.getElementById('lp-account').getBoundingClientRect().top) }));
   await p.click('#hdr-signin'); await p.waitForTimeout(800); o.signin = await p.evaluate(() => ({ mode: state.authMode, btn: document.getElementById('go-auth').textContent }));
   await p.click('#lp-trust2'); await p.waitForTimeout(300); o.trust = await p.evaluate(() => document.getElementById('v-trust').classList.contains('hidden') ? 'hidden' : 'trust');
@@ -31,8 +31,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
 }
 { const { ctx, p, errs } = await page({ width: 390, height: 844 });
   await p.goto('http://localhost:8863/index.html?join=abc123'); await p.waitForTimeout(2500); await p.screenshot({ path: `${SHOTS}join.png` });
-  R.join = await p.evaluate(() => ({ focus: document.getElementById('lp').classList.contains('focus'), hero: getComputedStyle(document.querySelector('.lp-hero')).display, title: document.getElementById('lp-fo-title').textContent, mode: state.authMode }));
-  await p.click('#lp-unfocus'); await p.waitForTimeout(300); R.unfocus = await p.evaluate(() => getComputedStyle(document.querySelector('.lp-hero')).display);
+  R.join = await p.evaluate(() => ({ focus: document.getElementById('lp').classList.contains('focus'), hero: getComputedStyle(document.querySelector('.lnd-hero')).display, title: document.getElementById('lp-fo-title').textContent, mode: state.authMode }));
+  await p.click('#lp-unfocus'); await p.waitForTimeout(300); R.unfocus = await p.evaluate(() => getComputedStyle(document.querySelector('.lnd-hero')).display);
   ok['invitee.focused'] = R.join.focus && R.join.hero === 'none' && /invited/.test(R.join.title) && R.join.mode === 'signup' && R.unfocus === 'grid' && !errs.length; await ctx.close(); }
 { const { ctx, p, errs } = await page({ width: 390, height: 844 });
   await p.goto('http://localhost:8863/index.html'); await p.waitForTimeout(2500); await p.click('#demo-start'); await p.waitForTimeout(3500);

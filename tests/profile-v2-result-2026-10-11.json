@@ -1,0 +1,396 @@
+{
+ "phone": {
+  "form": {
+   "income": false,
+   "offered": false,
+   "moreOpen": false,
+   "tab": "🎓 My grades & activities",
+   "tab2": "🧭 My priorities",
+   "rankOpts": "My school doesn't rank / not sure"
+  },
+  "adj1": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: average (estimated from the counts — answer the question above to set it yourself). Counts at selective schools.",
+  "adj2": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: most demanding. Counts at selective schools.",
+  "work": {
+   "lvls": [
+    "Employee",
+    "Given more responsibility / promoted",
+    "Supervisor, manager, or a workplace award"
+   ],
+   "pos": [
+    "Choose…",
+    "Employee",
+    "Intern",
+    "Shift lead / supervisor",
+    "Manager",
+    "Self-employed / own business",
+    "Other"
+   ],
+   "when": [
+    "School year",
+    "Summer & breaks",
+    "All year"
+   ]
+  },
+  "saved": {
+   "rigor": {
+    "honors": 6,
+    "ap": 0,
+    "dual": 0,
+    "grade": 12,
+    "level": 5
+   },
+   "major": "Engineering + Business",
+   "rank": "Top 10%",
+   "hs": {
+    "name": "Brookline High School"
+   },
+   "act": {
+    "name": "Work (Paid) — Shift lead / supervisor",
+    "category": "Work (Paid)",
+    "tier": 3,
+    "hrs": 8,
+    "yrs": "2",
+    "grades": [
+     "11",
+     "12"
+    ],
+    "timing": "During school break",
+    "position": "Shift lead / supervisor",
+    "weeks": "8"
+   }
+  },
+  "explain": "{\"band\":\"reach\",\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 (rigor-adjusted 3.73, counted under rigor)\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.12933333333333336,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
+  "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n64%\n🎯 Target\n12%\n🌟 Reach\n24%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errA": [],
+  "parent": {
+   "text": "Zoe's profile\n\nZoe hasn't added grades yet. Only Zoe can edit Zoe's profile; you'll see it here as soon as it's filled in.",
+   "formHidden": true,
+   "actsHidden": true,
+   "tab": "🎓 Zoe's grades & activities"
+  },
+  "prefs": {
+   "maxRow": 77.390625,
+   "endsClear": true,
+   "labels": "meh|crucial|meh|crucial|no|yes|meh|love it|meh|crucial|meh|crucial|small college|big university|small town|big city"
+  },
+  "errB": []
+ },
+ "desktop": {
+  "form": {
+   "income": false,
+   "offered": false,
+   "moreOpen": false,
+   "tab": "🎓 My grades & activities",
+   "tab2": "🧭 My priorities",
+   "rankOpts": "My school doesn't rank / not sure"
+  },
+  "adj1": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: average (estimated from the counts — answer the question above to set it yourself). Counts at selective schools.",
+  "adj2": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: most demanding. Counts at selective schools.",
+  "work": {
+   "lvls": [
+    "Employee",
+    "Given more responsibility / promoted",
+    "Supervisor, manager, or a workplace award"
+   ],
+   "pos": [
+    "Choose…",
+    "Employee",
+    "Intern",
+    "Shift lead / supervisor",
+    "Manager",
+    "Self-employed / own business",
+    "Other"
+   ],
+   "when": [
+    "School year",
+    "Summer & breaks",
+    "All year"
+   ]
+  },
+  "saved": {
+   "rigor": {
+    "honors": 6,
+    "ap": 0,
+    "dual": 0,
+    "grade": 12,
+    "level": 5
+   },
+   "major": "Engineering + Business",
+   "rank": "Top 10%",
+   "hs": {
+    "name": "Brookline High School"
+   },
+   "act": {
+    "name": "Work (Paid) — Shift lead / supervisor",
+    "category": "Work (Paid)",
+    "tier": 3,
+    "hrs": 8,
+    "yrs": "2",
+    "grades": [
+     "11",
+     "12"
+    ],
+    "timing": "During school break",
+    "position": "Shift lead / supervisor",
+    "weeks": "8"
+   }
+  },
+  "explain": "{\"band\":\"reach\",\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 (rigor-adjusted 3.73, counted under rigor)\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.12933333333333336,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
+  "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n64%\n🎯 Target\n12%\n🌟 Reach\n24%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#report-back ← Back 73x33",
+    "#report-share 🔗 Share 82x32",
+    "#report-print ⬇ Save as PDF 116x32"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errA": [],
+  "parent": {
+   "text": "Zoe's profile\n\nZoe hasn't added grades yet. Only Zoe can edit Zoe's profile; you'll see it here as soon as it's filled in.",
+   "formHidden": true,
+   "actsHidden": true,
+   "tab": "🎓 Zoe's grades & activities"
+  },
+  "prefs": {
+   "maxRow": 77.390625,
+   "endsClear": true,
+   "labels": "meh|crucial|meh|crucial|no|yes|meh|love it|meh|crucial|meh|crucial|small college|big university|small town|big city"
+  },
+  "errB": []
+ },
+ "phone-dark": {
+  "form": {
+   "income": false,
+   "offered": false,
+   "moreOpen": false,
+   "tab": "🎓 My grades & activities",
+   "tab2": "🧭 My priorities",
+   "rankOpts": "My school doesn't rank / not sure"
+  },
+  "adj1": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: average (estimated from the counts — answer the question above to set it yourself). Counts at selective schools.",
+  "adj2": "Weighted GPA estimate: 3.73 (3.60 + Honors ½ point, AP/IB/dual 1 point each, spread over about 24 courses)Rigor: most demanding. Counts at selective schools.",
+  "work": {
+   "lvls": [
+    "Employee",
+    "Given more responsibility / promoted",
+    "Supervisor, manager, or a workplace award"
+   ],
+   "pos": [
+    "Choose…",
+    "Employee",
+    "Intern",
+    "Shift lead / supervisor",
+    "Manager",
+    "Self-employed / own business",
+    "Other"
+   ],
+   "when": [
+    "School year",
+    "Summer & breaks",
+    "All year"
+   ]
+  },
+  "saved": {
+   "rigor": {
+    "honors": 6,
+    "ap": 0,
+    "dual": 0,
+    "grade": 12,
+    "level": 5
+   },
+   "major": "Engineering + Business",
+   "rank": "Top 10%",
+   "hs": {
+    "name": "Brookline High School"
+   },
+   "act": {
+    "name": "Work (Paid) — Shift lead / supervisor",
+    "category": "Work (Paid)",
+    "tier": 3,
+    "hrs": 8,
+    "yrs": "2",
+    "grades": [
+     "11",
+     "12"
+    ],
+    "timing": "During school break",
+    "position": "Shift lead / supervisor",
+    "weeks": "8"
+   }
+  },
+  "explain": "{\"band\":\"reach\",\"label\":\"Reach\",\"steps\":[{\"k\":\"Base band\",\"v\":\"Reach\",\"why\":\"This school admits about 30% of applicants\",\"moved\":true},{\"k\":\"Your test scores\",\"v\":\"not used\",\"why\":\"No scores on file for this school\",\"moved\":false},{\"k\":\"Your GPA\",\"v\":\"no change\",\"why\":\"Unweighted GPA 3.60 (rigor-adjusted 3.73, counted under rigor)\",\"moved\":false},{\"k\":\"Course rigor\",\"v\":\"Target\",\"why\":\"Rated most demanding for your school, and this selective school rewards a demanding schedule\",\"moved\":true},{\"k\":\"Your activities\",\"v\":\"no change\",\"why\":\"A light activity profile\",\"moved\":false},{\"k\":\"Competitive major\",\"v\":\"Reach\",\"why\":\"Engineering + Business tends to admit tougher than the school overall\",\"moved\":true}],\"inputs\":{\"gpaRaw\":\"3.6\",\"gpaAdj\":3.73,\"sat\":null,\"testOptional\":false,\"act\":null,\"activityStrength\":0.12933333333333336,\"activityWord\":\"light\",\"major\":\"Engineering + Business\",\"majorImpacted\":true,\"rigor\":{\"level\":5,\"word\":\"most demanding\",\"estimated\":false}}}",
+  "summary": "Your profile\n📄 Report\n✏️ Edit profile\nGPA\n3.6 (weighted est. 3.73)\nGRADE\n12th\nINTERESTS\nEngineering + Business\nCLASS RANK\nTop 10%\nCOURSE RIGOR\n6 honors · most demanding\nHIGH SCHOOL\nBrookline High School\nACTIVITIES · light profile (1) — edit below\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n64%\n🎯 Target\n12%\n🌟 Reach\n24%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds. Not you? Switch me to parent",
+  "report": "Brookline High School · Grade 12 · Arthur Family · October 11, 2026",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+     "ok": true
+    },
+    {
+     "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "ok": true
+    }
+   ],
+   "bgs": [],
+   "bad": [],
+   "small": [],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errA": [],
+  "parent": {
+   "text": "Zoe's profile\n\nZoe hasn't added grades yet. Only Zoe can edit Zoe's profile; you'll see it here as soon as it's filled in.",
+   "formHidden": true,
+   "actsHidden": true,
+   "tab": "🎓 Zoe's grades & activities"
+  },
+  "prefs": {
+   "maxRow": 77.390625,
+   "endsClear": true,
+   "labels": "meh|crucial|meh|crucial|no|yes|meh|love it|meh|crucial|meh|crucial|small college|big university|small town|big city"
+  },
+  "errB": []
+ },
+ "ok": {
+  "phone.basicsOnly": true,
+  "phone.weightedGpaHonest": true,
+  "phone.workRecognitionFits": true,
+  "phone.savedOnStandards": true,
+  "phone.rigorCountsInChance": true,
+  "phone.summaryAndReport": true,
+  "phone.parentSeesStudentReadOnly": true,
+  "phone.prioritiesTidy": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.basicsOnly": true,
+  "desktop.weightedGpaHonest": true,
+  "desktop.workRecognitionFits": true,
+  "desktop.savedOnStandards": true,
+  "desktop.rigorCountsInChance": true,
+  "desktop.summaryAndReport": true,
+  "desktop.parentSeesStudentReadOnly": true,
+  "desktop.prioritiesTidy": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.basicsOnly": true,
+  "phone-dark.weightedGpaHonest": true,
+  "phone-dark.workRecognitionFits": true,
+  "phone-dark.savedOnStandards": true,
+  "phone-dark.rigorCountsInChance": true,
+  "phone-dark.summaryAndReport": true,
+  "phone-dark.parentSeesStudentReadOnly": true,
+  "phone-dark.prioritiesTidy": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
