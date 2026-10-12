@@ -4,7 +4,9 @@
    "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 6
+   "cards": 7,
+   "nextStep": true,
+   "nextStepText": "3/5\nYOUR NEXT STEP\n📚 Add Zoe's grades\nA GPA and test scores are enough to unlock Reach / Target / Likely.\nAsk Zoe\n✓ Student\n✓ Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Watch the 1-minute tour"
   },
   "board": {
    "noOnboard": true,
@@ -41,7 +43,9 @@
    "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 6
+   "cards": 7,
+   "nextStep": true,
+   "nextStepText": "3/5\nYOUR NEXT STEP\n📚 Add Zoe's grades\nA GPA and test scores are enough to unlock Reach / Target / Likely.\nAsk Zoe\n✓ Student\n✓ Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Watch the 1-minute tour"
   },
   "board": {
    "noOnboard": true,
@@ -76,6 +80,7 @@
     "4 Priorities 87x32",
     "✓ Family 75x32",
     "▶ Watch the 1-minute tour 160x19",
+    "See our journey 125x32",
     "Open Deadlines 124x32",
     "Open 59x32",
     "🗳 Vote 71x32",
@@ -99,7 +104,9 @@
    "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 6
+   "cards": 7,
+   "nextStep": true,
+   "nextStepText": "3/5\nYOUR NEXT STEP\n📚 Add Zoe's grades\nA GPA and test scores are enough to unlock Reach / Target / Likely.\nAsk Zoe\n✓ Student\n✓ Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Watch the 1-minute tour"
   },
   "board": {
    "noOnboard": true,
@@ -136,7 +143,9 @@
    "onboard": false,
    "howtoInToday": true,
    "howtoShown": false,
-   "cards": 0
+   "cards": 0,
+   "nextStep": true,
+   "nextStepText": "2/5\nYOUR NEXT STEP\n🏫 Add 3 or more schools\nSwipe through a few picked for you, or search by name. You can always change them.\nDiscover schools\n✓ Student\n2 Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Wat"
   },
   "board": {
    "noOnboard": true,
@@ -164,7 +173,7 @@
     "▶ Watch the 1-minute tour 160x19"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 0
   },
   "errors": []
  },
@@ -172,26 +181,26 @@
   "phone.boardIsJustTheList": true,
   "phone.schoolsVisibleImmediately": true,
   "phone.oneLineSummary": true,
-  "phone.guidanceOnToday": false,
+  "phone.guidanceOnToday": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
   "desktop.boardIsJustTheList": true,
   "desktop.schoolsVisibleImmediately": true,
   "desktop.oneLineSummary": true,
-  "desktop.guidanceOnToday": false,
+  "desktop.guidanceOnToday": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
   "phone-dark.boardIsJustTheList": true,
   "phone-dark.schoolsVisibleImmediately": true,
   "phone-dark.oneLineSummary": true,
-  "phone-dark.guidanceOnToday": false,
+  "phone-dark.guidanceOnToday": true,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true,
   "empty-phone.boardIsJustTheList": true,
-  "empty-phone.guidanceOnToday": false,
-  "empty-phone.howtoForNewFamilies": false,
+  "empty-phone.guidanceOnToday": true,
+  "empty-phone.howtoForNewFamilies": true,
   "empty-phone.noErrors": true,
   "empty-phone.noSidewaysScroll": true
  },
- "allPass": false
+ "allPass": true
 }

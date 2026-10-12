@@ -3,10 +3,10 @@
   "rows": [
    "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
    "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $18,907 $21,785 (in-state) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $35,649 $40,783 (in-state) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $32,362 $42,115 (in-state) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $35,015 $44,163 (in-state) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {
@@ -38,10 +38,10 @@
   "rows": [
    "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
    "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $18,907 $21,785 (in-state) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $35,649 $40,783 (in-state) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $32,362 $42,115 (in-state) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $35,015 $44,163 (in-state) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {
@@ -92,10 +92,10 @@
   "rows": [
    "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
    "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $18,907 $21,785 (in-state) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $35,649 $40,783 (in-state) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $32,362 $42,115 (in-state) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $35,015 $44,163 (in-state) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {

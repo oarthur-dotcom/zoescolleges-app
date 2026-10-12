@@ -19,8 +19,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.click('#report-back'); await page.waitForTimeout(300); o.backTo = await page.evaluate(() => currentView);
   await page.evaluate(() => goto('board')); await page.waitForTimeout(200); await page.click('#btn-report2'); await page.waitForTimeout(300); o.fromBoard = await page.evaluate(() => currentView);
   await page.click('#report-back'); await page.waitForTimeout(200); o.backBoard = await page.evaluate(() => currentView);
-  await page.evaluate(() => goto('profile')); await page.waitForTimeout(400); o.pfBtn = await page.evaluate(() => !!document.querySelector('[data-pf-report]'));
-  if (o.pfBtn) { await page.click('[data-pf-report]'); await page.waitForTimeout(300); } o.fromProfile = await page.evaluate(() => currentView);
+  await page.evaluate(() => goto('profile')); await page.waitForTimeout(400); o.pfBtn = await page.evaluate(() => !!document.querySelector('[data-pf-report], #subnav [data-nav="report"]'));   // #68: Profile group sub-tab (or the profile header button)
+  if (o.pfBtn) { await page.click(await page.$('[data-pf-report]') ? '[data-pf-report]' : '#subnav [data-nav="report"]'); await page.waitForTimeout(300); } o.fromProfile = await page.evaluate(() => currentView);
   if (label !== 'desktop') { await page.evaluate(() => goto('today')); await page.click('#tabbar [data-tb="more"], #tabbar .tb:last-child'); await page.waitForTimeout(300);
     o.sheet = await page.evaluate(() => !!document.querySelector('.tbs[data-nav="report"]')); if (o.sheet) { await page.click('.tbs[data-nav="report"]'); await page.waitForTimeout(300); } o.fromSheet = await page.evaluate(() => currentView); }
   // print: real PDF via the print engine, title set for the file name

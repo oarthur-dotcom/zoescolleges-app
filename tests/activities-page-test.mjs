@@ -8,6 +8,7 @@ const R = {}, ok = {};
 async function run(vp, label, dark) {
   const b = await launch(); const { page, log } = await newPage(b, vp, {}); if (dark) await page.emulateMedia({ colorScheme: 'dark' });
   await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT }));
+  await page.addInitScript('window.__ASSTUDENT=true;');   // #66: once the student has joined, only she edits her profile
   await page.goto('http://localhost:8798/index.html');
   await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(800);
   await page.evaluate(() => { localStorage.removeItem('activities'); goto('profile'); }); await page.waitForTimeout(500);
@@ -22,8 +23,9 @@ async function run(vp, label, dark) {
   await page.selectOption('.act-card.open .a-sport', 'Rugby');
   await page.selectOption('.act-card.open .a-pos', 'Captain');
   for (const g of ['10', '11', '12']) await page.click(`.act-card.open .a-gr[data-gr="${g}"]`);
-  await page.selectOption('.act-card.open .a-hrs', '20'); await page.selectOption('.act-card.open .a-wks', '36');
+  await page.click('.act-card.open .a-hr[data-v="18"]'); await page.click('.act-card.open .a-wk[data-v="34"]');   // #66: tap-to-pick ranges
   await page.selectOption('.act-card.open .a-lvl', '3');
+  await page.click('.act-card.open .act-more summary');   // #66: optional details folded
   await page.fill('.act-card.open .a-desc', 'Led warmups; team made the state quarterfinals.');
   o.unsaved = await page.evaluate(() => document.getElementById('pf-savemsg2').textContent);
   await page.screenshot({ path: `${SHOTS}${label}-editing.png`, fullPage: false });
@@ -32,7 +34,7 @@ async function run(vp, label, dark) {
   o.saved1 = await lastSave(); o.status1 = await page.evaluate(() => document.getElementById('pf-savemsg2').textContent);
   // 2) a job with nothing typed at all — must still be kept
   await page.click('#pf-act-add'); await page.waitForTimeout(150);
-  await page.selectOption('.act-card.open .a-cat', 'Work (Paid)'); await page.selectOption('.act-card.open .a-hrs', '12');
+  await page.selectOption('.act-card.open .a-cat', 'Work (Paid)'); await page.click('.act-card.open .a-hr[data-v="13"]');
   await page.click('.act-card.open .a-done'); await page.waitForTimeout(400);
   o.saved2 = (await lastSave() || []).map(a => a.name);
   o.addLabel2 = await page.evaluate(() => document.getElementById('pf-act-add').textContent + ' | ' + document.getElementById('pf-act-count').textContent);
@@ -59,9 +61,9 @@ for (const [k, o] of Object.entries(R)) {
   ok[k + '.emptyStateClear'] = /No activities yet/.test(o.empty) && /first activity/.test(o.addLabel);
   ok[k + '.sportIsDropdown'] = /^SELECT:3\d$/.test(o.sportIsDropdown);
   ok[k + '.showsUnsaved'] = /Unsaved/.test(o.unsaved);
-  ok[k + '.doneSavesAndCollapses'] = o.afterFirst.length === 1 && /Rugby \(JV\/Varsity\) — Captain/.test(o.afterFirst[0]) && /Gr 10–12 · 20 hr\/wk · 36 wk\/yr/.test(o.afterFirst[0]) && /Saved — 1 activity/.test(o.status1);
+  ok[k + '.doneSavesAndCollapses'] = o.afterFirst.length === 1 && /Rugby \(JV\/Varsity\) — Captain/.test(o.afterFirst[0]) && /Gr 10–12 · 16–20 hr\/wk · ~34 wk\/yr/.test(o.afterFirst[0]) && /Saved — 1 activity/.test(o.status1);
   const s1 = (o.saved1 || [])[0] || {};
-  ok[k + '.commonAppFieldsSaved'] = s1.sport === 'Rugby' && s1.position === 'Captain' && JSON.stringify(s1.grades) === '["10","11","12"]' && s1.yrs === '3' && s1.hrs === '20' && s1.weeks === '36' && s1.tier === 3 && /quarterfinals/.test(s1.desc) && s1.category === 'Athletics: JV/Varsity';
+  ok[k + '.commonAppFieldsSaved'] = s1.sport === 'Rugby' && s1.position === 'Captain' && JSON.stringify(s1.grades) === '["10","11","12"]' && s1.yrs === '3' && String(s1.hrs) === '18' && String(s1.weeks) === '34' && s1.tier === 3 && /quarterfinals/.test(s1.desc) && s1.category === 'Athletics: JV/Varsity';
   ok[k + '.untypedActivityKept'] = JSON.stringify(o.saved2) === '["Rugby (JV/Varsity) — Captain","Work (Paid)"]';
   ok[k + '.addAnotherClear'] = /Add another activity/.test(o.addLabel2) && /2 of 10/.test(o.addLabel2);
   ok[k + '.reorderSaved'] = JSON.stringify(o.saved3) === '["Work (Paid)","Rugby (JV/Varsity) — Captain"]';

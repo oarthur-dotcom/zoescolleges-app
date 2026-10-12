@@ -1,5 +1,5 @@
 {
- "bigBytes": 30841640,
+ "bigBytes": 30841651,
  "phone": {
   "leak": {
    "sp": null,
@@ -213,7 +213,7 @@
    "h": "What matters to you (Obie)"
   },
   "errA": [],
-  "tx1": " Reading big-transcript.png… this can take a few seconds.",
+  "tx1": "I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.",
   "sent": {
    "mime": "image/jpeg",
    "kb": 1295
@@ -314,7 +314,7 @@
   "phone-dark.plainInputsStyled": true,
   "phone-dark.setPrioritiesOpensSliders": true,
   "phone-dark.photoShrunk": true,
-  "phone-dark.emptyReadHonest": false,
+  "phone-dark.emptyReadHonest": true,
   "phone-dark.readShowsCourses": true,
   "phone-dark.transcriptReadable": true,
   "phone-dark.buttonsReadable": true,
@@ -324,5 +324,5 @@
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true
  },
- "allPass": false
+ "allPass": true
 }

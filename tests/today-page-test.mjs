@@ -33,7 +33,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   ok[label + '.landsOnToday'] = o.landing === 'today' && /^Good (morning|afternoon|evening)/.test(o.hi);
   if (!empty) {
-    ok[label + '.fiveCards'] = o.cards.length === 6 && /Zoe suggests/.test(o.cards[0]) && /Talk It Out/i.test(o.cards[1]) && /New at your schools/.test(o.cards[2]) && /Your list/.test(o.cards[3]) && /College report/.test(o.cards[4]) && /Visits/.test(o.cards[5]);
+    const C = /This week/.test(o.cards[0] || '') ? o.cards.slice(1) : o.cards;   // #71: optional weekly recap on top
+    ok[label + '.fiveCards'] = C.length === 6 && /Zoe suggests/.test(C[0]) && /Talk It Out/i.test(C[1]) && /New at your schools/.test(C[2]) && /Your list/.test(C[3]) && /College report/.test(C[4]) && /Visits/.test(C[5]);
     ok[label + '.nextDeadlineIsClemson'] = /Finish Clemson University/.test(o.hero) && /Early Action/.test(o.hero) && /Due in 4 days/.test(o.hero) && /still to do/i.test(o.hero);
     ok[label + '.newsAndVisitDays'] = /MIT engineers design a battery/.test(o.text) && /Campus tour and information session/.test(o.text);
     ok[label + '.listGrade'] = /Likely · .* Target · .* Reach/.test(o.text);

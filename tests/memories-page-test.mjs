@@ -14,6 +14,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   const o = {};
   o.nav = await page.evaluate(() => [...document.querySelectorAll('#appnav .navbtn')].map(x => x.textContent.trim()));
   o.sheet = await page.evaluate(() => [...document.querySelectorAll('#tb-sheet .tbs b')].map(x => x.textContent));
+  o.famTabs = await page.evaluate(async () => { gotoGroup('family'); await new Promise(r => setTimeout(r, 300)); const t = [...document.querySelectorAll('#subnav .sn-tab')].map(x => x.textContent.trim()); goto('today'); return t; });
   await page.evaluate(() => { localStorage.removeItem(_tripKey ? 'x' : 'x'); state.photos = []; goto('memories'); }); await page.waitForTimeout(500);
   o.empty = await page.evaluate(() => ({ steps: document.querySelectorAll('.mem-steps>div').length, strip: (() => { const v = document.getElementById('mem-sample-vid'); return v ? 6 : 0; })(), video: (() => { const v = document.getElementById('mem-sample-vid'); return v && v.querySelector('source').getAttribute('src'); })(), play: !!document.getElementById('mem-sample-play'), playHidden: document.getElementById('mem-play').classList.contains('hidden') }));
   await page.screenshot({ path: `${SHOTS}${label}-empty.png` });
@@ -44,7 +45,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.evaluate(() => goto('trip')); await page.waitForTimeout(300);
   o.trips = await page.evaluate(() => ({ title: document.querySelector('#v-trip h1').textContent, back: !!document.getElementById('trip-back') }));
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
-  ok[label + '.memoriesInNav'] = o.nav.includes('📸 Memories') && o.sheet.includes('Memories');
+  ok[label + '.memoriesInNav'] = o.nav.includes('Family') && o.famTabs.includes('Memories');   // #68: Memories lives under Family
   ok[label + '.emptyStateTeaches'] = o.empty.steps === 3 && o.empty.strip === 6 && o.empty.play && o.empty.playHidden;
   ok[label + '.sampleReelCredited'] = o.player.open && /Photo: .*Wikimedia Commons/.test(o.player.cap);
   ok[label + '.sampleVideo'] = o.film;

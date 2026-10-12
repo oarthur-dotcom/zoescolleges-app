@@ -1,21 +1,21 @@
 {
  "phone": {
   "math": {
-   "clemson1300": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "mit1300": "Where you stand · SAT 14901600 Add a score in My Profile to see your dot — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College ",
-   "cofc1300": "Where you stand · SAT 6401170 Add a score in My Profile to see your dot — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Sc",
-   "noRange": "Where you standThis school reports an average SAT of 1247, not a range.",
-   "actOnly": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "testOptional": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
+   "clemson1300": "Where you stand · SAT 10501580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorec",
+   "mit1300": "Where you stand · SAT 12601600 Your SAT is below their middle 50% — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College Scoreca",
+   "cofc1300": "Where you stand · SAT 6401470 Your SAT is above their middle 50% — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Scorecard",
+   "noRange": "Where you standThis school reports an average SAT of 1247, not a range. Your 1300 is 53 above that average.",
+   "actOnly": "Where you stand · ACT 2436 Your ACT is inside their middle 50% — half of admitted students scored between 28 and 32; a quarter scored above 32. (2022 data, College Scorecard) Grade",
+   "testOptional": "Where you stand · SAT 10501580 You're applying test-optional — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) G",
    "noScores": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College "
   },
   "cards": [
-   "",
-   "",
-   "",
-   ""
+   "SAT 1530–1580 · you 1300",
+   "SAT 1220–1410 · you 1300",
+   "SAT 985–1190 · you 1300",
+   "SAT 900–1130 · you 1300"
   ],
-  "detail": "WHERE YOU STAND · SAT 1050 1580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
+  "detail": "WHERE YOU STAND · SAT 1050 1580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
   "audit": {
    "overflowX": 0,
    "imgs": [
@@ -91,21 +91,21 @@
  },
  "desktop": {
   "math": {
-   "clemson1300": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "mit1300": "Where you stand · SAT 14901600 Add a score in My Profile to see your dot — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College ",
-   "cofc1300": "Where you stand · SAT 6401170 Add a score in My Profile to see your dot — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Sc",
-   "noRange": "Where you standThis school reports an average SAT of 1247, not a range.",
-   "actOnly": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "testOptional": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
+   "clemson1300": "Where you stand · SAT 10501580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorec",
+   "mit1300": "Where you stand · SAT 12601600 Your SAT is below their middle 50% — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College Scoreca",
+   "cofc1300": "Where you stand · SAT 6401470 Your SAT is above their middle 50% — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Scorecard",
+   "noRange": "Where you standThis school reports an average SAT of 1247, not a range. Your 1300 is 53 above that average.",
+   "actOnly": "Where you stand · ACT 2436 Your ACT is inside their middle 50% — half of admitted students scored between 28 and 32; a quarter scored above 32. (2022 data, College Scorecard) Grade",
+   "testOptional": "Where you stand · SAT 10501580 You're applying test-optional — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) G",
    "noScores": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College "
   },
   "cards": [
-   "",
-   "",
-   "",
-   ""
+   "SAT 1530–1580 · you 1300",
+   "SAT 1220–1410 · you 1300",
+   "SAT 985–1190 · you 1300",
+   "SAT 900–1130 · you 1300"
   ],
-  "detail": "WHERE YOU STAND · SAT 1050 1580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
+  "detail": "WHERE YOU STAND · SAT 1050 1580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
   "audit": {
    "overflowX": 0,
    "imgs": [
@@ -171,21 +171,21 @@
  },
  "phone-dark": {
   "math": {
-   "clemson1300": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "mit1300": "Where you stand · SAT 14901600 Add a score in My Profile to see your dot — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College ",
-   "cofc1300": "Where you stand · SAT 6401170 Add a score in My Profile to see your dot — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Sc",
-   "noRange": "Where you standThis school reports an average SAT of 1247, not a range.",
-   "actOnly": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
-   "testOptional": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College ",
+   "clemson1300": "Where you stand · SAT 10501580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorec",
+   "mit1300": "Where you stand · SAT 12601600 Your SAT is below their middle 50% — half of admitted students scored between 1530 and 1580; a quarter scored above 1580. (2022 data, College Scoreca",
+   "cofc1300": "Where you stand · SAT 6401470 Your SAT is above their middle 50% — half of admitted students scored between 810 and 1000; a quarter scored above 1000. (2019 data, College Scorecard",
+   "noRange": "Where you standThis school reports an average SAT of 1247, not a range. Your 1300 is 53 above that average.",
+   "actOnly": "Where you stand · ACT 2436 Your ACT is inside their middle 50% — half of admitted students scored between 28 and 32; a quarter scored above 32. (2022 data, College Scorecard) Grade",
+   "testOptional": "Where you stand · SAT 10501580 You're applying test-optional — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) G",
    "noScores": "Where you stand · SAT 10501580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College "
   },
   "cards": [
-   "",
-   "",
-   "",
-   ""
+   "SAT 1530–1580 · you 1300",
+   "SAT 1220–1410 · you 1300",
+   "SAT 985–1190 · you 1300",
+   "SAT 900–1130 · you 1300"
   ],
-  "detail": "WHERE YOU STAND · SAT 1050 1580 Add a score in My Profile to see your dot — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
+  "detail": "WHERE YOU STAND · SAT 1050 1580 Your SAT is inside their middle 50% — half of admitted students scored between 1220 and 1410; a quarter scored above 1410. (2022 data, College Scorecard) Grades matter more than scores at most schools, but federal data has no GPA ranges — so this shows test scores only.",
   "audit": {
    "overflowX": 0,
    "imgs": [
@@ -260,39 +260,39 @@
   "errors": []
  },
  "ok": {
-  "phone.insideRange": false,
-  "phone.belowRange": false,
-  "phone.aboveRange": false,
-  "phone.noRangeSaysSo": false,
-  "phone.actUsedWhenOnlyAct": false,
-  "phone.testOptionalNoDot": false,
+  "phone.insideRange": true,
+  "phone.belowRange": true,
+  "phone.aboveRange": true,
+  "phone.noRangeSaysSo": true,
+  "phone.actUsedWhenOnlyAct": true,
+  "phone.testOptionalNoDot": true,
   "phone.noScoresPrompt": true,
-  "phone.cardsShowBars": false,
+  "phone.cardsShowBars": true,
   "phone.detailShowsBar": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
-  "desktop.insideRange": false,
-  "desktop.belowRange": false,
-  "desktop.aboveRange": false,
-  "desktop.noRangeSaysSo": false,
-  "desktop.actUsedWhenOnlyAct": false,
-  "desktop.testOptionalNoDot": false,
+  "desktop.insideRange": true,
+  "desktop.belowRange": true,
+  "desktop.aboveRange": true,
+  "desktop.noRangeSaysSo": true,
+  "desktop.actUsedWhenOnlyAct": true,
+  "desktop.testOptionalNoDot": true,
   "desktop.noScoresPrompt": true,
-  "desktop.cardsShowBars": false,
+  "desktop.cardsShowBars": true,
   "desktop.detailShowsBar": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
-  "phone-dark.insideRange": false,
-  "phone-dark.belowRange": false,
-  "phone-dark.aboveRange": false,
-  "phone-dark.noRangeSaysSo": false,
-  "phone-dark.actUsedWhenOnlyAct": false,
-  "phone-dark.testOptionalNoDot": false,
+  "phone-dark.insideRange": true,
+  "phone-dark.belowRange": true,
+  "phone-dark.aboveRange": true,
+  "phone-dark.noRangeSaysSo": true,
+  "phone-dark.actUsedWhenOnlyAct": true,
+  "phone-dark.testOptionalNoDot": true,
   "phone-dark.noScoresPrompt": true,
-  "phone-dark.cardsShowBars": false,
+  "phone-dark.cardsShowBars": true,
   "phone-dark.detailShowsBar": true,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true
  },
- "allPass": false
+ "allPass": true
 }

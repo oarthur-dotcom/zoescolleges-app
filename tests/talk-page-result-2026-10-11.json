@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'm torn: I like ___, but I'm unsure about ___.",
+  "blank": "I'm not sure yet about ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -115,12 +115,15 @@
    "bgs": [],
    "bad": [],
    "small": [
+    "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
     "🎬 5 moments for your movie 175x18"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.sn-tab # right=423"
+   ],
    "dashCount": 0
   },
   "errors": [],
@@ -165,7 +168,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "Part of me hesitates because ___.",
+  "blank": "I worry ___ might be hard for me, and I want to talk about it.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -258,6 +261,7 @@
     "Ask Zoe 83x33",
     "Profile 74x33",
     "🔎 Search Ctrl K 159x33",
+    "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
@@ -308,7 +312,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'm not sure yet about ___.",
+  "blank": "The cost makes me pause because ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -393,12 +397,15 @@
    "bgs": [],
    "bad": [],
    "small": [
+    "Journey 81x34",
     "Talk It Out 94x34",
     "Decision Day 114x34",
     "Memories 95x34",
     "🎬 5 moments for your movie 175x18"
    ],
-   "wide": [],
+   "wide": [
+    "BUTTON.sn-tab # right=423"
+   ],
    "dashCount": 0
   },
   "errors": [],

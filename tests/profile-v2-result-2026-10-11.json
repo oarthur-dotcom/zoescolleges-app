@@ -71,7 +71,7 @@
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
@@ -189,11 +189,11 @@
    "imgs": [
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
@@ -205,19 +205,19 @@
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-     "ok": false
+     "ok": true
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-     "ok": false
+     "ok": true
     }
    ],
    "bgs": [],
@@ -314,7 +314,7 @@
    "imgs": [
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/330px-MI",
@@ -322,27 +322,27 @@
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/250px-MI",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-     "ok": true
+     "ok": false
     },
     {
      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-     "ok": true
+     "ok": false
     }
    ],
    "bgs": [],

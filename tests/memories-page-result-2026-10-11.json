@@ -16,6 +16,12 @@
    "My priorities",
    "College Report"
   ],
+  "famTabs": [
+   "Journey",
+   "Talk It Out",
+   "Decision Day",
+   "Memories"
+  ],
   "empty": {
    "steps": 3,
    "strip": 6,
@@ -84,6 +90,12 @@
    "Profile",
    "My priorities",
    "College Report"
+  ],
+  "famTabs": [
+   "Journey",
+   "Talk It Out",
+   "Decision Day",
+   "Memories"
   ],
   "empty": {
    "steps": 3,
@@ -164,6 +176,12 @@
    "My priorities",
    "College Report"
   ],
+  "famTabs": [
+   "Journey",
+   "Talk It Out",
+   "Decision Day",
+   "Memories"
+  ],
   "empty": {
    "steps": 3,
    "strip": 6,
@@ -223,7 +241,7 @@
   "credits": 6
  },
  "ok": {
-  "phone.memoriesInNav": false,
+  "phone.memoriesInNav": true,
   "phone.emptyStateTeaches": true,
   "phone.sampleReelCredited": true,
   "phone.sampleVideo": true,
@@ -235,7 +253,7 @@
   "phone.tripsStandsAlone": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
-  "desktop.memoriesInNav": false,
+  "desktop.memoriesInNav": true,
   "desktop.emptyStateTeaches": true,
   "desktop.sampleReelCredited": true,
   "desktop.sampleVideo": true,
@@ -247,7 +265,7 @@
   "desktop.tripsStandsAlone": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
-  "phone-dark.memoriesInNav": false,
+  "phone-dark.memoriesInNav": true,
   "phone-dark.emptyStateTeaches": true,
   "phone-dark.sampleReelCredited": true,
   "phone-dark.sampleVideo": true,
@@ -262,5 +280,5 @@
   "signedOut.sampleVideo": true,
   "signedOut.noErrors": true
  },
- "allPass": false
+ "allPass": true
 }

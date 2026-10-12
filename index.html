@@ -2141,6 +2141,7 @@ function renderSubnav(tab){ const el=$("subnav"); if(!el) return; const g=groupO
   el.classList.remove("hidden");
   el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>goto(b.dataset.nav));
   try{ updateDlNav(); updatePulseBadge&&updatePulseBadge(); }catch(e){}
+  try{ updateTripBadge(); }catch(e){}
   const on=el.querySelector(".sn-tab.on"); if(on&&on.scrollIntoView){ try{ on.scrollIntoView({inline:"center",block:"nearest"}); }catch(e){} } }
 function setNavActive(tab){ const g=groupOf(tab);
   document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav ? b.dataset.nav===tab : (!!g && b.dataset.grp===g)));
@@ -4703,7 +4704,7 @@ function getTrip(){ try{ return new Set(JSON.parse(localStorage.getItem(_tripKey
 function saveTrip(s){ try{ localStorage.setItem(_tripKey("zc_trip"), JSON.stringify([...s])); }catch(e){} }
 function inTrip(id){ return getTrip().has(id); }
 function toggleTrip(id){ const s=getTrip(); if(s.has(id)) s.delete(id); else s.add(id); saveTrip(s); updateTripBadge(); return s.has(id); }
-function updateTripBadge(){ const b=document.querySelector('#appnav .navbtn[data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; } const t=document.querySelector('[data-tbs-sub="trip"]'); if(t){ const n=getTrip().size; t.textContent = n? `${n} school${n>1?"s":""} on your trip` : "Plan campus visits"; } }
+function updateTripBadge(){ const b=document.querySelector('#subnav [data-nav="trip"]'); if(b){ const n=getTrip().size; b.textContent = n? ("Trips · "+n) : "Trips"; }   /* #68: count now on the Plan → Trips sub-tab */ const t=document.querySelector('[data-tbs-sub="trip"]'); if(t){ const n=getTrip().size; t.textContent = n? `${n} school${n>1?"s":""} on your trip` : "Plan campus visits"; } }
 function tripRec(id){ const info=catInfo(id); if(!info) return null; const rec=state.schools.find(s=>s.school_id===id) || {school_id:id, name:info.name, city:info.city, state:info.state}; return {rec,info}; }
 /* ---- per-stop "things to do" plan (local) ---- */
 function tripPlan(){ try{ return JSON.parse(localStorage.getItem(_tripKey("zc_tripplan"))||"{}"); }catch(e){ return {}; } }

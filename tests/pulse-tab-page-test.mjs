@@ -42,13 +42,15 @@ async function run(vp, label, dark) {
   await page.evaluate(() => goto('board')); await page.waitForTimeout(700);   // #48: the app now opens on Today
   await page.waitForTimeout(1800);
   const out = {};
-  out.navTabs = await page.evaluate(() => [...document.querySelectorAll('#appnav .navbtn')].map(b => b.textContent.trim()));
+  out.navTabs = await page.evaluate(async () => { gotoGroup('schools'); await new Promise(r => setTimeout(r, 300)); return [...document.querySelectorAll('#subnav .sn-tab')].map(b => b.textContent.trim()); });   // #68: Pulse is a Schools sub-tab
+  out.schoolsBadge = await page.evaluate(() => (document.querySelector('[data-grp-badge="schools"]') || {}).textContent || '');
+  await page.evaluate(() => goto('board')); await page.waitForTimeout(300);
   out.boardHasPulseBox = await page.evaluate(() => !!document.querySelector('#v-board .bpulse, #board-pulse'));
   out.cardBadges = await page.evaluate(() => [...document.querySelectorAll('#schools .pulse-new')].map(x => x.closest('[data-pulse-open]').dataset.pulseOpen + ':' + x.textContent));
   out.digestAsksForEvents = digestUrls.every(s => /events=1/.test(s)) && digestUrls.length >= 1;
   await page.screenshot({ path: `${SHOTS}${label}-board.png` });
   // Pulse tab
-  await page.click(vp.width <= 640 ? '#tabbar [data-nav="pulse"]' : '#appnav .navbtn[data-nav="pulse"]'); await page.waitForTimeout(700);
+  await page.evaluate(() => gotoGroup('schools')); await page.waitForTimeout(300); await page.click('#subnav [data-nav="pulse"]'); await page.waitForTimeout(700);   // #68: Pulse lives under Schools
   out.tabText = await page.evaluate(() => document.getElementById('pt-out').innerText.replace(/\s+/g, ' ').slice(0, 1400));
   out.feedOrder = await page.evaluate(() => [...document.querySelectorAll('.pt-feed .pt-tile-t')].map(a => a.textContent.slice(0, 50)));
   out.visits = await page.evaluate(() => [...document.querySelectorAll('#pt-out .pt-visit')].map(x => x.innerText.replace(/\s+/g, ' ').slice(0, 120)));
@@ -64,7 +66,7 @@ async function run(vp, label, dark) {
   // add a visit day to Trips
   await page.evaluate(() => document.querySelector('#pt-out [data-trip-add="college-of-charleston"]').click()); await page.waitForTimeout(150);
   out.tripAdded = await page.evaluate(() => getTrip().has('college-of-charleston') && document.querySelector('#pt-out [data-trip-add="college-of-charleston"]').textContent);
-  out.tripNav = await page.evaluate(() => document.querySelector('#appnav .navbtn[data-nav="trip"]').textContent);
+  out.tripNav = await page.evaluate(async () => { const v = currentView; gotoGroup('plan'); await new Promise(r => setTimeout(r, 300)); const t = (document.querySelector('#subnav [data-nav="trip"]') || {}).textContent || ''; goto(v); await new Promise(r => setTimeout(r, 300)); return t; });
   // weekly email switch
   await page.evaluate(() => document.querySelector('[data-pw-toggle]').click()); await page.waitForTimeout(300);
   out.weeklyWrite = await page.evaluate(() => JSON.stringify(window.__writes.filter(w => w.table === 'reminder_prefs').map(w => ({ op: w.op, on: w.p.pulse_weekly, hasEmailOn: 'email_on' in w.p }))));
@@ -88,8 +90,8 @@ R.desktop = await run({ width: 1280, height: 900 }, 'desktop');
 R.phone = await run({ width: 390, height: 844 }, 'phone');
 R.dark = await run({ width: 390, height: 844 }, 'phone-dark', true);
 for (const [k, o] of Object.entries(R)) {
-  ok[k + '.pulseTabInNav'] = o.navTabs.some(t => /Pulse/.test(t)) && o.navTabs.indexOf(o.navTabs.find(t => /Pulse/.test(t))) === o.navTabs.indexOf('Deadlines') + 1;
-  ok[k + '.navShowsNewCount'] = o.navTabs.some(t => /Pulse · 4/.test(t));
+  ok[k + '.pulseTabInNav'] = o.navTabs.some(t => /Pulse/.test(t));
+  ok[k + '.navShowsNewCount'] = o.navTabs.some(t => /Pulse.*4/.test(t)) && /4/.test(o.schoolsBadge);
   ok[k + '.notOnHomePage'] = o.boardHasPulseBox === false;
   ok[k + '.cardDots'] = o.cardBadges.includes('sc-166683:3 new') && o.cardBadges.includes('college-of-charleston:1 new');
   ok[k + '.digestIncludesEvents'] = o.digestAsksForEvents;
