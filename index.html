@@ -5599,15 +5599,16 @@ function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==
 function showTxPreview(f){
   const el=$("tx-preview"); if(!el) return;
   const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${esc(v==null?"—":String(v))}</b></div>`;
-  const gpa = f.gpa!=null ? (f.gpa + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (weighted)" : "—");
+  const gpa = f.gpa!=null ? (Number(f.gpa).toFixed(2) + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (weighted)" : "—");
   el.innerHTML=`<div class="txp-h">Here's what I read — check it, then fill your profile:</div>
-    ${line("GPA", gpa)}
+    ${line(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpa)}
+    ${f.gpaCalculated?`<div class="muted" style="font-size:11.5px;margin:-2px 0 6px">Your school doesn't print a GPA, so I worked it out from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count.</div>`:""}
     ${line("AP / IB courses", f.apIb)}
     ${line("Honors courses", f.honors)}
     ${line("Dual-enrollment", f.dualEnrollment)}
     ${line("SAT", f.sat!=null?f.sat:"—")}
     ${line("ACT", f.act!=null?f.act:"—")}
-    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses"><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}</li>`).join("")}</ul></details>`:""}
+    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses"><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}${c.grade?` <span class="muted">· ${esc(c.grade)}</span>`:""}</li>`).join("")}</ul></details>`:""}
     ${f.confidence==="low"?`<div class="txp-warn">⚠ The image was hard to read — double-check these before saving.</div>`:""}
     <div class="row" style="margin-top:10px;gap:8px"><button class="small primary" id="txp-fill" type="button">Fill my profile</button><button class="small ghost" id="txp-cancel" type="button">Discard</button></div>
     <div class="muted" style="font-size:11px;margin-top:6px">Nothing saves until you tap <b>Save academic profile</b>.</div>`;

@@ -1,0 +1,31 @@
+{
+ "brookline": {
+  "gpa": 3.19,
+  "calc": {
+   "gpa": 3.19,
+   "courses": 21,
+   "credits": 18.5
+  },
+  "honors": 11,
+  "apIb": 0,
+  "n": 28
+ },
+ "slowMs": 1501,
+ "slow": {
+  "error": "That page took too long to read — try again in a minute, or a photo of just the grades section. You can also type the numbers in.",
+  "slow": true
+ },
+ "ok": {
+  "calculatesGpaWhenSchoolPrintsZero": true,
+  "gpaValueRight": true,
+  "honorsFromTrailingH": true,
+  "keepsAllCourses": true,
+  "thinkingKeptLow": true,
+  "printedGpaWins": true,
+  "gradeScale": true,
+  "retriesWithoutThinking": true,
+  "answersBeforeDeadline": true,
+  "skipsServerError": true
+ },
+ "allPass": true
+}
