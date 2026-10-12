@@ -31,7 +31,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:57:05.763Z"
+    "status_at": "2026-10-12T02:39:43.507Z"
    },
    "shared": {
     "Transcript": true,
@@ -41,7 +41,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:57:06.202Z",
+   "status_at": "2026-10-12T02:39:43.820Z",
    "checklist": {
     "Submitted": true
    }
@@ -141,7 +141,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:57:13.836Z"
+    "status_at": "2026-10-12T02:39:50.439Z"
    },
    "shared": {
     "Transcript": true,
@@ -151,7 +151,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:57:14.142Z",
+   "status_at": "2026-10-12T02:39:50.743Z",
    "checklist": {
     "Submitted": true
    }
@@ -261,7 +261,7 @@
      "Submitted": true
     },
     "app_status": "applied",
-    "status_at": "2026-10-12T01:57:20.887Z"
+    "status_at": "2026-10-12T02:39:57.320Z"
    },
    "shared": {
     "Transcript": true,
@@ -271,7 +271,7 @@
   },
   "dd": {
    "app_status": "applied",
-   "status_at": "2026-10-12T01:57:21.194Z",
+   "status_at": "2026-10-12T02:39:57.635Z",
    "checklist": {
     "Submitted": true
    }

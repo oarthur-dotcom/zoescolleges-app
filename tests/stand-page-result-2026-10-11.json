@@ -110,6 +110,46 @@
    "overflowX": 0,
    "imgs": [
     {
+     "src": "https://c.tile.openstreetmap.org/14/4422/6506.png",
+     "ok": true
+    },
+    {
+     "src": "https://a.tile.openstreetmap.org/14/4422/6507.png",
+     "ok": true
+    },
+    {
+     "src": "https://b.tile.openstreetmap.org/14/4421/6506.png",
+     "ok": true
+    },
+    {
+     "src": "https://a.tile.openstreetmap.org/14/4423/6506.png",
+     "ok": true
+    },
+    {
+     "src": "https://c.tile.openstreetmap.org/14/4421/6507.png",
+     "ok": true
+    },
+    {
+     "src": "https://b.tile.openstreetmap.org/14/4423/6507.png",
+     "ok": true
+    },
+    {
+     "src": "https://a.tile.openstreetmap.org/14/4420/6506.png",
+     "ok": true
+    },
+    {
+     "src": "https://b.tile.openstreetmap.org/14/4424/6506.png",
+     "ok": true
+    },
+    {
+     "src": "https://b.tile.openstreetmap.org/14/4420/6507.png",
+     "ok": true
+    },
+    {
+     "src": "https://c.tile.openstreetmap.org/14/4424/6507.png",
+     "ok": true
+    },
+    {
      "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
      "ok": true
     },
@@ -164,7 +204,10 @@
     "Leaflet 54x15",
     "#visit-notes-save Save notes 95x32"
    ],
-   "wide": [],
+   "wide": [
+    "IMG.leaflet-tile leaflet-tile-loaded# right=1380",
+    "IMG.leaflet-tile leaflet-tile-loaded# right=1380"
+   ],
    "dashCount": 13
   },
   "errors": []

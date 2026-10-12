@@ -1,5 +1,5 @@
 {
- "bigBytes": 30841651,
+ "bigBytes": 30841717,
  "phone": {
   "leak": {
    "sp": null,
@@ -29,7 +29,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(16, 28, 46)",
    "bg": "rgb(255, 255, 255)",
    "courses": 2
@@ -119,7 +119,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(16, 28, 46)",
    "bg": "rgb(255, 255, 255)",
    "courses": 2
@@ -219,7 +219,7 @@
    "kb": 1295
   },
   "tx2": {
-   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.8 / 4\n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
+   "text": "Here's what I read — check it, then fill your profile:\n    GPA3.80 / 4\n    \n    AP / IB courses1\n    Honors courses6\n    Dual-enrollment0\n    SAT—\n    ACT—\n    Courses I read (2)English 10 Honors HonorsAP Biology AP\n    \n    Fill my profileDiscard\n    Nothing saves until you tap Save academic profile.",
    "fg": "rgb(233, 237, 246)",
    "bg": "rgb(21, 30, 51)",
    "courses": 2

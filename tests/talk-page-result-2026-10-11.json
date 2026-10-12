@@ -30,7 +30,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I'm not sure yet about ___.",
+  "blank": "I don't want to rule it out, I just need to understand ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -168,7 +168,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "I worry ___ might be hard for me, and I want to talk about it.",
+  "blank": "I'm worried I'm missing something about ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
@@ -312,7 +312,7 @@
   "afterUse": "I'm not drawn to the humidity and I'd love to feel heard about this",
   "kindAfter": 0,
   "starters": 4,
-  "blank": "The cost makes me pause because ___.",
+  "blank": "I don't want to rule it out, I just need to understand ___.",
   "startersClosed": true,
   "blankMsg": "Fill in the blank (___) with your own words first.",
   "saved": {
