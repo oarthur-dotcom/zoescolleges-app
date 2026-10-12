@@ -1438,7 +1438,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <button class="navbtn" data-grp="family">Family</button>
     <button class="navbtn" data-nav="zoe">Ask Zoe</button>
     <button class="navbtn" data-grp="me">Profile</button>
-    <button class="navbtn nav-invite" data-invite type="button" aria-label="Invite family">👪 <span>Invite</span></button>
+    <button class="navbtn nav-invite" data-invite type="button" aria-label="Invite family">👥 <span>Invite</span></button>
     <button class="navbtn nav-search" data-cmdk type="button" aria-label="Search or jump to anything">🔎 <span>Search</span> <kbd>⌘K</kbd></button>
   </nav>
   <div id="subnav" class="subnav hidden" aria-label="Section"></div>
@@ -1455,7 +1455,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
   <div class="tb-sheet-in">
     <div class="tb-sheet-h"><b>More</b><button class="small ghost" type="button" data-tb-close aria-label="Close">✕</button></div>
-    <button class="tbs" data-invite type="button">👪 <b>Invite family</b><span>Email a parent, the student, a grandparent…</span></button>
+    <button class="tbs" data-invite type="button">👥 <b>Invite family</b><span>Email a parent, the student, a grandparent…</span></button>
     <button class="tbs" data-cmdk>🔎 <b>Search</b><span>Find a school or jump anywhere</span></button>
     <button class="tbs" data-nav="zoe">🎓 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
     <button class="tbs" data-nav="profile" data-ptab-go="acad">👤 <b data-tbs-prof>Profile</b><span>Grades, scores, activities</span></button>
@@ -1968,7 +1968,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="zm-cards" role="group" aria-label="Zoe can help you">
       <button class="zm-card" data-zm="week"><span class="zm-i">📅</span><b>Plan my week</b><span>Deadlines, checklist and visits, turned into this week's to-dos</span></button>
       <button class="zm-card" data-zm="essay"><span class="zm-i">✍️</span><b>Essay coach</b><span>Brainstorm a topic or get honest feedback — Zoe never writes it for you</span></button>
-      <button class="zm-card" data-zm="huddle"><span class="zm-i">👪</span><b>Family huddle</b><span>See where your family agrees and differs, and what to talk about next</span></button>
+      <button class="zm-card" data-zm="huddle"><span class="zm-i">👥</span><b>Family huddle</b><span>See where your family agrees and differs, and what to talk about next</span></button>
       <button class="zm-card" data-zm="stack"><span class="zm-i">🎓</span><b>How do I stack up?</b><span>Your profile against a specific school, and what would help most</span></button>
     </div>
     <div id="zm-panel" class="zcard zm-panel hidden"></div>
@@ -2820,7 +2820,7 @@ function renderOnboard(){
   const steps=[
     {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
     {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so match % fits you.", cta:"Set priorities", nav:"profile", act:"priorities"},
-    {done:members>=2, icon:"👨‍👩‍👧", title:"Invite your family", desc:"Everyone rates together — share your invite code.", cta:"Invite family", act:"invite"},
+    {done:members>=2, icon:"👥", title:"Invite your family", desc:"Everyone rates together — share your invite code.", cta:"Invite family", act:"invite"},
   ];
   const doneN=steps.filter(s=>s.done).length, allDone=doneN===steps.length;
   el.innerHTML=`<div class="card ob-card">
@@ -3216,7 +3216,10 @@ function setupSteps(){
     go: gradesMine ? (()=>{ goto("profile"); profileTab("acad"); }) : (stu&&!isMe(stu.user_id) ? "nudge" : (()=>{ goto("profile"); profileTab("acad"); })) });
   steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so match % fits.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
   const famDone = (state.members||[]).length>=2 && !state.pending;
-  steps.push({k:"family", c:"Family", ic:"👨‍👩‍👧", t: state.pending?`Send ${sName} the invite`:"Invite your family", d: state.pending?`${sName} joins with their own account; the profile you started moves over.`:"Everyone rates and has a say — that's the point.", done:famDone, cta: state.pending?"Send invite":"Invite family", go:"invite"});
+  const sentAt = state.pending ? lsGet("inviteSentAt") : null;   // Oct 12: remember that the invite went out
+  steps.push({k:"family", c:"Family", ic:"👥", t: state.pending?(sentAt?`Waiting for ${sName} to join`:`Send ${sName} the invite`):"Invite your family",
+    d: state.pending?(sentAt?`Invite sent ${new Date(sentAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}. This checks off when ${sName} signs up from the link; the profile you started moves over.`:`${sName} joins with their own account; the profile you started moves over.`):"Everyone rates and has a say — that's the point.",
+    done:famDone, cta: state.pending?(sentAt?"Resend invite":"Send invite"):"Invite family", go:"invite"});
   return steps;
 }
 function journeyStage(){ const sch=(state.schools||[]); const acc=sch.some(s=>s.app_status==="accepted"), applied=sch.some(s=>["applied","accepted","waitlisted","deferred","denied"].includes(s.app_status));
@@ -3249,7 +3252,7 @@ function nextStepHtml(){
     let body;
     if(cur.k==="student"){ body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
       ${profileBuilt(state.profiles[state.me.user_id])?`<label class="tk-check"><input type="checkbox" id="ss-copy"> <span>Use the grades I already entered on my profile as the student's</span></label>`:""}<div class="tk-msg" id="ss-msg" role="status"></div>`; }
-    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
+    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="family"&&state.pending&&!lsGet("inviteSentAt")?`<button class="small ghost" id="ss-sent">I already sent it</button>`:""}${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
     return `<div class="td-card ns-card"><div class="ns-top">${ringSvg(doneN/steps.length, `${doneN}/${steps.length}`)}<div class="ns-txt"><div class="td-h" style="margin:0 0 2px">Your next step</div><div class="ns-t">${cur.ic} ${esc(cur.t)}</div><div class="td-mid muted">${esc(cur.d)}</div></div></div>${body}${chips}${tour}</div>`;
   }
   const o=ongoingStep(); const st=journeyStage();
@@ -3263,6 +3266,7 @@ function wireNextStep(el){
     else if(go==="nudge"){ const stu=studentMember(); const t=`Can you add your grades on Zoe's Colleges? It takes a minute and unlocks Reach / Target / Likely for every school 💛 ${APP_LINK}`; (async()=>{ try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); const m=el.querySelector("#ss-msg"); if(m) m.textContent=`Message copied — paste it in a text to ${stu?stu.display_name:"your student"}.`; } }catch(e){} })(); }
     else if(go==="week"){ const w=document.querySelector("[data-td-week]"); if(w) w.click(); }
     else if(typeof go==="function") go(); };
+  { const ss=el.querySelector("#ss-sent"); if(ss) ss.onclick=()=>{ lsSet("inviteSentAt", new Date().toISOString()); renderToday(); }; }
   el.querySelectorAll("[data-ns-go]").forEach(b=>b.onclick=()=>{ const k=b.dataset.nsGo; if(k==="ongoing"){ run(ongoingStep().go); return; } const st=steps.find(x=>x.k===k); if(st) run(st.go); });
   el.querySelectorAll("[data-ns-step]").forEach(b=>b.onclick=()=>{ const st=steps.find(x=>x.k===b.dataset.nsStep); if(!st) return; if(st.k==="student"){ const i=el.querySelector("#ss-name"); if(i) i.focus(); else goto("profile"); return; } if(st.go) run(st.go); });
   const g=el.querySelector("[data-guide]"); if(g) g.onclick=()=>openGuide();
@@ -6163,7 +6167,7 @@ $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent
     if(DEMO){ m.textContent="In the sample family nothing is sent — with your own account, this emails a join link."; m.style.color=""; return; }
     send.disabled=true; m.style.color=""; m.textContent="Sending…";
     try{ const r=await fetch("/.netlify/functions/invite-send",{method:"POST",headers:await aiHeaders(),body:JSON.stringify({email,name})}); const j=await r.json().catch(()=>({}));
-      if(j.sent){ m.textContent=`✓ Sent to ${email}. They'll get a one-tap link to join.`; m.style.color="var(--teal)"; $("inv-email").value=""; $("inv-name").value=""; }
+      if(j.sent){ try{ lsSet("inviteSentAt", new Date().toISOString()); renderToday(); }catch(e){} m.textContent=`✓ Sent to ${email}. They'll get a one-tap link to join.`; m.style.color="var(--teal)"; $("inv-email").value=""; $("inv-name").value=""; }
       else { m.textContent=j.error||"Couldn't send — use Copy link below instead."; m.style.color="var(--warn)"; if(j.unconfigured||r.status>=500){ const d=document.querySelector("#dlg-invite .inv-other"); if(d) d.open=true; } } }
     catch(e){ m.textContent="Couldn't send — use Copy link below instead."; m.style.color="var(--warn)"; }
     send.disabled=false; }; }
@@ -6492,12 +6496,12 @@ function zmOpen(kind){
     return; }
   if(kind==="huddle"){
     const c=huddleCandidates();
-    if(!c.length){ pnl.innerHTML=`<div class="zm-h">👪 Family huddle</div><p class="muted" style="margin:6px 0 0;font-size:13px">Rate a few schools first — each person taps the stars on the board (and adds a note about why). Then Zoe can show where you agree and where you differ.</p>`; return; }
-    pnl.innerHTML=`<div class="zm-h">👪 Family huddle <span class="muted">— Zoe sees each person's stars and notes, labeled by role (not name), and keeps it calm and fair. Notes are sent as written.</span></div>
+    if(!c.length){ pnl.innerHTML=`<div class="zm-h">👥 Family huddle</div><p class="muted" style="margin:6px 0 0;font-size:13px">Rate a few schools first — each person taps the stars on the board (and adds a note about why). Then Zoe can show where you agree and where you differ.</p>`; return; }
+    pnl.innerHTML=`<div class="zm-h">👥 Family huddle <span class="muted">— Zoe sees each person's stars and notes, labeled by role (not name), and keeps it calm and fair. Notes are sent as written.</span></div>
       <div class="zm-row"><select id="zm-school"><option value="__all">All rated schools (${c.length})</option>${c.map(x=>`<option value="${esc(x.id)}">${esc(x.name)} — ${x.n} rating${x.n>1?"s":""}${x.spread>=2?" · views differ":""}</option>`).join("")}</select>
       <button class="small primary" id="zm-huddle">Start the huddle</button></div>`;
     $("zm-huddle").onclick=()=>{ const v=$("zm-school").value; const ids=v==="__all"?c.slice(0,8).map(x=>x.id):[v]; const nm=v==="__all"?"our rated schools":(c.find(x=>x.id===v)||{}).name;
-      ztabAsk(`Family huddle about ${nm}: where do we agree, where do we differ, and what should we talk about next?`, {mode:"huddle", ctx:zoeHuddleCtx(ids)}, `👪 Huddle: ${nm}`); };
+      ztabAsk(`Family huddle about ${nm}: where do we agree, where do we differ, and what should we talk about next?`, {mode:"huddle", ctx:zoeHuddleCtx(ids)}, `👥 Huddle: ${nm}`); };
     return; }
   if(kind==="stack"){
     if(!board.length){ pnl.innerHTML=`<div class="zm-h">🎓 How do I stack up?</div><p class="muted" style="margin:6px 0 0;font-size:13px">Add schools to your board first.</p>`; return; }
