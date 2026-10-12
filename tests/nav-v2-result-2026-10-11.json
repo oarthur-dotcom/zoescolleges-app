@@ -23,9 +23,8 @@
    "view": "board",
    "tabs": [
     "My Board",
-    "Discover",
-    "Search",
     "Zoe Picks",
+    "Search",
     "Compare",
     "Pulse"
    ],
@@ -109,7 +108,7 @@
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 302x29"
    ],
    "wide": [],
-   "dashCount": 8
+   "dashCount": 9
   },
   "errors": []
  },
@@ -137,9 +136,8 @@
    "view": "board",
    "tabs": [
     "My Board",
-    "Discover",
-    "Search",
     "Zoe Picks",
+    "Search",
     "Compare",
     "Pulse"
    ],
@@ -210,9 +208,8 @@
     "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#btn-report2 📄 Report 88x32",
@@ -235,7 +232,7 @@
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 7
   },
   "errors": []
  },
@@ -263,9 +260,8 @@
    "view": "board",
    "tabs": [
     "My Board",
-    "Discover",
-    "Search",
     "Zoe Picks",
+    "Search",
     "Compare",
     "Pulse"
    ],
@@ -336,9 +332,8 @@
     "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#btn-report2 📄 Report 88x32",
@@ -361,7 +356,7 @@
     "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 7
   },
   "errors": []
  },

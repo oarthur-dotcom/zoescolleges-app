@@ -347,6 +347,10 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+.pk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pk-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.pk-toggle button{border:0;background:none;color:var(--muted);font:inherit;font-weight:600;font-size:13.5px;padding:6px 14px;border-radius:999px;cursor:pointer;min-height:36px}
+.pk-toggle button.on{background:var(--teal);color:var(--on-teal)}
 .trip-btn.past{border-color:var(--line);color:var(--muted);font-weight:600;background:color-mix(in srgb,var(--muted) 10%,transparent)}
 .cmp-btn.on{border-color:var(--plum,#8e3b7a);color:var(--plum,#8e3b7a);font-weight:600}
 .card-links{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
@@ -1867,13 +1871,13 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 
   <!-- DISCOVER (#71, idea 2): swipe through schools; family matches -->
   <section id="v-discover" class="hidden">
-    <h1>Discover</h1>
+    <div class="pk-head"><h1>✨ Zoe Picks</h1><div class="pk-toggle" role="group" aria-label="How to browse picks"><button type="button" data-pk="recommends" aria-pressed="false">☰ List</button><button type="button" class="on" data-pk="discover" aria-pressed="true">♥ Swipe</button></div></div>
     <p class="sub">Swipe through schools picked for your family. ♥ the ones you'd look at — when two of you like the same school, it's a match.</p>
     <div id="disc-out"></div>
   </section>
 
   <section id="v-recommends" class="hidden">
-    <h1>✨ Zoe Picks</h1>
+    <div class="pk-head"><h1>✨ Zoe Picks</h1><div class="pk-toggle" role="group" aria-label="How to browse picks"><button type="button" class="on" data-pk="recommends" aria-pressed="true">☰ List</button><button type="button" data-pk="discover" aria-pressed="false">♥ Swipe</button></div></div>
     <p class="sub">Schools that fit your profile but aren't on your board yet — ranked by your match, with why each could work.</p>
     <div id="rec-out"></div>
   </section>
@@ -2204,16 +2208,16 @@ function show(view){
 let currentView = "board", currentDetailId = null, detailFrom = "board";
 /* #68: six top-level places; each group has a small tab strip for its pages. */
 const NAV_GROUPS = {
-  schools:{label:"Schools", views:[["board","My Board"],["discover","Discover"],["explore","Search"],["recommends","Zoe Picks"],["compare","Compare"],["pulse","Pulse"]]},
+  schools:{label:"Schools", views:[["board","My Board"],["recommends","Zoe Picks"],["explore","Search"],["compare","Compare"],["pulse","Pulse"]]},
   plan:{label:"Plan", views:[["deadlines","Deadlines"],["cost","Costs"],["trip","Trips"]]},
   family:{label:"Family", views:[["journey","Journey"],["talk","Talk It Out"],["decide","Decision Day"],["memories","Memories"]]},
   me:{label:"Profile", views:[["profile","Profile"],["report","College Report"]]} };
 const _grpLast = {};
-function groupOf(view){ if(view==="visit") return "plan"; for(const [g,d] of Object.entries(NAV_GROUPS)) if(d.views.some(v=>v[0]===view)) return g; return null; }
+function groupOf(view){ if(view==="visit") return "plan"; if(view==="discover") return "schools";   /* Oct 12: swiping lives inside Zoe Picks */ for(const [g,d] of Object.entries(NAV_GROUPS)) if(d.views.some(v=>v[0]===view)) return g; return null; }
 function gotoGroup(g){ const d=NAV_GROUPS[g]; if(!d) return; goto(_grpLast[g] || d.views[0][0]); }
 function renderSubnav(tab){ const el=$("subnav"); if(!el) return; const g=groupOf(tab);
   if(!g || !state.family){ el.classList.add("hidden"); el.innerHTML=""; return; } _grpLast[g]=tab==="visit"?"trip":tab;
-  const cur=tab==="visit"?"trip":tab;
+  const cur=tab==="visit"?"trip":tab==="discover"?"recommends":tab;
   el.innerHTML = (g==="family" ? (x=>x+`<button type="button" class="sn-tab sn-act" data-invite>+ Invite family</button>`) : (x=>x))(NAV_GROUPS[g].views.map(([v,l])=>`<button type="button" class="sn-tab ${v===cur?"on":""}" data-nav="${v}" ${v===cur?'aria-current="page"':""}>${esc(l)}${v==="pulse"?'<span class="nav-count hidden" data-sn-badge="pulse"></span>':v==="deadlines"?'<span class="nav-dot hidden" data-sn-dot="deadlines"></span>':""}</button>`).join(""));
   el.classList.remove("hidden");
   el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>goto(b.dataset.nav));
@@ -3209,7 +3213,7 @@ function setupSteps(){
   const sName = stu ? stu.display_name : (state.pending ? state.pending.display_name : "your student");
   const steps=[];
   if(me!=="student") steps.push({k:"student", c:"Student", ic:"🎓", t:"Add your student", d:"So chances, costs and the report are about them.", done:!!(stu||state.pending)});
-  steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Swipe through a few picked for you, or search by name. You can always change them.", done:schools>=3, cta:"Discover schools", go:()=>goto("discover")});
+  steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Swipe through a few picked for you, or search by name. You can always change them.", done:schools>=3, cta:"Swipe through picks", go:()=>goto("discover")});
   const gradesMine = me==="student" || pendingMode();
   steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
     cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
@@ -3276,7 +3280,7 @@ function guideSeen(){ try{ return localStorage.getItem("zc_guide_seen")==="1"; }
 function openGuide(){ try{ localStorage.setItem("zc_guide_seen","1"); }catch(e){} const d=$("dlg-guide"); if(d){ d.showModal(); const v=d.querySelector("video"); if(v){ try{ v.currentTime=0; const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} } } }
 /* ===== Search or jump to anything (#68, idea 3): schools, pages and actions from one box. ⌘K / Ctrl+K / "/" ===== */
 const CMD_PAGES = [
-  ["today","Today","home start next step"],["board","My Board","board list schools mine favorites"],["explore","Search schools","explore find browse search colleges"],["discover","Discover","discover swipe browse like new ideas"],
+  ["today","Today","home start next step"],["board","My Board","board list schools mine favorites"],["explore","Search schools","explore find browse search colleges"],["discover","Zoe Picks — swipe","discover swipe browse like new ideas"],
   ["recommends","Zoe Picks","picks recommendations suggest match"],["compare","Compare","compare side by side"],["pulse","Campus Pulse","pulse news events"],
   ["deadlines","Deadlines","deadlines due dates checklist applications"],["cost","Costs","cost costs price money aid net tuition afford"],["trip","Trips","trip trips visit visits drive route tour"],
   ["journey","Our journey","journey timeline story history milestones movie"],["talk","Talk It Out","talk family voice discuss vote ballot"],["decide","Decision Day","decision decide accepted acceptance offers may 1"],["memories","Memories","memories photos reel movie"],
@@ -6196,6 +6200,8 @@ document.addEventListener("click", async e => {
   if(!confirm("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)")) return;
   try{ await fixRole("student"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
+// Oct 12: Zoe Picks has two ways to browse — a ranked List or Swipe (the old Discover tab)
+document.addEventListener("click", e => { const b=e.target.closest("[data-pk]"); if(!b) return; e.preventDefault(); goto(b.dataset.pk); });
 // add/remove a school from the road trip, from anywhere (board, schools, detail, picks)
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-trip]"); if(!b) return;

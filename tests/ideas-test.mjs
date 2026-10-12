@@ -19,7 +19,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.recap = await page.evaluate(() => (document.querySelector('.td-recap') || {}).innerText || '');
   // Idea 2: Discover
   if (vp.width < 900) await page.click('#tabbar [data-grp="schools"]'); else await page.click('#appnav [data-grp="schools"]'); await page.waitForTimeout(300);
-  await page.click('#subnav [data-nav="discover"]'); await page.waitForTimeout(600);
+  await page.click('#subnav [data-nav="recommends"]'); await page.waitForTimeout(400); await page.click('#v-recommends [data-pk="discover"]'); /* Oct 12: Swipe is inside Zoe Picks */ await page.waitForTimeout(600);
   o.disc = await page.evaluate(() => ({ view: currentView, top: (document.querySelector('.disc-stage > .disc-card .disc-nm b') || {}).textContent, id: (document.querySelector('.disc-stage > .disc-card') || {}).dataset?.disc, b3: document.querySelectorAll('.disc-stage > .disc-card .b3').length, under: !!document.querySelector('.disc-under') }));
   await page.screenshot({ path: `${SHOTS}${label}-discover.png` });
   await page.click('[data-discgo="yes"]'); await page.waitForTimeout(500);
