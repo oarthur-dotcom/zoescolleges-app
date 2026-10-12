@@ -1218,6 +1218,26 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .td-search{display:flex;gap:8px;margin:14px 0}.td-search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
 .td-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:760px){.td-grid{grid-template-columns:1fr}}
+/* #68 grouped menu + section tabs */
+.subnav{display:flex;gap:6px;max-width:1400px;margin:8px auto 0;width:100%;overflow-x:auto;scrollbar-width:none;padding:0 0 2px}
+.subnav::-webkit-scrollbar{display:none}
+.sn-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;min-height:34px;display:inline-flex;align-items:center;gap:6px}
+.sn-tab.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.nav-count{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--teal);color:var(--on-teal);font-size:10.5px;font-weight:800;margin-left:6px}
+.sn-tab .nav-count{margin-left:0}
+.nav-search{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line)!important}
+.nav-search kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line);border-radius:5px;padding:0 5px;color:var(--muted)}
+.tb-sheet-h{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 8px}
+.dlg-cmd{max-width:620px;width:calc(100% - 24px);padding:0;margin-top:10vh;border-radius:18px}
+.cmd-in{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.cmd-in input{border:0!important;background:none!important;box-shadow:none!important;font-size:17px;padding:4px 0!important}
+.cmd-list{max-height:min(60vh,460px);overflow:auto;padding:6px}
+.cmd-it{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font:inherit;min-height:44px}
+.cmd-it.on,.cmd-it:hover{background:color-mix(in srgb,var(--teal) 12%,var(--surface))}
+.cmd-ic{width:22px;text-align:center;flex-shrink:0}.cmd-t{flex:1;min-width:0;font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cmd-s{font-size:12px;color:var(--muted);white-space:nowrap}
+.cmd-flash{outline:3px solid var(--teal);outline-offset:3px;border-radius:10px;transition:outline-color .4s}
+.cmd-foot{font-size:11.5px;padding:8px 16px 12px;border-top:1px solid var(--line)}
+@media (max-width:640px){ .cmd-foot{display:none} .dlg-cmd{margin-top:4vh} .cmd-s{display:none} }
 .ns-card{border:1.5px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
 .ns-card.urgent{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--surface))}
 .ns-top{display:flex;gap:14px;align-items:flex-start}.ns-ring{flex-shrink:0}.ns-txt{min-width:0}
@@ -1291,45 +1311,34 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <button id="signout" class="small ghost hidden">Sign out</button>
     </div>
   </div>
-  <nav class="appnav hidden" id="appnav">
+  <nav class="appnav hidden" id="appnav" aria-label="Main">
     <button class="navbtn" data-nav="today">Today</button>
-    <button class="navbtn" data-nav="board">My Board</button>
-    <button class="navbtn" data-nav="talk">💬 Talk It Out</button>
-    <button class="navbtn" data-nav="decide">🎓 Decision Day</button>
-    <button class="navbtn" data-nav="explore">Schools</button>
-    <button class="navbtn" data-nav="recommends">✨ Zoe Picks</button>
-    <button class="navbtn" data-nav="compare">Compare</button>
-    <button class="navbtn" data-nav="cost">💰 Costs</button>
-    <button class="navbtn" data-nav="trip">Trips</button>
-    <button class="navbtn" data-nav="memories">📸 Memories</button>
-    <button class="navbtn" data-nav="deadlines">Deadlines</button>
-    <button class="navbtn" data-nav="pulse">📰 Pulse</button>
-    <button class="navbtn" data-nav="zoe">💬 Ask Zoe</button>
-    <button class="navbtn" data-nav="profile">My Profile</button>
+    <button class="navbtn" data-grp="schools">Schools<span class="nav-count hidden" data-grp-badge="schools"></span></button>
+    <button class="navbtn" data-grp="plan">Plan<span class="nav-dot hidden" data-grp-dot="plan"></span></button>
+    <button class="navbtn" data-grp="family">Family</button>
+    <button class="navbtn" data-nav="zoe">Ask Zoe</button>
+    <button class="navbtn" data-grp="me">Profile</button>
+    <button class="navbtn nav-search" data-cmdk type="button" aria-label="Search or jump to anything">🔎 <span>Search</span> <kbd>⌘K</kbd></button>
   </nav>
+  <div id="subnav" class="subnav hidden" aria-label="Section"></div>
 </header>
 <!-- Phone navigation (#40): 4 main tabs + More, at the bottom where thumbs reach. Desktop keeps the top nav. -->
 <div id="demo-bar" class="demo-bar hidden" role="status"><span>👀 You're exploring a <b>sample family</b> — nothing here is saved.</span><button class="linklike" id="demo-report">📄 See her report</button><button class="small primary" id="demo-join">Create my free account</button><button class="linklike" id="demo-exit">Exit</button></div>
 <nav id="tabbar" class="tabbar hidden" aria-label="Main">
   <button class="tb" data-nav="today"><span class="tb-i">☀️</span><span class="tb-l">Today</span></button>
-  <button class="tb" data-nav="board"><span class="tb-i">📋</span><span class="tb-l">Board</span></button>
-  <button class="tb" data-nav="pulse"><span class="tb-i">📰</span><span class="tb-l">Pulse</span><span class="tb-badge hidden" data-tb-badge="pulse"></span></button>
-  <button class="tb" data-nav="deadlines"><span class="tb-i">⏰</span><span class="tb-l">Deadlines</span><span class="tb-badge dot hidden" data-tb-badge="deadlines"></span></button>
+  <button class="tb" data-grp="schools"><span class="tb-i">🏫</span><span class="tb-l">Schools</span><span class="tb-badge hidden" data-tb-badge="pulse"></span></button>
+  <button class="tb" data-grp="plan"><span class="tb-i">🗓️</span><span class="tb-l">Plan</span><span class="tb-badge dot hidden" data-tb-badge="deadlines"></span></button>
+  <button class="tb" data-grp="family"><span class="tb-i">💬</span><span class="tb-l">Family</span></button>
   <button class="tb" data-tb-more aria-haspopup="true" aria-expanded="false"><span class="tb-i">☰</span><span class="tb-l">More</span><span class="tb-badge dot hidden" data-tb-badge="more"></span></button>
 </nav>
 <div id="tb-sheet" class="tb-sheet hidden" role="dialog" aria-label="More">
   <div class="tb-sheet-in">
-    <button class="tbs" data-nav="explore">🔎 <b>Schools</b><span>Search and explore all 3,180</span></button>
-    <button class="tbs" data-nav="talk">💬 <b>Talk It Out</b><span>Everyone's voice, secret ballot</span></button>
-    <button class="tbs" data-nav="decide">🎓 <b>Decision Day</b><span>Acceptances, offers, the big choice</span></button>
-    <button class="tbs" data-nav="recommends">✨ <b>Zoe Picks</b><span>Schools picked for you</span></button>
-    <button class="tbs" data-nav="cost">💰 <b>Costs</b><span>Real cost across your list, and aid offers</span></button>
-    <button class="tbs" data-nav="compare">⚖️ <b>Compare</b><span data-tbs-sub="compare">Side by side</span></button>
-    <button class="tbs" data-nav="trip">🚗 <b>Trips</b><span data-tbs-sub="trip">Plan campus visits</span></button>
-    <button class="tbs" data-nav="memories">📸 <b>Memories</b><span>Visit photos, notes and reels</span></button>
-    <button class="tbs" data-nav="zoe">💬 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
-    <button class="tbs" data-nav="profile">👤 <b>My Profile</b><span>Grades, scores, activities</span></button>
-    <button class="tbs" data-nav="report">📄 <b>College Report</b><span>Her whole picture as a PDF</span></button>
+    <div class="tb-sheet-h"><b>More</b><button class="small ghost" type="button" data-tb-close aria-label="Close">✕</button></div>
+    <button class="tbs" data-cmdk>🔎 <b>Search</b><span>Find a school or jump anywhere</span></button>
+    <button class="tbs" data-nav="zoe">🎓 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
+    <button class="tbs" data-nav="profile" data-ptab-go="acad">👤 <b data-tbs-prof>Profile</b><span>Grades, scores, activities</span></button>
+    <button class="tbs" data-nav="profile" data-ptab-go="who">🎚️ <b>My priorities</b><span>What matters to you — powers match %</span></button>
+    <button class="tbs" data-nav="report">📄 <b>College Report</b><span>The whole picture as a PDF</span></button>
   </div>
 </div>
 
@@ -1974,6 +1983,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <p class="muted" style="font-size:12px" id="seatnote"></p>
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="inv-close" class="small">Close</button></div>
 </dialog>
+<dialog id="dlg-cmd" class="dlg-cmd" aria-label="Search or jump to anything">
+  <div class="cmd-in"><span aria-hidden="true">🔎</span><input id="cmd-q" type="search" autocomplete="off" placeholder="Try “Elon cost”, “add UVM”, “deadlines”, “invite”…" aria-label="Search or jump to anything" aria-controls="cmd-list"></div>
+  <div id="cmd-list" class="cmd-list" role="listbox"></div>
+  <div class="cmd-foot muted">↑ ↓ to move · Enter to go · Esc to close</div>
+</dialog>
 <dialog id="dlg-guide" class="dlg-guide" aria-label="One-minute tour">
   <video controls playsinline preload="none" poster="/media/guide-poster.jpg"><source src="/media/guide.mp4" type="video/mp4"></video>
   <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px">A one-minute tour of Zoe's Colleges</span><button class="small" onclick="this.closest('dialog').querySelector('video').pause();this.closest('dialog').close()">Close</button></div>
@@ -2040,6 +2054,7 @@ const APP_VIEWS = ["v-decide","v-talk","v-visit","v-today","v-cost","v-board","v
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
+  if(!APP_VIEWS.includes(view) && view!=="v-report"){ const sn=$("subnav"); if(sn) sn.classList.add("hidden"); }
   { const hs=$("hdr-signin"); if(hs) hs.classList.toggle("hidden", view!=="v-auth"); }
   $("appnav").classList.toggle("hidden", !APP_VIEWS.includes(view));
   $("tabbar").classList.toggle("hidden", !APP_VIEWS.includes(view)); document.body.classList.toggle("has-tabbar", APP_VIEWS.includes(view)); closeTbSheet();
@@ -2047,7 +2062,30 @@ function show(view){
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
-function setNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
+/* #68: six top-level places; each group has a small tab strip for its pages. */
+const NAV_GROUPS = {
+  schools:{label:"Schools", views:[["board","My Board"],["explore","Search"],["recommends","Zoe Picks"],["compare","Compare"],["pulse","Pulse"]]},
+  plan:{label:"Plan", views:[["deadlines","Deadlines"],["cost","Costs"],["trip","Trips"]]},
+  family:{label:"Family", views:[["talk","Talk It Out"],["decide","Decision Day"],["memories","Memories"]]},
+  me:{label:"Profile", views:[["profile","Profile"],["report","College Report"]]} };
+const _grpLast = {};
+function groupOf(view){ if(view==="visit") return "plan"; for(const [g,d] of Object.entries(NAV_GROUPS)) if(d.views.some(v=>v[0]===view)) return g; return null; }
+function gotoGroup(g){ const d=NAV_GROUPS[g]; if(!d) return; goto(_grpLast[g] || d.views[0][0]); }
+function renderSubnav(tab){ const el=$("subnav"); if(!el) return; const g=groupOf(tab);
+  if(!g || !state.family){ el.classList.add("hidden"); el.innerHTML=""; return; } _grpLast[g]=tab==="visit"?"trip":tab;
+  const cur=tab==="visit"?"trip":tab;
+  el.innerHTML = NAV_GROUPS[g].views.map(([v,l])=>`<button type="button" class="sn-tab ${v===cur?"on":""}" data-nav="${v}" ${v===cur?'aria-current="page"':""}>${esc(l)}${v==="pulse"?'<span class="nav-count hidden" data-sn-badge="pulse"></span>':v==="deadlines"?'<span class="nav-dot hidden" data-sn-dot="deadlines"></span>':""}</button>`).join("");
+  el.classList.remove("hidden");
+  el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>goto(b.dataset.nav));
+  try{ updateDlNav(); updatePulseBadge&&updatePulseBadge(); }catch(e){}
+  const on=el.querySelector(".sn-tab.on"); if(on&&on.scrollIntoView){ try{ on.scrollIntoView({inline:"center",block:"nearest"}); }catch(e){} } }
+function setNavActive(tab){ const g=groupOf(tab);
+  document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav ? b.dataset.nav===tab : (!!g && b.dataset.grp===g)));
+  document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : b.dataset.grp ? b.dataset.grp===g : (tab==="zoe"||g==="me"); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  renderSubnav(tab);
+  return;
+}
+function _oldSetNavActive(tab){ document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
   const main=["today","board","pulse","deadlines"]; document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : !main.includes(tab); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
   document.querySelectorAll("#tb-sheet .tbs").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
   const a=document.querySelector("#appnav .navbtn.active"); if(a&&a.scrollIntoView){ try{ a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} } }
@@ -2072,7 +2110,7 @@ function goto(view){
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
   else if (view==="decide"){ show("v-decide"); setNavActive("decide"); renderDecide(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="talk"){ show("v-talk"); setNavActive("talk"); renderTalk(); try{ scrollTo(0,0); }catch(e){} }
-  else if (view==="report"){ show("v-report"); setNavActive(""); renderReport(); try{ scrollTo(0,0); }catch(e){} }
+  else if (view==="report"){ show("v-report"); setNavActive("report"); renderReport(); try{ scrollTo(0,0); }catch(e){} }
 }
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="visit") renderVisitKit(); else if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
@@ -3051,6 +3089,54 @@ function wireNextStep(el){
 }
 function guideSeen(){ try{ return localStorage.getItem("zc_guide_seen")==="1"; }catch(e){ return false; } }
 function openGuide(){ try{ localStorage.setItem("zc_guide_seen","1"); }catch(e){} const d=$("dlg-guide"); if(d){ d.showModal(); const v=d.querySelector("video"); if(v){ try{ v.currentTime=0; const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} } } }
+/* ===== Search or jump to anything (#68, idea 3): schools, pages and actions from one box. ⌘K / Ctrl+K / "/" ===== */
+const CMD_PAGES = [
+  ["today","Today","home start next step"],["board","My Board","board list schools mine favorites"],["explore","Search schools","explore find browse search colleges"],
+  ["recommends","Zoe Picks","picks recommendations suggest match"],["compare","Compare","compare side by side"],["pulse","Campus Pulse","pulse news events"],
+  ["deadlines","Deadlines","deadlines due dates checklist applications"],["cost","Costs","cost costs price money aid net tuition afford"],["trip","Trips","trip trips visit visits drive route tour"],
+  ["talk","Talk It Out","talk family voice discuss vote ballot"],["decide","Decision Day","decision decide accepted acceptance offers may 1"],["memories","Memories","memories photos reel movie"],
+  ["zoe","Ask Zoe","ask zoe ai help question chat"],["profile","Profile","profile grades gpa sat act activities"],["report","College Report","report pdf counselor print"] ];
+const CMD_ACTIONS = [
+  ["Invite family","invite email family mom dad parent student add person", ()=>openInvite()],
+  ["Set my priorities","priorities sliders what matters match", ()=>openPriorities()],
+  ["Plan my week","plan week to do todo", ()=>{ goto("today"); setTimeout(()=>{ const w=document.querySelector("[data-td-week]"); if(w) w.click(); },150); }],
+  ["Watch the 1-minute tour","tour video guide how help", ()=>openGuide()],
+  ["Cast my family vote","vote ballot rank", ()=>openTalk({tab:"vote"})] ];
+const CMD_INTENTS = [["cost",/\b(cost|costs|price|tuition|aid|afford)\b/i],["add",/^(add|save)\b/i],["deadline",/\b(deadline|deadlines|due|apply)\b/i],["chance",/\b(chance|chances|odds|admit)\b/i],["visit",/\b(visit|tour|trip)\b/i]];
+let _cmdItems=[], _cmdSel=0;
+function cmdResults(q){
+  q=String(q||"").trim(); const out=[]; const low=q.toLowerCase();
+  if(!q){ return [...CMD_PAGES.slice(0,8).map(([v,l])=>({ic:"↗",t:l,s:"Page",run:()=>goto(v)})), ...CMD_ACTIONS.slice(0,3).map(([t,,f])=>({ic:"⚡",t,s:"Action",run:f}))]; }
+  let intent=null, term=q; for(const [k,rx] of CMD_INTENTS){ if(rx.test(q)){ intent=k; term=q.replace(rx,"").replace(/\s{2,}/g," ").trim(); break; } }
+  // schools (on your board first, then the catalog)
+  const hits=(term.length>=2 && searchCatalog(term))||[]; const have=new Set((state.schools||[]).map(s=>s.school_id));
+  hits.slice(0,30).sort((a,b)=>(have.has(b.c.id)-have.has(a.c.id))).slice(0,6).forEach(h=>{ const c=h.c, on=have.has(c.id);
+    const sub=`${c.city?c.city+", ":""}${c.state||""}${on?" · on your board":""}`;
+    if(intent==="add" && !on) out.push({ic:"＋",t:`Add ${c.name}`,s:sub,run:async()=>{ await addFromCatalog(c.id); }});
+    else if(intent==="cost") out.push({ic:"💰",t:`${c.name} — cost`,s:sub,run:()=>{ openDetail(c.id, currentView||"board"); setTimeout(()=>{ const e=[...document.querySelectorAll("#detail-body *")].find(x=>!x.children.length && /net price/i.test(x.textContent)); const box=e&&(e.parentElement||e); if(box&&box.scrollIntoView){ box.scrollIntoView({behavior:"smooth",block:"center"}); box.classList.add("cmd-flash"); setTimeout(()=>box.classList.remove("cmd-flash"),1800); } },300); }});
+    else out.push({ic:on?"★":"🏫",t:c.name,s:sub,run:()=>openDetail(c.id, currentView||"board")});
+    if(!intent && !on && out.length<8) out.push({ic:"＋",t:`Add ${c.name} to your board`,s:"Action",run:async()=>{ await addFromCatalog(c.id); }}); });
+  // pages and actions
+  const words=low.split(/\s+/).filter(Boolean);
+  const score=(label,kw)=>{ const hay=(label+" "+kw).toLowerCase(); return words.every(w=>hay.includes(w)) ? (label.toLowerCase().startsWith(words[0])?2:1) : 0; };
+  CMD_PAGES.map(([v,l,kw])=>({v,l,sc:score(l,kw)})).filter(x=>x.sc).sort((a,b)=>b.sc-a.sc).slice(0,4).forEach(x=>out.unshift({ic:"↗",t:x.l,s:"Page",run:()=>goto(x.v)}));
+  CMD_ACTIONS.filter(([t,kw])=>score(t,kw)).slice(0,3).forEach(([t,,f])=>out.push({ic:"⚡",t,s:"Action",run:f}));
+  if(!out.length) out.push({ic:"🔎",t:`Search all schools for “${q}”`,s:"Search",run:()=>{ goto("explore"); const i=$("exsearch"); if(i){ i.value=term||q; renderExList(i.value); } }});
+  return out.slice(0,10);
+}
+function renderCmd(){ const q=$("cmd-q").value; _cmdItems=cmdResults(q); _cmdSel=Math.min(_cmdSel,Math.max(0,_cmdItems.length-1));
+  $("cmd-list").innerHTML=_cmdItems.map((x,i)=>`<button type="button" class="cmd-it ${i===_cmdSel?"on":""}" role="option" aria-selected="${i===_cmdSel}" data-i="${i}"><span class="cmd-ic">${x.ic}</span><span class="cmd-t">${esc(x.t)}</span><span class="cmd-s">${esc(x.s)}</span></button>`).join("");
+  $("cmd-list").querySelectorAll(".cmd-it").forEach(b=>b.onclick=()=>runCmd(+b.dataset.i)); }
+function runCmd(i){ const x=_cmdItems[i]; if(!x) return; closeCmd(); try{ x.run(); }catch(e){} }
+function openCmd(){ if(!state.family) return; const d=$("dlg-cmd"); if(!d||d.open) return; $("cmd-q").value=""; _cmdSel=0; renderCmd(); d.showModal(); setTimeout(()=>$("cmd-q").focus(),30); }
+function closeCmd(){ const d=$("dlg-cmd"); if(d&&d.open) d.close(); }
+{ const k=document.querySelector(".nav-search kbd"); if(k && !/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent)) k.textContent="Ctrl K"; }
+{ const qi=$("cmd-q"); if(qi){ qi.oninput=()=>{ _cmdSel=0; renderCmd(); };
+    qi.onkeydown=e=>{ if(e.key==="ArrowDown"){ e.preventDefault(); _cmdSel=Math.min(_cmdItems.length-1,_cmdSel+1); renderCmd(); } else if(e.key==="ArrowUp"){ e.preventDefault(); _cmdSel=Math.max(0,_cmdSel-1); renderCmd(); } else if(e.key==="Enter"){ e.preventDefault(); runCmd(_cmdSel); } }; }
+  const d=$("dlg-cmd"); if(d) d.addEventListener("click",e=>{ if(e.target===d) closeCmd(); });
+  document.addEventListener("keydown",e=>{ const t=e.target, typing=t&&(/INPUT|TEXTAREA|SELECT/.test(t.tagName)||t.isContentEditable);
+    if((e.key==="k"||e.key==="K")&&(e.metaKey||e.ctrlKey)){ e.preventDefault(); openCmd(); }
+    else if(e.key==="/" && !typing && !e.metaKey && !e.ctrlKey){ e.preventDefault(); openCmd(); } }); }
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
   deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
@@ -3931,8 +4017,11 @@ function renderBoardPulse(){   // name kept: renderBoard() calls it. Dots + nav 
     document.querySelectorAll(`#schools [data-pulse-open="${CSS.escape(id)}"]`).forEach(a=>{ if(n && !a.querySelector(".pulse-new")) a.insertAdjacentHTML("beforeend",`<span class="pulse-new"><span class="pdot active mini"></span>${n} new</span>`); });
   }
 }
-function updatePulseNav(d){ const b=document.querySelector('#appnav .navbtn[data-nav="pulse"]'); if(!b) return;
-  const n=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; b.textContent = n? `📰 Pulse · ${n}` : "📰 Pulse"; setTbBadge("pulse", n>9?"9+":String(n), n>0); }
+let _pulseN=0;
+function updatePulseNav(d){ _pulseN=d?Object.values(d.schools||{}).reduce((t,v)=>t+newThisWeek(v),0):0; updatePulseBadge(); }
+function updatePulseBadge(){ const n=_pulseN, t=n>9?"9+":String(n);   // #68: the count rides on Schools and on the Pulse tab
+  document.querySelectorAll('[data-grp-badge="schools"],[data-sn-badge="pulse"]').forEach(e=>{ e.classList.toggle("hidden",!n); e.textContent=n?t:""; });
+  setTbBadge("pulse", t, n>0); }
 async function fetchBoardPulse(ids,key,retry){
   pulseDigest.busy=true;
   try{
@@ -5502,8 +5591,10 @@ async function savePrefs(w){
 }
 
 /* nav wiring */
-document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => goto(b.dataset.nav));
-document.querySelectorAll("#tabbar .tb[data-nav], #tb-sheet .tbs").forEach(b => b.onclick = () => { closeTbSheet(); goto(b.dataset.nav); });
+document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => { if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp) gotoGroup(b.dataset.grp); else goto(b.dataset.nav); });
+document.querySelectorAll("#tabbar .tb[data-nav], #tabbar .tb[data-grp], #tb-sheet .tbs").forEach(b => b.onclick = () => { closeTbSheet();
+  if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp){ gotoGroup(b.dataset.grp); return; } goto(b.dataset.nav); if(b.dataset.ptabGo) profileTab(b.dataset.ptabGo); });
+{ const x=document.querySelector("[data-tb-close]"); if(x) x.onclick=()=>closeTbSheet(); }
 function closeTbSheet(){ const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); const m=document.querySelector("[data-tb-more]"); if(m) m.setAttribute("aria-expanded","false"); }
 { const m=document.querySelector("[data-tb-more]"); if(m) m.onclick=()=>{ const sh=$("tb-sheet"); const open=sh.classList.contains("hidden"); sh.classList.toggle("hidden",!open); m.setAttribute("aria-expanded",String(open)); };
   const sh=$("tb-sheet"); if(sh) sh.addEventListener("click",e=>{ if(e.target===sh) closeTbSheet(); });
@@ -5512,7 +5603,7 @@ function closeTbSheet(){ const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden
 function setTbBadge(k,text,on){ const el=document.querySelector(`[data-tb-badge="${k}"]`); if(!el) return; el.classList.toggle("hidden",!on); if(!el.classList.contains("dot")) el.textContent=text||""; }
 function updateDlNav(){ let soon=0; try{ const today=new Date(); today.setHours(0,0,0,0);
     for(const s of state.schools||[]){ const n=nextDeadline(catInfo(s.school_id)||null); if(!n) continue; const d=daysUntil(n.date); if(d!=null && d>=0 && d<=14) soon++; } }catch(e){}
-  const b=document.querySelector('#appnav .navbtn[data-nav="deadlines"]'); if(b){ b.innerHTML = soon? `Deadlines <span class="nav-dot" title="${soon} deadline${soon>1?"s":""} in the next 14 days"></span>` : "Deadlines"; }
+  document.querySelectorAll('[data-grp-dot="plan"],[data-sn-dot="deadlines"]').forEach(d=>{ d.classList.toggle("hidden", !soon); d.title = soon ? `${soon} deadline${soon>1?"s":""} in the next 14 days` : ""; });
   setTbBadge("deadlines","",soon>0); }
 $("logo-home").onclick = () => { if (state.family) goto("today"); };
 $("detail-back").onclick = () => goto(detailFrom);

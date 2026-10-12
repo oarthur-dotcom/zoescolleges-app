@@ -1,0 +1,381 @@
+{
+ "phone": {
+  "top": {
+   "desk": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "Ask Zoe",
+    "Profile"
+   ],
+   "overflow": false,
+   "bar": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "More"
+   ]
+  },
+  "schools": {
+   "view": "board",
+   "tabs": [
+    "My Board",
+    "Search",
+    "Zoe Picks",
+    "Compare",
+    "Pulse"
+   ],
+   "on": "My Board"
+  },
+  "cmp": "compare",
+  "plan1": "deadlines",
+  "plan2": "cost",
+  "planDot": true,
+  "family": {
+   "view": "talk",
+   "tabs": [
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "sheet": [
+   "Search",
+   "Ask Zoe",
+   "Profile",
+   "My priorities",
+   "College Report"
+  ],
+  "prio": "profile|true",
+  "cmdOpen": true,
+  "r1": [
+   "College of Charleston — cost",
+   "Charleston Southern University — cost",
+   "University of Charleston — cost",
+   "West Virginia Junior College-Charleston — cost",
+   "Trident Technical College — cost",
+   "Eastern Illinois University — cost"
+  ],
+  "afterCost": {
+   "view": "detail",
+   "id": "college-of-charleston",
+   "flash": true
+  },
+  "r2": [
+   "Add Stanford University",
+   "Add University of Connecticut-Stamford",
+   "Add Sanford Burnham Prebys Medical Discovery Institute"
+  ],
+  "added": [
+   "Stanford University"
+  ],
+  "dl": "deadlines",
+  "r3": [
+   "Invite family"
+  ],
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Stanford_Oval_May_2011_panorama.j",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
+    "#dl-all on 20x20",
+    "on 20x20",
+    "source ↗ 49x14",
+    "#cmd-q Try “Elon cost”, “add UVM”, “dead 302x29"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errors": []
+ },
+ "desktop": {
+  "top": {
+   "desk": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "Ask Zoe",
+    "Profile"
+   ],
+   "overflow": false,
+   "bar": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "More"
+   ]
+  },
+  "schools": {
+   "view": "board",
+   "tabs": [
+    "My Board",
+    "Search",
+    "Zoe Picks",
+    "Compare",
+    "Pulse"
+   ],
+   "on": "My Board"
+  },
+  "cmp": "compare",
+  "plan1": "deadlines",
+  "plan2": "cost",
+  "planDot": true,
+  "family": {
+   "view": "talk",
+   "tabs": [
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "cmdOpen": true,
+  "r1": [
+   "College of Charleston — cost",
+   "Charleston Southern University — cost",
+   "University of Charleston — cost",
+   "West Virginia Junior College-Charleston — cost",
+   "Trident Technical College — cost",
+   "Eastern Illinois University — cost"
+  ],
+  "afterCost": {
+   "view": "detail",
+   "id": "college-of-charleston",
+   "flash": true
+  },
+  "r2": [
+   "Add Stanford University",
+   "Add University of Connecticut-Stamford",
+   "Add Sanford Burnham Prebys Medical Discovery Institute"
+  ],
+  "added": [
+   "Stanford University"
+  ],
+  "dl": "deadlines",
+  "r3": [
+   "Invite family"
+  ],
+  "slash": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Stanford_Oval_May_2011_panorama.j",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search ⌘K 134x33",
+    "My Board 93x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
+    "#btn-report2 📄 Report 88x32",
+    "#btn-invite + Add my family 126x32",
+    "#btn-more More ▾ 68x32",
+    "#rank-toggle ⇅ My ranking 111x32",
+    "#view-stacked ☰ 38x32",
+    "#view-tiles ▦ 38x32",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x26",
+    "⇄ Compare 90x26",
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "★ 25x24",
+    "My note · remove school 357x17",
+    "Save note 88x32",
+    "Remove from board 151x32",
+    "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
+   ],
+   "wide": [],
+   "dashCount": 7
+  },
+  "errors": []
+ },
+ "desktop-dark": {
+  "top": {
+   "desk": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "Ask Zoe",
+    "Profile"
+   ],
+   "overflow": false,
+   "bar": [
+    "Today",
+    "Schools",
+    "Plan",
+    "Family",
+    "More"
+   ]
+  },
+  "schools": {
+   "view": "board",
+   "tabs": [
+    "My Board",
+    "Search",
+    "Zoe Picks",
+    "Compare",
+    "Pulse"
+   ],
+   "on": "My Board"
+  },
+  "cmp": "compare",
+  "plan1": "deadlines",
+  "plan2": "cost",
+  "planDot": true,
+  "family": {
+   "view": "talk",
+   "tabs": [
+    "Talk It Out",
+    "Decision Day",
+    "Memories"
+   ]
+  },
+  "cmdOpen": true,
+  "r1": [
+   "College of Charleston — cost",
+   "Charleston Southern University — cost",
+   "University of Charleston — cost",
+   "West Virginia Junior College-Charleston — cost",
+   "Trident Technical College — cost",
+   "Eastern Illinois University — cost"
+  ],
+  "afterCost": {
+   "view": "detail",
+   "id": "college-of-charleston",
+   "flash": true
+  },
+  "r2": [
+   "Add Stanford University",
+   "Add University of Connecticut-Stamford",
+   "Add Sanford Burnham Prebys Medical Discovery Institute"
+  ],
+  "added": [
+   "Stanford University"
+  ],
+  "dl": "deadlines",
+  "r3": [
+   "Invite family"
+  ],
+  "slash": true,
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Stanford_Oval_May_2011_panorama.j",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search ⌘K 134x33",
+    "My Board 93x34",
+    "Search 75x34",
+    "Zoe Picks 91x34",
+    "Compare 89x34",
+    "Pulse 65x34",
+    "#btn-report2 📄 Report 88x32",
+    "#btn-invite + Add my family 126x32",
+    "#btn-more More ▾ 68x32",
+    "#rank-toggle ⇅ My ranking 111x32",
+    "#view-stacked ☰ 38x32",
+    "#view-tiles ▦ 38x32",
+    "Open ↗ 67x27",
+    "🗺 Trip 61x26",
+    "⇄ Compare 90x26",
+    "▶ Tour 57x25",
+    "📍 Map 61x25",
+    "🎓 Site 58x25",
+    "📰 Pulse 67x25",
+    "★ 25x24",
+    "My note · remove school 357x17",
+    "Save note 88x32",
+    "Remove from board 151x32",
+    "#cmd-q Try “Elon cost”, “add UVM”, “dead 556x29"
+   ],
+   "wide": [],
+   "dashCount": 7
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.sixPlaces": true,
+  "phone.sectionTabs": true,
+  "phone.remembersPlace": true,
+  "phone.deadlineDotOnPlan": true,
+  "phone.familyGroup": true,
+  "phone.moreSheetShort": true,
+  "phone.searchCost": true,
+  "phone.searchAddWithTypo": true,
+  "phone.searchPagesAndActions": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.sixPlaces": true,
+  "desktop.sectionTabs": true,
+  "desktop.remembersPlace": true,
+  "desktop.deadlineDotOnPlan": true,
+  "desktop.familyGroup": true,
+  "desktop.searchCost": true,
+  "desktop.searchAddWithTypo": true,
+  "desktop.searchPagesAndActions": true,
+  "desktop.slashOpens": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "desktop-dark.sixPlaces": true,
+  "desktop-dark.sectionTabs": true,
+  "desktop-dark.remembersPlace": true,
+  "desktop-dark.deadlineDotOnPlan": true,
+  "desktop-dark.familyGroup": true,
+  "desktop-dark.searchCost": true,
+  "desktop-dark.searchAddWithTypo": true,
+  "desktop-dark.searchPagesAndActions": true,
+  "desktop-dark.slashOpens": true,
+  "desktop-dark.noErrors": true,
+  "desktop-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
