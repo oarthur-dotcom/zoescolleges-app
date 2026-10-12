@@ -771,6 +771,8 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .film-bar{display:flex;gap:10px}
 .film-bar .film-x{color:#cbd5e1;border-color:rgba(255,255,255,.25)}
 .mem-ph .mp-btn.on{background:var(--star,#e8ac45);color:#000}
+.mem-ph .mp-btn.del{background:rgba(160,20,20,.82)}.mem-ph .mp-btn.del:hover,.mem-ph .mp-btn.del:focus-visible{background:#c62828}
+.mem-delmine{margin:4px 2px 14px;font-size:13px}.mem-note{color:var(--good);font-weight:600;font-size:13px;margin:0 0 6px}
 .player{position:fixed;inset:0;z-index:60;background:#000;display:none;align-items:center;justify-content:center;overflow:hidden}
 .player.open{display:flex}
 .player img{max-width:100%;max-height:100%;object-fit:contain}
@@ -3714,19 +3716,22 @@ function renderMemories(){
     const takes=(state.ratings||[]).filter(r=>r.school_id===sid && (r.rating||r.note));
     return `<div class="card mem-visit"><div class="mem-vh"><span class="mem-th" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(info.name||schoolName(sid),info.state,"78%")}`}"></span>
       <div style="min-width:0;flex:1"><b class="mem-vn">${esc(schoolName(sid))}</b><div class="muted" style="font-size:12px">${vd?`Visited ${esc(vd.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}))} · `:""}${list.length} photo${list.length>1?"s":""}</div></div>
-      <button class="small" data-mem-reel="${esc(sid)}">▶ Reel</button><button class="small" data-mem-addto="${esc(sid)}">＋ Photo</button></div>
+      <button class="small" data-mem-reel="${esc(sid)}">▶ Reel</button><button class="small" data-mem-addto="${esc(sid)}">＋ Photo</button>${list.some(memMine)?`<button class="small ghost mem-delall" data-mem-delall="${esc(sid)}" title="Delete all your photos from this visit">🗑 Delete all</button>`:""}</div>
       <div class="mem-grid">${list.map(p=>{ const pr=mp[p.id]||{}; const off=pr.off?" off":"";
         return `<div class="mem-ph${off}" data-ph="${esc(p.id)}"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||"Visit photo")}" loading="lazy">${p.caption?`<div class="mp-cap">${esc(p.caption)}</div>`:""}
-          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button></div></div>`; }).join("")}</div>
+          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button>${memMine(p)?`<button class="mp-btn del" data-del title="Delete this photo" aria-label="Delete this photo">✕</button>`:""}</div></div>`; }).join("")}</div>
       ${takes.length?`<div class="mem-takes">${takes.map(r=>`<div class="mem-take"><b>${esc(names[r.user_id]||"Family")}</b> ${r.rating?`<span class="mem-stars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`:""}${r.note?` <span>“${esc(r.note)}”</span>`:""}</div>`).join("")}</div>`
         :`<div class="mem-takes muted" style="font-size:12.5px">No one has rated ${esc(schoolName(sid))} yet — rate it on your board while it's fresh.</div>`}
-    </div>`; }).join("");
+    </div>`; }).join("")+(photos.some(memMine)?`<div class="mem-delmine"><button class="linklike" id="mem-delmine">🗑 Delete all my photos</button> <span class="muted" style="font-size:12px">Only photos you added. Can't be undone.</span></div>`:"");
   el.querySelectorAll("[data-ph]").forEach(card=>{ const pid=card.dataset.ph;
+    const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; del.disabled=true; await removePhoto(pid); await loadPhotos(); renderMemories(); memNote("Photo deleted."); };
     card.querySelector("[data-inc]").onclick=()=>{ const off=!(memPrefs()[pid]||{}).off; setMemPref(pid,{off}); renderMemories(); };
     card.querySelector("[data-feat]").onclick=()=>{ const feat=!(memPrefs()[pid]||{}).feat; setMemPref(pid,{feat}); renderMemories(); };
   });
   el.querySelectorAll("[data-mem-reel]").forEach(b=>b.onclick=()=>playReel(reelPhotos().filter(p=>p.school_id===b.dataset.memReel)));
   el.querySelectorAll("[data-mem-addto]").forEach(b=>b.onclick=()=>openMemAdd(b.dataset.memAddto));
+  el.querySelectorAll("[data-mem-delall]").forEach(b=>b.onclick=()=>memDeleteMany(photos.filter(p=>p.school_id===b.dataset.memDelall), `from ${schoolName(b.dataset.memDelall)}`));
+  const dm=$("mem-delmine"); if(dm) dm.onclick=()=>memDeleteMany(photos, "from every visit");
   renderMemShare(true);
 }
 /* Add visit photos: pick the school (trip + board first), pick one or many photos, optional caption. */
@@ -5652,6 +5657,15 @@ async function addPhoto(schoolId, file, caption){
   // keep newest ~24 to stay well under localStorage limits
   while(arr.length>24) arr.pop();
   lsSet("photos", arr); state.photos=arr;
+}
+/* Oct 12: delete photos from Memories. You can delete photos you added (the database only lets the person who added a photo remove it). */
+function memNote(t){ const c=document.querySelector("#mem-list .mem-count")||document.querySelector("#mem-list"); if(c){ const n=document.createElement("div"); n.className="mem-note"; n.setAttribute("role","status"); n.textContent="✓ "+t; c.parentNode.insertBefore(n,c); setTimeout(()=>n.remove(),4000); } }
+function memMine(p){ return !!p && (String(p.id).startsWith("ls-") || (state.me && p.user_id===state.me.user_id)); }
+async function memDeleteMany(list, where){
+  const mine=list.filter(memMine), others=list.length-mine.length; if(!mine.length) return;
+  if(!confirm(`Delete ${mine.length} photo${mine.length>1?"s":""} you added ${where}? This can't be undone.${others?`\n\n${others} added by someone else will stay — they can delete their own.`:""}`)) return;
+  for(const p of mine){ try{ await removePhoto(p.id); }catch(e){} }
+  await loadPhotos(); renderMemories(); memNote(`${mine.length} photo${mine.length>1?"s":""} deleted.`);
 }
 async function removePhoto(pid){
   if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return; }

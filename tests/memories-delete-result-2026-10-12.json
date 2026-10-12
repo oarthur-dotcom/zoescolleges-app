@@ -1,0 +1,234 @@
+{
+ "ok": {
+  "phone.xOnlyOnMine": true,
+  "phone.deleteOne": true,
+  "phone.deleteVisitKeepsOthers": true,
+  "phone.deleteAllMine": true,
+  "phone.noErrors": true,
+  "desktop.xOnlyOnMine": true,
+  "desktop.deleteOne": true,
+  "desktop.deleteVisitKeepsOthers": true,
+  "desktop.deleteAllMine": true,
+  "desktop.noErrors": true,
+  "desktop-dark.xOnlyOnMine": true,
+  "desktop-dark.deleteOne": true,
+  "desktop-dark.deleteVisitKeepsOthers": true,
+  "desktop-dark.deleteAllMine": true,
+  "desktop-dark.noErrors": true
+ },
+ "R": {
+  "phone": {
+   "start": {
+    "all": 5,
+    "ids": "ls-1,ls-2,ls-3,ls-4,other-1",
+    "x": 4,
+    "delAll": 2,
+    "mine": true
+   },
+   "otherHasNoX": true,
+   "afterOne": {
+    "all": 4,
+    "ids": "ls-2,ls-3,ls-4,other-1",
+    "x": 3,
+    "delAll": 2,
+    "mine": true
+   },
+   "note": "✓ Photo deleted.",
+   "dlg1": "Delete this photo? This can't be undone.",
+   "afterVisit": {
+    "all": 3,
+    "ids": "ls-3,ls-4,other-1",
+    "x": 2,
+    "delAll": 1,
+    "mine": true
+   },
+   "dlg2": "Delete 1 photo you added from College of Charleston? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "afterAll": {
+    "all": 1,
+    "ids": "other-1",
+    "x": 0,
+    "delAll": 0,
+    "mine": false
+   },
+   "dlg3": "Delete 2 photos you added from every visit? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "stored": "other-1",
+   "audit": {
+    "overflowX": 0,
+    "imgs": [
+     {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAIAAABi1XKVAAAD8ElEQVR4nO3UQQ0AIBDA",
+      "ok": true
+     }
+    ],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl"
+    ],
+    "bad": [],
+    "small": [
+     "Journey 81x34",
+     "Talk It Out 94x34",
+     "Decision Day 114x34",
+     "Memories 95x34",
+     "+ Invite family 121x34",
+     "★ 27x20",
+     "✓ 25x20"
+    ],
+    "wide": [],
+    "dashCount": 1
+   },
+   "errors": []
+  },
+  "desktop": {
+   "start": {
+    "all": 5,
+    "ids": "ls-1,ls-2,ls-3,ls-4,other-1",
+    "x": 4,
+    "delAll": 2,
+    "mine": true
+   },
+   "otherHasNoX": true,
+   "afterOne": {
+    "all": 4,
+    "ids": "ls-2,ls-3,ls-4,other-1",
+    "x": 3,
+    "delAll": 2,
+    "mine": true
+   },
+   "note": "✓ Photo deleted.",
+   "dlg1": "Delete this photo? This can't be undone.",
+   "afterVisit": {
+    "all": 3,
+    "ids": "ls-3,ls-4,other-1",
+    "x": 2,
+    "delAll": 1,
+    "mine": true
+   },
+   "dlg2": "Delete 1 photo you added from College of Charleston? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "afterAll": {
+    "all": 1,
+    "ids": "other-1",
+    "x": 0,
+    "delAll": 0,
+    "mine": false
+   },
+   "dlg3": "Delete 2 photos you added from every visit? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "stored": "other-1",
+   "audit": {
+    "overflowX": 0,
+    "imgs": [
+     {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAIAAABi1XKVAAAD8ElEQVR4nO3UQQ0AIBDA",
+      "ok": true
+     }
+    ],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl"
+    ],
+    "bad": [],
+    "small": [
+     "#signout Sign out 78x32",
+     "Today 70x33",
+     "Schools 84x33",
+     "Plan 70x33",
+     "Family 74x33",
+     "Ask Zoe 83x33",
+     "Profile 74x33",
+     "👪 Invite 90x33",
+     "🔎 Search Ctrl K 159x33",
+     "Journey 81x34",
+     "Talk It Out 94x34",
+     "Decision Day 114x34",
+     "Memories 95x34",
+     "+ Invite family 121x34",
+     "#mem-add ＋ Add visit photos 144x34",
+     "#mem-play ▶ Play reel 95x34",
+     "#mem-ai 🎬 Make a video 128x34",
+     "▶ Reel 69x33",
+     "＋ Photo 79x34",
+     "★ 27x20",
+     "✓ 25x20",
+     "#mem-share-go Share my reel… 122x32"
+    ],
+    "wide": [],
+    "dashCount": 1
+   },
+   "errors": []
+  },
+  "desktop-dark": {
+   "start": {
+    "all": 5,
+    "ids": "ls-1,ls-2,ls-3,ls-4,other-1",
+    "x": 4,
+    "delAll": 2,
+    "mine": true
+   },
+   "otherHasNoX": true,
+   "afterOne": {
+    "all": 4,
+    "ids": "ls-2,ls-3,ls-4,other-1",
+    "x": 3,
+    "delAll": 2,
+    "mine": true
+   },
+   "note": "✓ Photo deleted.",
+   "dlg1": "Delete this photo? This can't be undone.",
+   "afterVisit": {
+    "all": 3,
+    "ids": "ls-3,ls-4,other-1",
+    "x": 2,
+    "delAll": 1,
+    "mine": true
+   },
+   "dlg2": "Delete 1 photo you added from College of Charleston? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "afterAll": {
+    "all": 1,
+    "ids": "other-1",
+    "x": 0,
+    "delAll": 0,
+    "mine": false
+   },
+   "dlg3": "Delete 2 photos you added from every visit? This can't be undone.\n\n1 added by someone else will stay — they can delete their own.",
+   "stored": "other-1",
+   "audit": {
+    "overflowX": 0,
+    "imgs": [
+     {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAIAAABi1XKVAAAD8ElEQVR4nO3UQQ0AIBDA",
+      "ok": true
+     }
+    ],
+    "bgs": [
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl"
+    ],
+    "bad": [],
+    "small": [
+     "#signout Sign out 78x32",
+     "Today 70x33",
+     "Schools 84x33",
+     "Plan 70x33",
+     "Family 74x33",
+     "Ask Zoe 83x33",
+     "Profile 74x33",
+     "👪 Invite 90x33",
+     "🔎 Search Ctrl K 159x33",
+     "Journey 81x34",
+     "Talk It Out 94x34",
+     "Decision Day 114x34",
+     "Memories 95x34",
+     "+ Invite family 121x34",
+     "#mem-add ＋ Add visit photos 144x34",
+     "#mem-play ▶ Play reel 95x34",
+     "#mem-ai 🎬 Make a video 128x34",
+     "▶ Reel 69x33",
+     "＋ Photo 79x34",
+     "★ 27x20",
+     "✓ 25x20",
+     "#mem-share-go Share my reel… 122x32"
+    ],
+    "wide": [],
+    "dashCount": 1
+   },
+   "errors": []
+  }
+ }
+}
