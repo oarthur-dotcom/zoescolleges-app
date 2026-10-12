@@ -2628,15 +2628,35 @@ const ACT_LEVELS = [
   {v:"1", t:"National / International honor", tier:1},
 ];
 const ACT_POINTS = {1:10,2:6,3:3,4:1};
-// 0..1 strength: points for best ~6, diminishing; depth beats a long list.
-// #66: commitment counts too (years + time), not just the recognition level. Missing time info is neutral.
-function actDepth(a){ const yrs=(Array.isArray(a.grades)&&a.grades.length)?a.grades.length:(+a.yrs||0); const hw=(+a.hrs||0)*(+a.weeks||0);
-  const y = yrs ? Math.min(1, yrs/3) : 0.5, t = hw ? Math.min(1, hw/300) : 0.5; return 0.5*y + 0.5*t; }
+// #76 (Oct 11): what admissions readers weigh — COMMITMENT (hours × weeks × years), then role and recognition.
+// Before, everything hinged on "highest recognition", so two 3-year varsity sports + a full-time summer job read "light".
+// Each activity: (0.35 + 0.65 × commitment) × role/recognition multiplier. Best 6 count. 0..1 overall.
+const ACT_LEAD_RX = /captain|president|founder|editor|lead|manager|supervisor|chair|head|director|self-employed|own business|section leader|principal|first chair/i;
+function actYears(a){ return (Array.isArray(a.grades)&&a.grades.length)?a.grades.length:(+a.yrs||0); }
+function actHours(a){ const h=+a.hrs||0, w=+a.weeks||0, y=actYears(a)||1; return h&&w ? h*w*y : 0; }
+function actValue(a){
+  const tot=actHours(a); const c = tot ? Math.min(1, tot/500) : 0.45;           // missing time info is neutral-ish
+  const tier=+(a.tier||4); let m = {1:2.6, 2:1.9, 3:1.35, 4:1}[tier] || 1;
+  const pos=String(a.position||""); const lead=ACT_LEAD_RX.test(pos) || (isWorkType(a.category)&&tier<=3);
+  if(lead) m=Math.max(m*1.25, 1.4); else if(/starter|varsity letter/i.test(pos)) m*=1.1;
+  if(/JV\/Varsity/.test(a.category||"") || isWorkType(a.category) || isFamilyType(a.category)) m*=1.1;   // sustained, demanding commitments
+  return { v:(0.35+0.65*c)*m, c, lead, tot };
+}
+function actDepth(a){ return actValue(a).c; }   // kept for older callers
 function activityStrength(acts){
   if(!Array.isArray(acts) || !acts.length) return null;
-  const pts = acts.map(a=>(ACT_POINTS[+(a.tier||4)]||1)*(0.6+0.4*actDepth(a))).sort((x,y)=>y-x).slice(0,6);
-  const sum = pts.reduce((x,y)=>x+y,0);
-  return Math.max(0, Math.min(1, sum/18));
+  const vs = acts.map(a=>actValue(a).v).sort((x,y)=>y-x).slice(0,6);
+  return Math.max(0, Math.min(1, vs.reduce((x,y)=>x+y,0)/5.5));
+}
+function activityWhy(acts){
+  if(!Array.isArray(acts)||!acts.length) return "";
+  const vals=acts.map(a=>({a,...actValue(a)})); const heavy=vals.filter(x=>x.c>=0.75), lead=vals.some(x=>x.lead||+(x.a.tier||4)<=3);
+  const parts=[]; const sports=heavy.filter(x=>/Athletics/.test(x.a.category||"")).length, work=heavy.filter(x=>isWorkType(x.a.category)).length;
+  if(sports) parts.push(`${sports} sport${sports>1?"s":""} with real time behind ${sports>1?"them":"it"}`);
+  if(work) parts.push(`${work>1?work+" jobs":"a job"} with real hours`);
+  const other=heavy.length-sports-work; if(other>0) parts.push(`${other} other deep commitment${other>1?"s":""}`);
+  const s=activityStrength(acts); const tip = s>=0.7 ? "" : vals.length<3 ? " Another committed activity (a sport, job, club or family responsibility you put real time into) would strengthen it." : !lead ? " A leadership role (captain, shift lead, club officer) or an award is what moves this to strong." : " More depth in your top 2 — years and hours — strengthens it most.";
+  return (parts.length?`Counted: ${parts.join(", ")}.`:"")+tip;
 }
 // Honest numbers (Fix #6): the federal sources use codes like -2 for "no data", and a few
 // records carry impossible values (0% grad rate, negative net price, size 0). Show those as
@@ -5588,8 +5608,11 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   profActs = acts.slice(); actDirty=false;
   if(stay){ renderProfileView(); return true; }
   ["pf-savemsg","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
-  actStatus(`✓ Saved — ${acts.length} activit${acts.length===1?"y":"ies"} on your profile`,"ok"); actOpen=-1; renderActs();
-  pfEdit=false; renderProfileView(); return true;
+  actOpen=-1; renderActs();
+  pfEdit=false; renderProfileView();
+  actStatus(`✓ Saved — ${acts.length} activit${acts.length===1?"y":"ies"} on your profile`,"ok");   // #76: after the redraw, or the redraw wiped it
+  try{ ["pf-save","pf-save2","pf-save3"].forEach(id=>{ const b=$(id); if(b){ const t=b.textContent; b.textContent="Saved ✓"; setTimeout(()=>{ b.textContent=t; },1600); } }); }catch(e){}
+  return true;
 }
 $("pf-save").onclick = saveProfileForm;
 { const b2=$("pf-save2"); if(b2) b2.onclick = saveProfileForm; }
@@ -5774,7 +5797,7 @@ async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveP
 function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; const s=activityStrength(profActs);
   if(s==null){ el.textContent=""; return; }
   const lvl = s>=0.7?"strong" : s>=0.4?"solid" : "light";
-  el.innerHTML = `Activity profile: <b>${lvl}</b> (depth-weighted, best few count most). At more selective schools this can nudge a Reach toward Target — it never overrides your grades.`;
+  el.innerHTML = `Activity profile: <b>${lvl}</b>. ${esc(activityWhy(profActs))} <span class="muted">Commitment (hours × years), leadership and recognition count most. At selective schools this can nudge a Reach toward Target — it never overrides your grades.</span>`;
 }
 $("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
   const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };

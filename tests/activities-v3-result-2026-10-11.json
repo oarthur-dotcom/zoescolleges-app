@@ -1,0 +1,139 @@
+{
+ "phone": {
+  "levels": {
+   "zoe": "solid",
+   "zoeS": 0.67,
+   "zoeWhy": "Counted: 2 sports with real time behind them, a job with real hours. A leadership role (captain, shift lead, club officer) or an award is what moves this to strong.",
+   "captain": "strong",
+   "oneClub": "light",
+   "national": "strong"
+  },
+  "afterSave": {
+   "msg": "✓ Saved — 1 activity on your profile",
+   "btn": "Saved ✓",
+   "wrote": 1,
+   "strengthLine": "Activity profile: light. Counted: 1 sport with real time behind it. Another committed activity (a sport, job, club or family responsibility you put real time into) would strengthen it. Commitment (hours × years), leadership and recognition count most. At selective schools this can nudge a Reach toward Target — it never overrides your grades."
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Profile 72x34",
+    "College Report 126x34",
+    "🎓 My grades & activities 203x33",
+    "🧭 My priorities 139x33",
+    "Not you? Switch me to parent 157x17",
+    "↑ 36x36",
+    "↓ 36x36"
+   ],
+   "wide": [],
+   "dashCount": 9
+  },
+  "errors": []
+ },
+ "desktop": {
+  "levels": {
+   "zoe": "solid",
+   "zoeS": 0.67,
+   "zoeWhy": "Counted: 2 sports with real time behind them, a job with real hours. A leadership role (captain, shift lead, club officer) or an award is what moves this to strong.",
+   "captain": "strong",
+   "oneClub": "light",
+   "national": "strong"
+  },
+  "afterSave": {
+   "msg": "✓ Saved — 1 activity on your profile",
+   "btn": "Saved ✓",
+   "wrote": 1,
+   "strengthLine": "Activity profile: light. Counted: 1 sport with real time behind it. Another committed activity (a sport, job, club or family responsibility you put real time into) would strengthen it. Commitment (hours × years), leadership and recognition count most. At selective schools this can nudge a Reach toward Target — it never overrides your grades."
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Profile 72x34",
+    "College Report 126x34",
+    "🎓 My grades & activities 203x33",
+    "🧭 My priorities 139x33",
+    "📄 Report 88x32",
+    "✏️ Edit profile 114x32",
+    "Not you? Switch me to parent 157x17",
+    "↑ 36x36",
+    "↓ 36x36",
+    "#pf-save2 Saved ✓ 79x33"
+   ],
+   "wide": [],
+   "dashCount": 9
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "levels": {
+   "zoe": "solid",
+   "zoeS": 0.67,
+   "zoeWhy": "Counted: 2 sports with real time behind them, a job with real hours. A leadership role (captain, shift lead, club officer) or an award is what moves this to strong.",
+   "captain": "strong",
+   "oneClub": "light",
+   "national": "strong"
+  },
+  "afterSave": {
+   "msg": "✓ Saved — 1 activity on your profile",
+   "btn": "Saved ✓",
+   "wrote": 1,
+   "strengthLine": "Activity profile: light. Counted: 1 sport with real time behind it. Another committed activity (a sport, job, club or family responsibility you put real time into) would strengthen it. Commitment (hours × years), leadership and recognition count most. At selective schools this can nudge a Reach toward Target — it never overrides your grades."
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Profile 72x34",
+    "College Report 126x34",
+    "🎓 My grades & activities 203x33",
+    "🧭 My priorities 139x33",
+    "Not you? Switch me to parent 157x17",
+    "↑ 36x36",
+    "↓ 36x36"
+   ],
+   "wide": [],
+   "dashCount": 9
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.zoeIsSolid": true,
+  "phone.captainMakesStrong": true,
+  "phone.oneSmallClubIsLight": true,
+  "phone.nationalHonorStrong": true,
+  "phone.saveShowsSaved": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.zoeIsSolid": true,
+  "desktop.captainMakesStrong": true,
+  "desktop.oneSmallClubIsLight": true,
+  "desktop.nationalHonorStrong": true,
+  "desktop.saveShowsSaved": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.zoeIsSolid": true,
+  "phone-dark.captainMakesStrong": true,
+  "phone-dark.oneSmallClubIsLight": true,
+  "phone-dark.nationalHonorStrong": true,
+  "phone-dark.saveShowsSaved": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
