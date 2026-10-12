@@ -78,9 +78,8 @@
     "bad": [],
     "small": [
      "My Board 93x34",
-     "Discover 86x34",
-     "Search 75x34",
      "Zoe Picks 91x34",
+     "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
      "#view-stacked ☰ 38x40",
@@ -99,8 +98,7 @@
      "🗺 Trip 63x36"
     ],
     "wide": [
-     "BUTTON.sn-tab # right=478",
-     "BUTTON.sn-tab # right=549"
+     "BUTTON.sn-tab # right=457"
     ],
     "dashCount": 4
    },
@@ -161,12 +159,11 @@
      "Family 74x33",
      "Ask Zoe 83x33",
      "Profile 74x33",
-     "👪 Invite 90x33",
+     "👥 Invite 90x33",
      "🔎 Search Ctrl K 159x33",
      "My Board 93x34",
-     "Discover 86x34",
-     "Search 75x34",
      "Zoe Picks 91x34",
+     "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
      "#btn-report2 📄 Report 88x32",
@@ -249,12 +246,11 @@
      "Family 74x33",
      "Ask Zoe 83x33",
      "Profile 74x33",
-     "👪 Invite 90x33",
+     "👥 Invite 90x33",
      "🔎 Search Ctrl K 159x33",
      "My Board 93x34",
-     "Discover 86x34",
-     "Search 75x34",
      "Zoe Picks 91x34",
+     "Search 75x34",
      "Compare 89x34",
      "Pulse 65x34",
      "#btn-report2 📄 Report 88x32",

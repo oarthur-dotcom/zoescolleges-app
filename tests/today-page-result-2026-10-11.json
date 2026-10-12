@@ -120,7 +120,7 @@
  },
  "empty-phone": {
   "landing": "today",
-  "hero": "2/5\nYOUR NEXT STEP\n🏫 Add 3 or more schools\nSwipe through a few picked for you, or search by name. You can always change them.\nDiscover schools\n✓ Student\n2 Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Watch the 1-minute tour",
+  "hero": "2/5\nYOUR NEXT STEP\n🏫 Add 3 or more schools\nSwipe through a few picked for you, or search by name. You can always change them.\nSwipe through picks\n✓ Student\n2 Schools\n3 Grades\n4 Priorities\n✓ Family\n▶ Watch the 4-minute tour",
   "hi": "Good morning, Obie",
   "cards": [],
   "text": "",
@@ -135,7 +135,7 @@
     "3 Grades 75x32",
     "4 Priorities 87x32",
     "✓ Family 75x32",
-    "▶ Watch the 1-minute tour 160x19"
+    "▶ Watch the 4-minute tour 164x19"
    ],
    "wide": [],
    "dashCount": 0

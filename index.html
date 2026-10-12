@@ -1330,6 +1330,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .b3-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .b3-v{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .b3-ch.likely{color:var(--good)}.b3-ch.target{color:var(--teal)}.b3-ch.reach{color:var(--plum)}
+.fit-pill{flex:none;align-self:flex-start;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}.fit-pill b{color:var(--ink);font-size:13px}
 .b3-s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .card-more summary{font-size:12.5px}
@@ -1723,7 +1724,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <label style="margin:0;align-self:center">Sort</label>
         <select id="board-sort" style="width:auto">
           <option value="blend">Family star average</option>
-          <option value="match">My match %</option>
+          <option value="match">My fit %</option>
           <option value="chance">Admission chance</option>
           <option value="name">Name (A–Z)</option>
           <option value="visited">Visited first</option>
@@ -1754,7 +1755,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <select id="ex-size" style="width:auto"><option value="">Any size</option><option value="s">Small (&lt;5k)</option><option value="m">Medium (5–15k)</option><option value="l">Large (15k+)</option></select>
       <select id="ex-sel" style="width:auto"><option value="">Any selectivity</option><option value="r">Most selective (&lt;25%)</option><option value="t">Selective (25–60%)</option><option value="k">Accessible (60%+)</option></select>
       <select id="ex-cost" style="width:auto"><option value="">Any net price</option><option value="1">Under $15k</option><option value="2">$15–30k</option><option value="3">$30k+</option></select>
-      <select id="ex-sort2" style="width:auto"><option value="match">Sort: My match</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
+      <select id="ex-sort2" style="width:auto"><option value="match">Sort: My fit</option><option value="name">Sort: Name</option><option value="sel">Sort: Selectivity</option><option value="cost">Sort: Net price</option><option value="earn">Sort: Earnings</option></select>
     </div>
     <button id="ex-filters-btn" class="small ghost ex-filters-btn" aria-expanded="false" aria-controls="ex-more-filters">⚙ More filters</button>
     <div class="row ex-more" id="ex-more-filters" style="margin-top:6px">
@@ -3364,7 +3365,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
     <div class="big3" style="margin:10px 12px 4px">
       <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year":"no data"}</span></div>
       <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
-      <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">match for you</span></div></div>
+      <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div></div>`; }
 function renderDiscover(){
   const out=$("disc-out"); if(!out) return;
@@ -3592,7 +3593,7 @@ function reportTake(rows, bal, p){
   const out=[]; const withM=rows.filter(r=>r.m!=null).sort((a,b)=>b.m-a.m);
   if(bal){ out.push(bal.tips.length?`The list leans ${bal.c.reach>bal.c.likely?"ambitious":"safe"} — for balance, add ${bal.tips.slice(0,2).join(" and ")}.`:`The list is well balanced across Likely, Target and Reach schools.`); }
   else if(rows.length) out.push(`Add grades in My Profile to see admission chances for each school.`);
-  if(withM.length) out.push(`Strongest fit for what the family cares about: <b>${esc(withM[0].s.name)}</b> (${withM[0].m}% match)${withM[1]?`, then <b>${esc(withM[1].s.name)}</b> (${withM[1].m}%)`:""}.`);
+  if(withM.length) out.push(`Strongest fit for what the family cares about: <b>${esc(withM[0].s.name)}</b> (${withM[0].m}% fit)${withM[1]?`, then <b>${esc(withM[1].s.name)}</b> (${withM[1].m}%)`:""}.`);
   const likelyFav=rows.filter(r=>r.ch&&r.ch.band==="likely"&&r.b!=null).sort((a,b)=>b.b-a.b)[0];
   if(likelyFav) out.push(`Best-loved Likely school: <b>${esc(likelyFav.s.name)}</b> (${likelyFav.b.toFixed(1)}★ family average) — a safe choice everyone already likes.`);
   const acts=Array.isArray(p&&p.activities)?p.activities:[];
@@ -3652,7 +3653,7 @@ function renderReport(){
       return `<div class="rp-school">
         <div class="rp-sh">${thumb(r)}<div style="min-width:0;flex:1"><h3>${r.rank?`<span class="rp-rank">#${r.rank}</span> `:""}${esc(r.s.name)}</h3>
           <div class="rp-muted">${esc([r.info&&r.info.city,r.info&&r.info.state].filter(Boolean).join(", "))}${estText(r.info)}</div>
-          <div class="rp-tags">${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% match</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
+          <div class="rp-tags">${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
         <div class="rp-grid">
           ${stat("Admit rate",pct(sc.admissionRate))}${stat("Grad rate",pct(sc.gradRate))}
           ${stat("Cost / yr",n?`${money(n.v)}<small>${esc(n.src)}</small>`:"—")}${stat("Earnings (10 yr)",money(sc.medianEarnings10yr))}
@@ -3942,12 +3943,12 @@ function chanceWords(info){
   return `${lead}: ${bits.join(" · ")}${noStats?" — add your grades in My Profile to personalize this":""}.`;
 }
 function chanceWordsHtml(info){ const w=chanceWords(info); return w?`<div class="chance-words">${esc(w)}</div>`:""; }
-function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
+function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% fit</span>` : ""; }
 function matchColor(m){ return m>=75?"var(--teal)":m>=55?"var(--amber)":"var(--muted)"; }
 function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=2*Math.PI*18; const off=circ*(1-Math.max(0,Math.min(100,m))/100);
-  return `<span class="mring-w" title="${m}% match to your priorities — not your admission odds"><span class="mring"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}<i class="mr-pct">%</i></b></span><span class="mr-cap">match</span></span>`; }
-function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">match —</span>`; const c=matchColor(m);
-  return `<span class="mbar" title="${m}% match"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% match</span>`; }
+  return `<span class="mring-w" title="${m}% fit with your priorities — not your admission odds"><span class="mring"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}<i class="mr-pct">%</i></b></span><span class="mr-cap">fit</span></span>`; }
+function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">fit —</span>`; const c=matchColor(m);
+  return `<span class="mbar" title="${m}% fit with your priorities"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% fit</span>`; }
 /* #51 "Where you stand": the school's middle 50% of admitted students' SAT or ACT (College Scorecard), with a dot for
    the student. Compact on board cards, full on the school page. Federal data has no GPA ranges, so the page says so. */
 function standBarHtml(info, compact){
@@ -3998,12 +3999,13 @@ function renderSchool(x){
       ${rankBox}
       <div style="flex:1;min-width:0"><div class="name">${esc(s.name)}</div>
       <div class="loc">${esc([s.city,s.state].filter(Boolean).join(", "))}${estText(x.info)} ${catChip}</div></div>
+      ${x.m!=null?`<span class="fit-pill" title="How well ${esc(s.name)} fits your family's priorities (cost, size, setting…) — not your odds of getting in"><b>${x.m}%</b> fit</span>`:""}
     </div>
     ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
         <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year"+(oosSurcharge(info)?" · out-of-state":""):"no data"}</span></div>
-        <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.m!=null?x.m+"% match":"add grades"}</span></div>
+        <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
     <div class="raters">${ratersHtml(s.school_id)}</div>
@@ -5338,7 +5340,7 @@ function buildCompare(){
   // best-fit callout (personalized)
   let bestCallout="";
   if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>avgNet(cc.info||cc),"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
-    bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Closest match to your priorities: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}.${(()=>{ const ch=chanceFor(c.info); return ch&&ch.band==="reach"?` <span class="muted">Heads up: it's a <b>Reach</b> for admission, so keep a Target or Likely you love too.</span>`:""; })()} ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
+    bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Closest match to your priorities: ${esc(c.rec.name)}</b> — ${top.v}% fit${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}.${(()=>{ const ch=chanceFor(c.info); return ch&&ch.band==="reach"?` <span class="muted">Heads up: it's a <b>Reach</b> for admission, so keep a Target or Likely you love too.</span>`:""; })()} ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
   const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(c.rec.name,c.info&&c.info.state)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
   const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:var(--cx-k,132px) repeat(${n},minmax(var(--cx-min,0px),1fr))">
     <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
@@ -6627,7 +6629,7 @@ function renderShareHtml(p, opts){
       ${(a.activities||[]).length?`<div class="share-acts"><div class="share-sh">Activities</div><ul>${a.activities.map(x=>`<li><b>${esc(x.title)}</b>${x.meta?` · ${esc(x.meta)}`:""}${x.level?` · <span class="muted">${esc(x.level)}</span>`:""}</li>`).join("")}</ul></div>`:""}</div>` : "";
   const rows=list.map(s=>`<div class="share-row"><div style="min-width:0"><b>${esc(s.name)}</b><div class="muted" style="font-size:12.5px">${esc(s.where||"")}</div>
       ${(s.deadline||s.cost!=null||s.stars!=null)?`<div class="share-extra">${s.stars!=null?`${shareStars(s.stars)}`:""}${s.deadline?`<span>⏰ ${esc(s.deadline.kind||"Deadline")} · ${esc(shareFmtDate(s.deadline.date))}</span>`:""}${s.cost!=null?`<span>💰 ~${money(s.cost)}/yr after aid${s.sticker?` <i class="muted">(sticker ${money(s.sticker)})</i>`:""}</span>`:""}</div>`:""}</div>
-      <div class="share-stat">${s.match!=null?`<span class="share-m">${+s.match}% match</span>`:""}${s.chance?`<span class="share-c">${esc(s.chance)}</span>`:""}</div></div>`).join("");
+      <div class="share-stat">${s.match!=null?`<span class="share-m">${+s.match}% fit</span>`:""}${s.chance?`<span class="share-c">${esc(s.chance)}</span>`:""}</div></div>`).join("");
   const dls=sec.deadlines?list.filter(s=>s.deadline).sort((x,y)=>x.deadline.date.localeCompare(y.deadline.date)):[];
   const dlCard=dls.length?`<div class="share-card"><div class="share-h">⏰ Coming up</div>${dls.slice(0,8).map(s=>`<div class="share-dl"><b>${esc(shareFmtDate(s.deadline.date))}</b><span>${esc(s.name)} · ${esc(s.deadline.kind||"")}</span></div>`).join("")}</div>`:"";
   const tips = aud==="counselor" ? `<p class="muted share-fine">Match % reflects the family's own priorities. Chance labels (Likely / Target / Reach) are estimates from the student's grades and each school's published admissions data — not a prediction.</p>`

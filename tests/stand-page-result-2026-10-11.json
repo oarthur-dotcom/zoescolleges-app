@@ -50,9 +50,8 @@
    "bad": [],
    "small": [
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#detail-back ← Back 50x38",
@@ -61,7 +60,7 @@
     "🗺 Add to road trip 132x36",
     "⇄ Add to compare 131x36",
     "🎒 Visit-day kit 113x36",
-    "see the source ↗ 312x31",
+    "see the source ↗ 313x31",
     "🗨️ Newest Reddit posts ↗ 186x35",
     "▶️ “Day in the life” videos ↗ 194x35",
     "🎵 Students on TikTok ↗ 175x35",
@@ -80,12 +79,11 @@
     "Leaflet 54x15"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=478",
-    "BUTTON.sn-tab # right=549",
+    "BUTTON.sn-tab # right=457",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 13
+   "dashCount": 14
   },
   "errors": []
  },
@@ -170,12 +168,11 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
-    "👪 Invite 90x33",
+    "👥 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#detail-back ← Back 50x38",
@@ -202,13 +199,14 @@
     "× 24x24",
     "+ 30x30",
     "− 30x30",
-    "Leaflet 54x15"
+    "Leaflet 54x15",
+    "#visit-notes-save Save notes 95x32"
    ],
    "wide": [
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380",
     "IMG.leaflet-tile leaflet-tile-loaded# right=1380"
    ],
-   "dashCount": 13
+   "dashCount": 14
   },
   "errors": []
  },
@@ -263,9 +261,8 @@
    "bad": [],
    "small": [
     "My Board 93x34",
-    "Discover 86x34",
-    "Search 75x34",
     "Zoe Picks 91x34",
+    "Search 75x34",
     "Compare 89x34",
     "Pulse 65x34",
     "#detail-back ← Back 50x38",
@@ -293,12 +290,11 @@
     "Leaflet 54x15"
    ],
    "wide": [
-    "BUTTON.sn-tab # right=478",
-    "BUTTON.sn-tab # right=549",
+    "BUTTON.sn-tab # right=457",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430",
     "IMG.leaflet-tile leaflet-tile-loaded# right=430"
    ],
-   "dashCount": 13
+   "dashCount": 14
   },
   "errors": []
  },
