@@ -259,11 +259,18 @@ a{color:var(--teal)}
 .ts-visit a{font-size:12px;text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--teal);white-space:nowrap}
 .ts-visit a:hover{border-color:var(--teal)}
 .ts-plan{margin:9px 0 0 63px}
+.ts-onsite{margin-left:63px}
+@media (max-width:640px){ .ts-visit,.ts-plan,.ts-onsite{margin-left:0} }
 .ts-plan-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px}
 .plan-item{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:color-mix(in srgb,var(--teal) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 22%,var(--line));border-radius:999px;padding:4px 6px 4px 11px}
 .plan-item .x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;line-height:1}
 .plan-item .x:hover{color:var(--warn)}
-.ts-plan-add{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.ts-plan-add{display:flex;gap:8px;align-items:stretch;flex-direction:column}
+.near-cats{display:flex;gap:6px;flex-wrap:wrap}
+.near-cat{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px}
+.near-cat.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,var(--surface));color:var(--teal)}
+.plan-form{display:flex;gap:6px}.plan-form .plan-in{min-width:0}
+.ts-onsite{font-size:12.5px;color:var(--muted);margin:6px 0 2px}.ts-onsite.today{color:var(--ink);background:color-mix(in srgb,var(--teal) 10%,var(--surface));border-radius:10px;padding:8px 10px}
 .ts-plan-add button[data-near]{font-size:12px;color:var(--teal)}
 .plan-form{display:flex;gap:5px;flex:1;min-width:160px}
 .plan-form .plan-in{flex:1;font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
@@ -2279,7 +2286,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadSchoolAid(); loadReqs(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadSchoolAid(); loadReqs(); loadVisitLinks(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -4549,17 +4556,7 @@ async function osrmLegs(ordered){
     return j.routes[0].legs.map(l=>({mi:l.distance/1609.34, min:l.duration/60, est:false}));
   }catch(e){ return fallback(); }
 }
-async function overpassNear(lat,lon){
-  const q=`[out:json][timeout:15];(node(around:2500,${lat},${lon})[amenity~"^(restaurant|cafe)$"];node(around:4000,${lat},${lon})[tourism~"^(hotel|motel|hostel)$"];node(around:4500,${lat},${lon})[tourism~"^(attraction|museum|viewpoint)$"];);out body 60;`;
-  const eps=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter","https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
-  for(const ep of eps){
-    try{ const r=await fetch(ep,{method:"POST",body:"data="+encodeURIComponent(q)}); if(!r.ok) continue;
-      const j=await r.json(); const els=j.elements||[]; const pick=(f,n)=>[...new Set(els.filter(f).map(e=>e.tags&&e.tags.name).filter(Boolean))].slice(0,n);
-      return { food:pick(e=>e.tags&&/^(restaurant|cafe)$/.test(e.tags.amenity||""),4), stay:pick(e=>e.tags&&/^(hotel|motel|hostel)$/.test(e.tags.tourism||""),3), see:pick(e=>e.tags&&/^(attraction|museum|viewpoint)$/.test(e.tags.tourism||""),3) };
-    }catch(e){ /* try next endpoint */ }
-  }
-  throw new Error("overpass unavailable");
-}
+// (#69) the browser no longer calls Overpass directly — see netlify/functions/places-near.mjs
 // Fix #12: a schedule that respects real drive times (was: N stops split evenly, 9am/12pm/3pm,
 // so MIT 9am then College of Charleston noon, 973 miles apart). Times in minutes after midnight.
 const TRIP_VISIT=120, TRIP_DAY_START=9*60, TRIP_LAST_VISIT=16*60, TRIP_DRIVE_START=8*60, TRIP_DRIVE_END=20*60, TRIP_MAX_DRIVE=9*60;
@@ -4594,6 +4591,7 @@ function downloadICS(){ const evs=tripEvents(); const lines=["BEGIN:VCALENDAR","
   lines.push("END:VCALENDAR");
   const blob=new Blob([lines.join("\r\n")],{type:"text/calendar"}); const url=URL.createObjectURL(blob);
   const a=document.createElement("a"); a.href=url; a.download="zoes-colleges-trip.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
+const NEAR_CATS=[["food","🍽 Food"],["coffee","☕ Coffee"],["stay","🛏 Stay"],["see","📍 Things to do"],["music","🎵 Music & arts"],["outdoors","🌲 Outdoors"]];
 function renderTripOut(){
   const out=$("trip-out"); if(!tripBuilt){ out.innerHTML=""; return; }
   const {ordered,legs}=tripBuilt; const plan=tripDays();
@@ -4607,6 +4605,7 @@ function renderTripOut(){
       if(!(di===0&&si===0) && li<legs.length){ const l=legs[li]; legHtml=`<div class="trip-leg">↓ ${Math.round(l.mi)} mi · ~${hrs(l.min)} drive</div>`; }
       if(!(di===0&&si===0)) li++;
       const t=stopTime(di,si); const tstr=t.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+      const isVisitDay = (()=>{ const d=new Date(tripBuilt.start); d.setDate(d.getDate()+di); const n=new Date(); return d.toDateString()===n.toDateString(); })();
       const info=catInfo(s.id)||{}; const u=photoUrlFor(info); const nm=encodeURIComponent(s.name+(s.state?(" "+s.state):""));
       const maps=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
       const items=stopPlan(s.id);
@@ -4615,17 +4614,18 @@ function renderTripOut(){
         : `<span class="muted" style="font-size:12px">Plan what to do while you're in town ↓</span>`;
       return `${legHtml}<div class="trip-stop" data-stop="${esc(s.id)}">
         <div class="ts-head"><span class="ts-photo" style="${u?`background-image:url('${esc(u)}')`:`background:${phBg(s.name,s.state,"78%")}`}"></span>
-          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div><button class="small" data-visitkit="${esc(s.id)}">🎒 Start visit</button></div>
+          <div class="ts-info"><div class="ts-name">${esc(s.name)}</div><div class="tp-city">${esc([s.city,s.state].filter(Boolean).join(", "))} · visit ~${tstr}</div></div><button class="small ${isVisitDay?"primary":""}" data-visitkit="${esc(s.id)}" title="Use this on campus: checklist, photos and quick notes">📍 I'm on campus</button></div>
+        <div class="ts-onsite ${isVisitDay?"today":""}">${isVisitDay?"🎉 Visit day! Tap <b>I'm on campus</b> when you arrive — checklist, photos and quick notes as you walk.":"On visit day, tap <b>I'm on campus</b> for a checklist, photos and quick notes as you walk."}</div>
         <div class="ts-visit">
-          <a href="https://www.google.com/search?q=${nm}+admissions+visit+register" target="_blank" rel="noopener">🎟 Book a visit ↗</a>
-          <a href="https://www.google.com/search?q=${nm}+virtual+campus+tour" target="_blank" rel="noopener">▶ Virtual tour ↗</a>
+          ${(()=>{ const v=visitLinkFor(s.id); return v?`<a href="${esc(v.url)}" target="_blank" rel="noopener">🎟 ${v.label} ↗</a>`:""; })()}
+          <a href="https://www.google.com/search?q=${nm}+virtual+campus+tour" target="_blank" rel="noopener">▶ Find a virtual tour ↗</a>
           <a href="${maps}" target="_blank" rel="noopener">📍 Directions ↗</a>
         </div>
         <div class="ts-plan">
           <div class="ts-plan-list" data-planlist="${esc(s.id)}">${planList}</div>
           <div class="ts-plan-add">
-            <button class="small ghost" data-near="${esc(s.id)}" data-lat="${s.lat}" data-lon="${s.lon}">🔎 Find things to do</button>
-            <form class="plan-form" data-planform="${esc(s.id)}"><input class="plan-in" placeholder="Add your own…" autocomplete="off"><button class="small" type="submit">+</button></form>
+            <div class="near-cats" role="group" aria-label="Find nearby">${NEAR_CATS.map(([k,l])=>`<button type="button" class="near-cat" data-near="${esc(s.id)}" data-cat="${k}" data-lat="${s.lat}" data-lon="${s.lon}">${l}</button>`).join("")}</div>
+            <form class="plan-form" data-planform="${esc(s.id)}"><input class="plan-in" type="text" placeholder="Add your own stop, e.g. dinner at Leunig's" aria-label="Add your own stop" autocomplete="off"><button class="small" type="submit">Add</button></form>
           </div>
           <div class="near-out" data-nearout="${esc(s.id)}"></div>
         </div></div>`;
@@ -4664,23 +4664,19 @@ function renderTripOut(){
   // plan: add your own + remove
   out.querySelectorAll("[data-planform]").forEach(f=>f.onsubmit=e=>{ e.preventDefault(); const id=f.dataset.planform; const inp=f.querySelector(".plan-in"); const v=(inp.value||"").trim(); if(v){ addStopPlan(id,v); rerenderTrip(); } });
   out.querySelectorAll("[data-planrm]").forEach(b=>b.onclick=()=>{ const parts=b.dataset.planrm.split("|"); rmStopPlan(parts[0],+parts[1]); rerenderTrip(); });
-  // nearby (lazy) -> addable chips
-  out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const id=btn.dataset.near; const box=out.querySelector(`[data-nearout="${CSS.escape(id)}"]`);
-    btn.disabled=true; btn.textContent="Finding…";
-    try{ const n=await overpassNear(+btn.dataset.lat,+btn.dataset.lon);
-      const groups=[["🍽",n.food],["🛏",n.stay],["📍",n.see]];
-      const chips=groups.flatMap(([ic,arr])=>arr.map(x=>{ const v=ic+" "+x; return `<button class="near-chip" data-planadd="${esc(id)}" data-val="${esc(v)}">${esc(v)} <b>+</b></button>`; })).join("");
-      box.innerHTML = chips?`<div class="near-chips">${chips}</div>`:`<span class="muted">No tagged places found right around campus.</span>`;
-      btn.disabled=false; btn.textContent="🔎 Find things to do";
-      box.querySelectorAll("[data-planadd]").forEach(c=>c.onclick=()=>{ addStopPlan(c.dataset.planadd, c.dataset.val); rerenderTrip(); });
-    }catch(e){ const la=btn.dataset.lat, lo=btn.dataset.lon;
-      box.innerHTML=`<div class="near-fallback"><span class="muted">Live place data is busy — browse on a map instead:</span>
-        <div class="near-links">
-          <a href="https://www.google.com/maps/search/restaurants/@${la},${lo},15z" target="_blank" rel="noopener">🍽 Food</a>
-          <a href="https://www.google.com/maps/search/hotels/@${la},${lo},14z" target="_blank" rel="noopener">🛏 Stay</a>
-          <a href="https://www.google.com/maps/search/things+to+do/@${la},${lo},14z" target="_blank" rel="noopener">📍 Things to do</a>
-        </div></div>`;
-      btn.disabled=false; btn.textContent="🔎 Find things to do"; }
+  // #69 nearby by category, through our server (cached), with an honest map fallback
+  out.querySelectorAll("[data-near]").forEach(btn=>{ btn.onclick=async()=>{ const id=btn.dataset.near, cat=btn.dataset.cat, la=btn.dataset.lat, lo=btn.dataset.lon; const box=out.querySelector(`[data-nearout="${CSS.escape(id)}"]`);
+    btn.parentElement.querySelectorAll(".near-cat").forEach(x=>x.classList.toggle("on", x===btn));
+    box.innerHTML=`<span class="muted" style="font-size:12.5px"><span class="tx-spin"></span> Finding ${esc(btn.textContent.replace(/^\S+\s/,"").toLowerCase())} near campus…</span>`;
+    const label=(NEAR_CATS.find(c=>c[0]===cat)||[])[1]||"";
+    const mapQ={food:"restaurants",coffee:"coffee",stay:"hotels",see:"things to do",music:"music venues",outdoors:"parks"}[cat]||"things to do";
+    const fallback=(why)=>`<div class="near-fallback"><span class="muted">${why}</span> <a href="https://www.google.com/maps/search/${encodeURIComponent(mapQ)}/@${la},${lo},14z" target="_blank" rel="noopener">Open ${esc(mapQ)} on the map ↗</a></div>`;
+    try{ const r=await fetch(`/.netlify/functions/places-near?cat=${encodeURIComponent(cat)}&lat=${encodeURIComponent(la)}&lon=${encodeURIComponent(lo)}`,{headers:await aiHeaders()}); const j=await r.json().catch(()=>({}));
+      if(j.places && j.places.length){ box.innerHTML=`<div class="near-chips">${j.places.map(p=>{ const v=`${label.split(" ")[0]} ${p.name}`; return `<button class="near-chip" data-planadd="${esc(id)}" data-val="${esc(v)}" title="${esc(p.kind||"")}">${esc(p.name)} <span class="muted">${p.mi} mi</span> <b>+</b></button>`; }).join("")}</div><div class="muted" style="font-size:11px;margin-top:4px">Tap to add to your plan · from OpenStreetMap</div>`;
+        box.querySelectorAll("[data-planadd]").forEach(c=>c.onclick=()=>{ addStopPlan(c.dataset.planadd, c.dataset.val); rerenderTrip(); }); }
+      else if(j.places) box.innerHTML=fallback("Nothing tagged right around campus.");
+      else box.innerHTML=fallback("Places are slow to load right now.");
+    }catch(e){ box.innerHTML=fallback("Places are slow to load right now."); }
   }; });
 }
 
@@ -4903,6 +4899,11 @@ $("cmp-build").onclick=buildCompare;
 const DL_TASKS=["Essays","Recommendations","Transcript","FAFSA / CSS","Test scores","Submitted"];
 /* #54 Each school's own checklist, from what it told IPEDS it requires. Keys stay the same so saved ticks still count. */
 const REQ_URL = CATALOG_URL.replace(/colleges\.json$/,"requirements.json");
+// #69: each school's official admissions page (IPEDS HD2023 ADMINURL), so "Book a visit" goes to the school, not a search.
+const VISIT_URL = CATALOG_URL.replace(/colleges\.json$/,"visit-links.json");
+async function loadVisitLinks(){ try{ const r=await fetch(VISIT_URL); if(!r.ok) return; const j=await r.json(); state.visitLinks=j.schools||null; }catch(e){} }
+function visitLinkFor(id){ const v=state.visitLinks&&state.visitLinks[id]; if(v&&v.admissions) return {url:v.admissions, label:"Book a visit"};
+  const c=catInfo(id); if(c&&c.link) return {url:c.link, label:"School website"}; return null; }
 state.reqs=null;
 async function loadReqs(){ try{ const r=await fetch(REQ_URL); if(!r.ok) return; const j=await r.json(); state.reqs=j.schools||null; state.reqsYear=j.year||"";
   if(currentView==="deadlines") renderDeadlines(); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="today") renderToday(); }catch(e){ state.reqs=null; } }

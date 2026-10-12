@@ -1,0 +1,332 @@
+{
+ "phone": {
+  "stop": {
+   "links": [
+    {
+     "t": "🎟 Book a visit ↗",
+     "h": "https://www.uvm.edu/admissions"
+    },
+    {
+     "t": "▶ Find a virtual tour ↗",
+     "h": "https://www.google.com/search?q=University%20of%20Vermont%20VT+virtual+campus+tour"
+    },
+    {
+     "t": "📍 Directions ↗",
+     "h": "https://www.google.com/maps/search/?api=1&query=44.47733,-73.19665"
+    }
+   ],
+   "onCampus": "📍 I'm on campus",
+   "primary": true,
+   "hint": "🎉 Visit day! Tap I'm on campus when you arrive — checklist, photos and quick notes as you walk.",
+   "cats": [
+    "🍽 Food",
+    "☕ Coffee",
+    "🛏 Stay",
+    "📍 Things to do",
+    "🎵 Music & arts",
+    "🌲 Outdoors"
+   ],
+   "ph": "Add your own stop, e.g. dinner at Leunig's",
+   "input": {
+    "fg": "rgb(16, 28, 46)",
+    "bg": "rgb(255, 255, 255)",
+    "pad": "6px"
+   }
+  },
+  "chips": [
+   "Muddy Waters 0.3 mi +",
+   "Radio Bean 0.6 mi +"
+  ],
+  "call": "http://localhost:8906/.netlify/functions/places-near?cat=coffee&lat=44.47733&lon=-73.19665",
+  "plan": [
+   "☕ Muddy Waters"
+  ],
+  "plan2": [
+   "☕ Muddy Waters",
+   "Dinner at Leunig's"
+  ],
+  "busy": "Places are slow to load right now. Open music venues on the map ↗",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    }
+   ],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp"
+   ],
+   "bad": [],
+   "small": [
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
+    "✕ 16x14",
+    "+ Add campuses from your board 324x20",
+    "IMG 25x41",
+    "+ 30x30",
+    "− 30x30",
+    "Leaflet 54x15",
+    "🎟 Book a visit ↗ 114x27",
+    "▶ Find a virtual tour ↗ 148x27",
+    "📍 Directions ↗ 110x27",
+    "✕ 14x12",
+    "🍽 Food 68x34",
+    "☕ Coffee 81x34",
+    "🛏 Stay 65x34",
+    "📍 Things to do 113x34",
+    "🎵 Music & arts 115x34",
+    "🌲 Outdoors 96x34"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "desktop": {
+  "stop": {
+   "links": [
+    {
+     "t": "🎟 Book a visit ↗",
+     "h": "https://www.uvm.edu/admissions"
+    },
+    {
+     "t": "▶ Find a virtual tour ↗",
+     "h": "https://www.google.com/search?q=University%20of%20Vermont%20VT+virtual+campus+tour"
+    },
+    {
+     "t": "📍 Directions ↗",
+     "h": "https://www.google.com/maps/search/?api=1&query=44.47733,-73.19665"
+    }
+   ],
+   "onCampus": "📍 I'm on campus",
+   "primary": true,
+   "hint": "🎉 Visit day! Tap I'm on campus when you arrive — checklist, photos and quick notes as you walk.",
+   "cats": [
+    "🍽 Food",
+    "☕ Coffee",
+    "🛏 Stay",
+    "📍 Things to do",
+    "🎵 Music & arts",
+    "🌲 Outdoors"
+   ],
+   "ph": "Add your own stop, e.g. dinner at Leunig's",
+   "input": {
+    "fg": "rgb(16, 28, 46)",
+    "bg": "rgb(255, 255, 255)",
+    "pad": "6px"
+   }
+  },
+  "chips": [
+   "Muddy Waters 0.3 mi +",
+   "Radio Bean 0.6 mi +"
+  ],
+  "call": "http://localhost:8906/.netlify/functions/places-near?cat=coffee&lat=44.47733&lon=-73.19665",
+  "plan": [
+   "☕ Muddy Waters"
+  ],
+  "plan2": [
+   "☕ Muddy Waters",
+   "Dinner at Leunig's"
+  ],
+  "busy": "Places are slow to load right now. Open music venues on the map ↗",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    }
+   ],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp"
+   ],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
+    "#trip-build Plan route → 106x33",
+    "✕ 16x14",
+    "+ Add campuses from your board 1167x20",
+    "IMG 25x41",
+    "+ 30x30",
+    "− 30x30",
+    "Leaflet 54x15",
+    "📍 I'm on campus 135x32",
+    "🎟 Book a visit ↗ 114x27",
+    "▶ Find a virtual tour ↗ 148x27",
+    "📍 Directions ↗ 110x27",
+    "✕ 14x12",
+    "🍽 Food 68x34",
+    "☕ Coffee 81x34",
+    "🛏 Stay 65x34",
+    "📍 Things to do 113x34",
+    "🎵 Music & arts 115x34",
+    "🌲 Outdoors 96x34",
+    "Add your own stop, e.g. dinner at Leunig 1018x32",
+    "Add 51x32",
+    "Open music venues on the map ↗ 251x19",
+    "#trip-ics ⬇ Download calendar (.ics) 193x32",
+    "#trip-mem-open Open Memories → 141x33"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "stop": {
+   "links": [
+    {
+     "t": "🎟 Book a visit ↗",
+     "h": "https://www.uvm.edu/admissions"
+    },
+    {
+     "t": "▶ Find a virtual tour ↗",
+     "h": "https://www.google.com/search?q=University%20of%20Vermont%20VT+virtual+campus+tour"
+    },
+    {
+     "t": "📍 Directions ↗",
+     "h": "https://www.google.com/maps/search/?api=1&query=44.47733,-73.19665"
+    }
+   ],
+   "onCampus": "📍 I'm on campus",
+   "primary": true,
+   "hint": "🎉 Visit day! Tap I'm on campus when you arrive — checklist, photos and quick notes as you walk.",
+   "cats": [
+    "🍽 Food",
+    "☕ Coffee",
+    "🛏 Stay",
+    "📍 Things to do",
+    "🎵 Music & arts",
+    "🌲 Outdoors"
+   ],
+   "ph": "Add your own stop, e.g. dinner at Leunig's",
+   "input": {
+    "fg": "rgb(233, 237, 246)",
+    "bg": "rgb(21, 30, 51)",
+    "pad": "6px"
+   }
+  },
+  "chips": [
+   "Muddy Waters 0.3 mi +",
+   "Radio Bean 0.6 mi +"
+  ],
+  "call": "http://localhost:8906/.netlify/functions/places-near?cat=coffee&lat=44.47733&lon=-73.19665",
+  "plan": [
+   "☕ Muddy Waters"
+  ],
+  "plan2": [
+   "☕ Muddy Waters",
+   "Dinner at Leunig's"
+  ],
+  "busy": "Places are slow to load right now. Open music venues on the map ↗",
+  "audit": {
+   "overflowX": 0,
+   "imgs": [
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+     "ok": true
+    },
+    {
+     "src": "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+     "ok": true
+    }
+   ],
+   "bgs": [
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp"
+   ],
+   "bad": [],
+   "small": [
+    "Deadlines 112x34",
+    "Costs 66x34",
+    "Trips 62x34",
+    "✕ 16x14",
+    "+ Add campuses from your board 324x20",
+    "IMG 25x41",
+    "+ 30x30",
+    "− 30x30",
+    "Leaflet 54x15",
+    "🎟 Book a visit ↗ 114x27",
+    "▶ Find a virtual tour ↗ 148x27",
+    "📍 Directions ↗ 110x27",
+    "✕ 14x12",
+    "🍽 Food 68x34",
+    "☕ Coffee 81x34",
+    "🛏 Stay 65x34",
+    "📍 Things to do 113x34",
+    "🎵 Music & arts 115x34",
+    "🌲 Outdoors 96x34"
+   ],
+   "wide": [],
+   "dashCount": 5
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.bookVisitIsOfficial": true,
+  "phone.onCampusIsClear": true,
+  "phone.categoryButtons": true,
+  "phone.searchThroughServer": true,
+  "phone.addYourOwnLabeled": true,
+  "phone.inputReadable": true,
+  "phone.honestWhenBusy": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.bookVisitIsOfficial": true,
+  "desktop.onCampusIsClear": true,
+  "desktop.categoryButtons": true,
+  "desktop.searchThroughServer": true,
+  "desktop.addYourOwnLabeled": true,
+  "desktop.inputReadable": true,
+  "desktop.honestWhenBusy": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.bookVisitIsOfficial": true,
+  "phone-dark.onCampusIsClear": true,
+  "phone-dark.categoryButtons": true,
+  "phone-dark.searchThroughServer": true,
+  "phone-dark.addYourOwnLabeled": true,
+  "phone-dark.inputReadable": true,
+  "phone-dark.honestWhenBusy": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
