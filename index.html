@@ -1245,6 +1245,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .cmd-flash{outline:3px solid var(--teal);outline-offset:3px;border-radius:10px;transition:outline-color .4s}
 .cmd-foot{font-size:11.5px;padding:8px 16px 12px;border-top:1px solid var(--line)}
 @media (max-width:640px){ .cmd-foot{display:none} .dlg-cmd{margin-top:4vh} .cmd-s{display:none} }
+.dd-cur{display:flex;align-items:center;gap:8px}
+.dd-cpill{font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--sunk);color:var(--muted)}
+.dd-cpill.applied{background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal)}.dd-cpill.accepted{background:color-mix(in srgb,var(--good) 16%,var(--surface));color:var(--good)}
+.dd-cpill.waitlisted,.dd-cpill.deferred{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber)}
+.mr-pct{font-style:normal;font-size:.62em;font-weight:700;margin-left:1px}
 .ns-card{border:1.5px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
 .ns-card.urgent{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--surface))}
 .ns-top{display:flex;gap:14px;align-items:flex-start}.ns-ring{flex-shrink:0}.ns-txt{min-width:0}
@@ -1775,7 +1780,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <!-- DEADLINES -->
   <section id="v-deadlines" class="hidden">
     <h1>Deadlines &amp; tracker</h1>
-    <p class="sub">Your board schools by soonest deadline, each with an application checklist. Saved on this device.</p>
+    <p class="sub">Your board schools by soonest deadline, each with an application checklist. Everyone in the family sees the same ticks.</p>
     <div id="dl-out"></div>
   </section>
 
@@ -2621,7 +2626,7 @@ function museSection(info){
   if(!rows.length) return "";
   return `<h2>Researched details</h2><div class="d-grid" style="grid-template-columns:1fr">
     ${rows.map(r=>`<div class="d-cell"><div class="k">${esc(r[0])}</div><div class="v" style="font-weight:500;font-size:14px">${r[1]}</div></div>`).join("")}
-  </div><p class="muted" style="font-size:11px">Researched by Muse · verify deadlines on the school's official site.</p>`;
+  </div><p class="muted" style="font-size:11px">Researched by our team · verify deadlines on the school's official site.</p>`;
 }
 
 /* ========== BOARD ========== */
@@ -3147,7 +3152,7 @@ function closeCmd(){ const d=$("dlg-cmd"); if(d&&d.open) d.close(); }
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
   deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
-let decideOpen=null, decideConfirm=false;
+let decideOpen=null, decideConfirm=false, ddEditing=null;   // #70: one status per school; the 7 choices show only for the school being updated
 function schoolStatus(sid){ const s=(state.schools||[]).find(x=>x.school_id===sid); return (s&&s.app_status)||null; }
 function acceptedSchools(){ return (state.schools||[]).filter(s=>s.app_status==="accepted"); }
 function decisionPost(){ return talk.posts.filter(p=>p.kind==="decision").slice(-1)[0]||null; }
@@ -3158,7 +3163,10 @@ async function setSchoolStatus(sid, status){
   const s=(state.schools||[]).find(x=>x.school_id===sid); if(!s) return;
   const was=s.app_status; const patch={app_status:status, status_at:new Date().toISOString()};
   if(status==="accepted" && !s.reply_by){ const d=nextMay1(); patch.reply_by=`${d.getFullYear()}-05-01`; }
-  const {error}=await sb.from("family_schools").update(patch).eq("family_id",state.family.id).eq("school_id",sid); if(error) throw error;
+  if(["applied","accepted","waitlisted","deferred","denied"].includes(status) && BACKEND.checklist!==false){ const c=getChecklist(sid); if(!c["Submitted"]){ c["Submitted"]=true; patch.checklist=c; } }   // #70: one status, shared with Deadlines
+  let {error}=await sb.from("family_schools").update(patch).eq("family_id",state.family.id).eq("school_id",sid);
+  if(error && patch.checklist && /checklist|column|schema cache/i.test(error.message||"")){ BACKEND.checklist=false; delete patch.checklist; ({error}=await sb.from("family_schools").update(patch).eq("family_id",state.family.id).eq("school_id",sid)); }
+  if(error) throw error;
   Object.assign(s,patch);
   if(status==="accepted" && was!=="accepted"){ celebrate(`🎉 Accepted to ${s.name}!`);
     try{ await talkInsert({school_id:sid, kind:"milestone", body:`🎉 ${studentFirst()==="We"?"We":studentFirst()} got into ${s.name}!`, in_movie:true}); }catch(e){} }
@@ -3171,7 +3179,7 @@ function celebrate(text, sub){
   setTimeout(()=>{ try{ ov.querySelector("[data-celx]").focus(); }catch(e){} },50); return ov;
 }
 function offerCost(sid){ const info=catInfo(sid); const o=offersGet()[sid]; const on=offerNet(o); if(on!=null) return {v:on, src:"their offer", loans:sumAmt(o.loans)};
-  const y=info?yourNet(info):null; if(y) return {v:Math.max(0,y.v), src:"typical for you"}; const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number"?{v:sc.netPrice,src:"typical after aid"}:null; }
+  const y=info?yourNet(info):null; if(y) return {v:Math.max(0,y.v), src:"typical for you"}; const sc=(info&&info.scorecard)||{}; const an=avgNet(info); return an!=null?{v:an,src:oosSurcharge(info)?"typical after aid, out-of-state":"typical after aid"}:null; }
 function renderDecide(){
   const el=$("decide-out"); if(!el) return;
   if(!state.family){ el.innerHTML=""; return; }
@@ -3181,7 +3189,9 @@ function renderDecide(){
       <div class="row" style="gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px"><button class="small primary" data-ddgo="memories">🎬 Make our movie</button><button class="small" id="dd-share">🔗 Share the news</button>${state.me&&dec.user_id===state.me.user_id?`<button class="small ghost" id="dd-undo">We changed our minds</button>`:""}</div></div>`
     : `<div class="dd-hero"><div class="dd-count"><b>${days}</b><span>day${days===1?"":"s"} until ${esc(dl.toLocaleDateString("en-US",{month:"long",day:"numeric"}))}</span></div><div class="dd-sub">${acc.length?`${acc.length} acceptance${acc.length>1?"s":""} so far. Compare them below, hear everyone out, then decide together.`:"When decisions arrive, mark them here. Every acceptance gets a celebration — and your final choice becomes the best part of your family movie."}</div></div>`;
   const statusRows = board.length ? board.map(s=>{ const st=s.app_status||"planning"; return `<div class="dd-row"><div class="dd-name"><b>${esc(s.name)}</b>${st==="accepted"&&s.reply_by?`<span class="muted"> · reply by ${esc(_fmtD(_ymdDate(String(s.reply_by).slice(0,10))))}</span>`:""}</div>
-      <div class="dd-stats" role="radiogroup" aria-label="Status for ${esc(s.name)}">${Object.entries(APP_STATUS).map(([k,v])=>`<button role="radio" aria-checked="${st===k}" class="dd-st ${st===k?"on "+k:""}" data-ddst="${esc(s.school_id)}|${k}" title="${esc(v.label)}">${v.ico}<span>${esc(v.label)}</span></button>`).join("")}</div></div>`; }).join("") : `<div class="muted">Add schools to your board first.</div>`;
+      ${ddEditing===s.school_id
+        ? `<div class="dd-stats" role="radiogroup" aria-label="Status for ${esc(s.name)}">${Object.entries(APP_STATUS).map(([k,v])=>`<button role="radio" aria-checked="${st===k}" class="dd-st ${st===k?"on "+k:""}" data-ddst="${esc(s.school_id)}|${k}" title="${esc(v.label)}">${v.ico}<span>${esc(v.label)}</span></button>`).join("")}</div>`
+        : `<div class="dd-cur"><span class="dd-cpill ${st}">${APP_STATUS[st]?APP_STATUS[st].ico+" "+esc(APP_STATUS[st].label):esc(st)}</span><button class="small ghost" data-ddedit="${esc(s.school_id)}">Update</button></div>`}</div>`; }).join("") : `<div class="muted">Add schools to your board first.</div>`;
   let compare="";
   if(acc.length){
     const rows=acc.map(s=>{ const info=catInfo(s.school_id); const c=offerCost(s.school_id); const b=blended(s.school_id); const m=info?matchScore(info,myPrefs()):null;
@@ -3213,7 +3223,8 @@ function renderDecide(){
   el.innerHTML = hero + `<div class="card"><h2 class="dd-h">📬 Decisions</h2><p class="muted" style="font-size:13px;margin:0 0 8px">Mark each school as decisions come in. Everyone in the family sees it.</p>${statusRows}<div class="tk-msg" id="dd-smsg"></div></div>`
     + (acc.length?`<div class="card"><h2 class="dd-h">⚖️ Your acceptances side by side</h2>${compare}</div>`:"") + pickSec + finalSec + after;
   // wiring
-  el.querySelectorAll("[data-ddst]").forEach(b=>b.onclick=async()=>{ const [sid,st]=b.dataset.ddst.split("|"); b.disabled=true;
+  el.querySelectorAll("[data-ddedit]").forEach(b=>b.onclick=()=>{ ddEditing=b.dataset.ddedit; renderDecide(); });
+  el.querySelectorAll("[data-ddst]").forEach(b=>b.onclick=async()=>{ const [sid,st]=b.dataset.ddst.split("|"); b.disabled=true; ddEditing=null;
     try{ await setSchoolStatus(sid,st); }catch(e){ $("dd-smsg").textContent= isMissing(e)?"Decision Day needs a one-time setup step on our side (step 014).":"Couldn't save that — please try again."; }
     renderDecide(); });
   el.querySelectorAll("[data-ddgo]").forEach(b=>b.onclick=()=>goto(b.dataset.ddgo));
@@ -3282,7 +3293,7 @@ function renderReport(){
   const take=reportTake(rows,bal,p);
   const small=(u,px)=>String(u).replace(/\/(\d{3,4})px-/,`/${px}px-`);
   const thumb=r=>{ const u=r.info&&photoUrlFor(r.info)&&small(photoUrlFor(r.info),250); return u?`<img class="rp-thumb" src="${esc(u)}" alt="" loading="eager" referrerpolicy="no-referrer">`:`<span class="rp-thumb rp-crest">${crestSvg(r.s.name,r.info&&r.info.state)}</span>`; };
-  const net=r=>{ const o=offers[r.s.school_id]; const on=offerNet(o); if(on!=null) return {v:on,src:"their offer"}; const y=r.info?yourNet(r.info):null; if(y) return {v:Math.max(0,y.v),src:"typical for you"}; const sc=(r.info&&r.info.scorecard)||{}; return typeof sc.netPrice==="number"?{v:sc.netPrice,src:"typical after aid"}:null; };
+  const net=r=>{ const o=offers[r.s.school_id]; const on=offerNet(o); if(on!=null) return {v:on,src:"their offer"}; const y=r.info?yourNet(r.info):null; if(y) return {v:Math.max(0,y.v),src:"typical for you"}; const an=avgNet(r.info); return an!=null?{v:an,src:oosSurcharge(r.info)?"typical after aid, out-of-state":"typical after aid"}:null; };
   const stat=(k,v,cls)=>`<div class="rp-stat ${cls||""}"><span>${k}</span><b>${v}</b></div>`;
   // 1 cover
   const cover=`<section class="rp-page rp-cover">
@@ -3607,7 +3618,7 @@ function chanceWordsHtml(info){ const w=chanceWords(info); return w?`<div class=
 function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
 function matchColor(m){ return m>=75?"var(--teal)":m>=55?"var(--amber)":"var(--muted)"; }
 function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=2*Math.PI*18; const off=circ*(1-Math.max(0,Math.min(100,m))/100);
-  return `<span class="mring" title="${m}% match for you"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}</b></span>`; }
+  return `<span class="mring" title="${m}% match for you"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}<i class="mr-pct">%</i></b></span>`; }
 function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">match —</span>`; const c=matchColor(m);
   return `<span class="mbar" title="${m}% match"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% match</span>`; }
 /* #51 "Where you stand": the school's middle 50% of admitted students' SAT or ACT (College Scorecard), with a dot for
@@ -3615,7 +3626,10 @@ function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:1
 function standBarHtml(info, compact){
   const sc=(info&&info.scorecard)||{}; const p=studentProfile()||{};
   const hasSat=typeof sc.sat25==="number"&&typeof sc.sat75==="number", hasAct=typeof sc.act25==="number"&&typeof sc.act75==="number";
-  if(!hasSat&&!hasAct) return compact?"":`<div class="stand stand-none"><div class="stand-h">Where you stand</div><div class="muted" style="font-size:12.5px">This school doesn't report a test-score range (it may be test-optional or not report one).</div></div>`;
+  if(!hasSat&&!hasAct){ if(compact) return "";   // #70: don't say "no scores" and then show an SAT average below
+    if(typeof sc.satAvg==="number"){ const my=studentSat(p); const d=my?my-sc.satAvg:null;
+      return `<div class="stand stand-none"><div class="stand-h">Where you stand</div><div style="font-size:13px">This school reports an <b>average SAT of ${sc.satAvg}</b>, not a range.${my?` Your ${my} is <b>${Math.abs(d)} ${d>=0?"above":"below"}</b> that average.`:""}</div></div>`; }
+    return `<div class="stand stand-none"><div class="stand-h">Where you stand</div><div class="muted" style="font-size:12.5px">This school doesn't report test scores (it may be test-optional).</div></div>`; }
   const mySat=parseInt(p.sat)||0, myAct=parseInt(p.act)||0;
   // use the test the student actually took; else the one the school reports
   let kind, lo, hi, me=null, min, max, step;
@@ -3643,7 +3657,7 @@ function renderSchool(x){
   const facts = info ? `<div class="facts">
       <span>size <b>${esc(info.sizeApprox||(sc.size?sc.size.toLocaleString():"—"))}</b></span>
       <span>admit <b>${pct(sc.admissionRate)}</b></span>
-      ${yourNet(info)?`<span>your net <b>${netMoney(yourNet(info).v)}</b></span>`:`<span>net <b>${money(sc.netPrice)}</b></span>`}
+      ${yourNet(info)?`<span>your net <b>${netMoney(yourNet(info).v)}</b></span>`:`<span>net <b>${money(avgNet(info))}</b>${oosSurcharge(info)?' <span class="muted" title="out-of-state">OOS</span>':""}</span>`}
       <span>grad <b>${pct(sc.gradRate)}</b></span></div>` : "";
   let tint="";
   if(rankMode && rankColorOn() && x.rank){ const pctm=Math.max(6, 30-(x.rank-1)*(24/Math.max(1,(x._maxRank-1)))); tint=` style="background:color-mix(in srgb,var(--teal) ${Math.round(pctm)}%,var(--surface));border-color:color-mix(in srgb,var(--teal) 40%,var(--line))"`; }
@@ -3821,7 +3835,7 @@ function renderExList(q){
   list = list.filter(c=>{ const sc=c.scorecard||{}, L=c.lifestyle||{};
     if(fSize){ const z=sc.size; if(typeof z!=="number")return false; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
     if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
-    if(fCost){ const yn=yourNet(c); const n=yn?Math.max(0,yn.v):((typeof sc.netPrice==="number")?sc.netPrice:sc.costAvg); if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
+    if(fCost){ const yn=yourNet(c); const n=yn?Math.max(0,yn.v):(avgNet(c)!=null?avgNet(c):sc.costAvg); if(n==null)return false; if(fCost==="1"&&!(n<15000))return false; if(fCost==="2"&&!(n>=15000&&n<30000))return false; if(fCost==="3"&&!(n>=30000))return false; }
     if(fPol && L.politicalLean!==fPol) return false;
     if(fGuns && L.gunLaws!==fGuns) return false;
     if(fLgbtq && L.lgbtqPolicy!==fLgbtq) return false;
@@ -3835,7 +3849,7 @@ function renderExList(q){
     const sa=a.c.scorecard||{}, sb2=b.c.scorecard||{};
     if(sort==="name") return a.c.name.localeCompare(b.c.name);
     if(sort==="sel") return (sa.admissionRate??2)-(sb2.admissionRate??2);
-    if(sort==="cost"){ const ya=yourNet(a.c), yb=yourNet(b.c); const na=ya?Math.max(0,ya.v):(sa.netPrice??sa.costAvg??9e9), nb=yb?Math.max(0,yb.v):(sb2.netPrice??sb2.costAvg??9e9); return na-nb; }
+    if(sort==="cost"){ const ya=yourNet(a.c), yb=yourNet(b.c); const na=ya?Math.max(0,ya.v):(avgNet(a.c)??sa.costAvg??9e9), nb=yb?Math.max(0,yb.v):(avgNet(b.c)??sb2.costAvg??9e9); return na-nb; }
     if(sort==="earn") return (sb2.medianEarnings10yr??-1)-(sa.medianEarnings10yr??-1);
     if(hits){ const d=(rankOf.get(b.c)||0)-(rankOf.get(a.c)||0); if(d) return d; }   // searching: best name match first
     return (b.m??-1)-(a.m??-1);
@@ -3848,14 +3862,14 @@ function renderExList(q){
   const sa=$("ex-showall"); if(sa) sa.onclick=e=>{ e.preventDefault(); $("ex-level").value=""; renderExList($("exsearch").value||""); };
   $("exlist").innerHTML = withM.slice(0,limit).map(({c,m}) => {
     const added = have.has(c.id); const sc=c.scorecard||{};
-    const L=c.lifestyle||{}; const lifeBits=[L.politicalLean, L.gunLaws&&L.gunLaws.replace(" gun laws",""), (L.proximity||[]).length?("near "+L.proximity.join("/")):"", (L.religion&&L.religion.indexOf("Secular")!==0)?L.religion:""].filter(Boolean);
+    const L=c.lifestyle||{}; const lifeBits=[(L.proximity||[]).length?("near "+L.proximity.join("/")):"", fPol?L.politicalLean:"", fGuns?(L.gunLaws&&L.gunLaws.replace(" gun laws","")):"", fRelig&&L.religion&&L.religion.indexOf("Secular")!==0?L.religion:""].filter(Boolean);   // #70: area politics/gun/religion tags only when you filter by them
     const purl=photoUrlFor(c);
     const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phBg(c.name,c.state,"80%")}" role="img" aria-label="${esc(c.name)} crest"></div>`;
     return `<div class="srow">
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
-        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(sc.netPrice)}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
+        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(avgNet(c))}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
       </div>
@@ -4189,7 +4203,7 @@ function renderCost(){
   const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)}));
   if(!board.length){ el.innerHTML=`<div class="card muted">Add schools to your board to see what they'd cost.</div>`; return; }
   const offers=offersGet(); const yb=myIncomeBand();
-  const rows=board.map(({s,info})=>{ const sc=(info&&info.scorecard)||{}; const y=info?yourNet(info):null; const typ=y?Math.max(0,y.v):(typeof sc.netPrice==="number"?sc.netPrice:null);
+  const rows=board.map(({s,info})=>{ const sc=(info&&info.scorecard)||{}; const y=info?yourNet(info):null; const typ=y?Math.max(0,y.v):avgNet(info);
     const o=offers[s.school_id]; const on=offerNet(o);
     return {id:s.school_id, name:s.name, sticker:sc.costAvg, typ, yours:!!y, offer:o, offerNet:on, best:on!=null?on:typ, earn:sc.medianEarnings10yr, outOfState:y&&y.outOfState}; })
     .sort((a,b)=>(a.best==null)-(b.best==null) || (a.best||0)-(b.best||0));
@@ -4287,7 +4301,7 @@ function renderToday(){
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">${tip&&tip.cta?`<button class="small primary" data-td-go="${esc(tip.cta.nav)}">${esc(tip.cta.label)}</button>`:""}<button class="small" data-td-week>📅 Plan my week</button></div></div>`;
   // 3 List balance
   const meta=board.map(x=>({ch:chanceFor(x.info)})); const bal=listBalance(meta);
-  const balCard=`<div class="td-card"><div class="td-h">📋 Your list</div>${bal?`<div class="td-bal"><span class="bal-grade bal-${bal.grade}">${bal.grade}</span><div><div class="td-mid"><b>${bal.c.likely}</b> Likely · <b>${bal.c.target}</b> Target · <b>${bal.c.reach}</b> Reach</div><div class="muted" style="font-size:12.5px">${bal.tips.length?`For balance: ${bal.tips.slice(0,2).join(", ")}.`:"Nicely balanced."}</div></div></div>`:`<div class="td-mid">${board.length?"Add your grades in My Profile to see your chances.":"No schools yet."}</div>`}
+  const balCard=`<div class="td-card"><div class="td-h">📋 Your list</div>${bal?`<div class="td-bal"><span class="bal-grade bal-${bal.grade}" title="List balance grade: how well your list mixes Likely, Target and Reach schools">${bal.grade}</span><div><div class="muted" style="font-size:11.5px">List balance grade</div><div class="td-mid"><b>${bal.c.likely}</b> Likely · <b>${bal.c.target}</b> Target · <b>${bal.c.reach}</b> Reach</div><div class="muted" style="font-size:12.5px">${bal.tips.length?`For balance: ${bal.tips.slice(0,2).join(", ")}.`:"Nicely balanced."}</div></div></div>`:`<div class="td-mid">${board.length?"Add your grades in My Profile to see your chances.":"No schools yet."}</div>`}
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="board">Open board</button><button class="small" data-td-go="cost">💰 Costs</button><button class="small" data-td-go="recommends">✨ Zoe Picks</button>${board.length?`<button class="small" data-td-share>🔗 Share</button>`:""}</div></div>`;
   // 4 Pulse
   const {d}=pulseData(); const hidden=ptSet("hidden");
@@ -4365,7 +4379,7 @@ function renderDetail(id){
       ${cell(typeof sc.sat25==="number"?"SAT range (25–75%)":"SAT average", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg}`:"—")))}
       ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
       ${yourNet(info)?cell(`Your net price / yr (${yourNet(info).label})`, yourNetHtml(info)):""}
-      ${cell(yourNet(info)?"Average net price / yr":"Net price / yr", money(sc.netPrice))}
+      ${cell((yourNet(info)?"Average net price / yr":"Net price / yr")+(oosSurcharge(info)?" (out-of-state)":""), money(avgNet(info)))}
       ${cell("Sticker cost / yr", money(sc.costAvg))}
       ${cell("In-state tuition", money(sc.tuitionInState))}
       ${cell("Out-of-state tuition", money(sc.tuitionOutState))}
@@ -4795,7 +4809,7 @@ function detailDeadlines(info,cell){
   const src=v.rounds[0].src;
   return `<div class="dl27"><div class="dl27-h">📅 Application deadlines 2026–27</div>
     ${v.rounds.map(r=>{ const d=_ymdDate(r.date); const n=daysUntil(d); const past=d<today;
-      return `<div class="dl27-row${past?" past":""}"><span class="dl27-k">${esc(r.kind)}${r.name&&r.name!==r.kind?` <span class="muted">(“${esc(r.name)}”)</span>`:""}</span><span class="dl27-d">${esc(_fmtD(d))}</span><span class="dl-due ${dueClass(n)}"><span class="dot"></span>${esc(dueLabel(n))}</span></div>`; }).join("")}
+      return `<div class="dl27-row${past?" past":""}"><span class="dl27-k">${r.name&&r.name.toLowerCase().includes(String(r.kind).toLowerCase())?esc(r.name):esc(r.kind)+(r.name&&r.name!==r.kind?` <span class="muted">(${esc(r.name)})</span>`:"")}</span><span class="dl27-d">${esc(_fmtD(d))}</span><span class="dl-due ${dueClass(n)}"><span class="dot"></span>${esc(dueLabel(n))}</span></div>`; }).join("")}
     <div class="dl27-src">From the school's admissions site, checked ${esc(dlCheckedLabel(v))}${r_conf(v)} · <a href="${esc(src)}" target="_blank" rel="noopener">see the source ↗</a>. Always confirm before you apply.</div></div>`;
 }
 function r_conf(v){ return v.rounds.some(r=>r.conf==="medium")?" (some dates medium confidence)":""; }
@@ -4806,20 +4820,28 @@ function myIncomeBand(){
   return null;
 }
 // -> {v, band, label, inState} or null
+// #70: federal net prices for PUBLIC schools are in-state prices. An out-of-state family pays the out-of-state tuition
+// difference on top (aid is usually similar), so we add it — and say so — instead of showing the in-state number.
+function homeState(){ const sp=studentProfile(); const mine=(state.me&&state.profiles&&state.profiles[state.me.user_id])||{};
+  return String((sp&&sp.home_state)||mine.home_state||"").toUpperCase(); }
+function oosSurcharge(info){ if(!info) return 0; const sc=info.scorecard||{}; const pub=/public/i.test(info.ownership||""); const h=homeState();
+  if(!pub||!h||!info.state||h===info.state) return 0; const a=sc.tuitionOutState, b=sc.tuitionInState; return (typeof a==="number"&&typeof b==="number"&&a>b)? a-b : 0; }
+function avgNet(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number" ? sc.netPrice + oosSurcharge(info) : null; }
 function yourNet(info){
   const b=myIncomeBand(); if(b===null || !state.incomePrices || !info) return null;
   const row=state.incomePrices[info.id]; if(!row) return null; const v=row[b]; if(typeof v!=="number") return null;
-  const pub=/public/i.test(info.ownership||"") ; const home=((studentProfile()||{}).home_state||"").toUpperCase();
-  return { v, band:b, label:INCOME_BANDS[b], outOfState: pub && home && info.state && home!==info.state };
+  const sur=oosSurcharge(info);
+  return { v: v+sur, band:b, label:INCOME_BANDS[b], outOfState: sur>0, surcharge:sur };
 }
 function netMoney(v){ return v<=0 ? "$0" : money(v); }
 function yourNetHtml(info){ const y=yourNet(info); if(!y) return null;
-  return `${netMoney(y.v)}${y.v<=0?` <span class="muted" style="font-size:11px">(aid can cover full cost)</span>`:""}${y.outOfState?` <span class="muted" style="font-size:11px">(in-state price; out-of-state pays more)</span>`:""}`; }
+  return `${netMoney(y.v)}${y.v<=0?` <span class="muted" style="font-size:11px">(aid can cover full cost)</span>`:""}${y.outOfState?` <span class="muted" style="font-size:11px">(includes ~${money(y.surcharge)} out-of-state tuition)</span>`:""}`; }
 async function setIncomeBand(v){ const w={...myPrefs(), incomeBand: v===""?"":+v}; await savePrefs(w); }
-function costCardHtml(){
+function costCardHtml(onlyIds){   // #70: Compare passes the picked schools, so the chart shows those (not the whole board)
   const yb=myIncomeBand(); const useYour = yb!==null && !!state.incomePrices;
-  const price=info=>{ if(useYour){ const y=yourNet(info); if(y) return Math.max(0,y.v); } const sc=info.scorecard||{}; return typeof sc.netPrice==="number"?sc.netPrice:null; };
-  const rows=state.schools.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && price(x.info)!=null).map(x=>({...x, np:price(x.info), yours:useYour && !!yourNet(x.info)}));
+  const price=info=>{ if(useYour){ const y=yourNet(info); if(y) return Math.max(0,y.v); } return avgNet(info); };
+  const src = onlyIds ? onlyIds.map(id=>state.schools.find(s=>s.school_id===id)||{school_id:id,name:(catInfo(id)||{}).name}) : state.schools;
+  const rows=src.map(s=>({rec:s,info:catInfo(s.school_id)})).filter(x=>x.info && price(x.info)!=null).map(x=>({...x, np:price(x.info), yours:useYour && !!yourNet(x.info)}));
   if(rows.length<2) return "";
   rows.sort((a,b)=>a.np-b.np);
   const max=Math.max(...rows.map(r=>r.np))||1;
@@ -4848,7 +4870,7 @@ function buildCompare(){
     ["My match %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
     ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
     ["Admission rate", c=>pct(g(c).admissionRate)],
-    ["Net price / yr", c=>money(g(c).netPrice)],
+    ["Net price / yr", c=>money(avgNet(c.info||c))],
     ["Sticker / yr", c=>money(g(c).costAvg)],
     ["SAT avg", c=>g(c).satAvg||"—"],
     ["Grad rate", c=>pct(g(c).gradRate)],
@@ -4868,7 +4890,7 @@ function buildCompare(){
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
     ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${INCOME_BANDS[myIncomeBand()]})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
-    {k:"Net price / yr", get:c=>g(c).netPrice, fmt:v=>v==null?"—":money(v), dir:"lo"},
+    {k:"Net price / yr", get:c=>avgNet(c.info||c), fmt:v=>v==null?"—":money(v), dir:"lo"},
     {k:"Grad rate", get:c=>g(c).gradRate, fmt:v=>v==null?"—":pct(v), dir:"hi"},
     {k:"Earnings (10yr)", get:c=>g(c).medianEarnings10yr, fmt:v=>v==null?"—":money(v), dir:"hi"},
     {k:"Undergrads", get:c=>g(c).size, fmt:v=>v==null?"—":v.toLocaleString(), dir:null},
@@ -4881,8 +4903,8 @@ function buildCompare(){
   let top={i:-1,v:-1}; cols.forEach((c,i)=>{ const m=matchScore(c.info,w); if(m!=null&&m>top.v){ top={i,v:m}; } });
   // best-fit callout (personalized)
   let bestCallout="";
-  if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>g(cc).netPrice,"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
-    bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Best fit for you: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}. ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
+  if(top.i>=0){ const c=cols[top.i]; const extras=[]; if(bestIdx(cc=>avgNet(cc.info||cc),"lo")===top.i) extras.push("the lowest net price"); if(bestIdx(cc=>g(cc).gradRate,"hi")===top.i) extras.push("the highest grad rate"); if(bestIdx(cc=>g(cc).medianEarnings10yr,"hi")===top.i) extras.push("the strongest earnings");
+    bestCallout=`<div class="card cx-best"><span class="cx-best-ic">🎯</span><div><b>Closest match to your priorities: ${esc(c.rec.name)}</b> — ${top.v}% match${extras.length?`, and it has ${extras.slice(0,2).join(" & ")}`:""}.${(()=>{ const ch=chanceFor(c.info); return ch&&ch.band==="reach"?` <span class="muted">Heads up: it's a <b>Reach</b> for admission, so keep a Target or Likely you love too.</span>`:""; })()} ${extras.length?"A strong all-rounder for your priorities.":"Tune your priorities in My Profile to sharpen this."}</div></div>`; }
   const tiles=`<div class="cmp-tiles">${cols.map((c,i)=>{const u=photoUrlFor(c.info); const ph=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(c.rec.name,c.info&&c.info.state)}"`; const m=matchScore(c.info,w); const ch=chanceFor(c.info); return `<div class="cmp-tile${i===top.i?' cx-win':''}"><div class="ph" ${ph}>${i===top.i?'<span class="cx-badge">Best fit</span>':''}</div><div class="nm">${esc(c.rec.name)}</div><div class="lc">${esc([c.info.city,c.info.state].filter(Boolean).join(", "))}</div><div class="cx-tilestat">${m!=null?matchRing(m):""}${ch?chanceChip(ch):""}</div></div>`;}).join("")}</div>`;
   const grid=`<div class="card cx-card"><div class="cx-grid" style="grid-template-columns:var(--cx-k,132px) repeat(${n},minmax(var(--cx-min,0px),1fr))">
     <div class="cx-corner">vs.</div>${cols.map(c=>`<div class="cx-head">${esc(c.rec.name)}</div>`).join("")}
@@ -4892,7 +4914,7 @@ function buildCompare(){
   + `<div class="cxm"><div class="cxm-legend">${cols.map((c,i)=>`<span class="cxm-leg"><span class="cxm-n n${i}">${i+1}</span>${esc(c.rec.name)}</span>`).join("")}</div>
     ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cxm-row"><div class="cxm-k">${esc(m.k)}</div><div class="cxm-vals">${cols.map((c,i)=>`<div class="cxm-v${i===bi?' best':''}"><span class="cxm-n n${i}">${i+1}</span><span class="cxm-val">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</span></div>`).join("")}</div></div>`; }).join("")}
     <p class="muted" style="font-size:11px;margin:10px 2px 0">★ = strongest in each row. Admit rate isn't scored — lower just means more selective.</p></div>`;
-  out.innerHTML=costCardHtml()+tiles+bestCallout+grid;
+  out.innerHTML=costCardHtml(ids)+tiles+bestCallout+grid;
 }
 $("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
@@ -4927,8 +4949,16 @@ function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
     ${row("Application fee",typeof q.fee==="number"?(q.fee===0?"None":"$"+q.fee+" <span class='muted'>(fee waivers often available)</span>"):"—")}
     <div class="muted" style="font-size:11.5px;margin-top:6px">As the school reported to IPEDS for ${esc(state.reqsYear||"fall 2023")}. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.</div></div>`; }
 function dlKey(id){ return "dlcheck_"+id; }
-function getChecklist(id){ return lsGet(dlKey(id))||{}; }
-function setChecklist(id,o){ lsSet(dlKey(id),o); }
+// #70: the application checklist is shared with the family (family_schools.checklist, migration 017).
+// This device's older copy is used only until the shared one exists; if the column isn't there yet it stays on this device.
+function getChecklist(id){ const row=(state.schools||[]).find(s=>s.school_id===id);
+  if(row && row.checklist && typeof row.checklist==="object" && Object.keys(row.checklist).length) return {...row.checklist};
+  return lsGet(dlKey(id))||{}; }
+function setChecklist(id,o){ lsSet(dlKey(id),o); const row=(state.schools||[]).find(s=>s.school_id===id); if(!row) return;
+  row.checklist={...o};
+  if(BACKEND.checklist===false || !state.family) return;
+  const patch={checklist:o}; if(o["Submitted"] && (!row.app_status || row.app_status==="planning")){ patch.app_status="applied"; patch.status_at=new Date().toISOString(); row.app_status="applied"; }   // one status, shared with Decision Day
+  sb.from("family_schools").update(patch).eq("family_id",state.family.id).eq("school_id",id).then(r=>{ if(r&&r.error){ if(/checklist|column|schema cache/i.test(r.error.message||"")) BACKEND.checklist=false; } }).catch(()=>{}); }
 // Fix #11: read every real date out of a school's deadline fields, label each one, and use the
 // NEAREST upcoming one for countdowns (was: regular only, and "early action Nov 1" parsed as nothing).
 const _MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};

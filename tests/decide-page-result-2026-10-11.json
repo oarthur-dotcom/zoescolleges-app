@@ -9,8 +9,11 @@
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T00:08:48.730Z",
-   "reply_by": "2027-05-01"
+   "status_at": "2026-10-12T01:03:38.258Z",
+   "reply_by": "2027-05-01",
+   "checklist": {
+    "Submitted": true
+   }
   },
   "milestone": [
    "🎉 Zoe got into College of Charleston!"
@@ -18,15 +21,15 @@
   "compare": {
    "cards": 2,
    "badges": [
-    "💰 Lowest cost",
     "⭐ Family favorite",
+    "💰 Lowest cost",
     "🎯 Best match"
    ],
    "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
-   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 60% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
   },
   "kind": 1,
   "agree": "🤝 Everyone picked College of Charleston.",
@@ -59,16 +62,9 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "📝Planning 92x36",
-    "📮Applied 85x36",
-    "🎉Accepted 98x36",
-    "⏳Waitlisted 99x36",
-    "🔁Deferred 93x36",
-    "🌱Not this time 116x36",
-    "↩️Withdrew 98x36",
-    "🎉Accepted 96x36",
-    "⏳Waitlisted 101x36",
-    "📝Planning 93x36"
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34"
    ],
    "wide": [],
    "dashCount": 2
@@ -85,8 +81,11 @@
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T00:09:00.061Z",
-   "reply_by": "2027-05-01"
+   "status_at": "2026-10-12T01:03:47.956Z",
+   "reply_by": "2027-05-01",
+   "checklist": {
+    "Submitted": true
+   }
   },
   "milestone": [
    "🎉 Zoe got into College of Charleston!"
@@ -94,15 +93,15 @@
   "compare": {
    "cards": 2,
    "badges": [
-    "💰 Lowest cost",
     "⭐ Family favorite",
+    "💰 Lowest cost",
     "🎯 Best match"
    ],
    "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
-   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 60% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
   },
   "kind": 1,
   "agree": "🤝 Everyone picked College of Charleston.",
@@ -136,40 +135,24 @@
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
-    "Today 70x31",
-    "My Board 96x31",
-    "💬 Talk It Out 119x31",
-    "🎓 Decision Day 140x31",
-    "Schools 84x31",
-    "✨ Zoe Picks 116x31",
-    "Compare 92x31",
-    "💰 Costs 89x31",
-    "Trips 63x31",
-    "📸 Memories 120x31",
-    "Deadlines 112x31",
-    "📰 Pulse 88x31",
-    "💬 Ask Zoe 104x31",
-    "My Profile 99x31",
-    "📝Planning 92x36",
-    "📮Applied 85x36",
-    "🎉Accepted 98x36",
-    "⏳Waitlisted 99x36",
-    "🔁Deferred 93x36",
-    "🌱Not this time 116x36",
-    "↩️Withdrew 98x36",
-    "🎉Accepted 96x36",
-    "⏳Waitlisted 101x36",
-    "📝Planning 93x36",
+    "Today 70x33",
+    "Schools 84x33",
+    "Plan 70x33",
+    "Family 74x33",
+    "Ask Zoe 83x33",
+    "Profile 74x33",
+    "🔎 Search Ctrl K 159x33",
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34",
+    "Update 72x32",
     "Edit offer 85x32",
     "💬 Talk 70x32",
     "＋ Add aid letter 127x34",
     "#dd-pickbtn Share my pick 115x32",
     "#dd-decide We decided! 103x32"
    ],
-   "wide": [
-    "BUTTON.navbtn# right=1336",
-    "BUTTON.navbtn# right=1437"
-   ],
+   "wide": [],
    "dashCount": 2
   },
   "errors": []
@@ -184,8 +167,11 @@
   "cel": "🎉 Accepted to College of Charleston!",
   "write": {
    "app_status": "accepted",
-   "status_at": "2026-10-12T00:09:10.642Z",
-   "reply_by": "2027-05-01"
+   "status_at": "2026-10-12T01:03:57.587Z",
+   "reply_by": "2027-05-01",
+   "checklist": {
+    "Submitted": true
+   }
   },
   "milestone": [
    "🎉 Zoe got into College of Charleston!"
@@ -193,15 +179,15 @@
   "compare": {
    "cards": 2,
    "badges": [
-    "💰 Lowest cost",
     "⭐ Family favorite",
+    "💰 Lowest cost",
     "🎯 Best match"
    ],
    "hero": "202\ndays until May 1\n2 acceptances so far. Compare them below, hear everyone out, then decide together."
   },
   "offer": {
    "db": 1,
-   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 59% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
+   "card": "College of Charleston ⭐ Family favorite Cost / yr $30,000 their offer 4 years ~$120,000 + $5,500 loans offered Family stars 4.5★ Match 60% Voices 💛 0 · 🤔 0 Edit offer 💬 Talk"
   },
   "kind": 1,
   "agree": "🤝 Everyone picked College of Charleston.",
@@ -234,16 +220,9 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "📝Planning 92x36",
-    "📮Applied 85x36",
-    "🎉Accepted 98x36",
-    "⏳Waitlisted 99x36",
-    "🔁Deferred 93x36",
-    "🌱Not this time 116x36",
-    "↩️Withdrew 98x36",
-    "🎉Accepted 96x36",
-    "⏳Waitlisted 101x36",
-    "📝Planning 93x36"
+    "Talk It Out 94x34",
+    "Decision Day 114x34",
+    "Memories 95x34"
    ],
    "wide": [],
    "dashCount": 2

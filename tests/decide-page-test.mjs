@@ -14,14 +14,14 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.todayBefore = await page.evaluate(() => !!document.querySelector('.td-decide'));
   await page.evaluate(() => goto('decide')); await page.waitForTimeout(400);
   o.empty = await page.evaluate(() => ({ hero: (document.querySelector('.dd-hero') || {}).innerText || '', rows: document.querySelectorAll('.dd-row').length, compare: !!document.querySelector('.dd-grid') }));
-  await page.click('[data-ddst="college-of-charleston|accepted"]'); await page.waitForTimeout(500);
+  await page.click('[data-ddedit="college-of-charleston"]'); await page.waitForTimeout(150); await page.click('[data-ddst="college-of-charleston|accepted"]'); await page.waitForTimeout(500);
   o.cel = await page.evaluate(() => (document.querySelector('.celebrate .cel-t') || {}).textContent || '');
   await page.screenshot({ path: `${SHOTS}${label}-celebrate.png` });
   await page.click('[data-celx]'); await page.waitForTimeout(150);
   o.write = await page.evaluate(() => { const w = window.__writes.filter(x => x.table === 'family_schools' && x.op === 'update').pop(); return w && w.p; });
   o.milestone = await page.evaluate(() => talk.posts.filter(p => p.kind === 'milestone').map(p => p.body));
-  await page.click('[data-ddst="sc-166683|accepted"]'); await page.waitForTimeout(400); await page.click('[data-celx]'); await page.waitForTimeout(150);
-  await page.click('[data-ddst="university-of-vermont|waitlisted"]'); await page.waitForTimeout(400);
+  await page.click('[data-ddedit="sc-166683"]'); await page.waitForTimeout(150); await page.click('[data-ddst="sc-166683|accepted"]'); await page.waitForTimeout(400); await page.click('[data-celx]'); await page.waitForTimeout(150);
+  await page.click('[data-ddedit="university-of-vermont"]'); await page.waitForTimeout(150); await page.click('[data-ddst="university-of-vermont|waitlisted"]'); await page.waitForTimeout(400);
   o.compare = await page.evaluate(() => ({ cards: document.querySelectorAll('.dd-card').length, badges: [...document.querySelectorAll('.dd-badge')].map(x => x.textContent), hero: (document.querySelector('.dd-hero') || {}).innerText || '' }));
   // offer shared with family
   await page.evaluate(() => { const o = offersGet(); o['college-of-charleston'] = { coa: 60000, grants: [{ name: 'Merit', amount: 30000 }], loans: [{ name: 'Sub', amount: 5500 }], workStudy: 0, year: '2027-28' }; offersSet(o); renderDecide(); }); await page.waitForTimeout(300);
