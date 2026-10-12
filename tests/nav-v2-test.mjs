@@ -48,7 +48,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   ok[label + '.remembersPlace'] = o.plan1 === 'deadlines' && o.plan2 === 'cost';
   ok[label + '.deadlineDotOnPlan'] = o.planDot === true;
   ok[label + '.familyGroup'] = o.family.view === 'journey' && noInv(o.family.tabs).join('|') === 'Journey|Talk It Out|Decision Day|Memories';
-  if (phone) ok[label + '.moreSheetShort'] = noInv(o.sheet).join('|') === 'Search|Ask Zoe|Profile|My priorities|College Report' && o.prio === 'profile|true';
+  if (phone) ok[label + '.moreSheetShort'] = noInv(o.sheet).filter(t => !/tour/i.test(t)).join('|') === 'Search|Ask Zoe|Profile|My priorities|College Report' && o.prio === 'profile|true';
   ok[label + '.searchCost'] = o.cmdOpen && /College of Charleston — cost/.test(o.r1[0] || '') && o.afterCost.view === 'detail' && o.afterCost.id === 'college-of-charleston' && o.afterCost.flash;
   ok[label + '.searchAddWithTypo'] = /Add Stanford/.test(o.r2[0] || '') && o.added.some(n => /Stanford/.test(n));
   ok[label + '.searchPagesAndActions'] = o.dl === 'deadlines' && o.r3.includes('Invite family');

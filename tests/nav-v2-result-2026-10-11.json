@@ -50,7 +50,8 @@
    "Ask Zoe",
    "Profile",
    "My priorities",
-   "College Report"
+   "College Report",
+   "Watch the tour"
   ],
   "prio": "profile|true",
   "cmdOpen": true,

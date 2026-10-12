@@ -347,6 +347,7 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+.lnd-tour{margin-top:10px;font-size:14px;font-weight:600}.td-tour{font-size:13px;margin-top:2px}
 .pk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .pk-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
 .pk-toggle button{border:0;background:none;color:var(--muted);font:inherit;font-weight:600;font-size:13.5px;padding:6px 14px;border-radius:999px;cursor:pointer;min-height:36px}
@@ -1464,8 +1465,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <button class="tbs" data-cmdk>🔎 <b>Search</b><span>Find a school or jump anywhere</span></button>
     <button class="tbs" data-nav="zoe">🎓 <b>Ask Zoe</b><span>Your college-planning sidekick</span></button>
     <button class="tbs" data-nav="profile" data-ptab-go="acad">👤 <b data-tbs-prof>Profile</b><span>Grades, scores, activities</span></button>
-    <button class="tbs" data-nav="profile" data-ptab-go="who">🎚️ <b>My priorities</b><span>What matters to you — powers match %</span></button>
+    <button class="tbs" data-nav="profile" data-ptab-go="who">🎚️ <b>My priorities</b><span>What matters to you — powers fit %</span></button>
     <button class="tbs" data-nav="report">📄 <b>College Report</b><span>The whole picture as a PDF</span></button>
+    <button class="tbs" data-guide-open>▶ <b>Watch the tour</b><span>4 minutes, narrated</span></button>
   </div>
 </div>
 
@@ -1492,6 +1494,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <h1 class="lnd-h1">College, decided together.</h1>
         <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
         <div class="lnd-ctas"><button id="demo-start" class="primary lnd-btn" type="button">See a sample family</button><button class="lnd-btn lnd-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
+        <button type="button" class="linklike lnd-tour" data-guide-open>▶ Watch the 4-minute tour</button>
         <p class="lnd-small">No account needed to look around. Already a member? <a href="#" data-lp-account="signin">Sign in</a></p>
       </div>
       <div class="lnd-hero-art" aria-hidden="true">
@@ -1772,7 +1775,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <!-- PROFILE + SLIDERS -->
   <section id="v-profile" class="hidden">
     <h1 id="pf-h1">My profile</h1>
-    <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>match %</b> — for you. Everyone in the family has their own.</p>
+    <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>fit %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
@@ -1914,7 +1917,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 
   <!-- TODAY (#48): what to do now, on one screen -->
   <section id="v-today" class="hidden">
-    <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p></div>
+    <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p><button type="button" class="linklike td-tour" data-guide-open>▶ Watch the 4-minute tour</button></div>
     <div id="td-student"></div>
     <div id="onboard-guide"></div>
     <div id="howto" class="card hidden" style="background:color-mix(in srgb,var(--teal) 8%,var(--surface));border-color:var(--teal)">
@@ -2177,7 +2180,7 @@ function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e
 const SLIDERS = [
   {key:"afford",   nm:"Value / affordability", sub:"lower cost matters",     lo:"meh", hi:"crucial", def:5, kind:"importance"},
   {key:"outcomes", nm:"Education & outcomes",   sub:"grad rate & earnings",   lo:"meh", hi:"crucial", def:5, kind:"importance"},
-  {key:"prestige", nm:"Selectivity",           sub:"prefer more selective",  lo:"no",  hi:"yes",     def:4, kind:"importance", tip:"A preference, not your odds. Slide up to reward harder-to-get-into schools in your match %. This does not change your admission chance."},
+  {key:"prestige", nm:"Selectivity",           sub:"prefer more selective",  lo:"no",  hi:"yes",     def:4, kind:"importance", tip:"A preference, not your odds. Slide up to reward harder-to-get-into schools in your fit %. This does not change your admission chance."},
   {key:"spirit",   nm:"Spirit & sports",       sub:"big games, school pride", lo:"meh", hi:"love it", def:5, kind:"importance"},
   {key:"proximity",nm:"Proximity / location",  sub:"beach, mountains, city nearby", lo:"meh", hi:"crucial", def:5, kind:"importance"},
   {key:"lifestyle",nm:"Lifestyle & vibe",      sub:"area culture, policy, fit", lo:"meh", hi:"crucial", def:5, kind:"importance"},
@@ -2340,7 +2343,7 @@ $("go-auth").onclick = async () => {
   } catch(e){ msg("auth-msg", friendly(e)); }
   finally { $("go-auth").disabled = false; }
 };
-$("signout").onclick = async () => { await sb.auth.signOut(); };
+$("signout").onclick = async () => { if(DEMO){ exitDemo(); return; } await sb.auth.signOut(); };
 function friendly(e){
   const m = (e && e.message) || String(e);
   if (/invalid login/i.test(m)) return "That email and password don't match an account here. New here? Tap “Create your account.”";
@@ -2824,7 +2827,7 @@ function renderOnboard(){
   const members=(state.members||[]).length;
   const steps=[
     {done:schools>=1, icon:"🏫", title:"Add your first schools", desc:"Browse colleges and add a few you're curious about.", cta:"Browse schools", nav:"explore"},
-    {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so match % fits you.", cta:"Set priorities", nav:"profile", act:"priorities"},
+    {done:hasPrefs, icon:"🎚️", title:"Set your priorities", desc:"Tell us what matters so the fit % fits you you.", cta:"Set priorities", nav:"profile", act:"priorities"},
     {done:members>=2, icon:"👥", title:"Invite your family", desc:"Everyone rates together — share your invite code.", cta:"Invite family", act:"invite"},
   ];
   const doneN=steps.filter(s=>s.done).length, allDone=doneN===steps.length;
@@ -3219,7 +3222,7 @@ function setupSteps(){
   steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
     cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
     go: gradesMine ? (()=>{ goto("profile"); profileTab("acad"); }) : (stu&&!isMe(stu.user_id) ? "nudge" : (()=>{ goto("profile"); profileTab("acad"); })) });
-  steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so match % fits.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
+  steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so the fit % fits you.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
   const famDone = (state.members||[]).length>=2 && !state.pending;
   const sentAt = state.pending ? lsGet("inviteSentAt") : null;   // Oct 12: remember that the invite went out
   steps.push({k:"family", c:"Family", ic:"👥", t: state.pending?(sentAt?`Waiting for ${sName} to join`:`Send ${sName} the invite`):"Invite your family",
@@ -3676,7 +3679,7 @@ function renderReport(){
     ${(()=>{ const items=rows.map(r=>{ if(!r.info) return null; const chk=getChecklist(r.s.school_id); const left=tasksFor(r.info).filter(t=>!chk[t.key]).map(t=>t.label); return left.length?`<li><b>${esc(r.s.name)}:</b> ${left.map(esc).join(", ")}</li>`:null; }).filter(Boolean);
       const tips=zoeTips().filter(t=>t.id!=="dl").slice(0,3).map(t=>`<li>${t.text}</li>`);
       return (tips.length?`<ul class="rp-steps">${tips.join("")}</ul>`:"")+(items.length?`<h3>Still to do, by school</h3><ul class="rp-steps">${items.join("")}</ul>`:`<p class="rp-muted">Every checklist is complete. 🎉</p>`); })()}
-    <p class="rp-fine" style="margin-top:20px">Admission chances and match % are guidance, not guarantees — built from College Scorecard data and published admissions logic (NACAC factors, standard GPA recalculation, Likely / Target / Reach bands). Review with a school counselor. Made with Zoe's Colleges · zoescolleges.com</p></section>`;
+    <p class="rp-fine" style="margin-top:20px">Admission chances and fit % are guidance, not guarantees — built from College Scorecard data and published admissions logic (NACAC factors, standard GPA recalculation, Likely / Target / Reach bands). Review with a school counselor. Made with Zoe's Colleges · zoescolleges.com</p></section>`;
   $("report-body").innerHTML=`<div class="rp">${cover}${profile}${list}${costs}${deadlines}</div>`;
 }
 function openReport(){ goto("report"); }
@@ -3909,7 +3912,7 @@ function renderGuidance(meta){
   const soloFamily = state.members.length < 2;
   const hasProfile = !!studentProfile();
   let tip="";
-  if(!hasProfile) tip=`🎯 Start with <b>My Profile</b> (about a minute) — set it first and every school you add shows your <b>match %</b> and <b>admission chance</b> right away.`;
+  if(!hasProfile) tip=`🎯 Start with <b>My Profile</b> (about a minute) — set it first and every school you add shows your <b>fit %</b> and <b>admission chance</b> right away.`;
   else if(!state.schools.length) tip=`👋 Now add schools you're considering — search the catalog or add your own, and your match fills in automatically.`;
   else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>+ Add my family</b> so everyone rates too.`;
   else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
@@ -5303,7 +5306,7 @@ function buildCompare(){
   const cols=ids.map(id=>{ const info=catInfo(id); return {rec:state.schools.find(s=>s.school_id===id) || (info&&{school_id:id,name:info.name,city:info.city,state:info.state}), info}; }).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
-    ["My match %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
+    ["My fit %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
     ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
     ["Admission rate", c=>pct(g(c).admissionRate)],
     ["Net price / yr", c=>money(avgNet(c.info||c))],
@@ -5718,7 +5721,7 @@ function renderProfile(){
     if(tw) tw.textContent = "🧭 My priorities"; }
   { const w=$("pr-whose"), me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id), nm=(me&&me.display_name)||"you";   // #65: whose priorities these are
     if(w){ const stu=studentMember(); const other = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");
-      w.classList.toggle("hidden", !other); if(other) w.innerHTML=`These priorities are <b>yours (${esc(nm)})</b>. Everyone in the family sets their own, so your match % reflects what matters to you. ${esc(other)} sets ${esc(other)}'s own.`; }
+      w.classList.toggle("hidden", !other); if(other) w.innerHTML=`These priorities are <b>yours (${esc(nm)})</b>. Everyone in the family sets their own, so your fit % reflects what matters to you. ${esc(other)} sets ${esc(other)}'s own.`; }
     const ph=$("pr-h"); if(ph) ph.textContent = (pendingMode()||(studentMember()&&!isMe(studentMember().user_id))) ? `What matters to you (${nm})` : "What matters to you"; }
   if(pendingMode()){ const n=esc(state.pending.display_name); $("profile-scope").innerHTML=`🎓 <b>You're filling this in for ${n}.</b> It moves to ${n}'s own account when ${n} joins with your invite.`; }
   const p = (state.me && state.profiles[profKey()]) || {};
@@ -5737,7 +5740,7 @@ function renderProfile(){
   noTest.onchange=applyNoTest; applyNoTest();
   // recognized-interests readout
   const intReadout=()=>{ const el=$("pf-int"); if(!el) return; const txt=$("pf-notes").value.trim(); const tags=parseInterests(txt);
-    if(tags.length){ el.className="int-readout has"; el.innerHTML = `<div class="ir-h">✓ Here's what I understood — I'll nudge your match % toward these:</div><div class="ir-chips">${tags.map(t=>`<span class="ir-chip">${esc((INTEREST_DEFS.find(d=>d.tag===t)||{}).label||t)}</span>`).join("")}</div><div class="ir-foot">Anything else you wrote is kept on your profile; the sliders below are what set match % precisely.</div>`; }
+    if(tags.length){ el.className="int-readout has"; el.innerHTML = `<div class="ir-h">✓ Here's what I understood — I'll nudge your fit % toward these:</div><div class="ir-chips">${tags.map(t=>`<span class="ir-chip">${esc((INTEREST_DEFS.find(d=>d.tag===t)||{}).label||t)}</span>`).join("")}</div><div class="ir-foot">Anything else you wrote is kept on your profile; the sliders below are what set fit % precisely.</div>`; }
     else if(txt){ el.className="int-readout none"; el.innerHTML=`I didn't spot a known theme yet — try words like <b>sports</b>, <b>near mountains</b>, <b>small &amp; close-knit</b>, or <b>city</b>. Or skip it and use the sliders below — they do the real work.`; }
     else { el.className="int-readout"; el.innerHTML=""; } };
   $("pf-notes").oninput=intReadout; intReadout();
@@ -5790,7 +5793,7 @@ function renderSliderImpact(){
   const legend=[...withPct].sort((a,b)=>b.v-a.v).map(x=>`<div class="imp-leg"><span class="imp-dot" style="background:${IMPACT_COLORS[x.key]}"></span><span class="imp-nm">${esc(x.nm)}</span><span class="imp-pct">${x.pct}%</span></div>`).join("");
   host.innerHTML=`<div class="sl-impact-head">How this shapes the matches</div>
     <div class="imp-wrap"><svg viewBox="0 0 42 42" class="imp-donut">${segs}</svg><div class="imp-legend">${legend}</div></div>
-    <p class="muted" style="font-size:11.5px;margin:8px 0 0">Share of every school's <b>match %</b> driven by each factor, right now. Move a slider and it reshapes instantly. <span class="muted">(This is fit — separate from admission chance.)</span></p>`;
+    <p class="muted" style="font-size:11.5px;margin:8px 0 0">Share of every school's <b>fit %</b> driven by each factor, right now. Move a slider and it reshapes instantly. <span class="muted">(This is fit — separate from admission chance.)</span></p>`;
 }
 let pfEdit=false;
 function profileBuilt(p){ return !!(p && (String(p.gpa||"").trim()||String(p.sat||"").trim()||String(p.act||"").trim()||String(p.major||"").trim()||p.notes||(Array.isArray(p.activities)&&p.activities.length)||(p.rigor&&(+p.rigor.honors||+p.rigor.ap||+p.rigor.dual)))); }
@@ -5871,7 +5874,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
-  _intCache={notes:null,tags:[]}; // invalidate interest cache so match % re-scores
+  _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
   const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
@@ -6108,7 +6111,7 @@ async function savePrefs(w){
 /* nav wiring */
 document.querySelectorAll("#appnav .navbtn").forEach(b => b.onclick = () => { if(b.dataset.invite!==undefined) return; if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp) gotoGroup(b.dataset.grp); else goto(b.dataset.nav); });
 document.querySelectorAll("#tabbar .tb[data-nav], #tabbar .tb[data-grp], #tb-sheet .tbs").forEach(b => b.onclick = () => { closeTbSheet();
-  if(b.dataset.invite!==undefined) return; if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp){ gotoGroup(b.dataset.grp); return; } goto(b.dataset.nav); if(b.dataset.ptabGo) profileTab(b.dataset.ptabGo); });
+  if(b.dataset.invite!==undefined || b.dataset.guideOpen!==undefined) return; if(b.dataset.cmdk!==undefined){ openCmd(); return; } if(b.dataset.grp){ gotoGroup(b.dataset.grp); return; } goto(b.dataset.nav); if(b.dataset.ptabGo) profileTab(b.dataset.ptabGo); });
 { const x=document.querySelector("[data-tb-close]"); if(x) x.onclick=()=>closeTbSheet(); }
 function closeTbSheet(){ const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); const m=document.querySelector("[data-tb-more]"); if(m) m.setAttribute("aria-expanded","false"); }
 { const m=document.querySelector("[data-tb-more]"); if(m) m.onclick=()=>{ const sh=$("tb-sheet"); const open=sh.classList.contains("hidden"); sh.classList.toggle("hidden",!open); m.setAttribute("aria-expanded",String(open)); };
@@ -6202,6 +6205,8 @@ document.addEventListener("click", async e => {
   if(!confirm("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)")) return;
   try{ await fixRole("student"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
+// Oct 12: the tour is one tap away — landing page, Today, More menu, search
+document.addEventListener("click", e => { const b=e.target.closest("[data-guide-open]"); if(!b) return; e.preventDefault(); try{ closeTbSheet(); }catch(_){} openGuide(); });
 // Oct 12: Zoe Picks has two ways to browse — a ranked List or Swipe (the old Discover tab)
 document.addEventListener("click", e => { const b=e.target.closest("[data-pk]"); if(!b) return; e.preventDefault(); goto(b.dataset.pk); });
 // add/remove a school from the road trip, from anywhere (board, schools, detail, picks)
@@ -6246,8 +6251,8 @@ $("sh-copy").onclick = async () => { try { await navigator.clipboard.writeText($
 
 /* ========== ZOE HELPER (self-contained) ========== */
 const ZOE_KB = [
-  {q:["how","work","start","begin","what is","overview"], a:"Here's the gist: <b>Explore</b> to browse 3,000+ schools with real federal data, <b>Add</b> the ones you're considering to <b>My Board</b>, then everyone in the family rates each one with stars. Fill in <b>My Profile</b> so each school shows your <b>match %</b> and <b>admission chance</b>."},
-  {q:["match","percent","%","slider","priorit","what matters"], a:"Your <b>match %</b> comes from your sliders in <b>My Profile</b> → \"What matters to you\". Slide toward affordability, outcomes, spirit, selectivity, size and setting. Each person gets their own match — nobody overrides yours."},
+  {q:["how","work","start","begin","what is","overview"], a:"Here's the gist: <b>Explore</b> to browse 3,000+ schools with real federal data, <b>Add</b> the ones you're considering to <b>My Board</b>, then everyone in the family rates each one with stars. Fill in <b>My Profile</b> so each school shows your <b>fit %</b> and <b>admission chance</b>."},
+  {q:["match","percent","%","slider","priorit","what matters"], a:"Your <b>fit %</b> comes from your sliders in <b>My Profile</b> → \"What matters to you\". Slide toward affordability, outcomes, spirit, selectivity, size and setting. Each person gets their own match — nobody overrides yours."},
   {q:["chance","reach","target","likely","admission","get in"], a:"<b>Admission chance</b> (Reach / Target / Likely) compares the student's SAT/ACT in <b>My Profile</b> with each school's admit rate and average scores. It's a planning estimate, not a guarantee — always check the school's own data too."},
   {q:["rate","star","rating","vote"], a:"Tap your row of stars on any school. You only control your own stars; you can see everyone's, and the board sorts by the family average so your shared favorites rise to the top."},
   {q:["invite","family","join","add my","code"], a:"Tap <b>+ Add my family</b> on the board to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
@@ -6826,7 +6831,7 @@ async function startDemo(){
   try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
   BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
   state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
-  document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family";
+  document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family"; $("signout").textContent="Exit sample";
   state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}
   await loadFamily();
 }
