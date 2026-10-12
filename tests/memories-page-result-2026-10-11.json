@@ -7,9 +7,11 @@
    "Family",
    "Ask Zoe",
    "Profile",
+   "👪 Invite",
    "🔎 Search Ctrl K"
   ],
   "sheet": [
+   "Invite family",
    "Search",
    "Ask Zoe",
    "Profile",
@@ -20,7 +22,8 @@
    "Journey",
    "Talk It Out",
    "Decision Day",
-   "Memories"
+   "Memories",
+   "+ Invite family"
   ],
   "empty": {
    "steps": 3,
@@ -48,29 +51,21 @@
   },
   "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
   "trips": {
-   "title": "🚗 Trips",
+   "title": "🚗 Campus visits",
    "back": false
   },
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
-   ],
+   "bgs": [],
    "bad": [],
    "small": [
     "Deadlines 112x34",
     "Costs 66x34",
-    "Trips 62x34",
-    "+ Add campuses from your board 324x20"
+    "Trips 62x34"
    ],
    "wide": [],
-   "dashCount": 4
+   "dashCount": 2
   },
   "errors": []
  },
@@ -82,9 +77,11 @@
    "Family",
    "Ask Zoe",
    "Profile",
+   "👪 Invite",
    "🔎 Search Ctrl K"
   ],
   "sheet": [
+   "Invite family",
    "Search",
    "Ask Zoe",
    "Profile",
@@ -95,7 +92,8 @@
    "Journey",
    "Talk It Out",
    "Decision Day",
-   "Memories"
+   "Memories",
+   "+ Invite family"
   ],
   "empty": {
    "steps": 3,
@@ -123,20 +121,13 @@
   },
   "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
   "trips": {
-   "title": "🚗 Trips",
+   "title": "🚗 Campus visits",
    "back": false
   },
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
-   ],
+   "bgs": [],
    "bad": [],
    "small": [
     "#signout Sign out 78x32",
@@ -146,16 +137,15 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
-    "#trip-build Plan route → 106x33",
-    "+ Add campuses from your board 1182x20",
     "#trip-mem-open Open Memories → 141x33"
    ],
    "wide": [],
-   "dashCount": 4
+   "dashCount": 2
   },
   "errors": []
  },
@@ -167,9 +157,11 @@
    "Family",
    "Ask Zoe",
    "Profile",
+   "👪 Invite",
    "🔎 Search Ctrl K"
   ],
   "sheet": [
+   "Invite family",
    "Search",
    "Ask Zoe",
    "Profile",
@@ -180,7 +172,8 @@
    "Journey",
    "Talk It Out",
    "Decision Day",
-   "Memories"
+   "Memories",
+   "+ Invite family"
   ],
   "empty": {
    "steps": 3,
@@ -208,29 +201,21 @@
   },
   "thanks": "Thank you! Your reel is in review — we'll show it to families looking at this school once it's approved.",
   "trips": {
-   "title": "🚗 Trips",
+   "title": "🚗 Campus visits",
    "back": false
   },
   "audit": {
    "overflowX": 0,
    "imgs": [],
-   "bgs": [
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp",
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
-    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%"
-   ],
+   "bgs": [],
    "bad": [],
    "small": [
     "Deadlines 112x34",
     "Costs 66x34",
-    "Trips 62x34",
-    "+ Add campuses from your board 324x20"
+    "Trips 62x34"
    ],
    "wide": [],
-   "dashCount": 4
+   "dashCount": 2
   },
   "errors": []
  },
@@ -250,7 +235,7 @@
   "phone.shareNeedsConsent": true,
   "phone.shareSendsPending": true,
   "phone.formSurvivesRedraw": true,
-  "phone.tripsStandsAlone": true,
+  "phone.tripsStandsAlone": false,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
   "desktop.memoriesInNav": true,
@@ -262,7 +247,7 @@
   "desktop.shareNeedsConsent": true,
   "desktop.shareSendsPending": true,
   "desktop.formSurvivesRedraw": true,
-  "desktop.tripsStandsAlone": true,
+  "desktop.tripsStandsAlone": false,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
   "phone-dark.memoriesInNav": true,
@@ -274,11 +259,11 @@
   "phone-dark.shareNeedsConsent": true,
   "phone-dark.shareSendsPending": true,
   "phone-dark.formSurvivesRedraw": true,
-  "phone-dark.tripsStandsAlone": true,
+  "phone-dark.tripsStandsAlone": false,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true,
   "signedOut.sampleVideo": true,
   "signedOut.noErrors": true
  },
- "allPass": true
+ "allPass": false
 }

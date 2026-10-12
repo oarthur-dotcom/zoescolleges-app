@@ -1,0 +1,166 @@
+{
+ "00-test": {
+  "text": "[warmly] Welcome to Zoe's Colleges.",
+  "secs": 2.48
+ },
+ "01-welcome": {
+  "text": "[warmly] Welcome to Zoe's Colleges \u2014 one calm, shared place for your family's college search. Everyone gets a voice, every number is real, and nothing gets lost in a group text.",
+  "secs": 12.48
+ },
+ "02-sample-family": {
+  "text": "Not ready to set up yet? Explore the sample family first. Tap around, try every feature \u2014 nothing you do is saved.",
+  "secs": 8.48
+ },
+ "03-set-up-student": {
+  "text": "Start by adding your student. If you're a parent, you can set up their profile now \u2014 grades, courses, activities \u2014 and it moves to their own account the moment they join.",
+  "secs": 11.28
+ },
+ "04-invite-family": {
+  "text": "College is a family decision. Tap Invite to bring in a parent, your student, even a grandparent. They get a one-tap link by email, and everyone sees the same board.",
+  "secs": 11.84
+ },
+ "05-today": {
+  "text": "Today is your home base. It shows your one next step, what changed this week, and the deadlines coming up \u2014 so you always know what to do next.",
+  "secs": 10.48
+ },
+ "06-next-step": {
+  "text": "Not sure where to start? Follow the next-step card. It walks your family from exploring, to visiting, to applying, to deciding \u2014 one small step at a time.",
+  "secs": 11.2
+ },
+ "07-board": {
+  "text": "Your board holds every school you're considering. Each card shows the three things that matter most: what it will really cost you, your chance of getting in, and how your family rates it.",
+  "secs": 12.16
+ },
+ "08-add-schools": {
+  "text": "Add schools by searching any name, nickname, or city. More than three thousand colleges are here, with official federal data behind every number.",
+  "secs": 10.4
+ },
+ "09-discover": {
+  "text": "Want fresh ideas? Try Discover. Swipe through schools picked for your student \u2014 yes, maybe, or no. [happy] When two of you like the same school, it's a match.",
+  "secs": 10.96
+ },
+ "10-zoe-picks": {
+  "text": "Zoe Picks suggests a balanced list \u2014 likely schools, targets, and reaches \u2014 based on your student's profile and what your family cares about most.",
+  "secs": 10.24
+ },
+ "11-chances": {
+  "text": "Every school shows a chance: Likely, Target, Reach, or Far reach. It compares your student's grades, scores, course rigor, and activities with the students that school actually admits. It's a planning",
+  "secs": 17.36
+ },
+ "12-match": {
+  "text": "The match percentage is something different. It shows how well a school fits your priorities \u2014 cost, size, location, outcomes. A school can be a great match\u2026 and still be a reach.",
+  "secs": 13.52
+ },
+ "13-priorities": {
+  "text": "Set your priorities with a few simple sliders. Each person in the family sets their own, so you can see where you agree \u2014 and where you don't.",
+  "secs": 9.68
+ },
+ "14-profile": {
+  "text": "The student profile is built like the Common App: grades, how demanding the schedule is, test scores if you have them, and activities. The more you add, the sharper every chance becomes.",
+  "secs": 13.12
+ },
+ "15-transcript": {
+  "text": "Short on time? Snap a photo of the transcript \u2014 official or unofficial. Zoe reads the courses and grades, works out the GPA, and counts honors and AP classes for you. You check it before anything is s",
+  "secs": 14.72
+ },
+ "16-activities": {
+  "text": "Add up to ten activities, just like the Common App. Sports, jobs, clubs, and family responsibilities all count. Depth matters more than a long list \u2014 years and hours tell the real story.",
+  "secs": 14.4
+ },
+ "17-costs": {
+  "text": "Costs shows what each school will likely cost your family \u2014 not just the sticker price. Add your income once, and every school updates with an estimate built for you.",
+  "secs": 11.28
+ },
+ "18-aid-index": {
+  "text": "Colleges expect each family to pay a share, called the Student Aid Index. Zoe estimates yours, then shows which schools give enough aid to bring the price down \u2014 and which ones probably won't.",
+  "secs": 14.08
+ },
+ "19-merit": {
+  "text": "Merit scholarships reward strong students, whatever your income. When your student's scores are in a school's top quarter, Zoe points it out \u2014 those are the students most likely to receive them.",
+  "secs": 13.28
+ },
+ "20-aid-offers": {
+  "text": "When acceptance letters arrive, upload the financial aid offer. Zoe reads the numbers, separates real grants from loans, and lines up every offer side by side.",
+  "secs": 11.52
+ },
+ "21-deadlines": {
+  "text": "Deadlines keeps every application date in one place, checked against each school's own website. Add them to your Google, Apple, or Outlook calendar with one tap.",
+  "secs": 11.28
+ },
+ "22-checklist": {
+  "text": "Under each school is an application checklist \u2014 essays, recommendations, the transcript, fees, and financial aid forms. Tick each one as it's done, and your whole family sees the progress.",
+  "secs": 13.68
+ },
+ "23-applying-focus": {
+  "text": "Mark the schools you're really applying to. Deadlines then focuses on those, so the page shows exactly what needs doing \u2014 and nothing that doesn't.",
+  "secs": 9.68
+ },
+ "24-ed-vs-ea": {
+  "text": "Early Decision is binding \u2014 if you're admitted, you go. Early Action isn't. Both usually mean applying by early November, and hearing back sooner.",
+  "secs": 11.12
+ },
+ "25-plan-visit": {
+  "text": "Plan a campus visit by picking a school and a date. Mark when the tour is booked, change the date anytime, or cancel with two taps.",
+  "secs": 9.44
+ },
+ "26-road-trip": {
+  "text": "Visits a few days apart turn into a road trip on their own \u2014 with a map, real drive times, and a calendar file you can import.",
+  "secs": 8.48
+ },
+ "27-on-campus": {
+  "text": "On visit day, tap \"I'm on campus.\" You'll get a checklist of what to look for, a place for photos, and quick notes \u2014 while it's all still fresh.",
+  "secs": 10.56
+ },
+ "28-past-visits": {
+  "text": "Already visited a few schools? Add them as past visits \u2014 even ones you've ruled out. Give each one stars, and a line to remember it by.",
+  "secs": 9.84
+ },
+ "29-talk-it-out": {
+  "text": "Talk It Out gives every school its own calm conversation. Everyone gets a voice, nobody has to win, and the things you agree on are saved.",
+  "secs": 10.08
+ },
+ "30-family-vote": {
+  "text": "When it's time to choose, each person ranks their favorites in a secret ballot. Reveal the results together, and see where your family really stands.",
+  "secs": 9.68
+ },
+ "31-decision-day": {
+  "text": "Decision Day brings it all together \u2014 acceptances, real costs, and everyone's voice \u2014 so you can make the big choice with confidence before May first.",
+  "secs": 10.96
+ },
+ "32-journey": {
+  "text": "Your Journey tracks the whole adventure \u2014 from the first school you add to the final decision. It's the outline of your family's story.",
+  "secs": 8.8
+ },
+ "33-memories": {
+  "text": "Save photos from every visit in Memories. Relive them as a reel, or turn them into a short film of your family's college journey.",
+  "secs": 8.8
+ },
+ "34-campus-pulse": {
+  "text": "Campus Pulse brings you the latest news, events, and open houses from the schools on your board \u2014 so you never miss a visit day.",
+  "secs": 8.64
+ },
+ "35-ask-zoe": {
+  "text": "Have a question? Ask Zoe. She knows your student's profile and your list, and she answers in plain English \u2014 about essays, aid, deadlines, or which school fits best.",
+  "secs": 12.32
+ },
+ "36-college-report": {
+  "text": "The College Report turns everything into one clean PDF \u2014 the profile, every school, costs, and deadlines \u2014 ready to share with a counselor.",
+  "secs": 10.32
+ },
+ "37-privacy": {
+  "text": "Your family's information stays with your family. We never sell it. Transcripts and aid letters are read, then discarded \u2014 only the numbers you choose to save are kept.",
+  "secs": 11.28
+ },
+ "38-search": {
+  "text": "Looking for something? Tap Search \u2014 or press Control K on a computer \u2014 and type anything: a school, a page, or a question.",
+  "secs": 9.6
+ },
+ "39-outro": {
+  "text": "[warmly] That's Zoe's Colleges. Start with one small step today \u2014 and make the biggest decision of the year, together.",
+  "secs": 7.76
+ },
+ "40-hi-im-zoe": {
+  "text": "[warmly] Hi! I'm Zoe. Let me show you around \u2014 it only takes a minute.",
+  "secs": 4.72
+ }
+}
