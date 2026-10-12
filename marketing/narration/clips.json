@@ -158,5 +158,9 @@
  "40-hi-im-zoe": {
   "text": "[cheerful] Hi! I'm Zoe. Let me show you around \u2014 it only takes a minute.",
   "secs": 4.24
+ },
+ "09b-zoe-picks": {
+  "text": "[cheerful] Want fresh ideas? Open Zoe Picks. See them as a list, with why each school could work \u2014 or flip to Swipe: yes, maybe, or no. When two of you love the same school, it's a match.",
+  "secs": 12.75
  }
 }
