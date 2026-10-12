@@ -5,7 +5,7 @@
 # The build step copies the public files into dist/; everything else stays private.
 # If this command ever fails, Netlify keeps the previous deploy live.
 [build]
-  command = "rm -rf dist && mkdir -p dist && cp index.html manifest.webmanifest sw.js dist/ && cp -r media icons dist/"
+  command = "rm -rf dist && mkdir -p dist && cp index.html owner.html manifest.webmanifest sw.js dist/ && cp -r media icons dist/"
   publish = "dist"
   functions = "netlify/functions"
 
@@ -33,3 +33,14 @@
   [headers.values]
     Content-Type = "application/manifest+json"
 
+
+# Owner back office (#63, Oct 12): short link, never indexed.
+[[redirects]]
+  from = "/owner"
+  to = "/owner.html"
+  status = 200
+[[headers]]
+  for = "/owner.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"

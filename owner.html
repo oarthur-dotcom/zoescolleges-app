@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Owner · Zoe's Colleges</title>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--paper:#f3f5f1;--surface:#fff;--ink:#101c2e;--muted:#5f6982;--line:#dbdfe6;--teal:#0b7f81;--warn:#c2410c;--good:#15803d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0e1522;--surface:#162033;--ink:#e8edf5;--muted:#9aa6bd;--line:#2a3650;--teal:#3cc5c6;--warn:#f08a5d;--good:#4ade80}}
+:root[data-theme="dark"]{--paper:#0e1522;--surface:#162033;--ink:#e8edf5;--muted:#9aa6bd;--line:#2a3650;--teal:#3cc5c6;--warn:#f08a5d;--good:#4ade80}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:24px;margin:0}h2{font-size:17px;margin:26px 0 10px}.muted{color:var(--muted)}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.tile b{display:block;font-size:24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px}
+.fam-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.fam-h b{font-size:16px}.stats{font-size:13px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}th,td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--muted);font-weight:600}
+.wrap{overflow-x:auto}
+button,select{font:inherit;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:5px 10px;cursor:pointer}
+button.danger{border-color:var(--warn);color:var(--warn)}button.go{border-color:var(--good);color:var(--good)}button:disabled{opacity:.5;cursor:wait}
+.pill{display:inline-block;font-size:12px;border-radius:99px;padding:1px 8px;border:1px solid var(--line)}.pill.off{color:var(--warn);border-color:var(--warn)}.pill.on{color:var(--good);border-color:var(--good)}
+.msg{margin:10px 0;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+input[type=search]{font:inherit;padding:7px 10px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:min(320px,100%)}
+a{color:var(--teal)}
+</style></head>
+<body><main>
+<div class="top"><div><h1>🔒 Owner back office</h1><div class="muted" id="who">Checking your sign-in…</div></div>
+<div><input type="search" id="q" placeholder="Search name or email" aria-label="Search families and accounts"> <button id="reload">↻ Refresh</button></div></div>
+<div id="note" class="msg" hidden></div>
+<div id="out"></div>
+</main>
+<script>
+const SB_URL="https://heppyuzvztjzhgfitrsb.supabase.co", SB_KEY="sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx";
+let sb=null, data=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const day=d=>d?new Date(d).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"—";
+const ago=d=>{ if(!d) return "never"; const h=(Date.now()-new Date(d))/36e5; return h<1?"within the hour":h<24?`${Math.round(h)}h ago`:`${Math.round(h/24)}d ago`; };
+const PLAN={free:"Free",family:"Family",family_plus:"Family+"};
+function note(t,bad){ const n=$("note"); n.hidden=!t; n.textContent=t||""; n.style.borderColor=bad?"var(--warn)":"var(--line)"; }
+async function call(body){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session){ return { status:401, out:{ error:"Sign in on zoescolleges.com first, then come back to this page." } }; }
+  const r = await fetch("/.netlify/functions/owner-admin",{ method:"POST", headers:{ "Content-Type":"application/json", Authorization:"Bearer "+session.access_token }, body:JSON.stringify(body) });
+  let out={}; try{ out=await r.json(); }catch(e){} return { status:r.status, out };
+}
+async function load(){
+  $("out").innerHTML='<p class="muted">Loading…</p>';
+  const { status, out } = await call({ action:"overview" });
+  if(status!==200){ $("who").textContent=""; $("out").innerHTML=`<div class="msg">${esc(out.error||"Couldn't load.")} ${status===401?'<a href="/">Go to sign in</a>':""}</div>`; return; }
+  data=out; $("who").textContent=`Signed in as ${out.me} · updated ${new Date(out.generated_at).toLocaleTimeString()}`; render();
+}
+function render(){
+  const q=($("q").value||"").trim().toLowerCase(), t=data.totals;
+  const hit=f=>!q||[f.name,...f.members.map(m=>m.display_name),...f.members.map(m=>m.email)].join(" ").toLowerCase().includes(q);
+  const fams=data.families.filter(hit);
+  const loose=data.accounts.filter(a=>!a.family_id && (!q||String(a.email).toLowerCase().includes(q)));
+  $("out").innerHTML=`
+  <div class="tiles">
+    <div class="tile"><b>${t.families}</b>families</div><div class="tile"><b>${t.accounts}</b>accounts</div>
+    <div class="tile"><b>${t.active}</b>active accounts</div><div class="tile"><b>${t.signedInLast7}</b>signed in this week</div>
+    <div class="tile"><b>${t.byPlan.free} · ${t.byPlan.family} · ${t.byPlan.family_plus}</b>Free · Family · Family+</div>
+    <div class="tile"><b>$0</b>revenue <span class="muted">(Stripe not connected yet)</span></div>
+  </div>
+  <h2>Families (${fams.length})</h2>
+  ${fams.map(f=>`<div class="card"><div class="fam-h"><div><b>${esc(f.name)}</b> <span class="stats">· since ${day(f.created_at)} · ${f.members.length} member${f.members.length===1?"":"s"} · ${f.schools??"?"} schools · ${f.visits??"?"} visits · ${f.photos??"?"} photos${f.pendingStudent?` · student set up by parent: ${esc(f.pendingStudent)}`:""}</span></div>
+    <div><label class="stats" for="pl-${f.id}">Plan</label> <select id="pl-${f.id}" data-plan="${f.id}">${Object.entries(PLAN).map(([k,v])=>`<option value="${k}" ${f.plan===k?"selected":""}>${v}</option>`).join("")}</select></div></div>
+    <div class="stats" style="margin-top:4px">Invite link: <a href="/?join=${esc(f.invite_code)}" target="_blank" rel="noopener">zoescolleges.com/?join=${esc(f.invite_code)}</a></div>
+    <div class="wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>
+    ${f.members.map(m=>{ const a=data.accounts.find(x=>x.id===m.user_id)||{}; return `<tr><td>${esc(m.display_name)}</td><td>${esc(m.email||"—")}</td><td>${esc(m.role)}</td><td>${ago(a.last_sign_in_at)}</td>
+      <td>${a.active===false?'<span class="pill off">Deactivated</span>':'<span class="pill on">Active</span>'}</td>
+      <td>${a.email===data.me?'<span class="muted">you</span>':a.active===false?`<button class="go" data-act="${m.user_id}" data-on="1">Reactivate</button>`:`<button class="danger" data-act="${m.user_id}" data-on="0">Deactivate</button>`}</td></tr>`; }).join("")}
+    </tbody></table></div></div>`).join("") || '<p class="muted">No families match.</p>'}
+  ${loose.length?`<h2>Accounts not in a family yet (${loose.length})</h2><div class="card wrap"><table><thead><tr><th>Email</th><th>Signed up</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>
+    ${loose.map(a=>`<tr><td>${esc(a.email)}</td><td>${day(a.created_at)}</td><td>${ago(a.last_sign_in_at)}</td><td>${a.active?'<span class="pill on">Active</span>':'<span class="pill off">Deactivated</span>'}</td>
+    <td>${a.email===data.me?'<span class="muted">you</span>':a.active?`<button class="danger" data-act="${a.id}" data-on="0">Deactivate</button>`:`<button class="go" data-act="${a.id}" data-on="1">Reactivate</button>`}</td></tr>`).join("")}</tbody></table></div>`:""}
+  <p class="muted" style="font-size:13px;margin-top:20px">Deactivate blocks sign-in and can be undone any time with Reactivate. Nothing here deletes an account or any family data.</p>`;
+  document.querySelectorAll("[data-plan]").forEach(s=>s.onchange=async()=>{ const f=data.families.find(x=>x.id===s.dataset.plan); const was=f.plan;
+    if(!confirm(`Change ${f.name} from ${PLAN[was]} to ${PLAN[s.value]}?`)){ s.value=was; return; } s.disabled=true;
+    const { status, out } = await call({ action:"setPlan", family_id:f.id, plan:s.value }); s.disabled=false;
+    if(status===200){ f.plan=s.value; note(`${f.name} is now on ${PLAN[s.value]}.`); load(); } else { s.value=was; note(out.error||"Couldn't change the plan.",true); } });
+  document.querySelectorAll("[data-act]").forEach(b=>b.onclick=async()=>{ const on=b.dataset.on==="1"; const a=data.accounts.find(x=>x.id===b.dataset.act)||{};
+    if(!confirm(on?`Reactivate ${a.email}? They'll be able to sign in again.`:`Deactivate ${a.email}? They won't be able to sign in until you reactivate them. Their data stays.`)) return; b.disabled=true;
+    const { status, out } = await call({ action:"setActive", user_id:b.dataset.act, active:on });
+    if(status===200){ note(`${a.email} ${on?"reactivated":"deactivated"}.`); load(); } else { b.disabled=false; note(out.error||"Couldn't update the account.",true); } });
+}
+$("reload").onclick=load; $("q").oninput=()=>{ if(data) render(); };
+window.addEventListener("DOMContentLoaded",()=>{ sb=window.supabase.createClient(SB_URL,SB_KEY); load(); });
+</script>
+</body></html>
