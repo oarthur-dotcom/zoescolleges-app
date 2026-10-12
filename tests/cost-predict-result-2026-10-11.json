@@ -58,13 +58,19 @@
     {
      "n": "West Virginia University Institute of Technology",
      "st": 31555,
-     "y": 31555,
-     "basis": "sticker",
+     "y": 27035,
+     "basis": "schoolaid",
      "pub": true
     }
    ],
    "npc": 6,
    "why": 12
+  },
+  "unh": {
+   "st": 56187,
+   "y": 43885,
+   "basis": "schoolaid",
+   "why": "full price minus the school's own aid — 95% of students here get it, about $12,949 on average"
   },
   "low": {
    "band": 2,
@@ -80,7 +86,7 @@
     "+ Add offer 65x18"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 7
   },
   "errors": []
  },
@@ -143,13 +149,19 @@
     {
      "n": "West Virginia University Institute of Technology",
      "st": 31555,
-     "y": 31555,
-     "basis": "sticker",
+     "y": 27035,
+     "basis": "schoolaid",
      "pub": true
     }
    ],
    "npc": 6,
    "why": 12
+  },
+  "unh": {
+   "st": 56187,
+   "y": 43885,
+   "basis": "schoolaid",
+   "why": "full price minus the school's own aid — 95% of students here get it, about $12,949 on average"
   },
   "low": {
    "band": 2,
@@ -167,7 +179,7 @@
     "#offer-upload ＋ Add an aid letter 145x34"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 7
   },
   "errors": []
  },
@@ -230,13 +242,19 @@
     {
      "n": "West Virginia University Institute of Technology",
      "st": 31555,
-     "y": 31555,
-     "basis": "sticker",
+     "y": 27035,
+     "basis": "schoolaid",
      "pub": true
     }
    ],
    "npc": 6,
    "why": 12
+  },
+  "unh": {
+   "st": 56187,
+   "y": 43885,
+   "basis": "schoolaid",
+   "why": "full price minus the school's own aid — 95% of students here get it, about $12,949 on average"
   },
   "low": {
    "band": 2,
@@ -252,11 +270,12 @@
     "+ Add offer 65x18"
    ],
    "wide": [],
-   "dashCount": 6
+   "dashCount": 7
   },
   "errors": []
  },
  "ok": {
+  "phone.likelyTakesOffSchoolAid": true,
   "phone.saiSensible": true,
   "phone.familyBox": true,
   "phone.saveSaysWhatChanged": true,
@@ -268,6 +287,7 @@
   "phone.lowIncomeUsesFederalData": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
+  "desktop.likelyTakesOffSchoolAid": true,
   "desktop.saiSensible": true,
   "desktop.familyBox": true,
   "desktop.saveSaysWhatChanged": true,
@@ -279,6 +299,7 @@
   "desktop.lowIncomeUsesFederalData": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
+  "phone-dark.likelyTakesOffSchoolAid": true,
   "phone-dark.saiSensible": true,
   "phone-dark.familyBox": true,
   "phone-dark.saveSaysWhatChanged": true,

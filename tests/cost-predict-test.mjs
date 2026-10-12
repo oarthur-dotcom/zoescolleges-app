@@ -22,10 +22,13 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
     saved: window.__writes.filter(w => w.table === 'preferences').map(w => ({ i: w.p.weights.incomeExact, k: w.p.weights.kidsInCollege, b: w.p.weights.incomeBand })).pop(),
     rows: state.schools.map(s => { const c = catInfo(s.school_id); const y = yourNet(c); return c && { n: c.name, st: stickerPrice(c), y: y && y.v, basis: y && y.basis, pub: /public/i.test(c.ownership || '') }; }).filter(Boolean),
     npc: document.querySelectorAll('#cost-out .cost-npc').length, why: document.querySelectorAll('#cost-out .cost-aid').length }));
+  // Oct 12: at full price, UNH's likely cost takes off the school aid 95% of students get (~$12,949 avg) — about $44k, sticker ~$56k
+  o.unh = await page.evaluate(async () => { await setFamilyFinance(250000, 1); const c = catInfo('university-of-new-hampshire'); const y = c && yourNet(c); return c && { st: stickerPrice(c), y: y && y.v, basis: y && y.basis, why: y && yourNetWhy(y) }; });
   // a lower income uses the federal bracket data
   o.low = await page.evaluate(async () => { await setFamilyFinance(60000, 1); const c = catInfo('university-of-new-hampshire') || state.catalog.find(x => state.incomePrices && state.incomePrices[x.id]); const y = yourNet(c); return { band: myIncomeBand(), basis: y && y.basis }; });
   await page.screenshot({ path: `/tmp/claude-0/f79/${label}-cost.png`, fullPage: true });
   o.audit = await audit(page, '#v-cost'); o.errors = log.pageerr; R[label] = o; await b.close();
+  ok[label + '.likelyTakesOffSchoolAid'] = !o.unh || (o.unh.basis === 'schoolaid' && Math.abs(o.unh.y - (o.unh.st - Math.round(12949 * 0.95))) < 600 && /95% of students/.test(o.unh.why));
   ok[label + '.saiSensible'] = o.sai.s60 < 8000 && o.sai.s150 > 15000 && o.sai.s150 < 35000 && o.sai.s200 > o.sai.s150 && o.sai.s400 > 100000;
   ok[label + '.familyBox'] = o.before.box;
   ok[label + '.saveSaysWhatChanged'] = /Saved ✓/.test(o.after.msg) && /\$185,000/.test(o.after.msg) && /2 in college/.test(o.after.msg) && o.after.saved && o.after.saved.i === 185000 && o.after.saved.k === 2 && o.after.saved.b === 4;

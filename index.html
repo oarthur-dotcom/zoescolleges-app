@@ -3366,7 +3366,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <div class="disc-nm"><b>${esc(c.name)}</b><span>${esc([c.city,c.state].filter(Boolean).join(", "))}${sz?` · ${esc(sz)} students`:""}</span></div>
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
-      <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year":"no data"}</span></div>
+      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
       <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div></div>`; }
@@ -4007,7 +4007,7 @@ function renderSchool(x){
     ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
-        <div class="b3"><span class="b3-k">${y?"Your cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?"per year"+(oosSurcharge(info)?" · out-of-state":""):"no data"}</span></div>
+        <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
         <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
@@ -5257,14 +5257,18 @@ function yourNet(info){
     const sai=estimateSAI(fin.income); const pub=/public/i.test(info.ownership||""); const saiEff=pub?sai:Math.round(sai/fin.kids);
     // generous need-based schools (big average grants) really do bring the price down to about the family contribution
     const aid=schoolAid(info); const generous=!!(aid && aid.avg>=30000 && aid.pct>=40);
-    const floor=(!generous && typeof v==="number")? v+sur : 0; const est=Math.min(S, Math.max(saiEff, floor));
-    const basis= est>=S ? "sticker" : (est===saiEff ? "sai" : "band");
-    return { v:est, band:b, label:`$${Math.round(fin.income/1000)}k income`, outOfState: sur>0, surcharge:sur, basis, sai, saiEff, kids:fin.kids, pub, generous }; }
+    const floor=(!generous && typeof v==="number")? v+sur : 0; let est=Math.min(S, Math.max(saiEff, floor));
+    let basis= est>=S ? "sticker" : (est===saiEff ? "sai" : "band");
+    // Oct 12: at full price, most schools still give most students their own aid (largely merit). Take off the
+    // typical amount (average award × share of students who get it) so "likely" isn't just the sticker.
+    if(basis==="sticker" && aid && aid.pct>=50 && aid.avg>0){ est=Math.max(0, Math.round(S - aid.avg*aid.pct/100)); basis="schoolaid"; }
+    return { v:est, band:b, label:`$${Math.round(fin.income/1000)}k income`, outOfState: sur>0, surcharge:sur, basis, sai, saiEff, kids:fin.kids, pub, generous, aid }; }
   if(typeof v!=="number") return null;
   return { v: v+sur, band:b, label:INCOME_BANDS[b], outOfState: sur>0, surcharge:sur, basis:"band" };
 }
 function yourNetWhy(y){ if(!y) return "";
   if(y.basis==="sticker") return "full price at your income (before any merit aid)";
+  if(y.basis==="schoolaid") return `full price minus the school's own aid — ${y.aid.pct}% of students here get it, about ${money(y.aid.avg)} on average`;
   if(y.basis==="sai") return `your estimated family contribution${y.kids>1&&!y.pub?` split across ${y.kids} in college`:""}${y.generous?" — this school gives large need-based grants":""}`;
   return y.label && /k income/.test(y.label) ? "what families like yours typically paid here" : `typical for families earning ${y.label}`; }
 // a merit hint: scores in the top quarter of this school's admitted students
