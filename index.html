@@ -80,6 +80,7 @@ button:disabled{opacity:.5;cursor:default}
 .msg.ok{display:block;background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal);border:1px solid var(--teal)}
 .chip{font-family:var(--mono);font-size:11px;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .chip.reach{color:var(--plum);border-color:var(--plum)}
+.chip.reach.far{background:color-mix(in srgb,var(--plum) 14%,var(--surface));font-weight:700}
 .chip.target{color:var(--amber);border-color:var(--amber)}
 .chip.likely{color:var(--good);border-color:var(--good)}
 .chip.match{color:var(--teal);border-color:var(--teal)}
@@ -496,6 +497,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .pf-tabs button{border:none;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
 .pf-tabs button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
 /* match visuals */
+.mring-w{display:inline-flex;align-items:center;gap:5px;vertical-align:middle}.mr-cap{font-size:11px;color:var(--muted);font-weight:600}
 .mring{position:relative;display:inline-flex;width:42px;height:42px;flex:0 0 auto;vertical-align:middle}
 .mring svg{width:42px;height:42px;transform:rotate(-90deg)}
 .mring circle{fill:none;stroke-width:3.4}
@@ -551,8 +553,19 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .dl-pill .dl-box{width:16px;height:16px;border:1.5px solid var(--muted);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;line-height:1;flex-shrink:0}
 .dl-pill.opt{color:var(--muted);border-style:dashed}
 .dl-pill.done .dl-box{background:var(--good);border-color:var(--good);color:#fff}
+.cf-box{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--teal) 4%,var(--surface));margin-bottom:12px}
+.cf-h{font-weight:700;font-size:14px;margin-bottom:8px}.cf-h span{font-weight:400;color:var(--muted);font-size:12.5px}
+.cf-row{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}.cf-row label{margin:0 0 4px}
+.cf-money{display:flex;align-items:center;gap:4px}.cf-money span{font-weight:700;color:var(--muted)}.cf-money input{width:150px}
+.cf-lbl{display:block;font-size:12px;font-family:var(--mono,inherit);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
+.cf-kids{display:flex;gap:6px}.cf-kids button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;min-width:44px;min-height:40px;font-weight:700;cursor:pointer}
+.cf-kids button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 16%,var(--surface))}
+.cf-msg{font-size:13px;margin-top:8px}.cf-msg:empty{display:none}.cf-msg.ok{color:var(--good);font-weight:600}.cf-msg.err{color:var(--warn)}
+.cf-sai{font-size:13px;margin-top:10px;line-height:1.5}
+.cost-merit{display:block;font-size:11.5px;color:var(--star);margin-top:2px}.cost-npc{display:block;font-size:11.5px;margin-top:3px;color:var(--teal)}
 .sn-tab.sn-act{color:var(--teal);font-weight:700;border-style:dashed}
 .navbtn.nav-invite{color:var(--teal);font-weight:700}
+.dl-what{margin-top:6px;font-size:12.5px}.dl-what>summary{cursor:pointer;color:var(--teal);font-weight:600}.dl-what ul{margin:6px 0 0;padding-left:18px;line-height:1.5}
 .dl-cl-h{font-size:12.5px;font-weight:700;margin:8px 0 6px}.dl-cl-h span{font-weight:400;color:var(--muted)}
 .dl-pill:hover{border-color:var(--teal)}
 .dl-pill.done{background:color-mix(in srgb,var(--good) 12%,var(--surface));border-color:var(--good);color:var(--good);font-weight:600;border-style:solid}
@@ -2542,6 +2555,10 @@ function interestSat(tag,c,s,L){
 }
 const BAND_LABELS={reach:"Reach",target:"Target",likely:"Likely"};
 function bandLabel(b){ return BAND_LABELS[b]||b; }
+// Typical unweighted GPA of admitted students, estimated from the school's SAT profile and admit rate (#80).
+function typicalGpa(s){ s=s||{}; const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
+  const r=s.admissionRate; const fromRate = r<0.15?3.9 : r<0.3?3.75 : r<0.5?3.55 : r<0.7?3.35 : 3.15;
+  if(sat==null) return fromRate; const fromSat=Math.max(2.8, Math.min(4.0, 2.9+(sat-1000)*0.0022)); return Math.round(((fromSat+fromRate)/2)*100)/100; }
 function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light"); }
 // One source of truth for the chance band. explain=true also records each step
 // (slower), so the hot paths (choicePower over 3,000 schools) stay fast via explain=false.
@@ -2575,11 +2592,18 @@ function chanceCompute(c, explain){
   // Strong GPA eases a reach, weak stiffens a likely.
   const gpa = rigorAdjustedGpa(p);
   const gpaU = p ? parseFloat(p.gpa) : NaN;
+  // #80 (Oct 11): compare the GPA with the school's TYPICAL admitted student, not fixed cut-offs (before, only 3.9+ or
+  // 2.8- moved anything, so a 3.2 and a 3.8 got the same odds almost everywhere). Typical unweighted GPA is estimated
+  // from the school's test scores and selectivity (published scores track GPAs closely). Up to two steps tougher.
+  let gpaGap=null;
   if(gpaU>0 && gpaU<=5){
     const g = Math.min(gpaU, 4.0), before=band;   // the field is unweighted; anything above 4.0 counts as 4.0
-    if(g>=3.9 && band==="reach") band=ease(band);
-    else if(g<=2.8 && band==="likely") band="target";
-    log("Your GPA", band!==before?bandLabel(band):"no change", `Unweighted GPA ${g.toFixed(2)}${gpa&&gpa!==gpaU?` (rigor-adjusted ${gpa.toFixed(2)}, counted under rigor)`:""}`);
+    const ref=typicalGpa(s); gpaGap=Math.round((g-ref)*100)/100;
+    const stiff=b=>b==="likely"?"target":"reach";
+    if(gpaGap>=0.25 && band!=="likely") band=ease(band);
+    else if(gpaGap<=-0.5){ band=stiff(stiff(band)); }
+    else if(gpaGap<=-0.25){ band=stiff(band); }
+    log("Your GPA", band!==before?bandLabel(band):"no change", `Unweighted GPA ${g.toFixed(2)} vs about ${ref.toFixed(1)} for a typical admitted student here (${gpaGap>=0?"+":""}${gpaGap.toFixed(2)})${gpa&&gpa!==gpaU?` · rigor-adjusted ${gpa.toFixed(2)} counted under rigor`:""}`);
   } else { log("Your GPA", "not used", "No GPA in your profile"); }
   // course rigor in context (#66): the counselor's 5-level rating of the schedule against what the school offers
   // (Common App School Report). Honors count. Selective schools only, capped one step.
@@ -2603,7 +2627,11 @@ function chanceCompute(c, explain){
     log("Competitive major", band!==before?bandLabel(band):"no change", `${p.major} tends to admit tougher than the school overall`);
   }
   if(floorReach) log("Very selective", "stays Reach", `Admits under 15% — a reach for every applicant, even with top grades and scores`);
-  const out = { band, label:bandLabel(band) };
+  // #80: "Far reach" — the lottery schools (admit under 10%), or a selective school where this profile is well below typical
+  const satLow = sat && hasRange && sat<=s.sat25;
+  const far = band==="reach" && (rate<0.10 || (rate<0.25 && ((gpaGap!=null&&gpaGap<=-0.4) || satLow)));
+  if(far) log("Far reach", "Far reach", rate<0.10?`Admits under 10% — a long shot for anyone; apply if you love it, but don't count on it`:`Selective, and this profile is well below a typical admitted student`);
+  const out = { band, far, label: far?"Far reach":bandLabel(band) };
   if(explain){
     out.steps = steps;
     out.inputs = { gpaRaw:(p&&p.gpa)||null, gpaAdj:(gpa&&gpa>0)?gpa:null, sat:sat||null, testOptional:!!(p&&p.testOptional),
@@ -2650,7 +2678,7 @@ function chanceMathHtml(c){
   const rows=ex.steps.map(s=>`<div class="cm-step"><span class="cm-k">${esc(s.k)}</span><span class="cm-v${s.moved?" moved":""}">${esc(s.v)}</span><span class="cm-why">${esc(s.why)}</span></div>`).join("");
   return `<div class="cmath">
     <div class="cm-inputs"><div class="cm-h">What the predictor sees</div><div class="cm-seen">${predictorInputsHtml(ex.inputs)}</div></div>
-    <div class="cm-steps">${rows}<div class="cm-step cm-final"><span class="cm-k">Final call</span><span class="chip ${ex.band}" style="margin:0">${ex.label}</span><span class="cm-why"></span></div></div>
+    <div class="cm-steps">${rows}<div class="cm-step cm-final"><span class="cm-k">Final call</span><span class="chip ${ex.band}${ex.far?" far":""}" style="margin:0">${ex.label}</span><span class="cm-why"></span></div></div>
     ${anchorNoteHtml()}
     <p class="muted" style="font-size:11px;margin:8px 0 0">A planning estimate from each school's admit rate and this profile — not a guarantee. The <b>same inputs always give the same band</b>; if two people see different odds, compare the "what the predictor sees" line above and set one student.</p>
   </div>`;
@@ -3839,13 +3867,14 @@ function renderGuidance(meta){
 }
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = renderBoard;
-function chanceChip(ch){ return ch? `<span class="chip ${ch.band}">${ch.label}</span>` : ""; }
+function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
 function chanceWords(info){
   const ex=info&&chanceExplain(info); if(!ex) return "";
   const s=info.scorecard||{}; const rate=Math.round((s.admissionRate||0)*100);
-  const lead={reach:"Reach",target:"Target",likely:"Likely"}[ex.band]||ex.label;
+  const lead=ex.far?"Far reach":({reach:"Reach",target:"Target",likely:"Likely"}[ex.band]||ex.label);
+  if(s.admissionRate<0.10) return `${lead}: admits ${rate}% — a long shot for every applicant, even with top grades and scores.`;
   if(s.admissionRate<0.15) return `${lead}: admits ${rate}% — a reach for every applicant, even with top scores.`;
   const step=k=>ex.steps.find(x=>x.k===k)||{};
   const bits=[`admits ${rate}%`];
@@ -3855,7 +3884,8 @@ function chanceWords(info){
   else if(/inside the school's middle-50/.test(why)) bits.push("your test score is in their typical range");
   else if(/average \(([+-]?\d+)\)/.test(why)){ const d=+why.match(/average \(([+-]?\d+)\)/)[1]; bits.push(d>=70?"your test score is above their average":d<=-90?"your test score is below their average":"your test score is near their average"); }
   else if(/test-optional/.test(why)) bits.push("you're applying test-optional");
-  const g=step("Your GPA"); if(g.moved){ const gv=parseFloat(((g.why||"").match(/Unweighted GPA ([\d.]+)/)||[])[1]); bits.push(gv>=3.9?"your strong GPA helps":"your GPA makes it tougher"); }
+  const g=step("Your GPA"); { const m=(g.why||"").match(/\(([+-][\d.]+)\)/); const gap=m?parseFloat(m[1]):null;
+    if(gap!=null && gap<=-0.25) bits.push("your GPA is below a typical admitted student's"); else if(gap!=null && gap>=0.25) bits.push("your GPA is above a typical admitted student's"); else if(gap!=null) bits.push("your GPA is close to a typical admitted student's"); }
   const rg=step("Rigor in context"); if(rg.moved) bits.push(/rewards making the most/.test(rg.why||"")?"your course rigor helps":"a lighter course load makes it tougher");
   const ac=step("Your activities"); if(ac.moved) bits.push(/strong/.test(ac.why||"")?"your activities help":"a light activity list makes it tougher");
   const mj=step("Competitive major"); if(mj.moved) bits.push("your major admits tougher here");
@@ -3866,7 +3896,7 @@ function chanceWordsHtml(info){ const w=chanceWords(info); return w?`<div class=
 function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% match</span>` : ""; }
 function matchColor(m){ return m>=75?"var(--teal)":m>=55?"var(--amber)":"var(--muted)"; }
 function matchRing(m){ if(m==null) return ""; const c=matchColor(m); const circ=2*Math.PI*18; const off=circ*(1-Math.max(0,Math.min(100,m))/100);
-  return `<span class="mring" title="${m}% match for you"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}<i class="mr-pct">%</i></b></span>`; }
+  return `<span class="mring-w" title="${m}% match to your priorities — not your admission odds"><span class="mring"><svg viewBox="0 0 42 42"><circle class="mr-bg" cx="21" cy="21" r="18"/><circle class="mr-fg" cx="21" cy="21" r="18" stroke="${c}" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><b style="color:${c}">${m}<i class="mr-pct">%</i></b></span><span class="mr-cap">match</span></span>`; }
 function matchBar(m){ if(m==null) return `<span class="muted" style="font-size:11px">match —</span>`; const c=matchColor(m);
   return `<span class="mbar" title="${m}% match"><span class="mbar-t" style="width:${m}%;background:${c}"></span></span><span class="mbar-l" style="color:${c}">${m}% match</span>`; }
 /* #51 "Where you stand": the school's middle 50% of admitted students' SAT or ACT (College Scorecard), with a dot for
@@ -4460,16 +4490,18 @@ function renderCost(){
   const offers=offersGet(); const yb=myIncomeBand();
   const rows=board.map(({s,info})=>{ const sc=(info&&info.scorecard)||{}; const y=info?yourNet(info):null; const typ=y?Math.max(0,y.v):avgNet(info);
     const o=offers[s.school_id]; const on=offerNet(o);
-    return {id:s.school_id, name:s.name, sticker:stickerPrice(info), typ, yours:!!y, offer:o, offerNet:on, best:on!=null?on:typ, earn:sc.medianEarnings10yr, oos:oosSurcharge(info)}; })
+    return {id:s.school_id, name:s.name, sticker:stickerPrice(info), typ, yours:!!y, y, offer:o, offerNet:on, best:on!=null?on:typ, earn:sc.medianEarnings10yr, oos:oosSurcharge(info), merit:info?meritHint(info):false, npc:npcLink(s.school_id)}; })
     .sort((a,b)=>(a.best==null)-(b.best==null) || (a.best||0)-(b.best||0));
   const known=rows.filter(r=>r.best!=null);
   const opts=[["","Prefer not to say"],["0","Under $30k"],["1","$30k–48k"],["2","$48k–75k"],["3","$75k–110k"],["4","Over $110k"]].map(([v,t])=>`<option value="${v}" ${String(yb??"")===v?"selected":""}>${t}</option>`).join("");
   const summary = known.length ? `<div class="cost-sum"><div><span class="muted">Lowest</span><b>${money(known[0].best)}</b><span>${esc(known[0].name)}</span></div><div><span class="muted">Highest</span><b>${money(known[known.length-1].best)}</b><span>${esc(known[known.length-1].name)}</span></div><div><span class="muted">4 years, lowest</span><b>~${money(known[0].best*4)}</b><span>before raises in cost</span></div></div>` : "";
   const table=`<div class="cost-tbl" role="table" aria-label="Cost per school">
-    <div class="cost-tr cost-th" role="row"><span role="columnheader">School</span><span role="columnheader">Sticker / yr</span><span role="columnheader">${yb!==null&&state.incomePrices?`Typical for ${esc(INCOME_BANDS[yb])}`:"Typical after aid"}</span><span role="columnheader">Their offer</span><span role="columnheader">Earnings (10 yr)</span></div>
+    <div class="cost-tr cost-th" role="row"><span role="columnheader">School</span><span role="columnheader">Sticker / yr</span><span role="columnheader">${familyFinance().income!=null?"Likely for you":yb!==null&&state.incomePrices?`Typical for ${esc(INCOME_BANDS[yb])}`:"Typical after aid"}</span><span role="columnheader">Their offer</span><span role="columnheader">Earnings (10 yr)</span></div>
     ${rows.map(r=>`<div class="cost-tr" role="row"><span class="cost-nm" role="cell"><b>${esc(r.name)}</b></span>
       <span role="cell" data-l="Sticker / yr">${money(r.sticker)}</span>
-      <span role="cell" data-l="Typical after aid">${r.typ!=null?money(r.typ):"—"}${r.typ!=null&&!r.yours&&yb!==null?` <i class="muted">(avg)</i>`:""}${r.oos&&r.typ!=null?` <i class="muted">(incl. ~${money(r.oos)} out-of-state tuition)</i>`:""}${schoolAid(catInfo(r.id))?`<span class="cost-aid">${esc(schoolAidLine(catInfo(r.id),true))}</span>`:""}</span>
+      <span role="cell" data-l="${familyFinance().income!=null?"Likely for you":"Typical after aid"}">${r.typ!=null?`<b>${money(r.typ)}</b>`:"—"}${r.typ!=null&&!r.yours&&yb!==null?` <i class="muted">(avg)</i>`:""}${r.oos&&r.typ!=null?` <i class="muted">(incl. ~${money(r.oos)} out-of-state tuition)</i>`:""}
+        ${r.y&&familyFinance().income!=null?`<span class="cost-aid">${esc(yourNetWhy(r.y))}</span>`:""}${r.merit?`<span class="cost-merit">⭐ Zoe's scores are in this school's top quarter — the students most likely to get merit aid, if it offers it</span>`.replace("Zoe's", esc(studentFirst())+"'s"):""}
+        ${schoolAid(catInfo(r.id))?`<span class="cost-aid">${esc(schoolAidLine(catInfo(r.id),true))}</span>`:""}${r.npc?`<a class="cost-npc" href="${esc(r.npc)}" target="_blank" rel="noopener">Exact figure: the school's calculator ↗</a>`:""}</span>
       <span role="cell" data-l="Their offer">${r.offer?`<b class="cost-offer">${money(r.offerNet)}</b>${sumAmt(r.offer.loans)?` <i class="muted">+ ${money(sumAmt(r.offer.loans))} loans</i>`:""}`:`<button class="linklike" data-offer-add="${esc(r.id)}">+ Add offer</button>`}</span>
       <span role="cell" data-l="Earnings (10 yr)">${money(r.earn)}</span></div>`).join("")}</div>`;
   const ocards=Object.entries(offers).filter(([id])=>board.some(b=>b.s.school_id===id)).map(([id,o])=>{ const net=offerNet(o), g=sumAmt(o.grants), l=sumAmt(o.loans);
@@ -4477,11 +4509,18 @@ function renderCost(){
       <div class="offer-grid"><div><span>Cost of attendance</span><b>${money(o.coa)}</b></div><div><span>Free money (grants & scholarships)</span><b class="good">${money(g)}</b></div><div><span>Your net cost / yr</span><b>${money(net)}</b></div><div><span>Loans offered</span><b class="${l?"warn":""}">${money(l)}</b></div>${o.workStudy?`<div><span>Work-study (you earn it)</span><b>${money(o.workStudy)}</b></div>`:""}<div><span>Net for 4 years</span><b>~${money(net*4)}</b></div></div>
       ${l?`<div class="offer-note">⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.</div>`:""}
       <button class="small" data-offer-zoe="${esc(id)}">💬 Ask Zoe to explain this offer</button></div>`; }).join("");
-  el.innerHTML=`<div class="card"><div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><label for="cost-income2" style="margin:0;font-size:13px">Family income:</label><select id="cost-income2" data-income-inline style="width:auto">${opts}</select><span class="muted" style="font-size:11.5px">Only your family sees this. It picks the typical price for families like yours.</span></div>
+  const fin=familyFinance(); const sai=fin.income?estimateSAI(fin.income):null;
+  el.innerHTML=`<div class="card"><div class="cf-box"><div class="cf-h">Your family's numbers <span>— only your family sees them</span></div>
+      <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
+        <div><span class="cf-lbl">Kids in college at the same time</span><div class="cf-kids" role="group" aria-label="Kids in college at the same time">${[1,2,3].map(n=>`<button type="button" data-cfk="${n}" class="${(fin.kids>=3?3:fin.kids)===n?"on":""}" aria-pressed="${(fin.kids>=3?3:fin.kids)===n}">${n===3?"3+":n}</button>`).join("")}</div></div>
+        <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button></div></div>
+      <div id="cf-msg" class="cf-msg" role="status"></div>
+      ${sai!=null?`<div class="cf-sai">Estimated family contribution (the federal <b>Student Aid Index</b>): <b>~${money(sai)}/yr</b>${fin.kids>1?` · about <b>${money(Math.round(sai/fin.kids))}</b> per student at private schools with ${fin.kids} in college`:""}. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.</div>`:`<div class="cf-sai muted">Add your income to see what each school will likely cost <b>you</b> — not just the average.</div>`}
+    </div>
       ${summary}${table}
       <p class="muted" style="font-size:11px;margin:10px 0 0">"Typical after aid" is the federal College Scorecard net price for aided first-year students. For public schools outside your home state we add the out-of-state tuition difference. Every family's real cost differs — use each school's net-price calculator, and compare real offers below once they arrive.</p></div>
     <div class="card offers"><div class="pv-head"><h2 style="margin:0">📄 Aid offers</h2><button class="small primary" id="offer-upload">＋ Add an aid letter</button></div>
-      <p class="muted" style="font-size:12.5px;margin:6px 0 10px">Upload a photo or PDF of an award letter and Zoe reads the numbers for you to check — or type them in. Letters aren't kept: only the numbers you save, on this device.</p>
+      <p class="muted" style="font-size:12.5px;margin:6px 0 10px">Upload a photo or PDF of an award letter and Zoe reads the numbers for you to check — or type them in. Letters aren't kept: only the numbers you save, shared with your family.</p>
       <input type="file" id="offer-file" accept="image/*,application/pdf" style="display:none"><div id="offer-form"></div>
       ${ocards||`<div class="muted" style="font-size:13px">No offers yet. They usually arrive in March and April (earlier for early decision).</div>`}</div>`;
   wireCost(el);
@@ -4498,6 +4537,14 @@ function wireCost(el){
       box.innerHTML=`<div class="msg err">${j.notAidLetter?"That doesn't look like an aid offer.":j.capped?"We've hit today's limit for letter reading.":j.unconfigured?"Letter reading isn't switched on yet.":esc(j.error||"Couldn't read that one.")} <button class="linklike" data-offer-manual>Type the numbers in</button></div>`;
       box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false);
     }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
+  // #79: the family's numbers — save, then say exactly what changed
+  { let kids=(familyFinance().kids>=3?3:familyFinance().kids);
+    el.querySelectorAll("[data-cfk]").forEach(b=>b.onclick=()=>{ kids=+b.dataset.cfk; el.querySelectorAll("[data-cfk]").forEach(x=>{ const on=+x.dataset.cfk===kids; x.classList.toggle("on",on); x.setAttribute("aria-pressed",on); }); });
+    const inp=$("cf-income"); if(inp){ inp.oninput=()=>{ const d=inp.value.replace(/[^0-9]/g,""); inp.value=d?Number(d).toLocaleString("en-US"):""; }; inp.onkeydown=e=>{ if(e.key==="Enter") $("cf-save").click(); }; }
+    const sv=$("cf-save"); if(sv) sv.onclick=async()=>{ const raw=+(inp.value||"").replace(/[^0-9]/g,""); const m=$("cf-msg");
+      if(inp.value && (!raw || raw<1000 || raw>20000000)){ m.textContent="That income doesn't look right — type the yearly amount, e.g. 185,000."; m.className="cf-msg err"; return; }
+      sv.disabled=true; await setFamilyFinance(raw||0, kids); renderCost();
+      const m2=$("cf-msg"); if(m2){ m2.className="cf-msg ok"; m2.textContent = raw ? `Saved ✓ — the prices below now use ${money(raw)} and ${kids>=3?"3 or more":kids} in college.` : "Saved ✓ — income cleared; prices below are averages."; } }; }
   el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
   el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
   el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=()=>{ if(!confirm("Remove this offer from your list?")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
@@ -5099,7 +5146,25 @@ function detailDeadlines(info,cell){
 }
 function r_conf(v){ return v.rounds.some(r=>r.conf==="medium")?" (some dates medium confidence)":""; }
 function nextDlText(info){ const n=info?nextDeadline(info):null; return n?`${n.kind} · ${_fmtD(n.date)}`:""; }
+// #79 (Oct 11): the family's own numbers — gross income and how many kids are in college at once — shared by the family.
+function familyFinance(){ const pick=w=>w&&typeof w.incomeExact==="number"&&w.incomeExact>0?w:null;
+  const w=pick(myPrefs()) || (state.members||[]).map(m=>pick(state.prefs[m.user_id])).find(Boolean);
+  return w ? { income:w.incomeExact, kids:Math.max(1,Math.min(4,+w.kidsInCollege||1)) } : { income:null, kids:1 }; }
+const INCOME_EDGES=[30000,48000,75000,110000];
+function bandForIncome(x){ let b=0; while(b<INCOME_EDGES.length && x>INCOME_EDGES[b]) b++; return b; }
+// Simplified federal Student Aid Index (2025-26 parent formula, income only; a family of 4). Savings, home equity and
+// business assets are NOT included, so the real SAI is usually higher. An estimate to set expectations, not a quote.
+function estimateSAI(income){ const x=Math.max(0,+income||0); if(!x) return null;
+  const payroll=Math.min(x,2*176100)*0.062 + x*0.0145 + Math.max(0,x-250000)*0.009;
+  const taxable=Math.max(0,x-30000); const BR=[[23850,.10],[96950,.12],[206700,.22],[394600,.24],[501050,.32],[751600,.35],[Infinity,.37]];
+  let fed=0, lo=0; for(const [hi,r] of BR){ if(taxable>lo) fed+=(Math.min(taxable,hi)-lo)*r; lo=hi; }
+  const stateTax=x*0.04, ipa=39500, eea=Math.min(4730, x*0.35);
+  const aai = x - payroll - fed - stateTax - ipa - eea;
+  let pc; if(aai< -6820) pc=-1500; else if(aai<0) pc=aai*0.22; else if(aai<=20200) pc=aai*0.22; else if(aai<=25300) pc=4444+(aai-20200)*0.25;
+  else if(aai<=30400) pc=5719+(aai-25300)*0.29; else if(aai<=35500) pc=7198+(aai-30400)*0.34; else if(aai<=40600) pc=8932+(aai-35500)*0.40; else pc=10972+(aai-40600)*0.47;
+  return Math.max(0, Math.round(pc/100)*100); }
 function myIncomeBand(){
+  const fin=familyFinance(); if(fin.income!=null) return bandForIncome(fin.income);
   const own=myPrefs().incomeBand; if(own!==undefined && own!=="" && own!==null) return +own;
   for(const m of (state.members||[])){ const w=state.prefs[m.user_id]; if(w && w.incomeBand!==undefined && w.incomeBand!=="" && w.incomeBand!==null) return +w.incomeBand; }   // a parent may have set it
   return null;
@@ -5115,15 +5180,35 @@ function oosSurcharge(info){ if(!info) return 0; const sc=info.scorecard||{}; co
 function stickerPrice(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.costAvg==="number" ? sc.costAvg + oosSurcharge(info) : null; }
 function avgNet(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number" ? sc.netPrice + oosSurcharge(info) : null; }
 function yourNet(info){
-  const b=myIncomeBand(); if(b===null || !state.incomePrices || !info) return null;
-  const row=state.incomePrices[info.id]; if(!row) return null; const v=row[b]; if(typeof v!=="number") return null;
-  const sur=oosSurcharge(info);
-  return { v: v+sur, band:b, label:INCOME_BANDS[b], outOfState: sur>0, surcharge:sur };
+  const b=myIncomeBand(); if(b===null || !info) return null;
+  const sur=oosSurcharge(info); const row=state.incomePrices&&state.incomePrices[info.id]; const v=row?row[b]:null;
+  const fin=familyFinance(); const S=stickerPrice(info);
+  // #79: above $110k the federal brackets stop helping — use the family's SAI (split across kids at private schools,
+  // which use the CSS Profile; the FAFSA no longer splits it). Never above the sticker; never below what similar
+  // higher-income families actually paid there.
+  if(fin.income!=null && fin.income>110000 && typeof S==="number"){
+    const sai=estimateSAI(fin.income); const pub=/public/i.test(info.ownership||""); const saiEff=pub?sai:Math.round(sai/fin.kids);
+    // generous need-based schools (big average grants) really do bring the price down to about the family contribution
+    const aid=schoolAid(info); const generous=!!(aid && aid.avg>=30000 && aid.pct>=40);
+    const floor=(!generous && typeof v==="number")? v+sur : 0; const est=Math.min(S, Math.max(saiEff, floor));
+    const basis= est>=S ? "sticker" : (est===saiEff ? "sai" : "band");
+    return { v:est, band:b, label:`$${Math.round(fin.income/1000)}k income`, outOfState: sur>0, surcharge:sur, basis, sai, saiEff, kids:fin.kids, pub, generous }; }
+  if(typeof v!=="number") return null;
+  return { v: v+sur, band:b, label:INCOME_BANDS[b], outOfState: sur>0, surcharge:sur, basis:"band" };
 }
+function yourNetWhy(y){ if(!y) return "";
+  if(y.basis==="sticker") return "full price at your income (before any merit aid)";
+  if(y.basis==="sai") return `your estimated family contribution${y.kids>1&&!y.pub?` split across ${y.kids} in college`:""}${y.generous?" — this school gives large need-based grants":""}`;
+  return y.label && /k income/.test(y.label) ? "what families like yours typically paid here" : `typical for families earning ${y.label}`; }
+// a merit hint: scores in the top quarter of this school's admitted students
+function meritHint(info){ const sc=(info&&info.scorecard)||{}; const my=studentSat(studentProfile()||{}); if(!my) return false;
+  return typeof sc.sat75==="number" ? my>=sc.sat75 : (typeof sc.satAvg==="number" ? my>=sc.satAvg+100 : false); }
+function npcLink(id){ const v=state.visitLinks&&state.visitLinks[id]; return v&&v.npc?v.npc:null; }
 function netMoney(v){ return v<=0 ? "$0" : money(v); }
 function yourNetHtml(info){ const y=yourNet(info); if(!y) return null;
   return `${netMoney(y.v)}${y.v<=0?` <span class="muted" style="font-size:11px">(aid can cover full cost)</span>`:""}${y.outOfState?` <span class="muted" style="font-size:11px">(includes ~${money(y.surcharge)} out-of-state tuition)</span>`:""}`; }
-async function setIncomeBand(v){ const w={...myPrefs(), incomeBand: v===""?"":+v}; await savePrefs(w); }
+async function setIncomeBand(v){ const w={...myPrefs(), incomeBand: v===""?"":+v, incomeExact:null}; await savePrefs(w); }
+async function setFamilyFinance(income, kids){ const w={...myPrefs(), incomeExact: income>0?Math.round(income):null, kidsInCollege: kids, incomeBand: income>0?bandForIncome(income):myPrefs().incomeBand}; await savePrefs(w); }
 function costCardHtml(onlyIds){   // #70: Compare passes the picked schools, so the chart shows those (not the whole board)
   const yb=myIncomeBand(); const useYour = yb!==null && !!state.incomePrices;
   const price=info=>{ if(useYour){ const y=yourNet(info); if(y) return Math.max(0,y.v); } return avgNet(info); };
@@ -5227,6 +5312,14 @@ function tasksFor(info){
   if(typeof q.fee==="number" && q.fee>0) t.push({key:"Application fee",label:`Fee $${q.fee}`});
   t.push({key:"FAFSA / CSS",label:"FAFSA / CSS"}); t.push({key:"Submitted",label:"Submitted"});
   return t; }
+// #80: what each checklist item means, shown on the item and in "What these mean"
+const TASK_TIPS={ "Essays":"Your personal essay (Common App) plus any school-specific supplement essays.",
+  "Recommendations":"Letters from teachers and your counselor — ask them at least a month ahead.",
+  "Transcript":"Your official grades, sent by your school counselor (usually through Naviance/Scoir or the Common App).",
+  "Test scores":"SAT/ACT scores sent from College Board or ACT — skip if you're applying test-optional.",
+  "Application fee":"Paid when you submit. Ask your counselor about a fee waiver if cost is a concern.",
+  "FAFSA / CSS":"Financial aid forms: the FAFSA for every school, plus the CSS Profile where the school asks for it.",
+  "Submitted":"Tick when the application is in — this also marks the school Applied everywhere in the app." };
 function reqWord(v){ return v==="required"?"Required":v==="considered"?"Optional — considered if you send it":v==="not_considered"?"Not considered":"—"; }
 function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
   const testW = q.tests==="required"?"Required":q.tests==="considered"?"Test-optional":q.tests==="not_considered"?"Test-blind (scores not considered)":"—";
@@ -5387,7 +5480,8 @@ function renderDeadlines(){
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
-        <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""} ${/optional/.test(t.label)?"opt":""}" data-task="${esc(t.key)}" role="checkbox" tabindex="0" aria-checked="${!!chk[t.key]}"><span class="dl-box" aria-hidden="true">${chk[t.key]?"✓":""}</span>${esc(t.label)}</span>`).join("")}</div>
+        <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""} ${/optional/.test(t.label)?"opt":""}" data-task="${esc(t.key)}" role="checkbox" tabindex="0" aria-checked="${!!chk[t.key]}"><span class="dl-box" aria-hidden="true">${chk[t.key]?"✓":""}</span>${esc(t.label)}</span>`).join("").replace(/data-task="([^"]+)"/g,(m,k)=>`${m} title="${esc(TASK_TIPS[k]||"")}"`)}</div>
+        <details class="dl-what"><summary>What these mean</summary><ul>${TK.map(t=>`<li><b>${esc(t.label)}</b> — ${esc(TASK_TIPS[t.key]||"")}${/optional/.test(t.label)?" Optional at this school: it's considered if you send it.":""}</li>`).join("")}</ul></details>
       </div></div></div>`;
   }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);

@@ -1,0 +1,295 @@
+{
+ "phone": {
+  "sai": {
+   "s60": 1200,
+   "s150": 25800,
+   "s200": 41400,
+   "s400": 102900
+  },
+  "before": {
+   "box": true,
+   "head": "Typical after aid"
+  },
+  "after": {
+   "msg": "Saved ✓ — the prices below now use $185,000 and 2 in college.",
+   "head": "Likely for you",
+   "sai": "Estimated family contribution (the federal Student Aid Index): ~$36,700/yr · about $18,350 per student at private schools with 2 in college. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.",
+   "saved": {
+    "i": 185000,
+    "k": 2,
+    "b": 4
+   },
+   "rows": [
+    {
+     "n": "College of Charleston",
+     "st": 57680,
+     "y": 50314,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Massachusetts Institute of Technology",
+     "st": 82730,
+     "y": 18350,
+     "basis": "sai",
+     "pub": false
+    },
+    {
+     "n": "University of Vermont",
+     "st": 62093,
+     "y": 52219,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Clemson University",
+     "st": 60327,
+     "y": 53234,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Newman University",
+     "st": 46489,
+     "y": 21774,
+     "basis": "band",
+     "pub": false
+    },
+    {
+     "n": "West Virginia University Institute of Technology",
+     "st": 31555,
+     "y": 31555,
+     "basis": "sticker",
+     "pub": true
+    }
+   ],
+   "npc": 6,
+   "why": 12
+  },
+  "low": {
+   "band": 2,
+   "basis": "band"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Exact figure: the school's calculator ↗ 154x33",
+    "+ Add offer 65x18"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "desktop": {
+  "sai": {
+   "s60": 1200,
+   "s150": 25800,
+   "s200": 41400,
+   "s400": 102900
+  },
+  "before": {
+   "box": true,
+   "head": "Typical after aid"
+  },
+  "after": {
+   "msg": "Saved ✓ — the prices below now use $185,000 and 2 in college.",
+   "head": "Likely for you",
+   "sai": "Estimated family contribution (the federal Student Aid Index): ~$36,700/yr · about $18,350 per student at private schools with 2 in college. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.",
+   "saved": {
+    "i": 185000,
+    "k": 2,
+    "b": 4
+   },
+   "rows": [
+    {
+     "n": "College of Charleston",
+     "st": 57680,
+     "y": 50314,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Massachusetts Institute of Technology",
+     "st": 82730,
+     "y": 18350,
+     "basis": "sai",
+     "pub": false
+    },
+    {
+     "n": "University of Vermont",
+     "st": 62093,
+     "y": 52219,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Clemson University",
+     "st": 60327,
+     "y": 53234,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Newman University",
+     "st": 46489,
+     "y": 21774,
+     "basis": "band",
+     "pub": false
+    },
+    {
+     "n": "West Virginia University Institute of Technology",
+     "st": 31555,
+     "y": 31555,
+     "basis": "sticker",
+     "pub": true
+    }
+   ],
+   "npc": 6,
+   "why": 12
+  },
+  "low": {
+   "band": 2,
+   "basis": "band"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#cf-save Save 56x32",
+    "Exact figure: the school's calculator ↗ 208x17",
+    "+ Add offer 65x18",
+    "#offer-upload ＋ Add an aid letter 145x34"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "phone-dark": {
+  "sai": {
+   "s60": 1200,
+   "s150": 25800,
+   "s200": 41400,
+   "s400": 102900
+  },
+  "before": {
+   "box": true,
+   "head": "Typical after aid"
+  },
+  "after": {
+   "msg": "Saved ✓ — the prices below now use $185,000 and 2 in college.",
+   "head": "Likely for you",
+   "sai": "Estimated family contribution (the federal Student Aid Index): ~$36,700/yr · about $18,350 per student at private schools with 2 in college. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.",
+   "saved": {
+    "i": 185000,
+    "k": 2,
+    "b": 4
+   },
+   "rows": [
+    {
+     "n": "College of Charleston",
+     "st": 57680,
+     "y": 50314,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Massachusetts Institute of Technology",
+     "st": 82730,
+     "y": 18350,
+     "basis": "sai",
+     "pub": false
+    },
+    {
+     "n": "University of Vermont",
+     "st": 62093,
+     "y": 52219,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Clemson University",
+     "st": 60327,
+     "y": 53234,
+     "basis": "band",
+     "pub": true
+    },
+    {
+     "n": "Newman University",
+     "st": 46489,
+     "y": 21774,
+     "basis": "band",
+     "pub": false
+    },
+    {
+     "n": "West Virginia University Institute of Technology",
+     "st": 31555,
+     "y": 31555,
+     "basis": "sticker",
+     "pub": true
+    }
+   ],
+   "npc": 6,
+   "why": 12
+  },
+  "low": {
+   "band": 2,
+   "basis": "band"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "Exact figure: the school's calculator ↗ 154x33",
+    "+ Add offer 65x18"
+   ],
+   "wide": [],
+   "dashCount": 6
+  },
+  "errors": []
+ },
+ "ok": {
+  "phone.saiSensible": true,
+  "phone.familyBox": true,
+  "phone.saveSaysWhatChanged": true,
+  "phone.likelyForYou": true,
+  "phone.neverAboveSticker": true,
+  "phone.basisExplained": true,
+  "phone.generousSchoolNearSAI": true,
+  "phone.calculatorLinks": true,
+  "phone.lowIncomeUsesFederalData": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.saiSensible": true,
+  "desktop.familyBox": true,
+  "desktop.saveSaysWhatChanged": true,
+  "desktop.likelyForYou": true,
+  "desktop.neverAboveSticker": true,
+  "desktop.basisExplained": true,
+  "desktop.generousSchoolNearSAI": true,
+  "desktop.calculatorLinks": true,
+  "desktop.lowIncomeUsesFederalData": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.saiSensible": true,
+  "phone-dark.familyBox": true,
+  "phone-dark.saveSaysWhatChanged": true,
+  "phone-dark.likelyForYou": true,
+  "phone-dark.neverAboveSticker": true,
+  "phone-dark.basisExplained": true,
+  "phone-dark.generousSchoolNearSAI": true,
+  "phone-dark.calculatorLinks": true,
+  "phone-dark.lowIncomeUsesFederalData": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
