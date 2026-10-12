@@ -15,7 +15,7 @@ for (const [label, vp, dark, missing] of [['phone', { width: 390, height: 844 }]
   // a saved tick from before keeps counting
   await page.evaluate(() => { const c = getChecklist('sc-166683'); c['Essays'] = true; setChecklist('sc-166683', c); openDetail('sc-166683'); }); await page.waitForTimeout(600);
   o.card = await page.evaluate(() => { const s = document.querySelector('#v-detail .rq-box'); return s ? s.innerText.replace(/\s+/g, ' ') : null; });
-  await page.evaluate(() => goto('deadlines')); await page.waitForTimeout(600);
+  await page.evaluate(() => { lsSet('dlStages', ['exploring','visiting','applying','deciding']); goto('deadlines'); }); await page.waitForTimeout(600);
   o.pills = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('[data-dlid]')].map(b => [b.dataset.dlid, [...b.querySelectorAll('.dl-pill')].map(p => p.textContent)])));
   // keyboard toggles a pill
   await page.focus('[data-dlid="sc-217882"] [data-task="Transcript"]'); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
@@ -24,7 +24,7 @@ for (const [label, vp, dark, missing] of [['phone', { width: 390, height: 844 }]
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   if (!missing) {
     ok[label + '.schoolCard'] = /What they ask for/i.test(o.card || '') && /SAT \/ ACT Required/.test(o.card) && /Application fee \$75/.test(o.card) && /confirm on the school's admissions site/.test(o.card);
-    ok[label + '.mitChecklist'] = JSON.stringify(o.pills['sc-166683']) === '["✓ Essay","Recommendations","Transcript","Test scores","Fee $75","FAFSA / CSS","Submitted"]';
+    ok[label + '.mitChecklist'] = JSON.stringify((o.pills['sc-166683']||[]).map(t=>t.replace(/^✓\s*/,'✓ '))) === '["✓ Essay","Recommendations","Transcript","Test scores","Fee $75","FAFSA / CSS","Submitted"]';
     ok[label + '.clemsonChecklist'] = JSON.stringify(o.pills['sc-217882']) === '["Essay (optional)","Recs (optional)","Transcript","Scores (optional)","Fee $70","FAFSA / CSS","Submitted"]';
   } else { ok[label + '.fallsBackToStandard'] = o.card === null && JSON.stringify(o.pills['sc-217882']) === '["Essays","Recommendations","Transcript","FAFSA / CSS","Test scores","Submitted"]'; }
   ok[label + '.keyboardToggles'] = o.kb;

@@ -31,7 +31,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.nextH1 = await page.evaluate(() => document.querySelector('#vk-out h1').textContent);
   await page.click('#vk-zoe'); await page.waitForTimeout(900);
   o.zoe = (zb.at(-1) || {}).q || '';
-  await page.evaluate(() => goto('trip')); await page.waitForTimeout(200); await page.click('#trip-build'); await page.waitForTimeout(800); if (await page.$('[data-plan-all]')) { await page.click('[data-plan-all]'); } await page.waitForTimeout(1600);
+  await page.evaluate(() => { const d=n=>{ const x=new Date(Date.now()+n*864e5); return new Date(x.getTime()-x.getTimezoneOffset()*6e4).toISOString().slice(0,10); }; (state.schools||[]).slice(0,2).forEach((sc,i)=>{ const v=getVisit(sc.school_id); v.date=d(i); saveVisit(sc.school_id,v); }); goto('trip'); }); await page.waitForTimeout(1600); /* #78: Trips is now a list of planned visits */
   o.tripStart = await page.evaluate(() => document.querySelectorAll('#trip-out [data-visitkit]').length);
   await page.evaluate(() => goto('today')); await page.waitForTimeout(400);
   o.todayKit = await page.evaluate(() => !!document.querySelector('#td-out [data-visitkit]'));

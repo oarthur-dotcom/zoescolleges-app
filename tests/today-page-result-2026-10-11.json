@@ -145,7 +145,7 @@
  "ok": {
   "phone.landsOnToday": true,
   "phone.fiveCards": true,
-  "phone.nextDeadlineIsClemson": false,
+  "phone.nextDeadlineIsClemson": true,
   "phone.newsAndVisitDays": true,
   "phone.listGrade": true,
   "phone.searchGoesToSchools": true,
@@ -155,7 +155,7 @@
   "phone.noBadText": true,
   "desktop.landsOnToday": true,
   "desktop.fiveCards": true,
-  "desktop.nextDeadlineIsClemson": false,
+  "desktop.nextDeadlineIsClemson": true,
   "desktop.newsAndVisitDays": true,
   "desktop.listGrade": true,
   "desktop.searchGoesToSchools": true,
@@ -165,7 +165,7 @@
   "desktop.noBadText": true,
   "phone-dark.landsOnToday": true,
   "phone-dark.fiveCards": true,
-  "phone-dark.nextDeadlineIsClemson": false,
+  "phone-dark.nextDeadlineIsClemson": true,
   "phone-dark.newsAndVisitDays": true,
   "phone-dark.listGrade": true,
   "phone-dark.searchGoesToSchools": true,
@@ -179,5 +179,5 @@
   "empty-phone.noSidewaysScroll": true,
   "empty-phone.noBadText": true
  },
- "allPass": false
+ "allPass": true
 }

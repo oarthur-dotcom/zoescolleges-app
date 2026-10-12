@@ -20,7 +20,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.goto('http://localhost:8814/index.html'); await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(800);
   const o = {};
   await page.evaluate(() => goto('cost')); await page.waitForTimeout(500);
-  await page.selectOption('#cost-income2', '2'); await page.waitForTimeout(700);
+  await page.fill('#cf-income', '60000'); await page.click('#cf-save'); await page.waitForTimeout(900); /* #79: one income box replaced the band picker */
   o.rows = await page.evaluate(() => [...document.querySelectorAll('.cost-tr:not(.cost-th)')].map(r => r.innerText.replace(/\s+/g, ' ')));
   o.sum = await page.evaluate(() => (document.querySelector('.cost-sum') || {}).innerText || '');
   // upload a letter (reader mocked) -> review -> save

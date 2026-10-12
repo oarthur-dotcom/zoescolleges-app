@@ -4,7 +4,7 @@ const SITE = '/tmp/claude-0/f68/site', SHOTS = '/tmp/claude-0/f68/'; fs.mkdirSyn
 if (fs.existsSync('/tmp/claude-0/f20/site/supabase-config.js')) fs.copyFileSync('/tmp/claude-0/f20/site/supabase-config.js', SITE + '/supabase-config.js');
 const CAT = fs.readFileSync('/tmp/claude-0/f35-colleges.json');
 const srv = http.createServer((q, r) => { const f = path.join(SITE, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200); r.end(d); }); }).listen(8905);
-const R = {}, ok = {};
+const R = {}, ok = {}; const noInv = a => (a||[]).filter(t => !/Invite/.test(t)); /* #78: Invite always one tap; checked in invite-entry-test */
 for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['desktop', { width: 1280, height: 900 }], ['desktop-dark', { width: 1280, height: 900 }, true]]) {
   const b = await launch(); const { page, log } = await newPage(b, vp, {}); if (dark) await page.emulateMedia({ colorScheme: 'dark' });
   await page.route(/jsdelivr.*colleges\.json/, r => r.fulfill({ contentType: 'application/json', body: CAT })); await page.route(/tile\.openstreetmap|router\.project-osrm/, r => r.abort());
@@ -43,12 +43,12 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.evaluate(() => openCmd()); await page.fill('#cmd-q', 'invite'); await page.waitForTimeout(200); o.r3 = await page.evaluate(() => [...document.querySelectorAll('.cmd-it .cmd-t')].map(x => x.textContent)); await page.keyboard.press('Escape');
   if (!phone) { await page.evaluate(() => goto('board')); await page.waitForTimeout(200); await page.keyboard.press('/'); await page.waitForTimeout(200); o.slash = await page.evaluate(() => document.getElementById('dlg-cmd').open); await page.keyboard.press('Escape'); }
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; await b.close(); R[label] = o;
-  ok[label + '.sixPlaces'] = phone ? o.top.bar.join('|') === 'Today|Schools|Plan|Family|More' : (o.top.desk.join('|') === 'Today|Schools|Plan|Family|Ask Zoe|Profile' && !o.top.overflow);
+  ok[label + '.sixPlaces'] = phone ? noInv(o.top.bar).join('|') === 'Today|Schools|Plan|Family|More' : (noInv(o.top.desk).join('|') === 'Today|Schools|Plan|Family|Ask Zoe|Profile' && !o.top.overflow);
   ok[label + '.sectionTabs'] = o.schools.view === 'board' && o.schools.tabs.join('|').replace(/\d+/g, '') === 'My Board|Discover|Search|Zoe Picks|Compare|Pulse' && o.schools.on === 'My Board' && o.cmp === 'compare';
   ok[label + '.remembersPlace'] = o.plan1 === 'deadlines' && o.plan2 === 'cost';
   ok[label + '.deadlineDotOnPlan'] = o.planDot === true;
-  ok[label + '.familyGroup'] = o.family.view === 'journey' && o.family.tabs.join('|') === 'Journey|Talk It Out|Decision Day|Memories';
-  if (phone) ok[label + '.moreSheetShort'] = o.sheet.join('|') === 'Search|Ask Zoe|Profile|My priorities|College Report' && o.prio === 'profile|true';
+  ok[label + '.familyGroup'] = o.family.view === 'journey' && noInv(o.family.tabs).join('|') === 'Journey|Talk It Out|Decision Day|Memories';
+  if (phone) ok[label + '.moreSheetShort'] = noInv(o.sheet).join('|') === 'Search|Ask Zoe|Profile|My priorities|College Report' && o.prio === 'profile|true';
   ok[label + '.searchCost'] = o.cmdOpen && /College of Charleston — cost/.test(o.r1[0] || '') && o.afterCost.view === 'detail' && o.afterCost.id === 'college-of-charleston' && o.afterCost.flash;
   ok[label + '.searchAddWithTypo'] = /Add Stanford/.test(o.r2[0] || '') && o.added.some(n => /Stanford/.test(n));
   ok[label + '.searchPagesAndActions'] = o.dl === 'deadlines' && o.r3.includes('Invite family');

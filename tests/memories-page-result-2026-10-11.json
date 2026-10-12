@@ -39,7 +39,7 @@
   "film": true,
   "addMsg": "Added 2 photos.",
   "visits": [
-   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+   "College of Charleston Visited Oct 12, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
   "ticksKept": true,
@@ -109,7 +109,7 @@
   "film": true,
   "addMsg": "Added 2 photos.",
   "visits": [
-   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+   "College of Charleston Visited Oct 12, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
   "ticksKept": true,
@@ -189,7 +189,7 @@
   "film": true,
   "addMsg": "Added 2 photos.",
   "visits": [
-   "College of Charleston Visited Oct 11, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
+   "College of Charleston Visited Oct 12, 2026 · 2 photos ▶ Reel ＋ Photo Randolph Hall ★ ✓ Randolph Hall ★ ✓ Obie ★★★★☆ “Loved the campus” Zoe ★★★★★"
   ],
   "noConsentMsg": "Please tick all three boxes.",
   "ticksKept": true,
@@ -235,7 +235,7 @@
   "phone.shareNeedsConsent": true,
   "phone.shareSendsPending": true,
   "phone.formSurvivesRedraw": true,
-  "phone.tripsStandsAlone": false,
+  "phone.tripsStandsAlone": true,
   "phone.noErrors": true,
   "phone.noSidewaysScroll": true,
   "desktop.memoriesInNav": true,
@@ -247,7 +247,7 @@
   "desktop.shareNeedsConsent": true,
   "desktop.shareSendsPending": true,
   "desktop.formSurvivesRedraw": true,
-  "desktop.tripsStandsAlone": false,
+  "desktop.tripsStandsAlone": true,
   "desktop.noErrors": true,
   "desktop.noSidewaysScroll": true,
   "phone-dark.memoriesInNav": true,
@@ -259,11 +259,11 @@
   "phone-dark.shareNeedsConsent": true,
   "phone-dark.shareSendsPending": true,
   "phone-dark.formSurvivesRedraw": true,
-  "phone-dark.tripsStandsAlone": false,
+  "phone-dark.tripsStandsAlone": true,
   "phone-dark.noErrors": true,
   "phone-dark.noSidewaysScroll": true,
   "signedOut.sampleVideo": true,
   "signedOut.noErrors": true
  },
- "allPass": false
+ "allPass": true
 }

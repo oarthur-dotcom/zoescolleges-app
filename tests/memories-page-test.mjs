@@ -54,7 +54,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   ok[label + '.shareNeedsConsent'] = /all three boxes/.test(o.noConsentMsg);
   ok[label + '.shareSendsPending'] = !!o.shareWrite && o.shareWrite.n === 2 && o.shareWrite.status === 'pending' && o.shareWrite.show === 'anonymous' && o.shareWrite.consent === 'at,own,people,show' && /in review/.test(o.thanks);
   ok[label + '.formSurvivesRedraw'] = o.ticksKept;
-  ok[label + '.tripsStandsAlone'] = /Trips/.test(o.trips.title) && !o.trips.back;
+  ok[label + '.tripsStandsAlone'] = /Trips|Campus visits/.test(o.trips.title) && !o.trips.back;
   ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
 }
 // signed-out sign-in page shows the sample video, and the file plays

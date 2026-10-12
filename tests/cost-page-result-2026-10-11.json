@@ -1,12 +1,12 @@
 {
  "phone": {
   "rows": [
-   "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
-   "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ + Add offer $143,372",
+   "Newman University $46,489 $21,234 typical for families earning $48–75k 94% get school grants · avg $22,060 Exact figure: the school's calculator ↗ + Add offer $55,041",
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) typical for families earning $48–75k 84% get school grants · avg $5,381 Exact figure: the school's calculator ↗ + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) typical for families earning $48–75k 99% get school grants · avg $17,822 Exact figure: the school's calculator ↗ + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) typical for families earning $48–75k 65% get school grants · avg $7,020 Exact figure: the school's calculator ↗ + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) typical for families earning $48–75k 53% get school grants · avg $7,127 Exact figure: the school's calculator ↗ + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {
@@ -17,7 +17,7 @@
    "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
   },
   "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
-  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 $22,960 + $3,500 loans $143,372",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ $22,960 + $3,500 loans $143,372",
   "badMsg": "Grants are more than the cost — check the numbers.",
   "zoe": {
    "view": "zoe",
@@ -36,12 +36,12 @@
  },
  "desktop": {
   "rows": [
-   "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
-   "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ + Add offer $143,372",
+   "Newman University $46,489 $21,234 typical for families earning $48–75k 94% get school grants · avg $22,060 Exact figure: the school's calculator ↗ + Add offer $55,041",
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) typical for families earning $48–75k 84% get school grants · avg $5,381 Exact figure: the school's calculator ↗ + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) typical for families earning $48–75k 99% get school grants · avg $17,822 Exact figure: the school's calculator ↗ + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) typical for families earning $48–75k 65% get school grants · avg $7,020 Exact figure: the school's calculator ↗ + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) typical for families earning $48–75k 53% get school grants · avg $7,127 Exact figure: the school's calculator ↗ + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {
@@ -52,7 +52,7 @@
    "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
   },
   "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
-  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 $22,960 + $3,500 loans $143,372",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ $22,960 + $3,500 loans $143,372",
   "badMsg": "Grants are more than the cost — check the numbers.",
   "zoe": {
    "view": "zoe",
@@ -71,6 +71,7 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "#ztab-save 💾 Save chat 107x32",
     "#ztab-binder 📒 Binder 87x32",
@@ -90,12 +91,12 @@
  },
  "phone-dark": {
   "rows": [
-   "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 + Add offer $143,372",
-   "Newman University $46,489 $21,234 94% get school grants · avg $22,060 + Add offer $55,041",
-   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) 84% get school grants · avg $5,381 + Add offer $55,939",
-   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) 99% get school grants · avg $17,822 + Add offer $62,472",
-   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) 65% get school grants · avg $7,020 + Add offer $56,416",
-   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) 53% get school grants · avg $7,127 + Add offer $71,513"
+   "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ + Add offer $143,372",
+   "Newman University $46,489 $21,234 typical for families earning $48–75k 94% get school grants · avg $22,060 Exact figure: the school's calculator ↗ + Add offer $55,041",
+   "West Virginia University Institute of Technology $31,555 $21,785 (incl. ~$12,648 out-of-state tuition) typical for families earning $48–75k 84% get school grants · avg $5,381 Exact figure: the school's calculator ↗ + Add offer $55,939",
+   "University of Vermont $62,093 $40,783 (incl. ~$26,444 out-of-state tuition) typical for families earning $48–75k 99% get school grants · avg $17,822 Exact figure: the school's calculator ↗ + Add offer $62,472",
+   "College of Charleston $57,680 $42,115 (incl. ~$25,318 out-of-state tuition) typical for families earning $48–75k 65% get school grants · avg $7,020 Exact figure: the school's calculator ↗ + Add offer $56,416",
+   "Clemson University $60,327 $44,163 (incl. ~$25,312 out-of-state tuition) typical for families earning $48–75k 53% get school grants · avg $7,127 Exact figure: the school's calculator ↗ + Add offer $71,513"
   ],
   "sum": "Lowest\n$1,480\nMassachusetts Institute of Technology\nHighest\n$44,163\nClemson University\n4 years, lowest\n~$5,920\nbefore raises in cost",
   "review": {
@@ -106,7 +107,7 @@
    "note": "Here's what Zoe read — please check every number. Letter says: Massachusetts Institute of Technology."
   },
   "card": "Massachusetts Institute of Technology\n2027-28\nEdit\nRemove\nCost of attendance\n$85,960\nFree money (grants & scholarships)\n$63,000\nYour net cost / yr\n$22,960\nLoans offered\n$3,500\nWork-study (you earn it)\n$2,400\nNet for 4 years\n~$91,840\n⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.\n💬 Ask Zoe to explain this offer",
-  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 57% get school grants · avg $55,983 $22,960 + $3,500 loans $143,372",
+  "mitRow": "Massachusetts Institute of Technology $82,730 $1,480 typical for families earning $48–75k 57% get school grants · avg $55,983 Exact figure: the school's calculator ↗ $22,960 + $3,500 loans $143,372",
   "badMsg": "Grants are more than the cost — check the numbers.",
   "zoe": {
    "view": "zoe",

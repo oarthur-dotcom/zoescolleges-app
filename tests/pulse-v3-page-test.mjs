@@ -31,7 +31,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.click('[data-pt-view="new"]'); await page.waitForTimeout(150); o.afterUnhide = await titles();
   o.persist = await page.evaluate(() => { renderPulseTab(); return [...ptSet('saved')]; });
   // Past deadlines on the Deadlines tab: give Charleston an Oct 1 round, ticked "Submitted"; MIT a missed Oct 5 round with RD still open
-  await page.evaluate(() => { state.dl2627 = state.dl2627 || {};
+  await page.evaluate(() => { lsSet('dlStages', ['exploring','visiting','applying','deciding']); /* #81 stage filter: show every school */ state.dl2627 = state.dl2627 || {};
     state.dl2627['college-of-charleston'] = { rounds: [{ k: 'EA', kind: 'Early Action', date: '2026-10-01', src: 'https://charleston.edu', conf: 'high' }, { k: 'RD', kind: 'Regular Decision', date: '2027-01-15', src: 'https://charleston.edu', conf: 'high' }] };
     state.dl2627['sc-166683'] = { rounds: [{ k: 'X', kind: 'Priority', date: '2026-10-05', src: 'https://mit.edu', conf: 'high' }, { k: 'RD', kind: 'Regular Decision', date: '2027-01-05', src: 'https://mit.edu', conf: 'high' }] };
     const c = getChecklist('college-of-charleston'); c['Submitted'] = true; setChecklist('college-of-charleston', c); goto('deadlines'); });

@@ -21,7 +21,7 @@
     "Submitted"
    ],
    "sc-166683": [
-    "✓ Essay",
+    "✓Essay",
     "Recommendations",
     "Transcript",
     "Test scores",
@@ -68,12 +68,19 @@
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
+    "✓ Exploring 4 110x36",
+    "✓ Visiting 0 99x36",
+    "✓ Applying 2 107x36",
+    "✓ Deciding 0 106x36",
     "#dl-all on 20x20",
     "on 20x20",
-    "source ↗ 49x14"
+    "Not applying after all 123x18",
+    "source ↗ 49x14",
+    "What these mean 221x18",
+    "What these mean 248x18"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 7
   },
   "errors": []
  },
@@ -99,7 +106,7 @@
     "Submitted"
    ],
    "sc-166683": [
-    "✓ Essay",
+    "✓Essay",
     "Recommendations",
     "Transcript",
     "Test scores",
@@ -150,36 +157,29 @@
     "Family 74x33",
     "Ask Zoe 83x33",
     "Profile 74x33",
+    "👪 Invite 90x33",
     "🔎 Search Ctrl K 159x33",
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
+    "✓ Exploring 4 110x36",
+    "✓ Visiting 0 99x36",
+    "✓ Applying 2 107x36",
+    "✓ Deciding 0 106x36",
     "#dl-all on 13x13",
     "#dl-gcal Google 70x32",
     "#dl-apple Apple 62x32",
     "#dl-outlook Outlook 75x32",
     "#dl-remind-btn Turn on 74x32",
     "on 18x18",
+    "Not applying after all 123x18",
     "source ↗ 49x14",
-    "Essay (optional) 114x27",
-    "Recs (optional) 108x27",
-    "✓ Transcript 97x27",
-    "Scores (optional) 119x27",
-    "Fee $70 68x27",
-    "FAFSA / CSS 94x27",
-    "Submitted 83x27",
-    "Transcript 81x27",
-    "Fee $60 70x27",
-    "✓ Essay 72x27",
-    "Recommendations 130x27",
-    "Test scores 89x27",
-    "Fee $75 68x27",
-    "Essay 58x27",
-    "Fee $55 69x27",
-    "Fee $25 69x27"
+    "What these mean 1066x18",
+    "＋ We're applying 134x34",
+    "What these mean 1091x18"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 7
   },
   "errors": []
  },
@@ -205,7 +205,7 @@
     "Submitted"
    ],
    "sc-166683": [
-    "✓ Essay",
+    "✓Essay",
     "Recommendations",
     "Transcript",
     "Test scores",
@@ -252,12 +252,19 @@
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
+    "✓ Exploring 4 110x36",
+    "✓ Visiting 0 99x36",
+    "✓ Applying 2 107x36",
+    "✓ Deciding 0 106x36",
     "#dl-all on 20x20",
     "on 20x20",
-    "source ↗ 49x14"
+    "Not applying after all 123x18",
+    "source ↗ 49x14",
+    "What these mean 221x18",
+    "What these mean 248x18"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 7
   },
   "errors": []
  },
@@ -281,7 +288,7 @@
     "Submitted"
    ],
    "sc-166683": [
-    "✓ Essays",
+    "✓Essays",
     "Recommendations",
     "Transcript",
     "FAFSA / CSS",
@@ -330,12 +337,19 @@
     "Deadlines 112x34",
     "Costs 66x34",
     "Trips 62x34",
+    "✓ Exploring 4 110x36",
+    "✓ Visiting 0 99x36",
+    "✓ Applying 2 107x36",
+    "✓ Deciding 0 106x36",
     "#dl-all on 20x20",
     "on 20x20",
-    "source ↗ 49x14"
+    "Not applying after all 123x18",
+    "source ↗ 49x14",
+    "What these mean 221x18",
+    "What these mean 248x18"
    ],
    "wide": [],
-   "dashCount": 1
+   "dashCount": 7
   },
   "errors": []
  },
