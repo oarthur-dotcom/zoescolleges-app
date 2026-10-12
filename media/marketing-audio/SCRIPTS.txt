@@ -1,0 +1,49 @@
+ZOE'S COLLEGES — SOCIAL AD VOICEOVERS
+Voice: Sienna (ElevenLabs v4), made Oct 12 2026
+Mix and match: a hook + a feature spot + a closer = a full ad.
+
+== HOOKS — opening lines, pair with any spot ==
+h01-group-text.mp3  (5.9s)
+  Is your family's college search living in one giant group text? Yeah. Let's fix that.
+h02-spreadsheet.mp3  (6.0s)
+  If your college list is a spreadsheet with forty tabs and three versions... this is for you.
+h03-sticker-shock.mp3  (6.5s)
+  That school says it costs ninety thousand a year. What would your family actually pay? Let's find out.
+h04-reach.mp3  (5.6s)
+  Is that school a reach, a match, or a long shot? You deserve a straight answer.
+h05-deadlines.mp3  (6.9s)
+  Early Decision. Early Action. Regular Decision. Who's keeping track? Zoe's Colleges is.
+h06-parents.mp3  (4.7s)
+  Parents — you don't have to be the family's college project manager anymore.
+h07-students.mp3  (7.7s)
+  Students: one place for your list, your visits, and your deadlines. That your parents can see. So they stop asking.
+
+== 15-SECOND SPOTS (about 10-12s of voice) ==
+s15-shared.mp3  (12.4s)
+  Zoe's Colleges is one calm, shared place for your family's college search. Your list, your visits, your deadlines — everyone sees the same thing. Get started at zoescolleges dot com.
+s15-real-numbers.mp3  (11.5s)
+  Real data on nearly three thousand colleges — admit rates, test scores, costs, and outcomes — from official federal sources. No guesswork. Zoe's Colleges dot com.
+s15-chances.mp3  (12.1s)
+  Add your grades and scores, and Zoe's Colleges shows where each school really lands: safety, match, reach, or far reach. Honest, so you can plan. Zoe's Colleges dot com.
+s15-visits.mp3  (10.5s)
+  Planning college visits? Zoe's Colleges groups nearby schools into road trips, maps the route, and remembers what you thought after every tour. Zoe's Colleges dot com.
+s15-transcript.mp3  (9.8s)
+  Snap a photo of a transcript — even an unofficial one — and Zoe's Colleges reads the courses and grades and works out the GPA for you. Zoe's Colleges dot com.
+
+== 30-SECOND SPOTS (about 18-28s) ==
+s30-story.mp3  (28.4s)
+  Every family's college search starts the same way. A few tabs. A few brochures. A group text. And then... it's everywhere. Zoe's Colleges brings it all into one shared place. Build your list from nearly three thousand schools. See honest chances. Track every deadline. Plan visits as real road trips. And keep everyone — students, parents, even grandparents — on the same page. Get started at zoescolleges dot com.
+s30-cost.mp3  (20.0s)
+  What will college actually cost your family? Not the sticker price — your price. Zoe's Colleges uses each school's real aid data to estimate what families like yours tend to pay, and links you straight to every school's net price calculator. So you can find the schools that fit your future, and your budget. Zoe's Colleges dot com.
+s30-calm.mp3  (21.4s)
+  College applications don't have to mean late-night panic. With Zoe's Colleges, every school on your list has its own simple checklist — essays, recommendations, test scores, transcripts — and every deadline in one place. Check things off together, and see exactly what's left. Calm, organized, and shared. Zoe's Colleges dot com.
+s30-zoe-guide.mp3  (18.4s)
+  Hi, I'm Zoe — your family's college guide. Ask me anything. Which schools have strong engineering? What's the difference between Early Decision and Early Action? What should we ask on a tour? I'll answer in plain English, using your family's own list. Find me at zoescolleges dot com.
+
+== 60-SECOND SPOT (about 47s) ==
+s60-full.mp3  (47.4s)
+  Choosing a college is one of the biggest decisions your family will ever make. So why is it scattered across group texts, spreadsheets, sticky notes, and forty browser tabs? Meet Zoe's Colleges — one calm, shared place for the whole college search. Search nearly three thousand colleges with real, official data. Add your grades and scores, and see honest chances — safety, match, reach. Estimate what each school might really cost your family. Turn visits into easy road trips, with your notes saved after every tour. Keep every deadline and checklist in one place. And invite the whole family, so everyone's on the same page. Less stress. Fewer surprises. More time to actually enjoy this moment together. Get started today at zoescolleges dot com.
+
+== CLOSERS / CALLS TO ACTION ==
+
+NOTES: Road-trip visits and income-based cost estimates are built but not yet live; hold h03-sticker-shock, s15-visits, s30-cost and s60-full until that release ships.
