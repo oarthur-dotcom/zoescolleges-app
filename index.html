@@ -2128,9 +2128,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <div id="cmd-list" class="cmd-list" role="listbox"></div>
   <div class="cmd-foot muted">↑ ↓ to move · Enter to go · Esc to close</div>
 </dialog>
-<dialog id="dlg-guide" class="dlg-guide" aria-label="One-minute tour">
-  <video controls playsinline preload="none" poster="/media/guide-poster.jpg"><source src="/media/guide.mp4" type="video/mp4"><source src="/media/guide.webm" type="video/webm"></video>
-  <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px">A one-minute tour of Zoe's Colleges</span><button class="small" onclick="this.closest('dialog').querySelector('video').pause();this.closest('dialog').close()">Close</button></div>
+<dialog id="dlg-guide" class="dlg-guide" aria-label="Welcome tour">
+  <video controls playsinline preload="none" poster="/media/tutorial-poster.jpg"><source src="/media/tutorial.mp4" type="video/mp4"></video>
+  <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px">A 4-minute narrated tour of Zoe's Colleges</span><button class="small" onclick="this.closest('dialog').querySelector('video').pause();this.closest('dialog').close()">Close</button></div>
 </dialog>
 
 <!-- ZOE HELPER -->
@@ -3247,7 +3247,7 @@ function nextStepHtml(){
   const steps=setupSteps(); const doneN=steps.filter(x=>x.done).length; const cur=steps.find(x=>!x.done);
   _nsActs={};
   const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":i+1} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
-  const tour=!guideSeen()?`<button type="button" class="linklike ns-tour" data-guide>▶ Watch the 1-minute tour</button>`:"";
+  const tour=!guideSeen()?`<button type="button" class="linklike ns-tour" data-guide>▶ Watch the 4-minute tour</button>`:"";
   if(cur){
     let body;
     if(cur.k==="student"){ body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
@@ -3285,7 +3285,7 @@ const CMD_ACTIONS = [
   ["Invite family","invite email family mom dad parent student add person", ()=>openInvite()],
   ["Set my priorities","priorities sliders what matters match", ()=>openPriorities()],
   ["Plan my week","plan week to do todo", ()=>{ goto("today"); setTimeout(()=>{ const w=document.querySelector("[data-td-week]"); if(w) w.click(); },150); }],
-  ["Watch the 1-minute tour","tour video guide how help", ()=>openGuide()],
+  ["Watch the 4-minute tour","tour video guide how help tutorial welcome", ()=>openGuide()],
   ["Cast my family vote","vote ballot rank", ()=>openTalk({tab:"vote"})] ];
 const CMD_INTENTS = [["cost",/\b(cost|costs|price|tuition|aid|afford)\b/i],["add",/^(add|save)\b/i],["deadline",/\b(deadline|deadlines|due|apply)\b/i],["chance",/\b(chance|chances|odds|admit)\b/i],["visit",/\b(visit|tour|trip)\b/i]];
 let _cmdItems=[], _cmdSel=0;
