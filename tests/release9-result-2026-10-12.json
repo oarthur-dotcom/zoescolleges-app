@@ -1,0 +1,256 @@
+{
+ "ok": {
+  "phone.picksFacts": true,
+  "phone.picksShowMore": true,
+  "phone.detailSize": true,
+  "phone.fabOnEveryScreen": true,
+  "phone.zoeKnowsSchool": true,
+  "phone.zoePageHelpLocal": true,
+  "phone.plainZoeUnscoped": true,
+  "phone.ratingHoldsOrder": true,
+  "phone.undo": true,
+  "phone.howtoClip": true,
+  "phone.noErrors": true,
+  "desktop.picksFacts": true,
+  "desktop.picksShowMore": true,
+  "desktop.detailSize": true,
+  "desktop.fabOnEveryScreen": true,
+  "desktop.zoeKnowsSchool": true,
+  "desktop.zoePageHelpLocal": true,
+  "desktop.plainZoeUnscoped": true,
+  "desktop.ratingHoldsOrder": true,
+  "desktop.undo": true,
+  "desktop.howtoClip": true,
+  "desktop.noErrors": true,
+  "landing.videoSection": true,
+  "landing.tourOnceAfterSignup": true,
+  "media.tutorialExists": true,
+  "media.howtoClips": true
+ },
+ "R": {
+  "phone": {
+   "rec": {
+    "cards": 15,
+    "facts": [
+     "Size Large 25,042 students",
+     "Typical cost $24k sticker $37k",
+     "Admits 75% Suburb"
+    ],
+    "more": true
+   },
+   "recAfter": 20,
+   "recGrew": true,
+   "howtoPicks": true,
+   "dsize": "25,621 students · Large · Suburb",
+   "fabVisible": true,
+   "zoe": {
+    "page": "Asking about: American River College",
+    "sugg": [
+     "Is this school a good fit for me?",
+     "What would this school cost us?",
+     "What are my chances here?"
+    ]
+   },
+   "aiPage": {
+    "view": "detail",
+    "label": "American River College",
+    "school": {
+     "name": "American River College",
+     "where": "Sacramento, CA",
+     "chance": null,
+     "admitRate": null,
+     "size": "25,621 students",
+     "setting": "Suburb",
+     "likelyCost": "$19k (typical cost, sticker $28k)",
+     "onBoard": false
+    }
+   },
+   "aiReply": true,
+   "costSugg": [
+    "Why is the likely cost lower than the sticker?",
+    "Which schools are the best value for us?",
+    "How does this page work?"
+   ],
+   "costHelp": {
+    "text": "Costs estimates what each school will likely cost your family after typical aid, compared with the full sticker price. Add your income for a sharper estimate. ▶ Watch the short how-to",
+    "howto": true
+   },
+   "costHelpNoAI": true,
+   "plainNoPage": true,
+   "held": true,
+   "snack": {
+    "on": true,
+    "text": "You rated West Virginia University Institute of Technology 5★ Undo"
+   },
+   "holdNote": true,
+   "saved5": 5,
+   "undone": true,
+   "stillHeld": true,
+   "resortHidesNote": true,
+   "holdClearedOnLeave": true,
+   "howto": {
+    "open": true,
+    "src": "/media/howto/board.mp4",
+    "status": 200
+   },
+   "audit": {
+    "overflowX": 0,
+    "imgs": [],
+    "bgs": [
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp"
+    ],
+    "bad": [],
+    "small": [
+     "My Board 93x34",
+     "Zoe Picks 91x34",
+     "Search 75x34",
+     "Compare 89x34",
+     "Pulse 65x34",
+     "▶ How this works 136x28",
+     "#view-stacked ☰ 38x40",
+     "#view-tiles ▦ 38x40",
+     "★ 36x40",
+     "★ 25x24",
+     "Open ↗ 69x36",
+     "🗺 Trip 63x36",
+     "⇄ Compare 92x36",
+     "More · where you stand, facts, links, no 324x17",
+     "▶ Tour 57x34",
+     "📍 Map 61x34",
+     "🎓 Site 58x34",
+     "📰 Pulse 67x34",
+     "#rate-undo Undo 59x26"
+    ],
+    "wide": [
+     "BUTTON.sn-tab # right=457"
+    ],
+    "dashCount": 4
+   },
+   "errors": []
+  },
+  "desktop": {
+   "rec": {
+    "cards": 15,
+    "facts": [
+     "Size Large 25,042 students",
+     "Typical cost $24k sticker $37k",
+     "Admits 75% Suburb"
+    ],
+    "more": true
+   },
+   "recAfter": 20,
+   "recGrew": true,
+   "howtoPicks": true,
+   "dsize": "25,621 students · Large · Suburb",
+   "fabVisible": true,
+   "zoe": {
+    "page": "Asking about: American River College",
+    "sugg": [
+     "Is this school a good fit for me?",
+     "What would this school cost us?",
+     "What are my chances here?"
+    ]
+   },
+   "aiPage": {
+    "view": "detail",
+    "label": "American River College",
+    "school": {
+     "name": "American River College",
+     "where": "Sacramento, CA",
+     "chance": null,
+     "admitRate": null,
+     "size": "25,621 students",
+     "setting": "Suburb",
+     "likelyCost": "$19k (typical cost, sticker $28k)",
+     "onBoard": false
+    }
+   },
+   "aiReply": true,
+   "costSugg": [
+    "Why is the likely cost lower than the sticker?",
+    "Which schools are the best value for us?",
+    "How does this page work?"
+   ],
+   "costHelp": {
+    "text": "Costs estimates what each school will likely cost your family after typical aid, compared with the full sticker price. Add your income for a sharper estimate. ▶ Watch the short how-to",
+    "howto": true
+   },
+   "costHelpNoAI": true,
+   "plainNoPage": true,
+   "held": true,
+   "snack": {
+    "on": true,
+    "text": "You rated West Virginia University Institute of Technology 5★ Undo"
+   },
+   "holdNote": true,
+   "saved5": 5,
+   "undone": true,
+   "stillHeld": true,
+   "resortHidesNote": true,
+   "holdClearedOnLeave": true,
+   "howto": {
+    "open": true,
+    "src": "/media/howto/board.mp4",
+    "status": 200
+   },
+   "audit": {
+    "overflowX": 0,
+    "imgs": [],
+    "bgs": [
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Randolph_Hall%2C_College_of_Charl",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/MIT_Dome_night1_Edit.jpg/960px-MI",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Cooper_Library_and_reflecting_pon",
+     "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/UVM_Old_Mill_building_20040101.jp"
+    ],
+    "bad": [],
+    "small": [
+     "#signout Sign out 78x32",
+     "Today 70x33",
+     "Schools 84x33",
+     "Plan 70x33",
+     "Family 74x33",
+     "Ask Zoe 83x33",
+     "Profile 74x33",
+     "👥 Invite 90x33",
+     "🔎 Search Ctrl K 159x33",
+     "My Board 93x34",
+     "Zoe Picks 91x34",
+     "Search 75x34",
+     "Compare 89x34",
+     "Pulse 65x34",
+     "▶ How this works 136x28",
+     "#btn-report2 📄 Report 88x32",
+     "#btn-invite + Add my family 126x32",
+     "#btn-more More ▾ 68x32",
+     "#rank-toggle ⇅ My ranking 111x32",
+     "#view-stacked ☰ 38x32",
+     "#view-tiles ▦ 38x32",
+     "★ 25x24",
+     "Open ↗ 67x27",
+     "🗺 Trip 61x27",
+     "⇄ Compare 90x27",
+     "More · where you stand, facts, links, no 357x17",
+     "▶ Tour 57x25",
+     "📍 Map 61x25",
+     "🎓 Site 58x25",
+     "📰 Pulse 67x25",
+     "Save note 88x32",
+     "Remove from board 151x32",
+     "▶ Full tour (4 min) 138x33",
+     "Close 61x32",
+     "#rate-undo Undo 59x26"
+    ],
+    "wide": [],
+    "dashCount": 4
+   },
+   "errors": []
+  }
+ }
+}

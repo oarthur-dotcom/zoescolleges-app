@@ -135,7 +135,8 @@ details.extra{margin-top:8px}
 details.extra summary{font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer}
 textarea{width:100%;min-height:60px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:14px}
 /* #65: floating buttons stop covering content — none for Zoe on wide screens (Ask Zoe is in the menu); on phones they tuck away while scrolling down */
-@media (min-width:900px){ #zoe-fab{display:none!important} }
+@media (max-width:899px){ #zoe-fab .zf-p{display:none} }
+#zoe-page{font-size:12.5px;color:var(--muted);padding:6px 14px 0}#zoe-page b{color:var(--ink)}
 #zoe-fab,.fab{transition:transform .25s ease,opacity .25s ease}
 body.fab-tuck #zoe-fab,body.fab-tuck .fab{transform:translateY(140%);opacity:0;pointer-events:none}
 .fab{position:fixed;right:18px;bottom:18px;z-index:6;background:var(--teal);color:var(--on-teal);border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25)}
@@ -347,7 +348,11 @@ a{color:var(--teal)}
 .trip-add .ta .th{width:30px;height:30px;border-radius:8px;background-size:cover;background-position:center;background-color:var(--sunk);flex:0 0 auto}
 .trip-add .ta .plus{margin-left:auto;color:var(--teal);font-weight:700;font-size:13px}
 .trip-btn.on{border-color:var(--teal);color:var(--teal);font-weight:600}
+.lnd-video video{display:block;width:100%;max-width:900px;margin:8px auto 0;border-radius:18px;background:#000;box-shadow:0 20px 50px rgba(10,20,40,.25)}
 .lnd-tour{margin-top:10px;font-size:14px;font-weight:600}.td-tour{font-size:13px;margin-top:2px}
+.howto-btn{display:inline-flex;align-items:center;gap:4px;margin:2px 0 10px;border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font:inherit;font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 12px;cursor:pointer}
+.pk-head .howto-btn{margin:0}
+.rec-more{margin:10px 0 18px;text-align:center}
 .pk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .pk-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
 .pk-toggle button{border:0;background:none;color:var(--muted);font:inherit;font-weight:600;font-size:13.5px;padding:6px 14px;border-radius:999px;cursor:pointer;min-height:36px}
@@ -944,6 +949,13 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .rec-card .ph .nm{position:absolute;left:12px;right:12px;bottom:10px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 10px rgba(0,0,0,.65);z-index:1}
 .rec-body{padding:12px 14px;display:flex;flex-direction:column;gap:9px;flex:1}
 .rec-why{font-size:13px;color:var(--ink);line-height:1.45}
+.rec-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 4px}
+.rec-facts .rf{background:color-mix(in srgb,var(--teal) 6%,var(--surface));border:1px solid var(--line);border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;min-width:0}
+.rec-facts .rf span{font-size:11px;color:var(--muted)}.rec-facts .rf b{font-size:16px;line-height:1.2}.rec-facts .rf em{font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d-size{font-size:14px;margin:2px 0 0}
+#rate-snack{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:30;background:var(--ink);color:var(--paper);border-radius:12px;padding:10px 14px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.2s;max-width:calc(100vw - 32px)}
+#rate-snack.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#rate-snack button{margin-left:10px;background:none;border:1px solid currentColor;color:inherit;border-radius:8px;padding:2px 10px;font:inherit;font-weight:700;cursor:pointer}
 .rec-foot{display:flex;gap:8px;align-items:center;margin-top:auto}
 /* zoe prominence */
 #zoe-fab{left:auto;right:18px;bottom:88px;background:linear-gradient(135deg,var(--teal),#0a6b6d);color:#fff;padding:13px 20px;font-size:15px}
@@ -1494,7 +1506,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <h1 class="lnd-h1">College, decided together.</h1>
         <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
         <div class="lnd-ctas"><button id="demo-start" class="primary lnd-btn" type="button">See a sample family</button><button class="lnd-btn lnd-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
-        <button type="button" class="linklike lnd-tour" data-guide-open>▶ Watch the 4-minute tour</button>
+        <button type="button" class="linklike lnd-tour" onclick="const v=document.querySelector('#lnd-video video'); document.getElementById('lnd-video').scrollIntoView({behavior:'smooth'}); if(v){ try{ v.play(); }catch(e){} }">▶ Watch the 4-minute tour</button>
         <p class="lnd-small">No account needed to look around. Already a member? <a href="#" data-lp-account="signin">Sign in</a></p>
       </div>
       <div class="lnd-hero-art" aria-hidden="true">
@@ -1503,6 +1515,12 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       </div>
     </div>
     <ul class="lnd-proof lnd-mk"><li><b>3,180</b> U.S. colleges</li><li>Official federal data</li><li>Private to your family</li><li>No ads</li></ul>
+
+    <div class="lnd-sec lnd-mk lnd-video" id="lnd-video">
+      <div class="lnd-kicker">The 4-minute tour</div>
+      <h2 class="lnd-h2">See how it works</h2>
+      <video controls playsinline preload="none" poster="/media/tutorial-poster.jpg"><source src="/media/tutorial.mp4" type="video/mp4"></video>
+    </div>
 
     <div class="lnd-sec lnd-mk">
       <div class="lnd-kicker">How it works</div>
@@ -1732,6 +1750,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
           <option value="name">Name (A–Z)</option>
           <option value="visited">Visited first</option>
         </select>
+        <span id="board-hold" class="hidden muted" style="font-size:12.5px">Order holds while you rate · <button type="button" class="linklike" id="board-resort">Re-sort now</button></span>
       </div>
       <div class="row" style="align-items:center">
         <button id="rank-toggle" class="small ghost" title="Drag your own ranking (ties allowed)">⇅ My ranking</button>
@@ -2136,16 +2155,21 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <div id="cmd-list" class="cmd-list" role="listbox"></div>
   <div class="cmd-foot muted">↑ ↓ to move · Enter to go · Esc to close</div>
 </dialog>
+<dialog id="dlg-howto" class="dlg-guide" aria-label="How this works">
+  <video controls playsinline preload="none"></video>
+  <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px" id="howto-t">How this works</span><span class="row" style="gap:8px"><button class="small ghost" type="button" data-guide-open>▶ Full tour (4 min)</button><button class="small" type="button" onclick="const d=this.closest('dialog'); d.querySelector('video').pause(); d.close();">Close</button></span></div>
+</dialog>
 <dialog id="dlg-guide" class="dlg-guide" aria-label="Welcome tour">
   <video controls playsinline preload="none" poster="/media/tutorial-poster.jpg"><source src="/media/tutorial.mp4" type="video/mp4"></video>
   <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px">A 4-minute narrated tour of Zoe's Colleges</span><button class="small" onclick="this.closest('dialog').querySelector('video').pause();this.closest('dialog').close()">Close</button></div>
 </dialog>
 
 <!-- ZOE HELPER -->
-<button id="zoe-fab" class="hidden" aria-label="Ask Zoe" title="Ask Zoe"><span id="zoe-fab-ava"></span> Ask Zoe</button>
+<button id="zoe-fab" class="hidden" aria-label="Ask Zoe about this page" title="Ask Zoe about this page"><span id="zoe-fab-ava"></span> <span class="zf-l">Ask Zoe <span class="zf-p">about this page</span></span></button>
 <div id="zoe-panel" class="hidden">
   <div class="zhead"><span id="zoe-head-ava"></span><b>Zoe</b> <span class="muted" style="font-size:12px">your guide to the app &amp; the data</span><button id="zoe-gear" class="small ghost" title="Make Zoe yours" style="margin-left:auto;padding:2px 8px">⚙</button><button id="zoe-close" class="small ghost" style="padding:2px 8px">✕</button></div>
   <div id="zoe-settings" class="hidden"></div>
+  <div id="zoe-page" class="hidden"></div>
   <div id="zoe-log"></div>
   <div class="zsugg" id="zoe-sugg"></div>
   <form id="zoe-form"><input id="zoe-in" type="text" placeholder="Ask about the app or the schools…" autocomplete="off"><button class="primary small" type="submit">Ask</button></form>
@@ -2210,6 +2234,7 @@ function show(view){
   window.scrollTo(0,0);
 }
 let currentView = "board", currentDetailId = null, detailFrom = "board";
+let _boardHold = null;   // Oct 12: board order frozen while rating
 /* #68: six top-level places; each group has a small tab strip for its pages. */
 const NAV_GROUPS = {
   schools:{label:"Schools", views:[["board","My Board"],["recommends","Zoe Picks"],["explore","Search"],["compare","Compare"],["pulse","Pulse"]]},
@@ -2239,7 +2264,7 @@ function _oldSetNavActive(tab){ document.querySelectorAll("#appnav .navbtn").for
   document.querySelectorAll("#tb-sheet .tbs").forEach(b=>b.classList.toggle("active", b.dataset.nav===tab));
   const a=document.querySelector("#appnav .navbtn.active"); if(a&&a.scrollIntoView){ try{ a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} } }
 let _reportFrom="board";
-function goto(view){
+function goto(view){ if(view!==currentView) _boardHold=null;
   if(view==="report" && currentView && currentView!=="report") _reportFrom=currentView;
   currentView = view;
   try{ updateTripBadge(); }catch(e){}
@@ -2262,7 +2287,18 @@ function goto(view){
   else if (view==="decide"){ show("v-decide"); setNavActive("decide"); renderDecide(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="talk"){ show("v-talk"); setNavActive("talk"); renderTalk(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="report"){ show("v-report"); setNavActive("report"); renderReport(); try{ scrollTo(0,0); }catch(e){} }
+  try{ howtoButton(view); }catch(e){}
 }
+/* Oct 12: a short narrated how-to on each main page (cut from the welcome tour). */
+const HOWTO={today:"Today",board:"Your board",recommends:"Zoe Picks",discover:"Zoe Picks",profile:"Your profile",cost:"Costs",deadlines:"Deadlines",trip:"Campus visits",talk:"Talk It Out",journey:"Journey",memories:"Memories",decide:"Decision Day",zoe:"Ask Zoe",report:"College Report"};
+function howtoButton(view){ const key=view==="discover"?"recommends":view; if(!HOWTO[view]) return; const sec=$("v-"+view); if(!sec) return;
+  if(sec.querySelector(".howto-btn")) return; const h=sec.querySelector("h1"); if(!h) return;
+  const b=document.createElement("button"); b.type="button"; b.className="howto-btn"; b.dataset.howto=key; b.innerHTML="▶ How this works"; b.title=`A short narrated how-to for ${HOWTO[view]}`;
+  h.insertAdjacentElement("afterend", b); }
+function openHowto(key){ const d=$("dlg-howto"); if(!d) return; const v=d.querySelector("video");
+  v.poster=`/media/howto/${key}.jpg`; v.src=`/media/howto/${key}.mp4`; $("howto-t").textContent=`How this works · ${HOWTO[key]||""}`;
+  d.showModal(); try{ v.currentTime=0; const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} }
+document.addEventListener("click", e => { const b=e.target.closest("[data-howto]"); if(!b) return; e.preventDefault(); openHowto(b.dataset.howto); });
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="visit") renderVisitKit(); else if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.innerHTML = text; }
@@ -2335,6 +2371,7 @@ $("go-auth").onclick = async () => {
       if (!code && !join && !ref) { msg("auth-msg","Enter your beta access code — ask whoever invited you for it."); return; }
       const { data, error } = await sb.auth.signUp({ email, password, options:{ data:{ access_code: code, join_code: join, ref_code: ref } } });
       if (error) throw error;
+      try{ localStorage.setItem("zc_welcome_tour","1"); }catch(e){}   // Oct 12: play the tour once, the first time they land in the app
       if (!data.session) return msg("auth-msg","Check your email for a confirmation link, then come back and sign in.","ok");
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password });
@@ -2501,6 +2538,13 @@ function localeUrban(c){ // Scorecard locale: 11-13 city, 21-23 suburb, 31-33 to
   if(l===null) return null;
   if(l<20) return 1; if(l<30) return 0.7; if(l<40) return 0.35; return 0.1;
 }
+/* Oct 12: quick facts (size, setting) shown on Zoe Picks cards and the school page header */
+function schoolSize(c){ const n=c&&c.scorecard&&typeof c.scorecard.size==="number"?c.scorecard.size:null;
+  if(n===null) return c&&c.sizeApprox?{n:null,txt:String(c.sizeApprox)+" students",word:""}:null;
+  return {n, txt:n.toLocaleString()+" students", word:n<5000?"Small":n<15000?"Medium":"Large"}; }
+function settingWord(c){ const u=c?localeUrban(c):null; return u===null?"":u>=1?"City":u>=0.7?"Suburb":u>=0.35?"Town":"Rural"; }
+function costFact(c){ const y=yourNet(c); const v=y?Math.max(0,y.v):avgNet(c); if(v==null) return null; const S=stickerPrice(c);
+  return {k:y?"Likely cost":"Typical cost", v:v<=0?"$0":"$"+Math.round(v/1000)+"k", s:(typeof S==="number"&&S-v>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"}; }
 /* personal match 0..100 for a catalog school given a prefs object */
 function matchScore(c, w){
   if(!c || !c.scorecard) return null;
@@ -2865,6 +2909,9 @@ function renderBoard(){
     if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
     if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
   });
+  // Oct 12: after rating a star, hold the cards where they are (no jumping under your finger). New order on next visit or "Re-sort".
+  if(_boardHold){ const ix=id=>{ const i=_boardHold.indexOf(id); return i<0?1e6:i; }; withMeta.sort((a,b)=>ix(a.s.school_id)-ix(b.s.school_id)); }
+  { const bh=$("board-hold"); if(bh) bh.classList.toggle("hidden", !_boardHold); }
   const maxRank = Math.max(1, ...withMeta.map(x=>x.rank||0));
   withMeta.forEach(x=>x._maxRank=maxRank);
   $("schools").innerHTML = withMeta.map(renderSchool).join("") ||
@@ -3366,7 +3413,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <div class="disc-nm"><b>${esc(c.name)}</b><span>${esc([c.city,c.state].filter(Boolean).join(", "))}${sz?` · ${esc(sz)} students`:""}</span></div>
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
-      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
+      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
       <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div></div>`; }
@@ -3919,7 +3966,8 @@ function renderGuidance(meta){
   state._guideTip=tip;   // #59: the Board stays clean; Today shows guidance
 }
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
-$("board-sort").onchange = renderBoard;
+$("board-sort").onchange = ()=>{ _boardHold=null; renderBoard(); };
+$("board-resort").onclick = ()=>{ _boardHold=null; renderBoard(); };
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
@@ -4637,6 +4685,7 @@ function offerForm(id, f, fromLetter){
 function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
 function renderToday(){
   const el=$("td-out"); if(!el) return;
+  if(!DEMO && state.family){ let w=null; try{ w=localStorage.getItem("zc_welcome_tour"); }catch(e){} if(w==="1"){ try{ localStorage.removeItem("zc_welcome_tour"); }catch(e){} setTimeout(()=>{ try{ openGuide(); }catch(e){} },900); } }
   try{ let d=false; try{ d=localStorage.getItem("zc_howto")==="1"; }catch(e){} const hw=$("howto"); if(hw) hw.classList.toggle("hidden", d || (state.schools||[]).length>=3); }catch(e){}   // "How it works" only for new families
   const me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id); const first=(me&&me.display_name)||"";
   $("td-hi").textContent=`${tdGreeting()}${first?", "+first:""}`;
@@ -4780,6 +4829,7 @@ function renderDetail(id){
     <div class="d-hero"><span class="d-name">${esc(rec.name)}</span>
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
+    ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""}</div>`:""; })()}
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
@@ -4799,13 +4849,22 @@ function renderDetail(id){
     await loadSchools(); goto(detailFrom);
   };
 }
+function rateSnack(sid, rating, before){ let el=$("rate-snack"); if(!el){ el=document.createElement("div"); el.id="rate-snack"; el.setAttribute("role","status"); document.body.appendChild(el); }
+  el.innerHTML=`${rating==null?"Cleared your rating for":"You rated"} <b>${esc(schoolName(sid))}</b>${rating==null?"":" "+String(rating).replace(/\.0$/,"")+"★"} <button type="button" id="rate-undo">Undo</button>`;
+  el.classList.add("on"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),6000);
+  $("rate-undo").onclick=async()=>{ el.classList.remove("on");
+    await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating: before, updated_at: new Date().toISOString() });
+    await loadRatings(); refreshCurrent(); }; }
 function bindStars(root){
   root = root || document;
   const saveStar = async (sid, val) => {
     const cur = state.ratings.find(x => x.school_id===sid && x.user_id===state.me.user_id);
-    const rating = (cur && cur.rating!=null && +cur.rating === val) ? null : val;   // same value again clears it
+    const before = cur && cur.rating!=null ? +cur.rating : null;
+    const rating = (before === val) ? null : val;   // same value again clears it
+    if(currentView==="board"){ _boardHold=[...document.querySelectorAll("#schools .school [data-rate$='|1']")].map(e=>e.dataset.rate.split("|")[0]); }
     await sb.from("ratings").upsert({ family_id: state.family.id, school_id: sid, user_id: state.me.user_id, rating, updated_at: new Date().toISOString() });
     await loadRatings(); refreshCurrent();
+    rateSnack(sid, rating, before);
   };
   root.querySelectorAll("[data-rate]").forEach(el => {
     const [sid, n] = el.dataset.rate.split("|"); let t = null;
@@ -5600,13 +5659,15 @@ function recWhy(c,w){
   if((w.prestige||0)>=7 && typeof s.admissionRate==="number" && s.admissionRate<0.3) bits.push("the selectivity you're after");
   return bits.slice(0,3);
 }
+let _recShow={};
 function renderRecommends(){
   const out=$("rec-out"); const w=myPrefs(); const p=studentProfile();
   if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Catalog still loading…</div>`; return; }
   const have=new Set(state.schools.map(s=>s.school_id));
   const scored=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w),ch:chanceFor(c)})).filter(x=>x.m!=null && x.ch);
   if(!scored.length){ out.innerHTML=`<div class="card muted">Add a few schools and set your profile, and I'll suggest more that fit.</div>`; return; }
-  const byBand=b=>scored.filter(x=>x.ch.band===b).sort((a,b2)=>b2.m-a.m).slice(0,5);
+  const allBand=b=>scored.filter(x=>x.ch.band===b).sort((a,b2)=>b2.m-a.m);   // Oct 12: "Show more" keeps browsing
+  const byBand=b=>allBand(b).slice(0,_recShow[b]||5);
   const groups=[["likely","Likely — strong odds for you"],["target","Target — right in your range"],["reach","Reach — worth a shot"]];
   const thin = !(p && (p.gpa||p.sat||p.act||viewerInterests().length));
   const head = thin ? `<div class="callout" style="margin:0 0 6px">Fill in <b>My Profile</b> (grades, interests, your sliders) and these picks sharpen a lot.</div>` : "";
@@ -5615,15 +5676,20 @@ function renderRecommends(){
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
         <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${matchRing(m)}</div>
+        <div class="rec-facts">${(()=>{ const z=schoolSize(c), st=settingWord(c), k=costFact(c), ar=c.scorecard&&c.scorecard.admissionRate;
+          return `<div class="rf"><span>Size</span><b>${z?esc(z.word||"—"):"—"}</b><em>${z?esc(z.txt):"no data"}</em></div>`
+          +`<div class="rf"><span>${k?k.k:"Cost"}</span><b>${k?k.v:"—"}</b><em>${k?esc(k.s):"no data"}</em></div>`
+          +`<div class="rf"><span>Admits</span><b>${typeof ar==="number"?pct(ar):"—"}</b><em>${st?esc(st):"&nbsp;"}</em></div>`; })()}</div>
         ${chanceWordsHtml(c)}
         <div class="rec-why">${esc(whyTxt)}</div>
         <div class="tp-city">${esc([c.city,c.state].filter(Boolean).join(", "))}</div>
         <div class="rec-foot"><button class="small primary" data-recadd="${esc(c.id)}">+ Add to board</button>${tripBtn(c.id)}<button class="openlink" data-open="${esc(c.id)}">Open ↗</button></div>
       </div></div>`; };
-  out.innerHTML = head + (groups.map(([b,label])=>{ const items=byBand(b); if(!items.length) return "";
-    return `<h2 class="rec-h">${esc(label)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span></h2><div class="rec-grid">${items.map(card).join("")}</div>`;
+  out.innerHTML = head + (groups.map(([b,label])=>{ const items=byBand(b); if(!items.length) return ""; const total=allBand(b).length;
+    return `<h2 class="rec-h">${esc(label)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length} of ${total}</span></h2><div class="rec-grid">${items.map(card).join("")}</div>${total>items.length?`<div class="rec-more"><button class="small" data-recmore="${b}">Show ${Math.min(5,total-items.length)} more ${esc(label.split(" —")[0])} picks</button></div>`:""}`;
   }).join("") || `<div class="card muted">No suggestions right now — try adjusting your profile.</div>`);
   wireOpen($("rec-out"));
+  out.querySelectorAll("[data-recmore]").forEach(btn=>btn.onclick=()=>{ const b=btn.dataset.recmore; _recShow[b]=(_recShow[b]||5)+5; const y=window.scrollY; renderRecommends(); window.scrollTo(0,y); });
   $("rec-out").querySelectorAll("[data-recadd]").forEach(el=>el.onclick=async()=>{ el.disabled=true; el.textContent="Adding…"; await addFromCatalog(el.dataset.recadd); renderRecommends(); });
 }
 /* ========== PHOTOS ========== */
@@ -6210,7 +6276,7 @@ document.addEventListener("click", async e => {
   try{ await fixRole("student"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // Oct 12: the tour is one tap away — landing page, Today, More menu, search
-document.addEventListener("click", e => { const b=e.target.closest("[data-guide-open]"); if(!b) return; e.preventDefault(); try{ closeTbSheet(); }catch(_){} openGuide(); });
+document.addEventListener("click", e => { const b=e.target.closest("[data-guide-open]"); if(!b) return; e.preventDefault(); try{ closeTbSheet(); }catch(_){} const hd=$("dlg-howto"); if(hd&&hd.open){ hd.querySelector("video").pause(); hd.close(); } openGuide(); });
 // Oct 12: Zoe Picks has two ways to browse — a ranked List or Swipe (the old Discover tab)
 document.addEventListener("click", e => { const b=e.target.closest("[data-pk]"); if(!b) return; e.preventDefault(); goto(b.dataset.pk); });
 // add/remove a school from the road trip, from anywhere (board, schools, detail, picks)
@@ -6352,7 +6418,7 @@ function zoeCtx(){
     highSchool:{name:hs.name||""}, schedule:(()=>{ const rl=rigorLevel(p); return rl?RIGOR_WORD[rl.lv]+(rl.est?" (estimated)":""):null; })(),
     activitiesCount:acts.length, activityStrength:astrWord(astr), activities:actTiers,
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
-    schools, trip };
+    schools, trip, page:_zoePage||null };
 }
 // Allow-list sanitizer for stored chat HTML (Fix #7): keeps simple formatting, drops scripts,
 // event handlers, images/iframes and any non-http(s) links.
@@ -6434,7 +6500,10 @@ async function zoeFetchAI(v, opt){
   return `${ZOE_WHY[r.why]||ZOE_BUSY}${r.why==="unconfigured"?"":` <button class="small ghost zretry" data-zretry>↻ Try again</button>`}`;
 }
 async function zoeHandle(v){
-  const ans=zoeAnswer(v);
+  if(_zoePage && /how does this (page|work)|what is this page|what can i do here/i.test(v)){ const h=ZOE_PAGE_HELP[_zoePage.view];
+    if(h){ zoeSay(esc(h)+(HOWTO[_zoePage.view]?` <button class="linklike" data-howto="${esc(_zoePage.view)}">▶ Watch the short how-to</button>`:"")); return; } }
+  const pageQ = _zoePage && !DEMO && /\b(this|here|these)\b/i.test(v);
+  const ans=pageQ?ZOE_FALLBACK:zoeAnswer(v);
   if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
   if(zoeInFlight){ return; }
   zoeInFlight=true;
@@ -6444,9 +6513,56 @@ async function zoeHandle(v){
 }
 paintZoeAvatars();
 function zoeSay(text, who){ const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; }
+/* Oct 12: Ask Zoe knows which page you're on (and which school you're looking at) and offers starters for it. */
+const ZOE_PAGE_SUGG={
+  today:["What should we do this week?","How does this page work?"],
+  board:["Is my list balanced?","Which of these should we visit first?","How does this page work?"],
+  recommends:["Why are these picked for me?","Which pick is the best value?","How does this page work?"],
+  discover:["Why are these picked for me?","How does this page work?"],
+  explore:["Find me schools like the ones on my board","How does this page work?"],
+  compare:["Which of these is the best fit?","How does this page work?"],
+  profile:["What should I work on?","Analyze my whole profile","How does this page work?"],
+  cost:["Why is the likely cost lower than the sticker?","Which schools are the best value for us?","How does this page work?"],
+  deadlines:["What's due next?","Early decision vs early action?","How does this page work?"],
+  trip:["Plan a route for our visits","What should we ask on a tour?","How does this page work?"],
+  memories:["How do I delete photos?","How does this page work?"],
+  decide:["How do we compare our offers?","How does this page work?"],
+  journey:["What's next for us?","How does this page work?"],
+  pulse:["What's new at our schools?","How does this page work?"],
+  detail:["Is this school a good fit for me?","What would this school cost us?","What are my chances here?"]
+};
+const ZOE_PAGE_HELP={
+  today:"Today shows what needs attention now: your next deadlines, upcoming visits and family activity.",
+  board:"Your board holds every school you're considering. Each card shows the likely cost, your chance (Likely / Target / Reach) and your fit. Tap a star to rate; double-click a star for a half star.",
+  recommends:"Zoe Picks suggests schools that match your profile and priorities, grouped Likely, Target and Reach. Switch between List and Swipe at the top, and tap Show more to keep browsing.",
+  discover:"Swipe right for yes, left for no. Your family's yeses show up on the cards.",
+  explore:"Search every college by name, state, size or cost, then add any to your board.",
+  compare:"Pick schools to see side by side: cost, chance, fit, size and more.",
+  profile:"Your profile (grades, scores, classes, activities and what you want in a school) powers every chance and fit number in the app.",
+  cost:"Costs estimates what each school will likely cost your family after typical aid, compared with the full sticker price. Add your income for a sharper estimate.",
+  deadlines:"Deadlines lists every application date for your board, with a checklist per school.",
+  trip:"Campus visits plans your trips: dates, a route on the map, and notes and photos from each visit.",
+  memories:"Memories keeps the photos and notes from your visits. Tap ✕ on a photo you added to delete it, or 🗑 Delete all for a whole visit.",
+  decide:"Decision Day: mark acceptances, compare offers, and make the final choice together.",
+  journey:"Journey shows your whole college search, step by step, and what comes next.",
+  pulse:"Pulse collects news and stories from the schools on your board.",
+  talk:"Talk It Out is a private family space to share thoughts about each school."
+};
+function zoePageNow(){ const v=currentView; const label=v==="detail"?"this school":(HOWTO[v]||null); if(!label) return null;
+  const o={ view:v, label };
+  if(v==="detail" && currentDetailId){ const c=catInfo(currentDetailId); if(c){ const ch=chanceFor(c), z=schoolSize(c), k=costFact(c);
+    o.school={ name:c.name, where:[c.city,c.state].filter(Boolean).join(", "), chance:ch?ch.label:null, admitRate:c.scorecard&&c.scorecard.admissionRate!=null?pct(c.scorecard.admissionRate):null,
+      size:z?z.txt:null, setting:settingWord(c)||null, likelyCost:k?`${k.v} (${k.k.toLowerCase()}${k.s.startsWith("sticker")?", "+k.s:""})`:null, onBoard:!!state.schools.find(s=>s.school_id===c.id) }; o.label=c.name; } }
+  return o; }
+let _zoePage=null;
 const ZOE_SUGG=["Analyze my whole profile","What are my reaches?","What should I work on?","Recommend schools for me","When are my deadlines?","Is my list balanced?"];
-function zoeOpen(){ $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
-$("zoe-fab").onclick=zoeOpen;
+function zoeOpen(){ _zoePage=null; return zoeOpenInner(); }
+function zoeOpenForPage(){ _zoePage=zoePageNow(); const zp=$("zoe-page");
+  if(_zoePage){ zp.innerHTML=`Asking about: <b>${esc(_zoePage.label)}</b>`; zp.classList.remove("hidden"); } else zp.classList.add("hidden");
+  zoeOpenInner(); if(_zoePage){ const list=ZOE_PAGE_SUGG[_zoePage.view]||ZOE_SUGG; $("zoe-sugg").innerHTML=list.map(s=>`<button class="small ghost">${esc(s)}</button>`).join("");
+    $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } }
+function zoeOpenInner(){ if(!_zoePage) $("zoe-page").classList.add("hidden"); $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
+$("zoe-fab").onclick=zoeOpenForPage;
 /* #65: tuck floating buttons away while scrolling down, bring them back on scroll up or near the end */
 { let lastY=window.scrollY||0, tick=false;
   window.addEventListener("scroll",()=>{ if(tick) return; tick=true; requestAnimationFrame(()=>{ const y=window.scrollY||0, d=y-lastY;
