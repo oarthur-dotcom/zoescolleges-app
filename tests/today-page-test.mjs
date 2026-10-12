@@ -17,6 +17,8 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   await page.goto('http://localhost:8810/index.html'); await page.waitForFunction(() => typeof state !== 'undefined' && state.catalog && state.catalog.length > 0 && state.me, null, { timeout: 60000 }); await page.waitForTimeout(1800);
   const o = {};
   o.landing = await page.evaluate(() => currentView);
+  if (!empty) { await page.evaluate(() => { const z = state.members.find(m => m.role === 'student'); if (z) state.profiles[z.user_id] = { user_id: z.user_id, gpa: '3.8', sat: '1350' }; state.prefs[state.me.user_id] = { ...defaultPrefs(), value: 9 }; renderToday(); }); await page.waitForTimeout(300); }
+  o.hero = await page.evaluate(() => (document.querySelector('#td-student .ns-card') || {}).innerText || '');
   o.hi = await page.textContent('#td-hi');
   o.cards = await page.evaluate(() => [...document.querySelectorAll('#td-out .td-card .td-h')].map(x => x.textContent.trim()));
   o.text = await page.evaluate(() => document.getElementById('td-out').innerText.replace(/\s+/g, ' ').slice(0, 900));
@@ -31,13 +33,13 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   o.audit = await audit(page, 'body'); o.errors = log.pageerr; R[label] = o; await b.close();
   ok[label + '.landsOnToday'] = o.landing === 'today' && /^Good (morning|afternoon|evening)/.test(o.hi);
   if (!empty) {
-    ok[label + '.fiveCards'] = o.cards.length === 7 && /Next deadline/.test(o.cards[0]) && /Zoe suggests/.test(o.cards[1]) && /Talk It Out/i.test(o.cards[2]) && /New at your schools/.test(o.cards[3]) && /Your list/.test(o.cards[4]) && /College report/.test(o.cards[5]) && /Visits/.test(o.cards[6]);
-    ok[label + '.nextDeadlineIsClemson'] = /Clemson University Early Action · Oct 15, 2026 · in 4 days/.test(o.text) && /Still to do:/.test(o.text);
+    ok[label + '.fiveCards'] = o.cards.length === 6 && /Zoe suggests/.test(o.cards[0]) && /Talk It Out/i.test(o.cards[1]) && /New at your schools/.test(o.cards[2]) && /Your list/.test(o.cards[3]) && /College report/.test(o.cards[4]) && /Visits/.test(o.cards[5]);
+    ok[label + '.nextDeadlineIsClemson'] = /Finish Clemson University/.test(o.hero) && /Early Action/.test(o.hero) && /Due in 4 days/.test(o.hero) && /still to do/i.test(o.hero);
     ok[label + '.newsAndVisitDays'] = /MIT engineers design a battery/.test(o.text) && /Campus tour and information session/.test(o.text);
     ok[label + '.listGrade'] = /Likely · .* Target · .* Reach/.test(o.text);
     ok[label + '.searchGoesToSchools'] = o.search.view === 'explore' && /Stanford/.test(o.search.first || '');
     ok[label + '.planMyWeek'] = o.week.view === 'zoe' && o.week.mode === 'week';
-  } else ok[label + '.emptyFamilyFriendly'] = /No schools yet|Add schools/.test(o.text) && o.cards.length === 5;
+  } else ok[label + '.emptyFamilyFriendly'] = /Your next step/i.test(o.hero) && o.cards.length === 0;
   ok[label + '.noErrors'] = !o.errors.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX; ok[label + '.noBadText'] = !o.audit.bad.length;
 }
 R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R, null, 1));

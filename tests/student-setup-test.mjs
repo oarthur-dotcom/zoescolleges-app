@@ -13,14 +13,14 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   const b = await launch(); const o = {};
   // A. Parent, no student yet
   { const { page, log } = await open(b, vp, 'window.__NOSTUDENT=true;', dark);
-    o.card1 = await page.evaluate(() => (document.querySelector('.td-student') || {}).innerText || '');
-    o.firstCard = await page.evaluate(() => { const c = document.querySelector('#v-today .td-card, .td-card'); return c ? c.className : ''; });
+    o.card1 = await page.evaluate(() => (document.querySelector('#td-student .ns-card') || {}).innerText || '');
+    o.firstCard = await page.evaluate(() => { const c = document.querySelector('#v-today .td-card'); return c ? c.className : ''; });
     await page.click('#ss-save'); await page.waitForTimeout(200); o.emptyMsg = await page.textContent('#ss-msg');
-    await page.fill('#ss-name', 'Zoe'); await page.click('#ss-save'); await page.waitForTimeout(600);
+    await page.fill('#ss-name', 'Zoe'); await page.check('#ss-copy'); await page.click('#ss-save'); await page.waitForTimeout(600);
     o.insert = await page.evaluate(() => { const w = window.__writes.filter(x => x.table === 'pending_students' && x.op === 'insert').pop(); return w && { name: w.p.display_name, gpa: w.p.profile.gpa, major: w.p.profile.major, hasUid: 'user_id' in w.p.profile }; });
-    o.card2 = await page.evaluate(() => (document.querySelector('.td-student') || {}).innerText || '');
+    o.card2 = await page.evaluate(() => (document.querySelector('#td-student .ns-card') || {}).innerText || '');
     await page.screenshot({ path: `${SHOTS}${label}-today.png` });
-    await page.click('#ss-profile'); await page.waitForTimeout(600);
+    await page.click('[data-ns-step="grades"]'); await page.waitForTimeout(600);
     o.profile = await page.evaluate(() => ({ view: currentView, scope: document.getElementById('profile-scope').innerText, title: (document.getElementById('pf-form-title') || {}).textContent || '', summary: (document.getElementById('pf-summary') || {}).innerText || '' }));
     await page.evaluate(() => { pfEdit = true; renderProfileView(); renderProfile(); }); await page.waitForTimeout(300);
     o.formGpa = await page.inputValue('#pf-gpa');
@@ -36,12 +36,12 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
   // C. Student already in the family: no card
   { const { page, log } = await open(b, vp, '', dark); o.noCard = await page.evaluate(() => !document.querySelector('.td-student')); o.errC = log.pageerr; }
   await b.close(); R[label] = o;
-  ok[label + '.askWhoIsStudent'] = /Who's the student/i.test(o.card1) && /td-student/.test(o.firstCard) && /first name/.test(o.emptyMsg);
+  ok[label + '.askWhoIsStudent'] = /Add your student/i.test(o.card1) && /ns-card/.test(o.firstCard) && /first name/.test(o.emptyMsg);
   ok[label + '.addStudentCarriesParentEntries'] = o.insert && o.insert.name === 'Zoe' && o.insert.gpa === '3.7' && o.insert.major === 'Biology' && !o.insert.hasUid;
-  ok[label + '.waitingCard'] = /Zoe hasn't joined yet/i.test(o.card2) && /Send Zoe the invite/.test(o.card2) && /Edit Zoe's profile/.test(o.card2);
+  ok[label + '.waitingCard'] = /Set your priorities/i.test(o.card2) && /Family/.test(o.card2);
   ok[label + '.profileForStudent'] = o.profile.view === 'profile' && /filling this in for Zoe/.test(o.profile.scope) && o.formGpa === '3.7';
   ok[label + '.savesToStudentNotParent'] = o.saved.upd.includes('3.9') && o.saved.ownWrites === 0 && o.saved.student === '3.9' && o.saved.own === '3.7' && o.saved.report === 'Zoe' && o.saved.first === 'Zoe';
-  ok[label + '.studentJoinsAndClaims'] = o.claim.up.length === 1 && o.claim.up[0].uid === UID2 && o.claim.up[0].gpa === '3.9' && o.claim.up[0].acts === 1 && o.claim.up[0].to === true && o.claim.del === 1 && !o.claim.pending && !o.claim.card && o.claim.mine === '3.9';
+  ok[label + '.studentJoinsAndClaims'] = o.claim.up.length === 1 && o.claim.up[0].uid === UID2 && o.claim.up[0].gpa === '3.9' && o.claim.up[0].acts === 1 && o.claim.up[0].to === true && o.claim.del === 1 && !o.claim.pending && o.claim.mine === '3.9';
   ok[label + '.noCardWithStudent'] = o.noCard;
   ok[label + '.noErrors'] = !o.errA.length && !o.errB.length && !o.errC.length; ok[label + '.noSidewaysScroll'] = !o.audit.overflowX;
 }

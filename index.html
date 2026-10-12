@@ -1218,6 +1218,19 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .td-search{display:flex;gap:8px;margin:14px 0}.td-search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
 .td-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:760px){.td-grid{grid-template-columns:1fr}}
+.ns-card{border:1.5px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface));margin-bottom:12px}
+.ns-card.urgent{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--surface))}
+.ns-top{display:flex;gap:14px;align-items:flex-start}.ns-ring{flex-shrink:0}.ns-txt{min-width:0}
+.ns-t{font-size:18px;font-weight:800;line-height:1.25;margin:2px 0 4px;letter-spacing:-.01em}
+.ns-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.ns-chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;min-height:32px}
+.ns-chip.done{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,var(--line))}.ns-chip.cur{color:var(--ink);border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 25%,transparent)}
+.ns-tour{display:inline-block;margin-top:10px;font-size:13px}
+.ns-stages{display:flex;gap:4px;margin-top:12px}.ns-stages span{flex:1;text-align:center;font-size:11px;font-weight:700;padding:5px 0;border-radius:6px;background:var(--sunk);color:var(--muted)}
+.ns-stages span.done{background:color-mix(in srgb,var(--teal) 18%,var(--surface));color:var(--teal)}.ns-stages span.cur{background:var(--teal);color:var(--on-teal)}
+.inv-mail-form{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface)}
+.inv-other{margin-top:12px}.inv-other summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--muted)}
+.dlg-guide{max-width:min(920px,94vw);width:100%}.dlg-guide video{width:100%;border-radius:12px;background:#0b1220;aspect-ratio:16/9;display:block}
 .td-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px 16px;min-width:0}
 .td-card>button{margin-top:10px}
 .td-wide{grid-column:1/-1}
@@ -1941,7 +1954,14 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <!-- INVITE DIALOG -->
 <dialog id="dlg-invite">
   <h2 style="margin-top:0">Invite your family</h2>
-  <p class="muted" style="font-size:14px">Have them create an account here, choose <b>Join with an invite code</b>, and enter:</p>
+  <p class="muted" style="font-size:14px;margin-top:0">We'll email them a one-tap link to join your family board.</p>
+  <div class="inv-mail-form">
+    <div class="pf-grid"><div><label for="inv-name">Their first name</label><input id="inv-name" maxlength="40" autocomplete="off" placeholder="e.g. Zoe"></div>
+      <div><label for="inv-email">Their email</label><input id="inv-email" type="email" autocomplete="off" placeholder="name@example.com"></div></div>
+    <div class="row" style="margin-top:10px;gap:8px;align-items:center"><button id="inv-send" class="small primary">Send invite</button><span id="inv-sendmsg" class="muted" style="font-size:12.5px" role="status"></span></div>
+  </div>
+  <details class="inv-other"><summary>Other ways to invite (text, copy link, code)</summary>
+  <p class="muted" style="font-size:13px;margin:8px 0 6px">Or they can create an account, choose <b>Join with an invite code</b>, and enter:</p>
   <div class="card" style="text-align:center"><span id="invcode" class="mono" style="font-size:22px;letter-spacing:.08em"></span></div>
   <p class="muted" style="font-size:13px;margin:12px 0 6px">Send it (link + code together):</p>
   <div class="row">
@@ -1950,8 +1970,13 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <button id="inv-mail" class="small">Email</button>
   </div>
   <div class="row" style="margin-top:8px"><button id="copy-inv" class="small ghost">Copy code</button><button id="copy-link" class="small ghost">Copy link</button></div>
+  </details>
   <p class="muted" style="font-size:12px" id="seatnote"></p>
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="inv-close" class="small">Close</button></div>
+</dialog>
+<dialog id="dlg-guide" class="dlg-guide" aria-label="One-minute tour">
+  <video controls playsinline preload="none" poster="/media/guide-poster.jpg"><source src="/media/guide.mp4" type="video/mp4"></video>
+  <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12.5px">A one-minute tour of Zoe's Colleges</span><button class="small" onclick="this.closest('dialog').querySelector('video').pause();this.closest('dialog').close()">Close</button></div>
 </dialog>
 
 <!-- ZOE HELPER -->
@@ -2562,7 +2587,10 @@ function catInfo(id){ return state.catalog.find(c => c.id === id); }
 /* ---- first-run onboarding checklist ---- */
 function onboardDismissed(){ try{ return localStorage.getItem("zc_onboard_done")==="1"; }catch(e){ return false; } }
 function dismissOnboard(){ try{ localStorage.setItem("zc_onboard_done","1"); }catch(e){} }
-function openInvite(){ try{ const code=state.family&&state.family.invite_code; if(!code) return; const ic=$("invcode"); if(ic) ic.textContent=code; $("dlg-invite").showModal(); }catch(e){} }
+function openInvite(){ try{ const code=state.family&&state.family.invite_code; if(!code) return; const ic=$("invcode"); if(ic) ic.textContent=code;   // #67: one path for every invite button
+  const p=plan(); const left=p.seats-(state.members||[]).length; const sn=$("seatnote"); if(sn) sn.textContent = p.seats<99 ? `${Math.max(left,0)} seat${left===1?"":"s"} left on the ${p.label} plan.` : "";
+  const m=$("inv-sendmsg"); if(m) m.textContent=""; const n=$("inv-name"); if(n && state.pending && !n.value) n.value=state.pending.display_name;
+  $("dlg-invite").showModal(); }catch(e){} }
 function renderOnboard(){
   const el=$("onboard-guide"); if(!el) return;
   if(onboardDismissed()){ el.innerHTML=""; return; }
@@ -2949,10 +2977,80 @@ function wireStudentSetup(el){
     const {error}=await sb.from("pending_students").insert(row);
     if(error){ save.disabled=false; m.textContent= isMissing(error) ? "This needs a quick setup step on our side. Try again soon." : "Couldn't save that. Please try again."; if(isMissing(error)) BACKEND.pending=false; return; }
     await loadPending(); computeNorms(); renderToday(); };
-  const inv=el.querySelector("#ss-invite"); if(inv) inv.onclick=async()=>{ const t=inviteMsg();
+  const inv=el.querySelector("#ss-invite"); if(inv) inv.onclick=async()=>{ openInvite(); return; const t=inviteMsg();
     try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); inv.textContent="Invite copied ✓ Paste it in a text"; } }catch(e){} };
   const pf=el.querySelector("#ss-profile"); if(pf) pf.onclick=()=>{ goto("profile"); profileTab("acad"); };
 }
+/* ===== Next best step (#67, idea 1): one clear thing to do, a progress ring, and the 5 setup steps as chips. ===== */
+function setupSteps(){
+  const schools=(state.schools||[]).length, stu=studentMember(), sp=studentProfile(), me=myRole();
+  const _w=state.me && state.prefs && state.prefs[state.me.user_id];
+  const _wNo=_w?Object.fromEntries(Object.entries(_w).filter(([k])=>k!=="incomeBand")):null;
+  const hasPrefs=!!(_wNo && JSON.stringify(_wNo)!==JSON.stringify(defaultPrefs()));
+  const sName = stu ? stu.display_name : (state.pending ? state.pending.display_name : "your student");
+  const steps=[];
+  if(me!=="student") steps.push({k:"student", c:"Student", ic:"🎓", t:"Add your student", d:"So chances, costs and the report are about them.", done:!!(stu||state.pending)});
+  steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Start with a few you're curious about — you can always change them.", done:schools>=3, cta:"Find schools", go:()=>goto("explore")});
+  const gradesMine = me==="student" || pendingMode();
+  steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
+    cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
+    go: gradesMine ? (()=>{ goto("profile"); profileTab("acad"); }) : (stu&&!isMe(stu.user_id) ? "nudge" : (()=>{ goto("profile"); profileTab("acad"); })) });
+  steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so match % fits.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
+  const famDone = (state.members||[]).length>=2 && !state.pending;
+  steps.push({k:"family", c:"Family", ic:"👨‍👩‍👧", t: state.pending?`Send ${sName} the invite`:"Invite your family", d: state.pending?`${sName} joins with their own account; the profile you started moves over.`:"Everyone rates and has a say — that's the point.", done:famDone, cta: state.pending?"Send invite":"Invite family", go:"invite"});
+  return steps;
+}
+function journeyStage(){ const sch=(state.schools||[]); const acc=sch.some(s=>s.app_status==="accepted"), applied=sch.some(s=>["applied","accepted","waitlisted","deferred","denied"].includes(s.app_status));
+  const visited=(state.photos||[]).length>0 || getTrip().size>0;
+  return acc?3 : applied?2 : visited?1 : 0; }
+const STAGES=["Exploring","Visiting","Applying","Deciding"];
+function ongoingStep(){
+  const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
+  if((state.schools||[]).some(s=>s.app_status==="accepted") && !decisionPost()) return {ic:"🎓", t:"Make the big decision together", d:"See offers side by side and hear everyone's pick before May 1.", cta:"Open Decision Day", go:()=>goto("decide")};
+  const today=new Date(); today.setHours(0,0,0,0);
+  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
+  for(const u of ups.slice(0,3)){ const days=daysUntil(u.date); if(days>21) break; const TK=tasksFor(catInfo(u.id)); const chk=getChecklist(u.id); const left=TK.filter(t=>!chk[t.key]);
+    if(left.length) return {k:"deadline", ic:"⏰", t:`Finish ${u.name} — ${u.kind}`, d:`${days===0?"Due today":days===1?"Due tomorrow":`Due in ${days} days`} · still to do: ${left.slice(0,2).map(t=>t.label).join(", ")}${left.length>2?"…":""}`, cta:"Open checklist", go:()=>goto("deadlines"), urgent:days<=7}; }
+  if(talkReady() && board.length>=2){ const mine=talk.posts.some(p=>isMe(p.user_id)&&!SYS_KINDS.includes(p.kind));
+    if(!mine){ const k=threadTopics()[0]; return {ic:"💬", t:`Share your voice on ${topicName(k)}`, d:"A sentence or two about what you love or what worries you. Nobody has to win.", cta:"Open Talk It Out", go:()=>openTalk({tab:"thread", school:k})}; }
+    const r=ballot.res; if(r && !r.revealed && !ballot.mine) return {ic:"🗳", t:"Cast your family vote", d:"Rank your favorites privately — results show when everyone has voted.", cta:"Vote", go:()=>openTalk({tab:"vote"})}; }
+  if(!getTrip().size) return {ic:"🚗", t:"Plan a campus visit", d:"Seeing a campus changes everything. Map a route and pick a weekend.", cta:"Plan a trip", go:()=>goto("trip")};
+  return {ic:"📅", t:"Plan this week with Zoe", d:"A short, realistic to-do list based on your deadlines and visits.", cta:"Plan my week", go:"week"};
+}
+function ringSvg(frac, label){ const r=18, c=2*Math.PI*r, off=c*(1-Math.max(0,Math.min(1,frac)));
+  return `<svg class="ns-ring" viewBox="0 0 44 44" width="44" height="44" aria-hidden="true"><circle cx="22" cy="22" r="${r}" fill="none" stroke="var(--sunk)" stroke-width="5"/><circle cx="22" cy="22" r="${r}" fill="none" stroke="var(--teal)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle" font-size="11" font-weight="800" fill="var(--ink)">${label}</text></svg>`; }
+let _nsActs={};
+function nextStepHtml(){
+  if(!state.family||!state.me||DEMO&&false) return "";
+  const steps=setupSteps(); const doneN=steps.filter(x=>x.done).length; const cur=steps.find(x=>!x.done);
+  _nsActs={};
+  const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":i+1} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
+  const tour=!guideSeen()?`<button type="button" class="linklike ns-tour" data-guide>▶ Watch the 1-minute tour</button>`:"";
+  if(cur){
+    let body;
+    if(cur.k==="student"){ body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
+      ${profileBuilt(state.profiles[state.me.user_id])?`<label class="tk-check"><input type="checkbox" id="ss-copy"> <span>Use the grades I already entered on my profile as the student's</span></label>`:""}<div class="tk-msg" id="ss-msg" role="status"></div>`; }
+    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
+    return `<div class="td-card ns-card"><div class="ns-top">${ringSvg(doneN/steps.length, `${doneN}/${steps.length}`)}<div class="ns-txt"><div class="td-h" style="margin:0 0 2px">Your next step</div><div class="ns-t">${cur.ic} ${esc(cur.t)}</div><div class="td-mid muted">${esc(cur.d)}</div></div></div>${body}${chips}${tour}</div>`;
+  }
+  const o=ongoingStep(); const st=journeyStage();
+  return `<div class="td-card ns-card ${o.urgent?"urgent":""}"><div class="ns-top">${ringSvg((st+1)/4, `${st+1}/4`)}<div class="ns-txt"><div class="td-h" style="margin:0 0 2px">Your next step · ${STAGES[st]}</div><div class="ns-t">${o.ic} ${esc(o.t)}</div><div class="td-mid muted">${esc(o.d)}</div></div></div>
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="ongoing">${esc(o.cta)}</button></div>
+    <div class="ns-stages">${STAGES.map((x,i)=>`<span class="${i<st?"done":i===st?"cur":""}">${x}</span>`).join("")}</div></div>`;
+}
+function wireNextStep(el){
+  const steps=setupSteps();
+  const run=(go,name)=>{ if(go==="invite"){ openInvite(); }
+    else if(go==="nudge"){ const stu=studentMember(); const t=`Can you add your grades on Zoe's Colleges? It takes a minute and unlocks Reach / Target / Likely for every school 💛 ${APP_LINK}`; (async()=>{ try{ if(navigator.share) await navigator.share({text:t}); else { await navigator.clipboard.writeText(t); const m=el.querySelector("#ss-msg"); if(m) m.textContent=`Message copied — paste it in a text to ${stu?stu.display_name:"your student"}.`; } }catch(e){} })(); }
+    else if(go==="week"){ const w=document.querySelector("[data-td-week]"); if(w) w.click(); }
+    else if(typeof go==="function") go(); };
+  el.querySelectorAll("[data-ns-go]").forEach(b=>b.onclick=()=>{ const k=b.dataset.nsGo; if(k==="ongoing"){ run(ongoingStep().go); return; } const st=steps.find(x=>x.k===k); if(st) run(st.go); });
+  el.querySelectorAll("[data-ns-step]").forEach(b=>b.onclick=()=>{ const st=steps.find(x=>x.k===b.dataset.nsStep); if(!st) return; if(st.k==="student"){ const i=el.querySelector("#ss-name"); if(i) i.focus(); else goto("profile"); return; } if(st.go) run(st.go); });
+  const g=el.querySelector("[data-guide]"); if(g) g.onclick=()=>openGuide();
+  wireStudentSetup(el);
+}
+function guideSeen(){ try{ return localStorage.getItem("zc_guide_seen")==="1"; }catch(e){ return false; } }
+function openGuide(){ try{ localStorage.setItem("zc_guide_seen","1"); }catch(e){} const d=$("dlg-guide"); if(d){ d.showModal(); const v=d.querySelector("video"); if(v){ try{ v.currentTime=0; const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} } } }
 /* ===== Decision Day (#61): acceptances, offers side by side, everyone's pick, and the big moment. ===== */
 const APP_STATUS={ planning:{ico:"📝",label:"Planning"}, applied:{ico:"📮",label:"Applied"}, accepted:{ico:"🎉",label:"Accepted"}, waitlisted:{ico:"⏳",label:"Waitlisted"},
   deferred:{ico:"🔁",label:"Deferred"}, denied:{ico:"🌱",label:"Not this time"}, withdrawn:{ico:"↩️",label:"Withdrew"} };
@@ -4068,7 +4166,6 @@ function offerForm(id, f, fromLetter){
 function tdGreeting(){ const h=new Date().getHours(); return h<12?"Good morning":h<17?"Good afternoon":"Good evening"; }
 function renderToday(){
   const el=$("td-out"); if(!el) return;
-  try{ renderOnboard(); }catch(e){}
   try{ let d=false; try{ d=localStorage.getItem("zc_howto")==="1"; }catch(e){} const hw=$("howto"); if(hw) hw.classList.toggle("hidden", d || (state.schools||[]).length>=3); }catch(e){}   // "How it works" only for new families
   const me=(state.members||[]).find(m=>state.me&&m.user_id===state.me.user_id); const first=(me&&me.display_name)||"";
   $("td-hi").textContent=`${tdGreeting()}${first?", "+first:""}`;
@@ -4110,8 +4207,12 @@ function renderToday(){
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small" data-td-go="trip">${trip?"Open trip":"Plan a trip"}</button>${trip?`<button class="small" data-visitkit="${esc([...getTrip()][0])}">🎒 Visit-day kit</button>`:""}<button class="small" data-td-go="memories">📸 Memories</button></div></div>`;
   const repCard=board.length?`<div class="td-card td-report"><div class="td-h">📄 College report</div><div class="td-mid">${esc(reportStudentName()||"Your")}${reportStudentName()?"'s":""} whole picture — profile, every school, costs, deadlines and next steps — in one PDF for family, counselors or your own files.</div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small primary" data-td-go="report">Open report</button><button class="small" data-td-share>🔗 Share instead</button></div></div>`:"";
-  { const ss=$("td-student"); if(ss){ ss.innerHTML=studentSetupCard(); wireStudentSetup(ss); } }   // #64: top of Today, above the welcome checklist
-  el.innerHTML=decideTodayCard()+dlCard+zoeCard+talkTodayCard()+pulseCard+balCard+repCard+visitCard+installCardHtml();
+  { const ss=$("td-student"); if(ss){ ss.innerHTML=nextStepHtml(); wireNextStep(ss); } }   // #67: one "next best step" at the top
+  { const og=$("onboard-guide"); if(og) og.innerHTML=""; const hw=$("howto"); if(hw) hw.classList.add("hidden"); }   // folded into the next-step card
+  const setupDone = setupSteps().every(x=>x.done);
+  const hasBoard = board.length>0;   // #67: no empty cards for a brand-new family
+  const heroIsDeadline = setupDone && ongoingStep().k==="deadline";   // don't say the same deadline twice
+  el.innerHTML=decideTodayCard()+(hasBoard&&!heroIsDeadline?dlCard:"")+(setupDone?zoeCard:"")+talkTodayCard()+(hasBoard?pulseCard:"")+(hasBoard?balCard:"")+repCard+(hasBoard?visitCard:"")+installCardHtml();
   el.querySelectorAll("[data-td-talk]").forEach(b=>b.onclick=()=>openTalk({tab:b.dataset.tdTalk}));
   const ib=el.querySelector("[data-install]"); if(ib) ib.onclick=async()=>{ if(_installEvt){ _installEvt.prompt(); try{ await _installEvt.userChoice; }catch(e){} _installEvt=null; } renderToday(); };
   const ix=el.querySelector("[data-install-x]"); if(ix) ix.onclick=()=>{ try{ localStorage.setItem("zc_install_hide","1"); }catch(e){} renderToday(); };
@@ -5450,17 +5551,22 @@ $("go-custom").onclick = async () => {
 };
 
 /* ========== INVITE / SHARE / PLANS ========== */
-$("btn-invite").onclick = () => {
-  $("invcode").textContent = state.family.invite_code;
-  const p = plan(); const seatsLeft = p.seats - state.members.length;
-  $("seatnote").textContent = p.seats < 99 ? `${Math.max(seatsLeft,0)} seat${seatsLeft===1?"":"s"} left on the ${p.label} plan.` : "";
-  $("dlg-invite").showModal();
-};
+$("btn-invite").onclick = () => openInvite();
 $("inv-close").onclick = () => $("dlg-invite").close();
 function inviteLink(){ const code = state.family.invite_code; return `${APP_LINK}?join=${encodeURIComponent(code)}`; }
 function inviteMsg(){ return `You're invited to our ${state.family.name} board on Zoe's Colleges.\n\nOpen this link and create your account — your invite code is already applied, nothing to type:\n${inviteLink()}`; }
 $("inv-share").onclick = async () => { const text = inviteMsg(); if (navigator.share){ try { await navigator.share({ title:"Zoe's Colleges invite", text }); } catch(e){} } else { try { await navigator.clipboard.writeText(text); $("inv-share").textContent="Copied ✓"; setTimeout(()=>$("inv-share").textContent="Share…",1500);}catch(e){} } };
 $("inv-text").onclick = () => { location.href = `sms:?&body=${encodeURIComponent(inviteMsg())}`; };
+// #67: invite by email from inside the app (server sends it; no mail app needed)
+{ const send=$("inv-send"); if(send) send.onclick=async()=>{ const m=$("inv-sendmsg"); const email=($("inv-email").value||"").trim(), name=($("inv-name").value||"").trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ m.textContent="Type their email address first."; m.style.color="var(--warn)"; return; }
+    if(DEMO){ m.textContent="In the sample family nothing is sent — with your own account, this emails a join link."; m.style.color=""; return; }
+    send.disabled=true; m.style.color=""; m.textContent="Sending…";
+    try{ const r=await fetch("/.netlify/functions/invite-send",{method:"POST",headers:await aiHeaders(),body:JSON.stringify({email,name})}); const j=await r.json().catch(()=>({}));
+      if(j.sent){ m.textContent=`✓ Sent to ${email}. They'll get a one-tap link to join.`; m.style.color="var(--teal)"; $("inv-email").value=""; $("inv-name").value=""; }
+      else { m.textContent=j.error||"Couldn't send — use Copy link below instead."; m.style.color="var(--warn)"; if(j.unconfigured||r.status>=500){ const d=document.querySelector("#dlg-invite .inv-other"); if(d) d.open=true; } } }
+    catch(e){ m.textContent="Couldn't send — use Copy link below instead."; m.style.color="var(--warn)"; }
+    send.disabled=false; }; }
 $("inv-mail").onclick = () => { const su = encodeURIComponent(`Join our ${state.family.name} board on Zoe's Colleges`); location.href = `mailto:?subject=${su}&body=${encodeURIComponent(inviteMsg())}`; };
 $("btn-plans").onclick = () => $("dlg-plans").showModal();
 $("plans-close").onclick = () => $("dlg-plans").close();

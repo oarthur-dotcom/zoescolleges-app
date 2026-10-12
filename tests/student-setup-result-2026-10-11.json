@@ -1,7 +1,7 @@
 {
  "phone": {
-  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
-  "firstCard": "td-card td-student",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
    "name": "Zoe",
@@ -9,12 +9,12 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -33,9 +33,8 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "🎓 Academics & Activities 207x33",
-    "🧭 Who You Are 139x33",
-    "Use this profile as the student's ▸ 199x19"
+    "🎓 Zoe's grades & activities 215x33",
+    "🧭 My priorities 139x33"
    ],
    "wide": [],
    "dashCount": 5
@@ -61,8 +60,8 @@
   "errC": []
  },
  "desktop": {
-  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
-  "firstCard": "td-card td-student",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
    "name": "Zoe",
@@ -70,12 +69,12 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -109,11 +108,10 @@
     "📰 Pulse 88x31",
     "💬 Ask Zoe 104x31",
     "My Profile 99x31",
-    "🎓 Academics & Activities 207x33",
-    "🧭 Who You Are 139x33",
+    "🎓 Zoe's grades & activities 215x33",
+    "🧭 My priorities 139x33",
     "📄 Report 88x32",
     "✏️ Edit profile 114x32",
-    "Use this profile as the student's ▸ 199x19",
     "#pf-save2 Save activities 117x32"
    ],
    "wide": [],
@@ -140,8 +138,8 @@
   "errC": []
  },
  "phone-dark": {
-  "card1": "🎓 WHO'S THE STUDENT?\nAdd your student so chances, costs and the college report are about them. You can fill in their grades now. Everything moves to their account when they join.\nAdd student",
-  "firstCard": "td-card td-student",
+  "card1": "1/5\nYOUR NEXT STEP\n🎓 Add your student\nSo chances, costs and the report are about them.\nAdd student\nUse the grades I already entered on my profile as the student's\n1 Student\n✓ Schools\n3 Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
+  "firstCard": "td-card ns-card",
   "emptyMsg": "Type your student's first name first.",
   "insert": {
    "name": "Zoe",
@@ -149,12 +147,12 @@
    "major": "Biology",
    "hasUid": false
   },
-  "card2": "🎓 ZOE HASN'T JOINED YET\nSend Zoe the invite so Zoe can rate schools too. The profile you filled in moves to Zoe's account when Zoe joins.\nSend Zoe the invite\nEdit Zoe's profile",
+  "card2": "3/5\nYOUR NEXT STEP\n🎚️ Set your priorities\nWhat matters to you — cost, size, setting — so match % fits.\nSet priorities\n✓ Student\n✓ Schools\n✓ Grades\n4 Priorities\n5 Family\n▶ Watch the 1-minute tour",
   "profile": {
    "view": "profile",
    "scope": "🎓 You're filling this in for Zoe. It moves to Zoe's own account when Zoe joins with your invite.",
    "title": "Edit Zoe's profile",
-   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTENDED MAJOR\nBiology\nHOME STATE\nMA\n\nThis drives your admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\n⚠ No student is set, so chances use your own profile — different family members can see different odds. Use this profile as the student's ▸"
+   "summary": "Zoe's profile\n📄 Report\n✏️ Edit profile\nGPA\n3.7\nTEST SCORES\nSAT 1300\nINTERESTS\nBiology\nHOME STATE\nMA\nLOOKING FOR\nbig-time sports\n\nThis drives the admission-chance labels across the app. Edit anytime.\n\nYour college power\n1,730 schools\n\nBased on your academic profile, here's roughly how today's colleges break down for you:\n\n✅ Likely\n71%\n🎯 Target\n11%\n🌟 Reach\n18%\n\nA planning estimate from each school's admit rate and your scores — not a guarantee. Raising your GPA or test scores shifts more schools into Likely.\n\nChances are based on Zoe's academic profile — the whole family sees the same odds."
   },
   "formGpa": "3.7",
   "saved": {
@@ -173,9 +171,8 @@
    "bgs": [],
    "bad": [],
    "small": [
-    "🎓 Academics & Activities 207x33",
-    "🧭 Who You Are 139x33",
-    "Use this profile as the student's ▸ 199x19"
+    "🎓 Zoe's grades & activities 215x33",
+    "🧭 My priorities 139x33"
    ],
    "wide": [],
    "dashCount": 5

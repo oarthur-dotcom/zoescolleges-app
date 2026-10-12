@@ -1,0 +1,31 @@
+// #67 invite-send: guards, seats, limits (fail closed), and the email itself. No network. Run from repo root copy (see runner).
+const fn = (await import(new URL('../netlify/functions/invite-send.mjs', import.meta.url))).default;
+const FAM = { id: 'f1', name: 'Arthur Family', invite_code: 'abc123def456', plan: 'family' };
+let world, sent;
+const mkFetch = () => async (url, opts = {}) => { url = String(url);
+  if (url.includes('/auth/v1/user')) return world.user ? new Response(JSON.stringify(world.user), { status: 200 }) : new Response('no', { status: 401 });
+  if (url.includes('/rest/v1/members?user_id')) return new Response(JSON.stringify(world.me ? [world.me] : []), { status: 200 });
+  if (url.includes('/rest/v1/families')) return new Response(JSON.stringify([world.fam]), { status: 200 });
+  if (url.includes('/rest/v1/members?family_id')) return new Response(JSON.stringify(world.members), { status: 200 });
+  if (url.includes('api.resend.com')) { sent.push(JSON.parse(opts.body)); return new Response('{"id":"x"}', { status: 200 }); }
+  return new Response('x', { status: 599 }); };
+const store = { data: {}, async setJSON(k, v) { this.data[k] = v; } };
+const counter = async (key, limit) => world.limiterDown ? { ok: false, down: true } : { store, cur: store.data[key] || { n: 0, to: [] }, ok: ((store.data[key] || {}).n || 0) < limit };
+const env = { SUPABASE_SERVICE_ROLE_KEY: 'svc', RESEND_API_KEY: 'rk' };
+const call = async (body, over = {}) => { sent = []; const r = await fn(new Request('https://zoescolleges.com/x', { method: 'POST', headers: { origin: 'https://zoescolleges.com', 'content-type': 'application/json', authorization: over.noAuth ? '' : 'Bearer t' }, body: JSON.stringify(body) }), {}, { fetch: mkFetch(), env: over.env || env, counter }); return { status: r.status, j: await r.json() }; };
+const reset = () => { world = { user: { id: 'u1', email: 'obie@example.com' }, me: { family_id: 'f1', role: 'parent', display_name: 'Obie' }, fam: { ...FAM }, members: [{ user_id: 'u1' }] }; store.data = {}; };
+const ok = {}, R = {};
+reset(); let r = await call({ email: 'zoe@example.com', name: 'Zoe' }, { env: {} }); ok.unconfigured = r.j.unconfigured === true && !sent.length;
+reset(); r = await call({ email: 'zoe@example.com' }, { noAuth: true }); ok.mustSignIn = r.status === 401;
+reset(); r = await call({ email: 'not-an-email' }); ok.badEmail = r.status === 400 && !sent.length;
+reset(); r = await call({ email: 'OBIE@example.com' }); ok.notYourself = r.status === 400 && /own address/.test(r.j.error);
+reset(); r = await call({ email: 'x@mailinator.com' }); ok.noDisposable = r.status === 400;
+reset(); world.me.role = 'student'; r = await call({ email: 'mom@example.com' }); ok.studentCantInvite = r.status === 403 && !sent.length;
+reset(); world.fam.plan = 'free'; world.members = [{ user_id: 'u1' }, { user_id: 'u2' }]; r = await call({ email: 'mom@example.com' }); ok.seatCheck = r.status === 409 && r.j.full && !sent.length;
+reset(); r = await call({ email: 'zoe@example.com', name: 'Zoe<script>' }); R.mail = sent[0];
+ok.sends = r.j.sent === true && sent.length === 1 && sent[0].to === 'zoe@example.com' && sent[0].from.includes('hello@zoescolleges.com') && sent[0].html.includes('https://zoescolleges.com/?join=abc123def456') && /Obie invited you/.test(sent[0].subject) && !/<script>/.test(sent[0].html);
+r = await call({ email: 'zoe@example.com' }); ok.oncePerAddressPerDay = r.status === 429 && !sent.length;
+for (const e of ['a@example.com', 'b@example.com', 'c@example.com', 'd@example.com']) await call({ email: e });
+r = await call({ email: 'e@example.com' }); ok.fivePerFamilyPerDay = r.status === 429 && !sent.length;
+reset(); world.limiterDown = true; r = await call({ email: 'zoe@example.com' }); ok.failsClosed = r.status === 503 && !sent.length;
+R.ok = ok; R.allPass = Object.values(ok).every(Boolean); console.log(JSON.stringify(R.ok, null, 1), R.allPass);

@@ -25,7 +25,7 @@ for (const [label, vp, dark] of [['phone', { width: 390, height: 844 }], ['deskt
     o.insertNoCopy = await page.evaluate(() => { const w = window.__writes.filter(x => x.table === 'pending_students' && x.op === 'insert').pop(); return w && Object.keys(w.p.profile).length; });
     o.inputStyled = await page.evaluate(() => { const i = document.createElement('input'); document.body.appendChild(i); const cs = getComputedStyle(i); const r = { pad: cs.paddingTop, bg: cs.backgroundColor, color: cs.color }; i.remove(); return r; });
     // Set priorities from the welcome checklist
-    const go = await page.$('.ob-go[data-obact="priorities"]'); o.prioBtn = !!go; if (go) { await go.click(); await page.waitForTimeout(500); }
+    const go = await page.$('[data-ns-step="prios"]'); o.prioBtn = !!go; if (go) { await go.click(); await page.waitForTimeout(500); }
     o.prio = await page.evaluate(() => ({ view: currentView, whoShown: !document.getElementById('pf-who').classList.contains('hidden'), acadHidden: document.getElementById('pf-acad').classList.contains('hidden'), whose: document.getElementById('pr-whose').innerText, h: document.getElementById('pr-h').textContent }));
     await page.screenshot({ path: `${SHOTS}${label}-priorities.png` });
     o.errA = log.pageerr; }

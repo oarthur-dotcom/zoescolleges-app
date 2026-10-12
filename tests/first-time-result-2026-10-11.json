@@ -1,0 +1,312 @@
+{
+ "phone": {
+  "new1": {
+   "t": "🎓 Add your student",
+   "ring": "0/5",
+   "chips": [
+    "cur",
+    "todo",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "empties": {
+   "cards": [],
+   "howto": false,
+   "onboard": 0,
+   "tour": true
+  },
+  "new2": {
+   "t": "🏫 Add 3 or more schools",
+   "ring": "1/5",
+   "chips": [
+    "done",
+    "cur",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "dlg": {
+   "open": true,
+   "name": "Zoe",
+   "seat": ""
+  },
+  "noEmailMsg": "Type their email address first.",
+  "sent": {
+   "body": {
+    "email": "zoe@example.com",
+    "name": "Zoe"
+   },
+   "msg": "✓ Sent to zoe@example.com. They'll get a one-tap link to join."
+  },
+  "guide": {
+   "open": true,
+   "seen": "1"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "✓ Student 83x32",
+    "2 Schools 79x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "5 Family 72x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errA": [],
+  "mid": {
+   "t": "📚 Add Zoe's grades",
+   "ring": "3/5",
+   "chips": [
+    "done",
+    "done",
+    "cur",
+    "todo",
+    "done"
+   ],
+   "stages": 0
+  },
+  "done": {
+   "t": "⏰ Finish Clemson University — Early Action",
+   "ring": "1/4",
+   "chips": [],
+   "stages": 4
+  },
+  "doneAction": "Open checklist",
+  "zoeCard": true,
+  "errB": []
+ },
+ "desktop": {
+  "new1": {
+   "t": "🎓 Add your student",
+   "ring": "0/5",
+   "chips": [
+    "cur",
+    "todo",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "empties": {
+   "cards": [],
+   "howto": false,
+   "onboard": 0,
+   "tour": true
+  },
+  "new2": {
+   "t": "🏫 Add 3 or more schools",
+   "ring": "1/5",
+   "chips": [
+    "done",
+    "cur",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "dlg": {
+   "open": true,
+   "name": "Zoe",
+   "seat": ""
+  },
+  "noEmailMsg": "Type their email address first.",
+  "sent": {
+   "body": {
+    "email": "zoe@example.com",
+    "name": "Zoe"
+   },
+   "msg": "✓ Sent to zoe@example.com. They'll get a one-tap link to join."
+  },
+  "guide": {
+   "open": true,
+   "seen": "1"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "#signout Sign out 78x32",
+    "Today 70x31",
+    "My Board 96x31",
+    "💬 Talk It Out 119x31",
+    "🎓 Decision Day 140x31",
+    "Schools 84x31",
+    "✨ Zoe Picks 116x31",
+    "Compare 92x31",
+    "💰 Costs 89x31",
+    "Trips 63x31",
+    "📸 Memories 120x31",
+    "Deadlines 97x31",
+    "📰 Pulse 88x31",
+    "💬 Ask Zoe 104x31",
+    "My Profile 99x31",
+    "Find schools 105x32",
+    "✓ Student 83x32",
+    "2 Schools 79x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "5 Family 72x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
+   "wide": [
+    "BUTTON.navbtn# right=1320",
+    "BUTTON.navbtn# right=1421"
+   ],
+   "dashCount": 1
+  },
+  "errA": [],
+  "mid": {
+   "t": "📚 Add Zoe's grades",
+   "ring": "3/5",
+   "chips": [
+    "done",
+    "done",
+    "cur",
+    "todo",
+    "done"
+   ],
+   "stages": 0
+  },
+  "done": {
+   "t": "⏰ Finish Clemson University — Early Action",
+   "ring": "1/4",
+   "chips": [],
+   "stages": 4
+  },
+  "doneAction": "Open checklist",
+  "zoeCard": true,
+  "errB": []
+ },
+ "phone-dark": {
+  "new1": {
+   "t": "🎓 Add your student",
+   "ring": "0/5",
+   "chips": [
+    "cur",
+    "todo",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "empties": {
+   "cards": [],
+   "howto": false,
+   "onboard": 0,
+   "tour": true
+  },
+  "new2": {
+   "t": "🏫 Add 3 or more schools",
+   "ring": "1/5",
+   "chips": [
+    "done",
+    "cur",
+    "todo",
+    "todo",
+    "todo"
+   ],
+   "stages": 0
+  },
+  "dlg": {
+   "open": true,
+   "name": "Zoe",
+   "seat": ""
+  },
+  "noEmailMsg": "Type their email address first.",
+  "sent": {
+   "body": {
+    "email": "zoe@example.com",
+    "name": "Zoe"
+   },
+   "msg": "✓ Sent to zoe@example.com. They'll get a one-tap link to join."
+  },
+  "guide": {
+   "open": true,
+   "seen": "1"
+  },
+  "audit": {
+   "overflowX": 0,
+   "imgs": [],
+   "bgs": [],
+   "bad": [],
+   "small": [
+    "✓ Student 83x32",
+    "2 Schools 79x32",
+    "3 Grades 75x32",
+    "4 Priorities 87x32",
+    "5 Family 72x32",
+    "▶ Watch the 1-minute tour 160x19"
+   ],
+   "wide": [],
+   "dashCount": 1
+  },
+  "errA": [],
+  "mid": {
+   "t": "📚 Add Zoe's grades",
+   "ring": "3/5",
+   "chips": [
+    "done",
+    "done",
+    "cur",
+    "todo",
+    "done"
+   ],
+   "stages": 0
+  },
+  "done": {
+   "t": "⏰ Finish Clemson University — Early Action",
+   "ring": "1/4",
+   "chips": [],
+   "stages": 4
+  },
+  "doneAction": "Open checklist",
+  "zoeCard": true,
+  "errB": []
+ },
+ "ok": {
+  "phone.oneClearFirstStep": true,
+  "phone.noEmptyCardsForNewFamily": true,
+  "phone.advancesAfterStudent": true,
+  "phone.inviteByEmailInApp": true,
+  "phone.tourOpens": true,
+  "phone.midSetupShowsWhatsLeft": true,
+  "phone.ongoingWithStages": true,
+  "phone.noErrors": true,
+  "phone.noSidewaysScroll": true,
+  "desktop.oneClearFirstStep": true,
+  "desktop.noEmptyCardsForNewFamily": true,
+  "desktop.advancesAfterStudent": true,
+  "desktop.inviteByEmailInApp": true,
+  "desktop.tourOpens": true,
+  "desktop.midSetupShowsWhatsLeft": true,
+  "desktop.ongoingWithStages": true,
+  "desktop.noErrors": true,
+  "desktop.noSidewaysScroll": true,
+  "phone-dark.oneClearFirstStep": true,
+  "phone-dark.noEmptyCardsForNewFamily": true,
+  "phone-dark.advancesAfterStudent": true,
+  "phone-dark.inviteByEmailInApp": true,
+  "phone-dark.tourOpens": true,
+  "phone-dark.midSetupShowsWhatsLeft": true,
+  "phone-dark.ongoingWithStages": true,
+  "phone-dark.noErrors": true,
+  "phone-dark.noSidewaysScroll": true
+ },
+ "allPass": true
+}
