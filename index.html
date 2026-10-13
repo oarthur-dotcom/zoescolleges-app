@@ -6603,16 +6603,34 @@ async function zoeFetchAI(v, opt){
   zoeLastAsk={v,opt};
   return `${ZOE_WHY[r.why]||ZOE_BUSY}${r.why==="unconfigured"?"":` <button class="small ghost zretry" data-zretry>↻ Try again</button>`}`;
 }
+/* Oct 13: "Why is X a reach?" / "why did it change?" go to Zoe's AI with the app's own step-by-step reasoning attached,
+   instead of the canned reaches list. */
+const ZOE_WHY_RE=/\b(why|how come|what changed|what.s changed|changed|changing|keeps? changing|different|moved|switched|inconsistent|used to be|no longer|explain|reason)\b/i;
+const ZOE_BAND_RE=/\b(reach(es)?|targets?|likel(y|ies)|safet(y|ies)|band|chances?|odds|rating|rated|tier)\b/i;
+function zoeSchoolsMentioned(v){
+  const n=_norm(v); if(!n) return [];
+  return (state.schools||[]).filter(s=>{ const m=_norm(s.name); if(!m) return false; if(n.includes(m)) return true;
+    const w=m.split(" ").filter(x=>x.length>2&&!/^(university|college|state|of|the|at)$/.test(x)); return w.length>0 && w.every(x=>n.includes(x)); }).slice(0,4);
+}
+function zoeIsWhyBand(v){ v=String(v||""); if(!ZOE_BAND_RE.test(v)) return false; return ZOE_WHY_RE.test(v) || /\bhow (is|are|did|does|do)\b/i.test(v) || zoeSchoolsMentioned(v).length>0; }
+function zoeBandReasons(v){
+  let list=zoeSchoolsMentioned(v);
+  if(!list.length && _zoePage && _zoePage.school && _zoePage.school.name){ list=(state.schools||[]).filter(s=>s.name===_zoePage.school.name).slice(0,1); }
+  if(!list.length) list=(state.schools||[]).slice(0,6);
+  return list.map(s=>{ const info=catInfo(s.school_id); const ex=info&&chanceExplain(info); if(!ex) return null;
+    return { school:s.name, band:ex.label, inputs:ex.inputs, steps:(ex.steps||[]).slice(0,12).map(t=>({k:t.k,v:t.v,why:t.why})) }; }).filter(Boolean);
+}
 async function zoeHandle(v){
   if(_zoePage && /how does this (page|work)|what is this page|what can i do here/i.test(v)){ const h=ZOE_PAGE_HELP[_zoePage.view];
     if(h){ zoeSay(esc(h)+(HOWTO[_zoePage.view]?` <button class="linklike" data-howto="${esc(_zoePage.view)}">▶ Watch the short how-to</button>`:"")); return; } }
   const pageQ = _zoePage && !DEMO && /\b(this|here|these)\b/i.test(v);
-  const ans=pageQ?ZOE_FALLBACK:zoeAnswer(v);
+  const whyBand=!DEMO && zoeIsWhyBand(v);
+  const ans=(pageQ||whyBand)?ZOE_FALLBACK:zoeAnswer(v);
   if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
   if(zoeInFlight){ return; }
   zoeInFlight=true;
   const typing=zoeTyping();
-  try{ const html=await zoeFetchAI(v); typing.remove(); zoeSay(html); }
+  try{ const html=await zoeFetchAI(v, whyBand?{ctx:{bandReasons:zoeBandReasons(v)}}:undefined); typing.remove(); zoeSay(html); }
   finally{ zoeInFlight=false; }
 }
 paintZoeAvatars();
@@ -6694,7 +6712,7 @@ $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim
 /* ---- Ask Zoe full tab (concept 2) ---- */
 function ztabSay(text,who){ const log=$("ztab-log"); if(!log) return; const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; log.appendChild(d); log.scrollTop=log.scrollHeight; }
 function ztabTyping(){ const log=$("ztab-log"); const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
-async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
+async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); const whyBand=!opt && !DEMO && zoeIsWhyBand(v); if(whyBand) opt={ctx:{bandReasons:zoeBandReasons(v)}}; if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-zretry]"); if(!b||!zoeLastAsk) return; b.disabled=true; const {v,opt}=zoeLastAsk; zoeLastAsk=null;
   if(b.closest("#ztab-log")){ (async()=>{ if(zoeInFlight) return; zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } })(); }
   else { (async()=>{ if(zoeInFlight) return; zoeInFlight=true; const t=zoeTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); zoeSay(html); } finally{ zoeInFlight=false; } })(); } });
