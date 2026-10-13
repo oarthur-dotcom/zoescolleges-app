@@ -99,6 +99,9 @@ button:disabled{opacity:.5;cursor:default}
 #schools.as-tiles .school.has-photo .cover-name{display:block}
 .cover-name{display:none}
 .rankbox{flex:0 0 auto}
+.rankbox .famrank{display:block;font-size:10px;color:var(--muted);text-align:center;margin-top:2px;white-space:nowrap}
+.famfit{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:12px;color:var(--muted);margin:6px 0}
+.famfit b{color:var(--text)}.famfit .ff-fam{font-weight:700;color:var(--teal)}.famfit .ff-talk{color:var(--amber);font-weight:600}
 .rankbox input{width:48px;text-align:center;font-weight:700;font-size:16px;padding:6px 4px;border:1px solid var(--teal);border-radius:9px;background:var(--surface);color:var(--ink)}
 .rankbox input:focus{outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 30%,transparent)}
 .school .top{display:flex;gap:10px;align-items:baseline}
@@ -2211,7 +2214,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
+let BACKEND = { ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -2472,6 +2475,7 @@ async function loadFamily(){
     try{ await loadOffers(); }catch(e){}
     try{ await loadPending(); await maybeClaimPending(); }catch(e){}
     try{ await loadSwipes(); }catch(e){}
+    try{ await loadRanks(); }catch(e){}
     try{ await loadVisits(); }catch(e){}
     computeNorms();
     goto("today");
@@ -2520,12 +2524,13 @@ function hydrateLocalProfile(){
   if(r && !hasR)prof.rigor=r; if(Array.isArray(a) && !hasA)prof.activities=a; if(to!=null && prof.testOptional==null)prof.testOptional=!!to; if(hs && !prof.hs)prof.hs=hs;
 }
 async function loadPrefs(){
-  state.prefs = {};
+  const prev=state.prefs||{}; const next={};
   if (BACKEND.preferences){
     try { const { data, error } = await sb.from("preferences").select("*"); if(error) throw error;
-      (data||[]).forEach(p=>state.prefs[p.user_id]=p.weights||defaultPrefs()); }
-    catch(e){ if(isMissing(e)) BACKEND.preferences=false; }
+      (data||[]).forEach(p=>next[p.user_id]=p.weights||defaultPrefs()); }
+    catch(e){ if(isMissing(e)) BACKEND.preferences=false; else if(Object.keys(prev).length) return; }
   }
+  state.prefs=next;
   if(!BACKEND.preferences){ const w=lsGet("prefs"); if(state.me) state.prefs[state.me.user_id]= w||defaultPrefs(); }
   if(state.me && !state.prefs[state.me.user_id]) state.prefs[state.me.user_id]=defaultPrefs();
 }
@@ -3951,12 +3956,54 @@ async function makeAiFilm(arg){
 $("mem-ai").onclick = makeAiFilm;
 document.addEventListener("keydown", e => { if($("player").classList.contains("open")){ if(e.key==="Escape"){ reelStop(); $("player").classList.remove("open"); } if(e.key==="ArrowRight"){ reelStop(); reelNext(1); } if(e.key==="ArrowLeft"){ reelStop(); reelNext(-1); } } });
 let rankMode=false;
-function getRanks(){ return lsGet("ranks")||{}; }
+/* Oct 13: personal rankings live in the database (school_ranks), one set per person, readable by the family.
+   Old device-only rankings are uploaded once. Falls back to this device only if the table isn't there yet. */
+state.ranks = state.ranks || {};
+async function loadRanks(){
+  const me=state.me&&state.me.user_id; if(!me) return;
+  if(BACKEND.ranks===false || !state.family){ state.ranks={ [me]: lsGet("ranks")||{} }; return; }
+  try{ const {data,error}=await sb.from("school_ranks").select("*"); if(error) throw error;
+    const next={}; (data||[]).forEach(r=>{ (next[r.user_id]=next[r.user_id]||{})[r.school_id]=r.rank; });
+    const local=lsGet("ranks")||{};
+    if(!Object.keys(next[me]||{}).length && Object.keys(local).length){   // first sign-in since sync: upload this device's old ranking
+      const rows=Object.entries(local).map(([school_id,rank])=>({user_id:me,family_id:state.family.id,school_id,rank:Math.max(1,Math.min(500,parseInt(rank)||1))}));
+      const {error:e2}=await sb.from("school_ranks").upsert(rows); next[me]={}; rows.forEach(r=>next[me][r.school_id]=r.rank); if(e2) next[me]=local; }
+    state.ranks=next; }
+  catch(e){ if(isMissing(e)){ BACKEND.ranks=false; state.ranks={ [me]: lsGet("ranks")||{} }; } else if(!Object.keys(state.ranks).length) state.ranks={ [me]: lsGet("ranks")||{} }; }
+}
+function getRanks(){ const me=state.me&&state.me.user_id; return (me&&state.ranks&&state.ranks[me]) || (BACKEND.ranks===false?lsGet("ranks"):null) || {}; }
+async function setRank(id, v){
+  const me=state.me.user_id; const mine=state.ranks[me]=state.ranks[me]||{};
+  if(v==null) delete mine[id]; else mine[id]=v;
+  lsSet("ranks", mine);   // local copy only as an offline safety net
+  if(BACKEND.ranks===false) return;
+  try{ const q = v==null ? sb.from("school_ranks").delete().eq("user_id",me).eq("school_id",id)
+        : sb.from("school_ranks").upsert({user_id:me,family_id:state.family.id,school_id:id,rank:v,updated_at:new Date().toISOString()});
+    const {error}=await q; if(error) throw error; }
+  catch(e){ if(isMissing(e)) BACKEND.ranks=false; }
+}
+// Family ranking: schools ordered by the average of everyone's rank (needs 2+ people who ranked, and 2+ rankers on that school).
+function familyRankMap(){
+  const per={}; Object.values(state.ranks||{}).forEach(rk=>Object.entries(rk).forEach(([id,r])=>{ (per[id]=per[id]||[]).push(r); }));
+  const rankers=Object.values(state.ranks||{}).filter(rk=>Object.keys(rk).length).length; if(rankers<2) return {};
+  const avg=Object.entries(per).filter(([,a])=>a.length>=2).map(([id,a])=>[id,a.reduce((x,y)=>x+y,0)/a.length]).sort((a,b)=>a[1]-b[1]||(a[0]<b[0]?-1:1));
+  const out={}; avg.forEach(([id],i)=>out[id]=i+1); return out;
+}
+/* Everyone's fit with a school, and the family blend (equal-weight average of the people who have saved priorities). */
+function famFit(info){
+  if(!info||!state.members) return null; const me=state.me&&state.me.user_id;
+  const rows=state.members.filter(m=>state.prefs&&state.prefs[m.user_id]).map(m=>({uid:m.user_id,name:m.user_id===me?"You":(m.display_name||"Member"),m:matchScore(info,state.prefs[m.user_id])})).filter(r=>r.m!=null);
+  if(rows.length<2) return null;
+  const vals=rows.map(r=>r.m), fam=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length), spread=Math.max(...vals)-Math.min(...vals);
+  return {rows,fam,spread,talk:spread>=12};
+}
+function famFitHtml(info){ const f=famFit(info); if(!f) return "";
+  return `<div class="famfit" data-famfit title="Each person's fit with their own priorities, and the family average. Not admission odds."><span>${f.rows.map(r=>`${esc(r.name)} <b>${r.m}</b>`).join(" · ")}</span><span class="ff-fam">Family ${f.fam}%</span>${f.talk?`<span class="ff-talk">Worth talking about</span>`:""}</div>`; }
 function rankColorOn(){ try{ return localStorage.getItem("zc_rankcolor")==="1"; }catch(e){ return false; } }
 function wireRanks(){
   $("schools").querySelectorAll("[data-rankin]").forEach(inp=>{
-    inp.onchange=()=>{ const id=inp.dataset.rankin, v=inp.value.trim(); const r=getRanks();
-      if(v==="") delete r[id]; else r[id]=Math.max(1,parseInt(v)||1); lsSet("ranks",r); renderBoard(); };
+    inp.onchange=()=>{ const id=inp.dataset.rankin, v=inp.value.trim();
+      setRank(id, v===""?null:Math.max(1,Math.min(500,parseInt(v)||1))); renderBoard(); };
   });
 }
 $("rank-toggle").onclick=()=>{ rankMode=!rankMode;
@@ -4065,7 +4112,7 @@ function renderSchool(x){
       <span>grad <b>${pct(sc.gradRate)}</b></span></div>` : "";
   let tint="";
   if(rankMode && rankColorOn() && x.rank){ const pctm=Math.max(6, 30-(x.rank-1)*(24/Math.max(1,(x._maxRank-1)))); tint=` style="background:color-mix(in srgb,var(--teal) ${Math.round(pctm)}%,var(--surface));border-color:color-mix(in srgb,var(--teal) 40%,var(--line))"`; }
-  const rankBox = rankMode ? `<div class="rankbox"><input type="number" min="1" inputmode="numeric" data-rankin="${esc(s.school_id)}" value="${x.rank||""}" placeholder="#" aria-label="Your rank"></div>` : "";
+  const rankBox = rankMode ? `<div class="rankbox"><input type="number" min="1" inputmode="numeric" data-rankin="${esc(s.school_id)}" value="${x.rank||""}" placeholder="#" aria-label="Your rank">${(()=>{ const f=familyRankMap()[s.school_id]; return f?`<span class="famrank" title="Family ranking: average of everyone's rank">Family #${f}</span>`:""; })()}</div>` : "";
   const cov = coverFor(s, info);
   return `<div class="school${cov.hasPhoto?" has-photo":""}" data-school="${esc(s.school_id)}"${tint}>
     ${cov.html}
@@ -4083,6 +4130,7 @@ function renderSchool(x){
         <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
+    ${info?famFitHtml(info):""}
     <div class="raters">${ratersHtml(s.school_id)}</div>
     <div class="card-acts">
       <button class="openlink" data-open="${esc(s.school_id)}">Open ↗</button>
@@ -4872,6 +4920,7 @@ function renderDetail(id){
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""} ${athChip(info)}</div>`:""; })()}
     <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
+    ${info?famFitHtml(info):""}
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?regionalHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
     <div class="row" style="margin:6px 0 2px;gap:8px">${tripBtn(id,true)}<button class="openlink cmp-btn ${inCmp(id)?"on":""}" data-cmp="${esc(id)}" data-long="1">${inCmp(id)?"✓ In compare":"⇄ Add to compare"}</button>${onBoard?`<button class="openlink" data-visitkit="${esc(id)}">🎒 Visit-day kit</button>`:""}</div>
@@ -7028,11 +7077,11 @@ async function syncShared(force){
   if(!force && Date.now()-_syncAt<15000) return;
   _syncBusy=true;
   try{
-    const before=JSON.stringify(state.profiles||{});
-    await Promise.all([loadSchools(), loadRatings(), loadProfiles()]);
+    const sig=()=>JSON.stringify([state.profiles||{},state.prefs||{},state.ranks||{}]); const before=sig();
+    await Promise.all([loadSchools(), loadRatings(), loadProfiles(), loadPrefs(), loadRanks()]);
     if(state.pending || (typeof pendingMode==="function" && pendingMode())) await loadPending();
     _syncAt=Date.now();
-    const changed = before!==JSON.stringify(state.profiles||{});
+    const changed = before!==sig();
     const t=(document.activeElement||{}).tagName||"";
     const typing = currentView==="profile" && /INPUT|TEXTAREA|SELECT/.test(t);
     if(changed && !typing) refreshCurrent(); else if(currentView!=="board") renderBoard();
