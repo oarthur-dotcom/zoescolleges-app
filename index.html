@@ -2492,12 +2492,16 @@ async function loadCatalog(){
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
 async function loadProfiles(){
-  state.profiles = {};
+  // Fetch first, then swap in one step, so a refresh never shows an empty profile (bands flickering).
+  const had = state.profiles && Object.keys(state.profiles).length;
   if (BACKEND.profiles){
     try { const { data, error } = await sb.from("profiles").select("*"); if(error) throw error;
-      (data||[]).forEach(p=>state.profiles[p.user_id]=p); hydrateLocalProfile(); return; }
-    catch(e){ if(isMissing(e)) BACKEND.profiles=false; }
+      const next={}; (data||[]).forEach(p=>next[p.user_id]=p);
+      if(state.profiles && state.profiles.pending) next.pending=state.profiles.pending;
+      state.profiles=next; hydrateLocalProfile(); return; }
+    catch(e){ if(isMissing(e)) BACKEND.profiles=false; else if(had) return; }   // transient error on a refresh: keep what we have
   }
+  state.profiles = {};
   // fallback: only own, from localStorage
   const p = lsGet("profile"); if(p && state.me) state.profiles[state.me.user_id]=p;
   hydrateLocalProfile();
@@ -6985,7 +6989,31 @@ function renderCoach(containerId){
 }
 
 /* ========== MISC ========== */
-document.addEventListener("visibilitychange", async () => { if (!document.hidden && state.session && state.family){ await Promise.all([loadSchools(), loadRatings()]); renderBoard(); } });
+/* Keep every device in step: the shared profile (GPA, scores, rigor, activities, test-optional, school) and the
+   board reload whenever the app comes back to the foreground, the phone comes back online, and every 45 seconds
+   while the app is open. If anything about the profile changed, the page you are on redraws (unless you are
+   typing in the profile form, which is never overwritten). */
+let _syncBusy=false, _syncAt=0;
+async function syncShared(force){
+  if(DEMO || !state.session || !state.family || !state.me || _syncBusy || document.hidden) return;
+  if(!force && Date.now()-_syncAt<15000) return;
+  _syncBusy=true;
+  try{
+    const before=JSON.stringify(state.profiles||{});
+    await Promise.all([loadSchools(), loadRatings(), loadProfiles()]);
+    if(state.pending || (typeof pendingMode==="function" && pendingMode())) await loadPending();
+    _syncAt=Date.now();
+    const changed = before!==JSON.stringify(state.profiles||{});
+    const t=(document.activeElement||{}).tagName||"";
+    const typing = currentView==="profile" && /INPUT|TEXTAREA|SELECT/.test(t);
+    if(changed && !typing) refreshCurrent(); else if(currentView!=="board") renderBoard();
+  }catch(e){ /* offline or busy: try again next time */ }
+  finally{ _syncBusy=false; }
+}
+document.addEventListener("visibilitychange", () => { if(!document.hidden) syncShared(true); });
+window.addEventListener("focus", () => syncShared(false));
+window.addEventListener("online", () => syncShared(true));
+setInterval(() => syncShared(false), 45000);
 function esc(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
 /* ========== SAMPLE FAMILY (#49): try everything before signing up ==========
