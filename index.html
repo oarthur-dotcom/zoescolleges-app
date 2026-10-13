@@ -1285,6 +1285,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .vk-gut{display:flex;gap:6px;flex-wrap:wrap}.vk-g{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}.vk-g.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
 .vk-stars{display:flex;gap:2px;align-items:center;margin-top:10px}.vk-stars .s{font-size:28px;background:none;border:none;color:var(--line);cursor:pointer;padding:2px 4px;min-width:40px;min-height:40px}.vk-stars .s.on{color:var(--star,#e8ac45)}
 .vk-strip{display:flex;gap:6px;overflow-x:auto;margin-top:10px}.vk-strip img{width:84px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+.vk-ph{position:relative;flex:0 0 auto}.vk-phx{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:999px;width:28px;height:28px;padding:0;font-size:13px;cursor:pointer}
 #vk-note{width:100%}
 .vk-qg{margin-bottom:8px}.vk-qh{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:6px 0 4px}
 .vk-q{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 11px;margin:4px 0;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}
@@ -2481,6 +2482,7 @@ async function loadFamily(){
     state.family = fams && fams[0];
     await Promise.all([loadSchools(), loadRatings(), loadCatalog(), loadProfiles(), loadPrefs(), loadPhotos(), loadTalk(), loadBallot()]);
     try{ await loadOffers(); }catch(e){}
+    try{ await loadFinance(); }catch(e){}
     try{ await loadPending(); await maybeClaimPending(); }catch(e){}
     try{ await loadSwipes(); }catch(e){}
     try{ await loadRanks(); }catch(e){}
@@ -3821,7 +3823,7 @@ function renderMemories(){
       <button class="small" data-mem-reel="${esc(sid)}">▶ Reel</button><button class="small" data-mem-addto="${esc(sid)}">＋ Photo</button>${list.some(memMine)?`<button class="small ghost mem-delall" data-mem-delall="${esc(sid)}" title="Delete all your photos from this visit">🗑 Delete all</button>`:""}</div>
       <div class="mem-grid">${list.map(p=>{ const pr=mp[p.id]||{}; const off=pr.off?" off":"";
         return `<div class="mem-ph${off}" data-ph="${esc(p.id)}"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||"Visit photo")}" loading="lazy">${p.caption?`<div class="mp-cap">${esc(p.caption)}</div>`:""}
-          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button>${(state.schools||[]).some(x=>x.school_id===sid)?`<button class="mp-btn cov ${(getChecklist(sid)||{})._cover===p.id?"on":""}" data-cover title="${(getChecklist(sid)||{})._cover===p.id?"This is the school's picture on your board — tap to go back to the official photo":"Use as this school's picture on your board"}" aria-label="Use as school picture">🖼</button>`:""}${memMine(p)?`<button class="mp-btn del" data-del title="Delete this photo" aria-label="Delete this photo">✕</button>`:""}</div></div>`; }).join("")}</div>
+          <div class="mp-ctrl"><button class="mp-btn feat ${pr.feat?"on":""}" data-feat title="Feature first in the reel" aria-label="Feature">★</button><button class="mp-btn inc" data-inc title="${pr.off?"Put back in the reel":"Leave out of the reel"}" aria-label="Include or skip">${pr.off?"＋":"✓"}</button>${(state.schools||[]).some(x=>x.school_id===sid)?`<button class="mp-btn cov ${(getChecklist(sid)||{})._cover===p.id?"on":""}" data-cover title="${(getChecklist(sid)||{})._cover===p.id?"This is the school's picture on your board — tap to go back to the official photo":"Use as this school's picture on your board"}" aria-label="Use as school picture">🖼</button>`:""}${canDelPhoto(p)?`<button class="mp-btn del" data-del title="Delete this photo" aria-label="Delete this photo">✕</button>`:""}</div></div>`; }).join("")}</div>
       ${takes.length?`<div class="mem-takes">${takes.map(r=>`<div class="mem-take"><b>${esc(names[r.user_id]||"Family")}</b> ${r.rating?`<span class="mem-stars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`:""}${r.note?` <span>“${esc(r.note)}”</span>`:""}</div>`).join("")}</div>`
         :`<div class="mem-takes muted" style="font-size:12.5px">No one has rated ${esc(schoolName(sid))} yet — rate it on your board while it's fresh.</div>`}
     </div>`; }).join("")+(photos.some(memMine)?`<div class="mem-delmine"><button class="linklike" id="mem-delmine">🗑 Delete all my photos</button> <span class="muted" style="font-size:12px">Only photos you added. Can't be undone.</span></div>`:"");
@@ -4662,7 +4664,7 @@ function renderVisitKit(){
       <div class="vk-stars" aria-label="Your stars">${[1,2,3,4,5].map(n=>`<button class="s ${starCls(mine.rating!=null?+mine.rating:null,n)}" data-rate="${esc(id)}|${n}" aria-label="${n} star${n>1?"s":""} (double-click for ${n-0.5})">★</button>`).join("")}<span class="muted" style="font-size:12px">your stars — the family sees them · double-click a star for a half</span></div></div>
     <div class="card vk-card"><div class="vk-h">📷 Snap it <span class="muted">(goes straight to Memories)</span></div>
       <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="vk-file" accept="image/*" capture="environment" style="display:none"><button class="small primary" id="vk-snap">📷 Take a photo</button><input type="text" id="vk-cap" placeholder="Caption (optional)" maxlength="120" style="flex:1;min-width:140px"><span class="muted" id="vk-snapmsg" style="font-size:12px"></span></div>
-      ${photos.length?`<div class="vk-strip">${photos.slice(0,8).map(p=>`<img src="${esc(p.url||p.data)}" alt="" loading="lazy">`).join("")}</div>`:""}</div>
+      ${photos.length?`<div class="vk-strip">${photos.slice(0,8).map(p=>`<span class="vk-ph"><img src="${esc(p.url||p.data)}" alt="" loading="lazy">${canDelPhoto(p)?`<button type="button" class="vk-phx" data-vkdel="${esc(p.id)}" aria-label="Delete this photo" title="Delete this photo">✕</button>`:""}</span>`).join("")}</div>`:""}</div>
     <div class="card vk-card"><div class="vk-h">📝 Notes <span class="muted">(saved as you type · your family sees them)</span></div><textarea id="vk-note" rows="4" maxlength="1000" placeholder="What stood out? The dorms, the food, the people, the vibe…">${esc(mine.note||"")}</textarea><div class="muted" id="vk-notemsg" style="font-size:12px;min-height:16px"></div></div>
     <div class="card vk-card"><div class="vk-h">🙋 Questions to ask <span class="muted">(tap once: ★ want to ask · twice: ✓ asked)</span></div>${qHtml}
       <button class="small" id="vk-zoe">💬 Ask Zoe for questions about ${esc(name)}</button></div>
@@ -4673,6 +4675,7 @@ function renderVisitKit(){
   el.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{ const v2=vkGet(id); const k=b.dataset.vq; const cur=v2.q[k]||""; v2.q[k]= cur===""?"star":cur==="star"?"asked":""; if(!v2.q[k]) delete v2.q[k]; saveVisit(id,v2); renderVisitKit(); });
   const fi=$("vk-file"); $("vk-snap").onclick=()=>fi.click();
   fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const m=$("vk-snapmsg"); m.textContent="Saving…"; try{ await addPhoto(id,f,($("vk-cap").value||"").trim()); await loadPhotos(); renderVisitKit(); }catch(e){ m.textContent="Couldn't save that photo — try again."; } };
+  el.querySelectorAll("[data-vkdel]").forEach(b=>b.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; b.disabled=true; await removePhoto(b.dataset.vkdel); await loadPhotos(); renderVisitKit(); });
   let t=null; const ta=$("vk-note"), nm=$("vk-notemsg");
   ta.oninput=()=>{ nm.textContent="…"; clearTimeout(t); t=setTimeout(async()=>{ try{ const cur=(state.ratings||[]).find(r=>r.school_id===id&&r.user_id===state.me.user_id);
       await sb.from("ratings").upsert({ family_id:state.family.id, school_id:id, user_id:state.me.user_id, rating:cur?cur.rating:null, note:ta.value, updated_at:new Date().toISOString() }); await loadRatings(); nm.textContent="Saved ✓"; }catch(e){ nm.textContent="Couldn't save — check your connection."; } },900); };
@@ -4699,7 +4702,7 @@ function renderCost(){
   const opts=[["","Prefer not to say"],["0","Under $30k"],["1","$30k–48k"],["2","$48k–75k"],["3","$75k–110k"],["4","Over $110k"]].map(([v,t])=>`<option value="${v}" ${String(yb??"")===v?"selected":""}>${t}</option>`).join("");
   const summary = known.length ? `<div class="cost-sum"><div><span class="muted">Lowest</span><b>${money(known[0].best)}</b><span>${esc(known[0].name)}</span></div><div><span class="muted">Highest</span><b>${money(known[known.length-1].best)}</b><span>${esc(known[known.length-1].name)}</span></div><div><span class="muted">4 years, lowest</span><b>~${money(known[0].best*4)}</b><span>before raises in cost</span></div></div>` : "";
   const table=`<div class="cost-tbl" role="table" aria-label="Cost per school">
-    <div class="cost-tr cost-th" role="row"><span role="columnheader">School</span><span role="columnheader">Sticker / yr</span><span role="columnheader">${familyFinance().income!=null?"Likely for you":yb!==null&&state.incomePrices?`Typical for ${esc(INCOME_BANDS[yb])}`:"Typical after aid"}</span><span role="columnheader">Their offer</span><span role="columnheader">Earnings (10 yr)</span></div>
+    <div class="cost-tr cost-th" role="row"><span role="columnheader">School</span><span role="columnheader">Sticker / yr</span><span role="columnheader">${familyFinance().income!=null?"Likely for you":yb!==null&&state.incomePrices?(myRole()==="student"?"Adjusted for your family":`Typical for ${esc(INCOME_BANDS[yb])}`):"Typical after aid"}</span><span role="columnheader">Their offer</span><span role="columnheader">Earnings (10 yr)</span></div>
     ${rows.map(r=>`<div class="cost-tr" role="row"><span class="cost-nm" role="cell"><b>${esc(r.name)}</b></span>
       <span role="cell" data-l="Sticker / yr">${money(r.sticker)}</span>
       <span role="cell" data-l="${familyFinance().income!=null?"Likely for you":"Typical after aid"}">${r.typ!=null?`<b>${money(r.typ)}</b>`:"—"}${r.typ!=null&&!r.yours&&yb!==null?` <i class="muted">(avg)</i>`:""}${r.oos&&r.typ!=null?` <i class="muted">(incl. ~${money(r.oos)} out-of-state tuition)</i>`:""}
@@ -4713,13 +4716,15 @@ function renderCost(){
       ${l?`<div class="offer-note">⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.</div>`:""}
       <button class="small" data-offer-zoe="${esc(id)}">💬 Ask Zoe to explain this offer</button></div>`; }).join("");
   const fin=familyFinance(); const sai=fin.income?estimateSAI(fin.income):null;
-  el.innerHTML=`<div class="card"><div class="cf-box"><div class="cf-h">Your family's numbers <span>— only your family sees them</span></div>
-      <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
+  const kidView=myRole()==="student";
+  const kidBox=`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 private to your parents</span></div><div class="cf-sai muted" style="margin-top:6px">${(fin.income!=null||fin.band!=null)?"The prices below are <b>adjusted for your family's income</b>. Your parents entered it and only they can see the number — you still see what each school will likely cost.":"Prices below are averages. When a parent adds the family income here, they adjust for your family — you'll see the adjusted prices but never the income."}</div></div>`;
+  el.innerHTML=`<div class="card">${kidView?kidBox:`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 only parents can see these — kids see adjusted prices, not the income</span></div>
+      <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income&&fin.exact?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
         <div><span class="cf-lbl">Kids in college at the same time</span><div class="cf-kids" role="group" aria-label="Kids in college at the same time">${[1,2,3].map(n=>`<button type="button" data-cfk="${n}" class="${(fin.kids>=3?3:fin.kids)===n?"on":""}" aria-pressed="${(fin.kids>=3?3:fin.kids)===n}">${n===3?"3+":n}</button>`).join("")}</div></div>
         <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button></div></div>
       <div id="cf-msg" class="cf-msg" role="status"></div>
       ${sai!=null?`<div class="cf-sai">Estimated family contribution (the federal <b>Student Aid Index</b>): <b>~${money(sai)}/yr</b>${fin.kids>1?` · about <b>${money(Math.round(sai/fin.kids))}</b> per student at private schools with ${fin.kids} in college`:""}. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.</div>`:`<div class="cf-sai muted">Add your income to see what each school will likely cost <b>you</b> — not just the average.</div>`}
-    </div>
+    </div>`}
       ${summary}${table}
       <p class="muted" style="font-size:11px;margin:10px 0 0">"Typical after aid" is the federal College Scorecard net price for aided first-year students. For public schools outside your home state we add the out-of-state tuition difference. Every family's real cost differs — use each school's net-price calculator, and compare real offers below once they arrive.</p></div>
     <div class="card offers"><div class="pv-head"><h2 style="margin:0">📄 Aid offers</h2><button class="small primary" id="offer-upload">＋ Add an aid letter</button></div>
@@ -5322,6 +5327,7 @@ function renderCompare(){
    The family picks an income range in Profile (stored in their private, family-only preferences). */
 const INCOME_URL = CATALOG_URL.replace(/colleges\.json$/,"net-price-by-income.json");
 const INCOME_BANDS = ["$0–30k","$30–48k","$48–75k","$75–110k","$110k+"];
+function bandLabel(b){ return myRole()==="student" ? "adjusted for family income" : INCOME_BANDS[b]; }   // kids never see the income range
 state.incomePrices = null;
 /* #53 Aid from the school itself (IPEDS 2022–23): share of first-year students who get the school's own grants,
    and the average. Mixes need-based and merit aid — the page says so. Separate file next to the catalog. */
@@ -5432,9 +5438,25 @@ function detailDeadlines(info,cell){
 function r_conf(v){ return v.rounds.some(r=>r.conf==="medium")?" (some dates medium confidence)":""; }
 function nextDlText(info){ const n=info?nextDeadline(info):null; return n?`${n.kind} · ${_fmtD(n.date)}`:""; }
 // #79 (Oct 11): the family's own numbers — gross income and how many kids are in college at once — shared by the family.
-function familyFinance(){ const pick=w=>w&&typeof w.incomeExact==="number"&&w.incomeExact>0?w:null;
-  const w=pick(myPrefs()) || (state.members||[]).map(m=>pick(state.prefs[m.user_id])).find(Boolean);
-  return w ? { income:w.incomeExact, kids:Math.max(1,Math.min(4,+w.kidsInCollege||1)) } : { income:null, kids:1 }; }
+function familyFinance(){ const f=state.fin;
+  if(f && ((f.income>0)||f.band!=null)) return { income:f.income>0?f.income:null, kids:Math.max(1,Math.min(4,+f.kids||1)), exact:!!f.exact, band:f.band==null?null:+f.band };
+  const w=myPrefs(); if(w && typeof w.incomeExact==="number" && w.incomeExact>0) return { income:w.incomeExact, kids:Math.max(1,Math.min(4,+w.kidsInCollege||1)), exact:true, band:bandForIncome(w.incomeExact) };   // legacy row (until it is moved)
+  return { income:null, kids:1, exact:false, band:null }; }
+// M22: income lives in a private table (parents only). Kids get a band + a rounded figure used only to price schools.
+async function loadFinance(){ state.fin=null; if(DEMO||!state.family||!state.me) return;
+  try{ let mine=null;
+    if(myRole()!=="student"){ const {data}=await sb.from("family_finance").select("*").eq("user_id",state.me.user_id).limit(1); mine=data&&data[0]; }
+    if(mine && (mine.income_exact!=null||mine.band!=null)){ state.fin={income:mine.income_exact!=null?+mine.income_exact:null, band:mine.band, kids:mine.kids||1, exact:true}; }
+    else { const {data}=await sb.rpc("family_pricing"); const r=data&&data[0]; if(r && (r.band!=null||r.income_rounded!=null)) state.fin={income:r.income_rounded!=null?+r.income_rounded:null, band:r.band, kids:r.kids||1, exact:false}; } }catch(e){} }
+async function saveFinance(patch){
+  if(myRole()==="student") return;   // kids never write (the database refuses it too)
+  const cur=state.fin&&state.fin.exact?state.fin:{income:null,band:null,kids:1};
+  const n={ income:cur.income, band:cur.band, kids:cur.kids, ...patch };
+  state.fin={ income:n.income>0?n.income:null, band:n.band==null||n.band===""?null:+n.band, kids:n.kids||1, exact:true };
+  if(!DEMO && state.family && state.me){
+    await sb.from("family_finance").upsert({ user_id:state.me.user_id, family_id:state.family.id, income_exact:state.fin.income, band:state.fin.band, kids:state.fin.kids, updated_at:new Date().toISOString() });
+    const w=myPrefs(); if("incomeExact" in w||"incomeBand" in w||"kidsInCollege" in w){ const c={...w}; delete c.incomeExact; delete c.incomeBand; delete c.kidsInCollege; await savePrefs(c); }   // strip the old family-readable copy
+  } }
 const INCOME_EDGES=[30000,48000,75000,110000];
 function bandForIncome(x){ let b=0; while(b<INCOME_EDGES.length && x>INCOME_EDGES[b]) b++; return b; }
 // Simplified federal Student Aid Index (2025-26 parent formula, income only; a family of 4). Savings, home equity and
@@ -5449,9 +5471,8 @@ function estimateSAI(income){ const x=Math.max(0,+income||0); if(!x) return null
   else if(aai<=30400) pc=5719+(aai-25300)*0.29; else if(aai<=35500) pc=7198+(aai-30400)*0.34; else if(aai<=40600) pc=8932+(aai-35500)*0.40; else pc=10972+(aai-40600)*0.47;
   return Math.max(0, Math.round(pc/100)*100); }
 function myIncomeBand(){
-  const fin=familyFinance(); if(fin.income!=null) return bandForIncome(fin.income);
+  const fin=familyFinance(); if(fin.band!=null) return fin.band; if(fin.income!=null) return bandForIncome(fin.income);
   const own=myPrefs().incomeBand; if(own!==undefined && own!=="" && own!==null) return +own;
-  for(const m of (state.members||[])){ const w=state.prefs[m.user_id]; if(w && w.incomeBand!==undefined && w.incomeBand!=="" && w.incomeBand!==null) return +w.incomeBand; }   // a parent may have set it
   return null;
 }
 // -> {v, band, label, inState} or null
@@ -5480,15 +5501,15 @@ function yourNet(info){
     // Oct 12: at full price, most schools still give most students their own aid (largely merit). Take off the
     // typical amount (average award × share of students who get it) so "likely" isn't just the sticker.
     if(basis==="sticker" && aid && aid.pct>=50 && aid.avg>0){ est=Math.max(0, Math.round(S - aid.avg*aid.pct/100)); basis="schoolaid"; }
-    return { v:est, band:b, label:`$${Math.round(fin.income/1000)}k income`, outOfState: sur>0, surcharge:sur, basis, sai, saiEff, kids:fin.kids, pub, generous, aid }; }
+    return { v:est, band:b, label: fin.exact?`$${Math.round(fin.income/1000)}k income`:"adjusted for family income", outOfState: sur>0, surcharge:sur, basis, sai, saiEff, kids:fin.kids, pub, generous, aid }; }
   if(typeof v!=="number") return null;
-  return { v: v+sur, band:b, label:INCOME_BANDS[b], outOfState: sur>0, surcharge:sur, basis:"band" };
+  return { v: v+sur, band:b, label:(fin.exact||fin.band==null)?INCOME_BANDS[b]:"adjusted for family income", outOfState: sur>0, surcharge:sur, basis:"band" };
 }
 function yourNetWhy(y){ if(!y) return "";
   if(y.basis==="sticker") return "full price at your income (before any merit aid)";
   if(y.basis==="schoolaid") return `full price minus the school's own aid — ${y.aid.pct}% of students here get it, about ${money(y.aid.avg)} on average`;
   if(y.basis==="sai") return `your estimated family contribution${y.kids>1&&!y.pub?` split across ${y.kids} in college`:""}${y.generous?" — this school gives large need-based grants":""}`;
-  return y.label && /k income/.test(y.label) ? "what families like yours typically paid here" : `typical for families earning ${y.label}`; }
+  return y.label && (/k income/.test(y.label)||/family income/.test(y.label)) ? "what families like yours typically paid here" : `typical for families earning ${y.label}`; }
 // a merit hint: scores in the top quarter of this school's admitted students
 function meritHint(info){ const sc=(info&&info.scorecard)||{}; const my=studentSat(studentProfile()||{}); if(!my) return false;
   return typeof sc.sat75==="number" ? my>=sc.sat75 : (typeof sc.satAvg==="number" ? my>=sc.satAvg+100 : false); }
@@ -5496,8 +5517,8 @@ function npcLink(id){ const v=state.visitLinks&&state.visitLinks[id]; return v&&
 function netMoney(v){ return v<=0 ? "$0" : money(v); }
 function yourNetHtml(info){ const y=yourNet(info); if(!y) return null;
   return `${netMoney(y.v)}${y.v<=0?` <span class="muted" style="font-size:11px">(aid can cover full cost)</span>`:""}${y.outOfState?` <span class="muted" style="font-size:11px">(includes ~${money(y.surcharge)} out-of-state tuition)</span>`:""}`; }
-async function setIncomeBand(v){ const w={...myPrefs(), incomeBand: v===""?"":+v, incomeExact:null}; await savePrefs(w); }
-async function setFamilyFinance(income, kids){ const w={...myPrefs(), incomeExact: income>0?Math.round(income):null, kidsInCollege: kids, incomeBand: income>0?bandForIncome(income):myPrefs().incomeBand}; await savePrefs(w); }
+async function setIncomeBand(v){ await saveFinance({ income:null, band: v===""?null:+v }); }
+async function setFamilyFinance(income, kids){ await saveFinance({ income: income>0?Math.round(income):null, kids, band: income>0?bandForIncome(income):((state.fin&&state.fin.band)==null?null:state.fin.band) }); }
 function costCardHtml(onlyIds){   // #70: Compare passes the picked schools, so the chart shows those (not the whole board)
   const yb=myIncomeBand(); const useYour = yb!==null && !!state.incomePrices;
   const price=info=>{ if(useYour){ const y=yourNet(info); if(y) return Math.max(0,y.v); } return avgNet(info); };
@@ -5511,10 +5532,13 @@ function costCardHtml(onlyIds){   // #70: Compare passes the picked schools, so 
     const tag = useYour && !r.yours ? ` <span class="muted" style="font-size:10.5px">(avg — no income data)</span>` : "";
     return `<div class="cost-row"><span class="cost-nm">${esc(r.rec.name)}${tag}</span><div class="cost-track"><div class="cost-fill" style="width:${Math.max(6,w)}%"></div></div><span class="cost-v">${money(r.np)}${earn?`<span class="cost-earn">grads earn ~${money(earn)}</span>`:""}</span></div>`;
   }).join("");
-  const head = useYour ? `for families earning <b>${INCOME_BANDS[yb]}</b>` : `average after aid`;
+  const head = useYour ? (myRole()==="student"?`<b>adjusted for your family's income</b>`:`for families earning <b>${INCOME_BANDS[yb]}</b>`) : `average after aid`;
   const opts=[["","Prefer not to say"],["0","Under $30k"],["1","$30k–48k"],["2","$48k–75k"],["3","$75k–110k"],["4","Over $110k"]].map(([v,t])=>`<option value="${v}" ${String(yb??"")===v?"selected":""}>${t}</option>`).join("");
-  const nudge = state.incomePrices ? `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 0;font-size:12.5px">${useYour?"":"💡 "}<label for="cost-income" style="margin:0">${useYour?"Family income:":"Pick your family's income to see what each school typically costs <b>you</b>:"}</label>
-      <select id="cost-income" data-income-inline style="width:auto">${opts}</select><span class="muted" style="font-size:11px">Only your family sees this.</span></div>` : "";
+  const kid=myRole()==="student";
+  const nudge = !state.incomePrices ? "" : kid
+    ? `<div class="muted" style="font-size:12.5px;margin:10px 0 0">${useYour?"🔒 These prices are adjusted for your family's income. Your parents entered it — only they can see the number.":"💡 These are averages. Once a parent adds the family income, prices here adjust for your family (you won't see the number)."}</div>`
+    : `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 0;font-size:12.5px">${useYour?"":"💡 "}<label for="cost-income" style="margin:0">${useYour?"Family income:":"Pick your family's income to see what each school typically costs <b>you</b>:"}</label>
+      <select id="cost-income" data-income-inline style="width:auto">${opts}</select><span class="muted" style="font-size:11px">🔒 Only parents see this — kids see adjusted prices, not the number.</span></div>`;
   return `<div class="card cost-card"><div class="pv-head"><h2 style="margin:0">💰 What will it cost us?</h2><span class="muted" style="font-size:12px">avg ${money(avg)}/yr · ~${money(avg*4)} for 4 years</span></div>
     <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Typical yearly <b>net price</b> (after grants and scholarships), ${head} — lowest first. Where available, median earnings 10 years after enrolling.</p>
     <div class="cost-rows">${body}</div>${nudge}
@@ -5551,7 +5575,7 @@ function buildCompare(){
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
-    ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${INCOME_BANDS[myIncomeBand()]})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
+    ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${bandLabel(myIncomeBand())})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
     {k:"Net price / yr", get:c=>avgNet(c.info||c), fmt:v=>v==null?"—":money(v), dir:"lo"},
     {k:"Grad rate", get:c=>g(c).gradRate, fmt:v=>v==null?"—":pct(v), dir:"hi"},
     {k:"Earnings (10yr)", get:c=>g(c).medianEarnings10yr, fmt:v=>v==null?"—":money(v), dir:"hi"},
@@ -5858,7 +5882,7 @@ function photosFor(id){ return state.photos.filter(p=>p.school_id===id); }
 function photoSection(id){
   const ps = photosFor(id);
   const note = BACKEND.photostore ? "" : `<p class="muted" style="font-size:12px">Photos are saved on this device during setup. They'll sync to your family once storage is switched on.</p>`;
-  const grid = ps.length ? `<div class="photogrid">${ps.map((p,i)=>`<div class="photo"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||'')}">${p.caption?`<div class="cap">${esc(p.caption)}</div>`:""}<button class="rm" data-rmphoto="${esc(p.id)}">✕</button></div>`).join("")}</div>` : `<p class="muted" style="font-size:13px">No photos yet — add one from your visit.</p>`;
+  const grid = ps.length ? `<div class="photogrid">${ps.map((p,i)=>`<div class="photo"><img src="${esc(p.url||p.data)}" alt="${esc(p.caption||'')}">${p.caption?`<div class="cap">${esc(p.caption)}</div>`:""}${canDelPhoto(p)?`<button class="rm" data-rmphoto="${esc(p.id)}" aria-label="Delete this photo" title="Delete this photo">✕</button>`:""}</div>`).join("")}</div>` : `<p class="muted" style="font-size:13px">No photos yet — add one from your visit.</p>`;
   return `${grid}
     <div class="row" style="margin-top:10px">
       <input type="file" accept="image/*" capture="environment" id="photo-input-${esc(id)}" style="display:none">
@@ -5875,7 +5899,7 @@ function wirePhotos(id){
       try{ const cap=(root.querySelector(`#photo-cap-${CSS.escape(id)}`)||{}).value||""; await addPhoto(id, f, cap); await loadPhotos(); renderDetail(id); }
       catch(e){ alert("Couldn't add photo: "+(e.message||e)); addBtn.disabled=false; addBtn.textContent="📷 Add photo"; } };
   }
-  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!confirm("Remove this photo?"))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
+  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
 }
 function resizeImage(file, maxDim, quality){
   return new Promise((resolve,reject)=>{
@@ -5923,6 +5947,8 @@ async function addPhoto(schoolId, file, caption){
 }
 /* Oct 12: delete photos from Memories. You can delete photos you added (the database only lets the person who added a photo remove it). */
 function memNote(t){ const c=document.querySelector("#mem-list .mem-count")||document.querySelector("#mem-list"); if(c){ const n=document.createElement("div"); n.className="mem-note"; n.setAttribute("role","status"); n.textContent="✓ "+t; c.parentNode.insertBefore(n,c); setTimeout(()=>n.remove(),4000); } }
+// Parents can delete any family photo; kids can delete their own. (The database enforces the same rule.)
+function canDelPhoto(p){ return memMine(p) || myRole()==="parent"; }
 function memMine(p){ return !!p && (String(p.id).startsWith("ls-") || (state.me && p.user_id===state.me.user_id)); }
 async function memDeleteMany(list, where){
   const mine=list.filter(memMine), others=list.length-mine.length; if(!mine.length) return;
@@ -5931,10 +5957,14 @@ async function memDeleteMany(list, where){
   await loadPhotos(); renderMemories(); memNote(`${mine.length} photo${mine.length>1?"s":""} deleted.`);
 }
 async function removePhoto(pid){
-  if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return; }
+  if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return true; }
   const p = state.photos.find(x=>x.id===pid);
-  try{ if(p&&p.path) await sb.storage.from("campus-photos").remove([p.path]); }catch(e){}
-  try{ await sb.from("photos").delete().eq("id", pid); }catch(e){}
+  if(DEMO){ try{ await sb.from("photos").delete().eq("id", pid); }catch(e){} return true; }
+  let ok=false;
+  try{ const r=await sb.from("photos").delete().eq("id", pid).select("id"); ok=!r.error && r.data && r.data.length>0; }catch(e){}
+  if(!ok){ try{ alert("Couldn't delete that photo — only the person who added it (or a parent) can."); }catch(e){} return false; }
+  try{ if(p&&p.path) await sb.storage.from("campus-photos").remove([p.path]); }catch(e){}   // file goes only after the record is really gone
+  return true;
 }
 function blobToDataURL(b){ return new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(b); }); }
 
@@ -7086,7 +7116,7 @@ async function syncShared(force){
   _syncBusy=true;
   try{
     const sig=()=>JSON.stringify([state.profiles||{},state.prefs||{},state.ranks||{}]); const before=sig();
-    await Promise.all([loadSchools(), loadRatings(), loadProfiles(), loadPrefs(), loadRanks()]);
+    await Promise.all([loadSchools(), loadRatings(), loadProfiles(), loadPrefs(), loadRanks(), loadFinance().catch(()=>{})]);
     if(state.pending || (typeof pendingMode==="function" && pendingMode())) await loadPending();
     _syncAt=Date.now();
     const changed = before!==sig();
