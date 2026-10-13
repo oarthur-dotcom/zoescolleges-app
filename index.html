@@ -139,6 +139,8 @@ details.extra summary{font-family:var(--mono);font-size:12px;color:var(--muted);
 textarea{width:100%;min-height:60px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);font-family:var(--disp);font-size:14px}
 /* #65: floating buttons stop covering content — none for Zoe on wide screens (Ask Zoe is in the menu); on phones they tuck away while scrolling down */
 @media (max-width:899px){ #zoe-fab .zf-p{display:none} }
+@media (min-width:900px){ #zoe-fab{display:none!important} }   /* Oct 13: on wide screens Ask Zoe lives in the menu — the floating button covered stars and Add buttons */
+@media (max-width:899px){ .mem-ph .mp-btn{min-width:36px;min-height:36px;font-size:14px} .td-tour,.ns-tour{min-height:40px} .tv-links .linklike,.near-cat{min-height:40px} .ai-btn{min-height:40px} }
 #zoe-page{font-size:12.5px;color:var(--muted);padding:6px 14px 0}#zoe-page b{color:var(--ink)}
 #zoe-fab,.fab{transition:transform .25s ease,opacity .25s ease}
 body.fab-tuck #zoe-fab,body.fab-tuck .fab{transform:translateY(140%);opacity:0;pointer-events:none}
@@ -276,7 +278,7 @@ a{color:var(--teal)}
 .plan-item .x:hover{color:var(--warn)}
 .ts-plan-add{display:flex;gap:8px;align-items:stretch;flex-direction:column}
 .near-cats{display:flex;gap:6px;flex-wrap:wrap}
-.near-cat{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px}
+.near-cat{display:inline-flex;align-items:center;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px}
 .near-cat.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 13%,var(--surface));color:var(--teal)}
 .plan-form{display:flex;gap:6px}.plan-form .plan-in{min-width:0}
 .ts-onsite{font-size:12.5px;color:var(--muted);margin:6px 0 2px}.ts-onsite.today{color:var(--ink);background:color-mix(in srgb,var(--teal) 10%,var(--surface));border-radius:10px;padding:8px 10px}
