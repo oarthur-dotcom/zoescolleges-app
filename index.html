@@ -1285,6 +1285,10 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .vk-gut{display:flex;gap:6px;flex-wrap:wrap}.vk-g{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;cursor:pointer;min-height:40px}.vk-g.on{background:var(--teal);border-color:var(--teal);color:var(--on-teal)}
 .vk-stars{display:flex;gap:2px;align-items:center;margin-top:10px}.vk-stars .s{font-size:28px;background:none;border:none;color:var(--line);cursor:pointer;padding:2px 4px;min-width:40px;min-height:40px}.vk-stars .s.on{color:var(--star,#e8ac45)}
 .vk-strip{display:flex;gap:6px;overflow-x:auto;margin-top:10px}.vk-strip img{width:84px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+.ai-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:var(--surface);color:var(--teal);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px}
+.ai-menu{position:fixed;z-index:9999;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);padding:6px;width:min(280px,calc(100vw - 16px))}
+.ai-note{font-size:11.5px;color:var(--muted);padding:6px 8px 8px}.ai-mi{display:block;width:100%;text-align:left;background:none;border:none;color:inherit;font-size:14px;padding:11px 10px;border-radius:8px;cursor:pointer;min-height:44px}.ai-mi:hover,.ai-mi:focus{background:color-mix(in srgb,var(--teal) 14%,transparent);outline:none}
+.ai-row{margin:10px 0}
 .vk-ph{position:relative;flex:0 0 auto}.vk-phx{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:999px;width:28px;height:28px;padding:0;font-size:13px;cursor:pointer}
 #vk-note{width:100%}
 .vk-qg{margin-bottom:8px}.vk-qh{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:6px 0 4px}
@@ -3636,7 +3640,7 @@ function renderDecide(){
       <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><select id="dd-final" style="width:auto">${acc.map(s=>`<option value="${esc(s.school_id)}" ${same&&pickNames[0]===s.school_id?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
       ${decideConfirm?`<span class="muted" style="font-size:12.5px">Is everyone ready?</span><button class="small ghost" id="dd-notyet">Not yet</button><button class="small primary" id="dd-yes">Yes — we decided! 🎉</button>`:`<button class="small primary" id="dd-decide">We decided!</button>`}</div></div>` : "";
   const after = dec ? (()=>{ const others=acc.filter(s=>s.school_id!==dec.school_id); return others.length?`<div class="card"><h2 class="dd-h">✉️ Let the other schools know</h2><p class="muted" style="font-size:13px;margin:0 0 8px">It's kind to decline the offers you won't take — it frees a spot for someone on the waitlist.</p>${others.map(s=>`<label class="tk-check"><input type="checkbox" data-dddecline="${esc(s.school_id)}" ${lsGet("declined_"+s.school_id)?"checked":""}> <span>Declined ${esc(s.name)}</span></label>`).join("")}</div>`:""; })() : "";
-  el.innerHTML = hero + `<div class="card"><h2 class="dd-h">📬 Decisions</h2><p class="muted" style="font-size:13px;margin:0 0 8px">Mark each school as decisions come in. Everyone in the family sees it.</p>${statusRows}<div class="tk-msg" id="dd-smsg"></div></div>`
+  el.innerHTML = hero + `<div class="card"><h2 class="dd-h">📬 Decisions</h2><p class="muted" style="font-size:13px;margin:0 0 8px">Mark each school as decisions come in. Everyone in the family sees it.</p>${statusRows}<div class="tk-msg" id="dd-smsg"></div>${board.length>1?`<div class="ai-row">${aiBtn(`Help our family decide between these colleges. ${aiProfileLine()} ${board.map(sc=>{ const r=(state.ratings||[]).filter(x=>x.school_id===sc.school_id&&x.rating).map(x=>x.rating); return aiSchoolLine(sc.school_id)+(r.length?` — family stars ${r.join(", ")}`:"")+(sc.app_status&&sc.app_status!=="planning"?` — status ${sc.app_status}`:""); }).join(" | ")}. Weigh cost, fit and how everyone feels, and ask me the questions that would make the choice clear.`,"Ask AI to help us decide")}</div>`:""}</div>`
     + (acc.length?`<div class="card"><h2 class="dd-h">⚖️ Your acceptances side by side</h2>${compare}</div>`:"") + pickSec + finalSec + after;
   // wiring
   el.querySelectorAll("[data-ddedit]").forEach(b=>b.onclick=()=>{ ddEditing=b.dataset.ddedit; renderDecide(); });
@@ -4499,8 +4503,7 @@ async function loadPulse(id){
     if(storiesAll.length){ const nm=(catInfo(id)||{}).name||"this school";
       const heads=storiesAll.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,4).map(x=>`"${x.title}"`).join("; ");
       const q=`What's going on at ${nm} lately? Recent headlines: ${heads}. What stands out for our family, and anything worth asking on a visit?`.slice(0,600);
-      const askEl=root.querySelector("[data-pulse-ask]"); askEl.innerHTML=`<button class="pask" type="button">💬 Ask Zoe what this means for us</button>`;
-      askEl.querySelector("button").onclick=()=>{ goto("zoe"); setTimeout(()=>{ const inp=$("ztab-in"); if(inp){ inp.value=q; inp.focus(); } },120); }; }
+      const askEl=root.querySelector("[data-pulse-ask]"); askEl.innerHTML=aiBtn(`${q} ${aiProfileLine()}`,"Ask AI what this means for us"); }
     const counts={all:["news","admissions","student"].reduce((n,k)=>n+(S[k]||[]).length,0)};
     for(const k of ["news","admissions","student","events"]) counts[k]=(S[k]||[]).length;
     const order=[["all","All"],["news","News"],["admissions","Admissions"],["student","Students"],["events","Events"]].filter(([k])=>k==="all"||counts[k]);
@@ -4719,7 +4722,7 @@ function renderCost(){
     return `<div class="offer-card"><div class="offer-h"><b>${esc(schoolName(id))}</b>${o.year?` <span class="muted">${esc(o.year)}</span>`:""}<span style="flex:1"></span><button class="linklike" data-offer-edit="${esc(id)}">Edit</button><button class="linklike" data-offer-del="${esc(id)}">Remove</button></div>
       <div class="offer-grid"><div><span>Cost of attendance</span><b>${money(o.coa)}</b></div><div><span>Free money (grants & scholarships)</span><b class="good">${money(g)}</b></div><div><span>Your net cost / yr</span><b>${money(net)}</b></div><div><span>Loans offered</span><b class="${l?"warn":""}">${money(l)}</b></div>${o.workStudy?`<div><span>Work-study (you earn it)</span><b>${money(o.workStudy)}</b></div>`:""}<div><span>Net for 4 years</span><b>~${money(net*4)}</b></div></div>
       ${l?`<div class="offer-note">⚠ Loans aren't aid you keep — they're borrowed and paid back with interest. The net cost above already leaves them out.</div>`:""}
-      <button class="small" data-offer-zoe="${esc(id)}">💬 Ask Zoe to explain this offer</button></div>`; }).join("");
+      <div class="ai-row">${aiBtn(`Explain this financial-aid offer from ${schoolName(id)} in plain English. Cost of attendance ${money(o.coa)}; grants and scholarships ${(o.grants||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; loans ${(o.loans||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; work-study ${money(o.workStudy||0)}. What is free money versus borrowed, what will we really pay per year, and how do we appeal or negotiate?`,"Ask AI about this offer")}</div></div>`; }).join("");
   const fin=familyFinance(); const sai=fin.income?estimateSAI(fin.income):null;
   const kidView=myRole()==="student";
   const kidBox=`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 private to your parents</span></div><div class="cf-sai muted" style="margin-top:6px">${(fin.income!=null||fin.band!=null)?"The prices below are <b>adjusted for your family's income</b>. Your parents entered it and only they can see the number — you still see what each school will likely cost.":"Prices below are averages. When a parent adds the family income here, they adjust for your family — you'll see the adjusted prices but never the income."}</div></div>`;
@@ -4908,6 +4911,7 @@ function renderDetail(id){
       ${info.ipeds&&info.ipeds.yield!=null?cell("Yield (enroll ÷ admit)", pct(info.ipeds.yield)):""}
     </div>
     ${priceNoteHtml(info,id)}
+    <div class="ai-row">${aiBtn(`Help my family think about ${aiSchoolLine(id)}. ${aiProfileLine()} Is it a match, a reach or a safety for this student? What are its real strengths and weak spots for them, and what should we ask on a visit? Be specific and honest.`,"Ask AI about this school")}</div>
     <div class="facts" style="margin-top:4px">
       ${info.vibe?`<span>${esc(info.vibe)}</span>`:""}
       ${info.greekLife?`<span>Greek: <b>${esc(info.greekLife)}</b></span>`:""}
@@ -5137,7 +5141,7 @@ const _legCache={};
 /* ---- calendar file ---- */
 function icsStamp(d){ return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+"00Z"; }
 function icsFor(items, file){ const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Visits//EN","CALSCALE:GREGORIAN"]; const perDay={};
-  items.forEach(x=>{ const n=perDay[x.v.date]=(perDay[x.v.date]||0)+1; const start=new Date(x.v.date+"T00:00:00"); start.setHours(n===1?10:14,0,0,0); const end=new Date(start.getTime()+2*3600e3);
+  items.forEach(x=>{ const n=perDay[x.v.date]=(perDay[x.v.date]||0)+1; const start=new Date(x.v.date+"T00:00:00"); { const tm=/^(\d{1,2}):(\d{2})/.exec(x.v.time||""); if(tm) start.setHours(+tm[1],+tm[2],0,0); else start.setHours(n===1?10:14,0,0,0); } const end=new Date(start.getTime()+2*3600e3);
     const info=x.info||{}; const nm=(info.name||x.v.name||"Campus visit").replace(/[,;\\]/g,""); const loc=[info.city,info.state].filter(Boolean).join(" ").replace(/[,;\\]/g," ");
     lines.push("BEGIN:VEVENT","UID:zc-visit-"+x.id+"-"+x.v.date+"@zoescolleges","DTSTAMP:"+icsStamp(new Date()),"DTSTART:"+icsStamp(start),"DTEND:"+icsStamp(end),"SUMMARY:Campus visit: "+nm,"LOCATION:"+loc,"DESCRIPTION:Planned in Zoe's Colleges"+(x.v.booked?" (tour booked)":""),"END:VEVENT"); });
   lines.push("END:VCALENDAR");
@@ -5145,6 +5149,7 @@ function icsFor(items, file){ const lines=["BEGIN:VCALENDAR","VERSION:2.0","PROD
   const a=document.createElement("a"); a.href=url; a.download=file||"campus-visits.ics"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000); }
 // old callers
 function downloadICS(){ icsFor(upcomingVisits(), "campus-visits.ics"); }
+const NEAR_Q={food:"restaurants",coffee:"coffee",stay:"hotels",see:"things to do",music:"music venues",outdoors:"parks"};
 const NEAR_CATS=[["food","🍽 Food"],["coffee","☕ Coffee"],["stay","🛏 Stay"],["see","📍 Things to do"],["music","🎵 Music & arts"],["outdoors","🌲 Outdoors"]];
 /* ---- Trips → Memories bridge ---- */
 function renderTripMemoriesCard(){
@@ -5158,6 +5163,7 @@ function renderTripMemoriesCard(){
   const b=$("trip-mem-open"); if(b) b.onclick=()=>goto("memories");
 }
 /* ---- the page ---- */
+const fmtTime=t=>{ const m=/^(\d{1,2}):(\d{2})/.exec(t||""); if(!m) return ""; let h=+m[1]; const ap=h>=12?"PM":"AM"; h=h%12||12; return `${h}:${m[2]} ${ap}`; };
 const fmtDay=ymd=>{ const t=Date.parse((ymd||"")+"T12:00:00"); return isFinite(t)?new Date(t).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}):""; };
 const fmtMonth=ymd=>{ const t=Date.parse((ymd||"")+"T12:00:00"); return isFinite(t)?new Date(t).toLocaleDateString("en-US",{month:"short",year:"numeric"}):"Date not set"; };
 function daysAway(ymd){ const t=Date.parse(ymd+"T12:00:00"), n=Date.parse(ymdToday()+"T12:00:00"); const d=Math.round((t-n)/864e5); return d===0?"today":d===1?"tomorrow":`in ${d} days`; }
@@ -5167,14 +5173,16 @@ function tvUpcomingCard(x){ const {id,v,info}=x; const nm=(info&&info.name)||v.n
   const todo=stopPlan(id);
   return `<div class="tv-card${today?" today":""}" data-tv="${esc(id)}">
     <div class="tv-top">${tvThumb(nm,info)}<div class="tv-main"><div class="tv-name">${esc(nm)}</div>
-      <div class="tv-meta">${esc([info&&info.city,info&&info.state].filter(Boolean).join(", "))}${info&&info.city?" · ":""}<b>${esc(fmtDay(v.date))}</b> · ${esc(daysAway(v.date))}${v.booked?` · <span class="tv-ok">✓ Tour booked</span>`:""}</div></div></div>
+      <div class="tv-meta">${esc([info&&info.city,info&&info.state].filter(Boolean).join(", "))}${info&&info.city?" · ":""}<b>${esc(fmtDay(v.date))}</b>${v.time?` · ${esc(fmtTime(v.time))}`:""} · ${esc(daysAway(v.date))}${v.booked?` · <span class="tv-ok">✓ Tour booked</span>`:""}</div></div></div>
     <div class="tv-row"><label class="tv-date">Date <input type="date" data-tvdate="${esc(id)}" value="${esc(v.date)}" min="${ymdToday()}" aria-label="Visit date for ${esc(nm)}"></label>
+      <label class="tv-date" title="When the tour or info session starts">Tour time <input type="time" data-tvtime="${esc(id)}" value="${esc(v.time||"")}" aria-label="Tour start time for ${esc(nm)}"></label>
       <label class="tv-check"><input type="checkbox" data-tvbooked="${esc(id)}" ${v.booked?"checked":""}> Tour booked</label></div>
     <div class="tv-links">${link?`<a href="${esc(link.url)}" target="_blank" rel="noopener">🎟 ${esc(v.booked?"Tour & visit info":link.label)} ↗</a>`:""}${maps?`<a href="${maps}" target="_blank" rel="noopener">📍 Directions ↗</a>`:""}<button type="button" class="linklike" data-tvics="${esc(id)}">📅 Add to calendar</button></div>
     <div class="tv-onsite"><button class="small ${today?"primary":"ghost"}" data-visitkit="${esc(id)}">📍 I'm on campus — start visit</button><span class="muted">${today?"It's visit day! Checklist, photos and quick notes as you walk.":"Use this on the day: checklist, photos and quick notes."}</span></div>
     <details class="tv-more"><summary>Plan your time in town${todo.length?` (${todo.length})`:""}</summary>
       <div class="ts-plan-list">${todo.length?todo.map((it,i)=>`<span class="plan-item">${esc(it)}<button class="x" data-planrm="${esc(id)}|${i}" aria-label="Remove">✕</button></span>`).join(""):`<span class="muted" style="font-size:12px">Nothing yet — find places nearby or add your own.</span>`}</div>
-      ${hasLL(info)?`<div class="near-cats" role="group" aria-label="Find nearby">${NEAR_CATS.map(([k,l])=>`<button type="button" class="near-cat" data-near="${esc(id)}" data-cat="${k}" data-lat="${info.lat}" data-lon="${info.lon}">${l}</button>`).join("")}</div>`:""}
+      ${hasLL(info)?`<div class="near-cats" role="group" aria-label="Find nearby on Google Maps">${NEAR_CATS.map(([k,l])=>`<a class="near-cat" target="_blank" rel="noopener" href="https://www.google.com/maps/search/${encodeURIComponent(NEAR_Q[k]||"things to do")}/@${info.lat},${info.lon},14z" title="Opens Google Maps near ${esc(nm)}">${l} ↗</a>`).join("")}</div><div class="muted" style="font-size:11.5px;margin:2px 0 6px">These open Google Maps near campus. Add anything you like to your plan below.</div>`:""}
+      <div class="ai-row">${aiBtn(`Plan my family's campus visit to ${aiSchoolLine(id)}. We visit on ${fmtDay(v.date)}${v.time?` with the tour at ${fmtTime(v.time)}`:""}. ${aiProfileLine()} Give me: sharp questions to ask on the tour and at the info session, what to see on and around campus, a simple plan for the day around the tour, and good places to eat nearby.${todo.length?` Things we already want to do: ${todo.join("; ")}.`:""}`,"Plan this visit with AI")}</div>
       <form class="plan-form" data-planform="${esc(id)}"><input class="plan-in" type="text" placeholder="Add your own, e.g. dinner at Leunig's" aria-label="Add your own stop" autocomplete="off" maxlength="120"><button class="small" type="submit">Add</button></form>
       <div class="near-out" data-nearout="${esc(id)}"></div></details>
     <div class="tv-foot"><button type="button" class="linklike tv-cancel" data-tvcancel="${esc(id)}">Cancel this visit</button></div>
@@ -5219,6 +5227,7 @@ function wireTrip(out, groups){
   out.querySelectorAll("[data-tvdate]").forEach(inp=>inp.onchange=()=>{ const id=inp.dataset.tvdate, val=inp.value; if(!val) return;
     if(val<ymdToday()){ inp.setCustomValidity("Pick today or later — for a visit that already happened use + Add a past visit."); inp.reportValidity(); return; }
     const v=getVisit(id); v.date=val; v.wish=false; v.past=false; saveVisit(id,v); re(); });
+  out.querySelectorAll("[data-tvtime]").forEach(inp=>inp.onchange=()=>{ const id=inp.dataset.tvtime; const v=getVisit(id); v.time=inp.value||""; saveVisit(id,v); re(); });
   out.querySelectorAll("[data-tvbooked]").forEach(c=>c.onchange=()=>{ const v=getVisit(c.dataset.tvbooked); v.booked=c.checked; saveVisit(c.dataset.tvbooked,v); re(); });
   out.querySelectorAll("[data-tvics]").forEach(b=>b.onclick=()=>{ const id=b.dataset.tvics; icsFor([{id,v:getVisits()[id],info:catInfo(id)}], "campus-visit.ics"); });
   out.querySelectorAll("[data-tvtripics]").forEach(b=>b.onclick=()=>icsFor(groups[+b.dataset.tvtripics]||[], "road-trip.ics"));
@@ -5519,6 +5528,29 @@ function yourNetWhy(y){ if(!y) return "";
 // a merit hint: scores in the top quarter of this school's admitted students
 function meritHint(info){ const sc=(info&&info.scorecard)||{}; const my=studentSat(studentProfile()||{}); if(!my) return false;
   return typeof sc.sat75==="number" ? my>=sc.sat75 : (typeof sc.satAvg==="number" ? my>=sc.satAvg+100 : false); }
+/* ===== ✨ Ask AI (Oct 13): one menu everywhere. We build a prompt from what's already on screen and the family opens it in their own AI.
+   Never includes income — only grades, the school, and adjusted prices. ===== */
+const _aiPrompts={}; let _aiSeq=0, _aiMenu=null;
+function aiProfileLine(){ const sp=studentProfile()||{}; const bits=[sp.gpa&&`GPA ${sp.gpa}`, sp.sat&&`SAT ${sp.sat}`, sp.act&&`ACT ${sp.act}`, sp.major&&`interested in ${sp.major}`, sp.home_state&&`home state ${sp.home_state}`].filter(Boolean);
+  return bits.length?`About the student: ${bits.join(", ")}.`:""; }
+function aiSchoolLine(id){ const info=catInfo(id)||{}; const sc=info.scorecard||{}; const y=yourNet(info);
+  const bits=[[info.city,info.state].filter(Boolean).join(", "), info.ownership, sc.size&&`${sc.size.toLocaleString()} undergrads`, sc.admitRate!=null&&`admit rate ${Math.round(sc.admitRate*100)}%`, y&&`likely net price for us about ${money(Math.max(0,y.v))}/yr (adjusted for family income)`, (!y&&avgNet(info)!=null)&&`average net price about ${money(avgNet(info))}/yr`].filter(Boolean);
+  return `${info.name||schoolName(id)}${bits.length?` (${bits.join("; ")})`:""}`; }
+function aiBtn(prompt, label){ const k="ai"+(++_aiSeq); _aiPrompts[k]=prompt; return `<button type="button" class="ai-btn" data-askai="${k}" aria-haspopup="menu" title="Opens a menu: ChatGPT, Claude or Gemini with the question already written for you">✨ ${esc(label||"Ask AI")}</button>`; }
+function aiClose(){ if(_aiMenu){ _aiMenu.remove(); _aiMenu=null; } }
+function aiCopy(t){ try{ if(navigator.clipboard&&navigator.clipboard.writeText) return navigator.clipboard.writeText(t); }catch(e){} const a=document.createElement("textarea"); a.value=t; document.body.appendChild(a); a.select(); try{ document.execCommand("copy"); }catch(e){} a.remove(); return Promise.resolve(); }
+function aiOpen(btn){ aiClose(); const prompt=_aiPrompts[btn.dataset.askai]; if(!prompt) return; const q=encodeURIComponent(prompt); const long=q.length>5500;
+  const m=document.createElement("div"); m.className="ai-menu"; m.setAttribute("role","menu");
+  const row=(t,attrs)=>`<button type="button" class="ai-mi" role="menuitem" ${attrs}>${t}</button>`;
+  m.innerHTML=`<div class="ai-note">Opens your own AI with the question filled in. Your grades go with it; your family's income never does.</div>`+
+    row("ChatGPT",`data-aiurl="${long?"":"https://chatgpt.com/?q="+q}" data-aigo="https://chatgpt.com/"`)+row("Claude",`data-aiurl="${long?"":"https://claude.ai/new?q="+q}" data-aigo="https://claude.ai/new"`)+row("Gemini (copies the question)",`data-aicopy="1" data-aigo="https://gemini.google.com/app"`)+row("Copy the question",`data-aicopy="1"`);
+  document.body.appendChild(m); _aiMenu=m; const r=btn.getBoundingClientRect(); m.style.top=Math.min(window.innerHeight-m.offsetHeight-8, r.bottom+6)+"px"; m.style.left=Math.max(8,Math.min(window.innerWidth-m.offsetWidth-8, r.left))+"px";
+  m.onclick=async e=>{ const b=e.target.closest(".ai-mi"); if(!b) return; const url=b.dataset.aiurl, go=b.dataset.aigo;
+    if(b.dataset.aicopy||!url){ await aiCopy(prompt); b.textContent=(go?"✓ Copied — paste it in the new tab":"✓ Copied"); if(go) window.open(go,"_blank","noopener"); setTimeout(aiClose,1800); }
+    else { window.open(url,"_blank","noopener"); aiClose(); } };
+  const f=m.querySelector(".ai-mi"); if(f) f.focus(); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-askai]"); if(b){ e.preventDefault(); aiOpen(b); return; } if(_aiMenu && !e.target.closest(".ai-menu")) aiClose(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") aiClose(); });
 /* Oct 13: say plainly where the prices come from, link the school's own numbers, and let the family ask us to refresh a school. */
 function priceNoteHtml(info,id){ const npc=npcLink(id); const site=info&&info.link;
   const links=[npc?`<a href="${esc(npc)}" target="_blank" rel="noopener">${esc(info.name||"the school")}'s net price calculator ↗</a>`:"", site?`<a href="${esc(site)}" target="_blank" rel="noopener">school website ↗</a>`:""].filter(Boolean).join(" · ");
@@ -5614,7 +5646,7 @@ function buildCompare(){
   + `<div class="cxm"><div class="cxm-legend">${cols.map((c,i)=>`<span class="cxm-leg"><span class="cxm-n n${i}">${i+1}</span>${esc(c.rec.name)}</span>`).join("")}</div>
     ${M.map(m=>{ const bi=bestIdx(m.get,m.dir); return `<div class="cxm-row"><div class="cxm-k">${esc(m.k)}</div><div class="cxm-vals">${cols.map((c,i)=>`<div class="cxm-v${i===bi?' best':''}"><span class="cxm-n n${i}">${i+1}</span><span class="cxm-val">${m.fmt(m.get(c))}${i===bi?' <span class="cx-star">★</span>':''}</span></div>`).join("")}</div></div>`; }).join("")}
     <p class="muted" style="font-size:11px;margin:10px 2px 0">★ = strongest in each row. Admit rate isn't scored — lower just means more selective.</p></div>`;
-  out.innerHTML=costCardHtml(ids)+tiles+bestCallout+grid;
+  out.innerHTML=costCardHtml(ids)+tiles+bestCallout+grid+`<div class="ai-row">${aiBtn(`Compare these colleges for my family and tell me which fits best and why: ${cols.map(c=>aiSchoolLine(c.rec.school_id)).join(" | ")}. ${aiProfileLine()} Cover academics, cost, campus life and risk, then give a clear recommendation and what would change it.`,"Ask AI which fits best")}</div>`;
 }
 $("cmp-build").onclick=buildCompare;
 /* ========== DEADLINES ========== */
@@ -6859,7 +6891,8 @@ function zmOpen(kind){
       <label class="zm-lbl">Which prompt? <select id="zm-prompt">${COMMON_APP_PROMPTS.map(p=>`<option>${esc(p)}</option>`).join("")}</select></label>
       <textarea id="zm-draft" rows="6" maxlength="5000" placeholder="Paste your draft here for feedback — or leave it empty and tap Brainstorm."></textarea>
       <div class="zm-row"><span class="muted" id="zm-wc">0 words · Common App limit 650</span><span style="flex:1"></span>
-        <button class="small ghost" id="zm-brain">💡 Brainstorm with me</button><button class="small primary" id="zm-fb">Get feedback</button></div>`;
+        <button class="small ghost" id="zm-brain">💡 Brainstorm with me</button><button class="small primary" id="zm-fb">Get feedback</button></div><div class="ai-row" id="zm-ai"></div>`;
+    { const ai=$("zm-ai"); const mk=()=>{ const d=($("zm-draft").value||"").trim(); const pr=$("zm-prompt").value; ai.innerHTML=aiBtn(`Give me honest coaching feedback on my Common App essay draft. Prompt: ${pr}. Do not rewrite it for me — point out what is working, what is generic, and what to deepen.${d?`\n\nMy draft:\n${d}`:" I have not started yet, so ask me questions to find a story."}`,"Open in my own AI"); }; mk(); $("zm-draft").addEventListener("input",()=>{ clearTimeout(window._zmAi); window._zmAi=setTimeout(mk,400); }); $("zm-prompt").addEventListener("change",mk); }
     const ta=$("zm-draft"), wc=$("zm-wc"); const words=()=>((ta.value.trim().match(/\S+/g)||[]).length);
     ta.oninput=()=>{ const n=words(); wc.textContent=`${n} word${n===1?"":"s"} · Common App limit 650`; wc.classList.toggle("over",n>650); };
     $("zm-brain").onclick=()=>{ const pr=$("zm-prompt").value; ztabAsk(`Help me brainstorm a Common App essay for prompt ${pr}. Ask me questions and suggest directions from my activities.`, {mode:"essay"}, `💡 Brainstorm: prompt ${pr.split(" · ")[0]}`); };
