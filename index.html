@@ -6425,43 +6425,54 @@ $("sh-copy").onclick = async () => { try { await navigator.clipboard.writeText($
 
 /* ========== ZOE HELPER (self-contained) ========== */
 const ZOE_KB = [
-  {q:["how","work","start","begin","what is","overview"], a:"Here's the gist: <b>Explore</b> to browse 3,000+ schools with real federal data, <b>Add</b> the ones you're considering to <b>My Board</b>, then everyone in the family rates each one with stars. Fill in <b>My Profile</b> so each school shows your <b>fit %</b> and <b>admission chance</b>."},
+  {q:["how does this work","how does it work","how does this app work","how does the app work","how does zoe","how do i start","how do i begin","get started","getting started","overview","what is this app","what does this app do","how does zoe","how does the app"], a:"Here's the gist: <b>Explore</b> to browse 3,000+ schools with real federal data, <b>Add</b> the ones you're considering to <b>My Board</b>, then everyone in the family rates each one with stars. Fill in <b>My Profile</b> so each school shows your <b>fit %</b> and <b>admission chance</b>."},
   {q:["match","percent","%","slider","priorit","what matters"], a:"Your <b>fit %</b> comes from your sliders in <b>My Profile</b> → \"What matters to you\". Slide toward affordability, outcomes, spirit, selectivity, size and setting. Each person gets their own match — nobody overrides yours."},
   {q:["chance","reach","target","likely","admission","get in"], a:"<b>Admission chance</b> (Reach / Target / Likely) compares the student's SAT/ACT in <b>My Profile</b> with each school's admit rate and average scores. It's a planning estimate, not a guarantee — always check the school's own data too."},
-  {q:["rate","star","rating","vote"], a:"Tap your row of stars on any school. You only control your own stars; you can see everyone's, and the board sorts by the family average so your shared favorites rise to the top."},
+  {q:["rate","star","stars","rating","ratings","vote"], a:"Tap your row of stars on any school. You only control your own stars; you can see everyone's, and the board sorts by the family average so your shared favorites rise to the top."},
   {q:["invite","family","join","add my","code"], a:"Tap <b>+ Add my family</b> on the board to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
   {q:["photo","picture","visit","camera"], a:"Open a school on your board and tap <b>📷 Add photo</b> under Campus photos — great for visit days. Photos are resized automatically and saved with your family."},
   {q:["price","cost","afford","money","tuition","net"], a:"Each school shows <b>net price</b> (what families actually pay on average) and sticker cost, plus in/out-of-state tuition in the detail view. Filter by net price in <b>Explore</b>, and turn up the Affordability slider to weight cheaper schools in your match."},
   {q:["plan","pay","subscri","price of app","upgrade"], a:"During the beta every family is on <b>Family+ free</b>. The paid plans (Family $12/mo, Family+ $20/mo) are shown under <b>Plans</b> and are in test mode for now."},
-  {q:["data","where","source","accurate","official"], a:"School stats come from the <b>U.S. Dept. of Education College Scorecard</b> (official federal data): admission rate, SAT/ACT, cost, net price, tuition, graduation rate, 10-year earnings and size. Deadlines are curated — always confirm on the school's site."},
+  {q:["data","where does","where is the data","where do you get","source","accurate","official"], a:"School stats come from the <b>U.S. Dept. of Education College Scorecard</b> (official federal data): admission rate, SAT/ACT, cost, net price, tuition, graduation rate, 10-year earnings and size. Deadlines are curated — always confirm on the school's site."},
 ];
+/* Oct 13: canned answers are only for short, clear questions. Anything open-ended (essays, worries, comparisons,
+   "how likely am I…") or long goes to Zoe's AI instead of being caught by a stray keyword. */
+const ZOE_OPEN_RE=/\b(essays?|write|writing|personal statement|supplement|worried|worry|worries|stress(ed|ful)?|anxious|anxiety|nervous|scared|afraid|opinion|think|feel|feeling|compare|comparison|versus|vs|explain|how likely|what should i|shy|introvert|extrovert|roommate|homesick|recommendation letters?|contact|email|phone|office|counselor)\b/;
+function zoeNeedsAI(q){ const n=q.split(/\s+/).filter(Boolean).length; return n>14 || ZOE_OPEN_RE.test(q); }
+// keyword helpers: a short key (≤4 letters) must be a whole word; longer keys match from the start of a word (stems like "priorit").
+function zoeHasKey(q,k){ if(k.includes(" ")||/[^a-z]/.test(k)) return q.includes(k);
+  return new RegExp("\\b"+k+(k.length<=4?"\\b":"")).test(q); }
 function zoeAnswer(qraw){
   const q=(qraw||"").toLowerCase().trim();
+  if(zoeNeedsAI(q)) return ZOE_FALLBACK;
   // profile- & board-aware answers come first (the "knows you" part)
   const pr = zoePersonal(q); if(pr) return pr;
   // data queries over the catalog
-  const dq = zoeData(q); if(dq) return dq;
-  // KB match
-  let best=null, score=0;
-  ZOE_KB.forEach(item=>{ let s=0; item.q.forEach(k=>{ if(q.includes(k)) s++; }); if(s>score){score=s; best=item;} });
-  if(best && score>0) return best.a;
+  const dq = zoeData(q, qraw||""); if(dq) return dq;
+  // KB match: two keywords, or one strong keyword (5+ letters) in a short question
+  const words=q.split(/\s+/).filter(Boolean).length;
+  let best=null, score=0, strong=0;
+  ZOE_KB.forEach(item=>{ let s=0, st=0; item.q.forEach(k=>{ if(zoeHasKey(q,k)){ s++; if(k.length>=5) st++; } }); if(s>score){score=s; strong=st; best=item;} });
+  if(best && (score>=2 || (strong>=1 && words<=9))) return best.a;
   return ZOE_FALLBACK;
 }
 const ZOE_FALLBACK = "I can help with how the app works (matching, chances, ratings, invites, photos, plans) and with the data — try \"cheapest schools\", \"most selective in Colorado\", \"biggest schools\", or \"schools with early deadline\". What would you like to know?";
-function zoeData(q){
+function zoeData(q, raw){
   const cat=state.catalog; if(!cat.length) return null;
   const _sa=(q.match(/\b(in|near)\s+([a-z]{2})\b/)||[]); let stateAbbr=_sa[2]?.toUpperCase();
-  if(stateAbbr && (!US_STATES.has(stateAbbr) || (_sa[1]==="near" && stateAbbr==="ME"))) stateAbbr=undefined;   // "in my", "near me" aren't states
+  if(stateAbbr && (!US_STATES.has(stateAbbr) || (_sa[1]==="near" && stateAbbr==="ME"))) stateAbbr=undefined;
+  // "in or out of state", "in me", "in hi"… are English, not Oregon/Maine/Hawaii: those need a capital-letter abbreviation in what was typed.
+  if(stateAbbr && /^(OR|ME|HI|OK|OH|IN|AS|ID|IT|IS|DE|AL)$/.test(stateAbbr) && !new RegExp("\\\\b(in|near)\\\\s+"+stateAbbr+"\\\\b").test(raw||"")) stateAbbr=undefined;   // "in my", "near me" aren't states
   const byState=a=> stateAbbr? a.filter(c=>(c.state||"").toUpperCase()===stateAbbr):a;
   const fmt=list=> list.slice(0,6).map(c=>`• <b>${esc(c.name)}</b> — ${esc(c.city||"")}${c.state?", "+c.state:""} (admit ${pct(c.scorecard&&c.scorecard.admissionRate)}, net ${money(c.scorecard&&c.scorecard.netPrice)})`).join("<br>");
   if(/(cheap|afford|low.*cost|lowest net|least expensive)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&typeof(c.scorecard.netPrice)==="number")).sort((a,b)=>a.scorecard.netPrice-b.scorecard.netPrice); return "Lowest net price"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
   if(/(selective|hardest|prestig|lowest admit|most competitive)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&typeof(c.scorecard.admissionRate)==="number")).sort((a,b)=>a.scorecard.admissionRate-b.scorecard.admissionRate); return "Most selective"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
   if(/(biggest|largest|most students)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.size)).sort((a,b)=>b.scorecard.size-a.scorecard.size); return "Largest"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
-  if(/(smallest|tiny|small)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.size)).sort((a,b)=>a.scorecard.size-b.scorecard.size); return "Smallest"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
-  if(/(earn|salary|income|outcome)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.medianEarnings10yr)).sort((a,b)=>b.scorecard.medianEarnings10yr-a.scorecard.medianEarnings10yr); return "Highest 10-yr median earnings"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
-  if(/(high.*grad|graduat|completion)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.gradRate)).sort((a,b)=>b.scorecard.gradRate-a.scorecard.gradRate); return "Highest graduation rate"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/\b(smallest|tiny)\b|\bsmall (schools?|colleges?|universit)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.size)).sort((a,b)=>a.scorecard.size-b.scorecard.size); return "Smallest"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/\b(earnings?|salary|salaries|outcomes?)\b/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.medianEarnings10yr)).sort((a,b)=>b.scorecard.medianEarnings10yr-a.scorecard.medianEarnings10yr); return "Highest 10-yr median earnings"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
+  if(/(graduation rates?|completion rates?|high.*graduat)/.test(q)){ const l=byState(cat.filter(c=>c.scorecard&&c.scorecard.gradRate)).sort((a,b)=>b.scorecard.gradRate-a.scorecard.gradRate); return "Highest graduation rate"+(stateAbbr?` in ${stateAbbr}`:"")+":<br>"+fmt(l); }
   if(stateAbbr && /(school|college|which|list|show)/.test(q)){ const l=byState(cat); return (l.length?`Schools in ${stateAbbr}:<br>`+fmt(l):`I don't have schools in ${stateAbbr} yet.`); }
-  if(/(my match|best match|top match|best for me|fit)/.test(q)){ const w=myPrefs(); const l=cat.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m); return "Your top matches right now:<br>"+l.slice(0,6).map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
+  if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const w=myPrefs(); const l=cat.map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m); return "Your top matches right now:<br>"+l.slice(0,6).map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
   return null;
 }
 function zoePersonal(q){
@@ -6473,11 +6484,11 @@ function zoePersonal(q){
     if(!t.length) return "Your trip is empty right now. Add schools with the <b>🗺 Trip</b> button on any school, then open the <b>Trips</b> tab — I'll map an efficient route with stops for food and places to stay.";
     return `You've got <b>${t.length}</b> school${t.length>1?"s":""} on your trip:<br>`+t.slice(0,10).map(c=>`• <b>${esc(c.name)}</b> <span class="muted">${esc([c.city,c.state].filter(Boolean).join(", "))}</span>`).join("<br>")+`<br><span class='muted'>Open the <b>Trips</b> tab to build the route on a map — or ask me how to order the visits.</span>`;
   }
-  if(/\breach(es)?\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
+  if(/\breach(es)?\b/.test(q) && !/\b(contact|email|call|phone|office|admissions?|counselor)\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
   if(/\btargets?\b/.test(q)){ const l=bandList("target"); return l.length?`Your <b>targets</b> (${l.length}):<br>`+l.join("<br>"):"No targets yet — <b>✨ Zoe Picks</b> can find some that fit."; }
-  if(/\b(likely|likelies|safet)/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
-  if(/(recommend|suggest|what am i missing|more schools|zoe pick|for me\b|should i add)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
-  if(/(improve|get in|better chance|work on|boost|stronger|increase.*chance)/.test(q)){ return zoeAdvice(p); }
+  if(/\b(likelies|likely (schools?|list|ones)|safeties|safety (schools?|list))\b/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
+  if(/(recommend(ations?)? (some |a few )?(schools?|colleges?)|suggest (some |a few )?(schools?|colleges?)|what am i missing|more schools|zoe pick|should i add|schools? for me)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
+  if(/\b(improve my (chances?|profile|odds)|better chances?|boost my (chances?|profile)|stronger (profile|applicant)|increase my (chances?|odds)|what (can|should) i (do|work on) to (get|improve))\b/.test(q)){ return zoeAdvice(p); }
   if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
   if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
   if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
