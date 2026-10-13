@@ -1743,11 +1743,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <span class="counter" id="schoolcount"></span>
       <div class="row" style="gap:8px">
         <button id="btn-report2" class="small ghost">📄 Report</button>
-        <button id="btn-invite" class="small primary">+ Add my family</button>
         <div class="menu-wrap">
           <button id="btn-more" class="small ghost">More ▾</button>
           <div id="more-menu" class="menu hidden">
             <button id="btn-memories" class="menu-item">✨ Memories</button>
+            <button id="rank-toggle" class="menu-item" title="Type a number on each school to break ties between equal stars">⇅ Rank schools (tiebreaker)</button>
             <button id="btn-report" class="menu-item">📄 College report (PDF)</button>
             <button id="btn-sharelist" class="menu-item">🔗 Share with family or counselor</button>
             <button id="btn-share" class="menu-item">📣 Tell another family</button>
@@ -1769,14 +1769,13 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <span id="board-hold" class="hidden muted" style="font-size:12.5px">Order holds while you rate · <button type="button" class="linklike" id="board-resort">Re-sort now</button></span>
       </div>
       <div class="row" style="align-items:center">
-        <button id="rank-toggle" class="small ghost" title="Drag your own ranking (ties allowed)">⇅ My ranking</button>
         <button id="rank-color" class="small ghost hidden" title="Color by rank">🎨 Color</button>
         <label style="margin:0 0 0 6px;align-self:center">View</label>
         <button id="view-stacked" class="small primary" title="Stacked list">☰</button>
         <button id="view-tiles" class="small ghost" title="Tiles">▦</button>
       </div>
     </div>
-    <div id="rank-hint" class="muted hidden" style="font-size:12px;margin-top:6px">Your personal ranking — type a number on each school. Give the same number to tie schools (three can share 3rd). Saved on this device.</div>
+    <div id="rank-hint" class="muted hidden" style="font-size:12px;margin-top:6px">Your personal ranking — type a number on each school (1 = favorite). Use it to break ties between schools with equal stars. Give the same number to tie schools. Saved to your account, and once two of you rank, a Family # shows too. Turn it off from More.</div>
     <div id="balance" class="hidden"></div>
     <div id="board-msg" class="msg"></div>
     <div id="schools"></div>
@@ -2401,7 +2400,16 @@ $("go-auth").onclick = async () => {
   } catch(e){ msg("auth-msg", friendly(e)); }
   finally { $("go-auth").disabled = false; }
 };
-$("signout").onclick = async () => { if(DEMO){ exitDemo(); return; } await sb.auth.signOut(); };
+/* Sign out: never wait on the network. Clear this device's sign-in at once, tell the server in the background, then reload to the sign-in screen. */
+async function doSignOut(){
+  let tok=null;
+  try{ Object.keys(localStorage).filter(k=>/^sb-.*-auth-token/.test(k)).forEach(k=>{ try{ const j=JSON.parse(localStorage.getItem(k)||"null"); if(j&&j.access_token) tok=j.access_token; }catch(e){} localStorage.removeItem(k); }); }catch(e){}
+  try{ if(tok) fetch(SUPABASE_URL+"/auth/v1/logout?scope=local",{method:"POST",keepalive:true,headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+tok}}).catch(()=>{}); }catch(e){}
+  try{ const p=sb.auth.signOut({scope:"local"}); if(p&&p.catch) p.catch(()=>{}); }catch(e){}
+  state.session=null; state.family=null; try{ route(null); }catch(e){}
+  setTimeout(()=>location.reload(), 400);
+}
+$("signout").onclick = () => { if(DEMO){ exitDemo(); return; } doSignOut(); };
 function friendly(e){
   const m = (e && e.message) || String(e);
   if (/invalid login/i.test(m)) return "That email and password don't match an account here. New here? Tap “Create your account.”";
@@ -2486,7 +2494,7 @@ async function loadFamily(){
   } finally { clearTimeout(slow); $("loading-slow").classList.add("hidden"); }
 }
 $("loading-retry").onclick = () => location.reload();
-$("loading-out").onclick = async () => { await sb.auth.signOut(); location.reload(); };
+$("loading-out").onclick = () => { doSignOut(); };
 async function loadSchools(){ const { data } = await sb.from("family_schools").select("*").order("position").order("created_at"); state.schools = data || []; }
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
@@ -2922,7 +2930,7 @@ function renderBoard(){
   $("famtitle").textContent = state.family ? state.family.name : "Your board";
   $("famrow").innerHTML = state.members.map(m =>
     `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
-  ).join("");
+  ).join("") + (pendingMode() ? `<span class="mono muted" style="font-size:12px">· ${esc(state.pending.display_name)} not joined yet</span>` : "");
   const p = plan();
   $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
   const sortBy = $("board-sort").value;
@@ -4007,7 +4015,7 @@ function wireRanks(){
   });
 }
 $("rank-toggle").onclick=()=>{ rankMode=!rankMode;
-  $("rank-toggle").className="small "+(rankMode?"primary":"ghost");
+  $("rank-toggle").textContent=(rankMode?"✓ ":"")+"⇅ Rank schools (tiebreaker)";
   $("rank-color").classList.toggle("hidden", !rankMode);
   $("rank-hint").classList.toggle("hidden", !rankMode);
   renderBoard();
@@ -4032,7 +4040,7 @@ function renderGuidance(meta){
   let tip="";
   if(!hasProfile) tip=`🎯 Start with <b>My Profile</b> (about a minute) — set it first and every school you add shows your <b>fit %</b> and <b>admission chance</b> right away.`;
   else if(!state.schools.length) tip=`👋 Now add schools you're considering — search the catalog or add your own, and your match fills in automatically.`;
-  else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>+ Add my family</b> so everyone rates too.`;
+  else if(soloFamily) tip=`⭐ Rate any school — tap your stars. Then tap <b>Invite</b> at the top so everyone rates too.`;
   else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
   state._guideTip=tip;   // #59: the Board stays clean; Today shows guidance
 }
@@ -6388,7 +6396,7 @@ $("go-custom").onclick = async () => {
 };
 
 /* ========== INVITE / SHARE / PLANS ========== */
-$("btn-invite").onclick = () => openInvite();
+{ const bi=$("btn-invite"); if(bi) bi.onclick = () => openInvite(); }
 // #78: Invite is always one tap away — header (desktop), More sheet (phone), and the Family tabs
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-invite]"); if(!b) return; e.preventDefault();
   const sh=$("tb-sheet"); if(sh) sh.classList.add("hidden"); openInvite(); });
@@ -6482,7 +6490,7 @@ const ZOE_KB = [
   {q:["match","percent","%","slider","priorit","what matters"], a:"Your <b>fit %</b> comes from your sliders in <b>My Profile</b> → \"What matters to you\". Slide toward affordability, outcomes, spirit, selectivity, size and setting. Each person gets their own match — nobody overrides yours."},
   {q:["chance","reach","target","likely","admission","get in"], a:"<b>Admission chance</b> (Reach / Target / Likely) compares the student's SAT/ACT in <b>My Profile</b> with each school's admit rate and average scores. It's a planning estimate, not a guarantee — always check the school's own data too."},
   {q:["rate","star","stars","rating","ratings","vote"], a:"Tap your row of stars on any school. You only control your own stars; you can see everyone's, and the board sorts by the family average so your shared favorites rise to the top."},
-  {q:["invite","family","join","add my","code"], a:"Tap <b>+ Add my family</b> on the board to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
+  {q:["invite","family","join","add my","code"], a:"Tap <b>Invite</b> at the top of the app to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
   {q:["photo","picture","visit","camera"], a:"Open a school on your board and tap <b>📷 Add photo</b> under Campus photos — great for visit days. Photos are resized automatically and saved with your family."},
   {q:["price","cost","afford","money","tuition","net"], a:"Each school shows <b>net price</b> (what families actually pay on average) and sticker cost, plus in/out-of-state tuition in the detail view. Filter by net price in <b>Explore</b>, and turn up the Affordability slider to weight cheaper schools in your match."},
   {q:["plan","pay","subscri","price of app","upgrade"], a:"During the beta every family is on <b>Family+ free</b>. The paid plans (Family $12/mo, Family+ $20/mo) are shown under <b>Plans</b> and are in test mode for now."},
