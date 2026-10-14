@@ -5015,7 +5015,7 @@ function wireCost(el){
     }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
   el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
   el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
-  el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=()=>{ if(!confirm("Remove this offer from your list?")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
+  el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=async()=>{ if(!await askOk("Remove this offer from your list?","Remove")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
   el.querySelectorAll("[data-offer-zoe]").forEach(b=>b.onclick=()=>{ const id=b.dataset.offerZoe, o=offersGet()[id]; if(!o) return;
     const txt=`Explain this financial-aid offer from ${schoolName(id)} in plain English: cost of attendance ${money(o.coa)}; grants/scholarships ${(o.grants||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; loans ${(o.loans||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; work-study ${money(o.workStudy||0)}. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?`;
     goto("zoe"); setTimeout(()=>ztabAsk(txt,{mode:"chat"},`💬 Explain ${schoolName(id)}'s aid offer`),150); });
@@ -5209,7 +5209,7 @@ function renderDetail(id){
   const rmBtn = $("detail-body").querySelector("[data-detailremove]");
   if (rmBtn) rmBtn.onclick = async () => {
     const r = state.schools.find(x=>x.school_id===id);
-    if (!confirm(`Remove ${r?r.name:"this school"} from the board? Everyone's ratings stay saved.`)) return;
+    if (!await askOk(`Remove ${r?r.name:"this school"} from the board? Everyone's ratings stay saved.`,"Remove")) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", id);
     await loadSchools(); goto(detailFrom);
   };
@@ -5244,7 +5244,7 @@ function bindStars(root){
   });
   root.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
     const sid = el.dataset.remove; const s = state.schools.find(x=>x.school_id===sid);
-    if (!confirm(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`)) return;
+    if (!await askOk(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`,"Remove")) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", sid);
     await loadSchools(); refreshCurrent();
   });
@@ -6845,13 +6845,13 @@ document.addEventListener("click", e => {
 function isParentish(n){ return /^(dad|mom|mum|father|mother|papa|mama|parent|grand(ma|pa|mother|father)|step ?(mom|dad))$/i.test(String(n||"").trim()); }
 document.addEventListener("click", async e => {
   const b=e.target.closest("[data-setparent]"); if(!b) return;
-  if(!confirm("Switch your account to parent? Chances will then follow the student's profile once they've filled it in.")) return;
+  if(!await askOk("Switch your account to parent? Chances will then follow the student's profile once they've filled it in.","Switch")) return;
   try{ await fixRole("parent"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // "Use this profile as the student's" — anchors chances so the whole family matches
 document.addEventListener("click", async e => {
   const b=e.target.closest("[data-setstudent]"); if(!b) return;
-  if(!confirm("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)")) return;
+  if(!await askOk("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)","Yes, mark it")) return;
   try{ await fixRole("student"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // Oct 12: the tour is one tap away — landing page, Today, More menu, search

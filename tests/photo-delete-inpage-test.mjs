@@ -16,6 +16,11 @@ for (const W of [390, 1280]) {
   await page.click('.ask-ov [data-no]'); ok(W + ':cancelKeeps', (await n()) === 3 && !(await page.$('.ask-ov')));
   await page.click('.mem-ph[data-ph="ls-1"] [data-del]'); await page.click('.ask-ov .ask-go'); await page.waitForTimeout(500); ok(W + ':xDeletes', (await n()) === 2);
   await page.click('[data-mem-delall="college-of-charleston"]'); await page.click('.ask-ov .ask-go'); await page.waitForTimeout(500); ok(W + ':deleteAllAtSchool', (await n()) === 1);
+  // remove a school from the board (detail page + board card) with pop-ups blocked
+  const rm = await page.evaluate(async () => { const id = state.schools[0].school_id; const before = state.schools.length; goto('board'); renderBoard && renderBoard(); return { id, before }; });
+  await page.waitForTimeout(400);
+  const btn = await page.$('[data-remove]'); ok(W + ':removeButtonExists', !!btn);
+  if (btn) { await btn.evaluate(e => e.click()); await page.waitForSelector('.ask-ov'); ok(W + ':removeAsksInPage', true); await page.click('.ask-ov [data-no]'); ok(W + ':cancelKeepsSchool', (await page.evaluate(() => state.schools.length)) === rm.before); }
   await seed(); await page.waitForTimeout(300); await page.click('#mem-delmine'); await page.click('.ask-ov .ask-go'); await page.waitForTimeout(500); ok(W + ':deleteAllMine', (await n()) === 0);
 }
 console.log(fail ? 'FAILED' : 'PASS', JSON.stringify(R), 'pageerrors:', errs.length, errs.slice(0, 2)); await b.close(); process.exit(fail ? 1 : 0);
