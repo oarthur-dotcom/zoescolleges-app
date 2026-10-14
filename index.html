@@ -4374,7 +4374,10 @@ function searchCatalog(q){
   const a=_searchOne(exp), b=_searchOne(raw); const best=l=>(l&&l[0]?l[0].rank:0);
   return best(b)>best(a) ? b : a;
 }
+const STATE_NAMES={"alabama":"al","alaska":"ak","arizona":"az","arkansas":"ar","california":"ca","colorado":"co","connecticut":"ct","delaware":"de","district of columbia":"dc","florida":"fl","georgia":"ga","hawaii":"hi","idaho":"id","illinois":"il","indiana":"in","iowa":"ia","kansas":"ks","kentucky":"ky","louisiana":"la","maine":"me","maryland":"md","massachusetts":"ma","michigan":"mi","minnesota":"mn","mississippi":"ms","missouri":"mo","montana":"mt","nebraska":"ne","nevada":"nv","new hampshire":"nh","new jersey":"nj","new mexico":"nm","new york":"ny","north carolina":"nc","north dakota":"nd","ohio":"oh","oklahoma":"ok","oregon":"or","pennsylvania":"pa","rhode island":"ri","south carolina":"sc","south dakota":"sd","tennessee":"tn","texas":"tx","utah":"ut","vermont":"vt","virginia":"va","washington":"wa","west virginia":"wv","wisconsin":"wi","wyoming":"wy"};
 function _searchOne(qn){
+  // a full state name ("massachusetts", "new york") also finds every school located there
+  let stQ=STATE_NAMES[qn]||null, cityQ=null; if(!stQ){ for(const nm in STATE_NAMES){ if(qn.endsWith(" "+nm)){ stQ=STATE_NAMES[nm]; cityQ=qn.slice(0,-nm.length-1); break; } } }
   const alias=SEARCH_ALIASES[qn]; const qc=qn.replace(/ /g,"");
   const out=[];
   for(const e of _index()){
@@ -4388,6 +4391,7 @@ function _searchOne(qn){
     else if(e.city && (e.city===qn || e.city.startsWith(qn))) r=40;
     else if(qn.length===2 && e.st===qn) r=35;
     else if(qn.length>=3 && (e.city+" "+e.st).includes(qn)) r=25;
+    else if(stQ && e.st===stQ && (!cityQ || e.city===cityQ)) r=cityQ?40:30;
     if(r && isGradOnly(e.c) && r<95) r=Math.max(1,r-60);   // an exact name still finds it
     if(r) out.push({c:e.c, rank:r});
   }
