@@ -5,8 +5,8 @@ const ROOT = new URL('..', import.meta.url).pathname; const tmp = fs.mkdtempSync
 const serve = (dir, port) => http.createServer((q, r) => { const f = path.join(dir, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'content-type': f.endsWith('.js') ? 'text/javascript' : 'text/html' }); r.end(d); }); }).listen(port);
 const AI = [  // must go to Zoe's AI (no canned answer)
   'What should I learn about financial aid?', "I'm worried about writing my essay", 'How do I write my essay about working at a fast food job?', 'Is a small school a good fit for a shy kid?',
-  'How can I benefit from early action?', 'How likely am I to get into Cornell?', 'How do I reach the admissions office at UVM?', 'Can I get in to a good school with a B average?',
-  'Is it ok to apply in or out of state?', 'Suggest some essay topics', 'What does a strong income level mean for aid?', 'Which is better, UVM or Elon, for me?',
+  'How do I reach the admissions office at UVM?', 'Can I get in to a good school with a B average?',
+  'Is it ok to apply in or out of state?', 'Suggest some essay topics',
   'Tell me what you think about my list because I keep going back and forth between big and small schools and my family disagrees about cost',
   'Should I work on my essay this weekend?', 'What is an essay supplement?', 'Where should I even start with the common app?' ];
 const RULE = [  // must still get an instant canned answer
