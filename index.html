@@ -2345,7 +2345,7 @@ function openHowto(key){ const d=$("dlg-howto"); if(!d) return; const v=d.queryS
 document.addEventListener("click", e => { const c=e.target.closest("[data-dlg-close]"); if(!c) return; const d=c.closest("dialog"); if(!d) return; const v=d.querySelector("video"); if(v) try{ v.pause(); }catch(err){} d.close(); });
 document.addEventListener("click", e => { const t=e.target.closest("[data-lnd-tour]"); if(!t) return; e.preventDefault(); const sec=$("lnd-video"), v=sec&&sec.querySelector("video");
   if(sec) sec.scrollIntoView({behavior:"smooth"}); if(v){ try{ const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(err){} } });   // landing: scroll to the tour video and play it
-document.addEventListener("click", e => { const b=e.target.closest("[data-howto]"); if(!b) return; e.preventDefault(); openHowto(b.dataset.howto); });
+document.addEventListener("click", e => { const g=e.target.closest("[data-zoego]"); if(g){ e.preventDefault(); goto(g.dataset.zoego); return; } const o=e.target.closest("[data-zoeopen]"); if(o){ e.preventDefault(); openDetail(o.dataset.zoeopen,"zoe"); return; } const b=e.target.closest("[data-howto]"); if(!b) return; e.preventDefault(); openHowto(b.dataset.howto); });
 function openDetail(id, from){ detailFrom = from||"board"; currentView="detail"; currentDetailId=id; setNavActive(detailFrom); show("v-detail"); renderDetail(id); }
 function refreshCurrent(){ if(currentView==="visit") renderVisitKit(); else if(currentView==="cost") renderCost(); else if(currentView==="board") renderBoard(); else if(currentView==="explore") renderExList($("exsearch").value||""); else if(currentView==="detail") renderDetail(currentDetailId); else if(currentView==="profile") renderProfile(); }
 function msg(id, text, kind){ const el=$(id); el.className = "msg " + (kind||"err"); el.innerHTML = text; }
@@ -6762,10 +6762,155 @@ function zoeChips(q){
   if(/compare our offers|compare.*offers/.test(q)) return "Open <b>Decision Day</b> (Plan → Decide). Enter each aid offer and it lines them up by true yearly cost, loans and what you'd owe.";
   if(/what.?s new at our schools/.test(q)) return "Open <b>Pulse</b> (Family → Pulse) for fresh news and student voices from the schools on your board.";
   return null; }
+/* ===== Oct 14: Zoe is the expert on zoescolleges.com itself: school facts, plain definitions, and how every page works.
+   Only truly outside questions go to the AI hand-off (zoeBeyond), with one of 20 stored lines. ===== */
+const ZOE_GO = {board:"My Board",recommends:"Zoe Picks",explore:"Search",compare:"Compare",pulse:"Pulse",cost:"Costs",deadlines:"Deadlines",trip:"Trips",talk:"Talk It Out",journey:"Journey",memories:"Memories",decide:"Decision Day",profile:"Profile",report:"College Report",today:"Today",sauce:"Our secret sauce"};
+function zoeGo(view){ return ZOE_GO[view]?` <button class="linklike" data-zoego="${view}">Open ${ZOE_GO[view]} →</button>`:""; }
+const ZOE_SITE = [
+  // --- plain definitions ---
+  {re:/^(what|whats|what's)\b(?!.*\b(my|our|mine)\b).*\b(is|are|does|means?)\b.*\b(a |an |the )?(reach)( school| college)?( mean)?\??$/, a:"A <b>Reach</b> school is one where your grades and scores sit below what most admitted students have, or where so few applicants get in that nobody is safe. Aim for 2–3, not a whole list. We also mark a few <b>Far reach</b> — under about 10% admit."+" Your own reaches are on <b>My Board</b>.", go:"board"},
+  {re:/^(what|whats|what's)\b(?!.*\b(my|our|mine)\b).*\b(is|are|does|means?)\b.*\b(a |an |the )?target( school| college)?( mean)?\??$/, a:"A <b>Target</b> school is one where your numbers look like the typical admitted student's, so odds are solid but not guaranteed. Most of a balanced list is targets.", go:"board"},
+  {re:/^(what|whats|what's)\b(?!.*\b(my|our|mine)\b).*\b(is|are|does|means?)\b.*\b(a |an |the )?(likely|safety)( school| college)?( mean)?\??$/, a:"A <b>Likely</b> (safety) school is one where your numbers are comfortably above the typical admitted student's and the school admits a good share of applicants. We never call a school Likely if it admits under 25% of applicants — nobody is a sure thing there.", go:"board"},
+  {re:/\b(test.?optional|test optional|do i need (to submit )?(sat|act|test))/, a:"<b>Test-optional</b> means a school doesn't require SAT/ACT scores. Tick <b>test-optional</b> in <b>My Profile</b> and Zoe's Colleges stops counting scores in your chances and Admit Power and leans on grades, rigor and activities instead. One honest limit: we don't yet have each school's own test policy, so we treat every school the same way when you tick it.", go:"profile"},
+  {re:/\b(early decision|\bed\b).*(early action|\bea\b)|\b(difference|vs|versus).*\b(ed|ea)\b/, a:"<b>Early Decision</b> is binding: if you're admitted, you commit to attend, so compare aid first. <b>Early Action</b> is non-binding: you hear sooner but can still compare offers. Deadlines for each school are under <b>Deadlines</b>.", go:"deadlines"},
+  {re:/\b(fafsa)\b/, a:"The <b>FAFSA</b> is the free federal form that decides federal grants, loans and work-study (and many schools use it for their own aid). It opens each fall. Your estimated family contribution is only an estimate here — the Costs page and each school's net price calculator are better for planning.", go:"cost"},
+  {re:/\b(css profile)\b/, a:"The <b>CSS Profile</b> is an extra aid form some private schools use besides the FAFSA. It looks at more of your family's finances (like home equity), so those schools' aid can differ from what the FAFSA suggests.", go:"cost"},
+  {re:/\b(net price|sticker( price)?|likely cost|what does (likely )?cost mean|cost after aid)\b/, a:"<b>Sticker price</b> is the published yearly cost. <b>Net / likely cost</b> is what families like yours typically pay after grants and scholarships. When your family's income is saved on Profile (parents only) we use it to pick the right row, and kids just see \"adjusted for family income\". For public schools out of state we add the out-of-state tuition difference.", go:"cost"},
+  {re:/\b(rigor|rigor.?adjusted|weighted\s?gpa|unweighted)\b/, a:"Your <b>GPA</b> is your unweighted GPA. The <b>rigor-adjusted GPA</b> adds credit for harder classes (AP/IB +1.0, honors +0.5, dual enrollment +1.0), so it can go above 4.0. Chances compare your plain GPA and then count rigor on its own step, so hard classes are counted once, not twice.", go:"profile"},
+  // --- Admit Power ---
+  {re:/\b(admit power|secret sauce|the score|power score|how .*(score|chances?) .*(work|calculat|compute)|how (do|does) (you|zoe).*(chance|reach|target))/, a:"<b>Admit Power</b> is one 0–100 score per school: <b>50 is the typical admitted student there</b>. It builds up in steps — grades first, then course rigor, then activities, then test scores if you have them — so you can see which step helps or hurts. Reach / Target / Likely come from Admit Power plus how selective the school is. We promise it's not exact; the full formula, reasons and sources are on the secret-sauce page.", go:"sauce"},
+  {re:/\b(why is|why are|why's)\b.*\b(reach|target|likely)\b/, a:"Open the school and tap <b>How we calculate this ▸</b> or the <b>⚡ Admit Power</b> chip: it shows each step (grades, rigor, activities, tests) and the gap to the typical admitted student, in plain words.", go:"board"},
+  // --- pages ---
+  {re:/\b(today( page| tab)?|home ?page|dashboard)\b/, a:"<b>Today</b> is your home page: where you stand, the next thing to do, a short guide to the site, and deadlines coming up.", go:"today"},
+  {re:/\b(remove|delete|take off|drop)\b.*(school|college|from (my )?board)/, a:"Open the school from <b>My Board</b> and use the remove option on its page. Your ratings and notes for it go with it, so check with the family first.", go:"board"},
+  {re:/\b(my board|the board|board)\b.*\b(what|how|where)|\b(what|how|where).*\b(my board|the board)\b/, a:"<b>My Board</b> is the list of schools your family is seriously considering. Everyone rates with stars (half stars work), you see the family average, and you can sort by name, match, chance or visited. \"⇅ Rank schools\" lets you break ties.", go:"board"},
+  {re:/\b(how|where).*\b(add|save|put)\b.*(school|college)|\badd (a )?(school|college)\b/, a:"Three ways: tap <b>+ Add to board</b> on any <b>Zoe Picks</b> card, tap <b>Add</b> on a <b>Search</b> result, or swipe right in <b>Swipe</b> view.", go:"recommends"},
+  {re:/\b(zoe picks|picks|swipe|discover)\b/, a:"<b>Zoe Picks</b> suggests schools that aren't on your board yet, grouped Likely / Target / Reach, ranked by your <b>priority sliders</b> (and the price your family would likely pay). <b>List</b> shows rows with \"Show more\"; <b>Swipe</b> goes one at a time — right to add, left to pass.", go:"recommends"},
+  {re:/\b(search|explore|find (a )?school|filters?)\b/, a:"<b>Search</b> finds any of about 3,180 schools: type a name, a city, a state (\"colleges in Massachusetts\"), a group (\"Ivy League\", \"NESCAC\", \"Big Ten\") or an area (\"Boston area\"). Filters cover size, selectivity, your chance, cost, sport, division and area. If filters hide results, the count line says how many and lets you clear them.", go:"explore"},
+  {re:/\b(compare|side by side)\b.*\b(tool|page|schools?|how)\b|\bhow.*\bcompare\b/, a:"Tap <b>⇄ Compare</b> on up to a few schools, then open <b>Compare</b> for a side-by-side table of cost, selectivity, size and outcomes.", go:"compare"},
+  {re:/\b(pulse|campus news|news)\b/, a:"<b>Pulse</b> shows recent news and student voices (official feeds and student papers) for schools on your board.", go:"pulse"},
+  {re:/\b(see|view|find|check)\b.*\bcosts?\b|\bcosts? (page|tab)\b|(financial aid offers?|aid (letter|offer)|compare (aid|offers)|offer)\b/, a:"<b>Costs</b> shows what each school likely costs your family after aid, with your income used privately. You can also add real aid offers and read an aid letter; <b>Decision Day</b> lines offers up by true yearly cost and loans.", go:"cost"},
+  {re:/\b(deadlines?|due dates?|calendar)\b/, a:"<b>Deadlines</b> lists application dates for the schools on your board (Early Decision, Early Action, Regular) and lets you add them to Google, Apple or Outlook calendars. We have verified dates for about 400 schools so far — always check the school's own page too.", go:"deadlines"},
+  {re:/\b(trip|trips|road ?trip|visit|visits|campus visit|tour)\b/, a:"<b>Trips</b> plans campus visits: pick schools, set a time, open the map, and tap <b>Plan this visit with AI</b> to get a question ready for ChatGPT, Claude or Gemini. After you visit, add photos and notes in <b>Memories</b>.", go:"trip"},
+  {re:/\b(talk it out|talk)\b/, a:"<b>Talk It Out</b> is the family conversation space — kids and parents share stars and thoughts about schools without it turning into an argument at dinner.", go:"talk"},
+  {re:/\b(journey|timeline|movie)\b/, a:"<b>Journey</b> is the story of your search so far — milestones, visits and photos — and can turn into a short family movie.", go:"journey"},
+  {re:/\b(memories|reel|photos?)\b.*\b(how|where|add|upload|delete|remove|what)|\b(how|where|add|upload|delete|remove).*\b(memories|reel|photos?)\b/, a:"Add photos from a school's page (<b>📷 Add photo</b>) or in <b>Memories</b>. Parents can delete any photo; kids can delete their own. Tap the ✕ on the photo. Memories can also build a visit reel.", go:"memories"},
+  {re:/\b(decision day|decide|commit|deposit|choose (a )?school|which (offer|school) (to|should))\b/, a:"<b>Decision Day</b> is for the end of the process: enter each offer, compare true yearly cost and loans, then each person picks a school and says why — picks stay hidden until everyone has voted.", go:"decide"},
+  {re:/\b(college report|report|pdf|print)\b/, a:"<b>College Report</b> makes a clean summary of your list — chances, costs, deadlines — that you can print or save as a PDF to share with a counselor.", go:"report"},
+  {re:/\b(profile|my grades|gpa|sat|act|activities)\b.*\b(where|how|enter|add|change|update|set)|\b(where|how).*\b(enter|add|change|update|set)\b.*\b(profile|gpa|sat|act|activities|grades)\b/, a:"Open <b>Profile</b> → <b>Grades & activities</b> to enter GPA, course rigor (AP/IB/honors/dual enrollment), SAT/ACT (or tick test-optional), and activities. <b>My priorities</b> holds the sliders that set your fit %. Tap <b>Save</b> — changes apply after saving.", go:"profile"},
+  {re:/\b(slider|sliders|priorit|fit ?%|match ?%|match score|fit score|what matters)\b/, a:"Your <b>fit %</b> is how well a school matches <b>what matters to you</b>: value, outcomes, selectivity, spirit & sports, location, lifestyle, size and setting. Change the sliders in <b>Profile → My priorities</b> and tap <b>Save priorities</b>; Search, Zoe Picks and the board re-rank. Fit % is about taste; <b>chances</b> (Reach/Target/Likely) are separate.", go:"profile"},
+  {re:/\b(income|family finances?|how much (do )?we (make|earn))\b/, a:"Family income is entered once on <b>Profile</b> (parents only) and saved privately. It's used to pick the right net-price row for each school. Kids see \"adjusted for family income\" but never the number, and it's never put into the questions we write for outside AI. There's a <b>Clear</b> button if you want it gone.", go:"profile"},
+  {re:/\b(privacy|private|who can see|safe|secure|data (safe|secure))\b/, a:"Your family board is visible only to people who joined with your invite code. Income is parents-only. Photos are private to the family. The questions we prepare for ChatGPT/Claude/Gemini contain grades and your school list, never income.", go:"profile"},
+  {re:/\b(invite|add (my )?(dad|mom|mother|father|parent|partner|spouse|wife|husband|daughter|son|kid|child|student)|join (a |my )?family|family code|share (the|this) (app|site))\b/, a:"Tap <b>Invite</b> at the top to get your family code. They create an account, choose <b>Join with an invite code</b>, and pick their role (parent or student).", go:"today"},
+  {re:/\b(sign ?out|log ?out|switch (account|user))\b/, a:"Tap <b>Sign out</b> in the top right of the app (on a phone it's under the menu).", go:"today"},
+  {re:/\b(stars?|ratings?|rate (a|the|this|my) (school|college)|half star|tie.?break|rank (my )?schools?)\b/, a:"Tap stars on any school (half stars work). You only change your own rating; the board shows the family average. If schools tie, use <b>⇅ Rank schools (tiebreaker)</b> from the board's More menu.", go:"board"},
+  {re:/\b(ask ai|chatgpt|claude|gemini|outside ai|ai buttons?|✨)\b/, a:"The <b>✨ Ask AI</b> button copies a ready-made question (with your grades and list, never income) and opens ChatGPT, Claude or Gemini in a new tab — just paste it in. Zoe answers questions about this site and its data; bigger open-ended questions go there.", go:"zoe"},
+  {re:/\b(price|pricing|plan|plans|subscription|how much does (this|the app|zoe|zoes? colleges?|the site)( cost)?|does (this|the app|zoes? colleges?) cost|free|upgrade|beta)\b.*\b(app|site|zoe|plan|cost|beta|free)?\b/, a:"During the beta every family is on <b>Family+ free</b>. Planned paid plans are Family $12/mo and Family+ $20/mo (not charging yet). If a school's price looks out of date, tap <b>Request updated pricing</b> on its page.", go:"today"},
+  {re:/\b(data|source|sources|where.*(numbers|stats|info)|accurate|official|college scorecard|ipeds)\b/, a:"School stats come from the U.S. Dept. of Education <b>College Scorecard</b> and IPEDS (admission rate, SAT range, cost, earnings, graduation, size), campus photos from Wikimedia Commons, and deadlines from each school's admissions pages. Numbers are planning estimates — always confirm with the school.", go:"sauce"},
+  {re:/\b(how (does|do) (this|the) (site|app|website)|what can (you|zoe|this) do|what is (this|zoe'?s colleges)|help|tutorial|show me around|get started)\b/, a:"Zoe's Colleges is a family college-planning board: <b>Today</b> (what's next), <b>Schools</b> (My Board, Zoe Picks, Search, Compare, Pulse), <b>Plan</b> (Costs, Deadlines, Trips, Talk It Out, Journey, Memories, Decision Day), <b>Family</b> and <b>Profile</b>. Ask me about any page, any school or any number you see.", go:"today"},
+  {re:/\bhow many (schools|colleges)\b.*\b(apply|applications?)\b|\bhow many should (i|we) apply\b/, a:"Most students apply to about <b>6–10</b> schools: 2–3 reaches, 3–4 targets and 1–2 likely schools you'd be happy to attend. Check <b>My Board</b> — it shows your mix.", go:"board"},
+  {re:/\b(good|average|typical|decent) (sat|act)( score)?\b|\bwhat (sat|act) score\b/, a:"A \"good\" score depends on the school. Each school's page shows the <b>middle half</b> of admitted students' SAT scores; being near or above the top of that range helps, and below the bottom hurts. <b>Admit Power</b> turns your score into a number against each school's typical admitted student. If you're not testing, tick <b>test-optional</b> on Profile.", go:"profile"},
+  {re:/\bwhat.?s new\b|\bany news\b/, a:"Open <b>Pulse</b> for fresh news and student voices from the schools on your board.", go:"pulse"},
+  {re:/\bwhy (did|do|are) (you|these|they).*(pick|picked|choose|chose|suggest|recommend)/, a:"Zoe Picks rank every school by how well it matches <b>your priority sliders</b> (size, setting, cost, academics, spirit and more) plus your admission chances and the price your family would likely pay. Change the sliders in <b>Profile → My priorities</b> and the picks change.", go:"recommends"},
+  {re:/^(hi|hello|hey|yo|sup|good (morning|evening|afternoon))\b/, a:"Hey! Ask me about any page of this site, any school's cost, admit rate, size or deadlines, or how your chances work."},
+  {re:/^(thanks|thank you|thx|ty|cheers)\b/, a:"Anytime. 🎸"},
+  {re:/\bwhat('?s| is) my (gpa|grades?)\b|\bmy gpa\b(?!.*\b(for|at|good enough|enough)\b)/, a:"__GPA__"},
+  {re:/\b(delete|remove) (a )?(photo|picture)\b/, a:"Open the photo and tap the ✕. Parents can delete any photo; kids can delete their own.", go:"memories"},
+];
+// every school name (or well-known abbreviation) mentioned in a question, longest first
+function zoeSchoolsInText(q){
+  const n=" "+_norm(q)+" "; const hits=[]; const seen=new Set();
+  for(const [ab,nm] of Object.entries(SEARCH_ALIASES)){ if(ab.length>=2 && n.includes(" "+ab+" ")){ const c=state.catalog.find(x=>x.name===nm); if(c&&!seen.has(c.id)){ seen.add(c.id); hits.push({c,len:ab.length+100}); } } }
+  for(const e of _index()){ if(e.n.length>=6 && !isGradOnly(e.c) && n.includes(" "+e.n+" ") && !seen.has(e.c.id)){ seen.add(e.c.id); hits.push({c:e.c,len:e.n.length}); } }
+  // short names ("Harvard", "Elon", "Clemson"): try every 1–3 word window; accept only distinctive matches (few results)
+  { const STOP=new Set("what whats is are the a an of in at to for do does did how much cost price admit admission rate acceptance chance chances get into can could should would i we my our me about tell compare and or vs versus like with students size big large where deadline deadlines sat act scores earnings sports sport team division good enough it this that reach reaches target targets likely safety safeties schools school colleges college universities university board list which have has soccer d1 d2 d3 naia juco apply applying next new best value cheapest biggest engineering program programs midwest northeast south west east north game red sox won last night essay common write strong income level mean aid admissions office contact phone email reach out better difference between family think thinks back forth small disagrees keep going because you your yours ours mom dad parent parents kid kids".split(" "));
+    const w=_norm(q).split(" "); const got=new Map();
+    for(let len=3;len>=1;len--) for(let i=0;i+len<=w.length;i++){ const win=w.slice(i,i+len); if(win.every(x=>STOP.has(x))||STOP.has(win[0])&&len===1) continue; if(win.join("").length<4) continue; const txt=win.join(" ");
+      if(hits.some(h=>h.c&&_norm(h.c.name).includes(txt))) continue; const r=(searchCatalog(txt)||[]).filter(x=>x.rank>=70&&!isGradOnly(x.c)&&x.c.degreeType==="4-year"&&(" "+_norm(x.c.name)+" ").includes(" "+txt+" ")); if(r.length&&r.length<=3&&r[0].rank>=70){ const c=r[0].c; if(!seen.has(c.id)&&!got.has(c.id)){ got.set(c.id,{c,len:txt.length-1}); } } }
+    got.forEach(v=>{ seen.add(v.c.id); hits.push(v); }); }
+  return hits.sort((a,b)=>b.len-a.len).slice(0,3).map(h=>h.c);
+}
+function zoeSchoolFact(q, c){
+  const s=c.scorecard||{}; const nm=`<b>${esc(c.name)}</b>`; const open=` <button class="linklike" data-zoeopen="${esc(c.id)}">Open ${esc(c.name)} →</button>`;
+  const rate=s.admissionRate, sz=schoolSize(c), set=settingWord(c);
+  const place=[c.city,c.state].filter(Boolean).join(", ");
+  const parts={};
+  parts.cost = ()=>{ const y=yourNet(c), k=costFact(c), S=stickerPrice(c), A=avgNet(c); const lines=[];
+    if(y) lines.push(`Likely cost for your family: <b>${money(Math.max(0,y.v))}</b> a year${y.outOfState?" (includes out-of-state tuition)":""}.`);
+    else if(A!=null) lines.push(`Average net price: <b>${money(A)}</b> a year (add your family income on Profile for a personal number).`);
+    if(typeof S==="number") lines.push(`Sticker price: ${money(S)}.`);
+    if(!lines.length) return `I don't have a price for ${nm}.`; return `${nm}: `+lines.join(" ")+" Aid varies, so check the school's net price calculator too."; };
+  parts.admit = ()=> typeof rate==="number" ? `${nm} admits about <b>${pct(rate)}</b> of applicants.${typeof s.satAvg==="number"?` Average SAT ${Math.round(s.satAvg)}.`:""}` : `${nm} doesn't report an admission rate in our data (common for open-admission schools).`;
+  parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${nm} is a <b>${esc(ch.label)}</b> for you${ch.score!=null?`, Admit Power ${ch.score} (50 = the typical admitted student)`:""}. ${esc(chanceWords(c)||"")}`; };
+  parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
+  parts.where = ()=> `${nm} is in <b>${esc(place||"—")}</b>${set?` (${set.toLowerCase()})`:""}.`;
+  parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).map(d=>`• ${esc(d.kind||"Deadline")} — ${esc(_fmtD(d.date))}`).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
+  parts.scores = ()=> (typeof s.sat25==="number"&&typeof s.sat75==="number")?`${nm}: middle half of admitted students scored <b>${s.sat25}–${s.sat75}</b> on the SAT${typeof s.satAvg==="number"?` (avg ${Math.round(s.satAvg)})`:""}.`:(typeof s.satAvg==="number"?`${nm}: average SAT <b>${Math.round(s.satAvg)}</b>${typeof s.actMid==="number"?`, ACT middle ${s.actMid}`:""}.`:`${nm} doesn't report test scores in our data (many are test-optional).`);
+  parts.outcomes = ()=> `${nm}: ${typeof s.medianEarnings10yr==="number"?`median earnings 10 years after enrolling <b>${money(s.medianEarnings10yr)}</b>`:"earnings not reported"}${typeof s.gradRate==="number"?`, graduation rate <b>${pct(s.gradRate)}</b>`:""}.`;
+  parts.sports = ()=>{ const a=athOf(c); return a?`${nm} plays <b>NCAA/${esc(String(a.level||"").replace(/^NCAA /,"")||"athletics")}</b>${a.conference?` in the ${esc(a.conference)}`:""}.`:`I don't have athletics info for ${nm}.`; };
+  const want=[];
+  if(/\b(cost|price|pay|afford|tuition|expensive|cheap|net|sticker|how much)\b/.test(q)) want.push("cost");
+  if(/\b(admit|admission|accept(ance)?|acceptance rate|selective|get in rate)\b/.test(q)) want.push("admit");
+  if(/\b(contact|phone|email|call|(how (do|can) i )?reach (out|the|them|admissions))\b/.test(q)&&!/chance|odds/.test(q)) return null;
+  if(/\b(chance|chances|odds|get in|reach|target|likely|safety|am i|can i|could i|admit power|good enough|stack up|competitive|shot|gpa|sat|act)\b/.test(q)) want.push("chance");
+  if(/\b(size|how big|how large|students|enrollment|population)\b/.test(q)) want.push("size");
+  if(/\b(where is|located|location|what state|which state|what city|how far)\b/.test(q)) want.push("where");
+  if(/\b(deadline|deadlines|due|apply by|early (decision|action))\b/.test(q)) want.push("deadline");
+  if(/\b(sat|act|test scores?|scores?)\b/.test(q)) want.push("scores");
+  if(/\b(earn|earnings|salary|outcomes?|graduat(e|ion)|grad rate)\b/.test(q)) want.push("outcomes");
+  if(/\b(sport|sports|athletics|division|d1|d2|d3|conference|team)\b/.test(q)) want.push("sports");
+  if(!want.length && /\b(tell me about|about|what('| i)?s .* like|info|overview|summary|profile of|facts)\b/.test(q)) return `${nm} — ${esc(place)}${set?`, ${set.toLowerCase()}`:""}.<br>`+[parts.size(),parts.admit(),parts.cost(),parts.chance()].map(x=>"• "+x.replace(/^<b>[^<]+<\/b>:?\s*/,"")).join("<br>")+"<br>"+open;
+  if(!want.length) return null;
+  return want.slice(0,3).map(w=>parts[w]()).join("<br><br>")+"<br>"+open;
+}
+function zoeSite(qraw){
+  const q=(qraw||"").toLowerCase().trim(); if(!q) return null;
+  // 1) named schools: facts, or a side-by-side for two
+  let sch=[]; try{ sch=zoeSchoolsInText(q); }catch(e){}
+  if(sch.length>=2 && /\b(compare|vs|versus|or|difference|better|between)\b/.test(q)){
+    const w=myPrefs(); const row=c=>{ const s=c.scorecard||{}; const ch=chanceFor(c); const m=matchScore(c,w); const y=yourNet(c); const price=y?Math.max(0,y.v):avgNet(c); return `• <b>${esc(c.name)}</b> — ${m!=null?m+"% fit":"fit n/a"}${ch?` · ${esc(ch.label)}${ch.score!=null?` (Admit Power ${ch.score})`:""}`:""} · admits ${pct(s.admissionRate)} · ${price!=null?money(price)+"/yr":"price n/a"} · ${s.size?s.size.toLocaleString()+" students":"size n/a"}`; };
+    return "Side by side, from the app's data:<br>"+sch.slice(0,3).map(row).join("<br>")+"<br><span class='muted'>Tap <b>⇄ Compare</b> on each school for the full table.</span>"; }
+  if(sch.length>=1){ const f=zoeSchoolFact(q, sch[0]); if(f) return f; }
+  // 2) the site itself
+  for(const it of ZOE_SITE){ if(it.re.test(q)){ if(it.a==="__GPA__"){ const p=studentProfile()||{}; const adj=rigorAdjustedGpa(p); return p.gpa?`Your unweighted GPA is <b>${esc(String(p.gpa))}</b>${adj?` and your rigor-adjusted GPA is <b>${(+adj).toFixed(2)}</b>`:""}${p.sat?`, SAT ${esc(String(p.sat))}`:""}. Edit them on <b>Profile</b>.`+zoeGo("profile"):"I don't have a GPA saved yet. Add it on <b>Profile → Grades & activities</b>."+zoeGo("profile"); } return it.a+zoeGo(it.go); } }
+  // sports / division lists: "which of my schools have D1 soccer?"
+  { const m=q.match(/\b(d1|d2|d3|division (1|i|2|ii|3|iii)|naia|juco)\b/); const sp=SEARCH_SPORTS.find(x=>q.includes(x.toLowerCase())); const mine=/\b(my|our|on my board)\b/.test(q);
+    if((m||sp) && /\b(which|what|list|show)\b.*\b(schools?|colleges?)\b/.test(q) && state.athletics){ const lvl=m?(m[1].replace(/division (1|i)$/,"d1").replace(/division (2|ii)$/,"d2").replace(/division (3|iii)$/,"d3").toUpperCase()):""; const pool=mine?(state.schools||[]).map(x=>catInfo(x.school_id)).filter(Boolean):state.catalog.filter(c=>!isGradOnly(c));
+      const l=pool.filter(c=>{ const a=athOf(c); if(!a) return false; if(lvl && String(a.level||"").toUpperCase().replace(/^NCAA /,"").replace(/\s+/g,"")!==lvl.replace(/\s+/g,"") ) return false; if(sp && !teamAt(c,sp,"")) return false; return true; });
+      const label=`${lvl||""} ${sp||""}`.trim(); return l.length?`${mine?"On your board":"Schools"} with ${esc(label)} (${l.length}):<br>`+l.slice(0,8).map(c=>`• <b>${esc(c.name)}</b> — ${esc([c.city,c.state].filter(Boolean).join(", "))}`).join("<br>")+(l.length>8?`<br><span class="muted">…and ${l.length-8} more — use Search → Sport/Division filters.</span>`:"")+zoeGo("explore"):`I don't see any ${mine?"on your board":"in the data"} with ${esc(label)}. Search has Sport and Division filters for the full list.`+zoeGo("explore"); } }
+  // schools in a state: "which schools are in Massachusetts?"
+  { const st=Object.keys(STATE_NAMES).sort((a,b)=>b.length-a.length).find(k=>new RegExp("\\b"+k+"\\b").test(q)); if(st && /\b(which|what|list|show|any)\b.*\b(schools?|colleges?|universit)/.test(q) && !zoeSchoolsInText(q).length){ const ab=STATE_NAMES[st]; const l=state.catalog.filter(c=>(c.state||"").toLowerCase()===ab&&!isGradOnly(c)&&c.degreeType==="4-year").sort((a,b)=>((b.scorecard&&b.scorecard.size)||0)-((a.scorecard&&a.scorecard.size)||0)); return `${l.length} four-year schools in ${st.replace(/\b\w/g,x=>x.toUpperCase())}. The biggest:<br>`+l.slice(0,6).map(c=>`• <b>${esc(c.name)}</b> — ${esc(c.city||"")} (admit ${pct(c.scorecard&&c.scorecard.admissionRate)})`).join("<br>")+`<br><span class="muted">Type "${st}" in Search to see them all.</span>`+zoeGo("explore"); } }
+  return null;
+}
+// the 20 stored hand-off lines for questions that really are for the AI heavyweights
+const ZOE_HANDOFF = [
+  "Help me, Obi-Wan — that one's above my pay grade. Take it to the Jedi Council:",
+  "I've got a bad feeling about answering that one myself. Better to ask the Rebel Alliance:",
+  "One does not simply ask Zoe about this. One asks the wizards:",
+  "Frodo carried the ring; I'm not carrying this question. Let Gandalf handle it:",
+  "That's a Stick Season–sized question, and I'm just a small New England college guide. The big AIs are better at it:",
+  "Noah Kahan would call this a Northern Attitude problem: I'd rather send you somewhere smarter.",
+  "That's a Fenway-sized question and I'm only on the Pesky Pole. Take it to the big bats:",
+  "Bleacher seats for me on this one — the heavy hitters are below:",
+  "Gracie Abrams would call this \"The Secret of Us\" — and the AI wizards know more secrets than I do:",
+  "It's a trap! (A friendly one.) Take this to the AIs:",
+  "These aren't the droids you're looking for — the droids are in the links below:",
+  "Do or do not, there is no try — so I did the hard part and wrote the question for you:",
+  "Second breakfast first, then ask the big AIs about this one:",
+  "You shall not pass… without asking one of the big three. I've written the question:",
+  "Sweet Caroline moment: the AIs take the 8th inning from here:",
+  "That's a Kessel Run question: I'll get you started and the AIs finish in under twelve parsecs:",
+  "Frodo and Sam didn't do it alone, and you don't have to either — I made the question, they make the answer:",
+  "\"I Love You, I'm Sorry\" — but that one's outside my lane. The big AIs can take it from here:",
+  "That question is Everywhere, Everything. I'll hand it to the AIs:",
+  "May the Fourth be with you, and with the AIs below:"
+];
+let _zoeHandoffAt=Math.floor(Math.random()*20);
 function zoeAnswerPlain(qraw){
   const q=(qraw||"").toLowerCase().trim();
   { const ch=zoeChips(q); if(ch) return ch; }
-  if(/\b(what should (i|we) work on(?=\s*\??$)|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
+  { const sx=zoeSite(qraw||""); if(sx) return sx; }
+  if(/\b(what should (i|we) (work on|do next|do first)(?=\s*\??$)|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
   if(zoeNeedsAI(q)) return ZOE_FALLBACK;
   // profile- & board-aware answers come first (the "knows you" part)
   const pr = zoePersonal(q); if(pr) return pr;
@@ -6925,7 +7070,8 @@ function zoeAnswer(qraw){ const a=zoeAnswerPlain(qraw); return a===ZOE_FALLBACK?
 function zoeBoardLine(){ return (state.schools||[]).slice(0,25).map(sc=>{ const i=catInfo(sc.school_id); const ch=i&&chanceFor(i); return sc.name+(ch?` (${ch.label})`:""); }).join("; "); }
 function zoeBeyond(v){
   const prompt=`My family is planning college applications. ${aiProfileLine()} ${zoeBoardLine()?`Our list so far: ${zoeBoardLine()}.`:""} Question: ${v}`.replace(/\s+/g," ").trim().slice(0,3500);
-  return `That one's bigger than my little brain — I stick to <b>your board, profile, deadlines, costs, visits</b> and the data in this app. For open-ended stuff, take it to the heavyweights; I wrote the question for you, with your grades and list filled in (never your income):<div class="ai-row">${aiBtn(prompt,"Ask ChatGPT, Claude or Gemini")}</div>`; }
+  const line=ZOE_HANDOFF[(_zoeHandoffAt++)%ZOE_HANDOFF.length];
+  return `${esc(line)} I stick to <b>this site, your board, your profile and the school data</b>; for the rest I wrote the question for you, with your grades and list filled in (never your income):<div class="ai-row">${aiBtn(prompt,"Ask ChatGPT, Claude or Gemini")}</div>`; }
 function zoeWeekLocal(){
   const today=new Date(); today.setHours(0,0,0,0); const lim=new Date(today.getTime()+14*864e5); const out=[];
   (state.schools||[]).forEach(sc=>{ const info=catInfo(sc.school_id); if(!info) return; (deadlineList(info)||[]).forEach(d=>{ if(d.date>=today&&d.date<=lim) out.push({d:d.date,t:`<b>${esc(sc.name)}</b> — ${esc(d.kind||"deadline")} due ${esc(_fmtD(d.date))}`}); }); });
