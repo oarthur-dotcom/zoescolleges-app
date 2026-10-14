@@ -23,8 +23,8 @@ for (const W of [390, 1280]) {
   ok(t('testOptionalNoTests'), m.toTests === false); ok(t('meterHtmlClean'), /apm-num/.test(m.html) && !/NaN|undefined/.test(m.html));
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
-  const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), noChanceCell: ![...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') }));
-  ok(t('boardBigCells'), bd.cells > 0 && bd.sortOpt && bd.noChanceCell);
+  const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));
+  ok(t('boardBigCells'), bd.cells > 0 && bd.sortOpt && bd.bothTiles);
   await page.evaluate(() => { const s = document.getElementById('board-sort'); s.value = 'power'; s.onchange(); }); await page.waitForTimeout(400);
   const sorted = await page.evaluate(() => { const v = [...document.querySelectorAll('#v-board .b3-ap .b3-v')].map(e => parseInt(e.textContent)).filter(n => !isNaN(n)); return v.every((x, i) => i === 0 || v[i - 1] >= x); });
   ok(t('sortByPower'), sorted);
