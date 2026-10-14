@@ -1381,6 +1381,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dd-cpill.applied{background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal)}.dd-cpill.accepted{background:color-mix(in srgb,var(--good) 16%,var(--surface));color:var(--good)}
 .dd-cpill.waitlisted,.dd-cpill.deferred{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber)}
 .mr-pct{font-style:normal;font-size:.62em;font-weight:700;margin-left:1px}
+.px-line{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;margin:3px 0}.px-line b{font-size:17px;font-weight:800;color:var(--ink,inherit)}.px-line span{font-size:12px;color:var(--muted)}.px-line .px-st{text-decoration:none;opacity:.8}
 .big3{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0 6px}
 .big3 .b3{padding:8px 5px;align-items:center;justify-content:center;text-align:center}.big3 .b3-s{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2}.big3 .b3-k{text-align:center}.big3 .b3-k{font-size:9.5px;letter-spacing:.03em}.big3 .b3-v{font-size:clamp(14px,4.2vw,17px)}.big3 .b3-s{font-size:10px}
 .b3{background:var(--sunk);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
@@ -4569,7 +4570,8 @@ function renderExList(q){
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)} ${apChip(ch)}${chanceChip(ch)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
-        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(avgNet(c))}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
+        ${(()=>{ const y=yourNet(c); const v=y?Math.max(0,y.v):avgNet(c); const st=(typeof stickerPrice==='function')?stickerPrice(c):null; return v!=null?`<div class="px-line"><b>${v<=0?"$0":"$"+Math.round(v/1000)+"k"}</b><span>/yr ${y?"your likely cost":"typical cost"}</span>${st&&st>v?`<span class="px-st">sticker ${"$"+Math.round(st/1000)+"k"}</span>`:""}</div>`:`<div class="px-line"><span>price not reported</span></div>`; })()}
+        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
