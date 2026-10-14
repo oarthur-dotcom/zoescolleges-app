@@ -1,0 +1,12 @@
+import {chromium} from 'playwright'; import http from 'http'; import fs from 'fs'; import path from 'path';
+const root=process.cwd(), port=8991;
+const srv=http.createServer((q,r)=>{let f=q.url.split('?')[0]; if(f==='/')f='/index.html'; const p=path.join(root,f);
+ if(!fs.existsSync(p)){r.writeHead(404);return r.end();} r.writeHead(200,{'content-type':f.endsWith('.json')?'application/json':'text/html'}); r.end(fs.readFileSync(p));}).listen(port);
+const b=await chromium.launch(); const pg=await b.newPage(); const errs=[]; pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/colleges.json',r=>r.fulfill({path:'/tmp/claude-0/live.json',contentType:'application/json'}));
+await pg.goto(`http://localhost:${port}/`); await pg.evaluate(()=>loadCatalog());
+await pg.waitForFunction(()=>typeof state!=="undefined"&&state.catalog&&state.catalog.length>3000,null,{timeout:60000}).catch(()=>{});
+await pg.waitForTimeout(1500);
+const r=await pg.evaluate(()=>({n:window._overlayPhotos, umbc:(state.catalog.find(c=>c.unitid===163268)||{}).photo, az:(state.catalog.find(c=>c.unitid===104179)||{}).photo, held:(state.catalog.find(c=>c.unitid===162557)||{}).photo||null, gsu:(state.catalog.find(c=>c.unitid===139940)||{}).photo}));
+console.log(JSON.stringify({n:r.n,umbc:r.umbc&&r.umbc.url.slice(-30),held:r.held,gsu:r.gsu&&r.gsu.url.slice(-30),errs}));
+const ok=r.n>=60&&r.n<=71&&r.umbc&&!r.held&&r.gsu&&errs.length===0; console.log(ok?'PASS':'FAIL'); await b.close(); srv.close(); process.exit(ok?0:1);
