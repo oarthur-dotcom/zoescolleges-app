@@ -21,6 +21,16 @@ for (const W of [390, 1280]) {
   ok(t('emptyIsZero'), m.emptyTotal === 0 && m.emptySteps.every(x => !x));
   ok(t('gradesAdd'), m.g > 0); ok(t('stepsHaveDeltas'), typeof m.r === 'number' && typeof m.a === 'number' && m.t > 0);
   ok(t('testOptionalNoTests'), m.toTests === false); ok(t('meterHtmlClean'), /apm-num/.test(m.html) && !/NaN|undefined/.test(m.html));
+  // v2 scoring rules (Oct 14): rigor credited from the course boost at every school; activities half weight at open schools, capped
+  const v2 = await page.evaluate(() => { const open = { admissionRate: 0.8, sat25: 1000, sat75: 1200 }, sel = { admissionRate: 0.2, sat25: 1300, sat75: 1500 };
+    const base = { gpa: 3.3, rl: null, rb: null, astr: null, sat: 0, to: true, major: false };
+    const g = apCore(open, base).score, r = apCore(open, { ...base, rl: { lv: 3, est: true }, rb: 0.23 }).score;
+    const a0 = apCore(open, { ...base, astr: 0.5 }).score, aHi = apCore(open, { ...base, astr: 0.9 }), aSelHi = apCore(sel, { ...base, astr: 0.9 });
+    const aOpenPts = aHi.terms.find(t => t.k === 'acts').pts, aSelPts = aSelHi.terms.find(t => t.k === 'acts').pts;
+    const rExplicit = apCore(open, { ...base, rl: { lv: 4, est: false }, rb: 0.23 }).terms.find(t => t.k === 'rigor').z;
+    const rAt = ['open','sel'].map(k => apCore(k === 'open' ? open : sel, { ...base, rl: { lv: 3, est: true }, rb: 0.5 }).terms.find(t => t.k === 'rigor').w);
+    return { rigorLifts: r > g, rigorCountsAtOpen: r - g >= 2, actsCountAtOpen: aOpenPts > 0, actsFullerAtSelective: aSelPts > aOpenPts, capHolds: Math.abs(aSelPts) <= AP.ACT_CAP_PTS + 1e-9 && Math.abs(aOpenPts) <= AP.ACT_CAP_PTS + 1e-9, a0Neutral: a0 === apCore(open, base).score || Math.abs(a0 - apCore(open, base).score) <= 1, explicitLevelWins: Math.abs(rExplicit - (4 - 3) / AP.RIGOR_SD) < 1e-9, rigorNotHalved: rAt[0] >= rAt[1] * 0.9 }; });
+  for (const k of Object.keys(v2)) ok(t('v2.' + k), v2[k]);
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
   const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));
@@ -33,7 +43,7 @@ for (const W of [390, 1280]) {
   ok(t('compareRow'), cmp.skip || (cmp.row && cmp.clean));
   // report
   await page.evaluate(() => { goto('report'); renderReport(); }); await page.waitForTimeout(600);
-  const rp = await page.evaluate(() => { const h = document.getElementById('report-body').innerHTML; return { meter: /apm/.test(h), avg: /Avg Admit Power/.test(h), tag: /rp-tag ap/.test(h), clean: !/NaN|undefined/.test(h) }; });
+  const rp = await page.evaluate(() => { const h = document.getElementById('report-body').innerHTML; return { meter: /apm/.test(h), avg: /Admit Power \(all schools\)/.test(h), tag: /rp-tag ap/.test(h), clean: !/NaN|undefined/.test(h) }; });
   ok(t('reportHasAP'), rp.meter && rp.avg && rp.tag && rp.clean);
   // profile
   await page.evaluate(() => { goto('profile'); renderProfile(); }); await page.waitForTimeout(500);
