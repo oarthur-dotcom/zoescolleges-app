@@ -1382,7 +1382,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dd-cpill.waitlisted,.dd-cpill.deferred{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber)}
 .mr-pct{font-style:normal;font-size:.62em;font-weight:700;margin-left:1px}
 .big3{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0 6px}
-.big3 .b3{padding:7px 7px}.big3 .b3-k{font-size:9.5px;letter-spacing:.03em}.big3 .b3-v{font-size:clamp(14px,4.2vw,17px)}.big3 .b3-s{font-size:10px}
+.big3 .b3{padding:8px 5px;align-items:center;justify-content:center;text-align:center}.big3 .b3-s{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2}.big3 .b3-k{text-align:center}.big3 .b3-k{font-size:9.5px;letter-spacing:.03em}.big3 .b3-v{font-size:clamp(14px,4.2vw,17px)}.big3 .b3-s{font-size:10px}
 .b3{background:var(--sunk);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
 .b3-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .b3-v{font-size:clamp(15px,4.6vw,19px);font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -3575,7 +3575,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
       <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
-      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"vs 50 typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
+      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
 function renderDiscover(){
@@ -4301,7 +4301,7 @@ function renderSchool(x){
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
         <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
-        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"vs 50 typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
+        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
     ${info?famFitHtml(info):""}
