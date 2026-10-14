@@ -5763,8 +5763,8 @@ function costOk(r){ if(!r||!r.school_id||!/^https:\/\//.test(r.source_url||"")||
 function costRow(info){ return (info && state.costs && state.costs[info.id]) || null; }
 function costFor(info){ const r=costRow(info); if(!r) return null;
   const pub=/public/i.test(info.ownership||""); const h=homeState();
-  let side=(pub && h && info.state && h!==info.state) ? "out_of_state" : "in_state";
-  let t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000){ side=side==="in_state"?"out_of_state":"in_state"; t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000) return null; }
+  const side=(pub && h && info.state && h!==info.state) ? "out_of_state" : "in_state";
+  const t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000) return null;   // no printed total for this family's side -> keep the estimate, never borrow the other column
   return {v:Math.round(t), year:r.academic_year, basis:r.basis, url:r.source_url, side, checked:r.checked, conf:r.confidence}; }
 const COST_BASIS={"on-campus":"on campus","off-campus":"off campus","commuter":"living at home","not-stated":""};
 function costNoteHtml(info){ const c=costFor(info);

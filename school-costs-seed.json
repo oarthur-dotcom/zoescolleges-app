@@ -1,5 +1,65 @@
 [
  {
+  "school_id": "sc-110592",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 38500,
+   "tuition": 7938,
+   "fees": null,
+   "housing": 13682,
+   "food": 7972,
+   "books": 1128,
+   "transportation": 3002,
+   "personal": 4726
+  },
+  "out_of_state": {
+   "total": null,
+   "tuition": null,
+   "fees": null,
+   "housing": 13682,
+   "food": 7972,
+   "books": 1128,
+   "transportation": 3002,
+   "personal": 4726
+  },
+  "source_url": "https://www.calstatela.edu/financialaid/cost-attendance",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Full-time undergraduate, two semesters. Tuition contains combined tuition/mandatory fees; fees cannot be separated from this annual table. Personal maps to miscellaneous. Nonresidents owe an additional $471/unit; no annual nonresident tuition or COA total is printed and neither is calculated here. Shared living/indirect amounts are from the common undergraduate table, which identifies the nonresident surcharge separately. The $38,448 represented component sum plus the separately printed $52 average Direct Loan fee equals $38,500; unexplained remainder $0. Loans fees apply to borrowers and actual fees vary. Alternate CA totals: commuter $29,696 (housing $10,000, food $4,420, transportation $2,096, personal $4,062); off-campus $39,112 (housing $13,604, food $8,662, transportation $3,002, personal $4,726); tuition $7,938, books $1,128 and loan fees $52 apply to each. Both alternate tables sum exactly. Costs are estimates, may change, and vary individually. The Fall 2026 fee page https://www.calstatela.edu/finance-onestop/student-fees lists a voluntary $2 SIRF, $25 late-payment fee, $5 One Card fee and $10 comprehensive-exam fee when applicable. It credits a previously paid $100 enrollment deposit; this is not a discount. WUE-eligible students pay 150% of resident tuition; Fall 2026 full-time WUE tuition $5,128.50 plus campus fees $547.04, without the standard $471/unit surcharge. No WUE annual COA is printed. Case-specific COA increases may cover computers, dependent care, disability, study abroad, cooperative education and required credentials.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-110705",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 50946,
+   "tuition": 15588,
+   "fees": 2085,
+   "housing": 13203,
+   "food": 10782,
+   "books": 1515,
+   "transportation": 789,
+   "personal": 2652
+  },
+  "out_of_state": {
+   "total": 90216,
+   "tuition": null,
+   "fees": 2085,
+   "housing": 13203,
+   "food": 10782,
+   "books": 1515,
+   "transportation": 789,
+   "personal": 2652
+  },
+  "source_url": "https://www.finaid.ucsb.edu/costs-estimated-aid/cost-attendance/ucsb-undergraduate-cost-attendance-budget",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Incoming 2026 undergraduate cohort in residence halls; nine-month budget. Tuition $15,588 includes the Student Services Fee; fees $2,085 is the separately printed campus-fees line. Nonresident supplemental tuition $39,270 is printed separately from base tuition, so out_of_state.tuition is null rather than an invented combined subtotal. The main table prints resident $50,946 and nonresident $90,216. Resident schema components sum to $46,614; separately printed health-care allowance $4,008, phone $324 and utilities $0 reconcile exactly, remainder $0. The nonresident total reconciles when both printed tuition lines and all other printed categories are included; no loan-fee line is printed. The live official calculator https://finaid.ext-prod.sa.ucsb.edu/costs-estimated-aid/cost-of-attendance/coa-calculator was checked in the cloud browser for 2026-27/Undergraduate/2026 Cohort and confirms the residence-hall budget. Alternate calculator CA/NR totals: private off-campus $46,818/$86,088; university undergraduate apartments $42,843/$82,113; living at home $46,818/$86,088. The calculator currently prints identical private-housing and living-at-home budgets; retained as displayed. All alternate printed lines reconcile with their totals. Budgets exclude winter/spring-break living expenses; estimates and tuition/fees are subject to change. UC SHIP is automatic unless comparable coverage is approved for waiver. The health-cost budget is an allowance, not the exact billed premium; https://studenthealth.sa.ucsb.edu/insurance/uc-ship-academic-year-2025-26 lists 2026-27 undergraduate premiums of $1,336.28 each quarter. Course-material/service, technology and parking charges may apply; a $250 SIR deposit is credited toward registration upon enrollment, per https://catalog.ucsb.edu/academicsandpolicies/studentlife/feesandfinaid/additionalfees. Search-indexed same-year PDF https://www.finaid.ucsb.edu/docs/default-source/default-document-library/2026-2027-undergrad-coa.pdf displays $50,523/$89,793, inconsistent with the current linked HTML and live calculator; PDF direct fetch failed, so those indexed figures were not used. Its alternate indexed location https://finaid.ext-prod.sa.ucsb.edu/sites/default/files/2026-04/2026-2027%20Undergrad%20COA.pdf returned 404.",
+  "collected_by": "Cyrus"
+ },
+ {
   "school_id": "sc-129020",
   "academic_year": "2026-27",
   "basis": "on-campus",
@@ -87,6 +147,66 @@
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Bachelor's Degree, Georgia Resident and Non-Resident, on-campus columns; excludes Perimeter/associate and out-of-country rates. Published cents cannot be represented as exact integer dollars without rounding: resident total $34,549.51; nonresident total $56,179.51; transportation $1,037.13 and personal expenses $4,394.38 for both. These six fields are null solely because of the integer constraint. Both printed totals equal all printed line items including Direct Loan Fees $132.00, which have no dedicated schema field. Other printed totals: off-campus $37,259.08/$58,889.28 and with relative $28,691.72/$50,321.72 (resident/nonresident). COA is an estimate. The linked overview says budgets cover fall and spring at 12 credits per semester. Totals, transportation and personal were filled from the exact printed amounts in this note.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-144892",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 31452,
+   "tuition": 15618,
+   "fees": null,
+   "housing": 13540,
+   "food": null,
+   "books": 150,
+   "transportation": 840,
+   "personal": 1204
+  },
+  "out_of_state": {
+   "total": 31452,
+   "tuition": 15618,
+   "fees": null,
+   "housing": 13540,
+   "food": null,
+   "books": 150,
+   "transportation": 840,
+   "personal": 1204
+  },
+  "source_url": "https://www.eiu.edu/finaid/historical_cost.php",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "The official Financial Aid Historical Cost of Attendance page includes a current aid-year 26-27 Undergraduate Resident row with a printed full COA total and all components; no prior-year figures used. Tuition contains combined Tuition & Fees $15,618; fees is null. Housing contains Room & Board $13,540; food is null. The official 2026-2027 financial-aid estimate worksheet labels the same $13,540 as On-Campus Living Expenses, confirming the on-campus basis: https://www.eiu.edu/scholarships/docs/2627financialaidestimateworksheet.pdf . Its printed direct subtotal is $29,158 and indirect subtotal $2,294. These are estimates before aid, not guaranteed charges. The published components represented in the schema total $31,352; adding separately printed Loan Fee $100 exactly reconciles to printed total $31,452, with $0 unexplained remainder. Out-of-state domestic values repeat resident values because EIU states that all domestic students residing permanently in the USA qualify for in-state tuition, including a four-year tuition guarantee; the live 2026-2027 undergraduate in-person, 15-credits-per-semester calculator was checked in the cloud browser for both Illinois and non-Illinois residency and showed identical rates. IMPORTANT OFFICIAL-SOURCE DISCREPANCY: https://www.eiu.edu/finaid/cost.php currently prints tuition $10,690.20, fees $4,224.00, combined food/housing All Access Plan $13,670.00 and direct-only '2026-2027 Cost' $28,584.20 for 30 annual credits. It provides no numeric indirect allowances beyond loan fees $100. That calculator differs from the coherent full-COA historical table/worksheet set used here, and its direct subtotal is not a full COA. No values were mixed between the conflicting sets. The calculator fees include textbook rental $262.50; this was not added to the separate full-COA Books allowance. International tuition is separately described as 1.25 times the domestic rate; no international amount was substituted. Off-campus/commuter costs are discussed but no complete alternative 2026-27 budget was printed in the selected sources. High confidence follows the printed-total-plus-components criterion; the conflicting official calculator remains an explicit limitation.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-147703",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 33872,
+   "tuition": 11010,
+   "fees": 3390,
+   "housing": 15046,
+   "food": null,
+   "books": 632,
+   "transportation": 2160,
+   "personal": 1560
+  },
+  "out_of_state": {
+   "total": 33872,
+   "tuition": 11010,
+   "fees": 3390,
+   "housing": 15046,
+   "food": null,
+   "books": 632,
+   "transportation": 2160,
+   "personal": 1560
+  },
+  "source_url": "https://www.niu.edu/financial-aid/process/costs.shtml",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Official 2026-2027 undergraduate full-time academic-year COA, standard non-differential tuition, DeKalb main campus, 12+ credits per semester. The Financial Aid page describes Living Expenses $15,046 as the average on-campus housing allowance including Huskie Block 19 meal plan plus two additional meals per week; the Bursar repeats it explicitly as Housing and food. Combined housing/food is stored in housing, with food null. The schema components total $33,798; adding the separately printed Loan Fees $74 exactly matches printed total $33,872, leaving $0 unexplained remainder. COA is an estimated financial-aid budget, not actual charges; individual expenses vary. In-state and out-of-state domestic amounts are the same: Bursar lists one Domestic Rate and a separate International Rate at https://www.niu.edu/bursar/tuition/undergraduate/index.shtml . Published annual tuition alternatives: Engineering $12,210; Computer Science $11,970; Nursing excluding pre/intended nursing and RN-BS $11,370. Students below 12 credits have reduced COA categories. The COA excludes Student Health Insurance; students with 9+ DeKalb-campus credits are automatically charged unless they obtain a qualifying waiver, and participants can request it be added to COA. Bursar lists health insurance $1,419.50 per fall/spring term, separate from the selected COA. For students living with a parent, printed annual living allowance is $6,688 and travel allowance differs but is not quantified; no alternative total was synthesized. Off-campus allowance covers modest rent, food, utilities and other necessities; no separate numeric off-campus total is printed. Preserve the Financial Aid COA tuition allowance of $11,010 as printed; Bursar separately lists current-cohort domestic full-time billed tuition of $5,505.39 per term and different guaranteed rates for earlier entry cohorts.",
   "collected_by": "Cyrus"
  },
  {
@@ -180,6 +300,66 @@
   "collected_by": "Cyrus"
  },
  {
+  "school_id": "sc-157447",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 30958,
+   "tuition": 11328,
+   "fees": null,
+   "housing": 13296,
+   "food": null,
+   "books": 1000,
+   "transportation": 2000,
+   "personal": 2500
+  },
+  "out_of_state": {
+   "total": 34942,
+   "tuition": 15312,
+   "fees": null,
+   "housing": 13296,
+   "food": null,
+   "books": 1000,
+   "transportation": 2000,
+   "personal": 2500
+  },
+  "source_url": "https://www.nku.edu/admissions-aid/financial-aid/tuition-and-fees/2026-2027-cost-of-attendance-6.18.26.pdf",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "First-year on-campus undergraduate annual budget, main campus; full-time tuition covers 12\u201316 credits/semester. Tuition stores the printed combined Tuition & Fees; housing stores combined Housing & Food. Separate printed Norse Experience Fee $450 and Student Rec Fee $384 explain the $834 gap between populated fields and each total; all printed components reconcile exactly, with no unexplained remainder. No loan-fee allowance printed. Out-of-state uses the 2NRS new-nonresident tier. Current FAQ explicitly applies the standard rate to all new domestic/international students outside KY/OH/IN; no scholarship condition. New KY/OH/IN students get the same resident rate. Eligibility source: https://www.nku.edu/admissions-aid/financial-aid/tuition-and-fees/tri-state-tuition-faqs/index.html . Current schedule separates students admitted before Fall 2025: https://www.nku.edu/student-account-services/tuition/index.html . PDF also prints a higher Out-of-State first-year on-campus total $42,454 and Tuition & Fees $22,824. Returning on-campus totals: resident $30,508, 2NRS $34,492, older nonresident $42,004. Alternative first-year dependent-undergraduate totals $28,250/$32,234 (resident/2NRS), with housing/food $10,588; self-supporting totals $34,822/$38,806, with personal $6,364. These are financial-aid budgets, not individual bills; program/enrollment and housing choices can vary.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-163268",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 42456,
+   "tuition": 14086,
+   "fees": null,
+   "housing": 9248,
+   "food": 6490,
+   "books": 1600,
+   "transportation": 1900,
+   "personal": 7546
+  },
+  "out_of_state": {
+   "total": 62553,
+   "tuition": 34183,
+   "fees": null,
+   "housing": 9428,
+   "food": 6490,
+   "books": 1600,
+   "transportation": 1900,
+   "personal": 7546
+  },
+  "source_url": "https://financialaid.umbc.edu/8119-2/",
+  "checked": "2026-10-14",
+  "confidence": "medium",
+  "notes": "NOTE FROM CLAUDE: UMBC's own page lists resident housing $9,248 but non-resident housing $9,428, and the resident line items add to $180 less than the printed resident total $42,456 (looks like a typo on their page; the printed total is used). Annual undergraduate on-campus COA, full-time 12+ credits. Proposed/estimated tuition and fees may change; individual expenses vary. Tuition contains combined Tuition/Fees; fees is null. Personal maps the printed Other category. Printed Direct Loan Fee $142 and PLUS Loan Fee $1,264 are outside the requested component fields. Including both, resident components sum $42,276, leaving an unexplained $180 below printed total $42,456; nonresident components reconcile exactly ($0 remaining). Preserve printed resident housing $9,248 versus nonresident $9,428. Alternative printed totals: living with relatives $33,992/$54,089 (resident/nonresident); off-campus $47,534/$67,631. Relatives nonresident components plus loan fees sum $52,447, leaving $1,642 unexplained; other alternative totals reconcile. Main campus selected, not Shady Grove. The separate semester billing page prints tuition/mandatory fees of $7,050.50 resident and $17,152 nonresident; these differ from the annual COA figures and were not substituted or annualized (https://sbs.umbc.edu/fall-2026-and-spring-2027-undergraduate/). Other fees include undergraduate application $75, enrollment $200, matriculation $100, orientation $225, international $150/semester, and variable course fees (https://sbs.umbc.edu/fall-2026-and-spring-2027-other-fees/).",
+  "collected_by": "Cyrus"
+ },
+ {
   "school_id": "sc-163286",
   "academic_year": "2026-27",
   "basis": "on-campus",
@@ -207,6 +387,36 @@
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Estimated annual costs; both component sums equal printed totals. Housing includes cable and phone; food is an average. Off-campus totals: resident $36,066, nonresident $67,318; with-parent totals: $22,752/$54,004. Business, engineering and computer-science majors with 60+ credits incur differential tuition: financial-aid FAQ prints $1,687 per full-time semester; qualifying students may receive an offsetting grant. International students requiring university-issued immigration documents may incur $125 per semester. All charges subject to change. COA source prints resident tuition $11,014; separate 2026-27 catalog https://www.academiccatalog.umd.edu/undergraduate/fees-expenses-financial-aid/tuition-fees/ prints $11,015 and annual differential tuition $3,375. COA amounts retained.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-169248",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 33764,
+   "tuition": 15570,
+   "fees": 450,
+   "housing": 13360,
+   "food": null,
+   "books": 1326,
+   "transportation": 1378,
+   "personal": 1580
+  },
+  "out_of_state": {
+   "total": 33764,
+   "tuition": 15570,
+   "fees": 450,
+   "housing": 13360,
+   "food": null,
+   "books": 1326,
+   "transportation": 1378,
+   "personal": 1580
+  },
+  "source_url": "https://www.cmich.edu/offices-departments/office-scholarships-financial-aid/cost-of-attendance",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Mount Pleasant main campus, lower-division undergraduate, fall/spring, 30 credits/year. Estimated costs vary with credits, housing/meal choices, and enrollment duration. Housing contains combined Food and Housing; food is null. Fees are Student Services Fee; books includes course materials, supplies and equipment. Printed Loan Fees $100 are outside the requested fields; adding them reconciles exactly to printed total ($0 remaining). Upper-division on-campus tuition $17,250 and total $35,444; remaining components are unchanged. Alternative lower/upper-division totals: off-campus $29,958/$31,638, with parents $25,395/$27,075. All U.S. residents receive the same tuition; duplicate domestic resident/nonresident values are intentional. Lower division is fewer than 56 credits; upper division is 56+ credits. Standard residence hall and meal plan underpin the housing estimate. Eligible Michigan students may receive CMU Tuition Advantage; no discount deducted (https://www.cmich.edu/undergraduate/cost-aid-scholarships). Separate rate page lists a $5/semester Student Sustainability Fee, not itemized in this COA; it was not added. Military undergraduate rate $250/credit is separate, as are international rates (https://www.cmich.edu/offices-departments/finance-administrative-services/financial-services-reporting/student-account-services-university-billing/tuition-and-fee-rates).",
   "collected_by": "Cyrus"
  },
  {

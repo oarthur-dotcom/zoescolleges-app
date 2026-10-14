@@ -7,12 +7,14 @@ for (const W of [390, 1280]) {
   const page = await b.newPage({ viewport: { width: W, height: 900 } }); page.on('pageerror', e => errs.push(String(e))); const t = n => W + ':' + n;
   await page.goto('http://localhost:8962/index.html'); await page.waitForFunction(() => typeof startDemo === 'function' && document.getElementById('demo-start'), null, { timeout: 60000 });
   await page.evaluate(() => startDemo()); await page.waitForFunction(() => state.catalog && state.catalog.length > 0 && state.costs, null, { timeout: 60000 });
-  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded12'), n === 12);
+  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded19'), n === 19);
   const A = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'university-of-colorado-boulder'); const prev = i.scorecard.costAvg; homeState = () => 'CO'; const inS = costFor(i); homeState = () => 'TX'; const outS = costFor(i); homeState = () => 'CO'; return { inV: inS && inS.v, outV: outS && outS.v, stickerIn: stickerPrice(i), prev }; });
   ok(t('inStateColumn'), A.inV === 39992 && A.stickerIn === 39992); ok(t('outOfStateColumn'), A.outV === 71784);
   const P = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'syracuse-university'); homeState = () => 'TX'; const a = costFor(i); homeState = () => 'NY'; const b2 = costFor(i); return [a.v, b2.v]; });
   ok(t('privateSamePrice'), P[0] === 95676 && P[1] === 95676);
   const G = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'sc-139940'); homeState = () => 'GA'; return costFor(i).v; }); ok(t('cents'), G === 34550);
+  const X = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'sc-110592'); homeState = () => 'CA'; const inS = costFor(i) && costFor(i).v; homeState = () => 'TX'; const outS = costFor(i); homeState = () => 'CO'; return [inS, outS]; });
+  ok(t('noPrintedOutOfStateTotalKeepsEstimate'), X[0] === 38500 && X[1] === null);
   // detail page shows verified note with a link, unverified shows estimate label
   await page.evaluate(() => { homeState = () => 'CO'; openDetail('university-of-colorado-boulder', 'board'); }); await page.waitForTimeout(600);
   const D = await page.evaluate(() => { const c = [...document.querySelectorAll('#v-detail .d-cell')].find(x => /Sticker cost/.test(x.textContent)); const a = c && c.querySelector('.cost-src a'); return { has: !!c, money: c && /39,992/.test(c.textContent), year: c && /2026-27/.test(c.textContent), link: a && a.href, rel: a && a.rel, hz: document.documentElement.scrollWidth <= innerWidth + 2 }; });
