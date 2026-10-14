@@ -15,6 +15,11 @@ const T = [
  ['what can you do', /Today/], ['how many schools should I apply to', /6–10/], ['whats new', /Pulse/], ['why did you pick these schools', /sliders/], ['hello', /Hey/], ['thanks', /Anytime/], ["what's my gpa", /unweighted GPA/],
  ['What is the admission rate at Harvard?', /Harvard University<\/b> admits about/], ['How much does Boston College cost?', /Sticker price/], ['How big is Clemson', /students/], ['where is Elon', /Elon, NC|NC/], ['When is the deadline for Boston University', /Early Decision/], ['what SAT scores does Amherst College want', /SAT/], ['Can I get into Stanford', /Far reach|Reach/], ['tell me about Elon', /Elon University/], ['Compare Elon and Boston College', /Side by side/],
  ['Which schools are in Massachusetts?', /four-year schools in Massachusetts/], ['which schools have D1 soccer', /D1 Soccer|soccer/i], ['what is a good SAT score', /middle half/],
+ ['What\'s the acceptance rate at Northeastern?', /Northeastern University<\/b> admits about/], ['What\'s the average SAT at Vanderbilt?', /middle half of admitted students scored/],
+ ['Is Duke test optional?', /test policy/], ['Compare Boston University and Northeastern', /Side by side/], ['Which schools have D1 hockey?', /Ice Hockey/],
+ ['Show me small schools in Vermont', /small \(under 5,000 students\)/], ['How do I share my list with my wife?', /Invite/], ['How do I add a photo of a campus visit?', /Add photo/],
+ ['What is the Plan tab?', /Deadlines<\/b> \(application dates/], ['What is early decision?', /binding/], ['What does Ask Zoe do?', /college-planning sidekick/],
+ ['Is there an app for my phone?', /Add to Home Screen/], ['How do I delete my account?', /no delete-account button/], ['How many schools are on my board?', /You have <b>\d+/],
 ];
 const R = await page.evaluate(T => T.map(([q]) => { let a; try { a = zoeAnswer(q); } catch (e) { return 'THROW ' + e.message; } return String(a); }), T);
 let fail = []; T.forEach(([q, re], i) => { if (!re.test(R[i]) || R[i].includes('bigger than my little brain') || /NaN|undefined|\[object/.test(R[i])) fail.push(q + ' => ' + R[i].replace(/<[^>]+>/g, '').slice(0, 120)); });
