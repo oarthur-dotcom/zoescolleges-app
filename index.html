@@ -168,6 +168,7 @@ a{color:var(--teal)}
 .d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
 #v-detail{max-width:1000px;margin:0 auto}
 .d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.cost-src{font-size:11.5px;font-weight:400;color:var(--muted);margin-top:4px;line-height:1.35}.cost-src a{color:var(--teal)}.cost-ok{color:var(--teal);font-weight:700}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
 .d-cell{background:var(--surface);padding:11px 13px}
 .d-cell .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -1715,6 +1716,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <ul style="line-height:1.7;margin:0;padding-left:20px">
         <li><b>Admissions, cost, graduation & earnings</b> — the U.S. Department of Education's <a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener">College Scorecard</a>, the official federal dataset.</li>
         <li><b>Area context</b> (political lean, gun & LGBTQ policy) — state-level tallies from Cook PVI / presidential results, the <a href="https://giffords.org/lawcenter/" target="_blank" rel="noopener">Giffords Law Center</a>, and the <a href="https://www.mapresearch.org/" target="_blank" rel="noopener">Movement Advancement Project</a>. These describe the <i>state/area</i>, not the school.</li>
+        <li><b>Sticker prices</b> — where we have checked the school's own published cost-of-attendance page, we show that figure with its year and a link; the rest are federal estimates, labelled as such.</li>
         <li><b>Deadlines & extra detail</b> — curated by us; always confirm on the school's own site.</li>
       </ul>
       <p class="muted" style="font-size:13px;margin-bottom:0">Every school's detail page names its sources, and nothing here is a number we made up.</p>
@@ -2259,7 +2261,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { docs:true, ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
+let BACKEND = { costs:true, docs:true, ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -2548,7 +2550,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); await loadPhotoOverlay(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); await loadCosts(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); await loadPhotoOverlay(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -5151,7 +5153,7 @@ function renderDetail(id){
       ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
       ${yourNet(info)?cell(`Your net price / yr (${yourNet(info).label})`, yourNetHtml(info)):""}
       ${cell((yourNet(info)?"Average net price / yr":"Net price / yr")+(oosSurcharge(info)?" (out-of-state)":""), money(avgNet(info)))}
-      ${cell("Sticker cost / yr"+(oosSurcharge(info)?" (out-of-state)":""), money(stickerPrice(info)))}
+      ${cell("Sticker cost / yr"+(costFor(info)?(costFor(info).side==="out_of_state"?" (out-of-state)":""):(oosSurcharge(info)?" (out-of-state)":"")), money(stickerPrice(info))+costNoteHtml(info))}
       ${cell("In-state tuition", money(sc.tuitionInState))}
       ${cell("Out-of-state tuition", money(sc.tuitionOutState))}
       ${cell("Grad rate (4yr)", pct(sc.gradRate))}
@@ -5750,8 +5752,33 @@ function homeState(){ const sp=studentProfile(); const mine=(state.me&&state.pro
 function oosSurcharge(info){ if(!info) return 0; const sc=info.scorecard||{}; const pub=/public/i.test(info.ownership||""); const h=homeState();
   if(!pub||!h||!info.state||h===info.state) return 0; const a=sc.tuitionOutState, b=sc.tuitionInState; return (typeof a==="number"&&typeof b==="number"&&a>b)? a-b : 0; }
 // Sticker (cost of attendance) gets the same out-of-state difference, so the sticker is never below the price after aid.
-function stickerPrice(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.costAvg==="number" ? sc.costAvg + oosSurcharge(info) : null; }
-function avgNet(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number" ? Math.max(0,sc.netPrice) + oosSurcharge(info) : null; }   // 4 schools carry a negative federal average; a price is never below $0
+function stickerPrice(info){ const c=costFor(info); if(c) return c.v; const sc=(info&&info.scorecard)||{}; return typeof sc.costAvg==="number" ? sc.costAvg + oosSurcharge(info) : null; }
+function avgNet(info){ const sc=(info&&info.scorecard)||{}; if(typeof sc.netPrice!=="number") return null; const n=Math.max(0,sc.netPrice) + oosSurcharge(info); const c=costFor(info); return (c && n>c.v) ? c.v : n; }
+/* Oct 14 price board: the school's OWN published cost of attendance (table school_costs, one row per school: year, basis, source link).
+   It replaces the federal estimate for the sticker price. Schools with no row keep the estimate, labelled as an estimate.
+   Public school + family home state differs from the school's state -> the out-of-state column, otherwise the in-state one.
+   A row is ignored unless it looks sane (https source, year like 2026-27, total between $3k and $150k). */
+function costOk(r){ if(!r||!r.school_id||!/^https:\/\//.test(r.source_url||"")||!/^\d{4}-\d{2}$/.test(r.academic_year||"")) return false;
+  return ["in_state","out_of_state"].some(k=>r[k]&&typeof r[k].total==="number"&&r[k].total>=3000&&r[k].total<=150000); }
+function costRow(info){ return (info && state.costs && state.costs[info.id]) || null; }
+function costFor(info){ const r=costRow(info); if(!r) return null;
+  const pub=/public/i.test(info.ownership||""); const h=homeState();
+  let side=(pub && h && info.state && h!==info.state) ? "out_of_state" : "in_state";
+  let t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000){ side=side==="in_state"?"out_of_state":"in_state"; t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000) return null; }
+  return {v:Math.round(t), year:r.academic_year, basis:r.basis, url:r.source_url, side, checked:r.checked, conf:r.confidence}; }
+const COST_BASIS={"on-campus":"on campus","off-campus":"off campus","commuter":"living at home","not-stated":""};
+function costNoteHtml(info){ const c=costFor(info);
+  if(!c) return `<div class="cost-src">federal estimate, not yet checked against the school's page</div>`;
+  const b=COST_BASIS[c.basis]; return `<div class="cost-src"><span class="cost-ok" aria-hidden="true">✓</span> ${esc(c.year)}${b?" · "+esc(b):""} · <a href="${esc(c.url)}" target="_blank" rel="noopener">school's cost page</a></div>`; }
+async function loadCosts(){
+  state.costs={}; if(BACKEND.costs===false) return;
+  try{
+    let rows;
+    if(DEMO){ const r=await fetch("school-costs-seed.json",{cache:"no-cache"}); rows=r.ok?await r.json():[]; }
+    else { const {data,error}=await sb.from("school_costs").select("*"); if(error) throw error; rows=data||[]; }
+    rows.forEach(r=>{ if(costOk(r)) state.costs[r.school_id]=r; });
+  }catch(e){ if(isMissing(e) || /school_costs|relation|schema cache/i.test((e&&e.message)||"")) BACKEND.costs=false; }
+}   // 4 schools carry a negative federal average; a price is never below $0
 /* Oct 14: federal net price by income band is noisy: 543 schools show a higher-income band paying LESS than a lower one, and 24 show a negative price.
    A family never pays less than a lower-income family, and never below $0, so take the highest value at or below this band. */
 function bandNet(row,b){ if(!row) return null; let best=null; for(let i=0;i<=b&&i<row.length;i++){ const x=row[i]; if(typeof x==="number"&&isFinite(x)) best=best==null?x:Math.max(best,x); }
@@ -7765,6 +7792,7 @@ async function startDemo(){
   DEMO=true; _realSb=sb; sb=demoClient(); _demoToastShown=false;
   try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
   BACKEND={ docs:true, profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
+  await loadCosts();
   state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
   document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family"; $("signout").textContent="Exit sample";
   state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}
