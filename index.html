@@ -620,6 +620,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
 .why-panel{margin-top:8px}
+.ap-chip{border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font-weight:700;cursor:default}button.ap-chip{cursor:pointer;font:inherit;font-size:12px;font-weight:700}
 .ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
 .ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
 .ap-gap{font-size:13px;margin-top:2px}.ap-rows{margin-top:10px;display:grid;gap:5px}
@@ -1980,7 +1981,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <b style="font-size:15px">How Zoe's Colleges works</b>
         <button id="howto-x" class="small ghost" style="padding:2px 8px">Got it ✕</button>
       </div>
-      <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict.</p>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict. <a href="#" data-sauce><b>Want to know our secret sauce?</b></a></p>
       <ol style="margin:10px 0 0;padding-left:20px;line-height:1.7">
         <li><b>Build your profile first</b> — tap <a href="#" data-td-go="profile"><b>My Profile</b></a> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
         <li><a href="#" data-td-go="explore"><b>Add schools</b></a> — anyone in the family can add or remove them; matches fill in automatically.</li>
@@ -2824,6 +2825,7 @@ function apBlockHtml(ex,noLink){ const pw=ex&&ex.power; if(!pw) return "";
     <div class="ap-gap">${gap===0?"Right at the typical admit.":`You're <b>${Math.abs(gap)} point${Math.abs(gap)===1?"":"s"} ${gap>0?"above":"below"}</b> the typical admit here.`}${top&&gap<8?` Biggest lever: <b>${esc(top.label)}</b> (+${top.d} pts).`:""}</div></div></div>
     <div class="ap-rows" aria-label="How your Admit Power adds up"><div class="ap-row"><span class="muted">Starts at</span><span class="ap-note" style="grid-column:2 / 4">50 — the typical admitted student at this school</span></div>${rows}</div>
     <div class="ap-note" style="margin-top:8px">An estimate, not a prediction.${noLink?"":` <button class="linklike" data-sauce>Want to know our secret sauce?</button>`}</div></div>`; }
+document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-apopen]"); if(!a) return; const w=document.querySelector("[data-whyband]"); if(!w) return; const pn=w.parentElement&&w.parentElement.querySelector(".why-panel"); if(pn&&pn.classList.contains("hidden")) w.click(); try{ (pn||w).scrollIntoView({behavior:"smooth",block:"center"}); }catch(_){} });
 var _sauceFrom="today";
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-sauce]"); if(b){ e.preventDefault(); if(currentView!=="sauce") _sauceFrom=currentView||"today"; try{ const d=document.querySelector("dialog[open]"); if(d&&d.close) d.close(); }catch(_){} goto("sauce"); return; }
   const k=e.target.closest&&e.target.closest("[data-sauce-back]"); if(k){ e.preventDefault(); goto(_sauceFrom&&_sauceFrom!=="sauce"?_sauceFrom:"today"); } });
@@ -4143,6 +4145,8 @@ $("howto").addEventListener("click",e=>{ const a=e.target.closest&&e.target.clos
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = ()=>{ _boardHold=null; renderBoard(); };
 $("board-resort").onclick = ()=>{ _boardHold=null; renderBoard(); };
+function apChip(ch,open){ if(!ch||ch.score==null) return ""; const t=`Admit Power ${ch.score} — 50 is the typical admitted student here`;
+  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}</button>`:`<span class="chip ap-chip" title="${t}">⚡ ${ch.score}</span>`; }
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
@@ -4242,7 +4246,7 @@ function renderSchool(x){
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
     </div>
     <details class="extra card-more"><summary>More · where you stand, facts, links, note</summary>
-      <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${matchRing(x.m)}</div>
+      <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${apChip(x.ch)}${matchRing(x.m)}</div>
       ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
       ${facts}
       ${cardLinks(info, s)}
@@ -5038,7 +5042,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""} ${athChip(info)}</div>`:""; })()}
-    <div class="chiprow" style="margin:8px 0">${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span class="calc-link" data-calc style="margin:0 0 0 4px;align-self:center">How we calculate this ▸</span>`:""}</div>
+    <div class="chiprow" style="margin:8px 0;flex-wrap:wrap">${chanceChip(ch)}${apChip(ch,true)}${matchChip(m)}${(ch||m!=null)?`<span style="flex-basis:100%;display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:2px"><span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span><span class="calc-link" data-sauce style="margin:0">Want to know our secret sauce? ▸</span></span>`:""}</div>
     ${info?famFitHtml(info):""}
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?regionalHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
@@ -6001,7 +6005,7 @@ function renderRecommends(){
     const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
-        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${matchRing(m)}</div>
+        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${apChip(ch)}${matchRing(m)}</div>
         <div class="rec-facts">${(()=>{ const z=schoolSize(c), st=settingWord(c), k=costFact(c), ar=c.scorecard&&c.scorecard.admissionRate;
           return `<div class="rf"><span>Size</span><b>${z?esc(z.word||"—"):"—"}</b><em>${z?esc(z.txt):"no data"}</em></div>`
           +`<div class="rf"><span>${k?k.k:"Cost"}</span><b>${k?k.v:"—"}</b><em>${k?esc(k.s):"no data"}</em></div>`

@@ -32,6 +32,14 @@ for (const W of [390, 1280]) {
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(400);
   K.ui = await page.evaluate(() => { const s = state.schools[0]; const html = chanceMathHtml(catInfo(s.school_id)); const d = document.createElement('div'); d.innerHTML = html;
     return { hasCard: !!d.querySelector('.ap-card'), hasNum: /ap-num/.test(html), rows: d.querySelectorAll('.ap-row').length >= 3, sauceLink: !!d.querySelector('[data-sauce]'), noNaN: !/NaN|undefined/.test(d.innerText), words: /Admit Power \d+\./.test(chanceWords(catInfo(s.school_id))) }; });
+  // Prominence: chip on board card + school page (opens the breakdown), secret-sauce links, Today guide link
+  await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(400);
+  K.board = await page.evaluate(() => ({ chips: document.querySelectorAll('#v-board .ap-chip').length > 0 }));
+  await page.evaluate(() => openDetail(state.schools[0].school_id, 'board')); await page.waitForTimeout(500);
+  K.detail = await page.evaluate(async () => { const c = document.querySelector('#v-detail [data-apopen]'); const out = { chip: !!c, chipText: c ? c.innerText : '', sauceNear: !!document.querySelector('#v-detail .chiprow [data-sauce]'), panelHiddenFirst: document.querySelector('#v-detail .why-panel').classList.contains('hidden') };
+    if (c) { c.click(); await new Promise(r => setTimeout(r, 400)); } out.opens = !document.querySelector('#v-detail .why-panel').classList.contains('hidden') && !!document.querySelector('#v-detail .why-panel .ap-card'); return out; });
+  await page.evaluate(() => { try { localStorage.removeItem('zc_howto'); } catch (e) {} goto('today'); document.getElementById('howto').classList.remove('hidden'); });
+  K.todayLink = await page.evaluate(() => !!document.querySelector('#howto [data-sauce]'));
   // Sauce page
   await page.evaluate(() => { goto('today'); }); await page.waitForTimeout(300);
   await page.evaluate(() => { const b = document.createElement('button'); b.dataset.sauce = '1'; b.id = 'tmp-sauce'; document.body.appendChild(b); b.click(); }); await page.waitForTimeout(500);
@@ -41,6 +49,6 @@ for (const W of [390, 1280]) {
   K.noOverflow = await page.evaluate(() => { goto('sauce'); return document.documentElement.scrollWidth <= window.innerWidth + 2; });
   await page.close();
 }
-const fails = []; for (const [w, K] of Object.entries(R)) { for (const [k, v] of Object.entries(K.math)) if (v === false) fails.push(w + ' math.' + k); for (const g of ['ui', 'sauce']) for (const [k, v] of Object.entries(K[g])) if (v === false) fails.push(w + ' ' + g + '.' + k); if (!K.back) fails.push(w + ' back'); if (!K.noOverflow) fails.push(w + ' overflow'); }
+const fails = []; for (const [w, K] of Object.entries(R)) { for (const [k, v] of Object.entries(K.math)) if (v === false) fails.push(w + ' math.' + k); for (const g of ['ui', 'sauce', 'board', 'detail']) for (const [k, v] of Object.entries(K[g])) if (v === false) fails.push(w + ' ' + g + '.' + k); if (!K.todayLink) fails.push(w + ' todayLink'); if (!K.back) fails.push(w + ' back'); if (!K.noOverflow) fails.push(w + ' overflow'); }
 console.log(JSON.stringify(R, null, 1)); console.log('FAILED:', fails.length ? fails.join(', ') : 'none', '| pageerrors:', errs.length, errs.slice(0, 3));
 await b.close(); srv.close(); process.exit(0);
