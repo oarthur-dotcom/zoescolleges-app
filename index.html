@@ -6600,7 +6600,7 @@ function zoeChips(q){
   if(/analy[sz]e.*(profile|me)|whole profile/.test(q)){ const r=rows(); const c={reach:0,target:0,likely:0}; r.forEach(x=>{ if(x.ch&&c[x.ch.band]!=null) c[x.ch.band]++; });
     const top=r.filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3);
     return `<b>Your profile at a glance</b><br>${esc(aiProfileLine()||"Add your grades and scores in My Profile so I can be specific.")}<br><br><b>Your list:</b> ${c.likely} likely · ${c.target} target · ${c.reach} reach${top.length?`<br><b>Best fits right now:</b> ${top.map(x=>`${nm(x)} (${x.m}%)`).join(", ")}`:""}<br><br>${zoeAdvice(p)}`; }
-  if(/(do|should) (we|i) .*this week|what.?s due next|what.?s next for us/.test(q)) return zoeWeekLocal();
+  if(/(do|should) (we|i) .*this week\b|what.?s due next|what.?s next for us/.test(q)) return zoeWeekLocal();
   if(/visit first/.test(q)){ let v=[]; try{ v=upcomingVisits().slice(0,3); }catch(e){} if(v.length) return "Your next visits:<br>"+v.map(x=>`• <b>${esc((x.info&&x.info.name)||x.id)}</b> — ${esc(fmtDay(x.v.date))}`).join("<br>");
     const t=rows().filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3); return t.length?"No visits booked yet. I'd start with your best fits:<br>"+t.map(x=>`• ${nm(x)} — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Set dates in the Trips tab.</span>":"Add a few schools first, then I can suggest a visit order."; }
   if(/why are these picked|why.*picked for me/.test(q)){ const t=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3);
@@ -6621,7 +6621,7 @@ function zoeChips(q){
 function zoeAnswerPlain(qraw){
   const q=(qraw||"").toLowerCase().trim();
   { const ch=zoeChips(q); if(ch) return ch; }
-  if(/\b(what should (i|we) work on\s*\??$|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
+  if(/\b(what should (i|we) work on(?=\s*\??$)|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
   if(zoeNeedsAI(q)) return ZOE_FALLBACK;
   // profile- & board-aware answers come first (the "knows you" part)
   const pr = zoePersonal(q); if(pr) return pr;
