@@ -4379,14 +4379,15 @@ const SEARCH_STATE_ALIAS = {"cali":"ca","jersey":"nj"};
 const _FILLER = new Set(["colleges","college","universities","university","schools","school","in","near","around","the","a","of","best","top","small","big","good","area","metro","near","by"]);
 function _haversineMi(a,b,c,d){ const R=3958.8,r=x=>x*Math.PI/180,dl=r(c-a),dn=r(d-b); const h=Math.sin(dl/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 function _searchSmart(raw){
+  if(_index().some(e=>e.n===raw||e.n==="the "+raw)) return null;   // an exact school name always wins ("South College", "University of New England")
   const g=SEARCH_GROUP_ALIAS[raw]||raw; if(SEARCH_GROUPS[g]){ const out=_index().filter(e=>SEARCH_GROUPS[g].test(e.c.name)).map(e=>({c:e.c,rank:90})); if(out.length) return out; }
   const words=raw.split(" "); const core=words.filter(w=>!_FILLER.has(w)).join(" "); const hadFiller=core!==raw && core.length>0;
-  const listy=/(^|\s)(colleges|universities|schools|in|near|around|area|metro)(\s|$)/.test(raw); const tryCore = hadFiller ? core : raw;
+  const listy=/(^|\s)(colleges|universities|schools|in|near|around|area|metro)(\s|$)/.test(raw); const tryCore = (hadFiller && listy) ? core : raw;
   const g2=SEARCH_GROUP_ALIAS[tryCore]||tryCore; if(hadFiller && listy && SEARCH_GROUPS[g2]){ return _index().filter(e=>SEARCH_GROUPS[g2].test(e.c.name)).map(e=>({c:e.c,rank:90})); }
   // regions
   if(SEARCH_REGIONS[tryCore]){ const st=SEARCH_REGIONS[tryCore]; return _index().filter(e=>st.includes(e.st)&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30})); }
   // a state (full name, abbreviation, or nickname) with filler words: "colleges in massachusetts", "ma colleges"
-  if(hadFiller && listy){ let st=null; if(STATE_NAMES[tryCore]) st=STATE_NAMES[tryCore]; else if(SEARCH_STATE_ALIAS[tryCore]) st=SEARCH_STATE_ALIAS[tryCore]; else if(tryCore.length===2 && Object.values(STATE_NAMES).includes(tryCore)) st=tryCore;
+  if(hadFiller && listy){ let st=null; const core2=words.filter(w=>!/^(colleges|universities|schools|in|near|around|area|metro)$/.test(w)).join(" "); if(STATE_NAMES[core2]) { const sx=STATE_NAMES[core2]; return _index().filter(e=>e.st===sx&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30})); } if(STATE_NAMES[tryCore]) st=STATE_NAMES[tryCore]; else if(SEARCH_STATE_ALIAS[tryCore]) st=SEARCH_STATE_ALIAS[tryCore]; else if(tryCore.length===2 && Object.values(STATE_NAMES).includes(tryCore)) st=tryCore;
     if(st) return _index().filter(e=>e.st===st&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30})); }
   // "near boston", "boston area", "nyc", "philly": everything within ~35 miles, closest first
   let place=SEARCH_PLACES[tryCore]||SEARCH_PLACES[raw]||null, city=null;
@@ -4406,9 +4407,10 @@ function searchCatalog(q){
   const exp = (!SEARCH_ALIASES[raw] && raw.includes(" ")) ? raw.split(" ").map(w=>_ABBR[w]||w).join(" ") : raw;
   if(exp===raw) return _searchOne(raw);
   const a=_searchOne(exp), b=_searchOne(raw); const best=l=>(l&&l[0]?l[0].rank:0);
-  return best(b)>best(a) ? b : a;
+  { const m=new Map(); [a,b].forEach(l=>(l||[]).forEach(x=>{ const o=m.get(x.c); if(!o||x.rank>o.rank) m.set(x.c,x); }));   // keep every match from both spellings ("St. Louis" = "Saint Louis")
+    const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0; return [...m.values()].sort((x,y)=>y.rank-x.rank || sz(y.c)-sz(x.c) || x.c.name.length-y.c.name.length); }
 }
-const STATE_NAMES={"alabama":"al","alaska":"ak","arizona":"az","arkansas":"ar","california":"ca","colorado":"co","connecticut":"ct","delaware":"de","district of columbia":"dc","florida":"fl","georgia":"ga","hawaii":"hi","idaho":"id","illinois":"il","indiana":"in","iowa":"ia","kansas":"ks","kentucky":"ky","louisiana":"la","maine":"me","maryland":"md","massachusetts":"ma","michigan":"mi","minnesota":"mn","mississippi":"ms","missouri":"mo","montana":"mt","nebraska":"ne","nevada":"nv","new hampshire":"nh","new jersey":"nj","new mexico":"nm","new york":"ny","north carolina":"nc","north dakota":"nd","ohio":"oh","oklahoma":"ok","oregon":"or","pennsylvania":"pa","rhode island":"ri","south carolina":"sc","south dakota":"sd","tennessee":"tn","texas":"tx","utah":"ut","vermont":"vt","virginia":"va","washington":"wa","west virginia":"wv","wisconsin":"wi","wyoming":"wy"};
+const STATE_NAMES={"alabama":"al","alaska":"ak","arizona":"az","arkansas":"ar","california":"ca","colorado":"co","connecticut":"ct","delaware":"de","district of columbia":"dc","florida":"fl","georgia":"ga","hawaii":"hi","idaho":"id","illinois":"il","indiana":"in","iowa":"ia","kansas":"ks","kentucky":"ky","louisiana":"la","maine":"me","maryland":"md","massachusetts":"ma","michigan":"mi","minnesota":"mn","mississippi":"ms","missouri":"mo","montana":"mt","nebraska":"ne","nevada":"nv","new hampshire":"nh","new jersey":"nj","new mexico":"nm","new york":"ny","north carolina":"nc","north dakota":"nd","ohio":"oh","oklahoma":"ok","oregon":"or","pennsylvania":"pa","rhode island":"ri","south carolina":"sc","south dakota":"sd","tennessee":"tn","texas":"tx","utah":"ut","vermont":"vt","virginia":"va","washington":"wa","west virginia":"wv","wisconsin":"wi","wyoming":"wy","puerto rico":"pr","guam":"gu","virgin islands":"vi"};
 function _searchOne(qn){
   // a full state name ("massachusetts", "new york") also finds every school located there
   let stQ=STATE_NAMES[qn]||null, cityQ=null; if(!stQ){ for(const nm in STATE_NAMES){ if(qn.endsWith(" "+nm)){ stQ=STATE_NAMES[nm]; cityQ=qn.slice(0,-nm.length-1); break; } } }
@@ -4435,7 +4437,7 @@ function _searchOne(qn){
     if(qw.length) for(const e of _index()){
       if(out.some(o=>o.c===e.c)) continue;
       const nw=e.n.split(" ");
-      if(qw.every(w=>nw.some(x=>Math.abs(x.length-w.length)<=2 && _lev(x,w)<=(w.length>=8?2:1)))){ out.push({c:e.c, rank:isGradOnly(e.c)?1:30, fuzzy:true}); }
+      if(qw.every(w=>nw.some(x=>Math.abs(x.length-w.length)<=2 && _lev(x,w)<=(w.length>=8?2:1)))){ const exact=qn.split(" ").filter(w=>w.length<4&&nw.includes(w)).length; out.push({c:e.c, rank:isGradOnly(e.c)?1:30+exact*4, fuzzy:true}); }
     }
   }
   const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
