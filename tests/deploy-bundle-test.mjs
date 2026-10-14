@@ -21,8 +21,11 @@ for (const W of [390, 1280]) {
   // kid cannot save
   K.kidSaveNoop = await page.evaluate(async () => { let called = false; const real = sb; DEMO = false; state.family = state.family || { id: 'f' }; sb = { from: () => ({ upsert: async () => { called = true; return {}; } }) }; await saveFinance({ income: 1 }); sb = real; DEMO = true; return !called; });
   // ---------- income privacy: PARENT ----------
-  await page.evaluate(() => { state.me = { ...state.me, role: 'parent' }; state.fin = { income: 190000, band: 4, kids: 2, exact: true }; renderCost(); }); await page.waitForTimeout(400);
-  K.parent = await page.evaluate(() => { const i = document.getElementById('cf-income'); const t = document.getElementById('v-cost').innerText; return { input: !!i && i.value === '190,000', saysParentsOnly: /only parents/i.test(t) }; });
+  await page.evaluate(() => { state.me = { ...state.me, role: 'parent' }; state.fin = { income: 190000, band: 4, kids: 2, exact: true }; goto('profile'); renderProfile(); }); await page.waitForTimeout(500);
+  K.parent = await page.evaluate(() => { const i = document.getElementById('pf-family-money').querySelector('#cf-income'); const t = document.getElementById('pf-family-money').innerText; return { input: !!i && i.value === '190,000', saysParentsOnly: /only parents/i.test(t) }; });
+  K.parentCosts = await page.evaluate(() => { goto('cost'); renderCost(); const t = document.getElementById('v-cost').innerText; return { noFormOnCosts: !document.querySelector('#v-cost #cf-income'), linkToProfile: !!document.querySelector('[data-cf-profile]'), noNumber: !/190,?000/.test(t) }; });
+  K.kidProfile = await page.evaluate(() => { state.me = { ...state.me, role: 'student' }; state.fin = { income: 190000, band: 4, kids: 1, exact: false }; goto('profile'); renderProfile(); const e = document.getElementById('pf-family-money'); return { noInput: !e.querySelector('#cf-income'), private: /private to your parents/i.test(e.innerText), noNumber: !/190/.test(e.innerText) }; });
+  await page.evaluate(() => { state.me = { ...state.me, role: 'parent' }; });
   K.parentSave = await page.evaluate(async () => { const calls = []; const real = sb; DEMO = false; state.family = { id: 'fam1' }; state.me = { ...state.me, user_id: 'u1', role: 'parent' };
     state.prefs = state.prefs || {}; state.prefs['u1'] = { ...defaultPrefs(), incomeExact: 99000, incomeBand: 3, kidsInCollege: 1 };
     sb = { from: t => ({ upsert: async r => { calls.push({ t, r }); return {}; } }) }; await setFamilyFinance(240000, 3); sb = real; DEMO = true;

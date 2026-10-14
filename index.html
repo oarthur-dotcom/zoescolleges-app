@@ -1820,6 +1820,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <h1 id="pf-h1">My profile</h1>
     <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>fit %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
+    <div id="pf-family-money"></div>
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
     <div id="pf-summary" class="hidden"></div>
@@ -4727,14 +4728,9 @@ function renderCost(){
       <div class="ai-row">${aiBtn(`Explain this financial-aid offer from ${schoolName(id)} in plain English. Cost of attendance ${money(o.coa)}; grants and scholarships ${(o.grants||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; loans ${(o.loans||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; work-study ${money(o.workStudy||0)}. What is free money versus borrowed, what will we really pay per year, and how do we appeal or negotiate?`,"Ask AI about this offer")}</div></div>`; }).join("");
   const fin=familyFinance(); const sai=fin.income?estimateSAI(fin.income):null;
   const kidView=myRole()==="student";
+  const parentSummary=`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 only parents see them</span></div><div class="cf-sai" style="margin-top:6px">${fin.income!=null?`Prices below are adjusted for your family's income${fin.kids>1?` and ${fin.kids} kids in college`:""}.`:"Prices below are averages. Add your family income to see what each school will likely cost <b>you</b>."} <button type="button" class="linklike" data-cf-profile>${fin.income!=null?"Edit in your Profile":"Add it in your Profile"} →</button></div></div>`;
   const kidBox=`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 private to your parents</span></div><div class="cf-sai muted" style="margin-top:6px">${(fin.income!=null||fin.band!=null)?"The prices below are <b>adjusted for your family's income</b>. Your parents entered it and only they can see the number — you still see what each school will likely cost.":"Prices below are averages. When a parent adds the family income here, they adjust for your family — you'll see the adjusted prices but never the income."}</div></div>`;
-  el.innerHTML=`<div class="card">${kidView?kidBox:`<div class="cf-box"><div class="cf-h">Your family's numbers <span>🔒 only parents can see these — kids see adjusted prices, not the income</span></div>
-      <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income&&fin.exact?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
-        <div><span class="cf-lbl">Kids in college at the same time</span><div class="cf-kids" role="group" aria-label="Kids in college at the same time">${[1,2,3].map(n=>`<button type="button" data-cfk="${n}" class="${(fin.kids>=3?3:fin.kids)===n?"on":""}" aria-pressed="${(fin.kids>=3?3:fin.kids)===n}">${n===3?"3+":n}</button>`).join("")}</div></div>
-        <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button></div></div>
-      <div id="cf-msg" class="cf-msg" role="status"></div>
-      ${sai!=null?`<div class="cf-sai">Estimated family contribution (the federal <b>Student Aid Index</b>): <b>~${money(sai)}/yr</b>${fin.kids>1?` · about <b>${money(Math.round(sai/fin.kids))}</b> per student at private schools with ${fin.kids} in college`:""}. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.</div>`:`<div class="cf-sai muted">Add your income to see what each school will likely cost <b>you</b> — not just the average.</div>`}
-    </div>`}
+  el.innerHTML=`<div class="card">${kidView?kidBox:parentSummary}
       ${summary}${table}
       <p class="muted" style="font-size:11px;margin:10px 0 0">"Typical after aid" is the federal College Scorecard net price (about 2023–24 data) for aided first-year students, so today's real prices are usually higher. For public schools outside your home state we add the out-of-state tuition difference. Every family's real cost differs — use each school's net-price calculator, and compare real offers below once they arrive.</p></div>
     <div class="card offers"><div class="pv-head"><h2 style="margin:0">📄 Aid offers</h2><button class="small primary" id="offer-upload">＋ Add an aid letter</button></div>
@@ -4742,7 +4738,30 @@ function renderCost(){
       <input type="file" id="offer-file" accept="image/*,application/pdf" style="display:none"><div id="offer-form"></div>
       ${ocards||`<div class="muted" style="font-size:13px">No offers yet. They usually arrive in March and April (earlier for early decision).</div>`}</div>`;
   wireCost(el);
+  el.querySelectorAll("[data-cf-profile]").forEach(b=>b.onclick=()=>goto("profile"));
 }
+/* Oct 13: the family's numbers live in the PROFILE (parents only). Costs only shows a summary and a link. */
+function familyMoneyBoxHtml(){ const fin=familyFinance(); const sai=fin.income?estimateSAI(fin.income):null;
+  return `<div class="cf-box"><div class="cf-h">Family finances <span>🔒 only parents can see these — kids see adjusted prices, never the income</span></div>
+      <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income&&fin.exact?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
+        <div><span class="cf-lbl">Kids in college at the same time</span><div class="cf-kids" role="group" aria-label="Kids in college at the same time">${[1,2,3].map(n=>`<button type="button" data-cfk="${n}" class="${(fin.kids>=3?3:fin.kids)===n?"on":""}" aria-pressed="${(fin.kids>=3?3:fin.kids)===n}">${n===3?"3+":n}</button>`).join("")}</div></div>
+        <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button></div></div>
+      <div id="cf-msg" class="cf-msg" role="status"></div>
+      ${sai!=null?`<div class="cf-sai">Estimated family contribution (the federal <b>Student Aid Index</b>): <b>~${money(sai)}/yr</b>${fin.kids>1?` · about <b>${money(Math.round(sai/fin.kids))}</b> per student at private schools with ${fin.kids} in college`:""}. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.</div>`:`<div class="cf-sai muted">Add your income to see what each school will likely cost <b>you</b> — not just the average.</div>`}
+    </div>`; }
+function wireFamilyMoney(el, afterSave){
+  // #79: the family's numbers — save, then say exactly what changed
+  { let kids=(familyFinance().kids>=3?3:familyFinance().kids);
+    el.querySelectorAll("[data-cfk]").forEach(b=>b.onclick=()=>{ kids=+b.dataset.cfk; el.querySelectorAll("[data-cfk]").forEach(x=>{ const on=+x.dataset.cfk===kids; x.classList.toggle("on",on); x.setAttribute("aria-pressed",on); }); });
+    const inp=$("cf-income"); if(inp){ inp.oninput=()=>{ const d=inp.value.replace(/[^0-9]/g,""); inp.value=d?Number(d).toLocaleString("en-US"):""; }; inp.onkeydown=e=>{ if(e.key==="Enter") $("cf-save").click(); }; }
+    const sv=$("cf-save"); if(sv) sv.onclick=async()=>{ const raw=+(inp.value||"").replace(/[^0-9]/g,""); const m=$("cf-msg");
+      if(inp.value && (!raw || raw<1000 || raw>20000000)){ m.textContent="That income doesn't look right — type the yearly amount, e.g. 185,000."; m.className="cf-msg err"; return; }
+      sv.disabled=true; await setFamilyFinance(raw||0, kids); if(afterSave) afterSave();
+      const m2=$("cf-msg"); if(m2){ m2.className="cf-msg ok"; m2.textContent = raw ? `Saved ✓ — the prices below now use ${money(raw)} and ${kids>=3?"3 or more":kids} in college.` : "Saved ✓ — income cleared; prices below are averages."; } }; }
+}
+function renderFamilyMoney(){ const el=$("pf-family-money"); if(!el) return; if(!state.family){ el.innerHTML=""; return; }
+  if(myRole()==="student"){ const fin=familyFinance(); el.innerHTML=`<div class="card"><div class="cf-h">Family finances <span>🔒 private to your parents</span></div><div class="cf-sai muted" style="margin-top:6px">${(fin.income!=null||fin.band!=null)?"Prices in the app are <b>adjusted for your family's income</b>. Your parents entered it and only they can see the number.":"When a parent adds the family income in their profile, prices adjust for your family — you'll see the adjusted prices but never the income."}</div></div>`; return; }
+  el.innerHTML=`<div class="card">${familyMoneyBoxHtml()}<div class="muted" style="font-size:12.5px;margin-top:8px">This is what adjusts every school's price for your family — on the Costs screen, the school pages and Compare.</div></div>`; wireFamilyMoney(el, renderFamilyMoney); }
 function wireCost(el){
   const fi=$("offer-file");
   $("offer-upload").onclick=()=>fi.click();
@@ -4755,14 +4774,6 @@ function wireCost(el){
       box.innerHTML=`<div class="msg err">${j.notAidLetter?"That doesn't look like an aid offer.":j.capped?"We've hit today's limit for letter reading.":j.unconfigured?"Letter reading isn't switched on yet.":esc(j.error||"Couldn't read that one.")} <button class="linklike" data-offer-manual>Type the numbers in</button></div>`;
       box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false);
     }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
-  // #79: the family's numbers — save, then say exactly what changed
-  { let kids=(familyFinance().kids>=3?3:familyFinance().kids);
-    el.querySelectorAll("[data-cfk]").forEach(b=>b.onclick=()=>{ kids=+b.dataset.cfk; el.querySelectorAll("[data-cfk]").forEach(x=>{ const on=+x.dataset.cfk===kids; x.classList.toggle("on",on); x.setAttribute("aria-pressed",on); }); });
-    const inp=$("cf-income"); if(inp){ inp.oninput=()=>{ const d=inp.value.replace(/[^0-9]/g,""); inp.value=d?Number(d).toLocaleString("en-US"):""; }; inp.onkeydown=e=>{ if(e.key==="Enter") $("cf-save").click(); }; }
-    const sv=$("cf-save"); if(sv) sv.onclick=async()=>{ const raw=+(inp.value||"").replace(/[^0-9]/g,""); const m=$("cf-msg");
-      if(inp.value && (!raw || raw<1000 || raw>20000000)){ m.textContent="That income doesn't look right — type the yearly amount, e.g. 185,000."; m.className="cf-msg err"; return; }
-      sv.disabled=true; await setFamilyFinance(raw||0, kids); renderCost();
-      const m2=$("cf-msg"); if(m2){ m2.className="cf-msg ok"; m2.textContent = raw ? `Saved ✓ — the prices below now use ${money(raw)} and ${kids>=3?"3 or more":kids} in college.` : "Saved ✓ — income cleared; prices below are averages."; } }; }
   el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
   el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
   el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=()=>{ if(!confirm("Remove this offer from your list?")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
@@ -6019,6 +6030,7 @@ function blobToDataURL(b){ return new Promise(r=>{ const fr=new FileReader(); fr
 
 /* ========== PROFILE + SLIDERS ========== */
 function renderProfile(){
+  try{ renderFamilyMoney(); }catch(e){}
   // scope note
   const shared = BACKEND.profiles && BACKEND.preferences;
   $("profile-scope").innerHTML = shared
