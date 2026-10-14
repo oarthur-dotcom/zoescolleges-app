@@ -620,6 +620,15 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
 .why-panel{margin-top:8px}
+.b3-ap .b3-v{font-size:clamp(20px,6vw,26px);color:var(--teal)}
+.rp-tag.ap{color:var(--teal);border-color:var(--teal);font-weight:800}.rp-stat.ap b{color:var(--teal)}
+.ap-cmp{font-size:18px;color:var(--teal)}
+.apm{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin:0 0 12px;background:var(--surface,#fff)}
+.apm-top{display:flex;gap:12px;align-items:center}.apm-num{font:800 40px/1 var(--display,inherit);min-width:62px;text-align:center;color:var(--teal)}
+.apm-sub{font-size:12.5px;color:var(--muted,#6b6b6b);margin-top:2px}
+.apm-bar{position:relative;height:10px;border-radius:99px;background:color-mix(in srgb,var(--teal) 12%,var(--line,#e7e4dd));margin:10px 0 8px;overflow:visible}
+.apm-bar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .5s}.apm-bar b{position:absolute;top:-3px;width:2px;height:16px;background:var(--ink,#222);opacity:.45}
+.apm-row{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;color:var(--muted,#6b6b6b)}.apm-row.on{color:inherit;font-weight:600}
 .ap-chip{border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font-weight:700;cursor:default}button.ap-chip{cursor:pointer;font:inherit;font-size:12px;font-weight:700}
 .ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
 .ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
@@ -1781,6 +1790,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <select id="board-sort" style="width:auto">
           <option value="blend">Family star average</option>
           <option value="match">My fit %</option>
+          <option value="power">⚡ Admit Power (highest first)</option>
           <option value="chance">Admission chance</option>
           <option value="name">Name (A–Z)</option>
           <option value="visited">Visited first</option>
@@ -1837,6 +1847,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
     <div id="pf-summary" class="hidden"></div>
+    <div id="pf-meter"></div>
     <div class="card" id="pf-form-card">
       <h2 style="margin-top:0" id="pf-form-title">Build your profile</h2>
       <p class="muted" style="font-size:13px;margin-top:0">This drives the Reach / Target / Likely labels. Only a few basics are needed; everything else is optional.</p>
@@ -3049,6 +3060,7 @@ function renderBoard(){
     if(sortBy==="name") return a.s.name.localeCompare(b.s.name);
     if(sortBy==="visited"){ const va=visitDone(getVisits()[a.s.school_id])?0:1, vb=visitDone(getVisits()[b.s.school_id])?0:1; if(va!==vb) return va-vb; return (b.b??-1)-(a.b??-1); }
     if(sortBy==="match") return (b.m??-1)-(a.m??-1);
+    if(sortBy==="power") return (b.ch&&b.ch.score!=null?b.ch.score:-1)-(a.ch&&a.ch.score!=null?a.ch.score:-1);
     if(sortBy==="chance"){ const o={likely:0,target:1,reach:2}; return (o[a.ch&&a.ch.band]??3)-(o[b.ch&&b.ch.band]??3); }
     if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
     if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
@@ -3562,7 +3574,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
       <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
-      <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
+      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch&&x.ch.score!=null?x.ch.score:"—"}</span><span class="b3-s">${x.ch?esc(x.ch.label)+" · ":""}admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
 function renderDiscover(){
@@ -3822,6 +3834,7 @@ function renderReport(){
     <div class="rp-sub">${p.hs&&p.hs.name?esc(p.hs.name)+" · ":""}${(p.rigor&&+p.rigor.grade)?`Grade ${+p.rigor.grade} · `:""}${esc(fam)} · ${esc(when)}</div>
     <div class="rp-stats">
       ${stat("Schools on the list",rows.length)}
+      ${(()=>{ const sc=rows.map(r=>r.ch&&r.ch.score).filter(v=>v!=null); return sc.length?stat("⚡ Avg Admit Power",Math.round(sc.reduce((a,b)=>a+b,0)/sc.length),"ap"):""; })()}
       ${bal?stat("Likely",bal.c.likely,"lk")+stat("Target",bal.c.target,"tg")+stat("Reach",bal.c.reach,"rc"):""}
       ${bal?stat("List balance",bal.grade,"gr"):""}
     </div>
@@ -3833,6 +3846,7 @@ function renderReport(){
   // 2 profile
   const rig=p.rigor||{}; const prio=SLIDERS.filter(s=>s.kind==="importance").map(s=>({s,v:+w[s.key]||0})).sort((a,b)=>b.v-a.v).slice(0,3);
   const profile=`<section class="rp-page"><h2>📚 Student profile</h2>
+    ${apMeterHtml(p,true)}
     <div class="rp-stats rp-stats-sm">
       ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Rigor-adjusted GPA",adj.toFixed(2)):""}
       ${stat("Testing",p.testOptional?"Test-optional":sat?`SAT ${sat}${p.act?` · ACT ${esc(p.act)}`:""}`:"—")}
@@ -3851,7 +3865,7 @@ function renderReport(){
       return `<div class="rp-school">
         <div class="rp-sh">${thumb(r)}<div style="min-width:0;flex:1"><h3>${r.rank?`<span class="rp-rank">#${r.rank}</span> `:""}${esc(r.s.name)}</h3>
           <div class="rp-muted">${esc([r.info&&r.info.city,r.info&&r.info.state].filter(Boolean).join(", "))}${estText(r.info)}</div>
-          <div class="rp-tags">${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
+          <div class="rp-tags">${r.ch&&r.ch.score!=null?`<span class="rp-tag ap">⚡ Admit Power ${r.ch.score}</span>`:""}${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
         <div class="rp-grid">
           ${stat("Admit rate",pct(sc.admissionRate))}${stat("Grad rate",pct(sc.gradRate))}
           ${stat("Cost / yr",n?`${money(n.v)}<small>${esc(n.src)}</small>`:"—")}${stat("Earnings (10 yr)",money(sc.medianEarnings10yr))}
@@ -4159,8 +4173,45 @@ $("howto").addEventListener("click",e=>{ const a=e.target.closest&&e.target.clos
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = ()=>{ _boardHold=null; renderBoard(); };
 $("board-resort").onclick = ()=>{ _boardHold=null; renderBoard(); };
+
+/* Admit Power build-up (Oct 14): the same score, shown being BUILT. Starts at 0 with nothing entered, then each step —
+   grades, rigor, activities, tests — adds points. Value = average Admit Power across the schools on the board
+   (or a spread of well-known schools if the board is empty). Per-school scores keep their meaning: 50 = typical admit. */
+function apMeterData(p){
+  if(!p) p={};
+  const full=apInputs(p); const sch=[];
+  const cat=state.catalog||[]; const ids=(state.schools||[]).map(x=>catInfo(x.school_id)).filter(Boolean);
+  let pool=ids.filter(c=>c.scorecard&&typeof c.scorecard.admissionRate==="number"); let basis="the schools on your board";
+  if(pool.length<3){ pool=cat.filter(c=>c.scorecard&&typeof c.scorecard.admissionRate==="number"&&c.scorecard.admissionRate>=0.08&&c.scorecard.admissionRate<=0.75&&typeof c.scorecard.sat25==="number").slice(0,300); basis="a spread of typical four-year schools (add schools to your board to use yours)"; }
+  const none={gpa:NaN,rl:null,astr:null,sat:0,to:full.to,major:false};
+  const stages=[
+    {k:"grades",label:"Grades",inp:{...none,gpa:full.gpa},have:full.gpa>0&&full.gpa<=5},
+    {k:"rigor",label:"Course rigor",inp:null,have:!!full.rl},
+    {k:"acts",label:"Activities",inp:null,have:full.astr!=null},
+    {k:"tests",label:"Test scores",inp:null,have:!!full.sat&&!full.to}];
+  let cur={...none}; let prev=0; const out=[];
+  const avg=inp=>{ let t=0,n=0; for(const c of pool){ const r=apCore(c.scorecard,inp); if(r.score!=null){ t+=r.score; n++; } } return n?Math.round(t/n):null; };
+  for(const st of stages){
+    if(st.k==="grades") cur={...cur,gpa:full.gpa};
+    if(st.k==="rigor") cur={...cur,rl:full.rl};
+    if(st.k==="acts") cur={...cur,astr:full.astr};
+    if(st.k==="tests") cur={...cur,sat:full.to?0:full.sat};
+    const v=st.have?avg(cur):null;
+    out.push({k:st.k,label:st.label,have:st.have,total:st.have&&v!=null?v:null,delta:(st.have&&v!=null)?v-prev:null});
+    if(st.have&&v!=null) prev=v;
+  }
+  return {total:prev,steps:out,basis,to:full.to,n:pool.length};
+}
+function apMeterHtml(p,forReport){
+  let d; try{ d=apMeterData(p); }catch(e){ return ""; }
+  const nm=forReport?"rp":"pf";
+  const rows=d.steps.map(s=>{ const note=s.have?(s.delta>=0?"+":"")+s.delta:(s.k==="tests"&&d.to?"test-optional — not counted":"not entered yet");
+    return `<div class="apm-row ${s.have?"on":""}"><span class="apm-k">${s.have?"✓":"○"} ${s.label}</span><span class="apm-v">${note}</span></div>`; }).join("");
+  return `<div class="apm ${nm}" aria-label="Admit Power build-up"><div class="apm-top"><div class="apm-num">${d.total}</div><div><b>⚡ Admit Power</b><div class="apm-sub">Starts at 0 and builds as you add grades, rigor, activities, then tests. Average across ${esc(d.basis)}; 50 means right at the typical admitted student.</div></div></div>
+    <div class="apm-bar"><i style="width:${apClamp(d.total,0,100)}%"></i><b style="left:50%"></b></div>${rows}</div>`;
+}
 function apChip(ch,open){ if(!ch||ch.score==null) return ""; const t=`Admit Power ${ch.score} — 50 is the typical admitted student here`;
-  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}</button>`:`<span class="chip ap-chip" title="${t}">⚡ ${ch.score}</span>`; }
+  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}</button>`:`<span class="chip ap-chip" title="${t}">⚡ Admit Power ${ch.score}</span>`; }
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
@@ -4249,7 +4300,7 @@ function renderSchool(x){
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
         <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
-        <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
+        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch&&x.ch.score!=null?x.ch.score:"—"}</span><span class="b3-s">${x.ch?(esc(x.ch.label)+(x.ch.score!=null?" · 50 = typical admit":"")):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
     ${info?famFitHtml(info):""}
@@ -4260,7 +4311,7 @@ function renderSchool(x){
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
     </div>
     <details class="extra card-more"><summary>More · where you stand, facts, links, note</summary>
-      <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${apChip(x.ch)}${matchRing(x.m)}</div>
+      <div class="chiprow" style="align-items:center">${apChip(x.ch)}${chanceChip(x.ch)}${matchRing(x.m)}</div>
       ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
       ${facts}
       ${cardLinks(info, s)}
@@ -4515,7 +4566,7 @@ function renderExList(q){
     const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phBg(c.name,c.state,"80%")}" role="img" aria-label="${esc(c.name)} crest"></div>`;
     return `<div class="srow">
       ${thumb}
-      <div class="sbody"><div class="sn">${esc(c.name)} ${chanceChip(ch)}</div>
+      <div class="sbody"><div class="sn">${esc(c.name)} ${apChip(ch)}${chanceChip(ch)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(avgNet(c))}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
@@ -5106,7 +5157,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""} ${athChip(info)}</div>`:""; })()}
-    <div class="chiprow" style="margin:8px 0;flex-wrap:wrap">${chanceChip(ch)}${apChip(ch,true)}${matchChip(m)}${(ch||m!=null)?`<span style="flex-basis:100%;display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:2px"><span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span><span class="calc-link" data-sauce style="margin:0">Want to know our secret sauce? ▸</span></span>`:""}</div>
+    <div class="chiprow" style="margin:8px 0;flex-wrap:wrap">${apChip(ch,true)}${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span style="flex-basis:100%;display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:2px"><span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span><span class="calc-link" data-sauce style="margin:0">Want to know our secret sauce? ▸</span></span>`:""}</div>
     ${info?famFitHtml(info):""}
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?regionalHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
@@ -5766,6 +5817,7 @@ function buildCompare(){
   const cols=ids.map(id=>{ const info=catInfo(id); return {rec:state.schools.find(s=>s.school_id===id) || (info&&{school_id:id,name:info.name,city:info.city,state:info.state}), info}; }).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
+    ["⚡ Admit Power (50 = typical admit)", c=>{const ch=chanceFor(c.info); return ch&&ch.score!=null?`<b class="ap-cmp">${ch.score}</b>`:"—";}],
     ["My fit %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
     ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
     ["Admission rate", c=>pct(g(c).admissionRate)],
@@ -5786,6 +5838,7 @@ function buildCompare(){
   ];
   const n=cols.length;
   const M=[
+    {k:"⚡ Admit Power", get:c=>{const ch=chanceFor(c.info);return ch&&ch.score!=null?ch.score:null;}, fmt:v=>v==null?"—":String(v), dir:"hi"},
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
@@ -6082,7 +6135,7 @@ function renderRecommends(){
     const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
-        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${apChip(ch)}${matchRing(m)}</div>
+        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${apChip(ch)}${chanceChip(ch)}${matchRing(m)}</div>
         <div class="rec-facts">${(()=>{ const z=schoolSize(c), st=settingWord(c), k=costFact(c), ar=c.scorecard&&c.scorecard.admissionRate;
           return `<div class="rf"><span>Size</span><b>${z?esc(z.word==="Medium"?"Med":(z.word||"—")):"—"}</b><em>${z?esc(z.n!=null&&z.n>=10000?Math.round(z.n/1000)+"k students":z.txt):"no data"}</em></div>`
           +`<div class="rf"><span>${k?k.k:"Cost"}</span><b>${k?k.v:"—"}</b><em>${k?esc(k.s):"no data"}</em></div>`
@@ -6317,6 +6370,7 @@ function renderProfileView(){
   { const ac=$("pf-acts-card"); if(ac) ac.classList.toggle("hidden", ro); }
   if(ro && !built){ form.classList.add("hidden"); sum.classList.remove("hidden");
     sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
+  { const pm=$("pf-meter"); if(pm) pm.innerHTML = (!ro && (!built||pfEdit)) ? apMeterHtml(p) : ""; }
   const showForm = !ro && (!built || pfEdit);
   form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
   const ft=$("pf-form-title"); if(ft) ft.textContent = pendingMode() ? `${built?"Edit":"Build"} ${state.pending.display_name}'s profile` : (built? "Edit your profile" : "Build your profile");
@@ -6329,6 +6383,7 @@ function renderProfileView(){
   const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
     <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
+    ${apMeterHtml(ro?(state.profiles[stuM.user_id]||p):p)}
     <div class="pv-grid">
       ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adjusted ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
@@ -6882,7 +6937,7 @@ function zoeSchoolFact(q, c){
     if(typeof S==="number") lines.push(`Sticker price: ${money(S)}.`);
     if(!lines.length) return `I don't have a price for ${nm}.`; return `${nm}: `+lines.join(" ")+" Aid varies, so check the school's net price calculator too."; };
   parts.admit = ()=> typeof rate==="number" ? `${nm} admits about <b>${pct(rate)}</b> of applicants.${typeof s.satAvg==="number"?` Average SAT ${Math.round(s.satAvg)}.`:""}` : `${nm} doesn't report an admission rate in our data (common for open-admission schools).`;
-  parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${nm} is a <b>${esc(ch.label)}</b> for you${ch.score!=null?`, Admit Power ${ch.score} (50 = the typical admitted student)`:""}. ${esc(chanceWords(c)||"")}`; };
+  parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${ch.score!=null?`<b>Admit Power ${ch.score}</b> at ${nm} (50 = the typical admitted student) — a <b>${esc(ch.label)}</b> for you.`:`${nm} is a <b>${esc(ch.label)}</b> for you.`} ${esc(chanceWords(c)||"")}`; };
   parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
   parts.where = ()=> `${nm} is in <b>${esc(place||"—")}</b>${set?` (${set.toLowerCase()})`:""}.`;
   parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).map(d=>`• ${esc(d.kind||"Deadline")} — ${esc(_fmtD(d.date))}`).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
