@@ -630,6 +630,9 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .apm-bar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .5s}.apm-bar b{position:absolute;top:-3px;width:2px;height:16px;background:var(--ink,#222);opacity:.45}
 .apm-list{font-size:12.5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line,#e7e4dd)}.apm-row{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;color:var(--muted,#6b6b6b)}.apm-row.on{color:inherit;font-weight:600}
 .ask-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}.ask-box{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.4)}.ask-msg{margin:0 0 14px;line-height:1.45;white-space:pre-line}.ask-row{display:flex;gap:8px;justify-content:flex-end}.ask-go{background:#b91c1c;border-color:#b91c1c;color:#fff}
+.dl-docs{margin-top:10px;font-size:13px}.dl-docs>summary{cursor:pointer;color:var(--teal);font-weight:600}.dd-item{border-top:1px solid var(--line);padding:10px 0}.dd-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dd-badge{font-size:11px;font-weight:700;color:var(--good);border:1px solid var(--good);border-radius:999px;padding:1px 8px}
+.dd-add{margin-left:auto;cursor:pointer;border:1px solid var(--teal);color:var(--teal);border-radius:10px;padding:6px 10px;font-size:12.5px;font-weight:600;background:var(--surface)}.dd-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}.dd-list li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dd-list li.sub{background:color-mix(in srgb,var(--good) 9%,var(--surface));border-radius:8px;padding:4px 6px}
+.dd-v{font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted)}.dd-open{font-weight:600;text-align:left;word-break:break-word}.dd-meta{font-size:11.5px}.dd-sub{font-size:12px;font-weight:700;color:var(--good)}.dd-empty{font-size:12.5px;margin-top:6px}.dd-msg{font-size:12px;margin-top:4px;min-height:0}
 .ap-chip{border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font-weight:700;cursor:default}button.ap-chip{cursor:pointer;font:inherit;font-size:12px;font-weight:700}
 .ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
 .ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
@@ -2256,7 +2259,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
+let BACKEND = { docs:true, ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -5949,6 +5952,62 @@ function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
     ${row("SAT / ACT",testW,q.tests==="required"?"warn":"")}${row("Essay / personal statement",reqWord(q.essay),q.essay==="required"?"warn":"")}${row("Recommendations",reqWord(q.recs),q.recs==="required"?"warn":"")}${row("High school record",reqWord(q.record))}
     ${row("Application fee",typeof q.fee==="number"?(q.fee===0?"None":"$"+q.fee+" <span class='muted'>(fee waivers often available)</span>"):"—")}
     <div class="muted" style="font-size:11.5px;margin-top:6px">As the school reported to IPEDS for ${esc(state.reqsYear||"fall 2023")}. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.</div></div>`; }
+
+/* ===== School documents (Oct 14): essays, recommendations, transcript and scores per school =====
+   Word/PDF files kept privately for the family (storage bucket school-docs + table school_docs, migration 026). Every upload is a
+   version; "Mark submitted" stamps a version with the date so the family can see exactly what was sent. If the database update
+   hasn't been applied yet, the panel says so and nothing breaks. */
+const DOC_KEYS=["Essays","Recommendations","Transcript","Test scores"];
+const DOC_MAX=10*1024*1024, DOC_EXT=/\.(pdf|docx?)$/i;
+state.docs=[]; state.docsLoaded=false;
+async function loadSchoolDocs(){
+  if(BACKEND.docs===false || !state.family){ state.docsLoaded=true; return; }
+  try{ const {data,error}=await sb.from("school_docs").select("*").order("created_at",{ascending:true}); if(error) throw error; state.docs=data||[]; }
+  catch(e){ if(isMissing(e) || /school_docs|relation|schema cache/i.test((e&&e.message)||"")) BACKEND.docs=false; }
+  state.docsLoaded=true; }
+function docsFor(id,key){ return (state.docs||[]).filter(d=>d.school_id===id && d.task_key===key); }
+function docSize(n){ n=+n||0; return n>=1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB"; }
+function docDate(v){ const d=new Date(v); return isNaN(d)?"":d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+function docWho(d){ if(state.me&&d.user_id===state.me.user_id) return "you"; const m=(state.members||[]).find(x=>x.user_id===d.user_id); return (m&&(m.display_name||m.name))||"family"; }
+function docKeysShown(TK,chk){ return TK.filter(t=>DOC_KEYS.includes(t.key) && (t.key!=="Test scores" || !/optional/i.test(t.label) || chk["Test scores"])); }   // scores box only when scores are going to be sent
+function docsPanelHtml(id,TK,chk){
+  const keys=docKeysShown(TK,chk); if(!keys.length) return "";
+  const total=keys.reduce((a,t)=>a+docsFor(id,t.key).length,0);
+  const off=BACKEND.docs===false;
+  const body=off?`<p class="muted" style="font-size:12.5px;margin:8px 0 0">Document storage switches on after the next database update. Nothing is lost; check back soon.</p>`
+   :keys.map(t=>{ const L=docsFor(id,t.key); const sub=L.filter(d=>d.submitted_at).length;
+    return `<div class="dd-item" data-ddkey="${esc(t.key)}"><div class="dd-h"><b>${esc(t.label.replace(/ \(optional\)$/,""))}</b>${sub?`<span class="dd-badge">Submitted</span>`:""}<label class="dd-add small">＋ Add Word or PDF<input type="file" class="dd-file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></label></div>
+      ${L.length?`<ul class="dd-list">${L.map(d=>`<li class="${d.submitted_at?"sub":""}"><span class="dd-v">v${d.version||1}</span><button type="button" class="linklike dd-open" data-ddopen="${esc(d.id)}">${esc(d.name)}</button><span class="muted dd-meta">${docSize(d.size)} · ${esc(docDate(d.created_at))} · ${esc(docWho(d))}</span>
+        ${d.submitted_at?`<span class="dd-sub">✓ Submitted ${esc(docDate(d.submitted_at))}</span><button type="button" class="linklike dd-undo" data-ddunsub="${esc(d.id)}">undo</button>`:`<button type="button" class="small dd-mark" data-ddsub="${esc(d.id)}">Mark submitted</button>`}
+        ${(state.me&&d.user_id===state.me.user_id)||myRole()==="parent"?`<button type="button" class="linklike dd-del" data-dddel="${esc(d.id)}" aria-label="Delete this version">Delete</button>`:""}</li>`).join("")}</ul>`:`<div class="muted dd-empty">No files yet. Add your draft, then each new version.</div>`}
+      <div class="dd-msg muted" role="status"></div></div>`; }).join("");
+  return `<details class="dl-docs"><summary>📎 Documents &amp; essays${total?` · ${total} file${total>1?"s":""}`:""}</summary>${body}<div class="muted" style="font-size:11.5px;margin-top:8px">Private to your family. Word or PDF, up to 10 MB. Every upload is kept as a version.</div></details>`; }
+function wireDocs(out){
+  out.querySelectorAll(".dl-pills").forEach(box=>{ const id=box.dataset.dlid; const card=box.closest(".card"); if(!card) return;
+    card.querySelectorAll(".dd-item").forEach(item=>{ const key=item.dataset.ddkey; const msg=t=>{ const m=item.querySelector(".dd-msg"); if(m) m.textContent=t||""; };
+      const fi=item.querySelector(".dd-file"); if(fi) fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return;
+        if(!DOC_EXT.test(f.name)){ msg("Please add a Word (.doc, .docx) or PDF file."); return; }
+        if(f.size>DOC_MAX){ msg("That file is over 10 MB. Try a smaller one."); return; }
+        msg("Saving…");
+        try{ const ext=(f.name.match(DOC_EXT)||[".pdf"])[0].toLowerCase(); const slug=key.toLowerCase().replace(/[^a-z]+/g,"");
+          const path=`${state.family.id}/${id}/${slug}/${Date.now()}_${Math.random().toString(36).slice(2,7)}${ext}`;
+          const up=await sb.storage.from("school-docs").upload(path,f,{contentType:f.type||"application/octet-stream",upsert:false}); if(up&&up.error) throw up.error;
+          const ver=docsFor(id,key).reduce((a,d)=>Math.max(a,+d.version||0),0)+1;
+          const row={family_id:state.family.id,school_id:id,task_key:key,user_id:state.me.user_id,name:f.name.slice(0,120),path,mime:f.type||"",size:f.size,version:ver};
+          const r=await sb.from("school_docs").insert(row).select(); if(r&&r.error){ try{ await sb.storage.from("school-docs").remove([path]); }catch(e){} throw r.error; }
+          await loadSchoolDocs(); renderDeadlines(); }
+        catch(e){ if(/school_docs|bucket|relation|schema cache/i.test((e&&e.message)||"")){ BACKEND.docs=false; renderDeadlines(); } else msg("Couldn't save that file. Please try again."); } };
+      item.querySelectorAll("[data-ddopen]").forEach(b=>b.onclick=async()=>{ const d=state.docs.find(x=>x.id===b.dataset.ddopen); if(!d) return; const w=window.open("","_blank");
+        try{ const r=await sb.storage.from("school-docs").createSignedUrl(d.path,600); const u=r&&r.data&&r.data.signedUrl; if(!u) throw 0; if(w) w.location=u; else location.href=u; }catch(e){ if(w) w.close(); msg("Couldn't open that file."); } });
+      const setSub=async(did,on)=>{ const d=state.docs.find(x=>x.id===did); if(!d) return; const patch=on?{submitted_at:new Date().toISOString(),submitted_by:state.me.user_id}:{submitted_at:null,submitted_by:null};
+        const r=await sb.from("school_docs").update(patch).eq("id",did); if(r&&r.error){ msg("Couldn't update that."); return; } Object.assign(d,patch);
+        if(on){ const o=getChecklist(id); if(!o[key]){ o[key]=true; setChecklist(id,o); } } renderDeadlines(); };
+      item.querySelectorAll("[data-ddsub]").forEach(b=>b.onclick=()=>setSub(b.dataset.ddsub,true));
+      item.querySelectorAll("[data-ddunsub]").forEach(b=>b.onclick=()=>setSub(b.dataset.ddunsub,false));
+      item.querySelectorAll("[data-dddel]").forEach(b=>b.onclick=async()=>{ const d=state.docs.find(x=>x.id===b.dataset.dddel); if(!d) return;
+        if(!await askOk(d.submitted_at?"This version is marked as submitted. Delete it anyway? This can't be undone.":"Delete this version? This can't be undone.")) return;
+        const r=await sb.from("school_docs").delete().eq("id",d.id).select(); if(r&&r.error){ msg("Couldn't delete that."); return; }
+        try{ await sb.storage.from("school-docs").remove([d.path]); }catch(e){} await loadSchoolDocs(); renderDeadlines(); }); }); }); }
 function dlKey(id){ return "dlcheck_"+id; }
 // #70: the application checklist is shared with the family (family_schools.checklist, migration 017).
 // This device's older copy is used only until the shared one exists; if the column isn't there yet it stays on this device.
@@ -6122,10 +6181,13 @@ function renderDeadlines(){
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
         <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""} ${/optional/.test(t.label)?"opt":""}" data-task="${esc(t.key)}" role="checkbox" tabindex="0" aria-checked="${!!chk[t.key]}"><span class="dl-box" aria-hidden="true">${chk[t.key]?"✓":""}</span>${esc(t.label)}</span>`).join("").replace(/data-task="([^"]+)"/g,(m,k)=>`${m} title="${esc(TASK_TIPS[k]||"")}"`)}</div>
+        ${docsPanelHtml(id,TK,chk)}
         <details class="dl-what"><summary>What these mean</summary><ul>${TK.map(t=>`<li><b>${esc(t.label)}</b> — ${esc(TASK_TIPS[t.key]||"")}${/optional/.test(t.label)?" Optional at this school: it's considered if you send it.":""}</li>`).join("")}</ul></details>
       </div></div></div>`;
   }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);
+  if(!state.docsLoaded){ state.docsLoaded=true; loadSchoolDocs().then(()=>{ if(currentView==="deadlines") renderDeadlines(); }); }
+  wireDocs(out);
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(p=>{ p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); };
       p.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); p.click(); } }; }); });
@@ -7692,7 +7754,7 @@ function demoClient(){
         return Promise.resolve({data,error:null}).then(res,rej); } }; return b; }
   const session={access_token:null,user:{id:DEMO_UID,email:"sample@zoescolleges.com"}};
   return { from:qb, rpc(n){ return Promise.resolve({data: n==="my_referral_count"?0:null, error:null}); },
-    storage:{ from(){ return { upload(){ return Promise.resolve({data:null,error:{message:"bucket not found"}}); }, createSignedUrls(){ return Promise.resolve({data:[],error:null}); }, remove(){ return Promise.resolve({data:null,error:null}); }, getPublicUrl(){ return {data:{publicUrl:""}}; } }; } },
+    storage:{ from(bk){ if(bk==="school-docs"){ const M=(window.__demoDocs=window.__demoDocs||{}); return { upload(p,f){ M[p]=f; return Promise.resolve({data:{path:p},error:null}); }, createSignedUrl(p){ return Promise.resolve({data:{signedUrl:M[p]?URL.createObjectURL(M[p]):""},error:null}); }, remove(a){ (a||[]).forEach(p=>delete M[p]); return Promise.resolve({data:null,error:null}); } }; } return { upload(){ return Promise.resolve({data:null,error:{message:"bucket not found"}}); }, createSignedUrls(){ return Promise.resolve({data:[],error:null}); }, remove(){ return Promise.resolve({data:null,error:null}); }, getPublicUrl(){ return {data:{publicUrl:""}}; } }; } },
     auth:{ getSession(){ return Promise.resolve({data:{session}}); }, signOut(){ exitDemo(); return Promise.resolve({}); }, onAuthStateChange(){ return {data:{subscription:{unsubscribe(){}}}}; } } };
 }
 function demoToast(t){ let el=$("demo-toast"); if(!el){ el=document.createElement("div"); el.id="demo-toast"; el.className="demo-toast"; el.setAttribute("role","status"); document.body.appendChild(el); }
@@ -7702,7 +7764,7 @@ async function startDemo(){
   if(!state.catalog||!state.catalog.length){ try{ await loadCatalog(); }catch(e){} }
   DEMO=true; _realSb=sb; sb=demoClient(); _demoToastShown=false;
   try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
-  BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
+  BACKEND={ docs:true, profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
   state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
   document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family"; $("signout").textContent="Exit sample";
   state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}
