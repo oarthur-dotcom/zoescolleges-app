@@ -4346,7 +4346,7 @@ const SEARCH_ALIASES = {
   "w&m":"William & Mary","william and mary":"William & Mary","gwu":"George Washington University","gw":"George Washington University",
   "rpi":"Rensselaer Polytechnic Institute","wpi":"Worcester Polytechnic Institute","uw madison":"University of Wisconsin-Madison",
   "umn":"University of Minnesota-Twin Cities","rutgers":"Rutgers University-New Brunswick","umd":"University of Maryland-College Park",
-  "neu":"Northeastern University"
+  "neu":"Northeastern University","mass institute of technology":"Massachusetts Institute of Technology","mass inst of tech":"Massachusetts Institute of Technology","stanford university":"Stanford University","the bay":"University of California-Berkeley"
 };
 const _STOP = new Set(["of","the","and","at","in","for","&"]);
 function _norm(t){ return String(t||"").toLowerCase().replace(/&/g," & ").replace(/[^a-z0-9& ]+/g," ").replace(/\s+/g," ").trim(); }
@@ -4365,8 +4365,42 @@ function _lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; let prev=Ar
   for(let i=1;i<=m;i++){ const cur=[i]; for(let j=1;j<=n;j++){ let v=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
       if(pp&&i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) v=Math.min(v,pp[j-2]+1); cur.push(v); } pp=prev; prev=cur; } return prev[n]; }
 const _ABBR={univ:"university",uni:"university",u:"university",coll:"college",inst:"institute",cc:"community college",comm:"community",st:"saint",mt:"mount",ft:"fort"};
+/* Oct 14: how families really search — "colleges in massachusetts", "ivy league", "boston area", "nyc", "new england". */
+const SEARCH_GROUPS = {
+  "ivy league":/^(Brown University|Columbia University in the City of New York|Cornell University|Dartmouth College|Harvard University|University of Pennsylvania|Princeton University|Yale University)$/,
+  "nescac":/^(Amherst College|Bates College|Bowdoin College|Colby College|Connecticut College|Hamilton College|Middlebury College|Trinity College|Tufts University|Wesleyan University|Williams College)$/,
+  "seven sisters":/^(Barnard College|Bryn Mawr College|Mount Holyoke College|Smith College|Wellesley College)$/,
+  "big ten":/^(University of Illinois Urbana-Champaign|Indiana University-Bloomington|University of Iowa|University of Maryland-College Park|University of Michigan-Ann Arbor|Michigan State University|University of Minnesota-Twin Cities|University of Nebraska-Lincoln|Northwestern University|Ohio State University-Main Campus|Pennsylvania State University-Main Campus|Purdue University-Main Campus|Rutgers University-New Brunswick|University of Wisconsin-Madison|University of California-Los Angeles|University of Southern California|University of Oregon|University of Washington-Seattle Campus)$/
+};
+const SEARCH_GROUP_ALIAS = {"ivy":"ivy league","ivies":"ivy league","the ivies":"ivy league","ivy leagues":"ivy league","new england liberal arts":"nescac","little ivies":"nescac","big 10":"big ten","the big ten":"big ten","seven sister":"seven sisters","7 sisters":"seven sisters"};
+const SEARCH_REGIONS = {"new england":["ct","me","ma","nh","ri","vt"],"northeast":["ct","me","ma","nh","ri","vt","ny","nj","pa"],"midwest":["il","in","ia","ks","mi","mn","mo","ne","nd","oh","sd","wi"],"south":["al","ar","fl","ga","ky","la","ms","nc","sc","tn","va","wv"],"west coast":["ca","or","wa"],"pacific northwest":["or","wa"]};
+const SEARCH_PLACES = {"nyc":[40.71,-74.0,"new york"],"new york city":[40.71,-74.0,"new york"],"philly":[39.95,-75.17,"philadelphia"],"sf":[37.77,-122.42,"san francisco"],"bay area":[37.77,-122.3,"bay area"],"la":[34.05,-118.24,"los angeles"],"dmv":[38.9,-77.04,"washington dc"],"chicagoland":[41.88,-87.63,"chicago"]};
+const SEARCH_STATE_ALIAS = {"cali":"ca","jersey":"nj"};
+const _FILLER = new Set(["colleges","college","universities","university","schools","school","in","near","around","the","a","of","best","top","small","big","good","area","metro","near","by"]);
+function _haversineMi(a,b,c,d){ const R=3958.8,r=x=>x*Math.PI/180,dl=r(c-a),dn=r(d-b); const h=Math.sin(dl/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+function _searchSmart(raw){
+  const g=SEARCH_GROUP_ALIAS[raw]||raw; if(SEARCH_GROUPS[g]){ const out=_index().filter(e=>SEARCH_GROUPS[g].test(e.c.name)).map(e=>({c:e.c,rank:90})); if(out.length) return out; }
+  const words=raw.split(" "); const core=words.filter(w=>!_FILLER.has(w)).join(" "); const hadFiller=core!==raw && core.length>0;
+  const listy=/(^|\s)(colleges|universities|schools|in|near|around|area|metro)(\s|$)/.test(raw); const tryCore = hadFiller ? core : raw;
+  const g2=SEARCH_GROUP_ALIAS[tryCore]||tryCore; if(hadFiller && listy && SEARCH_GROUPS[g2]){ return _index().filter(e=>SEARCH_GROUPS[g2].test(e.c.name)).map(e=>({c:e.c,rank:90})); }
+  // regions
+  if(SEARCH_REGIONS[tryCore]){ const st=SEARCH_REGIONS[tryCore]; return _index().filter(e=>st.includes(e.st)&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30})); }
+  // a state (full name, abbreviation, or nickname) with filler words: "colleges in massachusetts", "ma colleges"
+  if(hadFiller && listy){ let st=null; if(STATE_NAMES[tryCore]) st=STATE_NAMES[tryCore]; else if(SEARCH_STATE_ALIAS[tryCore]) st=SEARCH_STATE_ALIAS[tryCore]; else if(tryCore.length===2 && Object.values(STATE_NAMES).includes(tryCore)) st=tryCore;
+    if(st) return _index().filter(e=>e.st===st&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30})); }
+  // "near boston", "boston area", "nyc", "philly": everything within ~35 miles, closest first
+  let place=SEARCH_PLACES[tryCore]||SEARCH_PLACES[raw]||null, city=null;
+  if(!place && hadFiller && /(^|\s)(area|metro|near|around)(\s|$)/.test(raw)) city=tryCore;
+  if(!place && !city && SEARCH_PLACES[raw]) place=SEARCH_PLACES[raw];
+  if(place&&place[2]&&!place[0]) place=null;
+  if(!place && city){ const here=_index().filter(e=>e.city===city&&typeof e.c.lat==="number"); if(here.length) place=[here[0].c.lat,here[0].c.lon]; }
+  if(place){ const out=[]; for(const e of _index()){ if(typeof e.c.lat!=="number"||isGradOnly(e.c)) continue; const d=_haversineMi(place[0],place[1],e.c.lat,e.c.lon); if(d<=35) out.push({c:e.c,rank:60-d/2}); } if(out.length) return out.sort((a,b)=>b.rank-a.rank); }
+  return null;
+}
 function searchCatalog(q){
   const raw=_norm(q); if(!raw) return null;
+  if(SEARCH_STATE_ALIAS[raw]) return _index().filter(e=>e.st===SEARCH_STATE_ALIAS[raw]&&!isGradOnly(e.c)).map(e=>({c:e.c,rank:30}));
+  { const sm=_searchSmart(raw); if(sm&&sm.length) return sm; }
   // "univ of vermont" -> "university of vermont"; "mt holyoke" -> "mount holyoke". Names use both forms ("St Olaf",
   // "Mt San Jacinto"), so search the expanded words AND the words as typed, and keep the better result.
   const exp = (!SEARCH_ALIASES[raw] && raw.includes(" ")) ? raw.split(" ").map(w=>_ABBR[w]||w).join(" ") : raw;
