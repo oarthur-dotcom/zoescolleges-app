@@ -5555,12 +5555,12 @@ function aiCopy(t){ try{ if(navigator.clipboard&&navigator.clipboard.writeText) 
 function aiOpen(btn){ aiClose(); const prompt=_aiPrompts[btn.dataset.askai]; if(!prompt) return; const q=encodeURIComponent(prompt); const long=q.length>5500;
   const m=document.createElement("div"); m.className="ai-menu"; m.setAttribute("role","menu");
   const row=(t,attrs)=>`<button type="button" class="ai-mi" role="menuitem" ${attrs}>${t}</button>`;
-  m.innerHTML=`<div class="ai-note">Opens your own AI with the question filled in. Your grades go with it; your family's income never does.</div>`+
-    row("ChatGPT",`data-aiurl="${long?"":"https://chatgpt.com/?q="+q}" data-aigo="https://chatgpt.com/"`)+row("Claude",`data-aiurl="${long?"":"https://claude.ai/new?q="+q}" data-aigo="https://claude.ai/new"`)+row("Gemini (copies the question)",`data-aicopy="1" data-aigo="https://gemini.google.com/app"`)+row("Copy the question",`data-aicopy="1"`);
+  m.innerHTML=`<div class="ai-note">We copy your question, then open your AI — just <b>paste</b> it (Ctrl+V, or ⌘+V on a Mac). Your grades go with it; your family's income never does.</div>`+
+    row("ChatGPT",`data-aigo="https://chatgpt.com/"`)+row("Claude",`data-aigo="https://claude.ai/new"`)+row("Gemini",`data-aigo="https://gemini.google.com/app"`)+row("Just copy the question",`data-aicopy="1"`);
   document.body.appendChild(m); _aiMenu=m; const r=btn.getBoundingClientRect(); m.style.top=Math.min(window.innerHeight-m.offsetHeight-8, r.bottom+6)+"px"; m.style.left=Math.max(8,Math.min(window.innerWidth-m.offsetWidth-8, r.left))+"px";
-  m.onclick=async e=>{ const b=e.target.closest(".ai-mi"); if(!b) return; const url=b.dataset.aiurl, go=b.dataset.aigo;
-    if(b.dataset.aicopy||!url){ await aiCopy(prompt); b.textContent=(go?"✓ Copied — paste it in the new tab":"✓ Copied"); if(go) window.open(go,"_blank","noopener"); setTimeout(aiClose,1800); }
-    else { window.open(url,"_blank","noopener"); aiClose(); } };
+  m.onclick=e=>{ const b=e.target.closest(".ai-mi"); if(!b) return; const go=b.dataset.aigo;
+    if(go) window.open(go,"_blank","noopener");            // open first, inside the tap, so pop-up blockers allow it
+    aiCopy(prompt).then(()=>{ m.innerHTML=`<div class="ai-note" style="font-size:13px;padding:10px"><b>✓ Copied.</b> ${go?"Paste it into the new tab (Ctrl+V or ⌘+V).":"Paste it wherever you like."}</div>`; setTimeout(aiClose,3500); }); };
   const f=m.querySelector(".ai-mi"); if(f) f.focus(); }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-askai]"); if(b){ e.preventDefault(); aiOpen(b); return; } if(_aiMenu && !e.target.closest(".ai-menu")) aiClose(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") aiClose(); });
@@ -6594,9 +6594,34 @@ function zoeNeedsAI(q){ const n=q.split(/\s+/).filter(Boolean).length; return n>
 // keyword helpers: a short key (≤4 letters) must be a whole word; longer keys match from the start of a word (stems like "priorit").
 function zoeHasKey(q,k){ if(k.includes(" ")||/[^a-z]/.test(k)) return q.includes(k);
   return new RegExp("\\b"+k+(k.length<=4?"\\b":"")).test(q); }
+function zoeChips(q){
+  const w=myPrefs(); const p=studentProfile(); const rows=()=>state.schools.map(s=>({s,i:catInfo(s.school_id)})).filter(x=>x.i).map(x=>({...x,m:matchScore(x.i,w),ch:chanceFor(x.i)}));
+  const nm=x=>`<b>${esc(x.s.name)}</b>`;
+  if(/analy[sz]e.*(profile|me)|whole profile/.test(q)){ const r=rows(); const c={reach:0,target:0,likely:0}; r.forEach(x=>{ if(x.ch&&c[x.ch.band]!=null) c[x.ch.band]++; });
+    const top=r.filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3);
+    return `<b>Your profile at a glance</b><br>${esc(aiProfileLine()||"Add your grades and scores in My Profile so I can be specific.")}<br><br><b>Your list:</b> ${c.likely} likely · ${c.target} target · ${c.reach} reach${top.length?`<br><b>Best fits right now:</b> ${top.map(x=>`${nm(x)} (${x.m}%)`).join(", ")}`:""}<br><br>${zoeAdvice(p)}`; }
+  if(/(do|should) (we|i) .*this week|what.?s due next|what.?s next for us/.test(q)) return zoeWeekLocal();
+  if(/visit first/.test(q)){ let v=[]; try{ v=upcomingVisits().slice(0,3); }catch(e){} if(v.length) return "Your next visits:<br>"+v.map(x=>`• <b>${esc((x.info&&x.info.name)||x.id)}</b> — ${esc(fmtDay(x.v.date))}`).join("<br>");
+    const t=rows().filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3); return t.length?"No visits booked yet. I'd start with your best fits:<br>"+t.map(x=>`• ${nm(x)} — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Set dates in the Trips tab.</span>":"Add a few schools first, then I can suggest a visit order."; }
+  if(/why are these picked|why.*picked for me/.test(q)){ const t=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3);
+    return "Zoe Picks rank every school by how well it matches <b>your sliders</b> (size, setting, cost, academics and more) plus your admission chances. Top matches now: "+t.map(x=>`<b>${esc(x.c.name)}</b> (${x.m}%)`).join(", ")+".<br><span class='muted'>Change the sliders in My Profile and the picks change.</span>"; }
+  if(/best value|value for us/.test(q)){ const l=rows().filter(x=>x.i.scorecard&&typeof x.i.scorecard.netPrice==="number").sort((a,b)=>a.i.scorecard.netPrice-b.i.scorecard.netPrice).slice(0,4); return l.length?"Best value on your board (lowest net price):<br>"+l.map(x=>`• ${nm(x)} — ${money(x.i.scorecard.netPrice)}${x.m!=null?` · ${x.m}% match`:""}`).join("<br>"):"Add schools with cost data to your board and I'll rank them by value."; }
+  if(/like the ones on my board|schools like/.test(q)) return zoePersonal("recommend schools for me")||null;
+  if(/best fit|good fit for me/.test(q)){ const t=rows().filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3); return t.length?"Best fit among your schools:<br>"+t.map(x=>`• ${nm(x)} — ${x.m}% match${x.ch?` · ${esc(x.ch.label)}`:""}`).join("<br>"):"Rate or add a few schools and I'll tell you which fits best."; }
+  if(/why is the likely cost lower|sticker/.test(q)) return "The <b>sticker price</b> is the published cost. The <b>likely cost</b> subtracts the grants and scholarships families like yours typically get, using federal data. It's an estimate — each school's own net price calculator is the official number.";
+  if(/what would this school cost|what.*cost us/.test(q)) return "Check the <b>Cost</b> section on this page for the likely price after aid, and use the school's net price calculator for the official number.";
+  if(/chances here/.test(q)) return "The <b>Chance</b> tag on this page (Likely / Target / Reach) comes from your grades and scores against the school's admitted students. Ask me \"why is [school] a reach?\" for the step-by-step.";
+  if(/early decision (vs|or|versus) early action|\bed vs ea\b/.test(q)) return "<b>Early Decision</b> is binding — if you're admitted you commit to attend, so compare aid first. <b>Early Action</b> is non-binding: you get an answer sooner and can still choose later. Restrictive EA limits other early applications.";
+  if(/plan a route/.test(q)) return "Open the <b>Trips</b> tab, add schools to your trip and set dates — it maps an efficient route and shows food and places to stay nearby.";
+  if(/ask on a tour|ask.*tour/.test(q)) return "Good tour questions:<br>• What do students do on weekends?<br>• How easy is it to get the classes I want?<br>• What's the real cost after aid, year by year?<br>• Where do graduates in my major end up?<br>• How's advising and mental-health support?";
+  if(/delete photos?/.test(q)) return "Open the photo, then tap the ✕. Parents can delete any photo; kids can delete their own.";
+  if(/compare our offers|compare.*offers/.test(q)) return "Open <b>Decision Day</b> (Plan → Decide). Enter each aid offer and it lines them up by true yearly cost, loans and what you'd owe.";
+  if(/what.?s new at our schools/.test(q)) return "Open <b>Pulse</b> (Family → Pulse) for fresh news and student voices from the schools on your board.";
+  return null; }
 function zoeAnswerPlain(qraw){
   const q=(qraw||"").toLowerCase().trim();
-  if(/\b(work on|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
+  { const ch=zoeChips(q); if(ch) return ch; }
+  if(/\b(what should (i|we) work on\s*\??$|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
   if(zoeNeedsAI(q)) return ZOE_FALLBACK;
   // profile- & board-aware answers come first (the "knows you" part)
   const pr = zoePersonal(q); if(pr) return pr;

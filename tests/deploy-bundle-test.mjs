@@ -60,8 +60,10 @@ for (const W of [390, 1280]) {
     await requestPricing('abc'); sb = real; DEMO = true; const m = document.getElementById('price-req-msg'); return { inserted: calls.length === 1 && calls[0].t === 'pricing_requests' && calls[0].r.school_id === 'abc', says72: !!m && /72 hours/.test(m.textContent) }; });
   // Ask AI menu
   K.askAi = await page.evaluate(async () => { const b = document.querySelector('[data-askai]'); b.click(); await new Promise(r => setTimeout(r, 200)); const m = document.querySelector('.ai-menu'); if (!m) return { menu: false };
-    const items = [...m.querySelectorAll('.ai-mi')].map(x => x.textContent); const gpt = m.querySelector('[data-aiurl*="chatgpt.com"]'), cl = m.querySelector('[data-aiurl*="claude.ai"]');
-    const q = gpt ? decodeURIComponent(gpt.dataset.aiurl.split('?q=')[1]) : ''; const out = { menu: true, four: items.length === 4, gpt: !!gpt && gpt.dataset.aiurl.startsWith('https://chatgpt.com/?q='), claude: !!cl && cl.dataset.aiurl.startsWith('https://claude.ai/new?q='), noIncome: !/190|240000|income \$|\$\d+k income/.test(q), hasSchool: q.length > 60 };
+    const items = [...m.querySelectorAll('.ai-mi')].map(x => x.textContent); const go = [...m.querySelectorAll('[data-aigo]')].map(x => x.dataset.aigo);
+    const opened = []; const rw = window.open; window.open = u => { opened.push(u); return null; }; let copied = ''; const rc = aiCopy; aiCopy = t => { copied = t; return Promise.resolve(); };
+    m.querySelector('[data-aigo*="gemini"]').click(); await new Promise(r => setTimeout(r, 200)); window.open = rw; aiCopy = rc;
+    const out = { menu: true, four: items.length === 4, hosts: go.join('|') === 'https://chatgpt.com/|https://claude.ai/new|https://gemini.google.com/app', noPrefillUrls: !go.some(u => /[?]q=/.test(u)), geminiOpens: opened.length === 1 && /gemini\.google\.com/.test(opened[0]), copiedOk: copied.length > 60 && !/190|240000|income \$|\$\d+k income/.test(copied), saysCopied: /Copied/.test((document.querySelector('.ai-menu') || {}).innerText || '') };
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); out.escCloses = !document.querySelector('.ai-menu'); return out; });
   // ---------- Trips ----------
   await page.evaluate(sid => { const v = getVisit(sid); v.date = new Date(Date.now() + 5 * 864e5).toISOString().slice(0, 10); v.wish = false; v.past = false; saveVisit(sid, v); goto('trip'); renderTrip(); }, sid); await page.waitForTimeout(600);
