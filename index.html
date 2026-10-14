@@ -4296,7 +4296,7 @@ function coverFor(s, info){
   if(cat) return {hasPhoto:true, html:`<div class="cover" style="background-image:url('${esc(info.photo.url)}')"><span class="cover-name">${esc(s.name)}</span></div>`};
   const name=s.name||"";
   const glyph=`<svg class="cover-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 26 L32 13 L56 26 Z" fill="currentColor"/><rect x="13" y="29" width="4.5" height="17" fill="currentColor"/><rect x="24" y="29" width="4.5" height="17" fill="currentColor"/><rect x="35.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="46.5" y="29" width="4.5" height="17" fill="currentColor"/><rect x="9" y="48" width="46" height="4.5" rx="1" fill="currentColor"/></svg>`;
-  return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phBg(name,s.state||(info&&info.state),"62%")}"><span class="cover-name">${esc(name)}</span></div>`};
+  return {hasPhoto:false, html:`<div class="cover cover-ph" style="background:${phBg(name,s.state||(info&&info.state),"62%")}"><span class="cover-tag">campus photo coming</span><span class="cover-name">${esc(name)}</span></div>`};
 }
 /* Oct 12: half stars. Click a star = that many stars (click again to clear). Double-click a star = half of it (e.g. double-click the 5th = 4.5). */
 function starCls(rating,n){ return rating>=n ? "on" : (rating===n-0.5 ? "half" : ""); }
@@ -4530,7 +4530,7 @@ function wireOpen(root){ root.querySelectorAll("[data-open]").forEach(el => el.o
 
 function lifestyleSection(info){
   const L = info && info.lifestyle; if(!L) return "";
-  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"?"":"dim"}">${v||"—"}</div></div>`;
+  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"&&v!=="not reported"?"":"dim"}">${v||"—"}</div></div>`;
   const prox = (L.proximity||[]).length ? L.proximity.map(p=>({beach:"🏖 beach",skiing:"⛷ skiing",lake:"🚣 lake",mountains:"⛰ mountains","major city":"🏙 major city"}[p]||p)).join(" · ") : "—";
   return `<h2 style="margin-top:14px">Area &amp; lifestyle context</h2>
     <div class="d-grid">
@@ -5049,10 +5049,10 @@ function renderDetail(id){
   const b = blended(id); const w=myPrefs();
   const sc = info && info.scorecard || {};
   const ch = info?chanceFor(info):null; const m = info?matchScore(info,w):null;
-  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"?"":"dim"}">${v||"—"}</div></div>`;
+  const cell = (k,v) => `<div class="d-cell"><div class="k">${k}</div><div class="v ${v&&v!=="—"&&v!=="not reported"?"":"dim"}">${v||"—"}</div></div>`;
   const facts = info ? `<div class="d-grid">
-      ${cell("Admission rate", pct(sc.admissionRate))}
-      ${cell(typeof sc.sat25==="number"?"SAT range (25–75%)":"SAT average", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg}`:"—")))}
+      ${cell("Admission rate", typeof sc.admissionRate==="number"?pct(sc.admissionRate):"not reported")}
+      ${cell(typeof sc.sat25==="number"?"SAT range (25–75%)":"SAT average", (typeof sc.sat25==="number"?`${sc.sat25}–${sc.sat75}`:(sc.satAvg?`${sc.satAvg}`:"not reported")))}
       ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
       ${yourNet(info)?cell(`Your net price / yr (${yourNet(info).label})`, yourNetHtml(info)):""}
       ${cell((yourNet(info)?"Average net price / yr":"Net price / yr")+(oosSurcharge(info)?" (out-of-state)":""), money(avgNet(info)))}
