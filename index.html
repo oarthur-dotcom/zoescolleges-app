@@ -1899,6 +1899,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <div id="pf-acts"></div>
       <button id="pf-act-add" class="act-add" type="button">+ Add your first activity</button>
       <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
+      <div style="margin-top:12px"><label for="pf-actboost" style="font-weight:600;font-size:13px">Activity weight<span class="hint" tabindex="0" data-tip="Your own judgment, not our scoring. Zoe's recommendation is what we think the research supports. If you believe the schools you're looking at value activities more, bump it up. Activities can still never move a score by more than 15 points, so they can't cover a gap in grades.">i</span></label>
+        <select id="pf-actboost" style="width:100%;max-width:100%"><option value="0">Zoe's recommendation (default)</option><option value="1">Higher — my own adjustment</option><option value="2">Highest — my own adjustment</option></select>
+        <div class="muted" style="font-size:12px;margin-top:4px">Anything above the default is <b>your</b> call, not our scoring. The 15-point cap stays.</div></div>
       <div class="row" style="margin-top:12px"><button id="pf-save2" class="small primary">Save activities</button><span id="pf-savemsg2" class="muted" style="font-size:12px"></span></div>
     </div>
     </div><!-- /pf-acad -->
@@ -2715,7 +2718,7 @@ function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light
 const AP={ SCALE:30,
   W_TESTS:{gpa:0.38,rigor:0.20,tests:0.25,acts:0.17}, W_NOTESTS:{gpa:0.53,rigor:0.25,acts:0.22},
   GPA_SD:0.30, RIGOR_SD:1.2, ACT_SD:0.25, SAT_FALLBACK_SD:150, MAJOR_SHIFT:-0.15, ZCLAMP:2.5,
-  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, ACT_FLOOR:0.5, ACT_CAP_PTS:15, RIGOR_BONUS_SD:0.30,
+  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, ACT_FLOOR:0.5, ACT_CAP_PTS:15, ACT_BOOST:[1,1.5,2], RIGOR_BONUS_SD:0.30,
   EASE1:15, EASE2:36, STIFF1:-12, STIFF2:-28, SHRINK_BASE:0.6, NEVER_LIKELY_RATE:0.25 };
 const apClamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 function apBandFrom(rate,g){ let idx = rate>0.7?2 : rate>=0.4?1 : 0;
@@ -2726,7 +2729,7 @@ function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+(
   // Optional: how many honors/AP/IB/dual courses her school offers. Credit the share she used of what was open to her (so a small school isn't penalized). Only ever helps; blank = unchanged.
   const off=+r.offered||0; if(off>0){ const g=+r.grade||0; const avail=off*(g>=9&&g<=12?(g-8)/4:1); const taken=(+r.honors||0)+(+r.ap||0)+(+r.dual||0); const share=Math.min(1, taken/Math.max(1,avail)); return Math.max(base, Math.min(1.0, share*0.8)); }
   return base; }
-function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p) }; }
+function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p), ab:Math.max(0,Math.min(2,Math.round(+(p&&p.act_boost)||0))) }; }
 // Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
 function apCore(s, inp){
   const rate=s.admissionRate; const hasRange=typeof s.sat25==="number"&&typeof s.sat75==="number";
@@ -2741,6 +2744,7 @@ function apCore(s, inp){
   const hasT=raw.some(t=>t.k==="tests"); const W=hasT?AP.W_TESTS:AP.W_NOTESTS;
   raw.forEach(t=>{ let w=W[t.k]||0;
     if(t.k==="acts") w*=Math.max(AP.ACT_FLOOR, apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1));   // half weight even at open schools, full at the most selective
+    if(t.k==="acts") w*=(AP.ACT_BOOST[inp.ab||0]||1);   // family's own 3-step adjustment (0 = Zoe's recommendation); the cap below still applies
     t.w0=w; });
   const tot=raw.reduce((a,t)=>a+t.w0,0)||0;
   raw.forEach(t=>{ t.w=tot>0?t.w0/tot:0; if(t.k==="acts" && t.w>0 && Math.abs(AP.SCALE*t.w*t.z)>AP.ACT_CAP_PTS) t.z=Math.sign(t.z)*AP.ACT_CAP_PTS/(AP.SCALE*t.w); t.pts=AP.SCALE*t.w*t.z; });   // activities can't move the score more than +/-ACT_CAP_PTS
@@ -2783,7 +2787,7 @@ function chanceCompute(c, explain){
       step("Rigor in context",t,!!t, t?(t.bonus!=null?`Your honors/AP/dual courses lift your grades by about +${t.bonus.toFixed(2)} GPA points (the rigor-adjusted GPA on your profile). Counted once, here, at every kind of school`:`Rated ${RIGOR_WORD[rl.lv]} by your family, counted at every kind of school`):"No course-rigor info in your profile");
       if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= t.z>=0?" — this selective school rewards a demanding schedule":" — a lighter schedule makes it tougher here"; }
     { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${w>=0.5?", and this selective school weighs activities fully":" — counted at about half weight at a school this open, capped so it can't cover a gap in grades"}`); }
+      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about half weight at a school this open, capped so it can't cover a gap in grades"}`); }
     { const t=T("tests"); const sat=inp.sat;
       step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
         : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
@@ -2890,7 +2894,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <h2>Why grades use your <i>unweighted</i> GPA, and rigor gets its own row</h2>
     <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So the grades row is your plain GPA, and the rigor row credits the boost your courses earn (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0 — your rigor-adjusted GPA on your profile is plain GPA plus that boost). If your family gave a counselor-style 1–5 rating instead, we use that.</p>
     <h2>Why rigor and activities count at every school</h2>
-    <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>half weight at the rest</b> — that half-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
+    <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>half weight at the rest</b> — that half-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. You can raise how much activities count (Higher or Highest, x1.5 or x2 their weight); that is <b>your own judgment</b>, labeled as such, not our scoring, and the cap still applies. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
     <h2>Your meter vs your list</h2>
     <p>The Admit Power meter on your profile measures your whole profile against <b>all schools we have admissions data for</b>, so it only moves when your grades, rigor, activities or tests change. We separately show how many schools <i>on your list</i> you are at or above the typical admit. The two answer different questions — "how strong is this profile?" versus "how ambitious is this list?" — and a list heavy on reaches will always read lower than one heavy on safeties.</p>
     <h2>Test-optional, done honestly</h2>
@@ -6308,7 +6312,8 @@ function renderProfile(){
     else { el.className="int-readout"; el.innerHTML=""; } };
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
-  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
+  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-actboost")) $("pf-actboost").value=String(Math.max(0,Math.min(2,Math.round(+p.act_boost||0))));
+  if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
   const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
     const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
     const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
@@ -6447,7 +6452,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
-  await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
+  await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs, act_boost:+(($("pf-actboost")||{}).value)||0});
   if(!pendingMode()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
   if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
   profActs = acts.slice(); actDirty=false;
@@ -6659,8 +6664,8 @@ async function saveProfile(p){
   if(BACKEND.profiles){ try{
       const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
       let {error}=await sb.from("profiles").upsert(row);
-      if(error && /test_optional|\bhs\b|rigor|activities|column|schema cache/i.test(error.message||"")){   // migration 008/003 not applied yet
-        const {test_optional, hs, rigor, activities, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
+      if(error && /test_optional|\bhs\b|rigor|activities|act_boost|column|schema cache/i.test(error.message||"")){   // migration 008/003/025 not applied yet
+        const {test_optional, hs, rigor, activities, act_boost, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
       if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
   lsSet("profile", p);
 }

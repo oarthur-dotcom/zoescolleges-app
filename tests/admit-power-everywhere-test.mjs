@@ -34,6 +34,10 @@ for (const W of [390, 1280]) {
   const off = await page.evaluate(() => { const p0 = { gpa: '3.2', rigor: { ap: 3, grade: 12 } }, p1 = { gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 3 } }, p2 = { gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 30 } };
     return { blankSame: rigorBonus(p0) === rigorBonus({ gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 0 } }), smallSchoolHelps: rigorBonus(p1) > rigorBonus(p0), neverHurts: rigorBonus(p2) >= rigorBonus(p0), dontKnowOption: !!document.querySelector('#pf-offered option[value=""]') || true }; });
   for (const k of Object.keys(off)) ok(t('offered.' + k), off[k]);
+  const ab = await page.evaluate(() => { const sel = { admissionRate: 0.2, sat25: 1300, sat75: 1500 }, base = { gpa: 3.3, rl: null, rb: null, astr: 0.95, sat: 0, to: true, major: false };
+    const pts = n => apCore(sel, { ...base, ab: n }).terms.find(t => t.k === 'acts').pts, sc = n => apCore(sel, { ...base, ab: n }).score;
+    return { defaultSame: sc(undefined) === sc(0), higherMore: pts(1) >= pts(0), highestMost: pts(2) >= pts(1), scoreRises: sc(2) >= sc(0), capHolds: Math.abs(pts(2)) <= AP.ACT_CAP_PTS + 1e-9, inputsClamp: apInputs({ gpa: '3', act_boost: 9 }).ab === 2 && apInputs({ gpa: '3' }).ab === 0, selectExists: !!document.querySelector('#pf-actboost') }; });
+  for (const k of Object.keys(ab)) ok(t('actboost.' + k), ab[k]);
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
   const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));
