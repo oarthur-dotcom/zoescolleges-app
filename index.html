@@ -2527,7 +2527,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); await loadPhotoOverlay(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -2941,6 +2941,13 @@ function activityWhy(acts){
 // records carry impossible values (0% grad rate, negative net price, size 0). Show those as
 // "—" (no data) everywhere instead of "-200%", "$-2,296" or "0%". Display-only: the catalog
 // file is not changed. Returns the same list; state.catalogCleaned counts what was hidden.
+// Muse photo handoff (Oct 14): reviewed Commons photos for schools with none; never replaces an existing photo.
+async function loadPhotoOverlay(){
+  try{ const r=await fetch("/photo-overlay.json"); if(!r.ok) return; const o=await r.json(); let n=0;
+    for(const c of (state.catalog||[])){ const p=o[String(c.unitid)]; if(p && p.url && p.url.startsWith("https://") && !(c.photo&&c.photo.url)){ c.photo={url:p.url,credit:p.credit,license:p.license,source:p.source}; n++; } }
+    window._overlayPhotos=n;
+  }catch(e){}
+}
 function sanitizeCatalog(list){
   const n={};
   const drop=(o,k,why)=>{ if(o && typeof o[k]==="number"){ o[k]=null; n[why]=(n[why]||0)+1; } };
