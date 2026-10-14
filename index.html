@@ -436,7 +436,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .rp-school h3{margin:0 0 2px;font-size:16.5px}.rp-rank{color:var(--teal)}
 .rp-muted{color:var(--muted);font-size:12.5px}
 .rp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.rp-tag{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}
+.rp-toc a{color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.rp-tag{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}
 .rp-tag.likely{color:var(--good);border-color:var(--good)}.rp-tag.target{color:var(--teal);border-color:var(--teal)}.rp-tag.reach{color:var(--warn);border-color:var(--warn)}.rp-tag.m{color:var(--teal)}.rp-tag.st{color:#c58a00}
 .rp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 4px}
 .rp-grid .rp-stat{padding:7px 10px}.rp-grid .rp-stat b{font-size:14px}
@@ -3843,11 +3843,11 @@ function renderReport(){
     ${nx?`<div class="rp-next">⏰ <b>Next deadline:</b> ${esc(nx.r.s.name)} · ${esc(nx.kind)} · ${esc(_fmtD(nx.date))} (${daysUntil(nx.date)===0?"today":daysUntil(nx.date)===1?"tomorrow":"in "+daysUntil(nx.date)+" days"})</div>`:""}
     ${take.length?`<div class="rp-take"><div class="rp-take-h"><span class="rp-ava">${zoeAva()}</span> Zoe's take</div><ul>${take.map(t=>`<li>${t}</li>`).join("")}</ul></div>`:""}
     <div class="rp-strip">${rows.slice(0,8).map(r=>{ const u=r.info&&photoUrlFor(r.info); return `<figure>${u?`<img src="${esc(small(u,330))}" alt="" referrerpolicy="no-referrer">`:`<span class="rp-crest">${crestSvg(r.s.name,r.info&&r.info.state)}</span>`}<figcaption>${esc(r.s.name)}</figcaption></figure>`; }).join("")}</div>
-    <div class="rp-toc"><b>Inside</b><span>Profile</span><span>The list, school by school</span><span>Costs</span><span>Deadlines</span><span>Next steps</span></div>
+    <div class="rp-toc"><b>Inside</b><a href="#rp-profile" data-rpjump="rp-profile">Profile</a><a href="#rp-list" data-rpjump="rp-list">The list, school by school</a><a href="#rp-costs" data-rpjump="rp-costs">Costs</a><a href="#rp-deadlines" data-rpjump="rp-deadlines">Deadlines</a><a href="#rp-steps" data-rpjump="rp-steps">Next steps</a></div>
   </section>`;
   // 2 profile
   const rig=p.rigor||{}; const prio=SLIDERS.filter(s=>s.kind==="importance").map(s=>({s,v:+w[s.key]||0})).sort((a,b)=>b.v-a.v).slice(0,3);
-  const profile=`<section class="rp-page"><h2>📚 Student profile</h2>
+  const profile=`<section class="rp-page" id="rp-profile"><h2>📚 Student profile</h2>
     ${apMeterHtml(p,true)}
     <div class="rp-stats rp-stats-sm">
       ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Rigor-adjusted GPA",adj.toFixed(2)):""}
@@ -3861,7 +3861,7 @@ function renderReport(){
     ${prio.length?`<h3>What matters most to the family</h3><div class="rp-prio">${prio.map(x=>`<span>${esc(x.s.nm)} <i>${"●".repeat(Math.round(x.v/2))}${"○".repeat(5-Math.round(x.v/2))}</i></span>`).join("")}</div>`:""}
   </section>`;
   // 3 the list
-  const list=`<section class="rp-page"><h2>🎓 The list, school by school</h2>${rows.length?rows.map(r=>{ const sc=(r.info&&r.info.scorecard)||{}; const v=r.visit||{}; const n=net(r);
+  const list=`<section class="rp-page" id="rp-list"><h2>🎓 The list, school by school</h2>${rows.length?rows.map(r=>{ const sc=(r.info&&r.info.scorecard)||{}; const v=r.visit||{}; const n=net(r);
       const chk=getChecklist(r.s.school_id); const TK=r.info?tasksFor(r.info):[]; const done=TK.filter(t=>chk[t.key]).length; const nd=r.info?deadlineList(r.info).filter(d=>d.date>=today)[0]:null;
       const stand=r.info?standBarHtml(r.info,true):""; const aid=r.info?schoolAidLine(r.info,true):"";
       return `<div class="rp-school">
@@ -3879,19 +3879,20 @@ function renderReport(){
       </div>`; }).join(""):`<p class="rp-muted">No schools on the board yet.</p>`}</section>`;
   // 4 costs
   const crow=rows.map(r=>({r,n:net(r),sc:(r.info&&r.info.scorecard)||{}})).sort((a,b)=>(a.n==null)-(b.n==null)||((a.n&&a.n.v)||0)-((b.n&&b.n.v)||0));
-  const costs=`<section class="rp-page"><h2>💰 Costs</h2>
+  const costs=`<section class="rp-page" id="rp-costs"><h2>💰 Costs</h2>
     <table class="rp-tbl"><thead><tr><th>School</th><th>Sticker / yr</th><th>Likely cost / yr</th><th>4 years</th><th>Basis</th></tr></thead><tbody>
     ${crow.map(x=>`<tr><td>${esc(x.r.s.name)}</td><td>${money(stickerPrice(x.r.info))}</td><td><b>${x.n?money(x.n.v):"—"}</b></td><td>${x.n?"~"+money(x.n.v*4):"—"}</td><td>${x.n?esc(x.n.src):""}</td></tr>`).join("")}
     </tbody></table>
     <p class="rp-fine">"Typical" is the federal College Scorecard average net price after grants for aided first-year students (public schools: in-state). Real offers replace it once entered on the Costs page. Loans are never counted as aid.</p></section>`;
   // 5 deadlines
-  const deadlines=`<section class="rp-page"><h2>⏰ Deadlines</h2>${dls.length?`<table class="rp-tbl"><thead><tr><th>Date</th><th>School</th><th>Round</th><th>Days left</th></tr></thead><tbody>${dls.slice(0,20).map(d=>`<tr><td><b>${esc(_fmtD(d.date))}</b></td><td>${esc(d.r.s.name)}</td><td>${esc(d.kind)}</td><td>${daysUntil(d.date)}</td></tr>`).join("")}</tbody></table>`:`<p class="rp-muted">No dated deadlines yet — confirm on each school's site.</p>`}
-    <h2 style="margin-top:22px">✅ Next steps</h2>
+  const deadlines=`<section class="rp-page" id="rp-deadlines"><h2>⏰ Deadlines</h2>${dls.length?`<table class="rp-tbl"><thead><tr><th>Date</th><th>School</th><th>Round</th><th>Days left</th></tr></thead><tbody>${dls.slice(0,20).map(d=>`<tr><td><b>${esc(_fmtD(d.date))}</b></td><td>${esc(d.r.s.name)}</td><td>${esc(d.kind)}</td><td>${daysUntil(d.date)}</td></tr>`).join("")}</tbody></table>`:`<p class="rp-muted">No dated deadlines yet — confirm on each school's site.</p>`}
+    <h2 style="margin-top:22px" id="rp-steps">✅ Next steps</h2>
     ${(()=>{ const items=rows.map(r=>{ if(!r.info) return null; const chk=getChecklist(r.s.school_id); const left=tasksFor(r.info).filter(t=>!chk[t.key]).map(t=>t.label); return left.length?`<li><b>${esc(r.s.name)}:</b> ${left.map(esc).join(", ")}</li>`:null; }).filter(Boolean);
       const tips=zoeTips().filter(t=>t.id!=="dl").slice(0,3).map(t=>`<li>${t.text}</li>`);
       return (tips.length?`<ul class="rp-steps">${tips.join("")}</ul>`:"")+(items.length?`<h3>Still to do, by school</h3><ul class="rp-steps">${items.join("")}</ul>`:`<p class="rp-muted">Every checklist is complete. 🎉</p>`); })()}
     <p class="rp-fine" style="margin-top:20px">Admission chances and fit % are guidance, not guarantees — built from College Scorecard data and published admissions logic (NACAC factors, standard GPA recalculation, Likely / Target / Reach bands). Review with a school counselor. Made with Zoe's Colleges · zoescolleges.com</p></section>`;
   $("report-body").innerHTML=`<div class="rp">${cover}${profile}${list}${costs}${deadlines}</div>`;
+  $("report-body").querySelectorAll("[data-rpjump]").forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); const t=document.getElementById(a.dataset.rpjump); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); }));
 }
 function openReport(){ goto("report"); }
 $("btn-report").onclick = () => openReport();
