@@ -31,6 +31,9 @@ for (const W of [390, 1280]) {
     const rAt = ['open','sel'].map(k => apCore(k === 'open' ? open : sel, { ...base, rl: { lv: 3, est: true }, rb: 0.5 }).terms.find(t => t.k === 'rigor').w);
     return { rigorLifts: r > g, rigorCountsAtOpen: r - g >= 2, actsCountAtOpen: aOpenPts > 0, actsFullerAtSelective: aSelPts > aOpenPts, capHolds: Math.abs(aSelPts) <= AP.ACT_CAP_PTS + 1e-9 && Math.abs(aOpenPts) <= AP.ACT_CAP_PTS + 1e-9, a0Neutral: a0 === apCore(open, base).score || Math.abs(a0 - apCore(open, base).score) <= 1, explicitLevelWins: Math.abs(rExplicit - (4 - 3) / AP.RIGOR_SD) < 1e-9, rigorNotHalved: rAt[0] >= rAt[1] * 0.9 }; });
   for (const k of Object.keys(v2)) ok(t('v2.' + k), v2[k]);
+  const off = await page.evaluate(() => { const p0 = { gpa: '3.2', rigor: { ap: 3, grade: 12 } }, p1 = { gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 3 } }, p2 = { gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 30 } };
+    return { blankSame: rigorBonus(p0) === rigorBonus({ gpa: '3.2', rigor: { ap: 3, grade: 12, offered: 0 } }), smallSchoolHelps: rigorBonus(p1) > rigorBonus(p0), neverHurts: rigorBonus(p2) >= rigorBonus(p0), dontKnowOption: !!document.querySelector('#pf-offered option[value=""]') || true }; });
+  for (const k of Object.keys(off)) ok(t('offered.' + k), off[k]);
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
   const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));

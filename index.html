@@ -1876,6 +1876,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <div><label for="pf-honors">Honors courses</label><input id="pf-honors" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-ap">AP / IB courses</label><input id="pf-ap" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-dual">Dual-enrollment<span class="hint" tabindex="0" data-tip="Real college courses taken for credit while in high school.">i</span></label><input id="pf-dual" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label for="pf-offered">Offered at your school<span class="hint" tabindex="0" data-tip="Optional. How many honors/AP/IB/dual-enrollment courses your high school offers in all. If you took most of what was available, you get more credit. Leave blank if you don't know.">i</span></label><select id="pf-offered"><option value="">Don't know</option><option value="2">1–4 courses</option><option value="6">5–8</option><option value="11">9–14</option><option value="19">15–24</option><option value="28">25 or more</option></select></div>
       </div>
       <label for="pf-level" style="margin-top:12px">Compared with what your school offers, the schedule is…<span class="hint" tabindex="0" data-tip="This is the question the school counselor answers on every college application (the Common App School Report). Colleges judge rigor against what YOUR school offers, so a school with few APs is never held against you.">i</span></label>
       <select id="pf-level"><option value="">Not sure</option><option value="5">Most demanding — about as hard as the school allows</option><option value="4">Very demanding</option><option value="3">Demanding</option><option value="2">Average</option><option value="1">Less demanding than most college-prep students</option></select>
@@ -2721,7 +2722,10 @@ function apBandFrom(rate,g){ let idx = rate>0.7?2 : rate>=0.4?1 : 0;
   idx += g>=AP.EASE2?2 : g>=AP.EASE1?1 : g<=AP.STIFF2?-2 : g<=AP.STIFF1?-1 : 0;
   idx=apClamp(idx,0,2); if(rate<AP.NEVER_LIKELY_RATE) idx=Math.min(idx,1); if(rate<0.15) idx=0; return ["reach","target","likely"][idx]; }
 // Rigor credit = the same course-weighting boost the profile shows (Honors +0.5, AP/IB/dual +1.0 per course, spread over the course load, capped +1.0).
-function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+((+r.ap||0)+(+r.dual||0))*1.0; if(!pts) return null; return Math.min(1.0, pts/rigorCourses(p)); }
+function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+((+r.ap||0)+(+r.dual||0))*1.0; if(!pts) return null; const base=Math.min(1.0, pts/rigorCourses(p));
+  // Optional: how many honors/AP/IB/dual courses her school offers. Credit the share she used of what was open to her (so a small school isn't penalized). Only ever helps; blank = unchanged.
+  const off=+r.offered||0; if(off>0){ const g=+r.grade||0; const avail=off*(g>=9&&g<=12?(g-8)/4:1); const taken=(+r.honors||0)+(+r.ap||0)+(+r.dual||0); const share=Math.min(1, taken/Math.max(1,avail)); return Math.max(base, Math.min(1.0, share*0.8)); }
+  return base; }
 function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p) }; }
 // Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
 function apCore(s, inp){
@@ -2886,7 +2890,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <h2>Why grades use your <i>unweighted</i> GPA, and rigor gets its own row</h2>
     <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So the grades row is your plain GPA, and the rigor row credits the boost your courses earn (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0 — your rigor-adjusted GPA on your profile is plain GPA plus that boost). If your family gave a counselor-style 1–5 rating instead, we use that.</p>
     <h2>Why rigor and activities count at every school</h2>
-    <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>half weight at the rest</b> — that half-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
+    <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>half weight at the rest</b> — that half-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
     <h2>Your meter vs your list</h2>
     <p>The Admit Power meter on your profile measures your whole profile against <b>all schools we have admissions data for</b>, so it only moves when your grades, rigor, activities or tests change. We separately show how many schools <i>on your list</i> you are at or above the typical admit. The two answer different questions — "how strong is this profile?" versus "how ambitious is this list?" — and a list heavy on reaches will always read lower than one heavy on safeties.</p>
     <h2>Test-optional, done honestly</h2>
@@ -2916,7 +2920,7 @@ function rigorCourses(p){ const g=+((p&&p.rigor&&p.rigor.grade)||0); return g>=9
 function rigorAdjustedGpa(p){
   const base = p && parseFloat(p.gpa); if(!base || base<=0) return base||0;
   const r = (p && p.rigor) || {};
-  const bonus = ((+r.honors||0)*0.5 + ((+r.ap||0)+(+r.dual||0))*1.0)/rigorCourses(p);
+  const bonus = rigorBonus(p)||0;
   return Math.min(5, Math.round((base + Math.min(1.0, bonus))*100)/100);
 }
 // Rigor level 1-5 on the counselor's scale; from the family's answer, or estimated from the counts.
@@ -6304,15 +6308,15 @@ function renderProfile(){
     else { el.className="int-readout"; el.innerHTML=""; } };
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
-  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||"";
-  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
+  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
+  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
     const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
     const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
     el.innerHTML = (base>0 && any) ? `Rigor-adjusted GPA: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
       : (base>0 ? `<span class="muted">Add honors or AP courses to see your rigor-adjusted GPA.</span>` : "");
     if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`;
     if(base>0&&any) el.innerHTML+=`<div class="muted" style="margin-top:4px">Chances compare your <b>unweighted</b> GPA with admitted students, then count rigor and activities in their own steps — so nothing is counted twice.</div>`; };
-  ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level"].forEach(id=>$(id).onchange=recalc); recalc();
+  ["pf-gpa","pf-honors","pf-ap","pf-dual","pf-offered"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level","pf-offered"].forEach(id=>$(id)&&($(id).onchange=recalc)); recalc();
   // high school context
   const hs=p.hs||{}; if($("pf-hs")) $("pf-hs").value=hs.name||"";
   // activities
@@ -6437,7 +6441,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
+  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
   const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
@@ -7125,7 +7129,7 @@ function zoeCtx(){
   const hs=p.hs||{};
   return { gpa:p.gpa||null, gpaAdjusted:(adj&&adj>0)?+adj.toFixed(2):null, sat:studentSat(p)||null, act:p.act||null, testOptional:!!p.testOptional,
     major:p.major||"", majorCompetitive:majorIsImpacted(p), notes:p.notes||"", gradYear:p.gradYear||null, rank:p.rank||null,
-    rigor:{honors:(p.rigor&&+p.rigor.honors)||0, ap:(p.rigor&&+p.rigor.ap)||0, dual:(p.rigor&&+p.rigor.dual)||0},
+    rigor:{honors:(p.rigor&&+p.rigor.honors)||0, ap:(p.rigor&&+p.rigor.ap)||0, dual:(p.rigor&&+p.rigor.dual)||0, offeredAtSchool:(p.rigor&&+p.rigor.offered)||0},
     highSchool:{name:hs.name||""}, schedule:(()=>{ const rl=rigorLevel(p); return rl?RIGOR_WORD[rl.lv]+(rl.est?" (estimated)":""):null; })(),
     activitiesCount:acts.length, activityStrength:astrWord(astr), activities:actTiers,
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
