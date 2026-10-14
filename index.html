@@ -5355,7 +5355,7 @@ function renderCompare(){
    The family picks an income range in Profile (stored in their private, family-only preferences). */
 const INCOME_URL = CATALOG_URL.replace(/colleges\.json$/,"net-price-by-income.json");
 const INCOME_BANDS = ["$0–30k","$30–48k","$48–75k","$75–110k","$110k+"];
-function bandLabel(b){ return myRole()==="student" ? "adjusted for family income" : INCOME_BANDS[b]; }   // kids never see the income range
+function incomeBandText(b){ return myRole()==="student" ? "adjusted for family income" : INCOME_BANDS[b]; }   // kids never see the income range
 state.incomePrices = null;
 /* #53 Aid from the school itself (IPEDS 2022–23): share of first-year students who get the school's own grants,
    and the average. Mixes need-based and merit aid — the page says so. Separate file next to the catalog. */
@@ -5634,7 +5634,7 @@ function buildCompare(){
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
-    ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${bandLabel(myIncomeBand())})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
+    ...(myIncomeBand()!==null && state.incomePrices ? [{k:`Your net price (${incomeBandText(myIncomeBand())})`, get:c=>{ const y=yourNet(c.info); return y?Math.max(0,y.v):null; }, fmt:v=>v==null?"—":money(v), dir:"lo"}] : []),
     {k:"Net price / yr", get:c=>avgNet(c.info||c), fmt:v=>v==null?"—":money(v), dir:"lo"},
     {k:"Grad rate", get:c=>g(c).gradRate, fmt:v=>v==null?"—":pct(v), dir:"hi"},
     {k:"Earnings (10yr)", get:c=>g(c).medianEarnings10yr, fmt:v=>v==null?"—":money(v), dir:"hi"},

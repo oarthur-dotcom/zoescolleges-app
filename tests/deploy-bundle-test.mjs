@@ -11,13 +11,14 @@ async function boot(w){ const page = await b.newPage({ viewport: { width: w, hei
   await page.evaluate(() => startDemo()); await page.waitForFunction(() => state.me && state.catalog && state.catalog.length > 0, null, { timeout: 60000 }); await page.waitForTimeout(800); return page; }
 for (const W of [390, 1280]) {
   const page = await boot(W); const K = R['w'+W] = {};
+  K.chanceLabels = await page.evaluate(() => ({ reach: bandLabel('reach') === 'Reach', target: bandLabel('target') === 'Target', likely: bandLabel('likely') === 'Likely', boardNoUndefined: (goto('board'), renderBoard(), !/undefined/.test(document.getElementById('v-board').innerText) && /Reach|Target|Likely/.test(document.getElementById('v-board').innerText)) }));
   // ---------- income privacy: KID ----------
   await page.evaluate(() => { state.me = { ...state.me, role: 'student' }; state.fin = { income: 190000, band: 4, kids: 1, exact: false }; goto('cost'); renderCost(); }); await page.waitForTimeout(500);
   K.kid = await page.evaluate(() => { const t = document.getElementById('v-cost').innerText; const h = document.getElementById('v-cost').innerHTML;
     return { noIncomeInput: !document.getElementById('cf-income'), noSave: !document.getElementById('cf-save'), saysAdjusted: /adjusted for your family/i.test(t), noNumber: !/190,?000|\$190k|190k/.test(t+h), noBandRange: !/110k\+|Over \$110k|\$110k/.test(t), noSAI: !/Student Aid Index/i.test(t),
       label: (() => { const y = yourNet(catInfo(state.schools[0].school_id)); return y ? y.label : 'none'; })() }; });
   // kid compare/board labels
-  K.kidBandLabel = await page.evaluate(() => bandLabel(4));
+  K.kidBandLabel = await page.evaluate(() => incomeBandText(4));
   // kid cannot save
   K.kidSaveNoop = await page.evaluate(async () => { let called = false; const real = sb; DEMO = false; state.family = state.family || { id: 'f' }; sb = { from: () => ({ upsert: async () => { called = true; return {}; } }) }; await saveFinance({ income: 1 }); sb = real; DEMO = true; return !called; });
   // ---------- income privacy: PARENT ----------
