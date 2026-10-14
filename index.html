@@ -359,7 +359,7 @@ a{color:var(--teal)}
 .pk-head .howto-btn{margin:0}
 /* Oct 12: sit beside the page title (no extra row), with a full-size tap target */
 h1:has(+ .howto-btn){display:inline-block;margin-right:10px;vertical-align:middle}
-h1 + .howto-btn{vertical-align:middle;margin:0 0 6px;min-height:36px;padding:6px 14px}
+h1 + .howto-btn{vertical-align:middle;margin:0 0 6px 14px;min-height:36px;padding:6px 14px}
 .rec-more{margin:10px 0 18px;text-align:center}
 .pk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .pk-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
@@ -879,7 +879,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 #ztab-settings{margin-bottom:14px}
 .zcard{background:var(--surface);border:1px solid var(--line);border-radius:16px}
 /* #46 Zoe modes */
-.zm-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 12px}
+.zm-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 12px}
 @media (max-width:860px){.zm-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .zm-card{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px;cursor:pointer;color:var(--ink);font:inherit;min-height:44px}
 .zm-card b{font-size:14px}.zm-card span:not(.zm-i){font-size:12px;color:var(--muted);line-height:1.35}
@@ -891,8 +891,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .zm-panel textarea{width:100%;min-height:120px}
 .zm-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.zm-row select{flex:1 1 220px;min-width:0}
 #zm-wc{font-size:12px}#zm-wc.over{color:var(--warn)}
-.zretry{margin-left:6px;vertical-align:1px}
-.ztab-chat{display:flex;flex-direction:column;overflow:hidden;min-height:58vh;max-width:860px}
+.ztab-chat{display:flex;flex-direction:column;overflow:hidden;min-height:58vh}
 .ztab-log{flex:1;overflow:auto;padding:18px 18px;display:flex;flex-direction:column;gap:10px;min-height:42vh;max-height:60vh}
 .ztab-chat .zsugg{padding:0 16px 10px}
 #ztab-form{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
@@ -1971,10 +1970,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       </div>
       <p style="margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5">Think of us less like an IQ test and more like a <b>roommate match</b>: we start from objective, research-based academic data, layer in what you care about <i>beyond</i> the classroom, and factor in cost — to surface your best-fit schools. It's guidance to explore with your counselor, not a verdict.</p>
       <ol style="margin:10px 0 0;padding-left:20px;line-height:1.7">
-        <li><b>Build your profile first</b> — tap <b>My Profile</b> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
-        <li><b>Add schools</b> — anyone in the family can add or remove them; matches fill in automatically.</li>
-        <li><b>Rate with stars</b> — tap your row of stars. You only control your own; you see everyone's.</li>
-        <li><b>Invite your family</b> — share your code so everyone rates together.</li>
+        <li><b>Build your profile first</b> — tap <a href="#" data-td-go="profile"><b>My Profile</b></a> and set your sliders. Then every school you add instantly shows your <b>match</b> and <b>admission chance</b>.</li>
+        <li><a href="#" data-td-go="explore"><b>Add schools</b></a> — anyone in the family can add or remove them; matches fill in automatically.</li>
+        <li><a href="#" data-td-go="board"><b>Rate with stars</b></a> — tap your row of stars. You only control your own; you see everyone's.</li>
+        <li><a href="#" data-td-go="invite"><b>Invite your family</b></a> — share your code so everyone rates together.</li>
+        <li><a href="#" id="howto-x2"><b>Close this when ready</b></a> — tap Got it ✕.</li>
       </ol>
     </div>
 
@@ -2019,8 +2019,6 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <!-- #46: what Zoe is especially good at, one tap away -->
     <div class="zm-cards" role="group" aria-label="Zoe can help you">
       <button class="zm-card" data-zm="week"><span class="zm-i">📅</span><b>Plan my week</b><span>Deadlines, checklist and visits, turned into this week's to-dos</span></button>
-      <button class="zm-card" data-zm="essay"><span class="zm-i">✍️</span><b>Essay coach</b><span>Brainstorm a topic or get honest feedback — Zoe never writes it for you</span></button>
-      <button class="zm-card" data-zm="huddle"><span class="zm-i">👥</span><b>Family huddle</b><span>See where your family agrees and differs, and what to talk about next</span></button>
       <button class="zm-card" data-zm="stack"><span class="zm-i">🎓</span><b>How do I stack up?</b><span>Your profile against a specific school, and what would help most</span></button>
     </div>
     <div id="zm-panel" class="zcard zm-panel hidden"></div>
@@ -4058,6 +4056,7 @@ function renderGuidance(meta){
   else { const top=meta.find(x=>x.b!==null); tip = top? `🏆 Your family's top pick so far: <b>${esc(top.s.name)}</b> (${top.b.toFixed(1)} avg).` : `⭐ Everyone can rate now — the list sorts by your family average.`; }
   state._guideTip=tip;   // #59: the Board stays clean; Today shows guidance
 }
+$("howto").addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest("[data-td-go],#howto-x2"); if(!a) return; e.preventDefault(); if(a.id==="howto-x2"){ $("howto-x").click(); return; } const g=a.dataset.tdGo; if(g==="invite") openInvite(); else goto(g); });
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = ()=>{ _boardHold=null; renderBoard(); };
 $("board-resort").onclick = ()=>{ _boardHold=null; renderBoard(); };
@@ -6594,8 +6593,9 @@ function zoeNeedsAI(q){ const n=q.split(/\s+/).filter(Boolean).length; return n>
 // keyword helpers: a short key (≤4 letters) must be a whole word; longer keys match from the start of a word (stems like "priorit").
 function zoeHasKey(q,k){ if(k.includes(" ")||/[^a-z]/.test(k)) return q.includes(k);
   return new RegExp("\\b"+k+(k.length<=4?"\\b":"")).test(q); }
-function zoeAnswer(qraw){
+function zoeAnswerPlain(qraw){
   const q=(qraw||"").toLowerCase().trim();
+  if(/\b(work on|what.?s next|where (do|should) i start|compare|versus|vs\.?)\b/.test(q)){ const sm=zoePersonal(q); if(sm) return sm; }
   if(zoeNeedsAI(q)) return ZOE_FALLBACK;
   // profile- & board-aware answers come first (the "knows you" part)
   const pr = zoePersonal(q); if(pr) return pr;
@@ -6641,6 +6641,10 @@ function zoePersonal(q){
   if(/\b(likelies|likely (schools?|list|ones)|safeties|safety (schools?|list))\b/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
   if(/(recommend(ations?)? (some |a few )?(schools?|colleges?)|suggest (some |a few )?(schools?|colleges?)|what am i missing|more schools|zoe pick|should i add|schools? for me)/.test(q)){ const have=new Set(state.schools.map(s=>s.school_id)); const sc=state.catalog.filter(c=>!have.has(c.id)&&c.scorecard&&!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,5); return sc.length?"A few you might love — full list under <b>✨ Zoe Picks</b>:<br>"+sc.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}% match`).join("<br>"):"Set up <b>My Profile</b> first and my picks get much sharper."; }
   if(/\b(improve my (chances?|profile|odds)|better chances?|boost my (chances?|profile)|stronger (profile|applicant)|increase my (chances?|odds)|what (can|should) i (do|work on) to (get|improve))\b/.test(q)){ return zoeAdvice(p); }
+  if(/\b(what should i (work on|do next|do first)|what.?s next|where (do|should) i start|what next|next step)\b/.test(q)){ const tips=zoeAdvice(p); return (board.length?"":"First move: add a few schools — open <b>✨ Zoe Picks</b>.<br><br>")+tips; }
+  if(/\b(compare|versus|vs\.?|or)\b/.test(q)){ const n=_norm(q); const hit=state.catalog.filter(c=>{ const m=_norm(c.name); return m&&m.length>3&&n.includes(m); }).slice(0,3);
+    if(hit.length>=2){ const row=c=>{ const sc=c.scorecard||{}; const ch=chanceFor(c); const m=matchScore(c,w); return `• <b>${esc(c.name)}</b> — ${m!=null?m+"% match":"match n/a"}${ch?` · ${esc(ch.label)}`:""}${typeof sc.netPrice==="number"?` · net ~${money(sc.netPrice)}`:""}${typeof sc.admissionRate==="number"?` · admits ${Math.round(sc.admissionRate*100)}%`:""}`; };
+      return "Side by side, from the app's data:<br>"+hit.map(row).join("<br>")+"<br><span class='muted'>Tap <b>Compare</b> on each school for the full table.</span>"; } }
   if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
   if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
   if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
@@ -6732,40 +6736,39 @@ function _startLabeler(){ labelOrphanFields(); let t=null;
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",_startLabeler); else _startLabeler();
 function zoeRich(t){ return esc(String(t||"")).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>"); }
 function zoeTyping(){ const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; $("zoe-log").appendChild(d); $("zoe-log").scrollTop=$("zoe-log").scrollHeight; return d; }
-const ZOE_BUSY = "I'm having trouble reaching my smarter brain just now — give it a few seconds and ask again. In the meantime I can help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b>.";
 let zoeInFlight=false;
 /* #46: Zoe remembers the last few turns of this chat (text only), has modes, and says WHY when she can't answer. */
 let zoeHist=[];
 function zoePlain(html){ const d=document.createElement("div"); d.innerHTML=String(html||""); return (d.textContent||"").trim(); }
 function zoeRemember(role,text){ const t=String(text||"").trim(); if(!t) return; zoeHist.push({role, text:t.slice(0,1500)}); if(zoeHist.length>12) zoeHist=zoeHist.slice(-12); }
-const ZOE_WHY={ busy:"Zoe's AI is very busy right now (too many questions at once). Give it a minute and tap <b>Try again</b>.",
-  upstream:"Zoe's AI service didn't answer just now. Tap <b>Try again</b> in a moment.",
-  unconfigured:"Zoe's AI isn't switched on yet.", timeout:"That took too long — Zoe's AI may be slow right now. Tap <b>Try again</b>.", offline:"You seem to be offline — check your connection and try again." };
-async function zoeFetchOnce(v, opt){
-  opt=opt||{};
-  if(DEMO) return { reply:"In the sample family I can answer questions about the board, chances, deadlines and trips. To chat with me about anything — essays, your week, your family's huddle — <b>create your free account</b> (it takes a minute)." }; const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),opt.mode==="essay"?45000:30000);
-  try{
-    const body={ q:v, ctx:{...zoeCtx(), ...(opt.ctx||{})}, mode:opt.mode||"chat", history:zoeHist.slice(-8) };
-    const r=await fetch("/.netlify/functions/zoe-ai",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify(body), signal:ctrl.signal });
-    const j=await r.json().catch(()=>({}));
-    if(j && j.error==="signin") return { reply: "Your sign-in has expired — sign out and back in, then ask me again." };
-    if(j && j.reply) return { reply: zoeRich(j.reply), raw:j.reply };
-    if(j && j.capped) return { reply: "I've hit my daily limit for open-ended questions, but I can still help with your <b>board</b>, <b>matches</b>, <b>chances</b>, <b>deadlines</b> and <b>trip</b> — ask about those!" };
-    if(j && j.unconfigured) return { fail:true, why:"unconfigured" };
-    return { fail:true, why:(j&&j.error)==="busy"?"busy":"upstream" };
-  }catch(e){ return { fail:true, why: (e&&e.name==="AbortError")?"timeout":(navigator.onLine===false?"offline":"upstream") }; }
-  finally{ clearTimeout(to); }
-}
-// Try once; on a failure, wait briefly and try one more time, then say why and offer Try again.
-let zoeLastAsk=null;
-async function zoeFetchAI(v, opt){
-  let r=await zoeFetchOnce(v,opt);
-  if(r.reply){ zoeRemember("user",v); zoeRemember("zoe",r.raw||zoePlain(r.reply)); return r.reply; }
-  if(r.why!=="unconfigured"){ await new Promise(res=>setTimeout(res,1500)); r=await zoeFetchOnce(v,opt); }
-  if(r.reply){ zoeRemember("user",v); zoeRemember("zoe",r.raw||zoePlain(r.reply)); return r.reply; }
-  zoeLastAsk={v,opt};
-  return `${ZOE_WHY[r.why]||ZOE_BUSY}${r.why==="unconfigured"?"":` <button class="small ghost zretry" data-zretry>↻ Try again</button>`}`;
-}
+
+/* ===== Zoe v2 (Oct 13): no server AI. She answers from the app's own data, has a personality, and hands anything bigger to the family's
+   own AI (ChatGPT / Claude / Gemini) with the question already written. ===== */
+const ZOE_PRE=["Totally! ","Wicked question. ","Rad. ","Bruh, good one. ","Okay okay — ","Say less. ","Gnarly. ","Oh, I love this one. "];
+const ZOE_POST=["Fun fact: the Goose show in Boston changed my life. This list is a close second. 🎸","Live music beats everything. Except maybe a balanced college list.","May the Force be with your application. ✨","These totally are the schools you're looking for. (Jedi mind trick, but with data.)","Ferris Bueller had a point: life moves fast, so mind your deadlines.","Back to the Future energy: great Scott, that's useful.","As if you'd miss a deadline. Clueless? Not you.","Mean Girls rules apply: early deadlines count, any day of the week.","Take your shot before the deadline, Hamilton-style.","Taylor's Version of your list: more mature, still totally rad.","Wicked Part Two energy: defying gravity, one application at a time.","I find a list with no safeties... disturbing. (Vader voice, sorry.)","If this were a Goose set, we'd be in the second jam by now. Wicked good.","Bruh. You've got this. Truly.","Somewhere a college admissions officer is humming a Springsteen song. Probably."];
+let _zoeQ=0;
+function zoeVoice(html){ const t=String(html||""); if(!t || t.length<40 || /<button|data-askai|Try again/i.test(t)) return t; _zoeQ++;
+  if(_zoeQ%3===1) return t;                                   // not every answer — keeps it fresh
+  const pre=ZOE_PRE[(_zoeQ*5)%ZOE_PRE.length], post=ZOE_POST[(_zoeQ*7)%ZOE_POST.length];
+  return _zoeQ%2? `${pre}${t}` : `${t}<br><span class="muted" style="font-size:12.5px">${post}</span>`; }
+function zoeAnswer(qraw){ const a=zoeAnswerPlain(qraw); return a===ZOE_FALLBACK? a : zoeVoice(a); }
+function zoeBoardLine(){ return (state.schools||[]).slice(0,25).map(sc=>{ const i=catInfo(sc.school_id); const ch=i&&chanceFor(i); return sc.name+(ch?` (${ch.label})`:""); }).join("; "); }
+function zoeBeyond(v){
+  const prompt=`My family is planning college applications. ${aiProfileLine()} ${zoeBoardLine()?`Our list so far: ${zoeBoardLine()}.`:""} Question: ${v}`.replace(/\s+/g," ").trim().slice(0,3500);
+  return `That one's bigger than my little brain — I stick to <b>your board, profile, deadlines, costs, visits</b> and the data in this app. For open-ended stuff, take it to the heavyweights; I wrote the question for you, with your grades and list filled in (never your income):<div class="ai-row">${aiBtn(prompt,"Ask ChatGPT, Claude or Gemini")}</div>`; }
+function zoeWeekLocal(){
+  const today=new Date(); today.setHours(0,0,0,0); const lim=new Date(today.getTime()+14*864e5); const out=[];
+  (state.schools||[]).forEach(sc=>{ const info=catInfo(sc.school_id); if(!info) return; (deadlineList(info)||[]).forEach(d=>{ if(d.date>=today&&d.date<=lim) out.push({d:d.date,t:`<b>${esc(sc.name)}</b> — ${esc(d.kind||"deadline")} due ${esc(_fmtD(d.date))}`}); }); });
+  let vis=[]; try{ vis=upcomingVisits().filter(x=>{ const t=Date.parse(x.v.date+"T12:00:00"); return t>=today.getTime()&&t<=lim.getTime(); }).map(x=>({d:new Date(x.v.date+"T12:00:00"),t:`Visit <b>${esc((x.info&&x.info.name)||x.id)}</b> on ${esc(fmtDay(x.v.date))}${x.v.time?` at ${esc(fmtTime(x.v.time))}`:""}`})); }catch(e){}
+  const all=[...out,...vis].sort((a,b)=>a.d-b.d).slice(0,8); const tips=String(zoeAdvice(studentProfile())||'').replace(/^.*?<br>/,'').split('<br>').slice(0,2);
+  const body=all.length?`Here's your next two weeks:<br>${all.map(x=>"• "+x.t).join("<br>")}`:"Nothing dated in the next two weeks — a rare breather.";
+  return zoeVoice(`${body}<br><br><b>And to work on:</b><br>${tips.join("<br>")}`); }
+function zoeBandLocal(list){
+  if(!list||!list.length) return zoeBeyond("Why is this school a reach, target or likely for us?");
+  return zoeVoice(list.slice(0,4).map(b=>`<b>${esc(b.school)}</b> is a <b>${esc(b.band)}</b> because:<br>`+(b.steps||[]).slice(0,6).map(t=>`• ${esc(t.k)}: <b>${esc(t.v)}</b> — ${esc(t.why)}`).join("<br>")).join("<br><br>")); }
+async function zoeFetchAI(v,opt){ opt=opt||{}; let h;
+  if(opt.mode==="week") h=zoeWeekLocal(); else if(opt.ctx&&opt.ctx.bandReasons) h=zoeBandLocal(opt.ctx.bandReasons); else h=zoeBeyond(v);
+  zoeRemember("user",v); zoeRemember("zoe",zoePlain(h)); return h; }
 /* Oct 13: "Why is X a reach?" / "why did it change?" go to Zoe's AI with the app's own step-by-step reasoning attached,
    instead of the canned reaches list. */
 const ZOE_WHY_RE=/\b(why|how come|what changed|what.s changed|changed|changing|keeps? changing|different|moved|switched|inconsistent|used to be|no longer|explain|reason)\b/i;
@@ -6846,7 +6849,7 @@ function zoeOpenForPage(){ _zoePage=zoePageNow(); const zp=$("zoe-page");
   if(_zoePage){ zp.innerHTML=`Asking about: <b>${esc(_zoePage.label)}</b>`; zp.classList.remove("hidden"); } else zp.classList.add("hidden");
   zoeOpenInner(); if(_zoePage){ const list=ZOE_PAGE_SUGG[_zoePage.view]||ZOE_SUGG; $("zoe-sugg").innerHTML=list.map(s=>`<button class="small ghost">${esc(s)}</button>`).join("");
     $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } }
-function zoeOpenInner(){ if(!_zoePage) $("zoe-page").classList.add("hidden"); $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, your best-fit schools, what to <b>work on</b>, or which schools to add. Tap one below to start.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
+function zoeOpenInner(){ if(!_zoePage) $("zoe-page").classList.add("hidden"); $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hey, I'm <b>Zoe</b> — totally your college-search sidekick (and yes, the Goose show in Boston changed my life). I know your profile and your board: ask about <b>reaches &amp; targets</b>, what to <b>work on</b>, or deadlines. Anything bigger, I'll hand to ChatGPT, Claude or Gemini.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
 $("zoe-fab").onclick=zoeOpenForPage;
 /* #65: tuck floating buttons away while scrolling down, bring them back on scroll up or near the end */
 { let lastY=window.scrollY||0, tick=false;
@@ -6875,10 +6878,7 @@ $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim
 /* ---- Ask Zoe full tab (concept 2) ---- */
 function ztabSay(text,who){ const log=$("ztab-log"); if(!log) return; const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; log.appendChild(d); log.scrollTop=log.scrollHeight; }
 function ztabTyping(){ const log=$("ztab-log"); const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
-async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); const whyBand=!opt && !DEMO && zoeIsWhyBand(v); if(whyBand) opt={ctx:{bandReasons:zoeBandReasons(v)}}; if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
-document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-zretry]"); if(!b||!zoeLastAsk) return; b.disabled=true; const {v,opt}=zoeLastAsk; zoeLastAsk=null;
-  if(b.closest("#ztab-log")){ (async()=>{ if(zoeInFlight) return; zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } })(); }
-  else { (async()=>{ if(zoeInFlight) return; zoeInFlight=true; const t=zoeTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); zoeSay(html); } finally{ zoeInFlight=false; } })(); } });
+async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); if(!opt && /\b(plan my week|this week|next 7 days|next week)\b/i.test(v)) opt={mode:"week"}; const whyBand=!opt && zoeIsWhyBand(v); if(whyBand) opt={ctx:{bandReasons:zoeBandReasons(v)}}; if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
 /* #46 Zoe modes: Plan my week · Essay coach · Family huddle · How do I stack up */
 function zoeWeekCtx(){ const today=new Date(); today.setHours(0,0,0,0); const up=[], gaps=[];
   for(const s of state.schools||[]){ const info=catInfo(s.school_id); if(!info) continue;
@@ -6899,33 +6899,11 @@ function zmOpen(kind){
   pnl.dataset.kind=kind; pnl.classList.remove("hidden");
   const board=(state.schools||[]);
   if(kind==="week"){ pnl.classList.add("hidden"); pnl.dataset.kind=""; document.querySelectorAll(".zm-card").forEach(c=>c.classList.remove("on"));
-    ztabAsk("Plan my week: what should I do in the next 7 days?", {mode:"week", ctx:zoeWeekCtx()}, "📅 Plan my week"); return; }
-  if(kind==="essay"){
-    pnl.innerHTML=`<div class="zm-h">✍️ Essay coach <span class="muted">— Zoe asks questions and gives feedback. She won't write it for you.</span></div>
-      <label class="zm-lbl">Which prompt? <select id="zm-prompt">${COMMON_APP_PROMPTS.map(p=>`<option>${esc(p)}</option>`).join("")}</select></label>
-      <textarea id="zm-draft" rows="6" maxlength="5000" placeholder="Paste your draft here for feedback — or leave it empty and tap Brainstorm."></textarea>
-      <div class="zm-row"><span class="muted" id="zm-wc">0 words · Common App limit 650</span><span style="flex:1"></span>
-        <button class="small ghost" id="zm-brain">💡 Brainstorm with me</button><button class="small primary" id="zm-fb">Get feedback</button></div><div class="ai-row" id="zm-ai"></div>`;
-    { const ai=$("zm-ai"); const mk=()=>{ const d=($("zm-draft").value||"").trim(); const pr=$("zm-prompt").value; ai.innerHTML=aiBtn(`Give me honest coaching feedback on my Common App essay draft. Prompt: ${pr}. Do not rewrite it for me — point out what is working, what is generic, and what to deepen.${d?`\n\nMy draft:\n${d}`:" I have not started yet, so ask me questions to find a story."}`,"Open in my own AI"); }; mk(); $("zm-draft").addEventListener("input",()=>{ clearTimeout(window._zmAi); window._zmAi=setTimeout(mk,400); }); $("zm-prompt").addEventListener("change",mk); }
-    const ta=$("zm-draft"), wc=$("zm-wc"); const words=()=>((ta.value.trim().match(/\S+/g)||[]).length);
-    ta.oninput=()=>{ const n=words(); wc.textContent=`${n} word${n===1?"":"s"} · Common App limit 650`; wc.classList.toggle("over",n>650); };
-    $("zm-brain").onclick=()=>{ const pr=$("zm-prompt").value; ztabAsk(`Help me brainstorm a Common App essay for prompt ${pr}. Ask me questions and suggest directions from my activities.`, {mode:"essay"}, `💡 Brainstorm: prompt ${pr.split(" · ")[0]}`); };
-    $("zm-fb").onclick=()=>{ const d=ta.value.trim(); if(words()<40){ wc.textContent="Paste at least a paragraph (40+ words) for feedback — or tap Brainstorm."; wc.classList.add("over"); return; }
-      const pr=$("zm-prompt").value; ztabAsk(`Common App prompt ${pr}. Here is my draft — give me coaching feedback:\n\n${d}`, {mode:"essay"}, `📝 Feedback on my ${words()}-word draft (prompt ${pr.split(" · ")[0]})`); };
-    return; }
-  if(kind==="huddle"){
-    const c=huddleCandidates();
-    if(!c.length){ pnl.innerHTML=`<div class="zm-h">👥 Family huddle</div><p class="muted" style="margin:6px 0 0;font-size:13px">Rate a few schools first — each person taps the stars on the board (and adds a note about why). Then Zoe can show where you agree and where you differ.</p>`; return; }
-    pnl.innerHTML=`<div class="zm-h">👥 Family huddle <span class="muted">— Zoe sees each person's stars and notes, labeled by role (not name), and keeps it calm and fair. Notes are sent as written.</span></div>
-      <div class="zm-row"><select id="zm-school"><option value="__all">All rated schools (${c.length})</option>${c.map(x=>`<option value="${esc(x.id)}">${esc(x.name)} — ${x.n} rating${x.n>1?"s":""}${x.spread>=2?" · views differ":""}</option>`).join("")}</select>
-      <button class="small primary" id="zm-huddle">Start the huddle</button></div>`;
-    $("zm-huddle").onclick=()=>{ const v=$("zm-school").value; const ids=v==="__all"?c.slice(0,8).map(x=>x.id):[v]; const nm=v==="__all"?"our rated schools":(c.find(x=>x.id===v)||{}).name;
-      ztabAsk(`Family huddle about ${nm}: where do we agree, where do we differ, and what should we talk about next?`, {mode:"huddle", ctx:zoeHuddleCtx(ids)}, `👥 Huddle: ${nm}`); };
-    return; }
+    ztabAsk("Plan my week: what should I do in the next 7 days?", {mode:"week"}, "📅 Plan my week"); return; }
   if(kind==="stack"){
     if(!board.length){ pnl.innerHTML=`<div class="zm-h">🎓 How do I stack up?</div><p class="muted" style="margin:6px 0 0;font-size:13px">Add schools to your board first.</p>`; return; }
     pnl.innerHTML=`<div class="zm-h">🎓 How do I stack up?</div><div class="zm-row"><select id="zm-stack">${board.map(s=>`<option value="${esc(s.school_id)}">${esc(s.name)}</option>`).join("")}</select><button class="small primary" id="zm-stack-go">Ask Zoe</button></div>`;
-    $("zm-stack-go").onclick=()=>{ const id=$("zm-stack").value; const info={name:schoolName(id)}; ztabAsk(`How do I stack up at ${info.name}? Use the app's band for it, tell me my strongest point for this school, the biggest gap, and the one thing that would help most.`, {mode:"chat"}, `🎓 How do I stack up at ${info.name}?`); };
+    $("zm-stack-go").onclick=()=>{ const id=$("zm-stack").value; const info={name:schoolName(id)}; ztabAsk(`How is ${info.name} rated for me — what are my chances?`, null, `🎓 How do I stack up at ${info.name}?`); };
     return; }
 }
 document.addEventListener("click",e=>{ const c=e.target.closest&&e.target.closest("[data-zm]"); if(!c) return; zmOpen(c.dataset.zm); });
@@ -6933,8 +6911,8 @@ function renderZoeTab(){
   paintZoeAvatars();
   const log=$("ztab-log");
   if(log && !log.dataset.greeted){ log.dataset.greeted="1";
-    ztabSay('<div class="zgreet">'+zoeAva()+"<div>Hi! I'm <b>Zoe</b>. I know your profile and your board — ask me about your <b>reaches &amp; targets</b>, best-fit schools, what to <b>work on</b>, deadlines, or essays. Pick one below or type your own.</div></div>");
-    $("ztab-sugg").innerHTML=ZOE_SUGG.concat(["What should my essay be about?"]).map(s=>`<button class="small ghost">${esc(s)}</button>`).join("");
+    ztabSay('<div class="zgreet">'+zoeAva()+"<div>Hey, I'm <b>Zoe</b> — wicked excited to help. The Goose show in Boston changed my life, and I'm here to make your college list just as epic. I know your profile and board: ask about <b>reaches &amp; targets</b>, what to <b>work on</b>, or deadlines. Pick one below or type your own. May the Force be with your list.</div></div>");
+    $("ztab-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join("");
     $("ztab-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("ztab-in").value=b.textContent; $("ztab-form").requestSubmit(); });
   }
   const inp=$("ztab-in"); if(inp) setTimeout(()=>inp.focus(),60);
