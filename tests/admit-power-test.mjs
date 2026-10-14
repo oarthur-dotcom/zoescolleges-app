@@ -34,7 +34,7 @@ for (const W of [390, 1280]) {
     return { hasCard: !!d.querySelector('.ap-card'), hasNum: /ap-num/.test(html), rows: d.querySelectorAll('.ap-row').length >= 3, sauceLink: !!d.querySelector('[data-sauce]'), noNaN: !/NaN|undefined/.test(d.innerText), words: /Admit Power \d+\./.test(chanceWords(catInfo(s.school_id))) }; });
   // Prominence: chip on board card + school page (opens the breakdown), secret-sauce links, Today guide link
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(400);
-  K.board = await page.evaluate(() => ({ chips: document.querySelectorAll('#v-board .ap-chip').length > 0 }));
+  K.board = await page.evaluate(() => ({ sauce: !!document.querySelector('#v-board [data-sauce]'), chips: document.querySelectorAll('#v-board .ap-chip').length > 0 }));
   await page.evaluate(() => openDetail(state.schools[0].school_id, 'board')); await page.waitForTimeout(500);
   K.detail = await page.evaluate(async () => { const c = document.querySelector('#v-detail [data-apopen]'); const out = { chip: !!c, chipText: c ? c.innerText : '', sauceNear: !!document.querySelector('#v-detail .chiprow [data-sauce]'), panelHiddenFirst: document.querySelector('#v-detail .why-panel').classList.contains('hidden') };
     if (c) { c.click(); await new Promise(r => setTimeout(r, 400)); } out.opens = !document.querySelector('#v-detail .why-panel').classList.contains('hidden') && !!document.querySelector('#v-detail .why-panel .ap-card'); return out; });
