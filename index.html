@@ -620,6 +620,16 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
 .why-panel{margin-top:8px}
+.ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
+.ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
+.ap-gap{font-size:13px;margin-top:2px}.ap-rows{margin-top:10px;display:grid;gap:5px}
+.ap-row{display:grid;grid-template-columns:104px 1fr 52px;gap:8px;align-items:center;font-size:12.5px}
+.ap-track{position:relative;height:10px;background:color-mix(in srgb,var(--muted) 14%,transparent);border-radius:6px}
+.ap-track:before{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--muted);opacity:.6}
+.ap-bar{position:absolute;top:0;bottom:0;border-radius:6px}.ap-bar.up{left:50%;background:var(--teal)}.ap-bar.dn{right:50%;background:#d9822b}
+.ap-pts{text-align:right;font-variant-numeric:tabular-nums}.ap-note{font-size:12px;color:var(--muted)}
+.sauce{max-width:820px}.sauce h2{margin:22px 0 6px}.sauce p,.sauce li{line-height:1.55;font-size:14.5px}.sauce table{border-collapse:collapse;width:100%;font-size:13.5px}
+.sauce td,.sauce th{border-bottom:1px solid var(--line,#e7e4dd);padding:6px 8px;text-align:left}.sauce code{font-size:13px}
 .cmath{background:var(--card2,#f7f6f3);border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px}
 .cm-h{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted,#8a857c);margin-bottom:4px}
 .cm-seen{font-size:13px;line-height:1.5}
@@ -1959,6 +1969,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   </section>
 
   <!-- TODAY (#48): what to do now, on one screen -->
+  <section id="v-sauce" class="hidden"></section>
+
   <section id="v-today" class="hidden">
     <div class="td-hello"><h1 id="td-hi">Today</h1><p class="sub" id="td-sub"></p><button type="button" class="linklike td-tour" data-guide-open>▶ Watch the 4-minute tour</button></div>
     <div id="td-student"></div>
@@ -2247,7 +2259,7 @@ const PROX_TAGS = [["beach","🏖 Beach"],["skiing","⛷ Skiing"],["lake","🚣 
 function defaultPrefs(){ const o={}; SLIDERS.forEach(s=>o[s.key]=s.def); LIFEPREFS.forEach(p=>o[p.key]=""); o.lp_prox=[]; return o; }
 
 /* ========== VIEW SWITCH + NAV ========== */
-const APP_VIEWS = ["v-journey","v-discover","v-decide","v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe"];
+const APP_VIEWS = ["v-journey","v-discover","v-decide","v-talk","v-visit","v-today","v-cost","v-board","v-explore","v-detail","v-profile","v-trip","v-memories","v-compare","v-deadlines","v-pulse","v-recommends","v-zoe","v-sauce"];
 function show(view){
   for (const v of ["v-auth","v-trust","v-report","v-onboard","v-loading",...APP_VIEWS]) $(v).classList.toggle("hidden", v!==view);
   $("signout").classList.toggle("hidden", !APP_VIEWS.includes(view));
@@ -2309,6 +2321,7 @@ function goto(view){ if(view!==currentView) _boardHold=null;
   else if (view==="journey"){ show("v-journey"); setNavActive("journey"); renderJourney(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="discover"){ show("v-discover"); setNavActive("discover"); renderDiscover(); }
   else if (view==="recommends"){ show("v-recommends"); setNavActive("recommends"); renderRecommends(); }
+  else if (view==="sauce"){ show("v-sauce"); setNavActive("sauce"); renderSauce(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="zoe"){ show("v-zoe"); setNavActive("zoe"); renderZoeTab(); }
   else if (view==="decide"){ show("v-decide"); setNavActive("decide"); renderDecide(); try{ scrollTo(0,0); }catch(e){} }
   else if (view==="talk"){ show("v-talk"); setNavActive("talk"); renderTalk(); try{ scrollTo(0,0); }catch(e){} }
@@ -2677,81 +2690,93 @@ function typicalGpa(s){ s=s||{}; const sat = typeof s.sat25==="number"&&typeof s
 function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light"); }
 // One source of truth for the chance band. explain=true also records each step
 // (slower), so the hot paths (choicePower over 3,000 schools) stay fast via explain=false.
+/* ===== Admit Power (Oct 14) =====
+   One number per school: 50 = the typical admitted student there. Built from visible steps, each measured against that
+   school's own admitted students. Constants live here so the "secret sauce" page prints the SAME numbers. */
+const AP={ SCALE:30,
+  W_TESTS:{gpa:0.40,rigor:0.20,tests:0.25,acts:0.15}, W_NOTESTS:{gpa:0.55,rigor:0.25,acts:0.20},
+  GPA_SD:0.30, RIGOR_SD:1.2, ACT_SD:0.25, SAT_FALLBACK_SD:150, MAJOR_SHIFT:-0.15, ZCLAMP:2.5,
+  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, RIGOR_HALF_RATE:0.60,
+  EASE1:15, EASE2:36, STIFF1:-12, STIFF2:-28, SHRINK_BASE:0.6, NEVER_LIKELY_RATE:0.25 };
+const apClamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+function apBandFrom(rate,g){ let idx = rate>0.7?2 : rate>=0.4?1 : 0;
+  idx += g>=AP.EASE2?2 : g>=AP.EASE1?1 : g<=AP.STIFF2?-2 : g<=AP.STIFF1?-1 : 0;
+  idx=apClamp(idx,0,2); if(rate<AP.NEVER_LIKELY_RATE) idx=Math.min(idx,1); if(rate<0.15) idx=0; return ["reach","target","likely"][idx]; }
+function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p) }; }
+// Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
+function apCore(s, inp){
+  const rate=s.admissionRate; const hasRange=typeof s.sat25==="number"&&typeof s.sat75==="number";
+  const raw=[];
+  if(inp.gpa>0 && inp.gpa<=5){ const ref=typicalGpa(s), g=Math.min(inp.gpa,4.0); raw.push({k:"gpa", z:apClamp((g-ref)/AP.GPA_SD,-AP.ZCLAMP,AP.ZCLAMP), ref, g}); }
+  if(inp.rl){ raw.push({k:"rigor", z:apClamp((inp.rl.lv-3)/AP.RIGOR_SD,-AP.ZCLAMP,AP.ZCLAMP), lv:inp.rl.lv}); }
+  if(inp.astr!=null){ raw.push({k:"acts", z:apClamp((inp.astr-0.5)/AP.ACT_SD,-2,2), astr:inp.astr}); }
+  let tz=null; if(inp.sat){ if(hasRange){ tz=(inp.sat-(s.sat25+s.sat75)/2)/Math.max(40,(s.sat75-s.sat25)/1.35); } else if(typeof s.satAvg==="number"){ tz=(inp.sat-s.satAvg)/AP.SAT_FALLBACK_SD; } }
+  if(tz!=null) raw.push({k:"tests", z:apClamp(tz,-3,3)});
+  const hasT=raw.some(t=>t.k==="tests"); const W=hasT?AP.W_TESTS:AP.W_NOTESTS;
+  raw.forEach(t=>{ let w=W[t.k]||0;
+    if(t.k==="acts") w*=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
+    if(t.k==="rigor" && rate>=AP.RIGOR_HALF_RATE) w*=0.5;
+    t.w0=w; });
+  const tot=raw.reduce((a,t)=>a+t.w0,0)||0;
+  raw.forEach(t=>{ t.w=tot>0?t.w0/tot:0; t.pts=AP.SCALE*t.w*t.z; });
+  const major=(inp.major && rate<0.6)?AP.MAJOR_SHIFT*AP.SCALE:0;
+  // fewer known pieces = less certainty: pull the composite toward 'typical' (coverage = share of the full weight we have)
+  const cov=Math.min(1,raw.reduce((a,t)=>a+(W[t.k]||0),0)); const shrink=AP.SHRINK_BASE+(1-AP.SHRINK_BASE)*cov;
+  raw.forEach(t=>{ t.pts*=shrink; });
+  const z=shrink*raw.reduce((a,t)=>a+t.w*t.z,0)+(major/AP.SCALE);
+  const have=raw.length>0;
+  return { terms:raw, major, g:have||major?AP.SCALE*z:0, score:have?Math.round(apClamp(50+AP.SCALE*z,0,100)):null, hasT };
+}
+// What would help most? Re-score with one realistic improvement at a time.
+function apLevers(s, inp){ const base=apCore(s,inp); if(base.score==null) return []; const out=[];
+  const t=(label,over)=>{ const r=apCore(s,{...inp,...over}); const d=Math.round((r.g-base.g)*10)/10; if(d>=0.5) out.push({label,d}); };
+  if(inp.gpa>0 && inp.gpa<3.95) t("a higher GPA (+0.2)",{gpa:Math.min(4,inp.gpa+0.2)});
+  if(inp.rl && inp.rl.lv<5) t("a more demanding schedule (+1 level)",{rl:{...inp.rl,lv:inp.rl.lv+1}});
+  if(inp.astr!=null && inp.astr<0.95) t("stronger activities (one tier up)",{astr:Math.min(1,inp.astr+0.2)});
+  if(inp.sat && !inp.to && inp.sat<1550) t("a higher test score (+80)",{sat:inp.sat+80});
+  return out.sort((a,b)=>b.d-a.d); }
+// One source of truth for the chance band. explain=true also records each step
+// (slower), so the hot paths (choicePower over 3,000 schools) stay fast via explain=false.
 function chanceCompute(c, explain){
   const s = c && c.scorecard; if(!s || typeof s.admissionRate!=="number") return null;
   const rate = s.admissionRate;
   const steps = explain ? [] : null;
   const log = (k,v,why)=>{ if(explain) steps.push({k,v,why,moved:/Reach|Target|Likely/.test(v)}); };
-  let band = rate>0.7?"likely" : rate>=0.4?"target" : "reach";
-  // Very selective schools (admit under 15%) are a reach for EVERY applicant, however strong.
-  const floorReach = rate < 0.15;
-  const ease = b => b==="reach" ? (floorReach ? "reach" : "target") : "likely";
-  log("Base band", bandLabel(band), `This school admits about ${Math.round(rate*100)}% of applicants`);
-  const p = studentProfile();
-  // adjust by student SAT (or ACT→SAT) vs school average
-  const sat = studentSat(p);
+  const p = studentProfile(); const inp=apInputs(p); const core=apCore(s,inp);
   const hasRange = typeof s.sat25==="number" && typeof s.sat75==="number";
-  if(sat && hasRange){
-    const before=band;
-    if(sat>=s.sat75){ band = ease(band); }        // above the school's 75th percentile
-    else if(sat<=s.sat25){ band = band==="likely"?"target":"reach"; }   // below its 25th percentile
-    const pos = sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range");
-    log("Your test scores", band!==before?bandLabel(band):"no change", `Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${pos}`);
-  } else if(sat && typeof s.satAvg==="number"){
-    const d = sat - s.satAvg, before=band;
-    if(d>=70){ band = ease(band); }
-    else if(d<=-90){ band = band==="likely"?"target":"reach"; }
-    log("Your test scores", band!==before?bandLabel(band):"no change", `Your ${sat} vs the school's ${s.satAvg} average (${d>=0?"+":""}${d}) — only the average is on file for this school`);
-  } else { log("Your test scores", "not used", (p&&p.testOptional)?"You're applying test-optional":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile")); }
-  // nudge by GPA: compare the UNWEIGHTED GPA (rigor has its own step below, so it isn't counted twice).
-  // Strong GPA eases a reach, weak stiffens a likely.
-  const gpa = rigorAdjustedGpa(p);
-  const gpaU = p ? parseFloat(p.gpa) : NaN;
-  // #80 (Oct 11): compare the GPA with the school's TYPICAL admitted student, not fixed cut-offs (before, only 3.9+ or
-  // 2.8- moved anything, so a 3.2 and a 3.8 got the same odds almost everywhere). Typical unweighted GPA is estimated
-  // from the school's test scores and selectivity (published scores track GPAs closely). Up to two steps tougher.
-  let gpaGap=null;
-  if(gpaU>0 && gpaU<=5){
-    const g = Math.min(gpaU, 4.0), before=band;   // the field is unweighted; anything above 4.0 counts as 4.0
-    const ref=typicalGpa(s); gpaGap=Math.round((g-ref)*100)/100;
-    const stiff=b=>b==="likely"?"target":"reach";
-    if(gpaGap>=0.25 && band!=="likely") band=ease(band);
-    else if(gpaGap<=-0.5){ band=stiff(stiff(band)); }
-    else if(gpaGap<=-0.25){ band=stiff(band); }
-    log("Your GPA", band!==before?bandLabel(band):"no change", `Unweighted GPA ${g.toFixed(2)} vs about ${ref.toFixed(1)} for a typical admitted student here (${gpaGap>=0?"+":""}${gpaGap.toFixed(2)})${gpa&&gpa!==gpaU?` · rigor-adjusted ${gpa.toFixed(2)} counted under rigor`:""}`);
-  } else { log("Your GPA", "not used", "No GPA in your profile"); }
-  // course rigor in context (#66): the counselor's 5-level rating of the schedule against what the school offers
-  // (Common App School Report). Honors count. Selective schools only, capped one step.
-  { const rl=rigorLevel(p); if(rl){ const before=band;
-      if(rate<0.4 && rl.lv>=5 && band==="reach") band=ease(band);
-      else if(rate<0.4 && rl.lv<=1 && band==="likely") band="target";
-      log("Course rigor", band!==before?bandLabel(band):(rate<0.4?"no change":"not used"), `${rl.est?"Estimated as":"Rated"} ${RIGOR_WORD[rl.lv]} for your school${rate<0.4?(band!==before?", and this selective school rewards a demanding schedule":""):" — this school isn't selective enough for rigor to move the band"}`); } }
-  // activities nudge — selectivity-scaled, capped at one step (honest): strong profile eases a reach
-  // at selective schools; thin profile stiffens a likely. Minimal effect at open-admission schools.
-  const astr = activityStrength(p && p.activities);
-  if(astr!=null && rate<0.4){
-    const before=band;
-    if(astr>=0.7 && band==="reach") band=ease(band);
-    else if(astr<=0.25 && band==="likely") band="target";
-    log("Your activities", band!==before?bandLabel(band):"no change", `A ${astrWord(astr)} activity profile${band!==before?", and this selective school weighs activities":""}`);
-  } else { log("Your activities", rate>=0.4?"not used":"no change", rate>=0.4?"This school isn't selective enough for activities to move the band":(astr==null?"No activities in your profile":`A ${astrWord(astr)} activity profile`)); }
-  // impacted major: at a selective school, a competitive major admits one step tougher
-  if(majorIsImpacted(p) && rate<0.6){
-    const before=band;
-    if(band==="likely") band="target"; else if(band==="target") band="reach";
-    log("Competitive major", band!==before?bandLabel(band):"no change", `${p.major} tends to admit tougher than the school overall`);
-  }
-  if(floorReach) log("Very selective", "stays Reach", `Admits under 15% — a reach for every applicant, even with top grades and scores`);
-  // #80: "Far reach" — the lottery schools (admit under 10%), or a selective school where this profile is well below typical
-  const satLow = sat && hasRange && sat<=s.sat25;
-  const far = band==="reach" && (rate<0.10 || (rate<0.25 && ((gpaGap!=null&&gpaGap<=-0.4) || satLow)));
-  if(far) log("Far reach", "Far reach", rate<0.10?`Admits under 10% — a long shot for anyone; apply if you love it, but don't count on it`:`Selective, and this profile is well below a typical admitted student`);
-  const out = { band, far, label: far?"Far reach":bandLabel(band) };
+  const band0 = apBandFrom(rate,0); let band=apBandFrom(rate,core.g);
   if(explain){
-    out.steps = steps;
-    out.inputs = { gpaRaw:(p&&p.gpa)||null, gpaAdj:(gpa&&gpa>0)?gpa:null, sat:sat||null, testOptional:!!(p&&p.testOptional),
-      act:(p&&p.act)||null, activityStrength:astr, activityWord:astrWord(astr), major:(p&&p.major)||null, majorImpacted:majorIsImpacted(p),
-      rigor:(()=>{ const rl=rigorLevel(p); return rl?{level:rl.lv, word:RIGOR_WORD[rl.lv], estimated:rl.est}:null; })() };
+    log("Base band", bandLabel(band0), `This school admits about ${Math.round(rate*100)}% of applicants`);
+    // the ladder: each piece added in turn, with the band it gives so far (final weights, so the last rung is the answer)
+    let cum=0, prev=band0; const step=(k,t,on,why)=>{ if(!on){ log(k,"not used",why); return; } cum+=t.pts; const nb=apBandFrom(rate,cum);
+      log(k, nb!==prev?bandLabel(nb):"no change", why); prev=nb; };
+    const T=k=>core.terms.find(t=>t.k===k);
+    { const t=T("gpa"); const gap=t?Math.round((t.g-t.ref)*100)/100:null; const adj=rigorAdjustedGpa(p);
+      step("Your GPA",t,!!t, t?`Unweighted GPA ${t.g.toFixed(2)} vs about ${t.ref.toFixed(1)} for a typical admitted student here (${gap>=0?"+":""}${gap.toFixed(2)})${adj&&adj!==inp.gpa?` · rigor-adjusted ${adj.toFixed(2)} is counted once, under rigor`:""}`:"No GPA in your profile"); }
+    { const t=T("rigor"); const rl=inp.rl; const heavy=rate<0.4;
+      step("Rigor in context",t,!!t, t?`${rl.est?"Estimated as":"Rated"} ${RIGOR_WORD[rl.lv]} for your school${rate>=AP.RIGOR_HALF_RATE?" — counts half at schools this open":""}`:"No course-rigor info in your profile");
+      if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= rl.lv>=4?" — this selective school rewards making the most of a demanding schedule":" — a lighter schedule makes it tougher here"; }
+    { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
+      step("Your activities",t,!!t&&w>0, !t?"No activities in your profile":(w<=0?"This school isn't selective enough for activities to move the band":`A ${astrWord(inp.astr)} activity profile${w>0?", and this selective school weighs activities":""}`)); }
+    { const t=T("tests"); const sat=inp.sat;
+      step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
+        : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
+    if(core.major){ const nb=apBandFrom(rate,cum+core.major); log("Competitive major", nb!==prev?bandLabel(nb):"no change", `${p.major} tends to admit tougher than the school overall`); }
+    if(rate<0.15) log("Very selective", "stays Reach", `Admits under 15% — a reach for every applicant, even with top grades and scores`);
+  }
+  const gt=core.terms.find(t=>t.k==="gpa"); const gpaGap=gt?Math.round((gt.g-gt.ref)*100)/100:null;
+  const satLow = inp.sat && hasRange && inp.sat<=s.sat25;
+  const far = band==="reach" && (rate<0.10 || (rate<0.25 && ((gpaGap!=null&&gpaGap<=-0.4) || satLow)));
+  if(explain){
+    if(far) log("Far reach", "Far reach", rate<0.10?`Admits under 10% — a long shot for anyone; apply if you love it, but don't count on it`:`Selective, and this profile is well below a typical admitted student`);
+    log("Admit Power", core.score==null?"—":String(core.score), core.score==null?"Add your grades in My Profile to see it":`50 = the typical admitted student here. You're ${Math.abs(core.score-50)} point${Math.abs(core.score-50)===1?"":"s"} ${core.score>=50?"above":"below"} that`);
+  }
+  const out = { band, far, label: far?"Far reach":bandLabel(band), score:core.score, gap:core.score==null?null:core.score-50 };
+  if(explain){
+    out.steps = steps; out.power={ score:core.score, terms:core.terms.map(t=>({k:t.k,pts:Math.round(t.pts*10)/10,w:Math.round(t.w*100)})), major:Math.round(core.major*10)/10, hasT:core.hasT, levers:apLevers(s,inp) };
+    out.inputs = { gpaRaw:(p&&p.gpa)||null, gpaAdj:(rigorAdjustedGpa(p)>0)?rigorAdjustedGpa(p):null, sat:inp.sat||null, testOptional:!!(p&&p.testOptional),
+      act:(p&&p.act)||null, activityStrength:inp.astr, activityWord:astrWord(inp.astr), major:(p&&p.major)||null, majorImpacted:majorIsImpacted(p),
+      rigor:(()=>{ const rl=inp.rl; return rl?{level:rl.lv, word:RIGOR_WORD[rl.lv], estimated:rl.est}:null; })() };
   }
   return out;
 }
@@ -2788,10 +2813,66 @@ function predictorInputsHtml(inp){
   ].filter(Boolean);
   return parts.join(" · ");
 }
+const AP_LABELS={gpa:"Grades",rigor:"Course rigor",acts:"Activities",tests:"Test scores"};
+function apBlockHtml(ex,noLink){ const pw=ex&&ex.power; if(!pw) return "";
+  if(pw.score==null) return `<div class="ap-card"><div class="ap-top"><div><b>Admit Power</b><div class="ap-gap muted">Add your grades in My Profile to see how you stack up here.</div></div></div><div class="ap-note" style="margin-top:6px"><button class="linklike" data-sauce>Want to know our secret sauce?</button></div></div>`; 
+  const gap=pw.score-50; const top=(pw.levers||[])[0];
+  const rows=pw.terms.map(t=>{ const w=Math.min(50,Math.abs(t.pts)*2.5); return `<div class="ap-row"><span>${AP_LABELS[t.k]}</span><span class="ap-track"><span class="ap-bar ${t.pts>=0?"up":"dn"}" style="width:${w}%"></span></span><span class="ap-pts">${t.pts>=0?"+":"−"}${Math.abs(t.pts).toFixed(1)}</span></div>`; }).join("")
+    + (pw.hasT?"":`<div class="ap-row"><span>Test scores</span><span class="ap-note" style="grid-column:2 / 4">${ex.inputs&&ex.inputs.testOptional?"test-optional — not counted; the rest carry more weight":"none entered — not counted"}</span></div>`)
+    + (pw.major?`<div class="ap-row"><span>Competitive major</span><span class="ap-track"><span class="ap-bar dn" style="width:${Math.min(50,Math.abs(pw.major)*2.5)}%"></span></span><span class="ap-pts">−${Math.abs(pw.major).toFixed(1)}</span></div>`:"");
+  return `<div class="ap-card"><div class="ap-top"><div class="ap-num" title="Admit Power">${pw.score}</div><div><b>Admit Power</b> <span class="muted" style="font-size:12px">· 50 = the typical admitted student here</span>
+    <div class="ap-gap">${gap===0?"Right at the typical admit.":`You're <b>${Math.abs(gap)} point${Math.abs(gap)===1?"":"s"} ${gap>0?"above":"below"}</b> the typical admit here.`}${top&&gap<8?` Biggest lever: <b>${esc(top.label)}</b> (+${top.d} pts).`:""}</div></div></div>
+    <div class="ap-rows" aria-label="How your Admit Power adds up"><div class="ap-row"><span class="muted">Starts at</span><span class="ap-note" style="grid-column:2 / 4">50 — the typical admitted student at this school</span></div>${rows}</div>
+    <div class="ap-note" style="margin-top:8px">An estimate, not a prediction.${noLink?"":` <button class="linklike" data-sauce>Want to know our secret sauce?</button>`}</div></div>`; }
+var _sauceFrom="today";
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-sauce]"); if(b){ e.preventDefault(); if(currentView!=="sauce") _sauceFrom=currentView||"today"; try{ const d=document.querySelector("dialog[open]"); if(d&&d.close) d.close(); }catch(_){} goto("sauce"); return; }
+  const k=e.target.closest&&e.target.closest("[data-sauce-back]"); if(k){ e.preventDefault(); goto(_sauceFrom&&_sauceFrom!=="sauce"?_sauceFrom:"today"); } });
+function renderSauce(){ const el=$("v-sauce"); if(!el) return;
+  const W1=AP.W_TESTS, W2=AP.W_NOTESTS; const pct=v=>Math.round(v*100)+"%";
+  let ex=null, exName=""; try{ const sc=(state.schools||[]); for(const s of sc){ const info=catInfo(s.school_id); const e2=info&&chanceExplain(info); if(e2&&e2.power&&e2.power.score!=null){ ex=e2; exName=s.name; break; } } }catch(_){}
+  const sources=[
+    ["NACAC, Factors in the Admission Decision (Fall 2023)","https://www.nacacnet.org/factors-in-the-admission-decision/","Colleges rate grades in college-prep courses (76.8%) and strength of curriculum (63.8%) as \"considerable importance\" far more than extracurriculars (6.5%) or test scores (4.9%). That's why grades and rigor carry the most weight."],
+    ["Opportunity Insights, test scores at Ivy-Plus colleges","https://opportunityinsights.org/paper/test-scores/","At Ivy-Plus schools, scores predicted first-year college GPA about four times better than high school GPA. That's why a test score counts when you have one."],
+    ["College Transitions, the test-optional paradox","https://www.collegetransitions.com/blog/the-test-optional-paradox/","Published score ranges only describe students who sent scores, so they run high. That's why we never compare a test-optional student to a score range."],
+    ["College Kickstart, selective colleges with high test-submission rates","https://www.collegekickstart.com/blog/item/selective-colleges-with-high-test-submission-rates","Some selective schools see 70%+ of enrolled students submit scores. It's why test-optional isn't equally easy everywhere (we don't adjust for this yet — see below)."],
+    ["College Kickstart, how chance calculators work","https://www.collegekickstart.com/blog/item/college-chances-calculator-how-they-work-and-what-they-actually-tell-you","Why a band and a score are more honest than a percent chance, and what every calculator can't see."],
+    ["College Scorecard (U.S. Dept. of Education) and IPEDS","https://collegescorecard.ed.gov/data/","Our admit rates and SAT ranges. Federal data, public domain."]];
+  el.innerHTML=`<div class="sauce">
+    <div style="margin:8px 0"><button class="small ghost" data-sauce-back>← Back</button></div>
+    <h1>There is no secret sauce.</h1>
+    <p><b>Admit Power</b> is one number per school: how your profile compares with that school's typical admitted student. <b>50 means you're right at the typical admit.</b> Above is stronger, below is a stretch. Here's exactly how it's built, why, and where it comes from. <b>We promise it's not exact</b> — it's a planning estimate, not a prediction.</p>
+    ${ex?`<h2>Your example: ${esc(exName)}</h2><div class="cmath">${apBlockHtml(ex,true)}</div><p class="muted" style="font-size:12.5px">Each row is a step added in turn. Rows that aren't known (like a test score you didn't take) aren't counted — they never become a zero.</p>`:`<h2>Your example</h2><p class="muted">Add your grades in <b>My Profile</b> and a school to your board, and your own worked example shows up right here.</p>`}
+    <h2>The formula, in plain English</h2>
+    <ol>
+      <li><b>Start at the school.</b> Its admit rate sets the starting band: under 40% starts at Reach, 40–70% at Target, over 70% at Likely.</li>
+      <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (counselor-style 1–5 scale, counted once), <b>activities</b> (the 4-tier scale), and <b>test scores</b> (only if you send them).</li>
+      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Selective schools weigh activities fully; schools admitting 40%+ ignore them; very open schools count rigor half.</li>
+      <li><b>Turn the gap into a band.</b> About ${AP.EASE1} points above typical moves you up a band, about ${-AP.STIFF1} below moves you down. Schools admitting under 25% are never Likely, and under 15% are always at least a Reach — a long shot for everyone.</li>
+      <li><b>Say what would help most.</b> We re-score with one realistic improvement at a time (GPA +0.2, one rigor level, one activity tier, SAT +80) and show the biggest.</li>
+    </ol>
+    <h2>The weights</h2>
+    <table><tr><th>Piece</th><th>With a test score</th><th>Test-optional / no score</th></tr>
+      <tr><td>Grades (unweighted GPA)</td><td>${pct(W1.gpa)}</td><td>${pct(W2.gpa)}</td></tr>
+      <tr><td>Course rigor</td><td>${pct(W1.rigor)}</td><td>${pct(W2.rigor)}</td></tr>
+      <tr><td>Activities (selective schools only)</td><td>${pct(W1.acts)}</td><td>${pct(W2.acts)}</td></tr>
+      <tr><td>Test scores</td><td>${pct(W1.tests)}</td><td>— not counted</td></tr></table>
+    <p class="muted" style="font-size:12.5px">When a piece is unknown or doesn't apply at a school, the rest are re-balanced and the total is pulled a little toward 50 (we know less, so we claim less). A competitive major (nursing, engineering, CS and similar) takes ${Math.abs(AP.MAJOR_SHIFT*AP.SCALE)} points at selective schools.</p>
+    <h2>Why grades alone use your <i>unweighted</i> GPA</h2>
+    <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So grades are the plain GPA; rigor gets its own row. Your rigor-adjusted GPA (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0) is shown on your profile for reference.</p>
+    <h2>Test-optional, done honestly</h2>
+    <p>If you aren't sending scores, we don't invent a low one and we don't compare you to a score range. Those ranges only describe students who sent scores, so they run high. Instead the weight moves to grades, rigor and activities, which carry most of the evidence anyway. <b>What we don't do yet:</b> some selective schools see most students send scores, which can make test-optional harder there. We don't have per-school submission rates in our data yet, so we don't adjust for it. Treat selective schools' bands as a bit optimistic if you're test-optional.</p>
+    <h2>What it can't know</h2>
+    <p>Essays, recommendations, interviews, legacy or athletic hooks, what a school needs this year, and who else applied. Harvard puts it plainly: it is impossible to predict individual admission decisions. We show a score and a band, never a "percent chance," because a percent would pretend to a precision nobody has.</p>
+    <h2>Where it comes from</h2>
+    <p class="muted" style="font-size:12.5px">The weights are our judgment, informed by the sources below. None of these sources endorses this model.</p>
+    <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}</li>`).join("")}</ul>
+    <p class="muted" style="font-size:12px;margin-top:18px">Admit Power v1 · Oct 14, 2026 · Spot a mistake? Tell us — this page is meant to be argued with.</p>
+  </div>`; }
 function chanceMathHtml(c){
   const ex=chanceExplain(c); if(!ex) return "";
   const rows=ex.steps.map(s=>`<div class="cm-step"><span class="cm-k">${esc(s.k)}</span><span class="cm-v${s.moved?" moved":""}">${esc(s.v)}</span><span class="cm-why">${esc(s.why)}</span></div>`).join("");
   return `<div class="cmath">
+    ${apBlockHtml(ex)}
     <div class="cm-inputs"><div class="cm-h">What the predictor sees</div><div class="cm-seen">${predictorInputsHtml(ex.inputs)}</div></div>
     <div class="cm-steps">${rows}<div class="cm-step cm-final"><span class="cm-k">Final call</span><span class="chip ${ex.band}${ex.far?" far":""}" style="margin:0">${ex.label}</span><span class="cm-why"></span></div></div>
     ${anchorNoteHtml()}
@@ -4085,7 +4166,7 @@ function chanceWords(info){
   const ac=step("Your activities"); if(ac.moved) bits.push(/strong/.test(ac.why||"")?"your activities help":"a light activity list makes it tougher");
   const mj=step("Competitive major"); if(mj.moved) bits.push("your major admits tougher here");
   const pr=studentProfile(); const noStats=!(pr && (pr.gpa || pr.sat || pr.act || pr.testOptional));
-  return `${lead}: ${bits.join(" · ")}${noStats?" — add your grades in My Profile to personalize this":""}.`;
+  return `${lead}: ${bits.join(" · ")}${noStats?" — add your grades in My Profile to personalize this":""}.${ex.score!=null?` Admit Power ${ex.score}.`:""}`;
 }
 function chanceWordsHtml(info){ const w=chanceWords(info); return w?`<div class="chance-words">${esc(w)}</div>`:""; }
 function matchChip(m){ return (m!=null)? `<span class="chip match">★ ${m}% fit</span>` : ""; }
@@ -6135,7 +6216,7 @@ function choicePowerHtml(){
   const bar=(lab,cls,v)=>`<div class="cp-row"><span class="cp-lab">${lab}</span><div class="cp-track"><div class="cp-fill ${cls}" style="width:${v}%"></div></div><span class="cp-pct">${v}%</span></div>`;
   return `<div class="card cp-card">
     <div class="pv-head"><h2 style="margin:0">Your college power</h2><span class="muted" style="font-size:12px">${cp.n.toLocaleString()} schools</span></div>
-    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Based on your academic profile, here's roughly how today's colleges break down for you:</p>
+    <p class="muted" style="font-size:12.5px;margin:4px 0 12px">Based on your academic profile, here's roughly how today's colleges break down for you: <button class="linklike" data-sauce>Want to know our secret sauce?</button></p>
     <div class="cp-bars">
       ${bar("✅ Likely","likely",cp.likely)}
       ${bar("🎯 Target","target",cp.target)}
