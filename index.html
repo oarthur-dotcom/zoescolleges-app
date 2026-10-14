@@ -629,6 +629,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .apm-bar{position:relative;height:10px;border-radius:99px;background:color-mix(in srgb,var(--teal) 12%,var(--line,#e7e4dd));margin:10px 0 8px;overflow:visible}
 .apm-bar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .5s}.apm-bar b{position:absolute;top:-3px;width:2px;height:16px;background:var(--ink,#222);opacity:.45}
 .apm-list{font-size:12.5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line,#e7e4dd)}.apm-row{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;color:var(--muted,#6b6b6b)}.apm-row.on{color:inherit;font-weight:600}
+.ask-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}.ask-box{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.4)}.ask-msg{margin:0 0 14px;line-height:1.45;white-space:pre-line}.ask-row{display:flex;gap:8px;justify-content:flex-end}.ask-go{background:#b91c1c;border-color:#b91c1c;color:#fff}
 .ap-chip{border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font-weight:700;cursor:default}button.ap-chip{cursor:pointer;font:inherit;font-size:12px;font-weight:700}
 .ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
 .ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
@@ -3979,7 +3980,7 @@ function renderMemories(){
     </div>`; }).join("")+(photos.some(memMine)?`<div class="mem-delmine"><button class="linklike" id="mem-delmine">🗑 Delete all my photos</button> <span class="muted" style="font-size:12px">Only photos you added. Can't be undone.</span></div>`:"");
   el.querySelectorAll("[data-ph]").forEach(card=>{ const pid=card.dataset.ph;
     const cv=card.querySelector("[data-cover]"); if(cv) cv.onclick=()=>{ const sid=(state.photos.find(x=>x.id===pid)||{}).school_id; const c=getChecklist(sid); const on=c._cover!==pid; if(on) c._cover=pid; else delete c._cover; setChecklist(sid,c); renderMemories(); memNote(on?`${schoolName(sid)} now shows your photo on the board.`:`${schoolName(sid)} is back to its official photo.`); };
-    const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; del.disabled=true; await removePhoto(pid); await loadPhotos(); renderMemories(); memNote("Photo deleted."); };
+    const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone.")) return; del.disabled=true; const ok=await removePhoto(pid); await loadPhotos(); renderMemories(); memNote(ok?"Photo deleted.":"Couldn't delete that photo — only the person who added it (or a parent) can."); };
     card.querySelector("[data-inc]").onclick=()=>{ const off=!(memPrefs()[pid]||{}).off; setMemPref(pid,{off}); renderMemories(); };
     card.querySelector("[data-feat]").onclick=()=>{ const feat=!(memPrefs()[pid]||{}).feat; setMemPref(pid,{feat}); renderMemories(); };
   });
@@ -4920,7 +4921,7 @@ function renderVisitKit(){
   el.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{ const v2=vkGet(id); const k=b.dataset.vq; const cur=v2.q[k]||""; v2.q[k]= cur===""?"star":cur==="star"?"asked":""; if(!v2.q[k]) delete v2.q[k]; saveVisit(id,v2); renderVisitKit(); });
   const fi=$("vk-file"); $("vk-snap").onclick=()=>fi.click();
   fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const m=$("vk-snapmsg"); m.textContent="Saving…"; try{ await addPhoto(id,f,($("vk-cap").value||"").trim()); await loadPhotos(); renderVisitKit(); }catch(e){ m.textContent="Couldn't save that photo — try again."; } };
-  el.querySelectorAll("[data-vkdel]").forEach(b=>b.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; b.disabled=true; await removePhoto(b.dataset.vkdel); await loadPhotos(); renderVisitKit(); });
+  el.querySelectorAll("[data-vkdel]").forEach(b=>b.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone.")) return; b.disabled=true; await removePhoto(b.dataset.vkdel); await loadPhotos(); renderVisitKit(); });
   let t=null; const ta=$("vk-note"), nm=$("vk-notemsg");
   ta.oninput=()=>{ nm.textContent="…"; clearTimeout(t); t=setTimeout(async()=>{ try{ const cur=(state.ratings||[]).find(r=>r.school_id===id&&r.user_id===state.me.user_id);
       await sb.from("ratings").upsert({ family_id:state.family.id, school_id:id, user_id:state.me.user_id, rating:cur?cur.rating:null, note:ta.value, updated_at:new Date().toISOString() }); await loadRatings(); nm.textContent="Saved ✓"; }catch(e){ nm.textContent="Couldn't save — check your connection."; } },900); };
@@ -6209,7 +6210,7 @@ function wirePhotos(id){
       catch(e){ alert("Couldn't add photo: "+(e.message||e)); addBtn.disabled=false; addBtn.textContent="📷 Add photo"; } };
   }
   root.querySelectorAll("[data-pricereq]").forEach(b=>b.onclick=()=>{ b.disabled=true; requestPricing(b.dataset.pricereq); });
-  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
+  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
 }
 function resizeImage(file, maxDim, quality){
   return new Promise((resolve,reject)=>{
@@ -6262,17 +6263,23 @@ function canDelPhoto(p){ return memMine(p) || myRole()==="parent"; }
 function memMine(p){ return !!p && (String(p.id).startsWith("ls-") || (state.me && p.user_id===state.me.user_id)); }
 async function memDeleteMany(list, where){
   const mine=list.filter(memMine), others=list.length-mine.length; if(!mine.length) return;
-  if(!confirm(`Delete ${mine.length} photo${mine.length>1?"s":""} you added ${where}? This can't be undone.${others?`\n\n${others} added by someone else will stay — they can delete their own.`:""}`)) return;
+  if(!await askOk(`Delete ${mine.length} photo${mine.length>1?"s":""} you added ${where}? This can't be undone.${others?`\n\n${others} added by someone else will stay — they can delete their own.`:""}`)) return;
   for(const p of mine){ try{ await removePhoto(p.id); }catch(e){} }
   await loadPhotos(); renderMemories(); memNote(`${mine.length} photo${mine.length>1?"s":""} deleted.`);
 }
+// In-page confirm: browser confirm() pop-ups are blocked in some browsers/apps, which made delete buttons silently do nothing.
+function askOk(msg, okLabel){ return new Promise(res=>{ const ov=document.createElement("div"); ov.className="ask-ov"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true");
+  ov.innerHTML=`<div class="ask-box"><p class="ask-msg"></p><div class="ask-row"><button type="button" class="small ghost" data-no>Cancel</button><button type="button" class="small primary ask-go" data-yes></button></div></div>`;
+  ov.querySelector(".ask-msg").textContent=msg; ov.querySelector("[data-yes]").textContent=okLabel||"Delete";
+  const done=v=>{ ov.remove(); res(v); }; ov.querySelector("[data-no]").onclick=()=>done(false); ov.querySelector("[data-yes]").onclick=()=>done(true);
+  ov.addEventListener("click",e=>{ if(e.target===ov) done(false); }); document.body.appendChild(ov); ov.querySelector("[data-yes]").focus(); }); }
 async function removePhoto(pid){
   if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return true; }
   const p = state.photos.find(x=>x.id===pid);
   if(DEMO){ try{ await sb.from("photos").delete().eq("id", pid); }catch(e){} return true; }
   let ok=false;
   try{ const r=await sb.from("photos").delete().eq("id", pid).select("id"); ok=!r.error && r.data && r.data.length>0; }catch(e){}
-  if(!ok){ try{ alert("Couldn't delete that photo — only the person who added it (or a parent) can."); }catch(e){} return false; }
+  if(!ok) return false;
   try{ if(p&&p.path) await sb.storage.from("campus-photos").remove([p.path]); }catch(e){}   // file goes only after the record is really gone
   return true;
 }
