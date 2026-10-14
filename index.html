@@ -2025,6 +2025,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="ztab-chat zcard">
       <div id="ztab-log" class="ztab-log"></div>
       <div class="zsugg" id="ztab-sugg"></div>
+      <div class="ai-row" id="ztab-ai" style="padding:6px 12px 0"></div>
       <form id="ztab-form"><input id="ztab-in" type="text" placeholder="Ask Zoe anything about your college search…" autocomplete="off"><button class="primary" type="submit">Ask</button></form>
     </div>
   </section>
@@ -6907,8 +6908,11 @@ function zmOpen(kind){
     return; }
 }
 document.addEventListener("click",e=>{ const c=e.target.closest&&e.target.closest("[data-zm]"); if(!c) return; zmOpen(c.dataset.zm); });
+function zoeAiRow(){ const el=$("ztab-ai"); if(!el) return; const q=($("ztab-in")&&$("ztab-in").value||"").trim();
+  const prompt=`My family is planning college applications. ${aiProfileLine()} ${zoeBoardLine()?`Our list so far: ${zoeBoardLine()}.`:""} ${q?"Question: "+q:"I have a question about our college search:"}`.replace(/\s+/g," ").trim().slice(0,3500);
+  el.innerHTML=aiBtn(prompt,"Ask ChatGPT, Claude or Gemini")+`<span class="muted" style="font-size:12px;margin-left:8px">for bigger questions — your profile and list are filled in, never income</span>`; }
 function renderZoeTab(){
-  paintZoeAvatars();
+  paintZoeAvatars(); zoeAiRow(); { const i=$("ztab-in"); if(i&&!i._ai){ i._ai=1; let t; i.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(zoeAiRow,250); }); } }
   const log=$("ztab-log");
   if(log && !log.dataset.greeted){ log.dataset.greeted="1";
     ztabSay('<div class="zgreet">'+zoeAva()+"<div>Hey, I'm <b>Zoe</b> — wicked excited to help. The Goose show in Boston changed my life, and I'm here to make your college list just as epic. I know your profile and board: ask about <b>reaches &amp; targets</b>, what to <b>work on</b>, or deadlines. Pick one below or type your own. May the Force be with your list.</div></div>");
