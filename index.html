@@ -2115,7 +2115,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <ul style="font-size:14px;line-height:1.6;margin-top:0">
     <li>Starts from the school's <b>admit rate</b> (more selective → harder band).</li>
     <li>Adjusted by your <b>test scores</b> vs. the school's <b>middle-50% range</b> (25th–75th percentile) where we have it — scoring above the 75th helps, below the 25th tightens the band; we fall back to the average otherwise (ACT converted to SAT via the official concordance).</li>
-    <li>Your <b>GPA</b> is <b>rigor-adjusted</b> — Honors +0.5, AP/IB +1.0, dual-enrollment +0.5 (the standard colleges use).</li>
+    <li>Your <b>GPA</b> is <b>rigor-adjusted</b> — Honors +0.5, AP/IB +1.0, dual-enrollment +1.0 per course, spread over your course load (the standard weighted-GPA math).</li>
+    <li><b>Why two GPAs?</b> Colleges publish <i>unweighted</i> averages, so chances compare your <b>unweighted</b> GPA to admitted students. Your <b>rigor</b> and your <b>activities</b> then count in their own steps — so nothing is counted twice. The rigor-adjusted GPA is shown for your reference and reports.</li>
     <li>Your <b>activities</b> (4-tier scale) can nudge a Reach toward Target at selective schools — but they're capped one step and <b>never override your grades</b>.</li>
     <li>For most selective schools we have the <b>25th–75th percentile</b> score range (federal IPEDS data); for the rest, just the average. Either way the read is a band, not a false percentage.</li>
   </ul>
@@ -3736,7 +3737,7 @@ function renderReport(){
   const rig=p.rigor||{}; const prio=SLIDERS.filter(s=>s.kind==="importance").map(s=>({s,v:+w[s.key]||0})).sort((a,b)=>b.v-a.v).slice(0,3);
   const profile=`<section class="rp-page"><h2>📚 Student profile</h2>
     <div class="rp-stats rp-stats-sm">
-      ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Weighted GPA (est.)",adj.toFixed(2)):""}
+      ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Rigor-adjusted GPA",adj.toFixed(2)):""}
       ${stat("Testing",p.testOptional?"Test-optional":sat?`SAT ${sat}${p.act?` · ACT ${esc(p.act)}`:""}`:"—")}
       ${(rig.ap||rig.honors||rig.dual)?stat("Course rigor",[rig.ap?`${+rig.ap} AP/IB`:"",rig.honors?`${+rig.honors} Honors`:"",rig.dual?`${+rig.dual} dual`:""].filter(Boolean).join(" · ")):""}
       ${(()=>{ const rl=rigorLevel(p); return rl?stat("Schedule",RIGOR_WORD[rl.lv][0].toUpperCase()+RIGOR_WORD[rl.lv].slice(1)+(rl.est?" (est.)":"")):""; })()}
@@ -4745,8 +4746,8 @@ function familyMoneyBoxHtml(){ const fin=familyFinance(); const sai=fin.income?e
   return `<div class="cf-box"><div class="cf-h">Family finances <span>🔒 only parents can see these — kids see adjusted prices, never the income</span></div>
       <div class="cf-row"><div><label for="cf-income">Gross family income (per year)</label><div class="cf-money"><span>$</span><input id="cf-income" inputmode="numeric" autocomplete="off" placeholder="e.g. 185,000" value="${fin.income&&fin.exact?Number(fin.income).toLocaleString("en-US"):""}"></div></div>
         <div><span class="cf-lbl">Kids in college at the same time</span><div class="cf-kids" role="group" aria-label="Kids in college at the same time">${[1,2,3].map(n=>`<button type="button" data-cfk="${n}" class="${(fin.kids>=3?3:fin.kids)===n?"on":""}" aria-pressed="${(fin.kids>=3?3:fin.kids)===n}">${n===3?"3+":n}</button>`).join("")}</div></div>
-        <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button></div></div>
-      <div id="cf-msg" class="cf-msg" role="status"></div>
+        <div class="cf-go"><button class="small primary" id="cf-save" type="button">Save</button>${fin.income&&fin.exact?` <button class="small ghost" id="cf-clear" type="button">Clear</button>`:""}</div></div>
+      <div id="cf-msg" class="cf-msg" role="status">${fin.income&&fin.exact?"🔒 Saved — only parents can see this number. Clear it any time.":""}</div>
       ${sai!=null?`<div class="cf-sai">Estimated family contribution (the federal <b>Student Aid Index</b>): <b>~${money(sai)}/yr</b>${fin.kids>1?` · about <b>${money(Math.round(sai/fin.kids))}</b> per student at private schools with ${fin.kids} in college`:""}. That's roughly what a college that meets full need would ask you to pay. Savings and other assets aren't counted here, so the real number is often higher.</div>`:`<div class="cf-sai muted">Add your income to see what each school will likely cost <b>you</b> — not just the average.</div>`}
     </div>`; }
 function wireFamilyMoney(el, afterSave){
@@ -4754,6 +4755,7 @@ function wireFamilyMoney(el, afterSave){
   { let kids=(familyFinance().kids>=3?3:familyFinance().kids);
     el.querySelectorAll("[data-cfk]").forEach(b=>b.onclick=()=>{ kids=+b.dataset.cfk; el.querySelectorAll("[data-cfk]").forEach(x=>{ const on=+x.dataset.cfk===kids; x.classList.toggle("on",on); x.setAttribute("aria-pressed",on); }); });
     const inp=$("cf-income"); if(inp){ inp.oninput=()=>{ const d=inp.value.replace(/[^0-9]/g,""); inp.value=d?Number(d).toLocaleString("en-US"):""; }; inp.onkeydown=e=>{ if(e.key==="Enter") $("cf-save").click(); }; }
+    const cl=$("cf-clear"); if(cl) cl.onclick=async()=>{ cl.disabled=true; await saveFinance({ income:null, band:null, kids }); if(afterSave) afterSave(); const m=$("cf-msg"); if(m){ m.className="cf-msg ok"; m.textContent="Cleared ✓ — your income is removed; prices are averages until you add it again."; } };
     const sv=$("cf-save"); if(sv) sv.onclick=async()=>{ const raw=+(inp.value||"").replace(/[^0-9]/g,""); const m=$("cf-msg");
       if(inp.value && (!raw || raw<1000 || raw>20000000)){ m.textContent="That income doesn't look right — type the yearly amount, e.g. 185,000."; m.className="cf-msg err"; return; }
       sv.disabled=true; await setFamilyFinance(raw||0, kids); if(afterSave) afterSave();
@@ -6071,9 +6073,10 @@ function renderProfile(){
   const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
     const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
     const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
-    el.innerHTML = (base>0 && any) ? `Weighted GPA estimate: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
-      : (base>0 ? `<span class="muted">Add honors or AP courses to see a weighted GPA estimate.</span>` : "");
-    if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`; };
+    el.innerHTML = (base>0 && any) ? `Rigor-adjusted GPA: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
+      : (base>0 ? `<span class="muted">Add honors or AP courses to see your rigor-adjusted GPA.</span>` : "");
+    if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`;
+    if(base>0&&any) el.innerHTML+=`<div class="muted" style="margin-top:4px">Chances compare your <b>unweighted</b> GPA with admitted students, then count rigor and activities in their own steps — so nothing is counted twice.</div>`; };
   ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level"].forEach(id=>$(id).onchange=recalc); recalc();
   // high school context
   const hs=p.hs||{}; if($("pf-hs")) $("pf-hs").value=hs.name||"";
@@ -6165,7 +6168,7 @@ function renderProfileView(){
   sum.innerHTML = `<div class="card pv-card">
     <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
     <div class="pv-grid">
-      ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(weighted est. ${adj.toFixed(2)})</span>`:""}`:"")}
+      ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adjusted ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
       ${row("Grade", rig.grade?`${rig.grade}th`:"")}
       ${row("Interests", p.major?esc(p.major):"")}
@@ -6223,7 +6226,7 @@ function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==
 function showTxPreview(f){
   const el=$("tx-preview"); if(!el) return;
   const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${esc(v==null?"—":String(v))}</b></div>`;
-  const gpa = f.gpa!=null ? (Number(f.gpa).toFixed(2) + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (weighted)" : "—");
+  const gpa = f.gpa!=null ? (Number(f.gpa).toFixed(2) + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (school-reported weighted)" : "—");
   el.innerHTML=`<div class="txp-h">Here's what I read — check it, then fill your profile:</div>
     ${line(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpa)}
     ${f.gpaCalculated?`<div class="muted" style="font-size:11.5px;margin:-2px 0 6px">Your school doesn't print a GPA, so I worked it out from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count.</div>`:""}

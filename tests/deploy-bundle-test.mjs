@@ -32,6 +32,8 @@ for (const W of [390, 1280]) {
     sb = { from: t => ({ upsert: async r => { calls.push({ t, r }); return {}; } }) }; await setFamilyFinance(240000, 3); sb = real; DEMO = true;
     const c = calls.find(x => x.t === 'family_finance'); const pf = calls.find(x => x.t === 'preferences');
     return { saved: !!c && c.r.income_exact === 240000 && c.r.kids === 3 && c.r.band === 4 && c.r.user_id === 'u1', prefsStripped: !pf || !/incomeExact|incomeBand|kidsInCollege/.test(JSON.stringify(pf.r.weights)) }; });
+  K.terms = await page.evaluate(() => { const h = document.documentElement.innerHTML; goto('profile'); renderProfile(); const t = document.getElementById('v-profile').innerText; return { noWeightedEst: !/weighted est|Weighted GPA/i.test(h.replace(/unweighted/gi, '').replace(/school-reported weighted/gi, '')), dualFixed: /dual-enrollment \+1\.0/.test(h), whyTwo: /Why two GPAs/.test(h) }; });
+  K.clearBtn = await page.evaluate(() => { state.me = { ...state.me, role: 'parent' }; state.fin = { income: 190000, band: 4, kids: 1, exact: true }; goto('profile'); renderProfile(); const el = document.getElementById('pf-family-money'); return { clear: !!el.querySelector('#cf-clear'), lockNote: /only parents can see this number/.test(el.innerText) }; });
   // ---------- photo delete rules ----------
   K.photoRules = await page.evaluate(() => { state.me = { ...state.me, user_id: 'me1', role: 'student' }; const mine = { id: 'p1', user_id: 'me1' }, theirs = { id: 'p2', user_id: 'dad' };
     const kid = [canDelPhoto(mine), canDelPhoto(theirs)]; state.me = { ...state.me, role: 'parent' }; const par = [canDelPhoto(mine), canDelPhoto(theirs)]; return { kidOwnOnly: kid[0] && !kid[1], parentAny: par[0] && par[1] }; });
