@@ -2612,8 +2612,8 @@ function matchScore(c, w){
   const s=c.scorecard, N=state.norm||{net:{min:0,max:1},earn:{min:0,max:1},size:{min:0,max:1}};
   const comps=[]; // {val 0..1, weight}
   // affordability (importance)
-  const net = (typeof s.netPrice==="number")?s.netPrice:s.costAvg;
-  if(typeof net==="number") comps.push({v:1-nrm(net,N.net), wt:w.afford});
+  const net = matchPrice(c);   // Oct 14: same price the card shows (your family's likely cost, out-of-state included) — not the all-family average
+  if(typeof net==="number") comps.push({v:Math.max(0,Math.min(1,1-nrm(net,N.net))), wt:w.afford});
   // outcomes (importance): blend earnings + grad rate
   const out = (typeof s.medianEarnings10yr==="number"?nrm(s.medianEarnings10yr,N.earn):0.5)*0.6 + (typeof s.gradRate==="number"?s.gradRate:0.5)*0.4;
   comps.push({v:out, wt:w.outcomes});
@@ -5981,11 +5981,13 @@ function renderDeadlines(){
 }
 /* ========== ZOE PICKS (recommends) ========== */
 function joinList(a){ a=a.filter(Boolean); if(a.length<=1) return a[0]||""; if(a.length===2) return a[0]+" and "+a[1]; return a.slice(0,-1).join(", ")+", and "+a[a.length-1]; }
+function matchPrice(c){ const s=c.scorecard||{}; try{ const y=yourNet(c); if(y&&typeof y.v==="number") return Math.max(0,y.v); }catch(e){}
+  const a=avgNet(c); if(a!=null) return a; const k=stickerPrice(c); return k!=null?k:null; }
 function recWhy(c,w){
   const bits=[]; const s=c.scorecard||{}, L=c.lifestyle||{};
   const names={greek:"a social/greek scene",sports:"big-time sports",outdoors:"the outdoors nearby",city:"city life",small:"a small, close-knit feel",big:"a big lively campus"};
   viewerInterests().forEach(t=>{ const v=interestSat(t,c,s,L); if(v!=null&&v>=0.6&&names[t]) bits.push(names[t]); });
-  if((w.afford!=null?w.afford:5)>=7 && typeof s.netPrice==="number" && s.netPrice<20000) bits.push("a low net price");
+  if((w.afford!=null?w.afford:5)>=7 && matchPrice(c)!=null && matchPrice(c)<20000) bits.push("a low net price");
   if((w.outcomes!=null?w.outcomes:5)>=7 && typeof s.medianEarnings10yr==="number" && s.medianEarnings10yr>60000) bits.push("strong earnings outcomes");
   if((w.prestige||0)>=7 && typeof s.admissionRate==="number" && s.admissionRate<0.3) bits.push("the selectivity you're after");
   return bits.slice(0,3);
