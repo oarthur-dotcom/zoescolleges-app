@@ -4411,7 +4411,7 @@ function renderExList(q){
   let list = hits ? hits.map(h=>h.c) : state.catalog.slice();
   const lvlOK=c=>!fLevel || (c.degreeType||"")===fLevel;
   const hiddenByLevel = fLevel ? list.filter(c=>!lvlOK(c)).length : 0;
-  list = list.filter(lvlOK);
+  list = list.filter(lvlOK); const preFilter=list.length;
   list = list.filter(c=>{ const sc=c.scorecard||{}, L=c.lifestyle||{};
     if(fSize){ const z=sc.size; if(typeof z!=="number")return false; if(fSize==="s"&&!(z<5000))return false; if(fSize==="m"&&!(z>=5000&&z<15000))return false; if(fSize==="l"&&!(z>=15000))return false; }
     if(fSel){ const a=sc.admissionRate; if(a==null)return false; if(fSel==="r"&&!(a<0.25))return false; if(fSel==="t"&&!(a>=0.25&&a<0.6))return false; if(fSel==="k"&&!(a>=0.6))return false; }
@@ -4444,7 +4444,9 @@ function renderExList(q){
   const limit=renderExList._limit||250;
   const lvlName={"4-year":"4-year","2-year":"2-year","graduate":"graduate-only"}[fLevel]||"";
   $("excount").innerHTML = `<b>${withM.length}</b> ${lvlName?lvlName+" ":""}school${withM.length===1?"":"s"}${withM.length>limit?` · showing the top ${limit}`:""}${state.catalog.length?"":" — catalog still loading"}`
+    + (q && preFilter>withM.length ? ` <span class="muted">· ${preFilter-withM.length} hidden by your filters — <a href="#" id="ex-clearf">clear filters</a></span>` : "")
     + (hiddenByLevel&&q?` <span class="muted">· ${hiddenByLevel} more match${hiddenByLevel===1?"":"es"} in other school types — <a href="#" id="ex-showall">show all types</a></span>`:"");
+  const cf=$("ex-clearf"); if(cf) cf.onclick=e=>{ e.preventDefault(); ["ex-size","ex-sel","ex-ch","ex-sport","ex-div","ex-cost","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>{ const el=$(id); if(el) el.value=""; }); exFiltersLabel(); renderExList($("exsearch").value||""); };
   const sa=$("ex-showall"); if(sa) sa.onclick=e=>{ e.preventDefault(); $("ex-level").value=""; renderExList($("exsearch").value||""); };
   $("exlist").innerHTML = withM.slice(0,limit).map(({c,m,ch}) => {
     const added = have.has(c.id); const sc=c.scorecard||{}; if(ch===undefined) ch=chOf(c);
@@ -4465,7 +4467,8 @@ function renderExList(q){
       <button class="openlink cmp-btn ${inCmp(c.id)?"on":""}" data-cmp="${esc(c.id)}">${inCmp(c.id)?"✓ Compare":"⇄ Compare"}</button>
       <button class="small ${added?"":"primary"}" data-exadd="${esc(c.id)}" ${added?"disabled":""}>${added?"On board ✓":"Add"}</button>
     </div>`;
-  }).join("") + (withM.length>limit?`<div style="text-align:center;margin:14px 0"><button class="small" id="ex-more">Show ${Math.min(250,withM.length-limit)} more</button></div>`:"") || `<div class="card muted">No matches.</div>`;
+  }).join("") + (withM.length>limit?`<div style="text-align:center;margin:14px 0"><button class="small" id="ex-more">Show ${Math.min(250,withM.length-limit)} more</button></div>`:"") || `<div class="card muted">No matches${preFilter>0?` — ${preFilter} school${preFilter===1?"":"s"} match your search but are hidden by filters. <a href="#" id="ex-clearf2">Clear filters</a>`:"."}</div>`;
+  { const c2=$("ex-clearf2"); if(c2) c2.onclick=e=>{ e.preventDefault(); const c=$("ex-clearf"); ["ex-size","ex-sel","ex-ch","ex-sport","ex-div","ex-cost","ex-pol","ex-guns","ex-lgbtq","ex-relig","ex-prox"].forEach(id=>{ const el=$(id); if(el) el.value=""; }); exFiltersLabel(); renderExList($("exsearch").value||""); }; }
   const more=$("ex-more"); if(more) more.onclick=()=>{ renderExList._limit=limit+250; renderExList($("exsearch").value||""); };
   wireOpen($("exlist"));
   $("exlist").querySelectorAll("[data-exadd]").forEach(el => el.onclick = async () => { await addFromCatalog(el.dataset.exadd); renderExList($("exsearch").value||""); });
