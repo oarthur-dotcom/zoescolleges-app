@@ -620,7 +620,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
 .why-panel{margin-top:8px}
-.b3-ap .b3-v{color:var(--teal)}
+.b3-ap .b3-v{color:var(--teal)}.of50{font-size:.6em;font-weight:700;opacity:.65;margin-left:1px;letter-spacing:0}
 .rp-tag.ap{color:var(--teal);border-color:var(--teal);font-weight:800}.rp-stat.ap b{color:var(--teal)}
 .ap-cmp{font-size:18px;color:var(--teal)}
 .apm{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin:0 0 12px;background:var(--surface,#fff)}
@@ -2837,7 +2837,7 @@ function apBlockHtml(ex,noLink){ const pw=ex&&ex.power; if(!pw) return "";
   const rows=pw.terms.map(t=>{ const w=Math.min(50,Math.abs(t.pts)*2.5); return `<div class="ap-row"><span>${AP_LABELS[t.k]}</span><span class="ap-track"><span class="ap-bar ${t.pts>=0?"up":"dn"}" style="width:${w}%"></span></span><span class="ap-pts">${t.pts>=0?"+":"−"}${Math.abs(t.pts).toFixed(1)}</span></div>`; }).join("")
     + (pw.hasT?"":`<div class="ap-row"><span>Test scores</span><span class="ap-note" style="grid-column:2 / 4">${ex.inputs&&ex.inputs.testOptional?"test-optional — not counted; the rest carry more weight":"none entered — not counted"}</span></div>`)
     + (pw.major?`<div class="ap-row"><span>Competitive major</span><span class="ap-track"><span class="ap-bar dn" style="width:${Math.min(50,Math.abs(pw.major)*2.5)}%"></span></span><span class="ap-pts">−${Math.abs(pw.major).toFixed(1)}</span></div>`:"");
-  return `<div class="ap-card"><div class="ap-top"><div class="ap-num" title="Admit Power">${pw.score}</div><div><b>Admit Power</b> <span class="muted" style="font-size:12px">· 50 = the typical admitted student here</span>
+  return `<div class="ap-card"><div class="ap-top"><div class="ap-num" title="Admit Power">${pw.score}<small class="of50">/50</small></div><div><b>Admit Power</b> <span class="muted" style="font-size:12px">· 50 = the typical admitted student here</span>
     <div class="ap-gap">${gap===0?"Right at the typical admit.":`You're <b>${Math.abs(gap)} point${Math.abs(gap)===1?"":"s"} ${gap>0?"above":"below"}</b> the typical admit here.`}${top&&gap<8?` Biggest lever: <b>${esc(top.label)}</b> (+${top.d} pts).`:""}</div></div></div>
     <div class="ap-rows" aria-label="How your Admit Power adds up"><div class="ap-row"><span class="muted">Starts at</span><span class="ap-note" style="grid-column:2 / 4">50 — the typical admitted student at this school</span></div>${rows}</div>
     <div class="ap-note" style="margin-top:8px">An estimate, not a prediction.${noLink?"":` <button class="linklike" data-sauce>Want to know our secret sauce?</button>`}</div></div>`; }
@@ -3575,7 +3575,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
       <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
-      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score:"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 = typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
+      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"vs 50 typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
 function renderDiscover(){
@@ -3835,7 +3835,7 @@ function renderReport(){
     <div class="rp-sub">${p.hs&&p.hs.name?esc(p.hs.name)+" · ":""}${(p.rigor&&+p.rigor.grade)?`Grade ${+p.rigor.grade} · `:""}${esc(fam)} · ${esc(when)}</div>
     <div class="rp-stats">
       ${stat("Schools on the list",rows.length)}
-      ${(()=>{ const sc=rows.map(r=>r.ch&&r.ch.score).filter(v=>v!=null); return sc.length?stat("⚡ Avg Admit Power",Math.round(sc.reduce((a,b)=>a+b,0)/sc.length),"ap"):""; })()}
+      ${(()=>{ const sc=rows.map(r=>r.ch&&r.ch.score).filter(v=>v!=null); return sc.length?stat("⚡ Avg Admit Power",Math.round(sc.reduce((a,b)=>a+b,0)/sc.length)+"/50","ap"):""; })()}
       ${bal?stat("Likely",bal.c.likely,"lk")+stat("Target",bal.c.target,"tg")+stat("Reach",bal.c.reach,"rc"):""}
       ${bal?stat("List balance",bal.grade,"gr"):""}
     </div>
@@ -3866,7 +3866,7 @@ function renderReport(){
       return `<div class="rp-school">
         <div class="rp-sh">${thumb(r)}<div style="min-width:0;flex:1"><h3>${r.rank?`<span class="rp-rank">#${r.rank}</span> `:""}${esc(r.s.name)}</h3>
           <div class="rp-muted">${esc([r.info&&r.info.city,r.info&&r.info.state].filter(Boolean).join(", "))}${estText(r.info)}</div>
-          <div class="rp-tags">${r.ch&&r.ch.score!=null?`<span class="rp-tag ap">⚡ Admit Power ${r.ch.score}</span>`:""}${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
+          <div class="rp-tags">${r.ch&&r.ch.score!=null?`<span class="rp-tag ap">⚡ Admit Power ${r.ch.score}/50</span>`:""}${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
         <div class="rp-grid">
           ${stat("Admit rate",pct(sc.admissionRate))}${stat("Grad rate",pct(sc.gradRate))}
           ${stat("Cost / yr",n?`${money(n.v)}<small>${esc(n.src)}</small>`:"—")}${stat("Earnings (10 yr)",money(sc.medianEarnings10yr))}
@@ -4208,11 +4208,11 @@ function apMeterHtml(p,forReport){
   const nm=forReport?"rp":"pf";
   const rows=d.steps.map(s=>{ const note=s.have?(s.delta>=0?"+":"")+s.delta:(s.k==="tests"&&d.to?"test-optional — not counted":"not entered yet");
     return `<div class="apm-row ${s.have?"on":""}"><span class="apm-k">${s.have?"✓":"○"} ${s.label}</span><span class="apm-v">${note}</span></div>`; }).join("");
-  return `<div class="apm ${nm}" aria-label="Admit Power build-up"><div class="apm-top"><div class="apm-num">${d.total}</div><div><b>⚡ Admit Power</b><div class="apm-sub">Starts at 0 and builds as you add grades, rigor, activities, then tests. Average across ${esc(d.basis)}; 50 means right at the typical admitted student.</div></div></div>
+  return `<div class="apm ${nm}" aria-label="Admit Power build-up"><div class="apm-top"><div class="apm-num">${d.total}<small class="of50">/50</small></div><div><b>⚡ Admit Power</b><div class="apm-sub">Starts at 0 and builds as you add grades, rigor, activities, then tests. Average across ${esc(d.basis)}; 50 means right at the typical admitted student.</div></div></div>
     <div class="apm-bar"><i style="width:${apClamp(d.total,0,100)}%"></i><b style="left:50%"></b></div>${rows}</div>`;
 }
 function apChip(ch,open){ if(!ch||ch.score==null) return ""; const t=`Admit Power ${ch.score} — 50 is the typical admitted student here`;
-  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}</button>`:`<span class="chip ap-chip" title="${t}">⚡ Admit Power ${ch.score}</span>`; }
+  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}/50</button>`:`<span class="chip ap-chip" title="${t}">⚡ Admit Power ${ch.score}/50</span>`; }
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
@@ -4301,7 +4301,7 @@ function renderSchool(x){
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
         <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
-        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score:"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 = typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
+        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"vs 50 typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
     ${info?famFitHtml(info):""}
@@ -5818,7 +5818,7 @@ function buildCompare(){
   const cols=ids.map(id=>{ const info=catInfo(id); return {rec:state.schools.find(s=>s.school_id===id) || (info&&{school_id:id,name:info.name,city:info.city,state:info.state}), info}; }).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
-    ["⚡ Admit Power (50 = typical admit)", c=>{const ch=chanceFor(c.info); return ch&&ch.score!=null?`<b class="ap-cmp">${ch.score}</b>`:"—";}],
+    ["⚡ Admit Power (50 = typical admit)", c=>{const ch=chanceFor(c.info); return ch&&ch.score!=null?`<b class="ap-cmp">${ch.score}/50</b>`:"—";}],
     ["My fit %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
     ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
     ["Admission rate", c=>pct(g(c).admissionRate)],
@@ -5839,7 +5839,7 @@ function buildCompare(){
   ];
   const n=cols.length;
   const M=[
-    {k:"⚡ Admit Power", get:c=>{const ch=chanceFor(c.info);return ch&&ch.score!=null?ch.score:null;}, fmt:v=>v==null?"—":String(v), dir:"hi"},
+    {k:"⚡ Admit Power", get:c=>{const ch=chanceFor(c.info);return ch&&ch.score!=null?ch.score:null;}, fmt:v=>v==null?"—":v+"/50", dir:"hi"},
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
