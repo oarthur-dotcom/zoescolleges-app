@@ -4425,6 +4425,7 @@ function _searchOne(qn){
     else if(alias && e.c.name===alias) r=100;
     else if(e.n===qn) r=95;
     else if(qc.length>=2 && e.ini===qc) r=85;
+    else if(qn.length>=5 && e.n.startsWith(qn)) r=76+10*(qn.length/e.n.length);   // typed the start of the name: "community college of aur", "univ of ark"
     else if((" "+e.n).includes(" "+qn)) r=70;          // name or any word in it starts with the query
     else if(qn.length>=5 && e.n.includes(qn)) r=22;     // mid-word hits ("shire" in "hampshire") rank far below real name matches
     else if(e.city && (e.city===qn || e.city.startsWith(qn))) r=40;
@@ -4434,12 +4435,13 @@ function _searchOne(qn){
     if(r) out.push({c:e.c, rank:r});
   }
   // Typo tolerance (#41): nothing matched well -> allow 1 typo per word (2 for long words), e.g. "stanferd", "vanderbelt".
-  if(!out.some(o=>o.rank>=40) && qn.length>=4){
+  const _qw0=qn.split(" ").filter(w=>w.length>=4 && !_STOP.has(w)); const _hasAll=o=>_qw0.every(w=>(" "+_norm(o.c.name)).includes(" "+w));
+  if(!out.some(o=>o.rank>=40 && _hasAll(o)) && qn.length>=4){
     const qw=qn.split(" ").filter(w=>w.length>=4 && !_STOP.has(w));
     if(qw.length) for(const e of _index()){
       if(out.some(o=>o.c===e.c)) continue;
       const nw=e.n.split(" ");
-      if(qw.every(w=>nw.some(x=>Math.abs(x.length-w.length)<=2 && _lev(x,w)<=(w.length>=8?2:1)))){ const exact=qn.split(" ").filter(w=>w.length<4&&nw.includes(w)).length; out.push({c:e.c, rank:isGradOnly(e.c)?1:30+exact*4, fuzzy:true}); }
+      if(qw.every(w=>nw.some(x=>Math.abs(x.length-w.length)<=2 && _lev(x,w)<=(w.length>=8?2:1)))){ const exact=qn.split(" ").filter(w=>w.length<4&&nw.includes(w)).length; const dist=qw.reduce((t,w)=>t+Math.min(...nw.map(x=>_lev(x,w))),0); out.push({c:e.c, rank:isGradOnly(e.c)?1:Math.max(12,34-3*dist+exact*4), fuzzy:true}); }
     }
   }
   const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
