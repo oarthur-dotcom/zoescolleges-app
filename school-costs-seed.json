@@ -1,5 +1,95 @@
 [
  {
+  "school_id": "college-of-charleston",
+  "academic_year": "2026-27",
+  "basis": "not-stated",
+  "in_state": {
+   "total": 35270,
+   "tuition": 12518,
+   "fees": 710,
+   "housing": 15237,
+   "food": null,
+   "books": 1590,
+   "transportation": 2760,
+   "personal": 2365
+  },
+  "out_of_state": {
+   "total": 63856,
+   "tuition": 39344,
+   "fees": 710,
+   "housing": 15237,
+   "food": null,
+   "books": 1590,
+   "transportation": 4520,
+   "personal": 2365
+  },
+  "source_url": "https://charleston.edu/cost-aid/tuition-fees/",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Published 2026-27 undergraduate budget assumes 12 credits each semester and includes fall/spring. The single table does not explicitly label an on-campus, off-campus or commuter basis; its room/board explanation uses weighted averages and refers to on-campus residence halls/houses and meal plans. Housing includes food; no separate amounts are printed. Fees are combined technology/athletic/library fees. Both budgets also print $90 loan fees: schema components sum to $35,180/$63,766; including $90 exactly reconciles printed totals $35,270/$63,856. No unexplained remainder. These are institutional average estimates and rates may change; actual housing/meal selections can differ without changing the standard COA. Transportation includes commuting, parking and four annual round trips home. No separate health-insurance amount or alternate undergraduate housing-budget table is printed here. Web fetch failed, so the complete 2026-27 table and definitions were verified in the real cloud browser; the expanded in-state FAQ corroborated all seven costs and total.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "ithaca-college",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 83020,
+   "tuition": 59440,
+   "fees": 300,
+   "housing": 16520,
+   "food": null,
+   "books": 850,
+   "transportation": 550,
+   "personal": 1100
+  },
+  "out_of_state": {
+   "total": 83020,
+   "tuition": 59440,
+   "fees": 300,
+   "housing": 16520,
+   "food": null,
+   "books": 850,
+   "transportation": 550,
+   "personal": 1100
+  },
+  "source_url": "https://www.ithaca.edu/tuition-financial-aid/undergraduate-tuition-and-fees",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Published estimated annual undergraduate COA, full-time 12\u201318 credits per semester. The college publishes one undergraduate schedule without a state-residency distinction; that schedule is used for both residency fields. Housing field contains combined housing and meals; food is null. Fees field is the $300 Student Support and Technology Fee. Additional health insurance $4,260 is included in the printed COA but can be waived with comparable coverage. Listed fields plus insurance exactly equal $83,020, with no remainder. Books, personal, and transportation are estimates. A separate $325 first-year orientation charge is published but not included in this printed COA. On-campus basis is corroborated by https://www.ithaca.edu/tuition-financial-aid/undergraduate-tuition-and-fees/housing-and-meal-costs : standard double $9,346/year and default residence meal plan $7,174/year match the combined allowance. Alternatives include single/Emerson rooms $10,692, Garden Apartments $11,382, College Circle double $11,666 or single $13,548; upgraded residence meal plans $7,624 or $8,144 annually. Local meal plans are also published, but no alternative full COA total was found.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "oregon-state-university",
+  "academic_year": "2026-27",
+  "basis": "not-stated",
+  "in_state": {
+   "total": 38568,
+   "tuition": 16014,
+   "fees": null,
+   "housing": 18066,
+   "food": null,
+   "books": 600,
+   "transportation": 930,
+   "personal": 2958
+  },
+  "out_of_state": {
+   "total": 65013,
+   "tuition": 42459,
+   "fees": null,
+   "housing": 18066,
+   "food": null,
+   "books": 600,
+   "transportation": 930,
+   "personal": 2958
+  },
+  "source_url": "https://financialaid.oregonstate.edu/cost-attendance",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Corvallis campus 2026-2027 resident/nonresident undergraduate estimates, 3 terms (fall/winter/spring), 15 credits per term. Basis is not-stated because the published living-expense allowance is explicitly an average across BOTH on-campus and off-campus arrangements, rather than a distinct on-campus budget; it applies to students living on campus but only those students are directly billed. Tuition includes fees; housing includes food; separate fee/food amounts are not published in this COA table. Printed components sum exactly to published totals $38,568/$65,013. Billable subtotals $34,080/$60,525 are not COA totals. COA expressly excludes loan-fee allowance, which is added for loan recipients; no amount published. Tuition/fees may vary by program, credits, residency, degree level and final approvals. WUE is a competitively awarded scholarship for limited qualifying students, not an automatic nonresident-tuition reduction. Lower-cost housing options may exist; no alternate on/off-campus COA totals printed.",
+  "collected_by": "Cyrus"
+ },
+ {
   "school_id": "sc-110592",
   "academic_year": "2026-27",
   "basis": "on-campus",
@@ -420,6 +510,336 @@
   "collected_by": "Cyrus"
  },
  {
+  "school_id": "sc-169798",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 36572,
+   "tuition": 17352,
+   "fees": 120,
+   "housing": 14748,
+   "food": null,
+   "books": 1000,
+   "transportation": 1260,
+   "personal": 2010
+  },
+  "out_of_state": {
+   "total": 36572,
+   "tuition": 17352,
+   "fees": 120,
+   "housing": 14748,
+   "food": null,
+   "books": 1000,
+   "transportation": 1260,
+   "personal": 2010
+  },
+  "source_url": "https://www.emich.edu/finaid/understanding/costs/index.php",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Full-time undergraduate estimate, verified in the real cloud browser after web extraction failed. Resident table explicitly applies to Michigan residents and all domestic undergraduates, so domestic out-of-state uses the same figures. Housing combines housing and food; fees is the printed registration fee. Additional loan fees $82 per residency are included in each total; all printed items plus loan fees sum exactly to $36,572. Domestic alternatives: off-campus $37,584; commuter $25,524. Junior/senior estimated program fees add $2,520, with on-campus total $39,092. International students are the school's separate non-resident category: on-campus total $37,216, including transportation $1,904. Source conflict: the page retains provisional-tuition wording and registration fee $120, while its linked June 25, 2026 announcement approves a 2.5% tuition increase and a $225/semester Student Services Fee replacing individual fees (https://today.emich.edu/story/story/13343). Published COA table figures preserved without adjustment.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-171571",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 35402,
+   "tuition": 16772,
+   "fees": null,
+   "housing": 13326,
+   "food": null,
+   "books": 700,
+   "transportation": 1216,
+   "personal": 3320
+  },
+  "out_of_state": {
+   "total": 43097,
+   "tuition": 23867,
+   "fees": null,
+   "housing": 13326,
+   "food": null,
+   "books": 700,
+   "transportation": 1816,
+   "personal": 3320
+  },
+  "source_url": "https://www.oakland.edu/financialaid/costs/cost-of-attendance/index",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "General-fees numeric line not printed; fees is null. Fall/winter full-time freshman/sophomore budget (fewer than 56 credits; full-time is 12+ credits per semester). Housing combines living expenses, food and on-campus housing. No general university fees per https://www.oakland.edu/financialaid/costs/tuition-rates/index; separate direct-loan fees $68 and professional licensure/certification/credential $0 are included in each COA. Printed items plus these extras reconcile exactly to $35,402/$43,097. Billable subtotals $30,098/$37,193 are not the COA totals. Alternatives, resident/nonresident: off-campus $35,156/$42,851; with parents $27,928/$35,023. Junior/senior on-campus tuition $18,724/$24,563 and COA $37,354/$43,793. RN-to-BSN on-campus COA $28,625/$29,225. Approved Parent PLUS loans add $248 per semester. Personal allowance includes healthcare. Differential tuition applies in health sciences, business, nursing, engineering/computer science; main estimate is not a program-specific quote.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-190150",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 99774,
+   "tuition": 72800,
+   "fees": 4160,
+   "housing": 12522,
+   "food": 7128,
+   "books": 1320,
+   "transportation": null,
+   "personal": 1844
+  },
+  "out_of_state": {
+   "total": 99774,
+   "tuition": 72800,
+   "fees": 4160,
+   "housing": 12522,
+   "food": 7128,
+   "books": 1320,
+   "transportation": null,
+   "personal": 1844
+  },
+  "source_url": "https://cc-seas.financialaid.columbia.edu/eligibility/facts",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Columbia College conventional first-year on-campus budget; one schedule without state-residency distinctions. First-years must live on campus. Printed components sum to the printed $99,774 total, remainder $0; variable travel is additional, not zero. Fees include $730 one-time transcript/orientation charges. Continuing on-campus and off-campus totals are $100,884: fees $3,430, housing $13,904, food $7,586; other components unchanged. Living-with-family total $88,060 includes combined food/housing $7,586 and transportation $1,080. Travel examples: Indiana $944, California $1,254, covering two round trips; neither selected. Health insurance excluded: fall $2,218, spring $3,605. Other conditional extras: international services $175/semester, Juilliard $4,600/semester, variable course fees, dependent care. Course-fee waivers generally accompany Columbia grants except physical education. Source comparison: https://bulletin.columbia.edu/columbia-college/fees-expenses-financial-aid/ prints $99,044 plus travel and separately $625 orientation/$105 document fees; its $730 difference is included in the selected first-year table. Bulletin combined room/board $19,650 and books/personal $3,164 reconcile exactly with selected components. Costs before aid.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-196088",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 36530,
+   "tuition": 7070,
+   "fees": 3966,
+   "housing": 10376,
+   "food": 8230,
+   "books": 1500,
+   "transportation": 3078,
+   "personal": 2238
+  },
+  "out_of_state": {
+   "total": 58530,
+   "tuition": 29070,
+   "fees": 3966,
+   "housing": 10376,
+   "food": 8230,
+   "books": 1500,
+   "transportation": 3078,
+   "personal": 2238
+  },
+  "source_url": "https://www.buffalo.edu/financialaid/costs/costs.html",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Annual 2026-2027 undergraduate on-campus COA. Financial Aid prints fees separately: Academic Excellence $626, Student Activity $218, Comprehensive $3,122. The $3,966 fees aggregate is explicitly printed by Admissions at https://www.buffalo.edu/admissions/costs/tuition.html, not inferred. Both budgets include an additional $72 Direct Loan origination fee: listed fields total $36,458/$58,458, plus $72 equals printed $36,530/$58,530; no unexplained remainder. Admissions specifies a double-occupancy residence-hall room and Flex 19 meal plan; amounts are estimates subject to change. Off-campus COA is also $36,530/$58,530; living-with-parent COA is $22,698/$44,698 with room $2,550 and meals $2,224. Domestic nonresident figures used; Admissions separately lists international total $61,030 and fees $6,466 including international student fee and SUNY health insurance.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-199139",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 27476,
+   "tuition": 3926,
+   "fees": 3285,
+   "housing": 10200,
+   "food": 5662,
+   "books": 600,
+   "transportation": 1340,
+   "personal": 2360
+  },
+  "out_of_state": {
+   "total": 46228,
+   "tuition": 22018,
+   "fees": 3285,
+   "housing": 10200,
+   "food": 5662,
+   "books": 600,
+   "transportation": 2000,
+   "personal": 2360
+  },
+  "source_url": "https://admissions.charlotte.edu/financing-your-education/cost-of-attendance/",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Official admissions full-year, full-time undergraduate on-campus estimate for NC residents/nonresidents. Additional printed loan fees $103 for each residency are included in the COA; listed fields plus loan fees sum exactly to $27,476/$46,228. Nonresident Miscellaneous is mapped to personal. All costs are identified as subject to change pending legislative approval. Financial-aid/Niner Central estimating-costs page was checked first but live web/browser retrieval failed with 502 certificate verification error; indexed financial-aid content showed earlier years only and was not substituted. On-campus 2026-27 values are directly printed on admissions. Health insurance has no amount in this budget; no amount added. Off-campus/at-home budgets are linked to Niner Central but not verified for 2026-27.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-200004",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 22906.82,
+   "tuition": 4598,
+   "fees": null,
+   "housing": 7233.74,
+   "food": 5799.4,
+   "books": 406.74,
+   "transportation": 1885.14,
+   "personal": 1686.9
+  },
+  "out_of_state": {
+   "total": 28906.82,
+   "tuition": 10598,
+   "fees": null,
+   "housing": 7233.74,
+   "food": 5799.4,
+   "books": 406.74,
+   "transportation": 1885.14,
+   "personal": 1686.9
+  },
+  "source_url": "https://www.wcu.edu/apply/financial-aid/COA.aspx",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Financial-aid COA for full-time undergraduate enrollment, 12+ credits; housing allowance is explicitly based on on-campus costs. Tuition field contains published combined tuition and fees; separate fees not published. Extra published lines: loan fees $77 and new-student computer $1,219.90, for each residency. Listed fields plus those extras exactly equal each printed total, with no remainder. Computer allowance applies automatically to new students; continuing students can request it after 3+ years. Off-campus housing may be reviewed individually. Distance-education undergraduate alternative totals are $23,223.54 resident and $29,223.46 nonresident; not mixed into this record. Source conflict/context: https://www.wcu.edu/apply/tuition-and-fees/fall-spring-undergraduate-tuition-and-fees.aspx publishes per-semester tuition/fees $3,690 resident, $6,690 new AY26-27 nonresident, and $5,690 continuing AY25-26 nonresident, including $1,312 waivable health insurance per semester. Those billing figures do not directly match the COA tuition/fees line; the financial-aid COA was retained unchanged. NC Promise cohort pricing and proposal/change caveats apply. Residence-hall technology fee is $92 per semester; program-specific fees and parking can add costs. Billing-page sample totals are semester direct costs, not annual COA.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-207388",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 34590,
+   "tuition": 14740,
+   "fees": null,
+   "housing": 12500,
+   "food": null,
+   "books": 1430,
+   "transportation": 2350,
+   "personal": 3570
+  },
+  "out_of_state": {
+   "total": 50850,
+   "tuition": 31000,
+   "fees": null,
+   "housing": 12500,
+   "food": null,
+   "books": 1430,
+   "transportation": 2350,
+   "personal": 3570
+  },
+  "source_url": "https://go.okstate.edu/scholarships-financial-aid/cost-of-attendance/undergraduate-cost/in-state-cost/previous-year-cost",
+  "checked": "2026-10-14",
+  "confidence": "medium",
+  "notes": "NOTE FROM CLAUDE: Oklahoma State's own PDF worksheets print a different on-campus total ($33,700 / $49,220) than the dated web tables used here; medium confidence until they agree. August 2026-May 2027 undergraduate estimates, 30 credit hours, Stillwater main campus. Tuition contains published combined tuition-and-fees; fees is null. Housing contains published combined housing-and-food; food is null. In-state evidence: https://go.okstate.edu/scholarships-financial-aid/cost-of-attendance/undergraduate-cost/in-state-cost/previous-year-cost. Nonresident evidence: https://go.okstate.edu/scholarships-financial-aid/cost-of-attendance/undergraduate-cost/out-of-state-cost/previous-year-cost. The Financial Aid hub offers both 2027-2028 and 2026-2027 links. Its 2026-2027 links lead to these previous-year-cost URLs, whose headings and August 2026-May 2027 date ranges explicitly match the requested year; no 2027-2028 amounts are used. Printed line items sum exactly to $34,590/$50,850; no separately listed loan/insurance allowance or unexplained remainder. Direct subtotals $28,670/$44,930 are not COA totals. Alternative totals: off-campus $35,330/$51,590; commuter $30,800/$47,060; on-campus with dependents $35,120/$51,380. Source conflict: 2026-27 PDF worksheets instead print tuition/fees $13,920/$29,440, personal $3,500, and on-campus COA $33,700/$49,220. Selected the explicitly year-labeled HTML tables linked under 2026-2027 by Financial Aid; relative revision timing versus the worksheets is not verified. The contradictory PDF figures are preserved here and are not mixed with the selected HTML figures. Conflicting PDFs: https://go.okstate.edu/scholarships-financial-aid/files/documents/26-27/info-sheets/college_cost_worksheet_in_state_2026_2027.pdf and https://go.okstate.edu/scholarships-financial-aid/files/documents/26-27/info-sheets/college_cost_worksheet_out_of_state_2026_2027.pdf.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-207500",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 40145,
+   "tuition": 5532,
+   "fees": 9971,
+   "housing": 16381,
+   "food": null,
+   "books": 800,
+   "transportation": 1728,
+   "personal": 5665
+  },
+  "out_of_state": {
+   "total": 58823,
+   "tuition": 24210,
+   "fees": 9971,
+   "housing": 16381,
+   "food": null,
+   "books": 800,
+   "transportation": 1728,
+   "personal": 5665
+  },
+  "source_url": "https://www.ou.edu/sfc/estimating-costs/cost-of-attendance",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Published 2026-2027 fall/spring, 30-credit estimate for incoming first-year students. Housing includes food; no separate food amount. Both residency tables also print $68 loan fees: displayed schema components sum to $40,077/$58,755, and adding $68 exactly reconciles the published $40,145/$58,823 totals. Direct-cost subtotals $32,684/$51,362 are not COA totals. Alternatives: on-campus with children totals $37,900/$56,578 (housing/food $14,136); off-campus totals $37,918/$56,596 (housing/food $14,154). Tuition/fees vary by courses; full-time flat rate covers 12\u201321 hours per semester at the 15-hour rate. Aviation flying majors have estimated additional tuition/fees $15,000 annually; specified architecture/art/engineering/computer-science/petroleum-engineering students have estimated additional one-time laptop cost $2,000. Separate international budget includes medical insurance $2,795 and $154 annual international maintenance fee; not applied to domestic nonresidents. Admissions page https://www.ou.edu/admissions/affordability/cost corroborates selected amounts. No unexplained total remainder.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-217882",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 40722,
+   "tuition": 14038,
+   "fees": 1832,
+   "housing": 9304,
+   "food": 5576,
+   "books": 1576,
+   "transportation": 1320,
+   "personal": 4484
+  },
+  "out_of_state": {
+   "total": 68704,
+   "tuition": 42020,
+   "fees": 1832,
+   "housing": 9304,
+   "food": 5576,
+   "books": 1576,
+   "transportation": 1320,
+   "personal": 4484
+  },
+  "source_url": "https://www.clemson.edu/financial-aid/cost/estimated-cost-of-attendance.html",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Fall/spring full-time estimates; shared on/off-campus column uses average dormitory and unlimited meal plan. Incoming-first-year basis selects the explicitly printed totals with laptop: $40,722/$68,704. Extras included: $2,524 first-year laptop and $68 average federal Direct Loan fees if applicable. Base printed totals without laptop are $38,198/$66,180. Major enrichment $0-$2,500 is excluded; no endpoint selected. Fees cover mandatory and average laboratory fees. Listed components plus loan/laptop extras reconcile exactly; no unexplained remainder. Commuter housing/food each $2,023; transportation $3,672; totals $29,716/$57,698 or $32,240/$60,222 with laptop. Additional source https://www.clemson.edu/admissions/undergraduate-admissions/afford.html describes health fees and shows conflicting nonresident tuition/fees $42,852, versus primary tuition $42,020 plus fees $1,832. Its $60,308 partial total exceeds its own listed components by $1,000; primary figures retained.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-218663",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 40584,
+   "tuition": 12288,
+   "fees": 400,
+   "housing": 11432,
+   "food": 5902,
+   "books": 1522,
+   "transportation": 2670,
+   "personal": 4790
+  },
+  "out_of_state": {
+   "total": 66394,
+   "tuition": 38098,
+   "fees": 400,
+   "housing": 11432,
+   "food": 5902,
+   "books": 1522,
+   "transportation": 2670,
+   "personal": 4790
+  },
+  "source_url": "https://sc.edu/about/offices_and_divisions/financial_aid/cost_and_aid/cost_to_attend/",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Conventional undergraduate, fall/spring, 12 credits per term, on-campus column. Fees field is the printed $400 Tech Fee only. Additional printed $1,580 weighted-average program fees apply to both residencies and are included in totals. Components plus that extra reconcile exactly to $40,584/$66,394; no unexplained remainder. Estimates vary by major and personal choices. Off-campus printed totals are also $40,584/$66,394; with-parent housing $2,630 and totals $31,782/$57,592. Nonresident off-campus/with-parent transportation is printed $2,690 versus on-campus $2,670; those alternate component sums exceed their printed totals by $20. Resident off-campus housing is printed with a semicolon ($11;432); the on-campus value is unambiguous. No separate undergraduate loan fee or health-insurance amount is printed.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "sc-243744",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 97545,
+   "tuition": 67731,
+   "fees": 2610,
+   "housing": 22944,
+   "food": null,
+   "books": 855,
+   "transportation": null,
+   "personal": 3405
+  },
+  "out_of_state": {
+   "total": 97545,
+   "tuition": 67731,
+   "fees": 2610,
+   "housing": 22944,
+   "food": null,
+   "books": 855,
+   "transportation": null,
+   "personal": 3405
+  },
+  "source_url": "https://financialaid.stanford.edu/undergrad/budget/index.html",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Full-time unmarried dependent undergraduate, Autumn/Winter/Spring. Same standard budget covers residence halls and off-campus living; on-campus selected. One price for all state residencies. Housing includes food; fees is Student Fees Allowance. Travel varies, so transportation is null. Numeric components reconcile exactly to printed $97,545; remainder $0. IMPORTANT: additional required first-year orientation $525 and document $250 fees are outside this table total; no revised fee subtotal or total is printed, so neither was calculated. Health insurance is also excluded: adequate coverage required; Cardinal Care may be waived with comparable coverage. No premium printed here. Fees allowance covers campus health, student activities, house dues, housing technology and course enrollment. Documented computer/medical costs may support individual budget increases. Gross cost before aid. Cloud browser verified the full 2026-27 table after fetch timed out; page update stamp March 3, 2026.",
+  "collected_by": "Cyrus"
+ },
+ {
   "school_id": "syracuse-university",
   "academic_year": "2026-27",
   "basis": "on-campus",
@@ -447,6 +867,36 @@
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Same published price for both residency categories, before aid. Housing combines housing and food (average); separate food not published. Printed total includes $67 loan fees if applicable; components plus loan fee sum exactly to $95,676. Mandatory health insurance $2,868 is additional unless waived for adequate private coverage; printed insured total $98,544. Off-campus total $93,398 ($96,266 insured); with-parents total $83,979 ($86,847 insured). Residential technology service fee mandatory with a university housing contract. First two years normally require university housing, with local-family commuter exception. Program/course fees may vary; page states upcoming-year figures remain estimates until May trustee approval.",
+  "collected_by": "Cyrus"
+ },
+ {
+  "school_id": "temple-university",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 48160,
+   "tuition": 21474,
+   "fees": null,
+   "housing": 14084,
+   "food": 5552,
+   "books": 1330,
+   "transportation": 2296,
+   "personal": 3424
+  },
+  "out_of_state": {
+   "total": 64384,
+   "tuition": 37698,
+   "fees": null,
+   "housing": 14084,
+   "food": 5552,
+   "books": 1330,
+   "transportation": 2296,
+   "personal": 3424
+  },
+  "source_url": "https://sfs.temple.edu/eligibility/your-financial-aid-offer/cost-attendance",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "Selected the explicitly published College of Liberal Arts example for fall/spring 2026-27; tuition includes fees, with no separate fee amount in the COA table. Full-time undergraduate enrollment is 12-18 credits per semester. On-campus and off-campus budgets are identical. Housing is the median 2026-27 housing rate; food uses the J&H Unlimited plan. Commuter housing/meal allowance is $4,084, based on Premium 10. All selected components sum exactly to $48,160/$64,384; no unexplained remainder. No separately priced loan or insurance allowance appears in this table. These are anticipated institutional budgets, not individual bills. Tuition varies by academic college. Fox Business example: tuition/fees $26,322/$46,866 and total $53,008/$73,552, with identical remaining components. The linked master COA, updated July 10, 2026, corroborates the selected figures: https://sfs.temple.edu/sites/sfs/files/documents/2627%20Master%20UG%20COA.pdf. Other conventional-program annual totals (resident/nonresident) there: Boyer $50,800/$68,224; Film & Media and Klein $49,912/$66,184; Education, Social Work, Tyler-General and University College $48,160/$64,384; Engineering $52,648/$68,824; Public Health $52,000/$69,904; Science & Technology and Pharmacy B.S. $52,408/$68,632; Sport & Tourism $53,008/$71,128; Tyler-Fine Arts $55,144/$73,504; Tyler-Architecture $52,720/$69,736. Online Social Work/Fox BBA totals $45,520 for either residency assume 24 annual credits and are not selected. Source conflict: the separately labeled 2026-27 fact sheet still prints dorm/off-campus totals $42,884/$57,532, tuition/fees $20,195/$33,846, combined housing/meals $18,144, books $1,290, and combined travel/personal $3,255/$4,252; its commuter totals are $27,472/$42,120 with housing/meals $2,732. https://sfs.temple.edu/sites/sfs/files/documents/2026_27%20UG%20Fact%20Sheet.pdf. The 2026-27 Bulletin also retains that lower estimated component set at https://bulletin.temple.edu/undergraduate/cost-aid/. Selected the dedicated current COA page and matching July-updated master, preserving rather than blending conflicting estimates.",
   "collected_by": "Cyrus"
  },
  {
@@ -538,6 +988,36 @@
   "confidence": "high",
   "notes": "Table headed 'Durham Undergraduate Cost of Attendance 2026-2027'. The page does not state a housing basis (on-campus/off-campus/commuter) for this table, so basis is not-stated. 'Miscellaneous' is recorded under personal. A $68 'Loan Fee' line is printed and is included in the page's total; the schema has no field for it. A NE Regional column is also printed (total $53,298). Page footnote: costs are estimated and subject to change.",
   "collected_by": "Spartus"
+ },
+ {
+  "school_id": "university-of-rhode-island",
+  "academic_year": "2026-27",
+  "basis": "on-campus",
+  "in_state": {
+   "total": 38936,
+   "tuition": 15684,
+   "fees": 2396,
+   "housing": 16704,
+   "food": null,
+   "books": 1330,
+   "transportation": 320,
+   "personal": 2430
+  },
+  "out_of_state": {
+   "total": 61483,
+   "tuition": 37350,
+   "fees": 2396,
+   "housing": 16704,
+   "food": null,
+   "books": 1330,
+   "transportation": 1201,
+   "personal": 2430
+  },
+  "source_url": "https://web.uri.edu/financial-aid/cost-of-attendance/",
+  "checked": "2026-10-14",
+  "confidence": "high",
+  "notes": "2026-27 undergraduate on-campus institutional estimates before aid; housing includes food and is based on average housing costs. A separate $72 loan-origination allowance in each budget explains the difference between schema-component sums $38,864/$61,411 and printed COAs $38,936/$61,483. No unexplained remainder. Direct-cost subtotals $34,784/$56,450 are not full COA. Off-campus totals: $37,158/$60,516, housing/food $13,150, transportation $2,096/$3,788. Commuter totals: $34,662/$59,029, housing/food $3,750, transportation $9,000/$11,701. New England Regional tier has tuition $27,448, on-campus total $51,581, off-campus $50,614, commuter $49,127; eligibility must be established rather than assumed. COA page lists additional annual charges: AVS years 2-4 $1,482; Business $1,000; Engineering $1,500; Music years 2-4 $2,000; Music Therapy Clinical $3,300; Nursing years 2-4 $1,900; PharmD years 3-6 $7,000; Pharmaceutical Sciences years 3-4 $2,890; one-time new-student fee $300. Course/lab, document and parking charges can be additional. Published base totals exclude these extras. Supplemental 2026-27 full-time schedule, https://web.uri.edu/tuition-billing/tuition-and-fees/tuition-and-fees-full-time/, defines full time as 12-19 credits and prints estimated health insurance $3,512, assessed in fall and waivable for comparable coverage; it is excluded from the selected COAs. Required fees break down as registration $60, health services $646, technology $382, student services $1,308. The schedule marks the Business differential as applying to new Fall 2026 admits. Other applicable undergraduate fees: Landscape Architecture years 2-4 $236/semester; Biotech years 2-4 $500/semester; off-campus study $684/semester; one-time transcript $50 and document $115; course tiers $25/$55/$75; Music Therapy $1,650 per applicable course; Applied Music $500 for one credit or $1,000 for 2-4 credits; overload per credit beyond 19: resident $654, nonresident $1,556, regional $1,145. These are conditional/excluded extras, not replacements for the printed totals.",
+  "collected_by": "Cyrus"
  },
  {
   "school_id": "university-of-vermont",
