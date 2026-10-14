@@ -967,6 +967,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--muted);f
 .rec-card .ph .nm{position:absolute;left:12px;right:12px;bottom:10px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 10px rgba(0,0,0,.65);z-index:1}
 .rec-body{padding:12px 14px;display:flex;flex-direction:column;gap:9px;flex:1}
 .rec-why{font-size:13px;color:var(--ink);line-height:1.45}
+.prefline{font-size:13px;color:var(--muted);margin:8px 0 2px}.prefline b{color:var(--ink)}.prefline .linkbtn{background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit}
 .rec-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 4px}
 .rec-facts .rf{background:color-mix(in srgb,var(--teal) 6%,var(--surface));border:1px solid var(--line);border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;min-width:0}
 .rec-facts .rf span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rec-facts .rf b{font-size:16px;line-height:1.2}.rec-facts .rf em{font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1822,6 +1823,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <select id="ex-relig" style="width:auto"><option value="">Any affiliation</option><option value="secular">Secular</option><option value="religious">Religious</option></select>
       <select id="ex-prox" style="width:auto"><option value="">Anywhere</option><option value="beach">Near beach</option><option value="skiing">Near skiing</option><option value="lake">Near a lake</option><option value="mountains">Near mountains</option><option value="major city">In a major city</option></select>
     </div>
+    <div class="prefline" data-prefline></div>
     <div id="excount" class="counter" style="margin-top:10px"></div>
     <div id="exlist" style="margin-top:8px"></div>
   </section>
@@ -1938,6 +1940,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <section id="v-recommends" class="hidden">
     <div class="pk-head"><h1>✨ Zoe Picks</h1><div class="pk-toggle" role="group" aria-label="How to browse picks"><button type="button" class="on" data-pk="recommends" aria-pressed="true">☰ List</button><button type="button" data-pk="discover" aria-pressed="false">♥ Swipe</button></div></div>
     <p class="sub">Schools that fit your profile but aren't on your board yet — ranked by your match, with why each could work.</p>
+    <div class="prefline" data-prefline></div>
     <div id="rec-out"></div>
   </section>
 
@@ -4400,7 +4403,13 @@ function _searchOne(qn){
   const sz=c=>(c.scorecard&&typeof c.scorecard.size==="number")?c.scorecard.size:0;
   return out.sort((a,b)=>b.rank-a.rank || sz(b.c)-sz(a.c) || a.c.name.length-b.c.name.length);   // same rank: bigger school first
 }
+const PREF_SHORT={afford:"Value",outcomes:"Outcomes",prestige:"Selectivity",spirit:"Spirit",proximity:"Location",lifestyle:"Lifestyle"};
+function renderPrefLine(){ const w=myPrefs(); const imp=Object.keys(PREF_SHORT).map(k=>[k,typeof w[k]==="number"?w[k]:5]).sort((a,b)=>b[1]-a[1]);
+  const top=imp.slice(0,4).map(([k,v])=>`${PREF_SHORT[k]} <b>${v}</b>`).join(" · ");
+  document.querySelectorAll("[data-prefline]").forEach(el=>{ el.innerHTML=`Fit % uses your priorities: ${top} <button type="button" class="linkbtn" data-prefedit>Edit ▸</button>`;
+    el.querySelector("[data-prefedit]").onclick=()=>{ goto("profile"); profileTab("who"); }; }); }
 function renderExList(q){
+  try{ renderPrefLine(); }catch(e){}
   const have = new Set(state.schools.map(s=>s.school_id));
   const w = myPrefs();
   fillSportSelect(); const fSport=($("ex-sport")&&$("ex-sport").value)||"", fDiv=($("ex-div")&&$("ex-div").value)||"";
@@ -5997,6 +6006,7 @@ function recWhy(c,w){
 }
 let _recShow={};
 function renderRecommends(){
+  try{ renderPrefLine(); }catch(e){}
   const out=$("rec-out"); const w=myPrefs(); const p=studentProfile();
   if(!state.catalog.length){ out.innerHTML=`<div class="card muted">Catalog still loading…</div>`; return; }
   const have=new Set(state.schools.map(s=>s.school_id));
