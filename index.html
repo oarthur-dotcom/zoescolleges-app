@@ -6738,12 +6738,23 @@ function zoeNeedsAI(q){ const n=q.split(/\s+/).filter(Boolean).length; return n>
 // keyword helpers: a short key (≤4 letters) must be a whole word; longer keys match from the start of a word (stems like "priorit").
 function zoeHasKey(q,k){ if(k.includes(" ")||/[^a-z]/.test(k)) return q.includes(k);
   return new RegExp("\\b"+k+(k.length<=4?"\\b":"")).test(q); }
+function zoeGradesActs(p){
+  p=p||{}; const g=parseFloat(p.gpa); const out=[];
+  if(g>0){ const adj=rigorAdjustedGpa(p); const rl=rigorLevel(p);
+    out.push(`<b>Grades:</b> unweighted GPA <b>${g.toFixed(2)}</b>${adj&&adj>g?` · rigor-adjusted <b>${adj.toFixed(2)}</b> (credit for your honors/AP/dual-enrollment)`:" · add honors/AP courses on Profile for a rigor-adjusted GPA"}${rl?` · rigor level ${rl.lv} of 5${rl.est?" (estimated)":""}`:""}.`); }
+  else out.push(`<b>Grades:</b> add your GPA on Profile so I can show your unweighted and rigor-adjusted GPA.`);
+  const acts=Array.isArray(p.activities)?p.activities:[];
+  if(acts.length){ const st=activityStrength(acts); const top=acts.slice(0,3).map(a=>{ const n=normAct(a); return esc(a.name||actTitle(n)); });
+    out.push(`<b>Activities:</b> ${acts.length} listed${st!=null?`, overall <b>${astrWord(st)}</b>`:""} — top: ${top.join(", ")}.`); }
+  else out.push(`<b>Activities:</b> none listed yet. Adding them makes your chances more accurate.`);
+  return out.join("<br>");
+}
 function zoeChips(q){
   const w=myPrefs(); const p=studentProfile(); const rows=()=>state.schools.map(s=>({s,i:catInfo(s.school_id)})).filter(x=>x.i).map(x=>({...x,m:matchScore(x.i,w),ch:chanceFor(x.i)}));
   const nm=x=>`<b>${esc(x.s.name)}</b>`;
   if(/analy[sz]e.*(profile|me)|whole profile/.test(q)){ const r=rows(); const c={reach:0,target:0,likely:0}; r.forEach(x=>{ if(x.ch&&c[x.ch.band]!=null) c[x.ch.band]++; });
     const top=r.filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3);
-    return `<b>Your profile at a glance</b><br>${esc(aiProfileLine()||"Add your grades and scores in My Profile so I can be specific.")}<br><br><b>Your list:</b> ${c.likely} likely · ${c.target} target · ${c.reach} reach${top.length?`<br><b>Best fits right now:</b> ${top.map(x=>`${nm(x)} (${x.m}%)`).join(", ")}`:""}<br><br>${zoeAdvice(p)}`; }
+    return `<b>Your profile at a glance</b><br>${esc(aiProfileLine()||"Add your grades and scores in My Profile so I can be specific.")}<br><br>${zoeGradesActs(p)}<br><br><b>Your list:</b> ${c.likely} likely · ${c.target} target · ${c.reach} reach${top.length?`<br><b>Best fits right now:</b> ${top.map(x=>`${nm(x)} (${x.m}%)`).join(", ")}`:""}<br><br>${zoeAdvice(p)}`; }
   if(/(do|should) (we|i) .*this week\b|what.?s due next|what.?s next for us/.test(q)) return zoeWeekLocal();
   if(/visit first/.test(q)){ let v=[]; try{ v=upcomingVisits().slice(0,3); }catch(e){} if(v.length) return "Your next visits:<br>"+v.map(x=>`• <b>${esc((x.info&&x.info.name)||x.id)}</b> — ${esc(fmtDay(x.v.date))}`).join("<br>");
     const t=rows().filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,3); return t.length?"No visits booked yet. I'd start with your best fits:<br>"+t.map(x=>`• ${nm(x)} — ${x.m}% match`).join("<br>")+"<br><span class='muted'>Set dates in the Trips tab.</span>":"Add a few schools first, then I can suggest a visit order."; }
