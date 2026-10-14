@@ -2718,7 +2718,7 @@ function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light
 const AP={ SCALE:30,
   W_TESTS:{gpa:0.38,rigor:0.20,tests:0.25,acts:0.17}, W_NOTESTS:{gpa:0.53,rigor:0.25,acts:0.22},
   GPA_SD:0.30, RIGOR_SD:1.2, ACT_SD:0.25, SAT_FALLBACK_SD:150, MAJOR_SHIFT:-0.15, ZCLAMP:2.5,
-  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, ACT_FLOOR:0.5, ACT_CAP_PTS:15, ACT_BOOST:[1,1.5,2], RIGOR_BONUS_SD:0.30,
+  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, ACT_FLOOR:0.5, ACT_CAP_PTS:15, ACT_BOOST:[1,1.5,2], GATE_RATE:0.25, GATE_FULL:20, RIGOR_BONUS_SD:0.30,
   EASE1:15, EASE2:36, STIFF1:-12, STIFF2:-28, SHRINK_BASE:0.6, NEVER_LIKELY_RATE:0.25 };
 const apClamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 function apBandFrom(rate,g){ let idx = rate>0.7?2 : rate>=0.4?1 : 0;
@@ -2748,6 +2748,11 @@ function apCore(s, inp){
     t.w0=w; });
   const tot=raw.reduce((a,t)=>a+t.w0,0)||0;
   raw.forEach(t=>{ t.w=tot>0?t.w0/tot:0; if(t.k==="acts" && t.w>0 && Math.abs(AP.SCALE*t.w*t.z)>AP.ACT_CAP_PTS) t.z=Math.sign(t.z)*AP.ACT_CAP_PTS/(AP.SCALE*t.w); t.pts=AP.SCALE*t.w*t.z; });   // activities can't move the score more than +/-ACT_CAP_PTS
+  // Academic gate (most selective schools only): admissions readers look at the academic record first, so when grades/rigor/tests
+  // fall below the typical admitted student, strong activities can't make up the gap. Credit for ABOVE-typical activities fades
+  // from full (academics at typical) to none (academics GATE_FULL points under typical). Penalties for weak activities are untouched.
+  { const act=raw.find(t=>t.k==="acts"); if(act && act.z>0 && rate<AP.GATE_RATE){ const acad=raw.filter(t=>t.k!=="acts").reduce((a,t)=>a+t.pts,0);
+      if(acad<0){ const f=apClamp(1+acad/AP.GATE_FULL,0,1); if(f<1){ act.z*=f; act.pts*=f; act.gated=f; } } } }
   const major=(inp.major && rate<0.6)?AP.MAJOR_SHIFT*AP.SCALE:0;
   // fewer known pieces = less certainty: pull the composite toward 'typical' (coverage = share of the full weight we have)
   const cov=Math.min(1,raw.reduce((a,t)=>a+(W[t.k]||0),0)); const shrink=AP.SHRINK_BASE+(1-AP.SHRINK_BASE)*cov;
@@ -2787,7 +2792,7 @@ function chanceCompute(c, explain){
       step("Rigor in context",t,!!t, t?(t.bonus!=null?`Your honors/AP/dual courses lift your grades by about +${t.bonus.toFixed(2)} GPA points (the rigor-adjusted GPA on your profile). Counted once, here, at every kind of school`:`Rated ${RIGOR_WORD[rl.lv]} by your family, counted at every kind of school`):"No course-rigor info in your profile");
       if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= t.z>=0?" — this selective school rewards a demanding schedule":" — a lighter schedule makes it tougher here"; }
     { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about half weight at a school this open, capped so it can't cover a gap in grades"}`); }
+      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about half weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
     { const t=T("tests"); const sat=inp.sat;
       step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
         : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
@@ -2880,7 +2885,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <ol>
       <li><b>Start at the school.</b> Its admit rate sets the starting band: under 40% starts at Reach, 40–70% at Target, over 70% at Likely.</li>
       <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (the boost your honors/AP/IB/dual courses give your grades — the same +0.5 / +1.0 per course adjustment shown on your profile, counted once), <b>activities</b> (the 4-tier scale, with time and years behind each), and <b>test scores</b> (only if you send them).</li>
-      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about half weight at open ones, and can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades.</li>
+      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about half weight at open ones, and can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
       <li><b>Turn the gap into a band.</b> About ${AP.EASE1} points above typical moves you up a band, about ${-AP.STIFF1} below moves you down. Schools admitting under 25% are never Likely, and under 15% are always at least a Reach — a long shot for everyone.</li>
       <li><b>Say what would help most.</b> We re-score with one realistic improvement at a time (GPA +0.2, one rigor level, one activity tier, SAT +80) and show the biggest.</li>
     </ol>

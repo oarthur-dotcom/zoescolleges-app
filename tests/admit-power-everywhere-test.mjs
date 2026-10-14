@@ -25,7 +25,7 @@ for (const W of [390, 1280]) {
   const v2 = await page.evaluate(() => { const open = { admissionRate: 0.8, sat25: 1000, sat75: 1200 }, sel = { admissionRate: 0.2, sat25: 1300, sat75: 1500 };
     const base = { gpa: 3.3, rl: null, rb: null, astr: null, sat: 0, to: true, major: false };
     const g = apCore(open, base).score, r = apCore(open, { ...base, rl: { lv: 3, est: true }, rb: 0.23 }).score;
-    const a0 = apCore(open, { ...base, astr: 0.5 }).score, aHi = apCore(open, { ...base, astr: 0.9 }), aSelHi = apCore(sel, { ...base, astr: 0.9 });
+    const a0 = apCore(open, { ...base, astr: 0.5 }).score, aHi = apCore(open, { ...base, astr: 0.9 }), aSelHi = apCore(sel, { ...base, gpa: 4.0, astr: 0.9 });  // strong grades so the academic gate (below) isn't in play
     const aOpenPts = aHi.terms.find(t => t.k === 'acts').pts, aSelPts = aSelHi.terms.find(t => t.k === 'acts').pts;
     const rExplicit = apCore(open, { ...base, rl: { lv: 4, est: false }, rb: 0.23 }).terms.find(t => t.k === 'rigor').z;
     const rAt = ['open','sel'].map(k => apCore(k === 'open' ? open : sel, { ...base, rl: { lv: 3, est: true }, rb: 0.5 }).terms.find(t => t.k === 'rigor').w);
@@ -38,6 +38,13 @@ for (const W of [390, 1280]) {
     const pts = n => apCore(sel, { ...base, ab: n }).terms.find(t => t.k === 'acts').pts, sc = n => apCore(sel, { ...base, ab: n }).score;
     return { defaultSame: sc(undefined) === sc(0), higherMore: pts(1) >= pts(0), highestMost: pts(2) >= pts(1), scoreRises: sc(2) >= sc(0), capHolds: Math.abs(pts(2)) <= AP.ACT_CAP_PTS + 1e-9, inputsClamp: apInputs({ gpa: '3', act_boost: 9 }).ab === 2 && apInputs({ gpa: '3' }).ab === 0, selectExists: !!document.querySelector('#pf-actboost') }; });
   for (const k of Object.keys(ab)) ok(t('actboost.' + k), ab[k]);
+  const gt = await page.evaluate(() => { const sel = { admissionRate: 0.12, sat25: 1450, sat75: 1560 }, mid = { admissionRate: 0.5, sat25: 1100, sat75: 1300 };
+    const weak = { gpa: 3.0, rl: null, rb: null, astr: 0.95, sat: 0, to: true, major: false }, strong = { ...weak, gpa: 4.0 };
+    const aPts = (s, i) => apCore(s, i).terms.find(t => t.k === 'acts');
+    return { weakGated: aPts(sel, weak).gated != null && aPts(sel, weak).pts < apCore(sel, { ...weak, astr: 0.95, gpa: 3.0 }).terms.find(t => t.k === 'acts').w * 30 * 2.5 * 10,
+      weakLessThanStrongCredit: aPts(sel, weak).pts < aPts(sel, strong).pts, strongNotGated: aPts(sel, strong).gated == null, openSchoolNotGated: aPts(mid, weak).gated == null,
+      weakActsNotRaised: apCore(sel, { ...weak, astr: 0.1 }).terms.find(t => t.k === 'acts').gated == null, capStill: Math.abs(aPts(sel, strong).pts) <= AP.ACT_CAP_PTS + 1e-9 }; });
+  for (const k of Object.keys(gt)) ok(t('gate.' + k), gt[k]);
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
   const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));
