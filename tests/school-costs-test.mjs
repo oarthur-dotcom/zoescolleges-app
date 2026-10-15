@@ -7,7 +7,7 @@ for (const W of [390, 1280]) {
   const page = await b.newPage({ viewport: { width: W, height: 900 } }); page.on('pageerror', e => errs.push(String(e))); const t = n => W + ':' + n;
   await page.goto('http://localhost:8962/index.html'); await page.waitForFunction(() => typeof startDemo === 'function' && document.getElementById('demo-start'), null, { timeout: 60000 });
   await page.evaluate(() => startDemo()); await page.waitForFunction(() => state.catalog && state.catalog.length > 0 && state.costs, null, { timeout: 60000 });
-  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded109'), n === 109);
+  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded145'), n === 145);
   const A = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'university-of-colorado-boulder'); const prev = i.scorecard.costAvg; homeState = () => 'CO'; const inS = costFor(i); homeState = () => 'TX'; const outS = costFor(i); homeState = () => 'CO'; return { inV: inS && inS.v, outV: outS && outS.v, stickerIn: stickerPrice(i), prev }; });
   ok(t('inStateColumn'), A.inV === 39992 && A.stickerIn === 39992); ok(t('outOfStateColumn'), A.outV === 71784);
   const P = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'syracuse-university'); homeState = () => 'TX'; const a = costFor(i); homeState = () => 'NY'; const b2 = costFor(i); return [a.v, b2.v]; });
