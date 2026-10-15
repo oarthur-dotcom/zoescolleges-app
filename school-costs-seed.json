@@ -1223,7 +1223,7 @@
    "transportation": null,
    "personal": 2085
   },
-  "source_url": "http://www.bu.edu/finaid/undergraduate-students/undergraduate/",
+  "source_url": "https://www.bu.edu/finaid/undergraduate-students/undergraduate/",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Resident column of the official 2026/2027 undergraduate cost-of-attendance table. Page prints a combined 'Housing & Food' line of $20,740, recorded under housing; food null. 'Incidentals' of $2,085 recorded under personal. Transportation is not printed as a separate line; the printed line items sum to the printed total. Single rate; same figures in both columns.",
@@ -1463,7 +1463,7 @@
    "transportation": 400,
    "tuition": 67096
   },
-  "source_url": "http://finaid.umich.edu/getting-started/estimating-costs",
+  "source_url": "https://finaid.umich.edu/getting-started/estimating-costs",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Office of Financial Aid 'Estimating Costs' page, Estimated Fall/Winter 2026-27, Full-Time Undergraduate, Lower Division (0-54 credits) budget recorded. Page prints a combined 'Tuition & Fees' line, recorded under tuition; fees null. 'Living Expenses' is a combined housing-and-food line (based on the unlimited basic residential meal plan), recorded under housing; food null. Upper Division (55+ credits) totals are also printed: $42,566 resident / $93,096 nonresident, with Tuition & Fees of $21,268 / $71,798 and identical other lines.",
@@ -2033,7 +2033,7 @@
    "transportation": 1360,
    "tuition": 14034
   },
-  "source_url": "http://sfa.osu.edu/incoming-freshmen/about-aid/financial-aid-eligibility",
+  "source_url": "https://sfa.osu.edu/incoming-freshmen/about-aid/financial-aid-eligibility",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Student Financial Aid 'Cost and aid eligibility' page, Incoming Freshmen, Cost of Attendance 2026-2027 Academic Year, Columbus campus, living on campus. Page prints a combined 'Tuition and fees' line of $14,034, recorded under tuition; in-state fees null. The nonresident budget adds a separate printed 'Non-resident fees' line of $30,220, recorded under fees. 'Living expenses: housing and food' is printed as one combined line of $15,630, recorded under housing; food null. 'Federal student loan fees' of $40 are printed and included in the printed totals; no schema field, noted here. Page also prints a resident off-campus total of $33,322 and a commuter total of $26,494.",
@@ -2123,7 +2123,7 @@
    "transportation": 0,
    "personal": 1300
   },
-  "source_url": "http://coursecatalog.web.cmu.edu/aboutcmu/costofattendance/",
+  "source_url": "https://coursecatalog.web.cmu.edu/aboutcmu/costofattendance/",
   "checked": "2026-10-14",
   "confidence": "medium",
   "notes": "'First-Years Entering Fall 2026', Resident column. Transportation Allowance is printed as $0. Fees are the sum of four printed fee lines (First-Year Experience Fee $748, Technology Fee $490, Student Activities Fee $322, Transportation Fee $302 = $1,862), so fees were inferred by adding printed lines. The printed total also includes an Estimated Loan Fees line of $100 (no schema field). Continuing students (entered 2025 and earlier) have different figures: housing $14,940 and total $96,106. Single rate; same figures in both columns.",
@@ -2153,7 +2153,7 @@
    "transportation": null,
    "tuition": 72722
   },
-  "source_url": "http://www.swarthmore.edu/financial-aid/tuition-books-housing-food-plan-activities-fee",
+  "source_url": "https://www.swarthmore.edu/financial-aid/tuition-books-housing-food-plan-activities-fee",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Single tuition rate (private college); the same figures are recorded for in-state and out-of-state. The billed charge is printed as a combined 'Tuition and Books' line of $72,722, recorded under tuition; the page notes tuition includes an $800 Textbook Affordability Program credit toward course materials. Separately, the page prints a non-billed 'Course materials, supplies and equipment' allowance of $825, recorded under books. Fees are the Student Activities Fee of $482. The page also prints Total Billed Charges of $95,770; the printed Total Cost of Attendance of $98,370 adds the course-materials and personal-expense allowances. Transportation is printed as 'Varies', so transportation is null.",
@@ -2183,7 +2183,7 @@
    "transportation": 850,
    "tuition": 72990
   },
-  "source_url": "http://www.villanova.edu/university/office-of-financial-assistance/financial-aid-process/cost-of-attendance.html",
+  "source_url": "https://www.villanova.edu/university/office-of-financial-assistance/financial-aid-process/cost-of-attendance.html",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Private university with a single tuition rate; the same printed figures are recorded in both in_state and out_of_state. Fees are the printed 'Student Services Fee' ($1,024) and food is printed as 'Food/Meals' ($9,040). Supplies of $560 (freshman figure; $160 for returning students) and Loan Fees of $58 are printed but have no schema field. A commuter budget with a total of $80,652 is also printed on the page. The page notes health insurance of approximately $3,165 per year is not included in the cost of attendance.",
@@ -2363,7 +2363,7 @@
    "transportation": 2731,
    "tuition": 24451
   },
-  "source_url": "http://www.depts.ttu.edu/financialaid/costToAttend.php",
+  "source_url": "https://www.depts.ttu.edu/financialaid/costToAttend.php",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "Official Financial Aid 'Cost to Attend' page, 2026-2027 undergraduate tables. The page prints one combined 'TUITION & FEES' line ($11,852 resident / $24,451 non-resident); recorded under tuition, fees null (not printed separately). 'MISCELLANEOUS' recorded under personal. On Campus and Off Campus columns are identical for every line, so the budget is recorded as on-campus. The page also prints variant tables not used here: program/differential-rate tables (resident tuition & fees $13,604 and $13,658; non-resident $26,204 and $26,258), a bordering-county waiver table, an international-student table that adds a $2,930 health insurance line (non-resident total $42,581), and a living-at-home table (housing $3,538, transportation $900, miscellaneous $1,000).",
@@ -2813,7 +2813,7 @@
    "transportation": 1500,
    "tuition": 47466
   },
-  "source_url": "http://financialaid.uoregon.edu/cost_of_attendance",
+  "source_url": "https://financialaid.uoregon.edu/cost_of_attendance",
   "checked": "2026-10-14",
   "confidence": "high",
   "notes": "UO Financial Aid & Scholarships 'Cost of Attendance' page, current undergraduate table (2026-27; figures match the Oregon HECC 2026-27 Standard Student Budgets for the University of Oregon exactly, and the page's $570 matriculation fee is the 2026-27 rate). Page prints a combined 'Tuition and Fees' line, recorded under tuition; fees null. 'Living Expenses (On-Campus Housing and Food)' is one combined line, recorded under housing; food null. Personal is the printed 'Miscellaneous Personal Expenses' line. Budget is for new incoming undergraduates at 15 credits per term across three terms; the one-time $570 matriculation fee for entering students is excluded from the COA per the page.",
