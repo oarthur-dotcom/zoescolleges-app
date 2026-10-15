@@ -3605,7 +3605,7 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <div class="disc-nm"><b>${esc(c.name)}</b><span>${esc([c.city,c.state].filter(Boolean).join(", "))}${sz?` · ${esc(sz)} students`:""}</span></div>
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
-      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
+      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (costFor(c)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span> `:"")+((typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"); })():"no data"}</span></div>
       <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
@@ -4337,7 +4337,7 @@ function renderSchool(x){
     ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
-        <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
+        <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (costFor(info)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span> `:"")+((typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":"")); })():"no data"}</span></div>
         <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
@@ -4606,7 +4606,7 @@ function renderExList(q){
       ${thumb}
       <div class="sbody"><div class="sn">${esc(c.name)} ${apChip(ch)}${chanceChip(ch)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
-        ${(()=>{ const y=yourNet(c); const v=y?Math.max(0,y.v):avgNet(c); const st=(typeof stickerPrice==='function')?stickerPrice(c):null; return v!=null?`<div class="px-line"><b>${v<=0?"$0":"$"+Math.round(v/1000)+"k"}</b><span>/yr ${y?"your likely cost":"typical cost"}</span>${st&&st>v?`<span class="px-st">sticker ${"$"+Math.round(st/1000)+"k"}</span>`:""}</div>`:`<div class="px-line"><span>price not reported</span></div>`; })()}
+        ${(()=>{ const y=yourNet(c); const v=y?Math.max(0,y.v):avgNet(c); const st=(typeof stickerPrice==='function')?stickerPrice(c):null; return v!=null?`<div class="px-line"><b>${v<=0?"$0":"$"+Math.round(v/1000)+"k"}</b><span>/yr ${y?"your likely cost":"typical cost"}</span>${st&&st>v?`<span class="px-st">sticker ${"$"+Math.round(st/1000)+"k"}</span>`:""}${costFor(c)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span>`:""}</div>`:`<div class="px-line"><span>price not reported</span></div>`; })()}
         <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
@@ -5768,7 +5768,7 @@ function costFor(info){ const r=costRow(info); if(!r) return null;
   return {v:Math.round(t), year:r.academic_year, basis:r.basis, url:r.source_url, side, checked:r.checked, conf:r.confidence}; }
 const COST_BASIS={"on-campus":"on campus","off-campus":"off campus","commuter":"living at home","not-stated":""};
 function costNoteHtml(info){ const c=costFor(info);
-  if(!c) return `<div class="cost-src">federal estimate, not yet checked against the school's page</div>`;
+  if(!c){ const L=info&&info.link&&/^https?:\/\//.test(info.link)?info.link:null; return `<div class="cost-src">federal estimate, not yet checked against the school's page${L?` · <a href="${esc(L)}" target="_blank" rel="noopener">check the official site for this year's price</a>`:" · check the school's official site for this year's price"}</div>`; }
   const b=COST_BASIS[c.basis]; return `<div class="cost-src"><span class="cost-ok" aria-hidden="true">✓</span> ${esc(c.year)}${b?" · "+esc(b):""} · <a href="${esc(c.url)}" target="_blank" rel="noopener">school's cost page</a></div>`; }
 async function loadCosts(){
   state.costs={}; if(BACKEND.costs===false) return;

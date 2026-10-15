@@ -7,7 +7,7 @@ for (const W of [390, 1280]) {
   const page = await b.newPage({ viewport: { width: W, height: 900 } }); page.on('pageerror', e => errs.push(String(e))); const t = n => W + ':' + n;
   await page.goto('http://localhost:8962/index.html'); await page.waitForFunction(() => typeof startDemo === 'function' && document.getElementById('demo-start'), null, { timeout: 60000 });
   await page.evaluate(() => startDemo()); await page.waitForFunction(() => state.catalog && state.catalog.length > 0 && state.costs, null, { timeout: 60000 });
-  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded182'), n === 182);
+  const n = await page.evaluate(() => Object.keys(state.costs).length); ok(t('seedLoaded184'), n === 184);
   const A = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'university-of-colorado-boulder'); const prev = i.scorecard.costAvg; homeState = () => 'CO'; const inS = costFor(i); homeState = () => 'TX'; const outS = costFor(i); homeState = () => 'CO'; return { inV: inS && inS.v, outV: outS && outS.v, stickerIn: stickerPrice(i), prev }; });
   ok(t('inStateColumn'), A.inV === 39992 && A.stickerIn === 39992); ok(t('outOfStateColumn'), A.outV === 71784);
   const P = await page.evaluate(() => { const i = state.catalog.find(c => c.id === 'syracuse-university'); homeState = () => 'TX'; const a = costFor(i); homeState = () => 'NY'; const b2 = costFor(i); return [a.v, b2.v]; });
@@ -20,8 +20,11 @@ for (const W of [390, 1280]) {
   const D = await page.evaluate(() => { const c = [...document.querySelectorAll('#v-detail .d-cell')].find(x => /Sticker cost/.test(x.textContent)); const a = c && c.querySelector('.cost-src a'); return { has: !!c, money: c && /39,992/.test(c.textContent), year: c && /2026-27/.test(c.textContent), link: a && a.href, rel: a && a.rel, hz: document.documentElement.scrollWidth <= innerWidth + 2 }; });
   ok(t('detailShowsVerified'), D.has && D.money && D.year && /colorado\.edu/.test(D.link || '') && /noopener/.test(D.rel || '')); ok(t('noHScrollDetail'), D.hz);
   await page.evaluate(() => { openDetail('sc-110592', 'board'); }); await page.waitForTimeout(600);
-  const E = await page.evaluate(() => { const c = [...document.querySelectorAll('#v-detail .d-cell')].find(x => /Sticker cost/.test(x.textContent)); return c && /federal estimate/.test(c.textContent) && !c.querySelector('.cost-src a'); });
+  const E = await page.evaluate(() => { const c = [...document.querySelectorAll('#v-detail .d-cell')].find(x => /Sticker cost/.test(x.textContent)); const a = c && c.querySelector('.cost-src a'); return c && /federal estimate/.test(c.textContent) && /official site/.test(c.textContent) && (!a || /^https?:/.test(a.href)); });
   ok(t('unverifiedLabelledEstimate'), !!E);
+  await page.evaluate(() => { show('board'); renderBoard(); });
+  const tk = await page.evaluate(() => ({ ticks: document.querySelectorAll('#v-board .b3-s .cost-ok').length, verified: state.schools.filter(s => { const i = catInfo(s.school_id); return i && costFor(i); }).length }));
+  ok(t('boardCardTick'), tk.verified > 0 && tk.ticks === tk.verified);
   // bad rows ignored
   const bad = await page.evaluate(() => [costOk({ school_id: 'x', academic_year: '2026-27', source_url: 'http://a.edu', in_state: { total: 30000 } }), costOk({ school_id: 'x', academic_year: '26', source_url: 'https://a.edu', in_state: { total: 30000 } }), costOk({ school_id: 'x', academic_year: '2026-27', source_url: 'https://a.edu', in_state: { total: 90 } }), costOk({ school_id: 'x', academic_year: '2026-27', source_url: 'https://a.edu', in_state: { total: 30000 } })]);
   ok(t('badRowsIgnored'), bad.join() === 'false,false,false,true');
