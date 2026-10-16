@@ -3366,7 +3366,11 @@ state.pending = null;
 function myRole(){ return (state.me&&state.me.role)||""; }
 function studentMember(){ return (state.members||[]).find(m=>m.role==="student")||null; }
 function pendingMode(){ return !!(state.pending && state.me && !studentMember() && myRole()!=="student"); }
-function profKey(){ return pendingMode() ? "pending" : (state.me&&state.me.user_id); }
+/* Oct 16: a parent can fill in and adjust the student's grades even after the student has joined (migration 025).
+   The Profile screen edits the student's profile for a parent, and the member's own profile for everyone else. */
+function editingStudentProfile(){ const stu=studentMember(); return !!(stu && state.me && myRole()==="parent" && !isMe(stu.user_id)); }
+function profKey(){ return pendingMode() ? "pending" : (editingStudentProfile() ? studentMember().user_id : (state.me&&state.me.user_id)); }
+function profName(){ return pendingMode() ? state.pending.display_name : (editingStudentProfile() ? studentMember().display_name : ""); }
 function _pendProfile(pr){ const o={...(pr||{})}; delete o.user_id; delete o.family_id; delete o.updated_at; if(o.testOptional!=null&&o.test_optional==null) o.test_optional=!!o.testOptional; delete o.testOptional; return o; }
 async function loadPending(){
   state.pending=null; if(state.profiles) delete state.profiles.pending;
@@ -3378,7 +3382,11 @@ async function loadPending(){
 async function maybeClaimPending(){
   if(!state.pending || myRole()!=="student") return;
   const mine=state.profiles[state.me.user_id]; const pp=state.pending.profile||{};
-  if((!mine||!profileBuilt(mine)) && Object.keys(pp).length){ await saveProfile({...pp}); const m=state.profiles[state.me.user_id]; if(m&&pp.test_optional!=null) m.testOptional=!!pp.test_optional; }
+  if((!mine||!profileBuilt(mine)) && Object.keys(pp).length){
+    const saved=await saveProfile({...pp});
+    let there=false; try{ const {data}=await sb.from("profiles").select("user_id").eq("user_id",state.me.user_id).maybeSingle(); there=!!data; }catch(e){}
+    if(saved===false || !there) return;   // Oct 16: keep the parent's grades until we can see they landed (they used to be deleted either way)
+    const m=state.profiles[state.me.user_id]; if(m&&pp.test_optional!=null) m.testOptional=!!pp.test_optional; }
   try{ await sb.from("pending_students").delete().eq("family_id",state.family.id); }catch(e){}
   state.pending=null; delete state.profiles.pending;
 }
@@ -3413,10 +3421,10 @@ function setupSteps(){
   const steps=[];
   if(me!=="student") steps.push({k:"student", c:"Student", ic:"🎓", t:"Add your student", d:"So chances, costs and the report are about them.", done:!!(stu||state.pending)});
   steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Swipe through a few picked for you, or search by name. You can always change them.", done:schools>=3, cta:"Swipe through picks", go:()=>goto("discover")});
-  const gradesMine = me==="student" || pendingMode();
+  const gradesMine = me==="student" || pendingMode() || editingStudentProfile();
   steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
-    cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
-    go: gradesMine ? (()=>{ goto("profile"); profileTab("acad"); }) : (stu&&!isMe(stu.user_id) ? "nudge" : (()=>{ goto("profile"); profileTab("acad"); })) });
+    cta: "Add grades",
+    go: ()=>{ goto("profile"); profileTab("acad"); } });
   steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so the fit % fits you.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
   const famDone = (state.members||[]).length>=2 && !state.pending;
   const sentAt = state.pending ? lsGet("inviteSentAt") : null;   // Oct 12: remember that the invite went out
@@ -3449,13 +3457,13 @@ function nextStepHtml(){
   if(!state.family||!state.me||DEMO&&false) return "";
   const steps=setupSteps(); const doneN=steps.filter(x=>x.done).length; const cur=steps.find(x=>!x.done);
   _nsActs={};
-  const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":i+1} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
+  const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":"○"} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
   const tour=!guideSeen()?`<button type="button" class="linklike ns-tour" data-guide>▶ Watch the 4-minute tour</button>`:"";
   if(cur){
     let body;
     if(cur.k==="student"){ body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
       ${profileBuilt(state.profiles[state.me.user_id])?`<label class="tk-check"><input type="checkbox" id="ss-copy"> <span>Use the grades I already entered on my profile as the student's</span></label>`:""}<div class="tk-msg" id="ss-msg" role="status"></div>`; }
-    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="family"&&state.pending&&!lsGet("inviteSentAt")?`<button class="small ghost" id="ss-sent">I already sent it</button>`:""}${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
+    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="grades"&&studentMember()&&!isMe(studentMember().user_id)?`<button class="small ghost" data-ns-nudge>Ask ${esc(studentMember().display_name)} to add them</button>`:""}${cur.k==="family"&&state.pending&&!lsGet("inviteSentAt")?`<button class="small ghost" id="ss-sent">I already sent it</button>`:""}${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
     return `<div class="td-card ns-card"><div class="ns-top">${ringSvg(doneN/steps.length, `${doneN}/${steps.length}`)}<div class="ns-txt"><div class="td-h" style="margin:0 0 2px">Your next step</div><div class="ns-t">${cur.ic} ${esc(cur.t)}</div><div class="td-mid muted">${esc(cur.d)}</div></div></div>${body}${chips}${tour}</div>`;
   }
   const o=ongoingStep(); const st=journeyStage();
@@ -3472,6 +3480,7 @@ function wireNextStep(el){
   { const ss=el.querySelector("#ss-sent"); if(ss) ss.onclick=()=>{ lsSet("inviteSentAt", new Date().toISOString()); renderToday(); }; }
   el.querySelectorAll("[data-ns-go]").forEach(b=>b.onclick=()=>{ const k=b.dataset.nsGo; if(k==="ongoing"){ run(ongoingStep().go); return; } const st=steps.find(x=>x.k===k); if(st) run(st.go); });
   el.querySelectorAll("[data-ns-step]").forEach(b=>b.onclick=()=>{ const st=steps.find(x=>x.k===b.dataset.nsStep); if(!st) return; if(st.k==="student"){ const i=el.querySelector("#ss-name"); if(i) i.focus(); else goto("profile"); return; } if(st.go) run(st.go); });
+  const nu=el.querySelector("[data-ns-nudge]"); if(nu) nu.onclick=()=>run("nudge");
   const g=el.querySelector("[data-guide]"); if(g) g.onclick=()=>openGuide();
   wireStudentSetup(el);
 }
@@ -6200,7 +6209,8 @@ function renderProfile(){
   $("profile-scope").innerHTML = shared
     ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
     : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
-  { const h=$("pf-h1"); if(h) h.textContent = pendingMode() ? `${state.pending.display_name}'s profile` : "My profile"; }
+  { const h=$("pf-h1"); if(h) h.textContent = profName() ? `${profName()}'s profile` : "My profile"; }
+  if(editingStudentProfile()){ const n=esc(profName()); $("profile-scope").innerHTML=`🎓 <b>You're adjusting ${n}'s grades.</b> You and ${n} can both edit them, and the whole family sees the changes.`; }
   { const stu=studentMember(); const sn = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");   // #66: clear whose is whose
     const ta=document.querySelector('#pf-tabs [data-ptab="acad"]'), tw=document.querySelector('#pf-tabs [data-ptab="who"]');
     if(ta) ta.textContent = myRole()==="student" ? "🎓 My grades & activities" : (sn ? `🎓 ${sn}'s grades & activities` : "🎓 Grades & activities");
@@ -6309,7 +6319,7 @@ function choicePowerHtml(){
 }
 // #66: a parent looking at the grades tab sees the STUDENT's profile (read-only once she has her own account),
 // not an empty profile of their own.
-function studentReadOnly(){ const stu=studentMember(); return !!(stu && state.me && !isMe(stu.user_id)); }
+function studentReadOnly(){ const stu=studentMember(); return !!(stu && state.me && !isMe(stu.user_id) && !editingStudentProfile()); }
 function renderProfileView(){
   const ro=studentReadOnly(); const stuM=studentMember();
   const p=(state.me&&state.profiles[ro?stuM.user_id:profKey()])||{}; const built=profileBuilt(p);
@@ -6319,7 +6329,7 @@ function renderProfileView(){
     sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
   const showForm = !ro && (!built || pfEdit);
   form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
-  const ft=$("pf-form-title"); if(ft) ft.textContent = pendingMode() ? `${built?"Edit":"Build"} ${state.pending.display_name}'s profile` : (built? "Edit your profile" : "Build your profile");
+  const ft=$("pf-form-title"); if(ft) ft.textContent = profName() ? `${built?"Edit":"Build"} ${profName()}'s profile` : (built? "Edit your profile" : "Build your profile");
   if(showForm) return;
   const adj=rigorAdjustedGpa(p); const tags=parseInterests(p.notes||""); const acts=Array.isArray(p.activities)?p.activities:[];
   const astr=activityStrength(acts); const astrLvl = astr==null?null:(astr>=0.7?"strong":astr>=0.4?"solid":"light");
@@ -6328,7 +6338,7 @@ function renderProfileView(){
   const rig=p.rigor||{}; const rl=rigorLevel(p); const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"", rl?`${RIGOR_WORD[rl.lv]}${rl.est?" (est.)":""}`:"" ].filter(Boolean).join(" · ");
   const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
-    <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
+    <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":profName()?esc(profName())+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
     <div class="pv-grid">
       ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adjusted ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
@@ -6369,7 +6379,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
-  if(!pendingMode()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
+  if(!pendingMode() && !editingStudentProfile()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
   if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
   profActs = acts.slice(); actDirty=false;
   if(stay){ renderProfileView(); return true; }
@@ -6571,19 +6581,24 @@ function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; con
 }
 $("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
   const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };
-async function saveProfile(p){
+async function saveProfile(p){   // returns true when saved, false when not (callers that don't care can ignore it)
   if(pendingMode()){   // #64: a parent filling in the student's profile before they join
+    const {data,error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id).select("family_id");
+    if(error){ alert("Save failed: "+(error.message||error)); return false; }
+    if(!data||!data.length){   // Oct 16: the row is gone because the student just joined. Saving into nothing used to look like success.
+      alert(`${state.pending.display_name} has just joined, so these grades now live on ${state.pending.display_name}'s profile. Reloading so you can adjust them there.`); location.reload(); return false; }
     state.profiles.pending = {...p, user_id:"pending", testOptional: p.test_optional!=null ? !!p.test_optional : p.testOptional};
-    const {error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id);
-    if(error){ alert("Save failed: "+(error.message||error)); return; } state.pending.profile=p; return; }
-  state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
+    state.pending.profile=p; return true; }
+  const target=profKey(), mineP=isMe(target);   // a parent saves onto the student's profile (migration 025)
+  state.profiles[target] = {...p, user_id:target};
   if(BACKEND.profiles){ try{
-      const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
+      const row={user_id:target, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
       let {error}=await sb.from("profiles").upsert(row);
       if(error && /test_optional|\bhs\b|rigor|activities|column|schema cache/i.test(error.message||"")){   // migration 008/003 not applied yet
         const {test_optional, hs, rigor, activities, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
-      if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
-  lsSet("profile", p);
+      if(error) throw error; return true; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return false; } } }
+  if(mineP){ lsSet("profile", p); return true; }
+  alert("Couldn't save to the family profile. Please try again in a moment."); return false;   // never keep a student's grades only on a parent's device
 }
 $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
