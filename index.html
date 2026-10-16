@@ -2712,7 +2712,9 @@ function interestSat(tag,c,s,L){
 const BAND_LABELS={reach:"Reach",target:"Target",likely:"Likely"};
 function bandLabel(b){ return BAND_LABELS[b]||b; }
 // Typical unweighted GPA of admitted students, estimated from the school's SAT profile and admit rate (#80).
-function typicalGpa(s){ s=s||{}; const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
+// Real average GPA of enrolled first-years from each school's own Common Data Set (C12), 29 schools so far (Oct 16). Above-4.0 averages are weighted, so they are capped at 4.0 to compare fairly with the student's unweighted GPA.
+const CDS_GPA={"umass-amherst":4.05,"college-of-charleston":4.0,"sc-218663":3.68,"oregon-state-university":3.7,"sc-168281":3.7,"university-of-colorado-boulder":3.77,"sc-151351":3.8,"sc-163268":4.06,"sc-163286":4.41,"syracuse-university":3.71,"sc-110705":4.25,"sc-110592":3.21,"sc-130943":3.98,"sc-139931":3.46,"sc-139940":3.6,"sc-144892":3.35,"sc-153603":3.76,"sc-155317":3.71,"sc-168227":3.48,"sc-169248":3.48,"sc-169798":3.39,"sc-171571":3.48,"sc-191630":3.83,"sc-199139":3.56,"sc-200004":3.45,"sc-207388":3.59,"sc-207500":3.64,"university-of-new-hampshire":3.63,"university-of-rhode-island":3.59};
+function typicalGpa(s){ s=s||{}; if(s.id && CDS_GPA[s.id]!=null) return Math.min(4.0, CDS_GPA[s.id]); const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
   const r=s.admissionRate; const fromRate = r<0.15?3.9 : r<0.3?3.75 : r<0.5?3.55 : r<0.7?3.35 : 3.15;
   if(sat==null) return fromRate; const fromSat=Math.max(2.8, Math.min(4.0, 2.9+(sat-1000)*0.0022)); return Math.round(((fromSat+fromRate)/2)*100)/100; }
 function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light"); }
