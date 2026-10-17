@@ -6653,7 +6653,7 @@ function showTxPreview(f){
         if(j.notTranscript){ txStatus("That doesn't look like a transcript — upload your school transcript, or just type your numbers in.","err"); return; }
         if(j.empty){ txStatus("I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.","err"); return; }
         if(j.fields){ txStatus("","hide"); showTxPreview(j.fields); return; }
-        txStatus(esc(j.error||"I couldn't read that one — try a clearer photo or type your numbers in."),"err");
+        txStatus(esc(j.error||"I couldn't read that one — try a clearer photo or type your numbers in.")+((j.status||j.detail)?` <span style="opacity:.7;font-size:11px">(reader said: ${esc(String(j.status||""))} ${esc(String(j.detail||"").slice(0,140))})</span>`:""),"err");
       }catch(e){ txStatus("Something went wrong reading that — type your numbers in instead.","err"); }
     };
   }
