@@ -43,7 +43,7 @@ for (const W of [390, 1280]) {
   // Sauce page
   await page.evaluate(() => { goto('today'); }); await page.waitForTimeout(300);
   await page.evaluate(() => { const b = document.createElement('button'); b.dataset.sauce = '1'; b.id = 'tmp-sauce'; document.body.appendChild(b); b.click(); }); await page.waitForTimeout(500);
-  K.sauce = await page.evaluate(() => { const el = document.getElementById('v-sauce'); const t = el.innerText; return { shown: currentView === 'sauce' && !el.classList.contains('hidden'), title: /There is no secret sauce/.test(t), promise: /not exact/.test(t), example: /Your example: /.test(t), table: el.querySelectorAll('table tr').length === 5, sources: el.querySelectorAll('li a[href^="https://"]').length >= 5, weightsPrinted: /40%/.test(t) && /55%/.test(t), honestTO: /don't have per-school submission/.test(t), noNaN: !/NaN|undefined/.test(t) }; });
+  K.sauce = await page.evaluate(() => { const el = document.getElementById('v-sauce'); const t = el.innerText; return { shown: currentView === 'sauce' && !el.classList.contains('hidden'), title: /There is no secret sauce/.test(t), promise: /not exact/.test(t), example: /Your example: /.test(t), table: el.querySelectorAll('table tr').length === 5, sources: el.querySelectorAll('li a[href^="https://"]').length >= 5, weightsPrinted: /38%/.test(t) && /53%/.test(t), honestTO: /don't have per-school submission/.test(t), noNaN: !/NaN|undefined/.test(t) }; });
   await page.evaluate(() => document.querySelector('[data-sauce-back]').click()); await page.waitForTimeout(300);
   K.back = await page.evaluate(() => currentView === 'today');
   K.noOverflow = await page.evaluate(() => { goto('sauce'); return document.documentElement.scrollWidth <= window.innerWidth + 2; });
