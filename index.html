@@ -696,6 +696,12 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .txp-row:last-of-type{border-bottom:none}
 .txp-courses{margin-top:8px;font-size:12.5px}.txp-courses ul{margin:6px 0 0;padding-left:18px;columns:2;column-gap:18px}.txp-lv{font-size:10.5px;font-weight:700;color:var(--teal)}
 .txp-warn{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber);font-size:12px;border-radius:8px;padding:7px 9px;margin-top:8px}
+.txe-h{font-weight:700;font-size:12.5px;margin:12px 0 4px}
+.txe-head,.txe-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 54px 54px 28px;gap:4px;align-items:center}
+.txe-head{font-size:10.5px;color:var(--muted,#8a857b);padding:0 2px 2px}
+.txe-row{margin-bottom:4px}.txe-row input,.txe-row select{width:100%;min-width:0;font-size:12.5px;padding:5px 6px;box-sizing:border-box}
+.txe-x{border:none;background:transparent;color:var(--muted,#8a857b);cursor:pointer;font-size:14px;padding:2px}
+@media(max-width:520px){.txe-head,.txe-row{grid-template-columns:minmax(0,1fr) 74px 46px 44px 24px}}
 .vmap{height:280px;border-radius:12px;border:1px solid var(--line);margin:8px 0;z-index:0}
 .vmap .leaflet-container{border-radius:12px}
 .spots{display:flex;flex-direction:column;gap:6px;margin:6px 0}
@@ -6600,34 +6606,58 @@ $("pf-save").onclick = saveProfileForm;
 { const b3=$("pf-save3"); if(b3) b3.onclick = saveProfileForm; }
 /* ---- Transcript upload → AI read → review → fill (never auto-saves) ---- */
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
-function showTxPreview(f){
+function showTxPreview(f0){
+  // Oct 16: the read is a first guess. Every course is editable (name, level, grade, credits), you can remove a wrong row or add a
+  // missed one, and the GPA and the AP / honors counts recalculate as you go. Nothing saves until "Save academic profile".
   const el=$("tx-preview"); if(!el) return;
-  const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${esc(v==null?"—":String(v))}</b></div>`;
-  const gpa = f.gpa!=null ? (Number(f.gpa).toFixed(2) + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (school-reported weighted)" : "—");
-  el.innerHTML=`<div class="txp-h">Here's what I read — check it, then fill your profile:</div>
-    ${line(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpa)}
-    ${f.gpaCalculated?`<div class="muted" style="font-size:11.5px;margin:-2px 0 6px">Your school doesn't print a GPA, so I worked it out from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count.</div>`:""}
-    ${line("AP / IB courses", f.apIb)}
-    ${line("Honors courses", f.honors)}
-    ${line("Dual-enrollment", f.dualEnrollment)}
-    ${line("SAT", f.sat!=null?f.sat:"—")}
-    ${line("ACT", f.act!=null?f.act:"—")}
-    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses" open><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}${c.grade?` <span class="muted">· ${esc(c.grade)}</span>`:""}</li>`).join("")}</ul></details>`:""}
-    <div class="txp-warn" style="margin:8px 0">⚠ <b>Please double-check this against the original.</b> A computer read this automatically and it can be wrong, especially on photos: a course can be missed, a grade misread, or honors and AP classes mislabeled. Open <b>"Courses I read"</b> below and compare every course and grade, then fix any number before you save.${f.confidence==="low"?" <b>This one was hard to read, so check it extra carefully.</b>":""}</div>
+  const f=JSON.parse(JSON.stringify(f0)); f.courses=(f.courses||[]).map(c=>({ name:c.name||"", level:c.level||"Regular", grade:c.grade||"", credits:c.credits, year:c.year||null }));
+  const printedGpa = f0.gpa!=null && !f0.gpaCalculated;      // a GPA the school printed stays as printed
+  const LV=["Regular","Honors","AP","IB","Dual"];
+  const recompute=()=>{
+    if(f.courses.length){ const n=lv=>f.courses.filter(c=>c.level===lv).length; f.apIb=n("AP")+n("IB"); f.honors=n("Honors"); f.dualEnrollment=n("Dual"); }
+    if(!printedGpa){ const c=txCalcGpa(f.courses.map(x=>({ grade:x.grade, credits:(x.credits===""||x.credits==null)?null:Number(x.credits) }))); f.gpa=c?c.gpa:null; f.gpaScale=c?4:null; f.gpaCalculated=c||null; }
+  };
+  const row=(k,v,id)=>`<div class="txp-row"><span>${k}</span><b ${id?`id="${id}"`:""}>${esc(v==null?"—":String(v))}</b></div>`;
+  const gpaText=()=>f.gpa!=null ? (Number(f.gpa).toFixed(2)+(f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (school-reported weighted)" : "—");
+  const paint=()=>{ recompute(); const set=(id,v)=>{ const e=$(id); if(e) e.textContent=v==null||v===""?"—":String(v); };
+    set("txp-gpa",gpaText()); set("txp-ap",f.apIb); set("txp-hon",f.honors); set("txp-dual",f.dualEnrollment);
+    const note=$("txp-gpanote"); if(note) note.textContent = f.gpaCalculated ? `Calculated from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count. A course with no credits shown counts as 1.` : (printedGpa?"":"Add at least 4 graded courses and I'll calculate it."); };
+  const crow=(c,i)=>`<div class="txe-row" data-i="${i}"><input class="txe-n" value="${esc(c.name)}" maxlength="80" aria-label="Course name" placeholder="Course name"><select class="txe-l" aria-label="Level">${LV.map(l=>`<option ${c.level===l?"selected":""}>${l}</option>`).join("")}</select><input class="txe-g" value="${esc(c.grade)}" maxlength="6" aria-label="Final grade" placeholder="Grade"><input class="txe-c" type="number" step="0.25" min="0" max="10" value="${c.credits==null?"":esc(c.credits)}" aria-label="Credits" placeholder="Cr"><button class="txe-x" type="button" aria-label="Remove this course">✕</button></div>`;
+  const render=()=>{
+    recompute();
+    el.innerHTML=`<div class="txp-h">Here's what I read — check it, fix anything wrong, then fill your profile:</div>
+    <div class="txp-warn" style="margin:0 0 8px">⚠ <b>Please double-check this against the original.</b> A computer read this automatically and it can be wrong, especially on photos: a course can be missed, a grade misread, or honors and AP classes mislabeled. Compare every row below with your transcript and fix anything that's off.${f.confidence==="low"?" <b>This one was hard to read, so check it extra carefully.</b>":""}</div>
+    ${row(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpaText(), "txp-gpa")}
+    <div class="muted" id="txp-gpanote" style="font-size:11.5px;margin:-2px 0 6px"></div>
+    ${row("AP / IB courses", f.apIb, "txp-ap")}${row("Honors courses", f.honors, "txp-hon")}${row("Dual-enrollment", f.dualEnrollment, "txp-dual")}
+    ${row("SAT", f.sat!=null?f.sat:"—")}${row("ACT", f.act!=null?f.act:"—")}
+    <div class="txe-h">Courses I read (${f.courses.length}) — edit, remove or add</div>
+    <div class="txe-head"><span>Course</span><span>Level</span><span>Grade</span><span>Credits</span><span></span></div>
+    <div id="txe-list">${f.courses.map(crow).join("")}</div>
+    <button class="linklike" id="txe-add" type="button">+ Add a course I missed</button>
     <div class="row" style="margin-top:10px;gap:8px"><button class="small primary" id="txp-fill" type="button">Fill my profile</button><button class="small ghost" id="txp-cancel" type="button">Discard</button></div>
     <div class="muted" style="font-size:11px;margin-top:6px">Nothing saves until you tap <b>Save academic profile</b>.</div>`;
-  el.classList.remove("hidden");
-  el.querySelector("#txp-cancel").onclick=()=>{ el.classList.add("hidden"); el.innerHTML=""; };
-  el.querySelector("#txp-fill").onclick=()=>{
-    const set=(id,v)=>{ const e=$(id); if(e&&v!=null&&v!=="") e.value=v; };
-    set("pf-gpa", f.gpa); set("pf-honors", f.honors); set("pf-ap", f.apIb); set("pf-dual", f.dualEnrollment);
-    if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
-    if(f.act!=null) set("pf-act", f.act);
-    ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
-    el.classList.add("hidden"); el.innerHTML="";
-    txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
-    try{ $("pf-gpa").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+    el.classList.remove("hidden"); paint();
+    el.querySelectorAll(".txe-row").forEach(r=>{ const i=+r.dataset.i, c=f.courses[i];
+      r.querySelector(".txe-n").oninput=e=>{ c.name=e.target.value; };
+      r.querySelector(".txe-l").onchange=e=>{ c.level=e.target.value; paint(); };
+      r.querySelector(".txe-g").oninput=e=>{ c.grade=e.target.value.trim().toUpperCase(); paint(); };
+      r.querySelector(".txe-c").oninput=e=>{ c.credits=e.target.value===""?null:Number(e.target.value); paint(); };
+      r.querySelector(".txe-x").onclick=()=>{ f.courses.splice(i,1); render(); }; });
+    $("txe-add").onclick=()=>{ f.courses.push({ name:"", level:"Regular", grade:"", credits:null, year:null }); render(); const ns=el.querySelectorAll(".txe-n"); if(ns.length) ns[ns.length-1].focus(); };
+    el.querySelector("#txp-cancel").onclick=()=>{ el.classList.add("hidden"); el.innerHTML=""; };
+    el.querySelector("#txp-fill").onclick=()=>{
+      const set=(id,v)=>{ const e=$(id); if(e&&v!=null&&v!=="") e.value=v; };
+      set("pf-gpa", f.gpa); set("pf-honors", f.honors); set("pf-ap", f.apIb); set("pf-dual", f.dualEnrollment);
+      if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
+      if(f.act!=null) set("pf-act", f.act);
+      ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
+      el.classList.add("hidden"); el.innerHTML="";
+      txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
+      try{ $("pf-gpa").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+    };
   };
+  render();
 }
 /* TXLOCAL-START
    Free, in-browser transcript reader (Oct 16): no AI and no server. PDFs are read with pdf.js; photos and scans are read
