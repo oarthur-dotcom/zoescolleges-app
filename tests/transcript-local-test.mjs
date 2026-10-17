@@ -25,4 +25,8 @@ ok(ctx.txEmpty(f),"5 empty");
 // 6. levels
 eq(["AP Biology","IB Chemistry HL","Dual Enrollment English","Honors Algebra","Latin II H","Physics"].map(ctx.txLevel),["AP","IB","Dual","Honors","Honors","Regular"],"6 levels");
 eq(["English9H","APUS History","APCalculus AB","Spanish 3H"].map(ctx.txLevel),["Honors","AP","AP","Honors"],"7 OCR squashed levels");
+// 8. coded table with a Level column (02 standard / 03 honors), year column, quarter grades, and OCR noise
+f=ctx.txFields(["Year of Graduation 2027","2024 9 AB1001-01 Advisory FR16 02 FY P P P P P 0","XY1020-03 Geometry 02 FY A A A- A- A- 1","QR3100-01 Latin I 02 FY A- B+ B+ C+ B+ 1","LM1030-09 Physics I H 03 FY B- C- C C- C 1","KL1030-10 Rsp To Lit H: 03 FY A B B- B- B 1","2025 10 ZZ2020-01 Chemistry I 02 FY A B B+ B+ A- 1","UU2130-05 Global Studies H 3 Fy B B C+ B+ B 1","VV2230-02 Real World Lit 03 FY B+ B+ B+ B B+ 1","Graduation Summary Total Credits Earned 21 Grade Point Average 0"]);
+eq(f.courses.length,7,"8 count (advisory skipped)"); eq(f.honors,4,"8 honors from names and level column"); eq(f.courses[0].year,9,"8 year 9"); eq(f.courses[4].year,10,"8 year 10");
+eq(f.courses.map(c=>c.grade),["A-","B+","C","B","A-","B","B+"],"8 final grades are the last grade in the row"); eq(f.gpa!=null&&f.gpaCalculated?true:false,true,"8 gpa calculated");
 console.log(`transcript-local ${pass} pass, ${fail} fail`); process.exit(fail?1:0);

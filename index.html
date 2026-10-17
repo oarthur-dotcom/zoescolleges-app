@@ -6655,41 +6655,65 @@ function txLevel(name){
   if(/\b(dual[\s-]*enroll\w*|college credit|early college|concurrent enroll\w*)\b/i.test(n)||/\bDE\b/.test(n)) return "Dual";
   if(/^IB\b/i.test(n)||/\b(IB|HL)\b/.test(n)) return "IB";
   if(/^AP\b/i.test(n)||/^AP(?=[A-Z0-9])/.test(n)||/\badvanced placement\b/i.test(n)) return "AP";
-  if(/\s\(?H\)?$/.test(n)||/\d\s?H$/.test(n)||/\b(honors?|hon|accelerated|acc)\b/i.test(n)||/\bH\s*$/.test(n)) return "Honors";
+  if(/\s\(?H\)?\W*$/.test(n)||/\d\s?H\W*$/.test(n)||/[a-z]H\W*$/.test(n)||/\b(honors?|hon|accelerated|acc)\b/i.test(n)||/\bH\s*$/.test(n)) return "Honors";
   return "Regular";
 }
 function txParseLines(lines){
-  const courses=[]; let year=null, gpa=null, weighted=null, sat=null, act=null;
+  const courses=[]; let year=null, gpa=null, weighted=null, sat=null, act=null, gradYear=null;
   const yearWord = s => /\b(freshman|9th|grade\s*9)\b/i.test(s)?9:/\b(sophomore|10th|grade\s*10)\b/i.test(s)?10:/\b(junior|11th|grade\s*11)\b/i.test(s)?11:/\b(senior|12th|grade\s*12)\b/i.test(s)?12:null;
+  const isGradeTok=t=>/^(A\+|A-|B\+|B-|C\+|C-|D\+|D-|[ABCDF]|P|NP|WP)$/.test(t);
+  const isNumTok=t=>/^\d{2,3}(\.\d+)?%?$/.test(t)&&+t.replace("%","")>=40&&+t.replace("%","")<=100;
+  const isCredTok=t=>/^\d{1,2}\.\d{1,2}$/.test(t)&&+t<=10;
+  const CODE=/\b[A-Za-z$0-9]{2,8}[-–]\d{2}\b/;          // course code such as MA1020-03 (OCR may garble the front)
+  const LEVELTOK=/^[0o][1-5][0-9:.]?$/i;                      // level column: 02 = standard, 03 = honors at schools that use it
+  const rows=[];
   for(let raw of lines){
     let line=String(raw||"").replace(/[|│\t]+/g," ").replace(/\s+/g," ").trim(); if(!line) continue;
-    // test scores and printed GPA
     let m;
     if((m=/\bSAT\b[^0-9]{0,40}(\d{3,4})\b/i.exec(line)) && +m[1]>=400 && +m[1]<=1600 && sat==null) sat=+m[1];
     if((m=/\bACT\b[^0-9]{0,30}(\d{1,2})\b/i.exec(line)) && +m[1]>=1 && +m[1]<=36 && act==null) act=+m[1];
+    if((m=/\bgraduation\b[^0-9]{0,20}(20\d\d)\b/i.exec(line)) && !gradYear) gradYear=+m[1];
     if((m=/\b(?:cumulative|cum\.?|overall|unweighted|gpa)\b[^0-9\n]{0,30}(\d\.\d{1,3})\b/i.exec(line))){
       const v=+m[1], wLine=/\bweighted\b/i.test(line)&&!/\bunweighted\b/i.test(line);
       if(wLine){ if(v>0 && weighted==null) weighted=v; }
       else if(v>0 && v<=4.0 && gpa==null) gpa=v; else if(v>4.0 && v<=6 && weighted==null) weighted=v;
     }
-    // year headings like "Grade 9" / "Sophomore"
     if(line.length<42 && !/\d\.\d/.test(line)){ const y=yearWord(line); if(y){ year=y; if(!/\s[A-F][+-]?\s/.test(line)) continue; } }
-    // a course row: name words first, then grades / credits
-    const tok=line.split(" "); let i=0;
-    const isGradeTok=t=>/^(A\+|A-|B\+|B-|C\+|C-|D\+|D-|[ABCDF]|P|NP|WP)$/.test(t);
-    const isNumTok=t=>/^\d{2,3}(\.\d+)?%?$/.test(t)&&+t.replace("%","")>=40&&+t.replace("%","")<=100;
-    const isCredTok=t=>/^\d{1,2}\.\d{1,2}$/.test(t)&&+t<=10;
-    while(i<tok.length && !(i>0 && (isGradeTok(tok[i])||isNumTok(tok[i])||isCredTok(tok[i])))) i++;
-    if(i===0||i>=tok.length) continue;
-    const name=tok.slice(0,i).join(" ").replace(/^[\d.\-–)\s]+(?=[A-Za-z])/,"").replace(/^[A-Z]{1,3}\d{3,5}\s+(?=[A-Za-z])/,"").trim();
-    if(name.replace(/[^A-Za-z]/g,"").length<3||name.length>64||TX_JUNK.test(name)) continue;
+    let tok=line.split(" "), lead=[], levelCode=null;
+    const ci=tok.findIndex(t=>CODE.test(t));
+    if(ci>=0){ lead=tok.slice(0,ci); tok=tok.slice(ci+1); }      // table row with a course code: year / grade columns come before it
+    lead.forEach(t=>{ if(/^(9|10|11|12)$/.test(t)) year=+t; else if(/^20\d\d$/.test(t)&&gradYear) year=Math.max(9,Math.min(12,12-(gradYear-(+t)))); });
+    let i=0;
+    if(ci>=0){ const li=tok.findIndex(t=>LEVELTOK.test(t)); if(li>0){ levelCode=tok[li]; var nameToks=tok.slice(0,li); i=li+1; } }
+    if(levelCode==null){
+      i=0; while(i<tok.length && !(i>0 && (isGradeTok(tok[i])||isNumTok(tok[i])||isCredTok(tok[i])))) i++;
+      if(i===0||i>=tok.length) continue; nameToks=tok.slice(0,i);
+    }
+    const name=nameToks.join(" ").replace(/^[\d.\-–)\s]+(?=[A-Za-z])/,"").replace(/^[A-Z]{1,3}\d{3,5}\s+(?=[A-Za-z])/,"").replace(/^[^A-Za-z]+/,"").trim();
+    if(name.replace(/[^A-Za-z]/g,"").length<3||TX_JUNK.test(name)||/\b(guardian|birth|address|phone|gender|student id|state id)\b/i.test(name)||/^advisory\b/i.test(name)) continue;
+    const honorsHint=nameToks.slice(0,7).some(t=>/^\(?H\)?$/.test(t)||/^\d H$/.test(t)||/\dH[:.]?$/.test(t)||/[a-z]H[:.]?$/.test(t));
     const rest=tok.slice(i); const letters=[], pcts=[]; let credit=null;
-    rest.forEach(t=>{ if(isGradeTok(t)) letters.push(t.toUpperCase()); else if(isCredTok(t)&&!(/^\d{2}\.\d$/.test(t)&&+t>=40)) credit=+t; else if(isNumTok(t)) pcts.push(t.replace("%","")); });
+    rest.forEach((t,k)=>{ if(isGradeTok(t)) letters.push(t); else if(isCredTok(t)&&!(/^\d{2}\.\d$/.test(t)&&+t>=40)) credit=+t; else if(isNumTok(t)) pcts.push(t.replace("%","")); else if(levelCode!=null && k===rest.length-1 && /^[0-3]$/.test(t)) credit=+t; });
     let grade=letters.length?letters[letters.length-1]:(pcts.length?pcts[pcts.length-1]:null);
-    if(grade==null) continue;
-    if(/^(W|WP)$/.test(grade)) continue;
-    courses.push({ name:name.slice(0,80), level:txLevel(name), grade, credits:credit, year });
+    if(grade==null||/^(W|WP)$/.test(grade)) continue;
+    // the school year / grade-level column (e.g. "2024  9  HRFR16-01 ...")
+    if(credit===0 && !/^(P|NP)$/.test(grade)) credit=null;       // a lettered course always has credit; a lone 0 is a misread
+    if(credit==null && levelCode!=null){ if(rest.some(t=>/^S[12I]$/i.test(t))) credit=0.5; else if(rest.some(t=>/^F[Yy]$/.test(t))) credit=1; }
+    // keep the readable start of the name; trailing OCR noise (short stray bits, symbols) is dropped
+    let nm=name.split(" "); let cut=nm.findIndex((t,k)=>k>=2&&(/[\[\]~=|"_]/.test(t)||(/^[a-z]{1,3}$/.test(t)&&k>=3)));
+    if(cut>0) nm=nm.slice(0,cut); while(nm.length>1&&/^(\d|[a-z]{1,2}|[0o][1-5]\w?|F[Yy]|S[12I]|\W+)$/.test(nm[nm.length-1])) nm.pop();
+    let clean=nm.join(" ").replace(/[:;,.]+$/,"").trim(); const letterShare=clean.replace(/[^A-Za-z ]/g,"").length/Math.max(1,clean.length);
+    if(letterShare<0.7||clean.length<3) clean="(name unclear)";
+    rows.push({ name:clean.slice(0,80), levelCode, grade, credits:credit, year, honorsHint });
   }
+  const codes=[...new Set(rows.map(r=>r.levelCode).filter(Boolean).map(c=>c.slice(0,2)))].sort();
+  rows.forEach(r=>{
+    if(r.credits===0 && /^(P|NP)$/.test(r.grade)) return;            // advisory / pass-fail with no credit: not a real course
+    let level=txLevel(r.name);
+    if(level==="Regular" && r.honorsHint) level="Honors";
+    if(level==="Regular" && r.levelCode && codes.length>=2 && r.levelCode.slice(0,2)>codes[0]) level="Honors";
+    courses.push({ name:r.name, level, grade:r.grade, credits:r.credits, year:r.year });
+  });
   return { gpa, weighted, sat, act, courses };
 }
 function txFields(lines, opts){
@@ -6744,9 +6768,53 @@ async function txReadFile(f, isPdf, onStatus){
     }
     return { lines, ocr:true };
   }
-  const blob=await resizeImage(f, 2600, 0.92);
-  onStatus&&onStatus("Reading the photo… the first time takes about 20 seconds while the reader loads.");
-  return { lines:await txOcr(blob, pr=>onStatus&&onStatus(`Reading the photo… ${Math.round(pr*100)}%`)), ocr:true };
+  // A phone photo of a table is hard to read in one go (tilt, shadows, soft focus at the edges). So: turn it to black and
+  // white with a local threshold, read it in overlapping horizontal strips, then merge the strips and drop repeated rows.
+  const big=await resizeImage(f, 3400, 0.95);
+  const bmp=await new Promise((res,rej)=>{ const im=new Image(), u=URL.createObjectURL(big); im.onload=()=>{ URL.revokeObjectURL(u); res(im); }; im.onerror=()=>rej(new Error("img")); im.src=u; });
+  const W=bmp.naturalWidth, H=bmp.naturalHeight, strips=[]; const sh=Math.round(H*0.24), step=Math.round(H*0.17);
+  for(let y0=0;y0<H-20;y0+=step){ strips.push([y0,Math.min(H,y0+sh)]); if(y0+sh>=H) break; }
+  const all=[]; let k=0;
+  for(const [y0,y1] of strips){
+    k++; onStatus&&onStatus(`Reading the photo… part ${k} of ${strips.length}. The first time takes a little longer while the reader loads.`);
+    const h=y1-y0, sc=Math.min(1, 3000/W), cw=Math.round(W*sc), ch=Math.round(h*sc);
+    const cv=document.createElement("canvas"); cv.width=cw; cv.height=ch; const cx=cv.getContext("2d"); cx.drawImage(bmp,0,y0,W,h,0,0,cw,ch);
+    txBinarize(cx, cw, ch);
+    const bl=await new Promise(r=>cv.toBlob(r,"image/png"));
+    const ls=await txOcrLines(bl);
+    ls.forEach(l=>all.push({ text:l.text, y:(y0+(l.y0+l.y1)/2/sc)/H }));
+  }
+  return { lines:txMergeStrips(all), ocr:true };
+}
+// grayscale, stretch contrast, then black/white against the local average (copes with shadows and uneven light)
+function txBinarize(cx, w, h){
+  const im=cx.getImageData(0,0,w,h), d=im.data, g=new Uint8Array(w*h); let lo=255, hi=0;
+  for(let i=0,j=0;i<d.length;i+=4,j++){ const v=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114)|0; g[j]=v; if(v<lo) lo=v; if(v>hi) hi=v; }
+  const span=Math.max(1,hi-lo); for(let j=0;j<g.length;j++) g[j]=((g[j]-lo)*255/span)|0;
+  const S=new Float64Array((w+1)*(h+1));      // integral image
+  for(let y=1;y<=h;y++){ let row=0; for(let x=1;x<=w;x++){ row+=g[(y-1)*w+(x-1)]; S[y*(w+1)+x]=S[(y-1)*(w+1)+x]+row; } }
+  const r=Math.max(8,Math.round(w/70));
+  for(let y=0;y<h;y++){ const y0=Math.max(0,y-r), y1=Math.min(h,y+r+1);
+    for(let x=0;x<w;x++){ const x0=Math.max(0,x-r), x1=Math.min(w,x+r+1);
+      const mean=(S[y1*(w+1)+x1]-S[y0*(w+1)+x1]-S[y1*(w+1)+x0]+S[y0*(w+1)+x0])/((x1-x0)*(y1-y0));
+      const o=(y*w+x)*4, v=g[y*w+x]>mean-12?255:0; d[o]=d[o+1]=d[o+2]=v; d[o+3]=255; } }
+  cx.putImageData(im,0,0);
+}
+async function txOcrLines(blob){
+  if(!window.Tesseract) await txLoadScript(TX_CDN()+"/tesseract.js@5.1.1/dist/tesseract.min.js");
+  if(!txOcrWorker){ txOcrWorker=await window.Tesseract.createWorker("eng",1,{
+    workerPath:TX_CDN()+"/tesseract.js@5.1.1/dist/worker.min.js", corePath:TX_CDN()+"/tesseract.js-core@5.1.1",
+    langPath:TX_CDN()+"/@tesseract.js-data/eng/4.0.0_best_int" }); }
+  await txOcrWorker.setParameters({ tessedit_pageseg_mode:"6" });
+  const r=await txOcrWorker.recognize(blob); const d=r.data||{};
+  return (d.lines||[]).map(l=>({ text:String(l.text||"").trim(), y0:l.bbox.y0, y1:l.bbox.y1 })).filter(l=>l.text);
+}
+// strips overlap, so the same table row is often read twice: keep one copy of each (the longer read)
+function txMergeStrips(all){
+  all.sort((a,b)=>a.y-b.y); const out=[];
+  for(const l of all){ const last=out[out.length-1];
+    if(last && Math.abs(l.y-last.y)<0.006){ if(l.text.length>last.text.length){ last.text=l.text; } last.y=(last.y+l.y)/2; } else out.push({ text:l.text, y:l.y }); }
+  return out.map(l=>l.text);
 }
 /* TXLOCAL-END */
 /* AIDLOCAL-START
