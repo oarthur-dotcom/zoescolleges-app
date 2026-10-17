@@ -1888,10 +1888,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <div><label for="pf-honors">Honors courses</label><input id="pf-honors" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-ap">AP / IB courses</label><input id="pf-ap" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-dual">Dual-enrollment<span class="hint" tabindex="0" data-tip="Real college courses taken for credit while in high school.">i</span></label><input id="pf-dual" type="number" min="0" inputmode="numeric" placeholder="0"></div>
-        <div><label for="pf-offered">Offered at your school<span class="hint" tabindex="0" data-tip="Optional. How many honors/AP/IB/dual-enrollment courses your high school offers in all. If you took most of what was available, you get more credit. Leave blank if you don't know.">i</span></label><select id="pf-offered"><option value="">Don't know</option><option value="2">1–4 courses</option><option value="6">5–8</option><option value="11">9–14</option><option value="19">15–24</option><option value="28">25 or more</option></select></div>
+        <div><label for="pf-offered">Offered at your school<span class="hint" tabindex="0" data-tip="How many honors/AP/IB/dual-enrollment courses your high school offers in all. Colleges judge rigor against what YOUR school offers, so if you took most of what was open to you, you get more credit. Not sure? Leave it on Don't know: we then count only how many you took, which can undersell a student at a school with few of these classes.">i</span></label><select id="pf-offered"><option value="">Don't know (counts only)</option><option value="2">1–4 courses</option><option value="6">5–8</option><option value="11">9–14</option><option value="19">15–24</option><option value="28">25 or more</option></select></div>
       </div>
-      <label for="pf-level" style="margin-top:12px">Compared with what your school offers, the schedule is…<span class="hint" tabindex="0" data-tip="This is the question the school counselor answers on every college application (the Common App School Report). Colleges judge rigor against what YOUR school offers, so a school with few APs is never held against you.">i</span></label>
-      <select id="pf-level"><option value="">Not sure</option><option value="5">Most demanding — about as hard as the school allows</option><option value="4">Very demanding</option><option value="3">Demanding</option><option value="2">Average</option><option value="1">Less demanding than most college-prep students</option></select>
+      <div id="pf-courses" class="pf-courses hidden"></div>
       <div id="pf-adj" class="pf-adj"></div>
       <details class="pf-more" id="pf-more"><summary>Optional details <span class="muted">— major, class rank, high school</span></summary>
         <div class="pf-grid">
@@ -6435,7 +6434,7 @@ function renderProfile(){
     const setSel=(sel,v)=>{ if(!sel) return; if(v && ![...sel.options].some(o=>o.value===v)){ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); } sel.value=v||sel.options[0].value; };
     setSel(m1, parts[0]||"Undecided / not sure yet"); setSel(m2, parts[1]||"");
     const rk=$("pf-rank"); setSel(rk, p.rank||""); }
-  { const g=$("pf-grade"); if(g) g.value=String((p.rigor&&p.rigor.grade)||""); const lv=$("pf-level"); if(lv) lv.value=String((p.rigor&&p.rigor.level)||""); }
+  { const g=$("pf-grade"); if(g) g.value=String((p.rigor&&p.rigor.grade)||""); }
   { const m=$("pf-more"); if(m) m.open = !!((p.rank)||(p.hs&&p.hs.name)||(p.major&&!/^Undecided/.test(p.major))); }
   { const ib=myPrefs().incomeBand; const sel=null; if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
   // test-optional toggle
@@ -6450,15 +6449,18 @@ function renderProfile(){
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
   const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-actboost")) $("pf-actboost").value=String(Math.max(0,Math.min(2,Math.round(+p.act_boost||0))));
+  pfCourses=Array.isArray(rg.courses)?rg.courses.map(c=>({name:String(c.name||"").slice(0,80),level:c.level||"Regular",grade:String(c.grade||""),credits:c.credits==null?null:c.credits,year:c.year||null})):[]; pfCoursesLine();
   if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
-  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
+  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0};
     const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
     const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
     el.innerHTML = (base>0 && any) ? `Rigor-adjusted GPA: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
       : (base>0 ? `<span class="muted">Add honors or AP courses to see your rigor-adjusted GPA.</span>` : "");
-    if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`;
+    if(any){ const withO=rigorBonus(prof)||0, counts=rigorBonus({...prof,rigor:{...r,offered:0}})||0;
+      el.innerHTML += r.offered ? `<div class="muted" style="margin-top:4px">Credit for your course rigor: <b>+${withO.toFixed(2)}</b> GPA points. This counts what share of the courses open to you by now you took, so a school with few AP/honors classes doesn't hold you back.</div>`
+        : `<div class="muted" style="margin-top:4px">Credit for your course rigor: <b>+${counts.toFixed(2)}</b> GPA points, from the <b>number</b> of courses alone because "Offered at your school" is on Don't know. If your school offers few honors/AP classes, this can undersell you: pick a range above and the credit rises if you took most of what was open. It never lowers your credit.</div>`; }
     if(base>0&&any) el.innerHTML+=`<div class="muted" style="margin-top:4px">Chances compare your <b>unweighted</b> GPA with admitted students, then count rigor and activities in their own steps — so nothing is counted twice.</div>`; };
-  ["pf-gpa","pf-honors","pf-ap","pf-dual","pf-offered"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level","pf-offered"].forEach(id=>$(id)&&($(id).onchange=recalc)); recalc();
+  ["pf-gpa","pf-honors","pf-ap","pf-dual","pf-offered"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-offered"].forEach(id=>$(id)&&($(id).onchange=recalc)); recalc();
   // high school context
   const hs=p.hs||{}; if($("pf-hs")) $("pf-hs").value=hs.name||"";
   // activities
@@ -6583,7 +6585,8 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
+  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
+  if(pfCourses.length) rigor.courses=pfCourses.slice(0,40);
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
   const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
@@ -6606,7 +6609,15 @@ $("pf-save").onclick = saveProfileForm;
 { const b3=$("pf-save3"); if(b3) b3.onclick = saveProfileForm; }
 /* ---- Transcript upload → AI read → review → fill (never auto-saves) ---- */
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
-function showTxPreview(f0){
+let pfCourses=[];   // the course list behind the honors/AP counts, saved with the profile so it can be edited later
+function pfCoursesLine(){ const b=$("pf-courses"); if(!b) return;
+  if(!pfCourses.length){ b.classList.add("hidden"); b.innerHTML=""; return; }
+  b.classList.remove("hidden");
+  b.innerHTML=`<span class="muted">${pfCourses.length} courses saved from your transcript.</span> <button class="linklike" id="pf-editcourses" type="button">Edit my courses</button>`;
+  $("pf-editcourses").onclick=()=>{ showTxPreview({ gpa:null, weightedGpa:null, sat:null, act:null, courses:pfCourses.map(c=>({...c})), confidence:"high" }, true);
+    const t=$("tx-preview"); if(t&&t.scrollIntoView) t.scrollIntoView({behavior:"smooth",block:"start"}); };
+}
+function showTxPreview(f0, editing){
   // Oct 16: the read is a first guess. Every course is editable (name, level, grade, credits), you can remove a wrong row or add a
   // missed one, and the GPA and the AP / honors counts recalculate as you go. Nothing saves until "Save academic profile".
   const el=$("tx-preview"); if(!el) return;
@@ -6652,6 +6663,7 @@ function showTxPreview(f0){
       if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
       if(f.act!=null) set("pf-act", f.act);
       ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
+      pfCourses=f.courses.filter(c=>(c.name||"").trim()||(c.grade||"").trim()).map(c=>({name:(c.name||"").trim().slice(0,80),level:c.level,grade:String(c.grade||"").trim(),credits:(c.credits===""||c.credits==null)?null:Number(c.credits),year:c.year||null})); pfCoursesLine();
       el.classList.add("hidden"); el.innerHTML="";
       txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
       try{ $("pf-gpa").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
