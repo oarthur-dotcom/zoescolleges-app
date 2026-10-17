@@ -5019,14 +5019,16 @@ function wireCost(el){
   const fi=$("offer-file");
   $("offer-upload").onclick=()=>fi.click();
   fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const box=$("offer-form");
-    if(f.size>4*1024*1024){ box.innerHTML=`<div class="msg err">That file is over 4MB — try a phone photo or a PDF export.</div>`; return; }
-    box.innerHTML=`<div class="msg">Reading <b>${esc(f.name)}</b>… this takes a few seconds.</div>`;
-    let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }catch(e){ box.innerHTML=`<div class="msg err">Couldn't read that file.</div>`; return; }
-    try{ const r=await fetch("/.netlify/functions/aid-letter-read",{method:"POST",headers:await aiHeaders(),body:JSON.stringify({file:String(dataUrl).split(",")[1]||"",mime:f.type})}); const j=await r.json().catch(()=>({}));
-      if(j.fields){ offerForm(matchSchool(j.fields.school), j.fields, true); return; }
-      box.innerHTML=`<div class="msg err">${j.notAidLetter?"That doesn't look like an aid offer.":j.capped?"We've hit today's limit for letter reading.":j.unconfigured?"Letter reading isn't switched on yet.":esc(j.error||"Couldn't read that one.")} <button class="linklike" data-offer-manual>Type the numbers in</button></div>`;
-      box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false);
-    }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
+    box.innerHTML=`<div class="msg"><span class="tx-spin"></span> <span id="offer-prog">Reading <b>${esc(f.name)}</b> on your device…</span></div>`;
+    const manual=()=>{ const m=box.querySelector("[data-offer-manual]"); if(m) m.onclick=()=>offerForm("",{},false); };
+    const isPdf = f.type==="application/pdf" || /\.pdf$/i.test(f.name);
+    if(!isPdf && !(/^image\//.test(f.type)||isHeicFile(f))){ box.innerHTML=`<div class="msg err">Please pick a PDF or a photo of the letter. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); return; }
+    try{
+      const res=await txReadFile(f, isPdf, m=>{ const e=$("offer-prog"); if(e) e.textContent=m; });
+      const fields=aidFields(res.lines,{ocr:res.ocr});
+      if(!fields._n){ box.innerHTML=`<div class="msg err">I couldn't find any dollar amounts on that. Try a straight, well-lit photo of the whole letter, or a PDF. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); return; }
+      offerForm(matchSchool(fields.school), fields, true);
+    }catch(e){ box.innerHTML=`<div class="msg err">Couldn't read that file here. Check your internet connection (the reader loads once), try a PDF or a clearer photo. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); } };
   el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
   el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
   el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=async()=>{ if(!await askOk("Remove this offer from your list?","Remove")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
@@ -6747,6 +6749,43 @@ async function txReadFile(f, isPdf, onStatus){
   return { lines:await txOcr(blob, pr=>onStatus&&onStatus(`Reading the photo… ${Math.round(pr*100)}%`)), ocr:true };
 }
 /* TXLOCAL-END */
+/* AIDLOCAL-START
+   Free, in-browser financial-aid letter reader (Oct 16): same on-device reading as the transcript reader (txReadFile),
+   then plain rules pick out the grants, loans, work-study and cost of attendance. Nothing leaves the device. */
+function aidParseLines(lines){
+  const moneyIn=s=>[...String(s).matchAll(/\$\s*([\d]{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?|(?<![\d.,])([\d]{1,3}(?:,\d{3})+|\d{3,6})(?:\.\d{2})?(?![\d,])/g)].map(m=>+String(m[1]||m[2]).replace(/,/g,"")).filter(n=>n>0&&n<=200000);
+  const out={ school:null, academicYear:null, costOfAttendance:null, directCost:null, grants:[], loans:[], workStudy:null, period:"unknown", totalGrants:null };
+  let semHeader=false;
+  const clean=lines.map(l=>String(l||"").replace(/[|│\t]+/g," ").replace(/\s+/g," ").trim()).filter(Boolean);
+  clean.slice(0,14).forEach(l=>{ if(!out.school && /\b(university|college|institute of|polytechnic|school of)\b/i.test(l) && l.length<90 && !/financial aid|award|offer/i.test(l.replace(/(university|college)/ig,""))) out.school=l.replace(/\s*[-–|].*$/,"").trim(); });
+  if(!out.school){ const l=clean.slice(0,14).find(l=>/\b(university|college)\b/i.test(l)&&l.length<90); if(l) out.school=l.replace(/\s*[-–|].*$/,"").trim(); }
+  for(const l of clean){ const y=/\b(20\d\d)\s*[-–\/]\s*(?:20)?(\d\d)\b/.exec(l); if(y){ out.academicYear=`${y[1]}–${y[2]}`; break; } }
+  for(const l of clean){
+    if(/\bfall\b/i.test(l)&&/\bspring\b/i.test(l)) semHeader=true;
+    const l2=l.replace(/\b20\d\d\s*[-–\/]\s*(?:20)?\d\d\b/g," "); const amts=moneyIn(l2); if(!amts.length) continue;
+    const label=l2.replace(/\$?\s*\d[\d,]*(\.\d{2})?/g," ").replace(/\s+/g," ").replace(/[:.\-–]+\s*$/,"").trim();
+    const amt = amts.length>=3 ? Math.max(...amts) : (amts.length===2&&semHeader&&!/total|annual|year/i.test(l)) ? amts[0]+amts[1] : amts[0];
+    if(/cost of attendance|total cost|estimated cost|\bCOA\b|budget/i.test(l) && !/net|direct|billed/i.test(l)){ out.costOfAttendance=Math.max(out.costOfAttendance||0,amt); continue; }
+    if(/direct (cost|billed)|billed (cost|charges)|total (direct|billed)/i.test(l)){ out.directCost=amt; continue; }
+    if(/work[\s-]*study|\bFWS\b/i.test(l)){ out.workStudy=amt; continue; }
+    if(/\b(total|subtotal|net|balance|remaining|out[\s-]of[\s-]pocket|amount due|family contribution|EFC|SAI|gap)\b/i.test(label)){
+      if(/total/i.test(label)&&/(grant|scholarship|gift|free)/i.test(label)&&!/loan/i.test(label)) out.totalGrants=amt; continue; }
+    if(/\b(loan|plus|stafford|perkins|borrow)\b/i.test(label)){
+      const kind=/unsub/i.test(label)?"unsubsidized":/subsid/i.test(label)?"subsidized":/plus|parent/i.test(label)?"parent_plus":/private|alternative/i.test(label)?"private":"other";
+      out.loans.push({ name:label.slice(0,80)||"Loan", amount:amt, kind }); continue; }
+    if(/\b(grant|scholarship|award|waiver|discount|fellowship|pell|seog|merit|need[\s-]based|presidential|trustee|dean|remission|institutional|tuition (benefit|reduction)|gift)\b/i.test(label)&&label.replace(/[^A-Za-z]/g,"").length>=4){
+      out.grants.push({ name:label.slice(0,80), amount:amt }); }
+  }
+  if(!out.grants.length && out.totalGrants) out.grants.push({ name:"Total grants and scholarships", amount:out.totalGrants });
+  if(semHeader) out.period="year";
+  return out;
+}
+function aidFields(lines, opts){
+  const o=aidParseLines(lines); const n=o.grants.length+o.loans.length+(o.workStudy?1:0)+(o.costOfAttendance?1:0);
+  o.confidence = (o.costOfAttendance&&o.grants.length)?"medium":"low"; if(opts&&opts.ocr&&o.confidence==="medium") o.confidence="low";
+  o._n=n; return o;
+}
+/* AIDLOCAL-END */
 { const btn=$("tx-btn"), file=$("tx-file");
   if(btn && file){
     btn.onclick=()=>file.click();
