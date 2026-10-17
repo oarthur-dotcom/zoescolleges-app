@@ -6313,7 +6313,22 @@ function wirePhotos(id){
   root.querySelectorAll("[data-pricereq]").forEach(b=>b.onclick=()=>{ b.disabled=true; requestPricing(b.dataset.pricereq); });
   root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
 }
-function resizeImage(file, maxDim, quality){
+// iPhone photos (HEIC/HEIF): Chrome and Edge on Windows can't open them, so convert to JPEG in the browser first (library loads only when needed).
+const isHeicFile = f => /image\/hei[cf]/i.test(f.type||"") || /\.hei[cf]$/i.test(f.name||"");
+function loadHeicLib(){
+  if(window.heic2any) return Promise.resolve(window.heic2any);
+  return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=window.HEIC_LIB_URL||"https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+    s.onload=()=>window.heic2any?res(window.heic2any):rej(new Error("heic lib missing")); s.onerror=()=>rej(new Error("heic lib failed")); document.head.appendChild(s); });
+}
+async function resizeImage(file, maxDim, quality){
+  try{ return await resizeImageCore(file, maxDim, quality); }
+  catch(e){
+    if(!isHeicFile(file)) throw e;
+    const h=await loadHeicLib(); let out=await h({ blob:file, toType:"image/jpeg", quality:0.9 }); if(Array.isArray(out)) out=out[0];
+    return await resizeImageCore(out, maxDim, quality);
+  }
+}
+function resizeImageCore(file, maxDim, quality){
   return new Promise((resolve,reject)=>{
     const img=new Image(); const url=URL.createObjectURL(file);
     img.onload=()=>{ URL.revokeObjectURL(url); let {width:w,height:h}=img; const scale=Math.min(1, maxDim/Math.max(w,h)); w=Math.round(w*scale); h=Math.round(h*scale);
@@ -6627,7 +6642,7 @@ function showTxPreview(f){
       txStatus(`<span class="tx-spin"></span> Reading <b>${esc(f.name)}</b>… this can take a few seconds.`,"busy");
       let blob=f, mime=isPdf?"application/pdf":f.type;
       if(isImg){ try{ blob=await resizeImage(f, 1800, 0.85); mime="image/jpeg"; }
-        catch(e){ txStatus(isHeic?"This browser can't open iPhone (HEIC) photos. Take a screenshot of the photo and upload that, or use a PDF.":"Couldn't open that photo. Try a screenshot of it, or a PDF.","err"); return; } }
+        catch(e){ txStatus(isHeic?"Couldn't convert that iPhone (HEIC) photo. Check your internet connection and try again, or take a screenshot of it, or use a PDF.":"Couldn't open that photo. Try a screenshot of it, or a PDF.","err"); return; } }
       let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(blob); }); }catch(e){ txStatus("Couldn't read that file.","err"); return; }
       const b64=String(dataUrl).split(",")[1]||"";
       try{
