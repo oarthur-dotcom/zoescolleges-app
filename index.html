@@ -6612,8 +6612,8 @@ function showTxPreview(f){
     ${line("Dual-enrollment", f.dualEnrollment)}
     ${line("SAT", f.sat!=null?f.sat:"—")}
     ${line("ACT", f.act!=null?f.act:"—")}
-    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses"><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}${c.grade?` <span class="muted">· ${esc(c.grade)}</span>`:""}</li>`).join("")}</ul></details>`:""}
-    ${f.confidence==="low"?`<div class="txp-warn">⚠ The image was hard to read — double-check these before saving.</div>`:""}
+    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses" open><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}${c.grade?` <span class="muted">· ${esc(c.grade)}</span>`:""}</li>`).join("")}</ul></details>`:""}
+    <div class="txp-warn" style="margin:8px 0">⚠ <b>Please double-check this against the original.</b> A computer read this automatically and it can be wrong, especially on photos: a course can be missed, a grade misread, or honors and AP classes mislabeled. Open <b>"Courses I read"</b> below and compare every course and grade, then fix any number before you save.${f.confidence==="low"?" <b>This one was hard to read, so check it extra carefully.</b>":""}</div>
     <div class="row" style="margin-top:10px;gap:8px"><button class="small primary" id="txp-fill" type="button">Fill my profile</button><button class="small ghost" id="txp-cancel" type="button">Discard</button></div>
     <div class="muted" style="font-size:11px;margin-top:6px">Nothing saves until you tap <b>Save academic profile</b>.</div>`;
   el.classList.remove("hidden");
