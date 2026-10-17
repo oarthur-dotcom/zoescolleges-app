@@ -1909,6 +1909,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <select id="pf-actboost" style="width:100%;max-width:100%"><option value="0">Zoe's recommendation (default)</option><option value="1">Higher — my own adjustment</option><option value="2">Highest — my own adjustment</option></select>
         <div class="muted" style="font-size:12px;margin-top:4px">Anything above the default is <b>your</b> call, not our scoring. The 15-point cap stays.</div></div>
       <div class="row" style="margin-top:12px"><button id="pf-save2" class="small primary">Save activities</button><span id="pf-savemsg2" class="muted" style="font-size:12px"></span></div>
+      <details id="pf-hist-wrap" style="margin-top:14px"><summary class="muted" style="cursor:pointer;font-size:13px">Change history: who changed what</summary><div id="pf-history" style="margin-top:8px"></div></details>
     </div>
     </div><!-- /pf-acad -->
     <div id="pf-who" class="pf-group hidden">
@@ -6758,20 +6759,43 @@ function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; con
 }
 $("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
   const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };
-async function saveProfile(p){
+async function saveProfileCore(p){
   if(pendingMode()){   // #64: a parent filling in the student's profile before they join
     state.profiles.pending = {...p, user_id:"pending", testOptional: p.test_optional!=null ? !!p.test_optional : p.testOptional};
     const {error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id);
-    if(error){ alert("Save failed: "+(error.message||error)); return; } state.pending.profile=p; return; }
+    if(error){ alert("Save failed: "+(error.message||error)); return; } state.pending.profile=p; return true; }
   state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
   if(BACKEND.profiles){ try{
       const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
       let {error}=await sb.from("profiles").upsert(row);
       if(error && /test_optional|\bhs\b|rigor|activities|act_boost|column|schema cache/i.test(error.message||"")){   // migration 008/003/025 not applied yet
         const {test_optional, hs, rigor, activities, act_boost, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
-      if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
-  lsSet("profile", p);
+      if(error) throw error; return true; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
+  lsSet("profile", p); return true;
 }
+/* Edit history (Oct 16): every change to grades, scores, rigor or activities is logged with who made it. Needs migration 028;
+   without it the save works exactly as before and nothing is logged. */
+const EDIT_FIELDS=[["gpa","GPA"],["sat","SAT"],["act","ACT"],["major","Intended major"],["rank","Class rank"],["home_state","Home state"],["test_optional","Test-optional"],["act_boost","Activities adjustment"],["rigor","Course rigor"],["activities","Activities"]];
+function editVal(k,v){ if(v==null||v==="") return ""; if(k==="activities") return (Array.isArray(v)?v:[]).map(a=>a&&a.name||a&&a.category||"?").join("; "); if(typeof v==="object") return JSON.stringify(v); return String(v); }
+function profileEditDiff(before,after){ const out=[]; for(const [k,label] of EDIT_FIELDS){ const o=editVal(k,(before||{})[k]), n=editVal(k,(after||{})[k]); if(o!==n && !(k==="act_boost"&&(o===""||o==="0")&&(n===""||n==="0"))) out.push({field:label,old_value:o.slice(0,500),new_value:n.slice(0,500)}); } return out; }
+async function saveProfile(p){
+  const before = pendingMode() ? ((state.pending&&state.pending.profile)||{}) : (state.profiles[state.me.user_id]||{});
+  const diffs=profileEditDiff(before,p);
+  const ok=await saveProfileCore(p);
+  if(ok && diffs.length && !(BACKEND.edits===false)){ try{
+      const who=(state.me&&(state.me.display_name||state.me.name))||"family member"; const owner=pendingMode()?"student (not yet joined)":who;
+      const rows=diffs.map(d=>({family_id:state.family.id,profile_owner:owner,edited_by:state.me.user_id,edited_by_name:who,...d}));
+      const {error}=await sb.from("profile_edits").insert(rows); if(error){ if(isMissing(error)||/profile_edits|relation|schema cache/i.test(error.message||"")) BACKEND.edits=false; }
+    }catch(e){ BACKEND.edits=false; } }
+  return ok;
+}
+async function renderEditHistory(){ const box=$("pf-history"); if(!box) return; box.innerHTML="";
+  if(BACKEND.edits===false || !state.family) { box.innerHTML='<p class="muted" style="font-size:12px">History switches on after the next database update.</p>'; return; }
+  try{ const {data,error}=await sb.from("profile_edits").select("*").eq("family_id",state.family.id).order("created_at",{ascending:false}).limit(60);
+    if(error) throw error; if(!data||!data.length){ box.innerHTML='<p class="muted" style="font-size:12px">No changes recorded yet. From now on, every change to grades, scores and activities shows here with who made it.</p>'; return; }
+    box.innerHTML='<ul style="list-style:none;padding:0;margin:0;font-size:13px">'+data.map(r=>{ const d=new Date(r.created_at); return `<li style="padding:6px 0;border-bottom:1px solid var(--line,#ddd)"><b>${esc(r.edited_by_name||"Someone")}</b> changed <b>${esc(r.field)}</b> from <i>${esc(r.old_value||"blank")}</i> to <i>${esc(r.new_value||"blank")}</i> <span class="muted">· ${esc(d.toLocaleDateString()+" "+d.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}))}</span></li>`; }).join("")+'</ul>';
+  }catch(e){ BACKEND.edits=false; box.innerHTML='<p class="muted" style="font-size:12px">History switches on after the next database update.</p>'; } }
+{ const w=$("pf-hist-wrap"); if(w) w.addEventListener("toggle",()=>{ if(w.open) renderEditHistory(); }); }
 $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
   $("lifeprefs").querySelectorAll("[data-lp]").forEach(el=>w[el.dataset.lp]=el.value);
