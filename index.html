@@ -168,6 +168,7 @@ a{color:var(--teal)}
 .d-hero{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px}
 #v-detail{max-width:1000px;margin:0 auto}
 .d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.cost-src{font-size:11.5px;font-weight:400;color:var(--muted);margin-top:4px;line-height:1.35}.cost-src a{color:var(--teal)}.cost-ok{color:var(--teal);font-weight:700}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
 .d-cell{background:var(--surface);padding:11px 13px}
 .d-cell .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -379,7 +380,7 @@ h1 + .howto-btn{vertical-align:middle;margin:0 0 6px 14px;min-height:36px;paddin
 .cp-fill{height:100%;border-radius:999px;transition:width .6s ease}
 .cp-fill.likely{background:#2e9e6b}
 .cp-fill.target{background:#d79a2b}
-.cp-fill.reach{background:#8e3b7a}
+.cp-fill.reach{background:var(--plum)}
 .cp-pct{flex:0 0 40px;text-align:right;font-weight:700;font-size:13px}
 /* public share view */
 #v-share{max-width:720px;margin:0 auto;padding:24px 20px 80px}
@@ -420,7 +421,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .rp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin:18px 0}
 .rp-stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);display:flex;flex-direction:column;gap:2px}
 .rp-stat span{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}.rp-stat b{font-size:18px}.rp-stat small{display:block;font-size:11px;color:var(--muted);font-weight:400}
-.rp-stat.lk b{color:var(--good)}.rp-stat.tg b{color:var(--teal)}.rp-stat.rc b{color:var(--warn)}
+.rp-stat.lk b{color:var(--good)}.rp-stat.tg b{color:var(--teal)}.rp-stat.rc b{color:var(--plum)}
 .rp-stats-sm .rp-stat b{font-size:15px}
 .rp-next{border-left:4px solid var(--warn);background:color-mix(in srgb,var(--warn) 8%,var(--surface));border-radius:10px;padding:10px 12px;font-size:14px;margin:0 0 14px}
 .rp-take{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface)}
@@ -436,8 +437,8 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .rp-school h3{margin:0 0 2px;font-size:16.5px}.rp-rank{color:var(--teal)}
 .rp-muted{color:var(--muted);font-size:12.5px}
 .rp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.rp-tag{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}
-.rp-tag.likely{color:var(--good);border-color:var(--good)}.rp-tag.target{color:var(--teal);border-color:var(--teal)}.rp-tag.reach{color:var(--warn);border-color:var(--warn)}.rp-tag.m{color:var(--teal)}.rp-tag.st{color:#c58a00}
+.rp-toc a{color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.rp-tag{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}
+.rp-tag.likely{color:var(--good);border-color:var(--good)}.rp-tag.target{color:var(--teal);border-color:var(--teal)}.rp-tag.reach{color:var(--plum);border-color:var(--plum)}.rp-tag.m{color:var(--teal)}.rp-tag.st{color:#c58a00}
 .rp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 4px}
 .rp-grid .rp-stat{padding:7px 10px}.rp-grid .rp-stat b{font-size:14px}
 .rp-stand{margin-top:8px}.rp-line{font-size:13px;margin-top:6px}
@@ -620,6 +621,19 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
 .why-panel{margin-top:8px}
+.b3-ap .b3-v{color:var(--teal)}.of50{font-size:.6em;font-weight:700;opacity:.65;margin-left:1px;letter-spacing:0}
+.rp-tag.ap{color:var(--teal);border-color:var(--teal);font-weight:800}.rp-stat.ap b{color:var(--teal)}
+.ap-cmp{font-size:18px;color:var(--teal)}
+.apm{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin:0 0 12px;background:var(--surface,#fff)}
+.apm-top{display:flex;gap:12px;align-items:center}.apm-num{font:800 40px/1 var(--display,inherit);min-width:62px;text-align:center;color:var(--teal)}
+.apm-sub{font-size:12.5px;color:var(--muted,#6b6b6b);margin-top:2px}
+.apm-bar{position:relative;height:10px;border-radius:99px;background:color-mix(in srgb,var(--teal) 12%,var(--line,#e7e4dd));margin:10px 0 8px;overflow:visible}
+.apm-bar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .5s}.apm-bar b{position:absolute;top:-3px;width:2px;height:16px;background:var(--ink,#222);opacity:.45}
+.apm-list{font-size:12.5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line,#e7e4dd)}.apm-row{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;color:var(--muted,#6b6b6b)}.apm-row.on{color:inherit;font-weight:600}
+.ask-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}.ask-box{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.4)}.ask-msg{margin:0 0 14px;line-height:1.45;white-space:pre-line}.ask-row{display:flex;gap:8px;justify-content:flex-end}.ask-go{background:#b91c1c;border-color:#b91c1c;color:#fff}
+.dl-docs{margin-top:10px;font-size:13px}.dl-docs>summary{cursor:pointer;color:var(--teal);font-weight:600}.dd-item{border-top:1px solid var(--line);padding:10px 0}.dd-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dd-badge{font-size:11px;font-weight:700;color:var(--good);border:1px solid var(--good);border-radius:999px;padding:1px 8px}
+.dd-add{margin-left:auto;cursor:pointer;border:1px solid var(--teal);color:var(--teal);border-radius:10px;padding:6px 10px;font-size:12.5px;font-weight:600;background:var(--surface)}.dd-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}.dd-list li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dd-list li.sub{background:color-mix(in srgb,var(--good) 9%,var(--surface));border-radius:8px;padding:4px 6px}
+.dd-v{font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted)}.dd-open{font-weight:600;text-align:left;word-break:break-word}.dd-meta{font-size:11.5px}.dd-sub{font-size:12px;font-weight:700;color:var(--good)}.dd-empty{font-size:12.5px;margin-top:6px}.dd-msg{font-size:12px;margin-top:4px;min-height:0}
 .ap-chip{border:1px solid color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--surface));color:var(--teal);font-weight:700;cursor:default}button.ap-chip{cursor:pointer;font:inherit;font-size:12px;font-weight:700}
 .ap-card{border:1px solid var(--line,#e7e4dd);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--surface,#fff)}
 .ap-top{display:flex;gap:12px;align-items:center}.ap-num{font:800 34px/1 var(--display,inherit);min-width:56px;text-align:center;color:var(--teal)}
@@ -682,6 +696,12 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .txp-row:last-of-type{border-bottom:none}
 .txp-courses{margin-top:8px;font-size:12.5px}.txp-courses ul{margin:6px 0 0;padding-left:18px;columns:2;column-gap:18px}.txp-lv{font-size:10.5px;font-weight:700;color:var(--teal)}
 .txp-warn{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber);font-size:12px;border-radius:8px;padding:7px 9px;margin-top:8px}
+.txe-h{font-weight:700;font-size:12.5px;margin:12px 0 4px}
+.txe-head,.txe-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 54px 54px 28px;gap:4px;align-items:center}
+.txe-head{font-size:10.5px;color:var(--muted,#8a857b);padding:0 2px 2px}
+.txe-row{margin-bottom:4px}.txe-row input,.txe-row select{width:100%;min-width:0;font-size:12.5px;padding:5px 6px;box-sizing:border-box}
+.txe-x{border:none;background:transparent;color:var(--muted,#8a857b);cursor:pointer;font-size:14px;padding:2px}
+@media(max-width:520px){.txe-head,.txe-row{grid-template-columns:minmax(0,1fr) 74px 46px 44px 24px}}
 .vmap{height:280px;border-radius:12px;border:1px solid var(--line);margin:8px 0;z-index:0}
 .vmap .leaflet-container{border-radius:12px}
 .spots{display:flex;flex-direction:column;gap:6px;margin:6px 0}
@@ -1372,7 +1392,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dd-cpill.applied{background:color-mix(in srgb,var(--teal) 12%,var(--surface));color:var(--teal)}.dd-cpill.accepted{background:color-mix(in srgb,var(--good) 16%,var(--surface));color:var(--good)}
 .dd-cpill.waitlisted,.dd-cpill.deferred{background:color-mix(in srgb,var(--amber) 14%,var(--surface));color:var(--amber)}
 .mr-pct{font-style:normal;font-size:.62em;font-weight:700;margin-left:1px}
-.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 6px}
+.px-line{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;margin:3px 0}.px-line b{font-size:17px;font-weight:800;color:var(--ink,inherit)}.px-line span{font-size:12px;color:var(--muted)}.px-line .px-st{text-decoration:none;opacity:.8}
+.big3{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0 6px}
+.big3 .b3{padding:8px 5px;align-items:center;justify-content:center;text-align:center}.big3 .b3-s{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2}.big3 .b3-k{text-align:center}.big3 .b3-k{font-size:9.5px;letter-spacing:.03em}.big3 .b3-v{font-size:clamp(14px,4.2vw,17px)}.big3 .b3-s{font-size:10px}
 .b3{background:var(--sunk);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
 .b3-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .b3-v{font-size:clamp(15px,4.6vw,19px);font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1700,6 +1722,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <ul style="line-height:1.7;margin:0;padding-left:20px">
         <li><b>Admissions, cost, graduation & earnings</b> — the U.S. Department of Education's <a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener">College Scorecard</a>, the official federal dataset.</li>
         <li><b>Area context</b> (political lean, gun & LGBTQ policy) — state-level tallies from Cook PVI / presidential results, the <a href="https://giffords.org/lawcenter/" target="_blank" rel="noopener">Giffords Law Center</a>, and the <a href="https://www.mapresearch.org/" target="_blank" rel="noopener">Movement Advancement Project</a>. These describe the <i>state/area</i>, not the school.</li>
+        <li><b>Sticker prices</b> — where we have checked the school's own published cost-of-attendance page, we show that figure with its year and a link; the rest are federal estimates, labelled as such.</li>
         <li><b>Deadlines & extra detail</b> — curated by us; always confirm on the school's own site.</li>
       </ul>
       <p class="muted" style="font-size:13px;margin-bottom:0">Every school's detail page names its sources, and nothing here is a number we made up.</p>
@@ -1781,6 +1804,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <select id="board-sort" style="width:auto">
           <option value="blend">Family star average</option>
           <option value="match">My fit %</option>
+          <option value="power">⚡ Admit Power (highest first)</option>
           <option value="chance">Admission chance</option>
           <option value="name">Name (A–Z)</option>
           <option value="visited">Visited first</option>
@@ -1837,6 +1861,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
     <div id="pf-summary" class="hidden"></div>
+    <div id="pf-meter"></div>
     <div class="card" id="pf-form-card">
       <h2 style="margin-top:0" id="pf-form-title">Build your profile</h2>
       <p class="muted" style="font-size:13px;margin-top:0">This drives the Reach / Target / Likely labels. Only a few basics are needed; everything else is optional.</p>
@@ -1863,9 +1888,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <div><label for="pf-honors">Honors courses</label><input id="pf-honors" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-ap">AP / IB courses</label><input id="pf-ap" type="number" min="0" inputmode="numeric" placeholder="0"></div>
         <div><label for="pf-dual">Dual-enrollment<span class="hint" tabindex="0" data-tip="Real college courses taken for credit while in high school.">i</span></label><input id="pf-dual" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label for="pf-offered">Offered at your school<span class="hint" tabindex="0" data-tip="How many honors/AP/IB/dual-enrollment courses your high school offers in all. Colleges judge rigor against what YOUR school offers, so if you took most of what was open to you, you get more credit. Not sure? Leave it on Don't know: we then count only how many you took, which can undersell a student at a school with few of these classes.">i</span></label><select id="pf-offered"><option value="">Don't know (counts only)</option><option value="2">1–4 courses</option><option value="6">5–8</option><option value="11">9–14</option><option value="19">15–24</option><option value="28">25 or more</option></select></div>
       </div>
-      <label for="pf-level" style="margin-top:12px">Compared with what your school offers, the schedule is…<span class="hint" tabindex="0" data-tip="This is the question the school counselor answers on every college application (the Common App School Report). Colleges judge rigor against what YOUR school offers, so a school with few APs is never held against you.">i</span></label>
-      <select id="pf-level"><option value="">Not sure</option><option value="5">Most demanding — about as hard as the school allows</option><option value="4">Very demanding</option><option value="3">Demanding</option><option value="2">Average</option><option value="1">Less demanding than most college-prep students</option></select>
+      <div id="pf-courses" class="pf-courses hidden"></div>
       <div id="pf-adj" class="pf-adj"></div>
       <details class="pf-more" id="pf-more"><summary>Optional details <span class="muted">— major, class rank, high school</span></summary>
         <div class="pf-grid">
@@ -1885,7 +1910,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <div id="pf-acts"></div>
       <button id="pf-act-add" class="act-add" type="button">+ Add your first activity</button>
       <div id="pf-act-strength" class="muted" style="font-size:12px;margin-top:8px"></div>
+      <div style="margin-top:12px"><label for="pf-actboost" style="font-weight:600;font-size:13px">Activity weight<span class="hint" tabindex="0" data-tip="Your own judgment, not our scoring. Zoe's recommendation is what we think the research supports. If you believe the schools you're looking at value activities more, bump it up. Activities can still never move a score by more than 15 points, so they can't cover a gap in grades.">i</span></label>
+        <select id="pf-actboost" style="width:100%;max-width:100%"><option value="0">Zoe's recommendation (default)</option><option value="1">Higher — my own adjustment</option><option value="2">Highest — my own adjustment</option></select>
+        <div class="muted" style="font-size:12px;margin-top:4px">Anything above the default is <b>your</b> call, not our scoring. The 15-point cap stays.</div></div>
       <div class="row" style="margin-top:12px"><button id="pf-save2" class="small primary">Save activities</button><span id="pf-savemsg2" class="muted" style="font-size:12px"></span></div>
+      <details id="pf-hist-wrap" style="margin-top:14px"><summary class="muted" style="cursor:pointer;font-size:13px">Change history: who changed what</summary><div id="pf-history" style="margin-top:8px"></div></details>
     </div>
     </div><!-- /pf-acad -->
     <div id="pf-who" class="pf-group hidden">
@@ -2238,7 +2267,7 @@ const $ = id => document.getElementById(id);
 let state = { session:null, family:null, members:[], schools:[], ratings:[], catalog:[], me:null, authMode:"signin",
               profiles:{}, prefs:{}, photos:[], norm:null };
 // which optional backends exist (flip to false on missing-table/bucket errors -> localStorage fallback)
-let BACKEND = { ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
+let BACKEND = { costs:true, docs:true, ranks:true, profiles:true, preferences:true, photos:true, photostore:true, reminders:true, talk:true, offers:true, pending:true };
 function isMissing(e){ const m=((e&&e.message)||"").toLowerCase(); const c=(e&&e.code)||"";
   return c==="42P01"||c==="PGRST205"||c==="PGRST116"||m.includes("does not exist")||m.includes("could not find")||m.includes("relation")||m.includes("schema cache")||m.includes("not found"); }
 
@@ -2527,7 +2556,7 @@ async function loadSchools(){ const { data } = await sb.from("family_schools").s
 async function loadRatings(){ const { data } = await sb.from("ratings").select("*"); state.ratings = data || []; }
 async function loadCatalog(){
   if (state.catalog.length) return;
-  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); await loadPhotoOverlay(); }
+  try { const r = await fetch(CATALOG_URL, {cache:"no-cache"}); const j = await r.json(); state.catalog = sanitizeCatalog(j.colleges || []); loadIncomePrices(); await loadCosts(); loadDeadlines2627(); loadAthletics(); loadSchoolAid(); loadReqs(); loadVisitLinks(); await loadPhotoOverlay(); }
   catch(e){ state.catalog = []; }
 }
 /* profiles: { user_id: {gpa,sat,act,major,rank,home_state,notes} } */
@@ -2689,7 +2718,9 @@ function interestSat(tag,c,s,L){
 const BAND_LABELS={reach:"Reach",target:"Target",likely:"Likely"};
 function bandLabel(b){ return BAND_LABELS[b]||b; }
 // Typical unweighted GPA of admitted students, estimated from the school's SAT profile and admit rate (#80).
-function typicalGpa(s){ s=s||{}; const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
+// Real average GPA of enrolled first-years from each school's own Common Data Set (C12), 29 schools so far (Oct 16). Above-4.0 averages are weighted, so they are capped at 4.0 to compare fairly with the student's unweighted GPA.
+const CDS_GPA={"umass-amherst":4.05,"college-of-charleston":4.0,"sc-218663":3.68,"oregon-state-university":3.7,"sc-168281":3.7,"university-of-colorado-boulder":3.77,"sc-151351":3.8,"sc-163268":4.06,"sc-163286":4.41,"syracuse-university":3.71,"sc-110705":4.25,"sc-110592":3.21,"sc-130943":3.98,"sc-139931":3.46,"sc-139940":3.6,"sc-144892":3.35,"sc-153603":3.76,"sc-155317":3.71,"sc-168227":3.48,"sc-169248":3.48,"sc-169798":3.39,"sc-171571":3.48,"sc-191630":3.83,"sc-199139":3.56,"sc-200004":3.45,"sc-207388":3.59,"sc-207500":3.64,"university-of-new-hampshire":3.63,"university-of-rhode-island":3.59};
+function typicalGpa(s){ s=s||{}; if(s.id && CDS_GPA[s.id]!=null) return Math.min(4.0, CDS_GPA[s.id]); const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
   const r=s.admissionRate; const fromRate = r<0.15?3.9 : r<0.3?3.75 : r<0.5?3.55 : r<0.7?3.35 : 3.15;
   if(sat==null) return fromRate; const fromSat=Math.max(2.8, Math.min(4.0, 2.9+(sat-1000)*0.0022)); return Math.round(((fromSat+fromRate)/2)*100)/100; }
 function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light"); }
@@ -2699,31 +2730,43 @@ function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light
    One number per school: 50 = the typical admitted student there. Built from visible steps, each measured against that
    school's own admitted students. Constants live here so the "secret sauce" page prints the SAME numbers. */
 const AP={ SCALE:30,
-  W_TESTS:{gpa:0.40,rigor:0.20,tests:0.25,acts:0.15}, W_NOTESTS:{gpa:0.55,rigor:0.25,acts:0.20},
+  W_TESTS:{gpa:0.38,rigor:0.20,tests:0.25,acts:0.17}, W_NOTESTS:{gpa:0.53,rigor:0.25,acts:0.22},
   GPA_SD:0.30, RIGOR_SD:1.2, ACT_SD:0.25, SAT_FALLBACK_SD:150, MAJOR_SHIFT:-0.15, ZCLAMP:2.5,
-  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, RIGOR_HALF_RATE:0.60,
+  ACT_FULL_RATE:0.05, ACT_ZERO_RATE:0.40, ACT_FLOOR:0.25, ACT_CAP_PTS:15, ACT_BOOST:[1,1.5,2], GATE_RATE:0.25, GATE_FULL:20, RIGOR_BONUS_SD:0.30,
   EASE1:15, EASE2:36, STIFF1:-12, STIFF2:-28, SHRINK_BASE:0.6, NEVER_LIKELY_RATE:0.25 };
 const apClamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 function apBandFrom(rate,g){ let idx = rate>0.7?2 : rate>=0.4?1 : 0;
   idx += g>=AP.EASE2?2 : g>=AP.EASE1?1 : g<=AP.STIFF2?-2 : g<=AP.STIFF1?-1 : 0;
   idx=apClamp(idx,0,2); if(rate<AP.NEVER_LIKELY_RATE) idx=Math.min(idx,1); if(rate<0.15) idx=0; return ["reach","target","likely"][idx]; }
-function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p) }; }
+// Rigor credit = the same course-weighting boost the profile shows (Honors +0.5, AP/IB/dual +1.0 per course, spread over the course load, capped +1.0).
+function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+((+r.ap||0)+(+r.dual||0))*1.0; if(!pts) return null; const base=Math.min(1.0, pts/rigorCourses(p));
+  // Optional: how many honors/AP/IB/dual courses her school offers. Credit the share she used of what was open to her (so a small school isn't penalized). Only ever helps; blank = unchanged.
+  const off=+r.offered||0; if(off>0){ const g=+r.grade||0; const avail=off*(g>=9&&g<=12?(g-8)/4:1); const taken=(+r.honors||0)+(+r.ap||0)+(+r.dual||0); const share=Math.min(1, taken/Math.max(1,avail)); return Math.max(base, Math.min(1.0, share*0.8)); }
+  return base; }
+function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p), ab:Math.max(0,Math.min(2,Math.round(+(p&&p.act_boost)||0))) }; }
 // Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
 function apCore(s, inp){
   const rate=s.admissionRate; const hasRange=typeof s.sat25==="number"&&typeof s.sat75==="number";
   const raw=[];
   if(inp.gpa>0 && inp.gpa<=5){ const ref=typicalGpa(s), g=Math.min(inp.gpa,4.0); raw.push({k:"gpa", z:apClamp((g-ref)/AP.GPA_SD,-AP.ZCLAMP,AP.ZCLAMP), ref, g}); }
-  if(inp.rl){ raw.push({k:"rigor", z:apClamp((inp.rl.lv-3)/AP.RIGOR_SD,-AP.ZCLAMP,AP.ZCLAMP), lv:inp.rl.lv}); }
+  if(inp.rl && !inp.rl.est){ raw.push({k:"rigor", z:apClamp((inp.rl.lv-3)/AP.RIGOR_SD,-AP.ZCLAMP,AP.ZCLAMP), lv:inp.rl.lv}); }   // a counselor-style rating the family gave
+  else if(inp.rb!=null){ raw.push({k:"rigor", z:apClamp(inp.rb/AP.RIGOR_BONUS_SD,-AP.ZCLAMP,AP.ZCLAMP), lv:inp.rl?inp.rl.lv:null, bonus:inp.rb}); }   // credited from courses, same boost as the rigor-adjusted GPA
+  else if(inp.rl){ raw.push({k:"rigor", z:apClamp((inp.rl.lv-3)/AP.RIGOR_SD,-AP.ZCLAMP,AP.ZCLAMP), lv:inp.rl.lv}); }
   if(inp.astr!=null){ raw.push({k:"acts", z:apClamp((inp.astr-0.5)/AP.ACT_SD,-2,2), astr:inp.astr}); }
   let tz=null; if(inp.sat){ if(hasRange){ tz=(inp.sat-(s.sat25+s.sat75)/2)/Math.max(40,(s.sat75-s.sat25)/1.35); } else if(typeof s.satAvg==="number"){ tz=(inp.sat-s.satAvg)/AP.SAT_FALLBACK_SD; } }
   if(tz!=null) raw.push({k:"tests", z:apClamp(tz,-3,3)});
   const hasT=raw.some(t=>t.k==="tests"); const W=hasT?AP.W_TESTS:AP.W_NOTESTS;
   raw.forEach(t=>{ let w=W[t.k]||0;
-    if(t.k==="acts") w*=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-    if(t.k==="rigor" && rate>=AP.RIGOR_HALF_RATE) w*=0.5;
+    if(t.k==="acts") w*=Math.max(AP.ACT_FLOOR, apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1));   // a quarter weight even at open schools, full at the most selective
+    if(t.k==="acts") w*=(AP.ACT_BOOST[inp.ab||0]||1);   // family's own 3-step adjustment (0 = Zoe's recommendation); the cap below still applies
     t.w0=w; });
   const tot=raw.reduce((a,t)=>a+t.w0,0)||0;
-  raw.forEach(t=>{ t.w=tot>0?t.w0/tot:0; t.pts=AP.SCALE*t.w*t.z; });
+  raw.forEach(t=>{ t.w=tot>0?t.w0/tot:0; if(t.k==="acts" && t.w>0 && Math.abs(AP.SCALE*t.w*t.z)>AP.ACT_CAP_PTS) t.z=Math.sign(t.z)*AP.ACT_CAP_PTS/(AP.SCALE*t.w); t.pts=AP.SCALE*t.w*t.z; });   // activities can't move the score more than +/-ACT_CAP_PTS
+  // Academic gate (most selective schools only): admissions readers look at the academic record first, so when grades/rigor/tests
+  // fall below the typical admitted student, strong activities can't make up the gap. Credit for ABOVE-typical activities fades
+  // from full (academics at typical) to none (academics GATE_FULL points under typical). Penalties for weak activities are untouched.
+  { const act=raw.find(t=>t.k==="acts"); if(act && act.z>0 && rate<AP.GATE_RATE){ const acad=raw.filter(t=>t.k!=="acts").reduce((a,t)=>a+t.pts,0);
+      if(acad<0){ const f=apClamp(1+acad/AP.GATE_FULL,0,1); if(f<1){ act.z*=f; act.pts*=f; act.gated=f; } } } }
   const major=(inp.major && rate<0.6)?AP.MAJOR_SHIFT*AP.SCALE:0;
   // fewer known pieces = less certainty: pull the composite toward 'typical' (coverage = share of the full weight we have)
   const cov=Math.min(1,raw.reduce((a,t)=>a+(W[t.k]||0),0)); const shrink=AP.SHRINK_BASE+(1-AP.SHRINK_BASE)*cov;
@@ -2736,7 +2779,8 @@ function apCore(s, inp){
 function apLevers(s, inp){ const base=apCore(s,inp); if(base.score==null) return []; const out=[];
   const t=(label,over)=>{ const r=apCore(s,{...inp,...over}); const d=Math.round((r.g-base.g)*10)/10; if(d>=0.5) out.push({label,d}); };
   if(inp.gpa>0 && inp.gpa<3.95) t("a higher GPA (+0.2)",{gpa:Math.min(4,inp.gpa+0.2)});
-  if(inp.rl && inp.rl.lv<5) t("a more demanding schedule (+1 level)",{rl:{...inp.rl,lv:inp.rl.lv+1}});
+  if(inp.rl && inp.rl.lv<5 && !inp.rl.est) t("a more demanding schedule (+1 level)",{rl:{...inp.rl,lv:inp.rl.lv+1}});
+  else if(inp.rb!=null && inp.rb<0.95 || (inp.rb==null && inp.rl)) t("a more demanding schedule (a few more honors/AP courses)",{rb:Math.min(1,(inp.rb||0)+0.15)});
   if(inp.astr!=null && inp.astr<0.95) t("stronger activities (one tier up)",{astr:Math.min(1,inp.astr+0.2)});
   if(inp.sat && !inp.to && inp.sat<1550) t("a higher test score (+80)",{sat:inp.sat+80});
   return out.sort((a,b)=>b.d-a.d); }
@@ -2759,10 +2803,10 @@ function chanceCompute(c, explain){
     { const t=T("gpa"); const gap=t?Math.round((t.g-t.ref)*100)/100:null; const adj=rigorAdjustedGpa(p);
       step("Your GPA",t,!!t, t?`Unweighted GPA ${t.g.toFixed(2)} vs about ${t.ref.toFixed(1)} for a typical admitted student here (${gap>=0?"+":""}${gap.toFixed(2)})${adj&&adj!==inp.gpa?` · rigor-adjusted ${adj.toFixed(2)} is counted once, under rigor`:""}`:"No GPA in your profile"); }
     { const t=T("rigor"); const rl=inp.rl; const heavy=rate<0.4;
-      step("Rigor in context",t,!!t, t?`${rl.est?"Estimated as":"Rated"} ${RIGOR_WORD[rl.lv]} for your school${rate>=AP.RIGOR_HALF_RATE?" — counts half at schools this open":""}`:"No course-rigor info in your profile");
-      if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= rl.lv>=4?" — this selective school rewards making the most of a demanding schedule":" — a lighter schedule makes it tougher here"; }
+      step("Rigor in context",t,!!t, t?(t.bonus!=null?`Your honors/AP/dual courses lift your grades by about +${t.bonus.toFixed(2)} GPA points (the rigor-adjusted GPA on your profile). Counted once, here, at every kind of school`:`Rated ${RIGOR_WORD[rl.lv]} by your family, counted at every kind of school`):"No course-rigor info in your profile");
+      if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= t.z>=0?" — this selective school rewards a demanding schedule":" — a lighter schedule makes it tougher here"; }
     { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-      step("Your activities",t,!!t&&w>0, !t?"No activities in your profile":(w<=0?"This school isn't selective enough for activities to move the band":`A ${astrWord(inp.astr)} activity profile${w>0?", and this selective school weighs activities":""}`)); }
+      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about a quarter weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
     { const t=T("tests"); const sat=inp.sat;
       step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
         : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
@@ -2825,7 +2869,7 @@ function apBlockHtml(ex,noLink){ const pw=ex&&ex.power; if(!pw) return "";
   const rows=pw.terms.map(t=>{ const w=Math.min(50,Math.abs(t.pts)*2.5); return `<div class="ap-row"><span>${AP_LABELS[t.k]}</span><span class="ap-track"><span class="ap-bar ${t.pts>=0?"up":"dn"}" style="width:${w}%"></span></span><span class="ap-pts">${t.pts>=0?"+":"−"}${Math.abs(t.pts).toFixed(1)}</span></div>`; }).join("")
     + (pw.hasT?"":`<div class="ap-row"><span>Test scores</span><span class="ap-note" style="grid-column:2 / 4">${ex.inputs&&ex.inputs.testOptional?"test-optional — not counted; the rest carry more weight":"none entered — not counted"}</span></div>`)
     + (pw.major?`<div class="ap-row"><span>Competitive major</span><span class="ap-track"><span class="ap-bar dn" style="width:${Math.min(50,Math.abs(pw.major)*2.5)}%"></span></span><span class="ap-pts">−${Math.abs(pw.major).toFixed(1)}</span></div>`:"");
-  return `<div class="ap-card"><div class="ap-top"><div class="ap-num" title="Admit Power">${pw.score}</div><div><b>Admit Power</b> <span class="muted" style="font-size:12px">· 50 = the typical admitted student here</span>
+  return `<div class="ap-card"><div class="ap-top"><div class="ap-num" title="Admit Power">${pw.score}<small class="of50">/50</small></div><div><b>Admit Power</b> <span class="muted" style="font-size:12px">· 50 = the typical admitted student here</span>
     <div class="ap-gap">${gap===0?"Right at the typical admit.":`You're <b>${Math.abs(gap)} point${Math.abs(gap)===1?"":"s"} ${gap>0?"above":"below"}</b> the typical admit here.`}${top&&gap<8?` Biggest lever: <b>${esc(top.label)}</b> (+${top.d} pts).`:""}</div></div></div>
     <div class="ap-rows" aria-label="How your Admit Power adds up"><div class="ap-row"><span class="muted">Starts at</span><span class="ap-note" style="grid-column:2 / 4">50 — the typical admitted student at this school</span></div>${rows}</div>
     <div class="ap-note" style="margin-top:8px">An estimate, not a prediction.${noLink?"":` <button class="linklike" data-sauce>Want to know our secret sauce?</button>`}</div></div>`; }
@@ -2842,6 +2886,9 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     ["College Transitions, the test-optional paradox","https://www.collegetransitions.com/blog/the-test-optional-paradox/","Published score ranges only describe students who sent scores, so they run high. That's why we never compare a test-optional student to a score range."],
     ["College Kickstart, selective colleges with high test-submission rates","https://www.collegekickstart.com/blog/item/selective-colleges-with-high-test-submission-rates","Some selective schools see 70%+ of enrolled students submit scores. It's why test-optional isn't equally easy everywhere (we don't adjust for this yet — see below)."],
     ["College Kickstart, how chance calculators work","https://www.collegekickstart.com/blog/item/college-chances-calculator-how-they-work-and-what-they-actually-tell-you","Why a band and a score are more honest than a percent chance, and what every calculator can't see."],
+    ["Park & Kim (2023), extracurricular involvement on the Common App, via Brookings","https://www.brookings.edu/articles/extracurricular-involvement-in-high-school-is-not-a-level-playing-field/","About 860,000 applicants. Students listing more activities and leadership were more likely to be admitted to selective colleges (prior work it cites); activity profiles also track family income and school type, which is one reason we cap activities."],
+    ["Erickson et al. (2014), Social Science Research, Add Health data, via Education Week","https://www.edweek.org/leadership/want-kids-to-go-to-college-pair-them-with-smart-peers-in-extracurriculars/2014/09","8,087 students: any extracurricular participation went with about 1.3x the odds of enrolling at a four-year college; academic activities added more, and more activities beyond that added nothing."],
+    ["Chetty, Deming & Friedman, Diversifying Society's Leaders (NBER 31492)","https://www.nber.org/papers/w31492","At Ivy-Plus schools non-academic credentials carry real admissions weight, but not at flagship publics — which is why activities count most at the most selective schools."],
     ["College Scorecard (U.S. Dept. of Education) and IPEDS","https://collegescorecard.ed.gov/data/","Our admit rates and SAT ranges. Federal data, public domain."]];
   el.innerHTML=`<div class="sauce">
     <div style="margin:8px 0"><button class="small ghost" data-sauce-back>← Back</button></div>
@@ -2851,8 +2898,8 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <h2>The formula, in plain English</h2>
     <ol>
       <li><b>Start at the school.</b> Its admit rate sets the starting band: under 40% starts at Reach, 40–70% at Target, over 70% at Likely.</li>
-      <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (counselor-style 1–5 scale, counted once), <b>activities</b> (the 4-tier scale), and <b>test scores</b> (only if you send them).</li>
-      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Selective schools weigh activities fully; schools admitting 40%+ ignore them; very open schools count rigor half.</li>
+      <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (the boost your honors/AP/IB/dual courses give your grades — the same +0.5 / +1.0 per course adjustment shown on your profile, counted once), <b>activities</b> (the 4-tier scale, with time and years behind each), and <b>test scores</b> (only if you send them).</li>
+      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about a quarter weight at open ones, and can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
       <li><b>Turn the gap into a band.</b> About ${AP.EASE1} points above typical moves you up a band, about ${-AP.STIFF1} below moves you down. Schools admitting under 25% are never Likely, and under 15% are always at least a Reach — a long shot for everyone.</li>
       <li><b>Say what would help most.</b> We re-score with one realistic improvement at a time (GPA +0.2, one rigor level, one activity tier, SAT +80) and show the biggest.</li>
     </ol>
@@ -2860,11 +2907,15 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <table><tr><th>Piece</th><th>With a test score</th><th>Test-optional / no score</th></tr>
       <tr><td>Grades (unweighted GPA)</td><td>${pct(W1.gpa)}</td><td>${pct(W2.gpa)}</td></tr>
       <tr><td>Course rigor</td><td>${pct(W1.rigor)}</td><td>${pct(W2.rigor)}</td></tr>
-      <tr><td>Activities (selective schools only)</td><td>${pct(W1.acts)}</td><td>${pct(W2.acts)}</td></tr>
+      <tr><td>Activities (full at selective schools, about a quarter at open ones)</td><td>${pct(W1.acts)}</td><td>${pct(W2.acts)}</td></tr>
       <tr><td>Test scores</td><td>${pct(W1.tests)}</td><td>— not counted</td></tr></table>
     <p class="muted" style="font-size:12.5px">When a piece is unknown or doesn't apply at a school, the rest are re-balanced and the total is pulled a little toward 50 (we know less, so we claim less). A competitive major (nursing, engineering, CS and similar) takes ${Math.abs(AP.MAJOR_SHIFT*AP.SCALE)} points at selective schools.</p>
-    <h2>Why grades alone use your <i>unweighted</i> GPA</h2>
-    <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So grades are the plain GPA; rigor gets its own row. Your rigor-adjusted GPA (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0) is shown on your profile for reference.</p>
+    <h2>Why grades use your <i>unweighted</i> GPA, and rigor gets its own row</h2>
+    <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So the grades row is your plain GPA, and the rigor row credits the boost your courses earn (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0 — your rigor-adjusted GPA on your profile is plain GPA plus that boost). If your family gave a counselor-style 1–5 rating instead, we use that.</p>
+    <h2>Why rigor and activities count at every school</h2>
+    <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>a quarter weight at the rest</b> — that quarter-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. You can raise how much activities count (Higher or Highest, x1.5 or x2 their weight); that is <b>your own judgment</b>, labeled as such, not our scoring, and the cap still applies. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
+    <h2>Your meter vs your list</h2>
+    <p>The Admit Power meter on your profile measures your whole profile against <b>all schools we have admissions data for</b>, so it only moves when your grades, rigor, activities or tests change. We separately show how many schools <i>on your list</i> you are at or above the typical admit. The two answer different questions — "how strong is this profile?" versus "how ambitious is this list?" — and a list heavy on reaches will always read lower than one heavy on safeties.</p>
     <h2>Test-optional, done honestly</h2>
     <p>If you aren't sending scores, we don't invent a low one and we don't compare you to a score range. Those ranges only describe students who sent scores, so they run high. Instead the weight moves to grades, rigor and activities, which carry most of the evidence anyway. <b>What we don't do yet:</b> some selective schools see most students send scores, which can make test-optional harder there. We don't have per-school submission rates in our data yet, so we don't adjust for it. Treat selective schools' bands as a bit optimistic if you're test-optional.</p>
     <h2>What it can't know</h2>
@@ -2872,7 +2923,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <h2>Where it comes from</h2>
     <p class="muted" style="font-size:12.5px">The weights are our judgment, informed by the sources below. None of these sources endorses this model.</p>
     <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}</li>`).join("")}</ul>
-    <p class="muted" style="font-size:12px;margin-top:18px">Admit Power v1 · Oct 14, 2026 · Spot a mistake? Tell us — this page is meant to be argued with.</p>
+    <p class="muted" style="font-size:12px;margin-top:18px">Admit Power v2 · Oct 14, 2026 (v2: rigor credited from the course boost at every school; activities at a quarter weight at open schools; profile meter measured against all schools) · Spot a mistake? Tell us — this page is meant to be argued with.</p>
   </div>`; }
 function chanceMathHtml(c){
   const ex=chanceExplain(c); if(!ex) return "";
@@ -2892,7 +2943,7 @@ function rigorCourses(p){ const g=+((p&&p.rigor&&p.rigor.grade)||0); return g>=9
 function rigorAdjustedGpa(p){
   const base = p && parseFloat(p.gpa); if(!base || base<=0) return base||0;
   const r = (p && p.rigor) || {};
-  const bonus = ((+r.honors||0)*0.5 + ((+r.ap||0)+(+r.dual||0))*1.0)/rigorCourses(p);
+  const bonus = rigorBonus(p)||0;
   return Math.min(5, Math.round((base + Math.min(1.0, bonus))*100)/100);
 }
 // Rigor level 1-5 on the counselor's scale; from the family's answer, or estimated from the counts.
@@ -3049,6 +3100,7 @@ function renderBoard(){
     if(sortBy==="name") return a.s.name.localeCompare(b.s.name);
     if(sortBy==="visited"){ const va=visitDone(getVisits()[a.s.school_id])?0:1, vb=visitDone(getVisits()[b.s.school_id])?0:1; if(va!==vb) return va-vb; return (b.b??-1)-(a.b??-1); }
     if(sortBy==="match") return (b.m??-1)-(a.m??-1);
+    if(sortBy==="power") return (b.ch&&b.ch.score!=null?b.ch.score:-1)-(a.ch&&a.ch.score!=null?a.ch.score:-1);
     if(sortBy==="chance"){ const o={likely:0,target:1,reach:2}; return (o[a.ch&&a.ch.band]??3)-(o[b.ch&&b.ch.band]??3); }
     if(a.b===null && b.b===null) return a.s.name.localeCompare(b.s.name);
     if(a.b===null) return 1; if(b.b===null) return -1; return b.b-a.b;
@@ -3366,7 +3418,11 @@ state.pending = null;
 function myRole(){ return (state.me&&state.me.role)||""; }
 function studentMember(){ return (state.members||[]).find(m=>m.role==="student")||null; }
 function pendingMode(){ return !!(state.pending && state.me && !studentMember() && myRole()!=="student"); }
-function profKey(){ return pendingMode() ? "pending" : (state.me&&state.me.user_id); }
+/* Oct 16: a parent can fill in and adjust the student's grades even after the student has joined (migration 029).
+   The Profile screen edits the student's profile for a parent, and the member's own profile for everyone else. */
+function editingStudentProfile(){ const stu=studentMember(); return !!(stu && state.me && myRole()==="parent" && !isMe(stu.user_id)); }
+function profKey(){ return pendingMode() ? "pending" : (editingStudentProfile() ? studentMember().user_id : (state.me&&state.me.user_id)); }
+function profName(){ return pendingMode() ? state.pending.display_name : (editingStudentProfile() ? studentMember().display_name : ""); }
 function _pendProfile(pr){ const o={...(pr||{})}; delete o.user_id; delete o.family_id; delete o.updated_at; if(o.testOptional!=null&&o.test_optional==null) o.test_optional=!!o.testOptional; delete o.testOptional; return o; }
 async function loadPending(){
   state.pending=null; if(state.profiles) delete state.profiles.pending;
@@ -3378,7 +3434,11 @@ async function loadPending(){
 async function maybeClaimPending(){
   if(!state.pending || myRole()!=="student") return;
   const mine=state.profiles[state.me.user_id]; const pp=state.pending.profile||{};
-  if((!mine||!profileBuilt(mine)) && Object.keys(pp).length){ await saveProfile({...pp}); const m=state.profiles[state.me.user_id]; if(m&&pp.test_optional!=null) m.testOptional=!!pp.test_optional; }
+  if((!mine||!profileBuilt(mine)) && Object.keys(pp).length){
+    const saved=await saveProfile({...pp});
+    let there=false; try{ const {data}=await sb.from("profiles").select("user_id").eq("user_id",state.me.user_id).maybeSingle(); there=!!data; }catch(e){}
+    if(saved===false || !there) return;   // Oct 16: keep the parent's grades until we can see they landed (they used to be deleted either way)
+    const m=state.profiles[state.me.user_id]; if(m&&pp.test_optional!=null) m.testOptional=!!pp.test_optional; }
   try{ await sb.from("pending_students").delete().eq("family_id",state.family.id); }catch(e){}
   state.pending=null; delete state.profiles.pending;
 }
@@ -3413,10 +3473,10 @@ function setupSteps(){
   const steps=[];
   if(me!=="student") steps.push({k:"student", c:"Student", ic:"🎓", t:"Add your student", d:"So chances, costs and the report are about them.", done:!!(stu||state.pending)});
   steps.push({k:"schools", c:"Schools", ic:"🏫", t:"Add 3 or more schools", d:"Swipe through a few picked for you, or search by name. You can always change them.", done:schools>=3, cta:"Swipe through picks", go:()=>goto("discover")});
-  const gradesMine = me==="student" || pendingMode();
+  const gradesMine = me==="student" || pendingMode() || editingStudentProfile();
   steps.push({k:"grades", c:"Grades", ic:"📚", t: me==="student"?"Add your grades":`Add ${sName}'s grades`, d:"A GPA and test scores are enough to unlock Reach / Target / Likely.", done:profileBuilt(sp||{}),
-    cta: gradesMine?"Add grades":(stu&&!isMe(stu.user_id)?`Ask ${sName}`:"Add grades"),
-    go: gradesMine ? (()=>{ goto("profile"); profileTab("acad"); }) : (stu&&!isMe(stu.user_id) ? "nudge" : (()=>{ goto("profile"); profileTab("acad"); })) });
+    cta: "Add grades",
+    go: ()=>{ goto("profile"); profileTab("acad"); } });
   steps.push({k:"prios", c:"Priorities", ic:"🎚️", t:"Set your priorities", d:"What matters to you — cost, size, setting — so the fit % fits you.", done:hasPrefs, cta:"Set priorities", go:()=>openPriorities()});
   const famDone = (state.members||[]).length>=2 && !state.pending;
   const sentAt = state.pending ? lsGet("inviteSentAt") : null;   // Oct 12: remember that the invite went out
@@ -3449,13 +3509,13 @@ function nextStepHtml(){
   if(!state.family||!state.me||DEMO&&false) return "";
   const steps=setupSteps(); const doneN=steps.filter(x=>x.done).length; const cur=steps.find(x=>!x.done);
   _nsActs={};
-  const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":i+1} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
+  const chips=`<div class="ns-chips">${steps.map((x,i)=>`<button type="button" class="ns-chip ${x.done?"done":""} ${x===cur?"cur":""}" data-ns-step="${x.k}" aria-label="${esc(x.t)}${x.done?" (done)":""}">${x.done?"✓":"○"} <span>${esc(x.c)}</span></button>`).join("")}</div>`;
   const tour=!guideSeen()?`<button type="button" class="linklike ns-tour" data-guide>▶ Watch the 4-minute tour</button>`:"";
   if(cur){
     let body;
     if(cur.k==="student"){ body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><input id="ss-name" placeholder="Student's first name" maxlength="40" autocomplete="off" style="flex:1 1 160px;min-width:0"><button class="small primary" id="ss-save">Add student</button></div>
       ${profileBuilt(state.profiles[state.me.user_id])?`<label class="tk-check"><input type="checkbox" id="ss-copy"> <span>Use the grades I already entered on my profile as the student's</span></label>`:""}<div class="tk-msg" id="ss-msg" role="status"></div>`; }
-    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="family"&&state.pending&&!lsGet("inviteSentAt")?`<button class="small ghost" id="ss-sent">I already sent it</button>`:""}${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
+    else body=`<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button class="small primary" data-ns-go="${cur.k}">${esc(cur.cta)}</button>${cur.k==="grades"&&studentMember()&&!isMe(studentMember().user_id)?`<button class="small ghost" data-ns-nudge>Ask ${esc(studentMember().display_name)} to add them</button>`:""}${cur.k==="family"&&state.pending&&!lsGet("inviteSentAt")?`<button class="small ghost" id="ss-sent">I already sent it</button>`:""}${cur.k==="family"&&state.pending?`<button class="small" id="ss-profile">${profileBuilt(state.profiles.pending||{})?"Edit":"Fill in"} ${esc(state.pending.display_name)}'s profile</button>`:""}</div><div class="tk-msg" id="ss-msg" role="status"></div>`;
     return `<div class="td-card ns-card"><div class="ns-top">${ringSvg(doneN/steps.length, `${doneN}/${steps.length}`)}<div class="ns-txt"><div class="td-h" style="margin:0 0 2px">Your next step</div><div class="ns-t">${cur.ic} ${esc(cur.t)}</div><div class="td-mid muted">${esc(cur.d)}</div></div></div>${body}${chips}${tour}</div>`;
   }
   const o=ongoingStep(); const st=journeyStage();
@@ -3472,6 +3532,7 @@ function wireNextStep(el){
   { const ss=el.querySelector("#ss-sent"); if(ss) ss.onclick=()=>{ lsSet("inviteSentAt", new Date().toISOString()); renderToday(); }; }
   el.querySelectorAll("[data-ns-go]").forEach(b=>b.onclick=()=>{ const k=b.dataset.nsGo; if(k==="ongoing"){ run(ongoingStep().go); return; } const st=steps.find(x=>x.k===k); if(st) run(st.go); });
   el.querySelectorAll("[data-ns-step]").forEach(b=>b.onclick=()=>{ const st=steps.find(x=>x.k===b.dataset.nsStep); if(!st) return; if(st.k==="student"){ const i=el.querySelector("#ss-name"); if(i) i.focus(); else goto("profile"); return; } if(st.go) run(st.go); });
+  const nu=el.querySelector("[data-ns-nudge]"); if(nu) nu.onclick=()=>run("nudge");
   const g=el.querySelector("[data-guide]"); if(g) g.onclick=()=>openGuide();
   wireStudentSetup(el);
 }
@@ -3561,8 +3622,8 @@ function discCardHtml(x){ const c=x.c; const u=photoUrlFor(c); const y=yourNet(c
       <div class="disc-nm"><b>${esc(c.name)}</b><span>${esc([c.city,c.state].filter(Boolean).join(", "))}${sz?` · ${esc(sz)} students`:""}</span></div>
       <span class="disc-stamp yes">♥ YES</span><span class="disc-stamp no">✕ NO</span><span class="disc-stamp maybe">? MAYBE</span></div>
     <div class="big3" style="margin:10px 12px 4px">
-      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"; })():"no data"}</span></div>
-      <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
+      <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(c); return (costFor(c)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span> `:"")+((typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"); })():"no data"}</span></div>
+      <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">admits ${pct(c.scorecard.admissionRate)}</span></div>
       <div class="b3"><span class="b3-k">Fit</span><span class="b3-v">${x.m}%</span><span class="b3-s">with your priorities</span></div></div>
     <div class="disc-why">${esc(why.length?`Fits your taste for ${joinList(why)}.`:"A strong overall match for your priorities.")}</div><div class="ath-line" style="margin:0 12px 10px">${athChip(c)}${myTeamLine(c)}</div></div>`; }
 function renderDiscover(){
@@ -3822,17 +3883,19 @@ function renderReport(){
     <div class="rp-sub">${p.hs&&p.hs.name?esc(p.hs.name)+" · ":""}${(p.rigor&&+p.rigor.grade)?`Grade ${+p.rigor.grade} · `:""}${esc(fam)} · ${esc(when)}</div>
     <div class="rp-stats">
       ${stat("Schools on the list",rows.length)}
+      ${(()=>{ try{ const d=apMeterData(p); if(!d.total) return ""; return stat("⚡ Admit Power (all schools)",d.total+"/50","ap")+(d.list?stat("At/above typical admit, your list",d.list.atOrAbove+" of "+d.list.n,"ap"):""); }catch(e){ return ""; } })()}
       ${bal?stat("Likely",bal.c.likely,"lk")+stat("Target",bal.c.target,"tg")+stat("Reach",bal.c.reach,"rc"):""}
       ${bal?stat("List balance",bal.grade,"gr"):""}
     </div>
     ${nx?`<div class="rp-next">⏰ <b>Next deadline:</b> ${esc(nx.r.s.name)} · ${esc(nx.kind)} · ${esc(_fmtD(nx.date))} (${daysUntil(nx.date)===0?"today":daysUntil(nx.date)===1?"tomorrow":"in "+daysUntil(nx.date)+" days"})</div>`:""}
     ${take.length?`<div class="rp-take"><div class="rp-take-h"><span class="rp-ava">${zoeAva()}</span> Zoe's take</div><ul>${take.map(t=>`<li>${t}</li>`).join("")}</ul></div>`:""}
     <div class="rp-strip">${rows.slice(0,8).map(r=>{ const u=r.info&&photoUrlFor(r.info); return `<figure>${u?`<img src="${esc(small(u,330))}" alt="" referrerpolicy="no-referrer">`:`<span class="rp-crest">${crestSvg(r.s.name,r.info&&r.info.state)}</span>`}<figcaption>${esc(r.s.name)}</figcaption></figure>`; }).join("")}</div>
-    <div class="rp-toc"><b>Inside</b><span>Profile</span><span>The list, school by school</span><span>Costs</span><span>Deadlines</span><span>Next steps</span></div>
+    <div class="rp-toc"><b>Inside</b><a href="#rp-profile" data-rpjump="rp-profile">Profile</a><a href="#rp-list" data-rpjump="rp-list">The list, school by school</a><a href="#rp-costs" data-rpjump="rp-costs">Costs</a><a href="#rp-deadlines" data-rpjump="rp-deadlines">Deadlines</a><a href="#rp-steps" data-rpjump="rp-steps">Next steps</a></div>
   </section>`;
   // 2 profile
   const rig=p.rigor||{}; const prio=SLIDERS.filter(s=>s.kind==="importance").map(s=>({s,v:+w[s.key]||0})).sort((a,b)=>b.v-a.v).slice(0,3);
-  const profile=`<section class="rp-page"><h2>📚 Student profile</h2>
+  const profile=`<section class="rp-page" id="rp-profile"><h2>📚 Student profile</h2>
+    ${apMeterHtml(p,true)}
     <div class="rp-stats rp-stats-sm">
       ${stat("GPA",p.gpa?esc(p.gpa):"—")}${adj&&adj!==parseFloat(p.gpa)?stat("Rigor-adjusted GPA",adj.toFixed(2)):""}
       ${stat("Testing",p.testOptional?"Test-optional":sat?`SAT ${sat}${p.act?` · ACT ${esc(p.act)}`:""}`:"—")}
@@ -3845,13 +3908,13 @@ function renderReport(){
     ${prio.length?`<h3>What matters most to the family</h3><div class="rp-prio">${prio.map(x=>`<span>${esc(x.s.nm)} <i>${"●".repeat(Math.round(x.v/2))}${"○".repeat(5-Math.round(x.v/2))}</i></span>`).join("")}</div>`:""}
   </section>`;
   // 3 the list
-  const list=`<section class="rp-page"><h2>🎓 The list, school by school</h2>${rows.length?rows.map(r=>{ const sc=(r.info&&r.info.scorecard)||{}; const v=r.visit||{}; const n=net(r);
+  const list=`<section class="rp-page" id="rp-list"><h2>🎓 The list, school by school</h2>${rows.length?rows.map(r=>{ const sc=(r.info&&r.info.scorecard)||{}; const v=r.visit||{}; const n=net(r);
       const chk=getChecklist(r.s.school_id); const TK=r.info?tasksFor(r.info):[]; const done=TK.filter(t=>chk[t.key]).length; const nd=r.info?deadlineList(r.info).filter(d=>d.date>=today)[0]:null;
       const stand=r.info?standBarHtml(r.info,true):""; const aid=r.info?schoolAidLine(r.info,true):"";
       return `<div class="rp-school">
         <div class="rp-sh">${thumb(r)}<div style="min-width:0;flex:1"><h3>${r.rank?`<span class="rp-rank">#${r.rank}</span> `:""}${esc(r.s.name)}</h3>
           <div class="rp-muted">${esc([r.info&&r.info.city,r.info&&r.info.state].filter(Boolean).join(", "))}${estText(r.info)}</div>
-          <div class="rp-tags">${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
+          <div class="rp-tags">${r.ch&&r.ch.score!=null?`<span class="rp-tag ap">⚡ Admit Power ${r.ch.score}/50</span>`:""}${r.ch?`<span class="rp-tag ${r.ch.band}">${labels[r.ch.band]}</span>`:""}${r.m!=null?`<span class="rp-tag m">${r.m}% fit</span>`:""}${r.b!=null?`<span class="rp-tag st">${"★".repeat(Math.round(r.b))} ${r.b.toFixed(1)}</span>`:""}</div></div></div>
         <div class="rp-grid">
           ${stat("Admit rate",pct(sc.admissionRate))}${stat("Grad rate",pct(sc.gradRate))}
           ${stat("Cost / yr",n?`${money(n.v)}<small>${esc(n.src)}</small>`:"—")}${stat("Earnings (10 yr)",money(sc.medianEarnings10yr))}
@@ -3863,19 +3926,20 @@ function renderReport(){
       </div>`; }).join(""):`<p class="rp-muted">No schools on the board yet.</p>`}</section>`;
   // 4 costs
   const crow=rows.map(r=>({r,n:net(r),sc:(r.info&&r.info.scorecard)||{}})).sort((a,b)=>(a.n==null)-(b.n==null)||((a.n&&a.n.v)||0)-((b.n&&b.n.v)||0));
-  const costs=`<section class="rp-page"><h2>💰 Costs</h2>
+  const costs=`<section class="rp-page" id="rp-costs"><h2>💰 Costs</h2>
     <table class="rp-tbl"><thead><tr><th>School</th><th>Sticker / yr</th><th>Likely cost / yr</th><th>4 years</th><th>Basis</th></tr></thead><tbody>
     ${crow.map(x=>`<tr><td>${esc(x.r.s.name)}</td><td>${money(stickerPrice(x.r.info))}</td><td><b>${x.n?money(x.n.v):"—"}</b></td><td>${x.n?"~"+money(x.n.v*4):"—"}</td><td>${x.n?esc(x.n.src):""}</td></tr>`).join("")}
     </tbody></table>
     <p class="rp-fine">"Typical" is the federal College Scorecard average net price after grants for aided first-year students (public schools: in-state). Real offers replace it once entered on the Costs page. Loans are never counted as aid.</p></section>`;
   // 5 deadlines
-  const deadlines=`<section class="rp-page"><h2>⏰ Deadlines</h2>${dls.length?`<table class="rp-tbl"><thead><tr><th>Date</th><th>School</th><th>Round</th><th>Days left</th></tr></thead><tbody>${dls.slice(0,20).map(d=>`<tr><td><b>${esc(_fmtD(d.date))}</b></td><td>${esc(d.r.s.name)}</td><td>${esc(d.kind)}</td><td>${daysUntil(d.date)}</td></tr>`).join("")}</tbody></table>`:`<p class="rp-muted">No dated deadlines yet — confirm on each school's site.</p>`}
-    <h2 style="margin-top:22px">✅ Next steps</h2>
+  const deadlines=`<section class="rp-page" id="rp-deadlines"><h2>⏰ Deadlines</h2>${dls.length?`<table class="rp-tbl"><thead><tr><th>Date</th><th>School</th><th>Round</th><th>Days left</th></tr></thead><tbody>${dls.slice(0,20).map(d=>`<tr><td><b>${esc(_fmtD(d.date))}</b></td><td>${esc(d.r.s.name)}</td><td>${esc(d.kind)}</td><td>${daysUntil(d.date)}</td></tr>`).join("")}</tbody></table>`:`<p class="rp-muted">No dated deadlines yet — confirm on each school's site.</p>`}
+    <h2 style="margin-top:22px" id="rp-steps">✅ Next steps</h2>
     ${(()=>{ const items=rows.map(r=>{ if(!r.info) return null; const chk=getChecklist(r.s.school_id); const left=tasksFor(r.info).filter(t=>!chk[t.key]).map(t=>t.label); return left.length?`<li><b>${esc(r.s.name)}:</b> ${left.map(esc).join(", ")}</li>`:null; }).filter(Boolean);
       const tips=zoeTips().filter(t=>t.id!=="dl").slice(0,3).map(t=>`<li>${t.text}</li>`);
       return (tips.length?`<ul class="rp-steps">${tips.join("")}</ul>`:"")+(items.length?`<h3>Still to do, by school</h3><ul class="rp-steps">${items.join("")}</ul>`:`<p class="rp-muted">Every checklist is complete. 🎉</p>`); })()}
     <p class="rp-fine" style="margin-top:20px">Admission chances and fit % are guidance, not guarantees — built from College Scorecard data and published admissions logic (NACAC factors, standard GPA recalculation, Likely / Target / Reach bands). Review with a school counselor. Made with Zoe's Colleges · zoescolleges.com</p></section>`;
   $("report-body").innerHTML=`<div class="rp">${cover}${profile}${list}${costs}${deadlines}</div>`;
+  $("report-body").querySelectorAll("[data-rpjump]").forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); const t=document.getElementById(a.dataset.rpjump); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); }));
 }
 function openReport(){ goto("report"); }
 $("btn-report").onclick = () => openReport();
@@ -3938,7 +4002,7 @@ function renderMemories(){
     </div>`; }).join("")+(photos.some(memMine)?`<div class="mem-delmine"><button class="linklike" id="mem-delmine">🗑 Delete all my photos</button> <span class="muted" style="font-size:12px">Only photos you added. Can't be undone.</span></div>`:"");
   el.querySelectorAll("[data-ph]").forEach(card=>{ const pid=card.dataset.ph;
     const cv=card.querySelector("[data-cover]"); if(cv) cv.onclick=()=>{ const sid=(state.photos.find(x=>x.id===pid)||{}).school_id; const c=getChecklist(sid); const on=c._cover!==pid; if(on) c._cover=pid; else delete c._cover; setChecklist(sid,c); renderMemories(); memNote(on?`${schoolName(sid)} now shows your photo on the board.`:`${schoolName(sid)} is back to its official photo.`); };
-    const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; del.disabled=true; await removePhoto(pid); await loadPhotos(); renderMemories(); memNote("Photo deleted."); };
+    const del=card.querySelector("[data-del]"); if(del) del.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone.")) return; del.disabled=true; const ok=await removePhoto(pid); await loadPhotos(); renderMemories(); memNote(ok?"Photo deleted.":"Couldn't delete that photo — only the person who added it (or a parent) can."); };
     card.querySelector("[data-inc]").onclick=()=>{ const off=!(memPrefs()[pid]||{}).off; setMemPref(pid,{off}); renderMemories(); };
     card.querySelector("[data-feat]").onclick=()=>{ const feat=!(memPrefs()[pid]||{}).feat; setMemPref(pid,{feat}); renderMemories(); };
   });
@@ -4159,8 +4223,50 @@ $("howto").addEventListener("click",e=>{ const a=e.target.closest&&e.target.clos
 $("howto-x").onclick = () => { try{ localStorage.setItem("zc_howto","1"); }catch(e){} $("howto").classList.add("hidden"); };
 $("board-sort").onchange = ()=>{ _boardHold=null; renderBoard(); };
 $("board-resort").onclick = ()=>{ _boardHold=null; renderBoard(); };
+
+/* Admit Power build-up (Oct 14): the same score, shown being BUILT. Starts at 0 with nothing entered, then each step —
+   grades, rigor, activities, tests — adds points. HEADLINE = her profile against ALL schools we have admissions data for
+   (so it only moves when her profile does, never because she added a safety or a reach). SECOND LINE = her own list:
+   how many of her schools she is at or above the typical admit, and the average there. Per-school scores keep their meaning: 50 = typical admit. */
+let _apPool=null;
+function apPool(){ const cat=state.catalog||[]; if(_apPool&&_apPool.n===cat.length) return _apPool.pool;
+  const pool=cat.filter(c=>c.scorecard&&typeof c.scorecard.admissionRate==="number"&&c.scorecard.admissionRate>0); _apPool={n:cat.length,pool}; return pool; }
+function apMeterData(p){
+  if(!p) p={};
+  const full=apInputs(p); const pool=apPool();
+  const none={gpa:NaN,rl:null,rb:null,astr:null,sat:0,to:full.to,major:false};
+  const stages=[
+    {k:"grades",label:"Grades",have:full.gpa>0&&full.gpa<=5},
+    {k:"rigor",label:"Course rigor",have:!!full.rl},
+    {k:"acts",label:"Activities",have:full.astr!=null},
+    {k:"tests",label:"Test scores",have:!!full.sat&&!full.to}];
+  let cur={...none}; let prev=0; const out=[];
+  const avg=(inp,list)=>{ let t=0,n=0; for(const c of list){ const r=apCore(c.scorecard,inp); if(r.score!=null){ t+=r.score; n++; } } return n?t/n:null; };
+  for(const st of stages){
+    if(st.k==="grades") cur={...cur,gpa:full.gpa};
+    if(st.k==="rigor") cur={...cur,rl:full.rl,rb:full.rb};
+    if(st.k==="acts") cur={...cur,astr:full.astr};
+    if(st.k==="tests") cur={...cur,sat:full.to?0:full.sat};
+    const v=st.have?avg(cur,pool):null; const r=v==null?null:Math.round(v);
+    out.push({k:st.k,label:st.label,have:st.have,total:r,delta:(st.have&&r!=null)?r-prev:null});
+    if(st.have&&r!=null) prev=r;
+  }
+  // her own list
+  const ids=(state.schools||[]).map(x=>catInfo(x.school_id)).filter(c=>c&&c.scorecard&&typeof c.scorecard.admissionRate==="number");
+  let list=null; if(ids.length&&prev>0){ const sc=ids.map(c=>apCore(c.scorecard,cur).score).filter(v=>v!=null); if(sc.length) list={n:sc.length,atOrAbove:sc.filter(v=>v>=50).length,avg:Math.round(sc.reduce((a,b)=>a+b,0)/sc.length)}; }
+  return {total:prev,steps:out,to:full.to,n:pool.length,list};
+}
+function apMeterHtml(p,forReport){
+  let d; try{ d=apMeterData(p); }catch(e){ return ""; }
+  const nm=forReport?"rp":"pf";
+  const rows=d.steps.map(s=>{ const note=s.have?(s.delta>=0?"+":"")+s.delta:(s.k==="tests"&&d.to?"test-optional — not counted":"not entered yet");
+    return `<div class="apm-row ${s.have?"on":""}"><span class="apm-k">${s.have?"✓":"○"} ${s.label}</span><span class="apm-v">${note}</span></div>`; }).join("");
+  const lst=d.list?`<div class="apm-list">On your list of ${d.list.n}: at or above the typical admit at <b>${d.list.atOrAbove}</b>; average <b>${d.list.avg}/50</b>. <span class="muted">(A list heavy on reaches pulls this down, a list heavy on safeties pushes it up — your profile hasn't changed.)</span></div>`:"";
+  return `<div class="apm ${nm}" aria-label="Admit Power build-up"><div class="apm-top"><div class="apm-num">${d.total}<small class="of50">/50</small></div><div><b>⚡ Admit Power</b><div class="apm-sub">Your whole profile against all ${d.n.toLocaleString()} schools we have admissions data for. It starts at 0 and builds as you add grades, rigor, activities, then tests. 50 means right at the typical admitted student.</div></div></div>
+    <div class="apm-bar"><i style="width:${apClamp(d.total,0,100)}%"></i><b style="left:50%"></b></div>${rows}${lst}</div>`;
+}
 function apChip(ch,open){ if(!ch||ch.score==null) return ""; const t=`Admit Power ${ch.score} — 50 is the typical admitted student here`;
-  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}</button>`:`<span class="chip ap-chip" title="${t}">⚡ ${ch.score}</span>`; }
+  return open?`<button type="button" class="chip ap-chip" ${open?"data-apopen":""} title="${t}. Tap for the breakdown">⚡ Admit Power ${ch.score}/50</button>`:`<span class="chip ap-chip" title="${t}">⚡ Admit Power ${ch.score}/50</span>`; }
 function chanceChip(ch){ return ch? `<span class="chip ${ch.band}${ch.far?" far":""}">${ch.label}</span>` : ""; }
 /* Improvement #5: one plain-English line explaining the chance band, built from the SAME steps the
    predictor uses (chanceExplain), so the words can never disagree with the badge. */
@@ -4248,8 +4354,8 @@ function renderSchool(x){
     ${(()=>{ /* #71 idea 4: the three numbers that matter, big and labeled */
       const y=info?yourNet(info):null; const cost=y?Math.max(0,y.v):(info?avgNet(info):null);
       return `<div class="big3">
-        <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":""); })():"no data"}</span></div>
-        <div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
+        <div class="b3"><span class="b3-k">${y?"Likely cost":"Typical cost"}</span><span class="b3-v">${cost!=null?(cost<=0?"$0":"$"+Math.round(cost/1000)+"k"):"—"}</span><span class="b3-s">${cost!=null?(()=>{ const S=stickerPrice(info); return (costFor(info)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span> `:"")+((typeof S==="number" && S-cost>=1000)?`sticker $${Math.round(S/1000)}k`:"per year"+(oosSurcharge(info)?" · out-of-state":"")); })():"no data"}</span></div>
+        <div class="b3 b3-ap"><span class="b3-k">⚡ Admit Power</span><span class="b3-v">${x.ch&&x.ch.score!=null?x.ch.score+'<small class="of50">/50</small>':"—"}</span><span class="b3-s">${x.ch&&x.ch.score!=null?"50 is typical":"add grades"}</span></div><div class="b3"><span class="b3-k">Chance</span><span class="b3-v b3-ch ${x.ch?x.ch.band:""}">${x.ch?esc(x.ch.label):"—"}</span><span class="b3-s">${x.ch?(info&&info.scorecard&&info.scorecard.admissionRate!=null?"admits "+pct(info.scorecard.admissionRate):"vs. who gets in"):"add grades"}</span></div>
         <div class="b3"><span class="b3-k">Family</span><span class="b3-v">${b!==null?"★ "+b.toFixed(1):"—"}</span><span class="b3-s">${b!==null?"average":"no ratings yet"}</span></div>
       </div>`; })()}
     ${info?famFitHtml(info):""}
@@ -4260,7 +4366,7 @@ function renderSchool(x){
       <button class="openlink cmp-btn ${inCmp(s.school_id)?"on":""}" data-cmp="${esc(s.school_id)}">${inCmp(s.school_id)?"✓ Compare":"⇄ Compare"}</button>
     </div>
     <details class="extra card-more"><summary>More · where you stand, facts, links, note</summary>
-      <div class="chiprow" style="align-items:center">${chanceChip(x.ch)}${apChip(x.ch)}${matchRing(x.m)}</div>
+      <div class="chiprow" style="align-items:center">${apChip(x.ch)}${chanceChip(x.ch)}${matchRing(x.m)}</div>
       ${info?chanceWordsHtml(info):""}${info?standBarHtml(info,true):""}
       ${facts}
       ${cardLinks(info, s)}
@@ -4515,9 +4621,10 @@ function renderExList(q){
     const thumb = purl ? `<div class="srow-thumb" style="background-image:url('${esc(purl)}')"></div>` : `<div class="srow-thumb ph" style="background:${phBg(c.name,c.state,"80%")}" role="img" aria-label="${esc(c.name)} crest"></div>`;
     return `<div class="srow">
       ${thumb}
-      <div class="sbody"><div class="sn">${esc(c.name)} ${chanceChip(ch)}</div>
+      <div class="sbody"><div class="sn">${esc(c.name)} ${apChip(ch)}${chanceChip(ch)}</div>
         <div class="sl">${esc(c.city||"")}${c.state?", "+esc(c.state):""}${estText(c)}</div>
-        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${yourNet(c)?`your net ${netMoney(yourNet(c).v)}`:`net ${money(avgNet(c))}`}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
+        ${(()=>{ const y=yourNet(c); const v=y?Math.max(0,y.v):avgNet(c); const st=(typeof stickerPrice==='function')?stickerPrice(c):null; return v!=null?`<div class="px-line"><b>${v<=0?"$0":"$"+Math.round(v/1000)+"k"}</b><span>/yr ${y?"your likely cost":"typical cost"}</span>${st&&st>v?`<span class="px-st">sticker ${"$"+Math.round(st/1000)+"k"}</span>`:""}${costFor(c)?`<span class="cost-ok" title="Sticker price checked against the school's 2026-27 page" aria-label="Sticker price verified">✓</span>`:""}</div>`:`<div class="px-line"><span>price not reported</span></div>`; })()}
+        <div class="scl" style="align-items:center"><span>admit ${pct(sc.admissionRate)}</span><span>${sc.size?sc.size.toLocaleString()+" students":""}</span><span style="display:inline-flex;align-items:center">${matchBar(m)}</span></div>
         <div class="ath-line">${athChip(c)}${myTeamLine(c)}</div>
         ${lifeBits.length?`<div class="scl life">${lifeBits.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}
         ${cardLinks(c, c)}
@@ -4836,7 +4943,7 @@ function renderVisitKit(){
   el.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{ const v2=vkGet(id); const k=b.dataset.vq; const cur=v2.q[k]||""; v2.q[k]= cur===""?"star":cur==="star"?"asked":""; if(!v2.q[k]) delete v2.q[k]; saveVisit(id,v2); renderVisitKit(); });
   const fi=$("vk-file"); $("vk-snap").onclick=()=>fi.click();
   fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const m=$("vk-snapmsg"); m.textContent="Saving…"; try{ await addPhoto(id,f,($("vk-cap").value||"").trim()); await loadPhotos(); renderVisitKit(); }catch(e){ m.textContent="Couldn't save that photo — try again."; } };
-  el.querySelectorAll("[data-vkdel]").forEach(b=>b.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone.")) return; b.disabled=true; await removePhoto(b.dataset.vkdel); await loadPhotos(); renderVisitKit(); });
+  el.querySelectorAll("[data-vkdel]").forEach(b=>b.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone.")) return; b.disabled=true; await removePhoto(b.dataset.vkdel); await loadPhotos(); renderVisitKit(); });
   let t=null; const ta=$("vk-note"), nm=$("vk-notemsg");
   ta.oninput=()=>{ nm.textContent="…"; clearTimeout(t); t=setTimeout(async()=>{ try{ const cur=(state.ratings||[]).find(r=>r.school_id===id&&r.user_id===state.me.user_id);
       await sb.from("ratings").upsert({ family_id:state.family.id, school_id:id, user_id:state.me.user_id, rating:cur?cur.rating:null, note:ta.value, updated_at:new Date().toISOString() }); await loadRatings(); nm.textContent="Saved ✓"; }catch(e){ nm.textContent="Couldn't save — check your connection."; } },900); };
@@ -4917,17 +5024,19 @@ function wireCost(el){
   const fi=$("offer-file");
   $("offer-upload").onclick=()=>fi.click();
   fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return; const box=$("offer-form");
-    if(f.size>4*1024*1024){ box.innerHTML=`<div class="msg err">That file is over 4MB — try a phone photo or a PDF export.</div>`; return; }
-    box.innerHTML=`<div class="msg">Reading <b>${esc(f.name)}</b>… this takes a few seconds.</div>`;
-    let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }catch(e){ box.innerHTML=`<div class="msg err">Couldn't read that file.</div>`; return; }
-    try{ const r=await fetch("/.netlify/functions/aid-letter-read",{method:"POST",headers:await aiHeaders(),body:JSON.stringify({file:String(dataUrl).split(",")[1]||"",mime:f.type})}); const j=await r.json().catch(()=>({}));
-      if(j.fields){ offerForm(matchSchool(j.fields.school), j.fields, true); return; }
-      box.innerHTML=`<div class="msg err">${j.notAidLetter?"That doesn't look like an aid offer.":j.capped?"We've hit today's limit for letter reading.":j.unconfigured?"Letter reading isn't switched on yet.":esc(j.error||"Couldn't read that one.")} <button class="linklike" data-offer-manual>Type the numbers in</button></div>`;
-      box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false);
-    }catch(e){ box.innerHTML=`<div class="msg err">Couldn't reach the reader. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; box.querySelector("[data-offer-manual]").onclick=()=>offerForm("",{},false); } };
+    box.innerHTML=`<div class="msg"><span class="tx-spin"></span> <span id="offer-prog">Reading <b>${esc(f.name)}</b> on your device…</span></div>`;
+    const manual=()=>{ const m=box.querySelector("[data-offer-manual]"); if(m) m.onclick=()=>offerForm("",{},false); };
+    const isPdf = f.type==="application/pdf" || /\.pdf$/i.test(f.name);
+    if(!isPdf && !(/^image\//.test(f.type)||isHeicFile(f))){ box.innerHTML=`<div class="msg err">Please pick a PDF or a photo of the letter. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); return; }
+    try{
+      const res=await txReadFile(f, isPdf, m=>{ const e=$("offer-prog"); if(e) e.textContent=m; });
+      const fields=aidFields(res.lines,{ocr:res.ocr});
+      if(!fields._n){ box.innerHTML=`<div class="msg err">I couldn't find any dollar amounts on that. Try a straight, well-lit photo of the whole letter, or a PDF. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); return; }
+      offerForm(matchSchool(fields.school), fields, true);
+    }catch(e){ box.innerHTML=`<div class="msg err">Couldn't read that file here. Check your internet connection (the reader loads once), try a PDF or a clearer photo. <button class="linklike" data-offer-manual>Type the numbers in</button></div>`; manual(); } };
   el.querySelectorAll("[data-offer-add]").forEach(b=>b.onclick=()=>offerForm(b.dataset.offerAdd,{},false));
   el.querySelectorAll("[data-offer-edit]").forEach(b=>b.onclick=()=>{ const o=offersGet()[b.dataset.offerEdit]||{}; offerForm(b.dataset.offerEdit,{costOfAttendance:o.coa,grants:o.grants,loans:o.loans,workStudy:o.workStudy,academicYear:o.year},false); });
-  el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=()=>{ if(!confirm("Remove this offer from your list?")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
+  el.querySelectorAll("[data-offer-del]").forEach(b=>b.onclick=async()=>{ if(!await askOk("Remove this offer from your list?","Remove")) return; const o=offersGet(); delete o[b.dataset.offerDel]; offersSet(o); renderCost(); });
   el.querySelectorAll("[data-offer-zoe]").forEach(b=>b.onclick=()=>{ const id=b.dataset.offerZoe, o=offersGet()[id]; if(!o) return;
     const txt=`Explain this financial-aid offer from ${schoolName(id)} in plain English: cost of attendance ${money(o.coa)}; grants/scholarships ${(o.grants||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; loans ${(o.loans||[]).map(g=>`${g.name} ${money(g.amount)}`).join(", ")||"none"}; work-study ${money(o.workStudy||0)}. What's free money vs. borrowed, what will we really pay per year, and what should we ask the aid office?`;
     goto("zoe"); setTimeout(()=>ztabAsk(txt,{mode:"chat"},`💬 Explain ${schoolName(id)}'s aid offer`),150); });
@@ -5063,7 +5172,7 @@ function renderDetail(id){
       ${cell(typeof sc.act25==="number"?"ACT range (25–75%)":"ACT midpoint", (typeof sc.act25==="number"?`${sc.act25}–${sc.act75}`:(sc.actMid?`${sc.actMid}`:"—")))}
       ${yourNet(info)?cell(`Your net price / yr (${yourNet(info).label})`, yourNetHtml(info)):""}
       ${cell((yourNet(info)?"Average net price / yr":"Net price / yr")+(oosSurcharge(info)?" (out-of-state)":""), money(avgNet(info)))}
-      ${cell("Sticker cost / yr"+(oosSurcharge(info)?" (out-of-state)":""), money(stickerPrice(info)))}
+      ${cell("Sticker cost / yr"+(costFor(info)?(costFor(info).side==="out_of_state"?" (out-of-state)":""):(oosSurcharge(info)?" (out-of-state)":"")), money(stickerPrice(info))+costNoteHtml(info))}
       ${cell("In-state tuition", money(sc.tuitionInState))}
       ${cell("Out-of-state tuition", money(sc.tuitionOutState))}
       ${cell("Grad rate (4yr)", pct(sc.gradRate))}
@@ -5106,7 +5215,7 @@ function renderDetail(id){
       ${b!==null?`<span class="blend" style="margin:0"><span class="n">${b.toFixed(1)}</span> <span class="l">family avg</span></span>`:""}</div>
     <div class="loc muted">${esc([rec.city,rec.state].filter(Boolean).join(", "))}${estText(info)}</div>
     ${(()=>{ const z=info?schoolSize(info):null, st=info?settingWord(info):""; return (z||st)?`<div class="d-size"><b>${z?esc(z.txt):""}</b>${z&&z.word?` · ${esc(z.word)}`:""}${st?` · ${esc(st)}`:""} ${athChip(info)}</div>`:""; })()}
-    <div class="chiprow" style="margin:8px 0;flex-wrap:wrap">${chanceChip(ch)}${apChip(ch,true)}${matchChip(m)}${(ch||m!=null)?`<span style="flex-basis:100%;display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:2px"><span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span><span class="calc-link" data-sauce style="margin:0">Want to know our secret sauce? ▸</span></span>`:""}</div>
+    <div class="chiprow" style="margin:8px 0;flex-wrap:wrap">${apChip(ch,true)}${chanceChip(ch)}${matchChip(m)}${(ch||m!=null)?`<span style="flex-basis:100%;display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:2px"><span class="calc-link" data-calc style="margin:0">How we calculate this ▸</span><span class="calc-link" data-sauce style="margin:0">Want to know our secret sauce? ▸</span></span>`:""}</div>
     ${info?famFitHtml(info):""}
     ${info?standBarHtml(info,false):""}${info?schoolAidHtml(info):""}${info?regionalHtml(info):""}${info?reqsHtml(info):""}
     ${ch?`<div class="why-band"><button class="linklike" data-whyband>Why ${ch.label}? — show the math ▾</button><div class="why-panel hidden">${chanceMathHtml(info)}</div></div>`:""}
@@ -5121,7 +5230,7 @@ function renderDetail(id){
   const rmBtn = $("detail-body").querySelector("[data-detailremove]");
   if (rmBtn) rmBtn.onclick = async () => {
     const r = state.schools.find(x=>x.school_id===id);
-    if (!confirm(`Remove ${r?r.name:"this school"} from the board? Everyone's ratings stay saved.`)) return;
+    if (!await askOk(`Remove ${r?r.name:"this school"} from the board? Everyone's ratings stay saved.`,"Remove")) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", id);
     await loadSchools(); goto(detailFrom);
   };
@@ -5156,7 +5265,7 @@ function bindStars(root){
   });
   root.querySelectorAll("[data-remove]").forEach(el => el.onclick = async () => {
     const sid = el.dataset.remove; const s = state.schools.find(x=>x.school_id===sid);
-    if (!confirm(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`)) return;
+    if (!await askOk(`Remove ${s?s.name:"this school"} from the family board? Everyone's ratings for it stay saved.`,"Remove")) return;
     await sb.from("family_schools").delete().eq("family_id", state.family.id).eq("school_id", sid);
     await loadSchools(); refreshCurrent();
   });
@@ -5662,8 +5771,33 @@ function homeState(){ const sp=studentProfile(); const mine=(state.me&&state.pro
 function oosSurcharge(info){ if(!info) return 0; const sc=info.scorecard||{}; const pub=/public/i.test(info.ownership||""); const h=homeState();
   if(!pub||!h||!info.state||h===info.state) return 0; const a=sc.tuitionOutState, b=sc.tuitionInState; return (typeof a==="number"&&typeof b==="number"&&a>b)? a-b : 0; }
 // Sticker (cost of attendance) gets the same out-of-state difference, so the sticker is never below the price after aid.
-function stickerPrice(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.costAvg==="number" ? sc.costAvg + oosSurcharge(info) : null; }
-function avgNet(info){ const sc=(info&&info.scorecard)||{}; return typeof sc.netPrice==="number" ? Math.max(0,sc.netPrice) + oosSurcharge(info) : null; }   // 4 schools carry a negative federal average; a price is never below $0
+function stickerPrice(info){ const c=costFor(info); if(c) return c.v; const sc=(info&&info.scorecard)||{}; return typeof sc.costAvg==="number" ? sc.costAvg + oosSurcharge(info) : null; }
+function avgNet(info){ const sc=(info&&info.scorecard)||{}; if(typeof sc.netPrice!=="number") return null; const n=Math.max(0,sc.netPrice) + oosSurcharge(info); const c=costFor(info); return (c && n>c.v) ? c.v : n; }
+/* Oct 14 price board: the school's OWN published cost of attendance (table school_costs, one row per school: year, basis, source link).
+   It replaces the federal estimate for the sticker price. Schools with no row keep the estimate, labelled as an estimate.
+   Public school + family home state differs from the school's state -> the out-of-state column, otherwise the in-state one.
+   A row is ignored unless it looks sane (https source, year like 2026-27, total between $3k and $150k). */
+function costOk(r){ if(!r||!r.school_id||!/^https:\/\//.test(r.source_url||"")||!/^\d{4}-\d{2}$/.test(r.academic_year||"")) return false;
+  return ["in_state","out_of_state"].some(k=>r[k]&&typeof r[k].total==="number"&&r[k].total>=3000&&r[k].total<=150000); }
+function costRow(info){ return (info && state.costs && state.costs[info.id]) || null; }
+function costFor(info){ const r=costRow(info); if(!r) return null;
+  const pub=/public/i.test(info.ownership||""); const h=homeState();
+  const side=(pub && h && info.state && h!==info.state) ? "out_of_state" : "in_state";
+  const t=r[side]&&r[side].total; if(typeof t!=="number"||t<3000||t>150000) return null;   // no printed total for this family's side -> keep the estimate, never borrow the other column
+  return {v:Math.round(t), year:r.academic_year, basis:r.basis, url:r.source_url, side, checked:r.checked, conf:r.confidence}; }
+const COST_BASIS={"on-campus":"on campus","off-campus":"off campus","commuter":"living at home","not-stated":""};
+function costNoteHtml(info){ const c=costFor(info);
+  if(!c){ const L=info&&info.link&&/^https?:\/\//.test(info.link)?info.link:null; return `<div class="cost-src">federal estimate, not yet checked against the school's page${L?` · <a href="${esc(L)}" target="_blank" rel="noopener">check the official site for this year's price</a>`:" · check the school's official site for this year's price"}</div>`; }
+  const b=COST_BASIS[c.basis]; return `<div class="cost-src"><span class="cost-ok" aria-hidden="true">✓</span> ${esc(c.year)}${b?" · "+esc(b):""} · <a href="${esc(c.url)}" target="_blank" rel="noopener">school's cost page</a></div>`; }
+async function loadCosts(){
+  state.costs={}; if(BACKEND.costs===false) return;
+  try{
+    let rows;
+    if(DEMO){ const r=await fetch("school-costs-seed.json",{cache:"no-cache"}); rows=r.ok?await r.json():[]; }
+    else { const {data,error}=await sb.from("school_costs").select("*"); if(error) throw error; rows=data||[]; }
+    rows.forEach(r=>{ if(costOk(r)) state.costs[r.school_id]=r; });
+  }catch(e){ if(isMissing(e) || /school_costs|relation|schema cache/i.test((e&&e.message)||"")) BACKEND.costs=false; }
+}   // 4 schools carry a negative federal average; a price is never below $0
 /* Oct 14: federal net price by income band is noisy: 543 schools show a higher-income band paying LESS than a lower one, and 24 show a negative price.
    A family never pays less than a lower-income family, and never below $0, so take the highest value at or below this band. */
 function bandNet(row,b){ if(!row) return null; let best=null; for(let i=0;i<=b&&i<row.length;i++){ const x=row[i]; if(typeof x==="number"&&isFinite(x)) best=best==null?x:Math.max(best,x); }
@@ -5766,6 +5900,7 @@ function buildCompare(){
   const cols=ids.map(id=>{ const info=catInfo(id); return {rec:state.schools.find(s=>s.school_id===id) || (info&&{school_id:id,name:info.name,city:info.city,state:info.state}), info}; }).filter(c=>c.info&&c.rec);
   const g=c=>c.info.scorecard||{};
   const rows=[
+    ["⚡ Admit Power (50 = typical admit)", c=>{const ch=chanceFor(c.info); return ch&&ch.score!=null?`<b class="ap-cmp">${ch.score}/50</b>`:"—";}],
     ["My fit %", c=>{const m=matchScore(c.info,w); return m!=null?`<b>${m}</b>`:"—";}],
     ["Admission chance", c=>{const ch=chanceFor(c.info); return ch?`<b>${esc(ch.label)}</b>`:"—";}],
     ["Admission rate", c=>pct(g(c).admissionRate)],
@@ -5786,6 +5921,7 @@ function buildCompare(){
   ];
   const n=cols.length;
   const M=[
+    {k:"⚡ Admit Power", get:c=>{const ch=chanceFor(c.info);return ch&&ch.score!=null?ch.score:null;}, fmt:v=>v==null?"—":v+"/50", dir:"hi"},
     {k:"Your match", get:c=>matchScore(c.info,w), fmt:v=>v==null?"—":v+"%", dir:"hi"},
     {k:"Admission chance", get:c=>{const ch=chanceFor(c.info);return ch?ch.label:null;}, fmt:v=>v||"—", dir:null},
     {k:"Admit rate", get:c=>g(c).admissionRate, fmt:v=>v==null?"—":pct(v), dir:null},
@@ -5862,6 +5998,62 @@ function reqsHtml(info){ const q=reqsFor(info); if(!q) return "";
     ${row("SAT / ACT",testW,q.tests==="required"?"warn":"")}${row("Essay / personal statement",reqWord(q.essay),q.essay==="required"?"warn":"")}${row("Recommendations",reqWord(q.recs),q.recs==="required"?"warn":"")}${row("High school record",reqWord(q.record))}
     ${row("Application fee",typeof q.fee==="number"?(q.fee===0?"None":"$"+q.fee+" <span class='muted'>(fee waivers often available)</span>"):"—")}
     <div class="muted" style="font-size:11.5px;margin-top:6px">As the school reported to IPEDS for ${esc(state.reqsYear||"fall 2023")}. Policies change (several schools now require tests again) — confirm on the school's admissions site. Supplemental essays aren't in federal data.</div></div>`; }
+
+/* ===== School documents (Oct 14): essays, recommendations, transcript and scores per school =====
+   Word/PDF files kept privately for the family (storage bucket school-docs + table school_docs, migration 026). Every upload is a
+   version; "Mark submitted" stamps a version with the date so the family can see exactly what was sent. If the database update
+   hasn't been applied yet, the panel says so and nothing breaks. */
+const DOC_KEYS=["Essays","Recommendations","Transcript","Test scores"];
+const DOC_MAX=10*1024*1024, DOC_EXT=/\.(pdf|docx?)$/i;
+state.docs=[]; state.docsLoaded=false;
+async function loadSchoolDocs(){
+  if(BACKEND.docs===false || !state.family){ state.docsLoaded=true; return; }
+  try{ const {data,error}=await sb.from("school_docs").select("*").order("created_at",{ascending:true}); if(error) throw error; state.docs=data||[]; }
+  catch(e){ if(isMissing(e) || /school_docs|relation|schema cache/i.test((e&&e.message)||"")) BACKEND.docs=false; }
+  state.docsLoaded=true; }
+function docsFor(id,key){ return (state.docs||[]).filter(d=>d.school_id===id && d.task_key===key); }
+function docSize(n){ n=+n||0; return n>=1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB"; }
+function docDate(v){ const d=new Date(v); return isNaN(d)?"":d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+function docWho(d){ if(state.me&&d.user_id===state.me.user_id) return "you"; const m=(state.members||[]).find(x=>x.user_id===d.user_id); return (m&&(m.display_name||m.name))||"family"; }
+function docKeysShown(TK,chk){ return TK.filter(t=>DOC_KEYS.includes(t.key) && (t.key!=="Test scores" || !/optional/i.test(t.label) || chk["Test scores"])); }   // scores box only when scores are going to be sent
+function docsPanelHtml(id,TK,chk){
+  const keys=docKeysShown(TK,chk); if(!keys.length) return "";
+  const total=keys.reduce((a,t)=>a+docsFor(id,t.key).length,0);
+  const off=BACKEND.docs===false;
+  const body=off?`<p class="muted" style="font-size:12.5px;margin:8px 0 0">Document storage switches on after the next database update. Nothing is lost; check back soon.</p>`
+   :keys.map(t=>{ const L=docsFor(id,t.key); const sub=L.filter(d=>d.submitted_at).length;
+    return `<div class="dd-item" data-ddkey="${esc(t.key)}"><div class="dd-h"><b>${esc(t.label.replace(/ \(optional\)$/,""))}</b>${sub?`<span class="dd-badge">Submitted</span>`:""}<label class="dd-add small">＋ Add Word or PDF<input type="file" class="dd-file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></label></div>
+      ${L.length?`<ul class="dd-list">${L.map(d=>`<li class="${d.submitted_at?"sub":""}"><span class="dd-v">v${d.version||1}</span><button type="button" class="linklike dd-open" data-ddopen="${esc(d.id)}">${esc(d.name)}</button><span class="muted dd-meta">${docSize(d.size)} · ${esc(docDate(d.created_at))} · ${esc(docWho(d))}</span>
+        ${d.submitted_at?`<span class="dd-sub">✓ Submitted ${esc(docDate(d.submitted_at))}</span><button type="button" class="linklike dd-undo" data-ddunsub="${esc(d.id)}">undo</button>`:`<button type="button" class="small dd-mark" data-ddsub="${esc(d.id)}">Mark submitted</button>`}
+        ${(state.me&&d.user_id===state.me.user_id)||myRole()==="parent"?`<button type="button" class="linklike dd-del" data-dddel="${esc(d.id)}" aria-label="Delete this version">Delete</button>`:""}</li>`).join("")}</ul>`:`<div class="muted dd-empty">No files yet. Add your draft, then each new version.</div>`}
+      <div class="dd-msg muted" role="status"></div></div>`; }).join("");
+  return `<details class="dl-docs"><summary>📎 Documents &amp; essays${total?` · ${total} file${total>1?"s":""}`:""}</summary>${body}<div class="muted" style="font-size:11.5px;margin-top:8px">Private to your family. Word or PDF, up to 10 MB. Every upload is kept as a version.</div></details>`; }
+function wireDocs(out){
+  out.querySelectorAll(".dl-pills").forEach(box=>{ const id=box.dataset.dlid; const card=box.closest(".card"); if(!card) return;
+    card.querySelectorAll(".dd-item").forEach(item=>{ const key=item.dataset.ddkey; const msg=t=>{ const m=item.querySelector(".dd-msg"); if(m) m.textContent=t||""; };
+      const fi=item.querySelector(".dd-file"); if(fi) fi.onchange=async()=>{ const f=fi.files[0]; fi.value=""; if(!f) return;
+        if(!DOC_EXT.test(f.name)){ msg("Please add a Word (.doc, .docx) or PDF file."); return; }
+        if(f.size>DOC_MAX){ msg("That file is over 10 MB. Try a smaller one."); return; }
+        msg("Saving…");
+        try{ const ext=(f.name.match(DOC_EXT)||[".pdf"])[0].toLowerCase(); const slug=key.toLowerCase().replace(/[^a-z]+/g,"");
+          const path=`${state.family.id}/${id}/${slug}/${Date.now()}_${Math.random().toString(36).slice(2,7)}${ext}`;
+          const up=await sb.storage.from("school-docs").upload(path,f,{contentType:f.type||"application/octet-stream",upsert:false}); if(up&&up.error) throw up.error;
+          const ver=docsFor(id,key).reduce((a,d)=>Math.max(a,+d.version||0),0)+1;
+          const row={family_id:state.family.id,school_id:id,task_key:key,user_id:state.me.user_id,name:f.name.slice(0,120),path,mime:f.type||"",size:f.size,version:ver};
+          const r=await sb.from("school_docs").insert(row).select(); if(r&&r.error){ try{ await sb.storage.from("school-docs").remove([path]); }catch(e){} throw r.error; }
+          await loadSchoolDocs(); renderDeadlines(); }
+        catch(e){ if(/school_docs|bucket|relation|schema cache/i.test((e&&e.message)||"")){ BACKEND.docs=false; renderDeadlines(); } else msg("Couldn't save that file. Please try again."); } };
+      item.querySelectorAll("[data-ddopen]").forEach(b=>b.onclick=async()=>{ const d=state.docs.find(x=>x.id===b.dataset.ddopen); if(!d) return; const w=window.open("","_blank");
+        try{ const r=await sb.storage.from("school-docs").createSignedUrl(d.path,600); const u=r&&r.data&&r.data.signedUrl; if(!u) throw 0; if(w) w.location=u; else location.href=u; }catch(e){ if(w) w.close(); msg("Couldn't open that file."); } });
+      const setSub=async(did,on)=>{ const d=state.docs.find(x=>x.id===did); if(!d) return; const patch=on?{submitted_at:new Date().toISOString(),submitted_by:state.me.user_id}:{submitted_at:null,submitted_by:null};
+        const r=await sb.from("school_docs").update(patch).eq("id",did); if(r&&r.error){ msg("Couldn't update that."); return; } Object.assign(d,patch);
+        if(on){ const o=getChecklist(id); if(!o[key]){ o[key]=true; setChecklist(id,o); } } renderDeadlines(); };
+      item.querySelectorAll("[data-ddsub]").forEach(b=>b.onclick=()=>setSub(b.dataset.ddsub,true));
+      item.querySelectorAll("[data-ddunsub]").forEach(b=>b.onclick=()=>setSub(b.dataset.ddunsub,false));
+      item.querySelectorAll("[data-dddel]").forEach(b=>b.onclick=async()=>{ const d=state.docs.find(x=>x.id===b.dataset.dddel); if(!d) return;
+        if(!await askOk(d.submitted_at?"This version is marked as submitted. Delete it anyway? This can't be undone.":"Delete this version? This can't be undone.")) return;
+        const r=await sb.from("school_docs").delete().eq("id",d.id).select(); if(r&&r.error){ msg("Couldn't delete that."); return; }
+        try{ await sb.storage.from("school-docs").remove([d.path]); }catch(e){} await loadSchoolDocs(); renderDeadlines(); }); }); }); }
 function dlKey(id){ return "dlcheck_"+id; }
 // #70: the application checklist is shared with the family (family_schools.checklist, migration 017).
 // This device's older copy is used only until the shared one exists; if the column isn't there yet it stays on this device.
@@ -6035,10 +6227,13 @@ function renderDeadlines(){
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
         <div class="dl-bar"><i style="width:${pctDone}%"></i></div>
         <div class="dl-pills" data-dlid="${esc(id)}">${TK.map(t=>`<span class="dl-pill ${chk[t.key]?"done":""} ${/optional/.test(t.label)?"opt":""}" data-task="${esc(t.key)}" role="checkbox" tabindex="0" aria-checked="${!!chk[t.key]}"><span class="dl-box" aria-hidden="true">${chk[t.key]?"✓":""}</span>${esc(t.label)}</span>`).join("").replace(/data-task="([^"]+)"/g,(m,k)=>`${m} title="${esc(TASK_TIPS[k]||"")}"`)}</div>
+        ${docsPanelHtml(id,TK,chk)}
         <details class="dl-what"><summary>What these mean</summary><ul>${TK.map(t=>`<li><b>${esc(t.label)}</b> — ${esc(TASK_TIPS[t.key]||"")}${/optional/.test(t.label)?" Optional at this school: it's considered if you send it.":""}</li>`).join("")}</ul></details>
       </div></div></div>`;
   }).join("") + pastDeadlinesHtml(rows);
   renderReminderCard(rows);
+  if(!state.docsLoaded){ state.docsLoaded=true; loadSchoolDocs().then(()=>{ if(currentView==="deadlines") renderDeadlines(); }); }
+  wireDocs(out);
   out.querySelectorAll("[data-dlid]").forEach(box=>{ const id=box.dataset.dlid;
     box.querySelectorAll("[data-task]").forEach(p=>{ p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); };
       p.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); p.click(); } }; }); });
@@ -6082,7 +6277,7 @@ function renderRecommends(){
     const why=recWhy(c,w); const whyTxt= why.length?`Fits your taste for ${joinList(why)}.`:`A strong overall match for your priorities.`;
     return `<div class="rec-card"><div class="ph" ${ph}><span class="nm">${esc(c.name)}</span></div>
       <div class="rec-body">
-        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${chanceChip(ch)}${apChip(ch)}${matchRing(m)}</div>
+        <div class="chiprow" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${apChip(ch)}${chanceChip(ch)}${matchRing(m)}</div>
         <div class="rec-facts">${(()=>{ const z=schoolSize(c), st=settingWord(c), k=costFact(c), ar=c.scorecard&&c.scorecard.admissionRate;
           return `<div class="rf"><span>Size</span><b>${z?esc(z.word==="Medium"?"Med":(z.word||"—")):"—"}</b><em>${z?esc(z.n!=null&&z.n>=10000?Math.round(z.n/1000)+"k students":z.txt):"no data"}</em></div>`
           +`<div class="rf"><span>${k?k.k:"Cost"}</span><b>${k?k.v:"—"}</b><em>${k?esc(k.s):"no data"}</em></div>`
@@ -6123,9 +6318,24 @@ function wirePhotos(id){
       catch(e){ alert("Couldn't add photo: "+(e.message||e)); addBtn.disabled=false; addBtn.textContent="📷 Add photo"; } };
   }
   root.querySelectorAll("[data-pricereq]").forEach(b=>b.onclick=()=>{ b.disabled=true; requestPricing(b.dataset.pricereq); });
-  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!confirm("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
+  root.querySelectorAll("[data-rmphoto]").forEach(el=>el.onclick=async()=>{ if(!await askOk("Delete this photo? This can't be undone."))return; await removePhoto(el.dataset.rmphoto); await loadPhotos(); renderDetail(id); });
 }
-function resizeImage(file, maxDim, quality){
+// iPhone photos (HEIC/HEIF): Chrome and Edge on Windows can't open them, so convert to JPEG in the browser first (library loads only when needed).
+const isHeicFile = f => /image\/hei[cf]/i.test(f.type||"") || /\.hei[cf]$/i.test(f.name||"");
+function loadHeicLib(){
+  if(window.heic2any) return Promise.resolve(window.heic2any);
+  return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=window.HEIC_LIB_URL||"https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+    s.onload=()=>window.heic2any?res(window.heic2any):rej(new Error("heic lib missing")); s.onerror=()=>rej(new Error("heic lib failed")); document.head.appendChild(s); });
+}
+async function resizeImage(file, maxDim, quality){
+  try{ return await resizeImageCore(file, maxDim, quality); }
+  catch(e){
+    if(!isHeicFile(file)) throw e;
+    const h=await loadHeicLib(); let out=await h({ blob:file, toType:"image/jpeg", quality:0.9 }); if(Array.isArray(out)) out=out[0];
+    return await resizeImageCore(out, maxDim, quality);
+  }
+}
+function resizeImageCore(file, maxDim, quality){
   return new Promise((resolve,reject)=>{
     const img=new Image(); const url=URL.createObjectURL(file);
     img.onload=()=>{ URL.revokeObjectURL(url); let {width:w,height:h}=img; const scale=Math.min(1, maxDim/Math.max(w,h)); w=Math.round(w*scale); h=Math.round(h*scale);
@@ -6176,17 +6386,23 @@ function canDelPhoto(p){ return memMine(p) || myRole()==="parent"; }
 function memMine(p){ return !!p && (String(p.id).startsWith("ls-") || (state.me && p.user_id===state.me.user_id)); }
 async function memDeleteMany(list, where){
   const mine=list.filter(memMine), others=list.length-mine.length; if(!mine.length) return;
-  if(!confirm(`Delete ${mine.length} photo${mine.length>1?"s":""} you added ${where}? This can't be undone.${others?`\n\n${others} added by someone else will stay — they can delete their own.`:""}`)) return;
+  if(!await askOk(`Delete ${mine.length} photo${mine.length>1?"s":""} you added ${where}? This can't be undone.${others?`\n\n${others} added by someone else will stay — they can delete their own.`:""}`)) return;
   for(const p of mine){ try{ await removePhoto(p.id); }catch(e){} }
   await loadPhotos(); renderMemories(); memNote(`${mine.length} photo${mine.length>1?"s":""} deleted.`);
 }
+// In-page confirm: browser confirm() pop-ups are blocked in some browsers/apps, which made delete buttons silently do nothing.
+function askOk(msg, okLabel){ return new Promise(res=>{ const ov=document.createElement("div"); ov.className="ask-ov"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true");
+  ov.innerHTML=`<div class="ask-box"><p class="ask-msg"></p><div class="ask-row"><button type="button" class="small ghost" data-no>Cancel</button><button type="button" class="small primary ask-go" data-yes></button></div></div>`;
+  ov.querySelector(".ask-msg").textContent=msg; ov.querySelector("[data-yes]").textContent=okLabel||"Delete";
+  const done=v=>{ ov.remove(); res(v); }; ov.querySelector("[data-no]").onclick=()=>done(false); ov.querySelector("[data-yes]").onclick=()=>done(true);
+  ov.addEventListener("click",e=>{ if(e.target===ov) done(false); }); document.body.appendChild(ov); ov.querySelector("[data-yes]").focus(); }); }
 async function removePhoto(pid){
   if(String(pid).startsWith("ls-")){ const arr=(lsGet("photos")||[]).filter(p=>p.id!==pid); lsSet("photos",arr); state.photos=arr; return true; }
   const p = state.photos.find(x=>x.id===pid);
   if(DEMO){ try{ await sb.from("photos").delete().eq("id", pid); }catch(e){} return true; }
   let ok=false;
   try{ const r=await sb.from("photos").delete().eq("id", pid).select("id"); ok=!r.error && r.data && r.data.length>0; }catch(e){}
-  if(!ok){ try{ alert("Couldn't delete that photo — only the person who added it (or a parent) can."); }catch(e){} return false; }
+  if(!ok) return false;
   try{ if(p&&p.path) await sb.storage.from("campus-photos").remove([p.path]); }catch(e){}   // file goes only after the record is really gone
   return true;
 }
@@ -6200,7 +6416,8 @@ function renderProfile(){
   $("profile-scope").innerHTML = shared
     ? `Saved to your family — everyone sees each other's profile; only you edit yours.`
     : `⚙️ <b>Setup not finished:</b> profiles &amp; sliders are saving on <b>this device only</b> for now. Ask the owner to run the one-time database step and they'll sync for the whole family.`;
-  { const h=$("pf-h1"); if(h) h.textContent = pendingMode() ? `${state.pending.display_name}'s profile` : "My profile"; }
+  { const h=$("pf-h1"); if(h) h.textContent = profName() ? `${profName()}'s profile` : "My profile"; }
+  if(editingStudentProfile()){ const n=esc(profName()); $("profile-scope").innerHTML=`🎓 <b>You're adjusting ${n}'s grades.</b> You and ${n} can both edit them, and the whole family sees the changes.`; }
   { const stu=studentMember(); const sn = pendingMode() ? state.pending.display_name : (stu && !isMe(stu.user_id) ? stu.display_name : "");   // #66: clear whose is whose
     const ta=document.querySelector('#pf-tabs [data-ptab="acad"]'), tw=document.querySelector('#pf-tabs [data-ptab="who"]');
     if(ta) ta.textContent = myRole()==="student" ? "🎓 My grades & activities" : (sn ? `🎓 ${sn}'s grades & activities` : "🎓 Grades & activities");
@@ -6217,7 +6434,7 @@ function renderProfile(){
     const setSel=(sel,v)=>{ if(!sel) return; if(v && ![...sel.options].some(o=>o.value===v)){ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); } sel.value=v||sel.options[0].value; };
     setSel(m1, parts[0]||"Undecided / not sure yet"); setSel(m2, parts[1]||"");
     const rk=$("pf-rank"); setSel(rk, p.rank||""); }
-  { const g=$("pf-grade"); if(g) g.value=String((p.rigor&&p.rigor.grade)||""); const lv=$("pf-level"); if(lv) lv.value=String((p.rigor&&p.rigor.level)||""); }
+  { const g=$("pf-grade"); if(g) g.value=String((p.rigor&&p.rigor.grade)||""); }
   { const m=$("pf-more"); if(m) m.open = !!((p.rank)||(p.hs&&p.hs.name)||(p.major&&!/^Undecided/.test(p.major))); }
   { const ib=myPrefs().incomeBand; const sel=null; if(sel){ sel.value=(ib===undefined||ib===null)?"":String(ib); sel.onchange=async()=>{ await setIncomeBand(sel.value); const m=$("pf-savemsg"); if(m){ m.textContent="Income saved ✓"; setTimeout(()=>m.textContent="",1500); } }; } }
   // test-optional toggle
@@ -6231,15 +6448,19 @@ function renderProfile(){
     else { el.className="int-readout"; el.innerHTML=""; } };
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
-  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||"";
-  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0};
+  const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-actboost")) $("pf-actboost").value=String(Math.max(0,Math.min(2,Math.round(+p.act_boost||0))));
+  pfCourses=Array.isArray(rg.courses)?rg.courses.map(c=>({name:String(c.name||"").slice(0,80),level:c.level||"Regular",grade:String(c.grade||""),credits:c.credits==null?null:c.credits,year:c.year||null})):[]; pfCoursesLine();
+  if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
+  const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0};
     const prof={gpa:$("pf-gpa").value.trim(), rigor:r}; const base=parseFloat(prof.gpa); const adj=rigorAdjustedGpa(prof); const el=$("pf-adj"); if(!el) return;
     const n=rigorCourses(prof), rl=rigorLevel(prof); const any=r.honors||r.ap||r.dual;
     el.innerHTML = (base>0 && any) ? `Rigor-adjusted GPA: <b>${adj.toFixed(2)}</b> <span class="muted">(${base.toFixed(2)} + Honors ½ point, AP/IB/dual 1 point each, spread over about ${n} courses${r.grade?"":" — pick the grade for a closer estimate"})</span>`
       : (base>0 ? `<span class="muted">Add honors or AP courses to see your rigor-adjusted GPA.</span>` : "");
-    if(rl) el.innerHTML += `<div class="muted" style="margin-top:4px">Rigor: <b>${RIGOR_WORD[rl.lv]}</b>${rl.est?" (estimated from the counts — answer the question above to set it yourself)":""}. Counts at selective schools.</div>`;
+    if(any){ const withO=rigorBonus(prof)||0, counts=rigorBonus({...prof,rigor:{...r,offered:0}})||0;
+      el.innerHTML += r.offered ? `<div class="muted" style="margin-top:4px">Credit for your course rigor: <b>+${withO.toFixed(2)}</b> GPA points. This counts what share of the courses open to you by now you took, so a school with few AP/honors classes doesn't hold you back.</div>`
+        : `<div class="muted" style="margin-top:4px">Credit for your course rigor: <b>+${counts.toFixed(2)}</b> GPA points, from the <b>number</b> of courses alone because "Offered at your school" is on Don't know. If your school offers few honors/AP classes, this can undersell you: pick a range above and the credit rises if you took most of what was open. It never lowers your credit.</div>`; }
     if(base>0&&any) el.innerHTML+=`<div class="muted" style="margin-top:4px">Chances compare your <b>unweighted</b> GPA with admitted students, then count rigor and activities in their own steps — so nothing is counted twice.</div>`; };
-  ["pf-gpa","pf-honors","pf-ap","pf-dual"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-level"].forEach(id=>$(id).onchange=recalc); recalc();
+  ["pf-gpa","pf-honors","pf-ap","pf-dual","pf-offered"].forEach(id=>$(id).oninput=recalc); ["pf-grade","pf-offered"].forEach(id=>$(id)&&($(id).onchange=recalc)); recalc();
   // high school context
   const hs=p.hs||{}; if($("pf-hs")) $("pf-hs").value=hs.name||"";
   // activities
@@ -6309,7 +6530,7 @@ function choicePowerHtml(){
 }
 // #66: a parent looking at the grades tab sees the STUDENT's profile (read-only once she has her own account),
 // not an empty profile of their own.
-function studentReadOnly(){ const stu=studentMember(); return !!(stu && state.me && !isMe(stu.user_id)); }
+function studentReadOnly(){ const stu=studentMember(); return !!(stu && state.me && !isMe(stu.user_id) && !editingStudentProfile()); }
 function renderProfileView(){
   const ro=studentReadOnly(); const stuM=studentMember();
   const p=(state.me&&state.profiles[ro?stuM.user_id:profKey()])||{}; const built=profileBuilt(p);
@@ -6317,9 +6538,10 @@ function renderProfileView(){
   { const ac=$("pf-acts-card"); if(ac) ac.classList.toggle("hidden", ro); }
   if(ro && !built){ form.classList.add("hidden"); sum.classList.remove("hidden");
     sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
+  { const pm=$("pf-meter"); if(pm) pm.innerHTML = (!ro && (!built||pfEdit)) ? apMeterHtml(p) : ""; }
   const showForm = !ro && (!built || pfEdit);
   form.classList.toggle("hidden", !showForm); sum.classList.toggle("hidden", showForm);
-  const ft=$("pf-form-title"); if(ft) ft.textContent = pendingMode() ? `${built?"Edit":"Build"} ${state.pending.display_name}'s profile` : (built? "Edit your profile" : "Build your profile");
+  const ft=$("pf-form-title"); if(ft) ft.textContent = profName() ? `${built?"Edit":"Build"} ${profName()}'s profile` : (built? "Edit your profile" : "Build your profile");
   if(showForm) return;
   const adj=rigorAdjustedGpa(p); const tags=parseInterests(p.notes||""); const acts=Array.isArray(p.activities)?p.activities:[];
   const astr=activityStrength(acts); const astrLvl = astr==null?null:(astr>=0.7?"strong":astr>=0.4?"solid":"light");
@@ -6328,7 +6550,8 @@ function renderProfileView(){
   const rig=p.rigor||{}; const rl=rigorLevel(p); const rigLine=[ (+rig.honors||0)?`${rig.honors} honors`:"", (+rig.ap||0)?`${rig.ap} AP/IB`:"", (+rig.dual||0)?`${rig.dual} dual`:"", rl?`${RIGOR_WORD[rl.lv]}${rl.est?" (est.)":""}`:"" ].filter(Boolean).join(" · ");
   const actList = acts.length? `<ul class="pv-acts">${acts.map(a=>{ const lvl=(actLevels(normAct(a).category).find(l=>l.v===(+a.tier||4))||{}).t||""; return `<li><b>${esc(a.name||actTitle(normAct(a)))}</b>${actMeta(normAct(a))?` · ${esc(actMeta(normAct(a)))}`:""}${lvl?` · <span class="muted">${esc(lvl)}</span>`:""}</li>`; }).join("")}</ul>` : "";
   sum.innerHTML = `<div class="card pv-card">
-    <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":pendingMode()?esc(state.pending.display_name)+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
+    <div class="pv-head"><h2 style="margin:0">${ro?esc(stuM.display_name)+"'s profile":profName()?esc(profName())+"'s profile":"Your profile"}</h2><div class="row" style="gap:6px"><button class="small ghost" data-pf-report>📄 Report</button>${ro?"":`<button class="small ghost" data-pf-edit>✏️ Edit profile</button>`}</div></div>
+    ${apMeterHtml(ro?(state.profiles[stuM.user_id]||p):p)}
     <div class="pv-grid">
       ${row("GPA", p.gpa?`${esc(p.gpa)}${adj&&adj!=parseFloat(p.gpa)?` <span class="muted" style="font-weight:400">(rigor-adjusted ${adj.toFixed(2)})</span>`:""}`:"")}
       ${row("Test scores", testLine)}
@@ -6362,14 +6585,15 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
   const testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, grade:+$("pf-grade").value||0, level:+$("pf-level").value||0 };
+  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
+  if(pfCourses.length) rigor.courses=pfCourses.slice(0,40);
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
   const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
-  await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs});
-  if(!pendingMode()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
+  await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs, act_boost:+(($("pf-actboost")||{}).value)||0});
+  if(!pendingMode() && !editingStudentProfile()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
   if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
   profActs = acts.slice(); actDirty=false;
   if(stay){ renderProfileView(); return true; }
@@ -6385,63 +6609,310 @@ $("pf-save").onclick = saveProfileForm;
 { const b3=$("pf-save3"); if(b3) b3.onclick = saveProfileForm; }
 /* ---- Transcript upload → AI read → review → fill (never auto-saves) ---- */
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
-function showTxPreview(f){
+let pfCourses=[];   // the course list behind the honors/AP counts, saved with the profile so it can be edited later
+function pfCoursesLine(){ const b=$("pf-courses"); if(!b) return;
+  if(!pfCourses.length){ b.classList.add("hidden"); b.innerHTML=""; return; }
+  b.classList.remove("hidden");
+  b.innerHTML=`<span class="muted">${pfCourses.length} courses saved from your transcript.</span> <button class="linklike" id="pf-editcourses" type="button">Edit my courses</button>`;
+  $("pf-editcourses").onclick=()=>{ showTxPreview({ gpa:null, weightedGpa:null, sat:null, act:null, courses:pfCourses.map(c=>({...c})), confidence:"high" }, true);
+    const t=$("tx-preview"); if(t&&t.scrollIntoView) t.scrollIntoView({behavior:"smooth",block:"start"}); };
+}
+function showTxPreview(f0, editing){
+  // Oct 16: the read is a first guess. Every course is editable (name, level, grade, credits), you can remove a wrong row or add a
+  // missed one, and the GPA and the AP / honors counts recalculate as you go. Nothing saves until "Save academic profile".
   const el=$("tx-preview"); if(!el) return;
-  const line=(k,v)=>`<div class="txp-row"><span>${k}</span><b>${esc(v==null?"—":String(v))}</b></div>`;
-  const gpa = f.gpa!=null ? (Number(f.gpa).toFixed(2) + (f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (school-reported weighted)" : "—");
-  el.innerHTML=`<div class="txp-h">Here's what I read — check it, then fill your profile:</div>
-    ${line(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpa)}
-    ${f.gpaCalculated?`<div class="muted" style="font-size:11.5px;margin:-2px 0 6px">Your school doesn't print a GPA, so I worked it out from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count.</div>`:""}
-    ${line("AP / IB courses", f.apIb)}
-    ${line("Honors courses", f.honors)}
-    ${line("Dual-enrollment", f.dualEnrollment)}
-    ${line("SAT", f.sat!=null?f.sat:"—")}
-    ${line("ACT", f.act!=null?f.act:"—")}
-    ${Array.isArray(f.courses)&&f.courses.length?`<details class="txp-courses"><summary>Courses I read (${f.courses.length})</summary><ul>${f.courses.map(c=>`<li>${esc(c.name)}${c.level&&c.level!=="Regular"?` <span class="txp-lv">${esc(c.level)}</span>`:""}${c.grade?` <span class="muted">· ${esc(c.grade)}</span>`:""}</li>`).join("")}</ul></details>`:""}
-    ${f.confidence==="low"?`<div class="txp-warn">⚠ The image was hard to read — double-check these before saving.</div>`:""}
+  const f=JSON.parse(JSON.stringify(f0)); f.courses=(f.courses||[]).map(c=>({ name:c.name||"", level:c.level||"Regular", grade:c.grade||"", credits:c.credits, year:c.year||null }));
+  const printedGpa = f0.gpa!=null && !f0.gpaCalculated;      // a GPA the school printed stays as printed
+  const LV=["Regular","Honors","AP","IB","Dual"];
+  const recompute=()=>{
+    if(f.courses.length){ const n=lv=>f.courses.filter(c=>c.level===lv).length; f.apIb=n("AP")+n("IB"); f.honors=n("Honors"); f.dualEnrollment=n("Dual"); }
+    if(!printedGpa){ const c=txCalcGpa(f.courses.map(x=>({ grade:x.grade, credits:(x.credits===""||x.credits==null)?null:Number(x.credits) }))); f.gpa=c?c.gpa:null; f.gpaScale=c?4:null; f.gpaCalculated=c||null; }
+  };
+  const row=(k,v,id)=>`<div class="txp-row"><span>${k}</span><b ${id?`id="${id}"`:""}>${esc(v==null?"—":String(v))}</b></div>`;
+  const gpaText=()=>f.gpa!=null ? (Number(f.gpa).toFixed(2)+(f.gpaScale?` / ${f.gpaScale}`:"")) : (f.weightedGpa!=null? f.weightedGpa+" (school-reported weighted)" : "—");
+  const paint=()=>{ recompute(); const set=(id,v)=>{ const e=$(id); if(e) e.textContent=v==null||v===""?"—":String(v); };
+    set("txp-gpa",gpaText()); set("txp-ap",f.apIb); set("txp-hon",f.honors); set("txp-dual",f.dualEnrollment);
+    const note=$("txp-gpanote"); if(note) note.textContent = f.gpaCalculated ? `Calculated from ${f.gpaCalculated.courses} final grades on the standard 4.0 scale (A = 4, A− = 3.7, B+ = 3.3…), weighted by credits. Pass/fail courses don't count. A course with no credits shown counts as 1.` : (printedGpa?"":"Add at least 4 graded courses and I'll calculate it."); };
+  const crow=(c,i)=>`<div class="txe-row" data-i="${i}"><input class="txe-n" value="${esc(c.name)}" maxlength="80" aria-label="Course name" placeholder="Course name"><select class="txe-l" aria-label="Level">${LV.map(l=>`<option ${c.level===l?"selected":""}>${l}</option>`).join("")}</select><input class="txe-g" value="${esc(c.grade)}" maxlength="6" aria-label="Final grade" placeholder="Grade"><input class="txe-c" type="number" step="0.25" min="0" max="10" value="${c.credits==null?"":esc(c.credits)}" aria-label="Credits" placeholder="Cr"><button class="txe-x" type="button" aria-label="Remove this course">✕</button></div>`;
+  const render=()=>{
+    recompute();
+    el.innerHTML=`<div class="txp-h">Here's what I read — check it, fix anything wrong, then fill your profile:</div>
+    <div class="txp-warn" style="margin:0 0 8px">⚠ <b>Please double-check this against the original.</b> A computer read this automatically and it can be wrong, especially on photos: a course can be missed, a grade misread, or honors and AP classes mislabeled. Compare every row below with your transcript and fix anything that's off.${f.confidence==="low"?" <b>This one was hard to read, so check it extra carefully.</b>":""}</div>
+    ${row(f.gpaCalculated?"GPA (unweighted, calculated)":"GPA", gpaText(), "txp-gpa")}
+    <div class="muted" id="txp-gpanote" style="font-size:11.5px;margin:-2px 0 6px"></div>
+    ${row("AP / IB courses", f.apIb, "txp-ap")}${row("Honors courses", f.honors, "txp-hon")}${row("Dual-enrollment", f.dualEnrollment, "txp-dual")}
+    ${row("SAT", f.sat!=null?f.sat:"—")}${row("ACT", f.act!=null?f.act:"—")}
+    <div class="txe-h">Courses I read (${f.courses.length}) — edit, remove or add</div>
+    <div class="txe-head"><span>Course</span><span>Level</span><span>Grade</span><span>Credits</span><span></span></div>
+    <div id="txe-list">${f.courses.map(crow).join("")}</div>
+    <button class="linklike" id="txe-add" type="button">+ Add a course I missed</button>
     <div class="row" style="margin-top:10px;gap:8px"><button class="small primary" id="txp-fill" type="button">Fill my profile</button><button class="small ghost" id="txp-cancel" type="button">Discard</button></div>
     <div class="muted" style="font-size:11px;margin-top:6px">Nothing saves until you tap <b>Save academic profile</b>.</div>`;
-  el.classList.remove("hidden");
-  el.querySelector("#txp-cancel").onclick=()=>{ el.classList.add("hidden"); el.innerHTML=""; };
-  el.querySelector("#txp-fill").onclick=()=>{
-    const set=(id,v)=>{ const e=$(id); if(e&&v!=null&&v!=="") e.value=v; };
-    set("pf-gpa", f.gpa); set("pf-honors", f.honors); set("pf-ap", f.apIb); set("pf-dual", f.dualEnrollment);
-    if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
-    if(f.act!=null) set("pf-act", f.act);
-    ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
-    el.classList.add("hidden"); el.innerHTML="";
-    txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
-    try{ $("pf-gpa").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+    el.classList.remove("hidden"); paint();
+    el.querySelectorAll(".txe-row").forEach(r=>{ const i=+r.dataset.i, c=f.courses[i];
+      r.querySelector(".txe-n").oninput=e=>{ c.name=e.target.value; };
+      r.querySelector(".txe-l").onchange=e=>{ c.level=e.target.value; paint(); };
+      r.querySelector(".txe-g").oninput=e=>{ c.grade=e.target.value.trim().toUpperCase(); paint(); };
+      r.querySelector(".txe-c").oninput=e=>{ c.credits=e.target.value===""?null:Number(e.target.value); paint(); };
+      r.querySelector(".txe-x").onclick=()=>{ f.courses.splice(i,1); render(); }; });
+    $("txe-add").onclick=()=>{ f.courses.push({ name:"", level:"Regular", grade:"", credits:null, year:null }); render(); const ns=el.querySelectorAll(".txe-n"); if(ns.length) ns[ns.length-1].focus(); };
+    el.querySelector("#txp-cancel").onclick=()=>{ el.classList.add("hidden"); el.innerHTML=""; };
+    el.querySelector("#txp-fill").onclick=()=>{
+      const set=(id,v)=>{ const e=$(id); if(e&&v!=null&&v!=="") e.value=v; };
+      set("pf-gpa", f.gpa); set("pf-honors", f.honors); set("pf-ap", f.apIb); set("pf-dual", f.dualEnrollment);
+      if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
+      if(f.act!=null) set("pf-act", f.act);
+      ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
+      pfCourses=f.courses.filter(c=>(c.name||"").trim()||(c.grade||"").trim()).map(c=>({name:(c.name||"").trim().slice(0,80),level:c.level,grade:String(c.grade||"").trim(),credits:(c.credits===""||c.credits==null)?null:Number(c.credits),year:c.year||null})); pfCoursesLine();
+      el.classList.add("hidden"); el.innerHTML="";
+      txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
+      try{ $("pf-gpa").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){}
+    };
   };
+  render();
 }
+/* TXLOCAL-START
+   Free, in-browser transcript reader (Oct 16): no AI and no server. PDFs are read with pdf.js; photos and scans are read
+   with Tesseract OCR. Both libraries load from jsDelivr only when someone uploads a transcript. Nothing leaves the device.
+   Then plain rules find the courses, grades, credits, honors/AP levels, printed GPA and test scores. */
+const TX_POINTS = { "A+": 4.0, "A": 4.0, "A-": 3.7, "B+": 3.3, "B": 3.0, "B-": 2.7, "C+": 2.3, "C": 2.0, "C-": 1.7, "D+": 1.3, "D": 1.0, "D-": 0.7, "F": 0, "E": 0 };
+function txGradePoints(g){
+  if(g==null) return null; const t=String(g).trim().toUpperCase().replace(/\s+/g,"");
+  if(t in TX_POINTS) return TX_POINTS[t];
+  const n=Number(t); if(!Number.isFinite(n)||n<0||n>100) return null;
+  if(n<=4.0 && /\./.test(t)) return null;
+  return n>=93?4.0:n>=90?3.7:n>=87?3.3:n>=83?3.0:n>=80?2.7:n>=77?2.3:n>=73?2.0:n>=70?1.7:n>=67?1.3:n>=65?1.0:0;
+}
+function txCalcGpa(courses){
+  let pts=0, cr=0, n=0;
+  for(const c of courses||[]){ const p=txGradePoints(c.grade); if(p==null) continue;
+    const w=(typeof c.credits==="number"&&c.credits>0&&c.credits<=10)?c.credits:1; if(c.credits===0) continue;
+    pts+=p*w; cr+=w; n++; }
+  return n>=4&&cr>0?{ gpa:Math.round(pts/cr*100)/100, courses:n, credits:Math.round(cr*100)/100 }:null;
+}
+const TX_LETTER = /^(A\+|A-|A|B\+|B-|B|C\+|C-|C|D\+|D-|D|F|E|P|NP|W|WP)$/i;
+const TX_JUNK = /^(total|totals|cumulative|cum|gpa|credits?|attempted|earned|average|avg|rank|weighted|unweighted|term|semester|sem|quarter|year|grade|class|student|page|date|school|official|transcript|name|address|phone|counselor|principal|signature|id|birth|ethnicity|gender|graduation|diploma|course|subject|final|mid|exam|comments?|teacher|credit)\b/i;
+function txLevel(name){
+  const n=name.trim();
+  if(/\b(dual[\s-]*enroll\w*|college credit|early college|concurrent enroll\w*)\b/i.test(n)||/\bDE\b/.test(n)) return "Dual";
+  if(/^IB\b/i.test(n)||/\b(IB|HL)\b/.test(n)) return "IB";
+  if(/^AP\b/i.test(n)||/^AP(?=[A-Z0-9])/.test(n)||/\badvanced placement\b/i.test(n)) return "AP";
+  if(/\s\(?H\)?\W*$/.test(n)||/\d\s?H\W*$/.test(n)||/[a-z]H\W*$/.test(n)||/\b(honors?|hon|accelerated|acc)\b/i.test(n)||/\bH\s*$/.test(n)) return "Honors";
+  return "Regular";
+}
+function txParseLines(lines){
+  const courses=[]; let year=null, gpa=null, weighted=null, sat=null, act=null, gradYear=null;
+  const yearWord = s => /\b(freshman|9th|grade\s*9)\b/i.test(s)?9:/\b(sophomore|10th|grade\s*10)\b/i.test(s)?10:/\b(junior|11th|grade\s*11)\b/i.test(s)?11:/\b(senior|12th|grade\s*12)\b/i.test(s)?12:null;
+  const isGradeTok=t=>/^(A\+|A-|B\+|B-|C\+|C-|D\+|D-|[ABCDF]|P|NP|WP)$/.test(t);
+  const isNumTok=t=>/^\d{2,3}(\.\d+)?%?$/.test(t)&&+t.replace("%","")>=40&&+t.replace("%","")<=100;
+  const isCredTok=t=>/^\d{1,2}\.\d{1,2}$/.test(t)&&+t<=10;
+  const CODE=/\b[A-Za-z$0-9]{2,8}[-–]\d{2}\b/;          // course code such as MA1020-03 (OCR may garble the front)
+  const LEVELTOK=/^[0o][1-5][0-9:.]?$/i;                      // level column: 02 = standard, 03 = honors at schools that use it
+  const rows=[];
+  for(let raw of lines){
+    let line=String(raw||"").replace(/[|│\t]+/g," ").replace(/\s+/g," ").trim(); if(!line) continue;
+    let m;
+    if((m=/\bSAT\b[^0-9]{0,40}(\d{3,4})\b/i.exec(line)) && +m[1]>=400 && +m[1]<=1600 && sat==null) sat=+m[1];
+    if((m=/\bACT\b[^0-9]{0,30}(\d{1,2})\b/i.exec(line)) && +m[1]>=1 && +m[1]<=36 && act==null) act=+m[1];
+    if((m=/\bgraduation\b[^0-9]{0,20}(20\d\d)\b/i.exec(line)) && !gradYear) gradYear=+m[1];
+    if((m=/\b(?:cumulative|cum\.?|overall|unweighted|gpa)\b[^0-9\n]{0,30}(\d\.\d{1,3})\b/i.exec(line))){
+      const v=+m[1], wLine=/\bweighted\b/i.test(line)&&!/\bunweighted\b/i.test(line);
+      if(wLine){ if(v>0 && weighted==null) weighted=v; }
+      else if(v>0 && v<=4.0 && gpa==null) gpa=v; else if(v>4.0 && v<=6 && weighted==null) weighted=v;
+    }
+    if(line.length<42 && !/\d\.\d/.test(line)){ const y=yearWord(line); if(y){ year=y; if(!/\s[A-F][+-]?\s/.test(line)) continue; } }
+    let tok=line.split(" "), lead=[], levelCode=null;
+    const ci=tok.findIndex(t=>CODE.test(t));
+    if(ci>=0){ lead=tok.slice(0,ci); tok=tok.slice(ci+1); }      // table row with a course code: year / grade columns come before it
+    lead.forEach(t=>{ if(/^(9|10|11|12)$/.test(t)) year=+t; else if(/^20\d\d$/.test(t)&&gradYear) year=Math.max(9,Math.min(12,12-(gradYear-(+t)))); });
+    let i=0;
+    if(ci>=0){ const li=tok.findIndex(t=>LEVELTOK.test(t)); if(li>0){ levelCode=tok[li]; var nameToks=tok.slice(0,li); i=li+1; } }
+    if(levelCode==null){
+      i=0; while(i<tok.length && !(i>0 && (isGradeTok(tok[i])||isNumTok(tok[i])||isCredTok(tok[i])))) i++;
+      if(i===0||i>=tok.length) continue; nameToks=tok.slice(0,i);
+    }
+    const name=nameToks.join(" ").replace(/^[\d.\-–)\s]+(?=[A-Za-z])/,"").replace(/^[A-Z]{1,3}\d{3,5}\s+(?=[A-Za-z])/,"").replace(/^[^A-Za-z]+/,"").trim();
+    if(name.replace(/[^A-Za-z]/g,"").length<3||TX_JUNK.test(name)||/\b(guardian|birth|address|phone|gender|student id|state id)\b/i.test(name)||/^advisory\b/i.test(name)) continue;
+    const honorsHint=nameToks.slice(0,7).some(t=>/^\(?H\)?$/.test(t)||/^\d H$/.test(t)||/\dH[:.]?$/.test(t)||/[a-z]H[:.]?$/.test(t));
+    const rest=tok.slice(i); const letters=[], pcts=[]; let credit=null;
+    rest.forEach((t,k)=>{ if(isGradeTok(t)) letters.push(t); else if(isCredTok(t)&&!(/^\d{2}\.\d$/.test(t)&&+t>=40)) credit=+t; else if(isNumTok(t)) pcts.push(t.replace("%","")); else if(levelCode!=null && k===rest.length-1 && /^[0-3]$/.test(t)) credit=+t; });
+    let grade=letters.length?letters[letters.length-1]:(pcts.length?pcts[pcts.length-1]:null);
+    if(grade==null||/^(W|WP)$/.test(grade)) continue;
+    // the school year / grade-level column (e.g. "2024  9  HRFR16-01 ...")
+    if(credit===0 && !/^(P|NP)$/.test(grade)) credit=null;       // a lettered course always has credit; a lone 0 is a misread
+    if(credit==null && levelCode!=null){ if(rest.some(t=>/^S[12I]$/i.test(t))) credit=0.5; else if(rest.some(t=>/^F[Yy]$/.test(t))) credit=1; }
+    // keep the readable start of the name; trailing OCR noise (short stray bits, symbols) is dropped
+    let nm=name.split(" "); let cut=nm.findIndex((t,k)=>k>=2&&(/[\[\]~=|"_]/.test(t)||(/^[a-z]{1,3}$/.test(t)&&k>=3)));
+    if(cut>0) nm=nm.slice(0,cut); while(nm.length>1&&/^(\d|[a-z]{1,2}|[0o][1-5]\w?|F[Yy]|S[12I]|\W+)$/.test(nm[nm.length-1])) nm.pop();
+    let clean=nm.join(" ").replace(/[:;,.]+$/,"").trim(); const letterShare=clean.replace(/[^A-Za-z ]/g,"").length/Math.max(1,clean.length);
+    if(letterShare<0.7||clean.length<3) clean="(name unclear)";
+    rows.push({ name:clean.slice(0,80), levelCode, grade, credits:credit, year, honorsHint });
+  }
+  const codes=[...new Set(rows.map(r=>r.levelCode).filter(Boolean).map(c=>c.slice(0,2)))].sort();
+  rows.forEach(r=>{
+    if(r.credits===0 && /^(P|NP)$/.test(r.grade)) return;            // advisory / pass-fail with no credit: not a real course
+    let level=txLevel(r.name);
+    if(level==="Regular" && r.honorsHint) level="Honors";
+    if(level==="Regular" && r.levelCode && codes.length>=2 && r.levelCode.slice(0,2)>codes[0]) level="Honors";
+    courses.push({ name:r.name, level, grade:r.grade, credits:r.credits, year:r.year });
+  });
+  return { gpa, weighted, sat, act, courses };
+}
+function txFields(lines, opts){
+  opts=opts||{};
+  const p=txParseLines(lines);
+  const courses=p.courses.slice(0,40);
+  const n=lv=>courses.filter(c=>c.level===lv).length;
+  const f={ gpa:p.gpa, gpaScale:p.gpa?4:null, weightedGpa:p.weighted, apIb:n("AP")+n("IB"), honors:n("Honors"), dualEnrollment:n("Dual"), sat:p.sat, act:p.act, courses,
+    confidence: courses.length>=8?"high":courses.length>=4?"medium":"low" };
+  if(opts.ocr && f.confidence==="high") f.confidence="medium"; else if(opts.ocr && f.confidence==="medium") f.confidence="low";
+  if(f.gpa==null){ const c=txCalcGpa(courses); if(c){ f.gpa=c.gpa; f.gpaScale=4; f.gpaCalculated=c; } }
+  return f;
+}
+const txEmpty = f => f.gpa==null && f.weightedGpa==null && f.sat==null && f.act==null && !f.courses.length;
+const TX_CDN = () => window.TX_CDN || "https://cdn.jsdelivr.net/npm";
+function txLoadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=()=>res(); s.onerror=()=>rej(new Error("load failed: "+src)); document.head.appendChild(s); }); }
+async function txPdfJs(){
+  if(!window.pdfjsLib){ await txLoadScript(TX_CDN()+"/pdfjs-dist@3.11.174/build/pdf.min.js"); window.pdfjsLib.GlobalWorkerOptions.workerSrc=TX_CDN()+"/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
+  return window.pdfjsLib;
+}
+let txOcrWorker=null;
+async function txOcr(blob, onProgress){
+  if(!window.Tesseract) await txLoadScript(TX_CDN()+"/tesseract.js@5.1.1/dist/tesseract.min.js");
+  if(!txOcrWorker) txOcrWorker=await window.Tesseract.createWorker("eng",1,{
+    workerPath:TX_CDN()+"/tesseract.js@5.1.1/dist/worker.min.js", corePath:TX_CDN()+"/tesseract.js-core@5.1.1",
+    langPath:TX_CDN()+"/@tesseract.js-data/eng/4.0.0_best_int",
+    logger:m=>{ if(onProgress&&m&&m.status==="recognizing text") onProgress(m.progress||0); } });
+  const r=await txOcrWorker.recognize(blob);
+  const d=r.data||{}; const ls=(d.lines&&d.lines.length)?d.lines.map(l=>l.text):String(d.text||"").split("\n");
+  return ls.map(s=>String(s||"").trim()).filter(Boolean);
+}
+// rows of a PDF page: text pieces that share a baseline are one line
+function txPageLines(items){
+  const rows=[]; items.forEach(it=>{ if(!it.str||!it.str.trim()) return; const y=it.transform[5], x=it.transform[4];
+    let r=rows.find(r=>Math.abs(r.y-y)<3); if(!r){ r={y,parts:[]}; rows.push(r); } r.parts.push({x,s:it.str}); });
+  rows.sort((a,b)=>b.y-a.y);
+  return rows.map(r=>r.parts.sort((a,b)=>a.x-b.x).map(p=>p.s.trim()).join(" "));
+}
+async function txReadFile(f, isPdf, onStatus){
+  if(isPdf){
+    const pdfjs=await txPdfJs(); const doc=await pdfjs.getDocument({ data:new Uint8Array(await f.arrayBuffer()) }).promise;
+    let lines=[]; const pages=Math.min(doc.numPages,6);
+    for(let p=1;p<=pages;p++){ const pg=await doc.getPage(p); const tc=await pg.getTextContent(); lines=lines.concat(txPageLines(tc.items)); }
+    if(lines.join(" ").replace(/\s/g,"").length>=120) return { lines, ocr:false };
+    // a scanned PDF has no text: draw each page and read it like a photo
+    lines=[]; for(let p=1;p<=Math.min(doc.numPages,4);p++){
+      const pg=await doc.getPage(p); const vp=pg.getViewport({ scale:2.2 }); const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height;
+      await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise;
+      const bl=await new Promise(r=>cv.toBlob(r,"image/png"));
+      onStatus&&onStatus(`Reading page ${p} of ${Math.min(doc.numPages,4)}…`);
+      lines=lines.concat(await txOcr(bl, pr=>onStatus&&onStatus(`Reading page ${p}… ${Math.round(pr*100)}%`)));
+    }
+    return { lines, ocr:true };
+  }
+  // A phone photo of a table is hard to read in one go (tilt, shadows, soft focus at the edges). So: turn it to black and
+  // white with a local threshold, read it in overlapping horizontal strips, then merge the strips and drop repeated rows.
+  const big=await resizeImage(f, 3400, 0.95);
+  const bmp=await new Promise((res,rej)=>{ const im=new Image(), u=URL.createObjectURL(big); im.onload=()=>{ URL.revokeObjectURL(u); res(im); }; im.onerror=()=>rej(new Error("img")); im.src=u; });
+  const W=bmp.naturalWidth, H=bmp.naturalHeight, strips=[]; const sh=Math.round(H*0.24), step=Math.round(H*0.17);
+  for(let y0=0;y0<H-20;y0+=step){ strips.push([y0,Math.min(H,y0+sh)]); if(y0+sh>=H) break; }
+  const all=[]; let k=0;
+  for(const [y0,y1] of strips){
+    k++; onStatus&&onStatus(`Reading the photo… part ${k} of ${strips.length}. The first time takes a little longer while the reader loads.`);
+    const h=y1-y0, sc=Math.min(1, 3000/W), cw=Math.round(W*sc), ch=Math.round(h*sc);
+    const cv=document.createElement("canvas"); cv.width=cw; cv.height=ch; const cx=cv.getContext("2d"); cx.drawImage(bmp,0,y0,W,h,0,0,cw,ch);
+    txBinarize(cx, cw, ch);
+    const bl=await new Promise(r=>cv.toBlob(r,"image/png"));
+    const ls=await txOcrLines(bl);
+    ls.forEach(l=>all.push({ text:l.text, y:(y0+(l.y0+l.y1)/2/sc)/H }));
+  }
+  return { lines:txMergeStrips(all), ocr:true };
+}
+// grayscale, stretch contrast, then black/white against the local average (copes with shadows and uneven light)
+function txBinarize(cx, w, h){
+  const im=cx.getImageData(0,0,w,h), d=im.data, g=new Uint8Array(w*h); let lo=255, hi=0;
+  for(let i=0,j=0;i<d.length;i+=4,j++){ const v=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114)|0; g[j]=v; if(v<lo) lo=v; if(v>hi) hi=v; }
+  const span=Math.max(1,hi-lo); for(let j=0;j<g.length;j++) g[j]=((g[j]-lo)*255/span)|0;
+  const S=new Float64Array((w+1)*(h+1));      // integral image
+  for(let y=1;y<=h;y++){ let row=0; for(let x=1;x<=w;x++){ row+=g[(y-1)*w+(x-1)]; S[y*(w+1)+x]=S[(y-1)*(w+1)+x]+row; } }
+  const r=Math.max(8,Math.round(w/70));
+  for(let y=0;y<h;y++){ const y0=Math.max(0,y-r), y1=Math.min(h,y+r+1);
+    for(let x=0;x<w;x++){ const x0=Math.max(0,x-r), x1=Math.min(w,x+r+1);
+      const mean=(S[y1*(w+1)+x1]-S[y0*(w+1)+x1]-S[y1*(w+1)+x0]+S[y0*(w+1)+x0])/((x1-x0)*(y1-y0));
+      const o=(y*w+x)*4, v=g[y*w+x]>mean-12?255:0; d[o]=d[o+1]=d[o+2]=v; d[o+3]=255; } }
+  cx.putImageData(im,0,0);
+}
+async function txOcrLines(blob){
+  if(!window.Tesseract) await txLoadScript(TX_CDN()+"/tesseract.js@5.1.1/dist/tesseract.min.js");
+  if(!txOcrWorker){ txOcrWorker=await window.Tesseract.createWorker("eng",1,{
+    workerPath:TX_CDN()+"/tesseract.js@5.1.1/dist/worker.min.js", corePath:TX_CDN()+"/tesseract.js-core@5.1.1",
+    langPath:TX_CDN()+"/@tesseract.js-data/eng/4.0.0_best_int" }); }
+  await txOcrWorker.setParameters({ tessedit_pageseg_mode:"6" });
+  const r=await txOcrWorker.recognize(blob); const d=r.data||{};
+  return (d.lines||[]).map(l=>({ text:String(l.text||"").trim(), y0:l.bbox.y0, y1:l.bbox.y1 })).filter(l=>l.text);
+}
+// strips overlap, so the same table row is often read twice: keep one copy of each (the longer read)
+function txMergeStrips(all){
+  all.sort((a,b)=>a.y-b.y); const out=[];
+  for(const l of all){ const last=out[out.length-1];
+    if(last && Math.abs(l.y-last.y)<0.006){ if(l.text.length>last.text.length){ last.text=l.text; } last.y=(last.y+l.y)/2; } else out.push({ text:l.text, y:l.y }); }
+  return out.map(l=>l.text);
+}
+/* TXLOCAL-END */
+/* AIDLOCAL-START
+   Free, in-browser financial-aid letter reader (Oct 16): same on-device reading as the transcript reader (txReadFile),
+   then plain rules pick out the grants, loans, work-study and cost of attendance. Nothing leaves the device. */
+function aidParseLines(lines){
+  const moneyIn=s=>[...String(s).matchAll(/\$\s*([\d]{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?|(?<![\d.,])([\d]{1,3}(?:,\d{3})+|\d{3,6})(?:\.\d{2})?(?![\d,])/g)].map(m=>+String(m[1]||m[2]).replace(/,/g,"")).filter(n=>n>0&&n<=200000);
+  const out={ school:null, academicYear:null, costOfAttendance:null, directCost:null, grants:[], loans:[], workStudy:null, period:"unknown", totalGrants:null };
+  let semHeader=false;
+  const clean=lines.map(l=>String(l||"").replace(/[|│\t]+/g," ").replace(/\s+/g," ").trim()).filter(Boolean);
+  clean.slice(0,14).forEach(l=>{ if(!out.school && /\b(university|college|institute of|polytechnic|school of)\b/i.test(l) && l.length<90 && !/financial aid|award|offer/i.test(l.replace(/(university|college)/ig,""))) out.school=l.replace(/\s*[-–|].*$/,"").trim(); });
+  if(!out.school){ const l=clean.slice(0,14).find(l=>/\b(university|college)\b/i.test(l)&&l.length<90); if(l) out.school=l.replace(/\s*[-–|].*$/,"").trim(); }
+  for(const l of clean){ const y=/\b(20\d\d)\s*[-–\/]\s*(?:20)?(\d\d)\b/.exec(l); if(y){ out.academicYear=`${y[1]}–${y[2]}`; break; } }
+  for(const l of clean){
+    if(/\bfall\b/i.test(l)&&/\bspring\b/i.test(l)) semHeader=true;
+    const l2=l.replace(/\b20\d\d\s*[-–\/]\s*(?:20)?\d\d\b/g," "); const amts=moneyIn(l2); if(!amts.length) continue;
+    const label=l2.replace(/\$?\s*\d[\d,]*(\.\d{2})?/g," ").replace(/\s+/g," ").replace(/[:.\-–]+\s*$/,"").trim();
+    const amt = amts.length>=3 ? Math.max(...amts) : (amts.length===2&&semHeader&&!/total|annual|year/i.test(l)) ? amts[0]+amts[1] : amts[0];
+    if(/cost of attendance|total cost|estimated cost|\bCOA\b|budget/i.test(l) && !/net|direct|billed/i.test(l)){ out.costOfAttendance=Math.max(out.costOfAttendance||0,amt); continue; }
+    if(/direct (cost|billed)|billed (cost|charges)|total (direct|billed)/i.test(l)){ out.directCost=amt; continue; }
+    if(/work[\s-]*study|\bFWS\b/i.test(l)){ out.workStudy=amt; continue; }
+    if(/\b(total|subtotal|net|balance|remaining|out[\s-]of[\s-]pocket|amount due|family contribution|EFC|SAI|gap)\b/i.test(label)){
+      if(/total/i.test(label)&&/(grant|scholarship|gift|free)/i.test(label)&&!/loan/i.test(label)) out.totalGrants=amt; continue; }
+    if(/\b(loan|plus|stafford|perkins|borrow)\b/i.test(label)){
+      const kind=/unsub/i.test(label)?"unsubsidized":/subsid/i.test(label)?"subsidized":/plus|parent/i.test(label)?"parent_plus":/private|alternative/i.test(label)?"private":"other";
+      out.loans.push({ name:label.slice(0,80)||"Loan", amount:amt, kind }); continue; }
+    if(/\b(grant|scholarship|award|waiver|discount|fellowship|pell|seog|merit|need[\s-]based|presidential|trustee|dean|remission|institutional|tuition (benefit|reduction)|gift)\b/i.test(label)&&label.replace(/[^A-Za-z]/g,"").length>=4){
+      out.grants.push({ name:label.slice(0,80), amount:amt }); }
+  }
+  if(!out.grants.length && out.totalGrants) out.grants.push({ name:"Total grants and scholarships", amount:out.totalGrants });
+  if(semHeader) out.period="year";
+  return out;
+}
+function aidFields(lines, opts){
+  const o=aidParseLines(lines); const n=o.grants.length+o.loans.length+(o.workStudy?1:0)+(o.costOfAttendance?1:0);
+  o.confidence = (o.costOfAttendance&&o.grants.length)?"medium":"low"; if(opts&&opts.ocr&&o.confidence==="medium") o.confidence="low";
+  o._n=n; return o;
+}
+/* AIDLOCAL-END */
 { const btn=$("tx-btn"), file=$("tx-file");
   if(btn && file){
     btn.onclick=()=>file.click();
     file.onchange=async ()=>{
       const f=file.files && file.files[0]; file.value=""; if(!f) return;
-      // #65: phone photos are shrunk on the phone first (about 1800px, still sharp enough to read), so size is never a problem.
+      // Oct 16: transcripts are read right here in the browser (free, no AI, nothing is uploaded anywhere).
       const isPdf = f.type==="application/pdf" || /\.pdf$/i.test(f.name);
-      const isHeic = /image\/hei[cf]/.test(f.type) || /\.hei[cf]$/i.test(f.name);
-      const isImg = /^image\//.test(f.type) || isHeic;
+      const isImg = /^image\//.test(f.type) || isHeicFile(f);
       if(!isPdf && !isImg){ txStatus("Please pick a PDF or a photo of the transcript.","err"); return; }
-      if(isPdf && f.size>4*1024*1024){ txStatus("That PDF is over 4MB. Try exporting it again, or take a photo of each page instead.","err"); return; }
       $("tx-preview").classList.add("hidden");
-      txStatus(`<span class="tx-spin"></span> Reading <b>${esc(f.name)}</b>… this can take a few seconds.`,"busy");
-      let blob=f, mime=isPdf?"application/pdf":f.type;
-      if(isImg){ try{ blob=await resizeImage(f, 1800, 0.85); mime="image/jpeg"; }
-        catch(e){ txStatus(isHeic?"This browser can't open iPhone (HEIC) photos. Take a screenshot of the photo and upload that, or use a PDF.":"Couldn't open that photo. Try a screenshot of it, or a PDF.","err"); return; } }
-      let dataUrl; try{ dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(blob); }); }catch(e){ txStatus("Couldn't read that file.","err"); return; }
-      const b64=String(dataUrl).split(",")[1]||"";
-      try{
-        const r=await fetch("/.netlify/functions/transcript-read",{ method:"POST", headers:await aiHeaders(), body:JSON.stringify({ file:b64, mime }) });
-        const j=await r.json().catch(()=>({}));
-        if(j.unconfigured){ txStatus("Transcript reading isn't switched on yet — type your numbers in for now.","err"); return; }
-        if(j.capped){ txStatus("We've hit today's limit for transcript reads — type your numbers in, or try tomorrow.","err"); return; }
-        if(j.notTranscript){ txStatus("That doesn't look like a transcript — upload your school transcript, or just type your numbers in.","err"); return; }
-        if(j.empty){ txStatus("I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.","err"); return; }
-        if(j.fields){ txStatus("","hide"); showTxPreview(j.fields); return; }
-        txStatus(esc(j.error||"I couldn't read that one — try a clearer photo or type your numbers in."),"err");
-      }catch(e){ txStatus("Something went wrong reading that — type your numbers in instead.","err"); }
+      const busy=m=>txStatus(`<span class="tx-spin"></span> ${m}`,"busy");
+      busy(`Reading <b>${esc(f.name)}</b> on your device…`);
+      let res; try{ res=await txReadFile(f, isPdf, busy); }
+      catch(e){ txStatus(isHeicFile(f)?"Couldn't open that iPhone photo. Take a screenshot of it, or use a PDF.":"Couldn't read that file here. Check your internet connection (the reader loads once), try a PDF or a clearer photo, or type your numbers in below.","err"); return; }
+      const fields=txFields(res.lines,{ ocr:res.ocr });
+      if(txEmpty(fields)){ txStatus("I couldn't find grades or courses on that page. Try a straight, well-lit photo of the whole page, or a PDF. You can also type the numbers in below.","err"); return; }
+      txStatus("","hide"); showTxPreview(fields);
     };
   }
 }
@@ -6571,20 +7042,48 @@ function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; con
 }
 $("pf-act-add").onclick = () => { if(profActs.length>=10) return; profActs.push({category:"",tier:4,grades:[],timing:"During school year"}); profActs[profActs.length-1].category=ACT_TYPES[0]; actOpen=profActs.length-1; actDirty=true; renderActs();
   const c=$("pf-acts").querySelector(".act-card.open"); if(c){ try{ c.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} const s=c.querySelector(".a-cat"); if(s) s.focus({preventScroll:true}); } };
-async function saveProfile(p){
+async function saveProfileCore(p){   // returns true when saved, false when not
   if(pendingMode()){   // #64: a parent filling in the student's profile before they join
+    const {data,error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id).select("family_id");
+    if(error){ alert("Save failed: "+(error.message||error)); return false; }
+    if(!data||!data.length){   // Oct 16: the row is gone because the student just joined. Saving into nothing used to look like success.
+      alert(`${state.pending.display_name} has just joined, so these grades now live on ${state.pending.display_name}'s profile. Reloading so you can adjust them there.`); location.reload(); return false; }
     state.profiles.pending = {...p, user_id:"pending", testOptional: p.test_optional!=null ? !!p.test_optional : p.testOptional};
-    const {error}=await sb.from("pending_students").update({profile:p, updated_at:new Date().toISOString()}).eq("family_id",state.family.id);
-    if(error){ alert("Save failed: "+(error.message||error)); return; } state.pending.profile=p; return; }
-  state.profiles[state.me.user_id] = {...p, user_id:state.me.user_id};
+    state.pending.profile=p; return true; }
+  const target=profKey(), mineP=isMe(target);   // a parent saves onto the student's profile (migration 029)
+  state.profiles[target] = {...p, user_id:target};
   if(BACKEND.profiles){ try{
-      const row={user_id:state.me.user_id, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
+      const row={user_id:target, family_id:state.family.id, ...p, updated_at:new Date().toISOString()};
       let {error}=await sb.from("profiles").upsert(row);
-      if(error && /test_optional|\bhs\b|rigor|activities|column|schema cache/i.test(error.message||"")){   // migration 008/003 not applied yet
-        const {test_optional, hs, rigor, activities, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
-      if(error) throw error; return; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return; } } }
-  lsSet("profile", p);
+      if(error && /test_optional|\bhs\b|rigor|activities|act_boost|column|schema cache/i.test(error.message||"")){   // migration 008/003/025 not applied yet
+        const {test_optional, hs, rigor, activities, act_boost, ...core}=row; ({error}=await sb.from("profiles").upsert(core)); }
+      if(error) throw error; return true; }catch(e){ if(isMissing(e)) BACKEND.profiles=false; else { alert("Save failed: "+(e.message||e)); return false; } } }
+  if(mineP){ lsSet("profile", p); return true; }
+  alert("Couldn't save to the family profile. Please try again in a moment."); return false;   // never keep a student's grades only on a parent's device
 }
+/* Edit history (Oct 16): every change to grades, scores, rigor or activities is logged with who made it. Needs migration 028;
+   without it the save works exactly as before and nothing is logged. */
+const EDIT_FIELDS=[["gpa","GPA"],["sat","SAT"],["act","ACT"],["major","Intended major"],["rank","Class rank"],["home_state","Home state"],["test_optional","Test-optional"],["act_boost","Activities adjustment"],["rigor","Course rigor"],["activities","Activities"]];
+function editVal(k,v){ if(v==null||v==="") return ""; if(k==="activities") return (Array.isArray(v)?v:[]).map(a=>a&&a.name||a&&a.category||"?").join("; "); if(typeof v==="object") return JSON.stringify(v); return String(v); }
+function profileEditDiff(before,after){ const out=[]; for(const [k,label] of EDIT_FIELDS){ const o=editVal(k,(before||{})[k]), n=editVal(k,(after||{})[k]); if(o!==n && !(k==="act_boost"&&(o===""||o==="0")&&(n===""||n==="0"))) out.push({field:label,old_value:o.slice(0,500),new_value:n.slice(0,500)}); } return out; }
+async function saveProfile(p){
+  const before = pendingMode() ? ((state.pending&&state.pending.profile)||{}) : (state.profiles[profKey()]||{});
+  const diffs=profileEditDiff(before,p);
+  const ok=await saveProfileCore(p);
+  if(ok && diffs.length && !(BACKEND.edits===false)){ try{
+      const who=(state.me&&(state.me.display_name||state.me.name))||"family member"; const owner=pendingMode()?((state.pending&&state.pending.display_name)||"student")+" (not yet joined)":(profName()||who);
+      const rows=diffs.map(d=>({family_id:state.family.id,profile_owner:owner,edited_by:state.me.user_id,edited_by_name:who,...d}));
+      const {error}=await sb.from("profile_edits").insert(rows); if(error){ if(isMissing(error)||/profile_edits|relation|schema cache/i.test(error.message||"")) BACKEND.edits=false; }
+    }catch(e){ BACKEND.edits=false; } }
+  return ok;
+}
+async function renderEditHistory(){ const box=$("pf-history"); if(!box) return; box.innerHTML="";
+  if(BACKEND.edits===false || !state.family) { box.innerHTML='<p class="muted" style="font-size:12px">History switches on after the next database update.</p>'; return; }
+  try{ const {data,error}=await sb.from("profile_edits").select("*").eq("family_id",state.family.id).order("created_at",{ascending:false}).limit(60);
+    if(error) throw error; if(!data||!data.length){ box.innerHTML='<p class="muted" style="font-size:12px">No changes recorded yet. From now on, every change to grades, scores and activities shows here with who made it.</p>'; return; }
+    box.innerHTML='<ul style="list-style:none;padding:0;margin:0;font-size:13px">'+data.map(r=>{ const d=new Date(r.created_at); return `<li style="padding:6px 0;border-bottom:1px solid var(--line,#ddd)"><b>${esc(r.edited_by_name||"Someone")}</b> changed <b>${esc(r.field)}</b> from <i>${esc(r.old_value||"blank")}</i> to <i>${esc(r.new_value||"blank")}</i> <span class="muted">· ${esc(d.toLocaleDateString()+" "+d.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}))}</span></li>`; }).join("")+'</ul>';
+  }catch(e){ BACKEND.edits=false; box.innerHTML='<p class="muted" style="font-size:12px">History switches on after the next database update.</p>'; } }
+{ const w=$("pf-hist-wrap"); if(w) w.addEventListener("toggle",()=>{ if(w.open) renderEditHistory(); }); }
 $("sl-save").onclick = async () => {
   const w={}; $("sliders").querySelectorAll("[data-sl]").forEach(el=>w[el.dataset.sl]=+el.value);
   $("lifeprefs").querySelectorAll("[data-lp]").forEach(el=>w[el.dataset.lp]=el.value);
@@ -6687,13 +7186,13 @@ document.addEventListener("click", e => {
 function isParentish(n){ return /^(dad|mom|mum|father|mother|papa|mama|parent|grand(ma|pa|mother|father)|step ?(mom|dad))$/i.test(String(n||"").trim()); }
 document.addEventListener("click", async e => {
   const b=e.target.closest("[data-setparent]"); if(!b) return;
-  if(!confirm("Switch your account to parent? Chances will then follow the student's profile once they've filled it in.")) return;
+  if(!await askOk("Switch your account to parent? Chances will then follow the student's profile once they've filled it in.","Switch")) return;
   try{ await fixRole("parent"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // "Use this profile as the student's" — anchors chances so the whole family matches
 document.addEventListener("click", async e => {
   const b=e.target.closest("[data-setstudent]"); if(!b) return;
-  if(!confirm("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)")) return;
+  if(!await askOk("Mark your profile as the student's? Everyone in the family will then see chances based on this profile. (Only one person should be the student.)","Yes, mark it")) return;
   try{ await fixRole("student"); await loadFamily(); }catch(err){ alert("Couldn't update — try again."); }
 });
 // Oct 12: the tour is one tap away — landing page, Today, More menu, search
@@ -6882,7 +7381,7 @@ function zoeSchoolFact(q, c){
     if(typeof S==="number") lines.push(`Sticker price: ${money(S)}.`);
     if(!lines.length) return `I don't have a price for ${nm}.`; return `${nm}: `+lines.join(" ")+" Aid varies, so check the school's net price calculator too."; };
   parts.admit = ()=> typeof rate==="number" ? `${nm} admits about <b>${pct(rate)}</b> of applicants.${typeof s.satAvg==="number"?` Average SAT ${Math.round(s.satAvg)}.`:""}` : `${nm} doesn't report an admission rate in our data (common for open-admission schools).`;
-  parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${nm} is a <b>${esc(ch.label)}</b> for you${ch.score!=null?`, Admit Power ${ch.score} (50 = the typical admitted student)`:""}. ${esc(chanceWords(c)||"")}`; };
+  parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${ch.score!=null?`<b>Admit Power ${ch.score}</b> at ${nm} (50 = the typical admitted student) — a <b>${esc(ch.label)}</b> for you.`:`${nm} is a <b>${esc(ch.label)}</b> for you.`} ${esc(chanceWords(c)||"")}`; };
   parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
   parts.where = ()=> `${nm} is in <b>${esc(place||"—")}</b>${set?` (${set.toLowerCase()})`:""}.`;
   parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).map(d=>`• ${esc(d.kind||"Deadline")} — ${esc(_fmtD(d.date))}`).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
@@ -7050,7 +7549,7 @@ function zoeCtx(){
   const hs=p.hs||{};
   return { gpa:p.gpa||null, gpaAdjusted:(adj&&adj>0)?+adj.toFixed(2):null, sat:studentSat(p)||null, act:p.act||null, testOptional:!!p.testOptional,
     major:p.major||"", majorCompetitive:majorIsImpacted(p), notes:p.notes||"", gradYear:p.gradYear||null, rank:p.rank||null,
-    rigor:{honors:(p.rigor&&+p.rigor.honors)||0, ap:(p.rigor&&+p.rigor.ap)||0, dual:(p.rigor&&+p.rigor.dual)||0},
+    rigor:{honors:(p.rigor&&+p.rigor.honors)||0, ap:(p.rigor&&+p.rigor.ap)||0, dual:(p.rigor&&+p.rigor.dual)||0, offeredAtSchool:(p.rigor&&+p.rigor.offered)||0},
     highSchool:{name:hs.name||""}, schedule:(()=>{ const rl=rigorLevel(p); return rl?RIGOR_WORD[rl.lv]+(rl.est?" (estimated)":""):null; })(),
     activitiesCount:acts.length, activityStrength:astrWord(astr), activities:actTiers,
     boardCount:board.length, bands, collegePower:cp?{likely:cp.likely,target:cp.target,reach:cp.reach}:null,
@@ -7596,7 +8095,7 @@ function demoClient(){
         return Promise.resolve({data,error:null}).then(res,rej); } }; return b; }
   const session={access_token:null,user:{id:DEMO_UID,email:"sample@zoescolleges.com"}};
   return { from:qb, rpc(n){ return Promise.resolve({data: n==="my_referral_count"?0:null, error:null}); },
-    storage:{ from(){ return { upload(){ return Promise.resolve({data:null,error:{message:"bucket not found"}}); }, createSignedUrls(){ return Promise.resolve({data:[],error:null}); }, remove(){ return Promise.resolve({data:null,error:null}); }, getPublicUrl(){ return {data:{publicUrl:""}}; } }; } },
+    storage:{ from(bk){ if(bk==="school-docs"){ const M=(window.__demoDocs=window.__demoDocs||{}); return { upload(p,f){ M[p]=f; return Promise.resolve({data:{path:p},error:null}); }, createSignedUrl(p){ return Promise.resolve({data:{signedUrl:M[p]?URL.createObjectURL(M[p]):""},error:null}); }, remove(a){ (a||[]).forEach(p=>delete M[p]); return Promise.resolve({data:null,error:null}); } }; } return { upload(){ return Promise.resolve({data:null,error:{message:"bucket not found"}}); }, createSignedUrls(){ return Promise.resolve({data:[],error:null}); }, remove(){ return Promise.resolve({data:null,error:null}); }, getPublicUrl(){ return {data:{publicUrl:""}}; } }; } },
     auth:{ getSession(){ return Promise.resolve({data:{session}}); }, signOut(){ exitDemo(); return Promise.resolve({}); }, onAuthStateChange(){ return {data:{subscription:{unsubscribe(){}}}}; } } };
 }
 function demoToast(t){ let el=$("demo-toast"); if(!el){ el=document.createElement("div"); el.id="demo-toast"; el.className="demo-toast"; el.setAttribute("role","status"); document.body.appendChild(el); }
@@ -7606,7 +8105,8 @@ async function startDemo(){
   if(!state.catalog||!state.catalog.length){ try{ await loadCatalog(); }catch(e){} }
   DEMO=true; _realSb=sb; sb=demoClient(); _demoToastShown=false;
   try{ Object.keys(localStorage).filter(k=>k.includes(DEMO_FID)||k.includes(DEMO_UID)).forEach(k=>localStorage.removeItem(k)); }catch(e){}
-  BACKEND={ profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
+  BACKEND={ docs:true, profiles:true, preferences:true, photos:true, photostore:false, reminders:false, pulseWeekly:false, pending:false };
+  await loadCosts();
   state.session={access_token:null,user:{id:DEMO_UID,email:""}}; lastUserId=DEMO_UID;
   document.body.classList.add("is-demo"); $("demo-bar").classList.remove("hidden"); $("whoami").textContent="Sample family"; $("signout").textContent="Exit sample";
   state.me={user_id:DEMO_UID}; try{ localStorage.setItem(_tripKey("zc_trip"),JSON.stringify(["sc-198516","college-of-charleston","sc-217882"])); }catch(e){}

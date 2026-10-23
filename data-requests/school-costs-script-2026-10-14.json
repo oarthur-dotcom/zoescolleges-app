@@ -1,0 +1,34 @@
+{
+  "id": "school-costs-script-2026-10-14",
+  "requested_by": "Obie (via Claude Code session)",
+  "purpose": "Shared test: Claude and Muse run the SAME extraction on the same three schools, then we compare numbers and sources. Informs whether an automatic 'fetch current price when a school is added' feature is reliable.",
+  "schools": [
+    {"name": "University of Massachusetts Amherst", "start_url": "https://www.umass.edu/financialaid/undergraduate-costs"},
+    {"name": "University of Vermont", "start_url": "https://www.uvm.edu/studentfinancialservices/costs-attending"},
+    {"name": "University of New Hampshire (Durham)", "start_url": "https://www.unh.edu/financialaid/costs"}
+  ],
+  "script": [
+    "1. Open the school's official cost-of-attendance page (the start_url, or the school's own .edu page if the start_url has no numbers). Official .edu pages only.",
+    "2. Find the MOST RECENT published undergraduate cost of attendance and record its academic year (e.g. 2026-27).",
+    "3. Record, for in-state (home-state resident) and out-of-state separately: total cost of attendance, and each line item: tuition, mandatory fees, housing, food, books/supplies, transportation, personal/misc.",
+    "4. Record whether the figures are on-campus, off-campus, commuter, or not stated. Do not mix them.",
+    "5. Copy numbers EXACTLY as printed. Never estimate, average, or fill a gap. Use null for anything not printed.",
+    "6. Record the exact URL you got each number from (source_url) and the date you checked it.",
+    "7. Set confidence: high = total and line items printed on the page; medium = total only or one figure inferred by adding printed lines; low = anything else. If a page shows no numbers (navigation only), say so and do not guess."
+  ],
+  "output_format": {
+    "file": "data-requests/school-costs-results-muse-2026-10-14.json",
+    "per_school": {
+      "name": "string",
+      "academic_year": "string",
+      "basis": "on-campus | off-campus | commuter | not-stated",
+      "in_state": {"total": "number|null", "tuition": "number|null", "fees": "number|null", "housing": "number|null", "food": "number|null", "books": "number|null", "transportation": "number|null", "personal": "number|null"},
+      "out_of_state": {"total": "number|null", "tuition": "number|null", "fees": "number|null", "housing": "number|null", "food": "number|null", "books": "number|null", "transportation": "number|null", "personal": "number|null"},
+      "source_url": "string (the exact page the numbers came from)",
+      "checked": "YYYY-MM-DD",
+      "confidence": "high|medium|low",
+      "notes": "string (e.g. regional tuition breaks, page had no numbers)"
+    }
+  },
+  "claude_results_for_comparison_do_not_read_before_running": "withheld on purpose so the test is independent; Claude's results are in the project doc claude/school-costs-test-2026-10-14.md"
+}
