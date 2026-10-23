@@ -617,6 +617,12 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .calc-link:hover{text-decoration:underline}
 #dlg-calc h3{font-size:14px;margin:14px 0 0}
 /* Predictor trust: show-the-math + student anchor */
+.pf-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:60;display:flex;gap:12px;align-items:center;background:var(--card,#16232b);border:1px solid var(--warn,#e0a030);color:inherit;border-radius:999px;padding:8px 10px 8px 16px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-size:13.5px}
+.pf-savebar.ok{border-color:var(--teal,#2bb5a0)}
+.pf-check{border:1px solid var(--line,#2a3a44);border-radius:12px;padding:12px 14px;margin:0 0 12px}
+.pf-check h3{margin:0 0 8px;font-size:15px}
+.pf-check ul{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:4px;font-size:13.5px}
+.pf-check li.done{opacity:.65}
 .linklike{background:none;border:none;padding:0;color:var(--teal);cursor:pointer;font-size:12.5px;font:inherit;font-size:12.5px}
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
@@ -1857,9 +1863,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <h1 id="pf-h1">My profile</h1>
     <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>fit %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
+    <div id="pf-savebar" class="pf-savebar hidden" role="status" aria-live="polite"><span id="pf-savebar-msg"></span><button id="pf-savebar-btn" class="small primary" type="button">Save changes</button></div>
     <div id="pf-family-money"></div>
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
+    <div id="pf-checklist"></div>
     <div id="pf-summary" class="hidden"></div>
     <div id="pf-meter"></div>
     <div class="card" id="pf-form-card">
@@ -2745,7 +2753,14 @@ function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+(
   return base; }
 function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p), ab:Math.max(0,Math.min(2,Math.round(+(p&&p.act_boost)||0))) }; }
 // Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
+// Oct 23: listing activities can never score below listing none. A light activity list used to pull Admit Power down (and 34-158 schools a band)
+// compared with leaving activities blank. Now, if counting the activities would lower the result, they simply don't count yet.
 function apCore(s, inp){
+  const r=apCoreRaw(s, inp);
+  if(inp.astr!=null){ const r0=apCoreRaw(s,{...inp,astr:null}); if(r0.g>r.g){ r0.actsNoEffect=true; return r0; } }
+  return r;
+}
+function apCoreRaw(s, inp){
   const rate=s.admissionRate; const hasRange=typeof s.sat25==="number"&&typeof s.sat75==="number";
   const raw=[];
   if(inp.gpa>0 && inp.gpa<=5){ const ref=typicalGpa(s), g=Math.min(inp.gpa,4.0); raw.push({k:"gpa", z:apClamp((g-ref)/AP.GPA_SD,-AP.ZCLAMP,AP.ZCLAMP), ref, g}); }
@@ -2791,7 +2806,9 @@ function chanceCompute(c, explain){
   const rate = s.admissionRate;
   const steps = explain ? [] : null;
   const log = (k,v,why)=>{ if(explain) steps.push({k,v,why,moved:/Reach|Target|Likely/.test(v)}); };
-  const p = studentProfile(); const inp=apInputs(p); const core=apCore(s,inp);
+  const p = studentProfile(); const inp=apInputs(p);
+  if(!(inp.gpa>0)) return null;   // Oct 23: no GPA, no chance label. Rigor and activities alone made everything look "Likely".
+  const core=apCore(s,inp);
   const hasRange = typeof s.sat25==="number" && typeof s.sat75==="number";
   const band0 = apBandFrom(rate,0); let band=apBandFrom(rate,core.g);
   if(explain){
@@ -2806,7 +2823,7 @@ function chanceCompute(c, explain){
       step("Rigor in context",t,!!t, t?(t.bonus!=null?`Your honors/AP/dual courses lift your grades by about +${t.bonus.toFixed(2)} GPA points (the rigor-adjusted GPA on your profile). Counted once, here, at every kind of school`:`Rated ${RIGOR_WORD[rl.lv]} by your family, counted at every kind of school`):"No course-rigor info in your profile");
       if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= t.z>=0?" — this selective school rewards a demanding schedule":" — a lighter schedule makes it tougher here"; }
     { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about a quarter weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
+      step("Your activities",t,!!t, !t?(core.actsNoEffect?"Your activities are light so far, so they are not counted against you. Add more time or a leadership role and they start to help":"No activities in your profile"):`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about a quarter weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
     { const t=T("tests"); const sat=inp.sat;
       step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
         : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
@@ -2899,7 +2916,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <ol>
       <li><b>Start at the school.</b> Its admit rate sets the starting band: under 40% starts at Reach, 40–70% at Target, over 70% at Likely.</li>
       <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (the boost your honors/AP/IB/dual courses give your grades — the same +0.5 / +1.0 per course adjustment shown on your profile, counted once), <b>activities</b> (the 4-tier scale, with time and years behind each), and <b>test scores</b> (only if you send them).</li>
-      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about a quarter weight at open ones, and can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
+      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about a quarter weight at open ones. Listing activities never scores you lower than listing none: a light list simply doesn't count yet. Activities can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
       <li><b>Turn the gap into a band.</b> About ${AP.EASE1} points above typical moves you up a band, about ${-AP.STIFF1} below moves you down. Schools admitting under 25% are never Likely, and under 15% are always at least a Reach — a long shot for everyone.</li>
       <li><b>Say what would help most.</b> We re-score with one realistic improvement at a time (GPA +0.2, one rigor level, one activity tier, SAT +80) and show the biggest.</li>
     </ol>
@@ -6449,6 +6466,7 @@ function renderProfile(){
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
   const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-actboost")) $("pf-actboost").value=String(Math.max(0,Math.min(2,Math.round(+p.act_boost||0))));
+  pfFormDirty=false;
   pfCourses=Array.isArray(rg.courses)?rg.courses.map(c=>({name:String(c.name||"").slice(0,80),level:c.level||"Regular",grade:String(c.grade||""),credits:c.credits==null?null:c.credits,year:c.year||null})):[]; pfCoursesLine();
   if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
   const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0};
@@ -6504,6 +6522,27 @@ function renderSliderImpact(){
     <p class="muted" style="font-size:11.5px;margin:8px 0 0">Share of every school's <b>fit %</b> driven by each factor, right now. Move a slider and it reshapes instantly. <span class="muted">(This is fit — separate from admission chance.)</span></p>`;
 }
 let pfEdit=false;
+// Oct 23: a plain checklist of what the profile still needs, each with one button. Nothing is shown as a number until its input exists.
+function pfChecklist(p, ro){ const el=$("pf-checklist"); if(!el) return; if(ro){ el.innerHTML=""; return; }
+  const rig=p.rigor||{}; const acts=Array.isArray(p.activities)?p.activities:[];
+  const items=[
+    { ok: parseFloat(p.gpa)>0, label:"GPA (unweighted)", next:"Add the GPA", go:"gpa" },
+    { ok: !!(+rig.honors||+rig.ap||+rig.dual), label:"Honors / AP / dual-enrollment courses", next:"Add course counts (or upload the transcript)", go:"gpa" },
+    { ok: acts.length>0, label:"Activities and work", next:"Add an activity", go:"acts" },
+    { ok: !!(p.testOptional||p.test_optional||p.sat||p.act), label:"Test scores, or tick test-optional", next:"Add scores or tick test-optional", go:"gpa" } ];
+  const todo=items.filter(i=>!i.ok); if(!todo.length){ el.innerHTML=""; return; }
+  el.innerHTML=`<div class="pf-check"><h3>${todo.length===items.length?"Let's build the profile":"Almost there"}: ${items.length-todo.length} of ${items.length} done</h3><ul>${items.map(i=>`<li class="${i.ok?"done":""}">${i.ok?"✓":"○"} ${esc(i.label)}</li>`).join("")}</ul><button class="small primary" id="pf-check-next" type="button">Next: ${esc(todo[0].next)}</button></div>`;
+  $("pf-check-next").onclick=()=>{ if(todo[0].go==="acts"){ const a=$("pf-acts-card"); if(a&&a.scrollIntoView) a.scrollIntoView({behavior:"smooth",block:"start"}); return; }
+    pfEdit=true; renderProfileView(); setTimeout(()=>{ try{ const f=$("pf-form-card"); if(f) f.scrollIntoView({behavior:"smooth",block:"start"}); const g=$("pf-gpa"); if(g&&!(parseFloat(p.gpa)>0)) g.focus(); }catch(e){} },50); }; }
+// One visible save state for the whole profile page: shows "Unsaved changes" with a Save button until the changes are saved.
+let pfFormDirty=false;
+function pfBarUpdate(){ const bar=$("pf-savebar"); if(!bar) return; const view=$("v-profile"); const on=view&&!view.classList.contains("hidden"); const dirty=pfFormDirty||actDirty;
+  if(!on||!dirty){ if(!bar.classList.contains("ok")) bar.classList.add("hidden"); return; }
+  bar.classList.remove("hidden","ok"); $("pf-savebar-msg").textContent="Unsaved changes"; $("pf-savebar-btn").classList.remove("hidden"); }
+function pfBarSaved(){ const bar=$("pf-savebar"); if(!bar) return; bar.classList.remove("hidden"); bar.classList.add("ok"); $("pf-savebar-msg").textContent="Saved ✓"; $("pf-savebar-btn").classList.add("hidden"); setTimeout(()=>{ bar.classList.remove("ok"); bar.classList.add("hidden"); pfBarUpdate(); },1800); }
+{ const fc=$("pf-form-card"); if(fc){ fc.addEventListener("input",()=>{ pfFormDirty=true; }); fc.addEventListener("change",()=>{ pfFormDirty=true; }); }
+  const bb=$("pf-savebar-btn"); if(bb) bb.onclick=async()=>{ bb.disabled=true; try{ await (pfFormDirty ? saveProfileForm() : saveProfileForm({ actsOnly:true })); }finally{ bb.disabled=false; } };
+  setInterval(pfBarUpdate,600); window.addEventListener("beforeunload",e=>{ if(pfFormDirty||actDirty){ e.preventDefault(); e.returnValue=""; } }); }
 function profileBuilt(p){ return !!(p && (String(p.gpa||"").trim()||String(p.sat||"").trim()||String(p.act||"").trim()||String(p.major||"").trim()||p.notes||(Array.isArray(p.activities)&&p.activities.length)||(p.rigor&&(+p.rigor.honors||+p.rigor.ap||+p.rigor.dual)))); }
 function choicePower(){
   const cat=(state.catalog||[]).filter(c=>c.scorecard && typeof c.scorecard.admissionRate==="number");
@@ -6514,7 +6553,7 @@ function choicePower(){
   return { n, likely:Math.round(bins.likely/n*100), target:Math.round(bins.target/n*100), reach:Math.round(bins.reach/n*100) };
 }
 function choicePowerHtml(){
-  const cp=choicePower(); if(!cp) return "";
+  const cp=choicePower(); if(!cp){ const sp=studentProfile(); return (sp && !(parseFloat(sp.gpa)>0)) ? `<div class="card cp-card"><div class="pv-head"><h2 style="margin:0">Your college power</h2></div><p class="muted" style="font-size:13px;margin:6px 0 0">Add the GPA in the profile form and tap <b>Save academic profile</b>. Reach, Target and Likely need grades, so nothing is shown until then.</p></div>` : ""; }
   const bar=(lab,cls,v)=>`<div class="cp-row"><span class="cp-lab">${lab}</span><div class="cp-track"><div class="cp-fill ${cls}" style="width:${v}%"></div></div><span class="cp-pct">${v}%</span></div>`;
   return `<div class="card cp-card">
     <div class="pv-head"><h2 style="margin:0">Your college power</h2><span class="muted" style="font-size:12px">${cp.n.toLocaleString()} schools</span></div>
@@ -6536,6 +6575,7 @@ function renderProfileView(){
   const p=(state.me&&state.profiles[ro?stuM.user_id:profKey()])||{}; const built=profileBuilt(p);
   const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
   { const ac=$("pf-acts-card"); if(ac) ac.classList.toggle("hidden", ro); }
+  pfChecklist(p, ro);
   if(ro && !built){ form.classList.add("hidden"); sum.classList.remove("hidden");
     sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
   { const pm=$("pf-meter"); if(pm) pm.innerHTML = (!ro && (!built||pfEdit)) ? apMeterHtml(p) : ""; }
@@ -6580,22 +6620,28 @@ function profileProblems(p){
   if(p.home_state && !US_STATES.has(p.home_state)) return "Home state should be a 2-letter code like SC or MA.";
   return "";
 }
-async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
-  const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
+async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true); const actsOnly = !!(opts && opts.actsOnly===true);
+  let p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
-  const testOptional=$("pf-noTest").checked;
+  let testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
+  let rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
   if(pfCourses.length) rigor.courses=pfCourses.slice(0,40);
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
-  const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
+  let hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
+  // Oct 23: "Save activities" saves ONLY activities (and the activity weight). Grades, scores, rigor and school come from what is already saved,
+  // so an unsaved or reset form can never blank the GPA (it did, once: a 4th activity wiped Zoe's GPA and her chances jumped to 90% Likely).
+  if(actsOnly){ const b = pendingMode() ? ((state.pending&&state.pending.profile)||{}) : (state.profiles[profKey()]||{});
+    if(b && (b.gpa||b.sat||b.act||b.rigor||b.home_state||b.major)){
+      p = { gpa:String(b.gpa||""), sat:String(b.sat||""), act:String(b.act||""), major:String(b.major||""), rank:String(b.rank||""), home_state:String(b.home_state||""), notes:String(b.notes||"") };
+      testOptional = !!(b.test_optional!=null ? b.test_optional : b.testOptional); if(b.rigor) rigor = b.rigor; if(b.hs) hs = b.hs; } }
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs, act_boost:+(($("pf-actboost")||{}).value)||0});
   if(!pendingMode() && !editingStudentProfile()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
   if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
-  profActs = acts.slice(); actDirty=false;
+  profActs = acts.slice(); actDirty=false; if(!actsOnly) pfFormDirty=false; pfBarSaved();
   if(stay){ renderProfileView(); return true; }
   ["pf-savemsg","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
   actOpen=-1; renderActs();
@@ -6605,7 +6651,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   return true;
 }
 $("pf-save").onclick = saveProfileForm;
-{ const b2=$("pf-save2"); if(b2) b2.onclick = saveProfileForm; }
+{ const b2=$("pf-save2"); if(b2) b2.onclick = () => saveProfileForm({ actsOnly:true }); }
 { const b3=$("pf-save3"); if(b3) b3.onclick = saveProfileForm; }
 /* ---- Transcript upload → AI read → review → fill (never auto-saves) ---- */
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
@@ -6663,6 +6709,7 @@ function showTxPreview(f0, editing){
       if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
       if(f.act!=null) set("pf-act", f.act);
       ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
+      pfFormDirty=true;
       pfCourses=f.courses.filter(c=>(c.name||"").trim()||(c.grade||"").trim()).map(c=>({name:(c.name||"").trim().slice(0,80),level:c.level,grade:String(c.grade||"").trim(),credits:(c.credits===""||c.credits==null)?null:Number(c.credits),year:c.year||null})); pfCoursesLine();
       el.classList.add("hidden"); el.innerHTML="";
       txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
@@ -7033,7 +7080,7 @@ function moveAct(i,d){ const j=i+d; if(j<0||j>=profActs.length) return; [profAct
 function actStatus(msg,kind){ const el=$("pf-savemsg2"); if(!el) return;
   if(msg){ el.textContent=msg; el.className="act-status "+(kind||""); return; }
   el.textContent = actDirty ? "Unsaved changes — tap Done or Save activities" : ""; el.className="act-status "+(actDirty?"warn":""); }
-async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveProfileForm({stay:true}); if(okSave===false){ return; } actDirty=false; actStatus(`✓ Saved — ${profActs.length} activit${profActs.length===1?"y":"ies"} on your profile`,"ok"); }
+async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveProfileForm({stay:true, actsOnly:true}); if(okSave===false){ return; } actDirty=false; actStatus(`✓ Saved — ${profActs.length} activit${profActs.length===1?"y":"ies"} on your profile`,"ok"); }
   catch(e){ actStatus("Couldn't save — check your connection and try again.","err"); } }
 function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; const s=activityStrength(profActs);
   if(s==null){ el.textContent=""; return; }
