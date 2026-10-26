@@ -2254,7 +2254,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 // #37: exact data release (jsDelivr's @live link lagged hours behind). Keep equal to netlify/lib/data-ref.mjs.
-const DATA_REF = "eb87af8";
+const DATA_REF = "df72850";
 const CATALOG_URL = `https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/colleges.json`;
 const APP_LINK = "https://zoescolleges.com/";
 // Beta sign-up gate is enforced on the server (migration 007): codes live in private.beta_codes.
@@ -2993,7 +2993,7 @@ function actValue(a){
 }
 function actDepth(a){ return actValue(a).c; }   // kept for older callers
 const SOURCE_CHECKED={commonapp:"Oct 25, 2026"};   // shown next to the source; a weekly check refreshes it from source-checks.json when that file exists
-(async()=>{ try{ const r=await fetch("https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/source-checks.json"); if(!r.ok) return; const j=await r.json(); for(const k in (j.sources||{})) if(j.sources[k]&&j.sources[k].checked) SOURCE_CHECKED[k]=j.sources[k].checked; }catch(_){} })();
+(async()=>{ try{ const r=await fetch(`https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/source-checks.json`); if(!r.ok) return; const j=await r.json(); for(const k in (j.sources||{})) if(j.sources[k]&&j.sources[k].checked) SOURCE_CHECKED[k]=j.sources[k].checked; }catch(_){} })();
 const ACT_POS=[1.6,1.3,1.1,0.9,0.7,0.4];   // weight of the 1st..6th ranked activity (sum 6.0)
 function activityStrength(acts){
   if(!Array.isArray(acts) || !acts.length) return null;
