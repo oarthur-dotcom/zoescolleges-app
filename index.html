@@ -9,6 +9,9 @@
 <meta property="og:title" content="Zoe's Colleges">
 <meta property="og:description" content="A college-search board the whole family rates together — matches, honest chances, deadlines and visit trips.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://zoescolleges.com/media/zoe-social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zoescolleges.com/media/zoe-social.png">
 <meta name="theme-color" content="#0f7f80">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -17,7 +20,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://heppyuzvztjzhgfitrsb.supabase.co" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f7f80'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -47,6 +51,11 @@ header.app{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--pa
 header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1400px;margin:0 auto;width:100%}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
 header.app .logo span{color:var(--teal)}
+header.app .logo img{height:34px;width:auto;display:block}
+.lnd-logo{display:block;height:84px;width:auto;margin:0 0 14px}
+/* the logo is navy on transparent: show it white on dark backgrounds */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header.app .logo img,:root:not([data-theme="light"]) .lnd-logo{filter:brightness(0) invert(1)}}
+:root[data-theme="dark"] header.app .logo img,:root[data-theme="dark"] .lnd-logo{filter:brightness(0) invert(1)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1400px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -1503,7 +1512,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <body>
 <header class="app">
   <div class="hrow">
-    <div class="logo" id="logo-home">Zoe's <span>Colleges</span></div>
+    <div class="logo" id="logo-home" role="img" aria-label="Zoe's Colleges"><img src="/media/zoe-logo.webp" alt="" width="51" height="34" decoding="async"></div>
     <span class="beta">Beta</span>
     <div class="right">
       <span id="whoami" class="mono muted" style="font-size:12px"></span>
@@ -1564,7 +1573,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <a href="#" class="lnd-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
     <div class="lnd-hero lnd-mk">
       <div class="lnd-hero-txt">
-        <div class="lnd-eyebrow">For families with a high schooler · Free during the beta</div>
+        <img class="lnd-logo" src="/media/zoe-logo.webp" alt="Zoe's Colleges — zoescolleges.com" width="126" height="84" decoding="async">
+        <div class="lnd-eyebrow">For families with a high schooler · Free for Beta Testers</div>
         <h1 class="lnd-h1">College, decided together.</h1>
         <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
         <div class="lnd-ctas"><button id="demo-start" class="primary lnd-btn" type="button">See a sample family</button><button class="lnd-btn lnd-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
@@ -1638,7 +1648,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="lnd-account" id="lp-account">
       <h2 class="lnd-h2 lnd-mk">Join the beta</h2>
       <h2 class="lnd-h2 lnd-fo" id="lp-fo-title"></h2>
-      <p class="lnd-acc-sub lnd-mk">Zoe's Colleges is invite-only and free while we build it. Have a code or a family invite? Create your account below.</p>
+      <p class="lnd-acc-sub lnd-mk">Zoe's Colleges is invite-only and <b>Free for Beta Testers</b>. Have a code or a family invite? Create your account below.</p>
     <div class="card lnd-card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -1746,7 +1756,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <li>Your profile, ratings, school list, notes and photos are visible <b>only to your own family</b> — enforced at the database level, not just hidden in the app.</li>
         <li>We <b>don't sell your data</b> and we don't share it with colleges or advertisers.</li>
         <li>You can remove schools, photos and your account's data at any time.</li>
-        <li>It's an invite-only beta, free while we build it. For ages 13 and up.</li>
+        <li>It's an invite-only beta — Free for Beta Testers. For ages 13 and up.</li>
       </ul>
       <p class="muted" style="font-size:12px;margin-bottom:0">No online service can promise perfect security, but we keep your data minimal and family-scoped by design. Questions or a privacy request? <a href="#" id="trust-contact">Contact us</a>.</p>
     </div>
@@ -1799,7 +1809,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
             <button id="btn-report" class="menu-item">📄 College report (PDF)</button>
             <button id="btn-sharelist" class="menu-item">🔗 Share with family or counselor</button>
             <button id="btn-share" class="menu-item">📣 Tell another family</button>
-            <button id="btn-plans" class="menu-item">⚡ Plans &amp; upgrades</button>
+            <button id="btn-plans" class="menu-item">🎁 Free for Beta Testers</button>
           </div>
         </div>
       </div>
@@ -2113,7 +2123,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <h2 style="margin-top:0">Tell another family</h2>
   <div class="card" style="background:color-mix(in srgb,var(--amber) 10%,var(--surface));border-color:var(--amber);margin-top:0">
     <b style="font-size:14px">Your reward</b>
-    <p style="font-size:13px;margin:4px 0 8px">Every family that signs up with your personal link gets you <b>one free month</b> once paid plans begin after the beta.</p>
+    <p style="font-size:13px;margin:4px 0 8px">Every family that signs up with your personal link is counted here — thank you for spreading the word.</p>
     <div class="row" style="justify-content:space-between">
       <span class="mono" style="font-size:12px">Your code: <b id="sh-refcode">—</b></span>
       <span class="counter">Joined with your code: <b id="sh-refcount">0</b></span>
@@ -2131,25 +2141,10 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="sh-close" class="small">Close</button></div>
 </dialog>
 
-<!-- PLANS DIALOG -->
+<!-- PLANS DIALOG (Oct 26: pricing removed; Free for Beta Testers) -->
 <dialog id="dlg-plans">
-  <h2 style="margin-top:0">Plans</h2>
-  <p class="muted" style="font-size:13px;margin-top:0">During the beta every family is on <b>Family+ free</b>. These are the plans for when the beta ends — you can try the checkout now in test mode.</p>
-  <div class="card" style="margin:10px 0">
-    <div class="row" style="justify-content:space-between"><b>Free</b><span class="mono">$0</span></div>
-    <div class="muted" style="font-size:13px">2 seats · 3 schools</div>
-  </div>
-  <div class="card" style="margin:10px 0">
-    <div class="row" style="justify-content:space-between"><b>Family</b><span class="mono">$12/mo</span></div>
-    <div class="muted" style="font-size:13px;margin-bottom:8px">Up to 25 schools · visit days · photos · dossiers</div>
-    <a class="plan-btn" href="https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00" target="_blank" rel="noopener">Choose Family</a>
-  </div>
-  <div class="card" style="margin:10px 0;border-color:var(--teal)">
-    <div class="row" style="justify-content:space-between"><b>Family+</b><span class="mono">$20/mo</span></div>
-    <div class="muted" style="font-size:13px;margin-bottom:8px">Unlimited schools · everything in Family</div>
-    <a class="plan-btn" href="https://buy.stripe.com/test_aFabJ03Xj1Jb4ekeg39ws00" target="_blank" rel="noopener">Choose Family+</a>
-  </div>
-  <p class="muted" style="font-size:12px">Test mode — use card 4242 4242 4242 4242, any future date and CVC. No real charge.</p>
+  <h2 style="margin-top:0">Free for Beta Testers</h2>
+  <p class="muted" style="font-size:13px;margin-top:0">Every family in the beta gets the full product, free. Thank you for helping us build it.</p>
   <div class="row" style="justify-content:flex-end"><button id="plans-close" class="small">Close</button></div>
 </dialog>
 
@@ -3071,7 +3066,7 @@ function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function onboardDismissed(){ try{ return localStorage.getItem("zc_onboard_done")==="1"; }catch(e){ return false; } }
 function dismissOnboard(){ try{ localStorage.setItem("zc_onboard_done","1"); }catch(e){} }
 function openInvite(){ try{ const code=state.family&&state.family.invite_code; if(!code) return; const ic=$("invcode"); if(ic) ic.textContent=code;   // #67: one path for every invite button
-  const p=plan(); const left=p.seats-(state.members||[]).length; const sn=$("seatnote"); if(sn) sn.textContent = p.seats<99 ? `${Math.max(left,0)} seat${left===1?"":"s"} left on the ${p.label} plan.` : "";
+  const p=plan(); const left=p.seats-(state.members||[]).length; const sn=$("seatnote"); if(sn) sn.textContent = p.seats<99 ? `${Math.max(left,0)} seat${left===1?"":"s"} left.` : "";
   const m=$("inv-sendmsg"); if(m) m.textContent=""; const n=$("inv-name"); if(n && state.pending && !n.value) n.value=state.pending.display_name;
   $("dlg-invite").showModal(); }catch(e){} }
 function renderOnboard(){
@@ -3108,7 +3103,7 @@ function renderBoard(){
     `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
   ).join("") + (pendingMode() ? `<span class="mono muted" style="font-size:12px">· ${esc(state.pending.display_name)} not joined yet</span>` : "");
   const p = plan();
-  $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
+  $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · Free for Beta Testers`;
   const sortBy = $("board-sort").value;
   const w = myPrefs();
   const ranks = getRanks();
@@ -7167,7 +7162,7 @@ $("exsearch").oninput = e => renderExList(e.target.value);
 
 /* ========== ADD SCHOOL ========== */
 $("fab-add").onclick = () => {
-  if (state.schools.length >= plan().schools){ msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err"); try{ $("board-msg").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} return; }
+  if (state.schools.length >= plan().schools){ msg("board-msg", `Your board holds ${plan().schools} schools. Remove one to add another.`, "err"); try{ $("board-msg").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} return; }
   clearmsg("board-msg"); renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
 };
 $("dlg-close").onclick = () => $("dlg-add").close();
@@ -7181,7 +7176,7 @@ function renderPicklist(q){
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
 }
 async function addFromCatalog(id){
-  if (state.schools.length >= plan().schools){ try{ $("dlg-add").close(); }catch(e){} msg("board-msg", `School limit reached for the ${plan().label} plan.`); _addErr=`Your ${plan().label} plan holds ${plan().schools} schools — remove one to add another.`; return false; }
+  if (state.schools.length >= plan().schools){ try{ $("dlg-add").close(); }catch(e){} msg("board-msg", `School limit reached.`); _addErr=`Your board holds ${plan().schools} schools — remove one to add another.`; return false; }
   const c = state.catalog.find(x=>x.id===id); if (!c) return;
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: c.id, name: c.name, city: c.city, state: c.state, url: c.link, is_custom:false, added_by: state.me.user_id });
   if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
@@ -7190,7 +7185,7 @@ async function addFromCatalog(id){
 let _addErr="";
 $("go-custom").onclick = async () => {
   const name = $("cname").value.trim(); let cs = $("ccity").value.trim(); if (!name) return;
-  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
+  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached.`); }
   const [city, st] = cs.includes(",") ? [cs.split(",")[0].trim(), cs.split(",")[1].trim()] : [cs, ""];
   const sid = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: sid, name, city, state: st, is_custom:true, added_by: state.me.user_id });
@@ -7275,7 +7270,7 @@ document.addEventListener("click", e => {
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(state.family&&state.family.invite_code? inviteLink() : APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
-function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — this link lets you in, no code needed\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
+function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product — Free for Beta Testers).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — this link lets you in, no code needed\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
   $("shmsg").value = shareText(); $("shto").value="";
   $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—"; $("sh-refcount").textContent = "…";
@@ -7296,7 +7291,7 @@ const ZOE_KB = [
   {q:["invite","family","join","add my","code"], a:"Tap <b>Invite</b> at the top of the app to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
   {q:["photo","picture","visit","camera"], a:"Open a school on your board and tap <b>📷 Add photo</b> under Campus photos — great for visit days. Photos are resized automatically and saved with your family."},
   {q:["price","cost","afford","money","tuition","net"], a:"Each school shows <b>net price</b> (what families actually pay on average) and sticker cost, plus in/out-of-state tuition in the detail view. Filter by net price in <b>Explore</b>, and turn up the Affordability slider to weight cheaper schools in your match."},
-  {q:["plan","pay","subscri","price of app","upgrade"], a:"During the beta every family is on <b>Family+ free</b>. The paid plans (Family $12/mo, Family+ $20/mo) are shown under <b>Plans</b> and are in test mode for now."},
+  {q:["plan","pay","subscri","price of app","upgrade"], a:"Zoe's Colleges is <b>Free for Beta Testers</b>."},
   {q:["data","where does","where is the data","where do you get","source","accurate","official"], a:"School stats come from the <b>U.S. Dept. of Education College Scorecard</b> (official federal data): admission rate, SAT/ACT, cost, net price, tuition, graduation rate, 10-year earnings and size. Deadlines are curated — always confirm on the school's site."},
 ];
 /* Oct 13: canned answers are only for short, clear questions. Anything open-ended (essays, worries, comparisons,
@@ -7392,7 +7387,7 @@ const ZOE_SITE = [
   {re:/\b(sign ?out|log ?out|switch (account|user))\b/, a:"Tap <b>Sign out</b> in the top right of the app (on a phone it's under the menu).", go:"today"},
   {re:/\b(stars?|ratings?|rate (a|the|this|my) (school|college)|half star|tie.?break|rank (my )?schools?)\b/, a:"Tap stars on any school (half stars work). You only change your own rating; the board shows the family average. If schools tie, use <b>⇅ Rank schools (tiebreaker)</b> from the board's More menu.", go:"board"},
   {re:/\b(ask ai|chatgpt|claude|gemini|outside ai|ai buttons?|✨)\b/, a:"The <b>✨ Ask AI</b> button copies a ready-made question (with your grades and list, never income) and opens ChatGPT, Claude or Gemini in a new tab — just paste it in. Zoe answers questions about this site and its data; bigger open-ended questions go there.", go:"zoe"},
-  {re:/\b(price|pricing|plan|plans|subscription|how much does (this|the app|zoe|zoes? colleges?|the site)( cost)?|does (this|the app|zoes? colleges?) cost|free|upgrade|beta)\b.*\b(app|site|zoe|plan|cost|beta|free)?\b/, a:"During the beta every family is on <b>Family+ free</b>. Planned paid plans are Family $12/mo and Family+ $20/mo (not charging yet). If a school's price looks out of date, tap <b>Request updated pricing</b> on its page.", go:"today"},
+  {re:/\b(price|pricing|plan|plans|subscription|how much does (this|the app|zoe|zoes? colleges?|the site)( cost)?|does (this|the app|zoes? colleges?) cost|free|upgrade|beta)\b.*\b(app|site|zoe|plan|cost|beta|free)?\b/, a:"Zoe's Colleges is <b>Free for Beta Testers</b>. If a school's price looks out of date, tap <b>Request updated pricing</b> on its page.", go:"today"},
   {re:/\b(data|source|sources|where.*(numbers|stats|info)|accurate|official|college scorecard|ipeds)\b/, a:"School stats come from the U.S. Dept. of Education <b>College Scorecard</b> and IPEDS (admission rate, SAT range, cost, earnings, graduation, size), campus photos from Wikimedia Commons, and deadlines from each school's admissions pages. Numbers are planning estimates — always confirm with the school.", go:"sauce"},
   {re:/\b(how (does|do) (this|the) (site|app|website)|what can (you|zoe|this) do|what is (this|zoe'?s colleges)|help|tutorial|show me around|get started)\b/, a:"Zoe's Colleges is a family college-planning board: <b>Today</b> (what's next), <b>Schools</b> (My Board, Zoe Picks, Search, Compare, Pulse), <b>Plan</b> (Costs, Deadlines, Trips, Talk It Out, Journey, Memories, Decision Day), <b>Family</b> and <b>Profile</b>. Ask me about any page, any school or any number you see.", go:"today"},
   {re:/\bhow many (schools|colleges)\b.*\b(apply|applications?)\b|\bhow many should (i|we) apply\b/, a:"Most students apply to about <b>6–10</b> schools: 2–3 reaches, 3–4 targets and 1–2 likely schools you'd be happy to attend. Check <b>My Board</b> — it shows your mix.", go:"board"},

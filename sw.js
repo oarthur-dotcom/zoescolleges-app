@@ -3,10 +3,10 @@
 // - Data files pinned to an exact release (cdn.jsdelivr.net/...@<commit>/...): cached forever — they never change.
 // - Campus photos (thumb.wikimedia.org) and the sample video poster: cached, newest 300 kept.
 // - NEVER cached: anything from Supabase (family data, sign-in) or our functions (Zoe, Pulse) — private or live.
-const VERSION = "zc-v1";
-const SHELL = "zc-shell-" + VERSION, DATA = "zc-data", IMG = "zc-img";
+const VERSION = "zc-v2";   // v2 (Oct 25): new logo icons, so old cached icons are dropped
+const SHELL = "zc-shell-" + VERSION, DATA = "zc-data", IMG = "zc-img-v2";
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => c.addAll(["/", "/manifest.webmanifest", "/icons/icon-192.png"])).then(() => self.skipWaiting())); });
-self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith("zc-shell-") && k !== SHELL).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => (k.startsWith("zc-shell-") && k !== SHELL) || k === "zc-img").map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 async function trim(name, max) { const c = await caches.open(name); const ks = await c.keys(); for (let i = 0; i < ks.length - max; i++) await c.delete(ks[i]); }
 self.addEventListener("fetch", e => {
   const req = e.request; if (req.method !== "GET") return;
