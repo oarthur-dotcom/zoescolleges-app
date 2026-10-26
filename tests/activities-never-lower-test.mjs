@@ -1,4 +1,4 @@
-// Listing activities never lowers a chance band or Admit Power compared with listing none; order of activities does not matter (Oct 23).
+// Listing activities never lowers a chance band or Admit Power compared with listing none; the order may change the score but never below listing none (order counts since Oct 25).
 import { chromium } from 'playwright'; import http from 'http'; import fs from 'fs'; import path from 'path';
 const ROOT = new URL('..', import.meta.url).pathname;
 const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'content-type': f.endsWith('.json') ? 'application/json' : f.endsWith('.html') ? 'text/html' : 'text/plain' }); r.end(d); }); }).listen(8935);
@@ -21,9 +21,9 @@ const r=await page.evaluate(()=>{
   const meter=acts=>{ const p={gpa:'3.21',testOptional:true,rigor:{honors:9,grade:12},activities:acts}; const o=studentProfile; studentProfile=()=>p; const m=apMeterData(p).total; studentProfile=o; return m; };
   out.meterNone=meter([]); out.meterWeak=meter([weak]); out.meterStrong=meter(strong);
   const perms=a=>a.length<2?[a]:a.flatMap((x,i)=>perms([...a.slice(0,i),...a.slice(i+1)]).map(p=>[x,...p]));
-  out.orderVariants=new Set(perms([weak,...strong]).map(p=>meter(p))).size;
+  const pm=perms([weak,...strong]).map(p=>meter(p)); out.orderVariants=new Set(pm).size; out.minPermMeter=Math.min(...pm); out.strongFirst=meter([strong[1],strong[0],strong[2],weak]); out.strongLast=meter([weak,strong[0],strong[2],strong[1]]);
   return out;});
 let fail = 0, pass = 0; const ok = (c, m) => { if (c) pass++; else { fail++; console.log('FAIL:', m); } };
 for (const g of Object.keys(r)) { if (!g.startsWith('gpa')) continue; ok(r[g].none_to_weak.down === 0, g + ' a weak activity lowered ' + r[g].none_to_weak.down + ' schools'); ok(r[g].none_to_strong.down === 0, g + ' strong lowered some'); ok(r[g].none_to_strong.up > 0, g + ' strong lifts some'); }
-ok(r.meterWeak >= r.meterNone, 'Admit Power with a weak activity ' + r.meterWeak + ' vs none ' + r.meterNone); ok(r.meterStrong >= r.meterWeak, 'strong >= weak'); ok(r.orderVariants === 1, 'order independent: ' + r.orderVariants);
+ok(r.meterWeak >= r.meterNone, 'Admit Power with a weak activity ' + r.meterWeak + ' vs none ' + r.meterNone); ok(r.meterStrong >= r.meterWeak, 'strong >= weak'); ok(r.orderVariants >= 1, 'order now counts (Oct 25): variants ' + r.orderVariants); ok(r.minPermMeter >= r.meterNone, 'every ordering is at least as good as none: ' + r.minPermMeter + ' vs ' + r.meterNone); ok(r.strongFirst >= r.strongLast, 'strongest first >= strongest last: ' + r.strongFirst + ' vs ' + r.strongLast);
 ok(errs.length === 0, 'no page errors ' + errs.join('|')); console.log(`activities-never-lower ${pass} pass, ${fail} fail`); await b.close(); srv.close(); process.exit(fail ? 1 : 0);
