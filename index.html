@@ -2907,6 +2907,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     ["Park & Kim (2023), extracurricular involvement on the Common App, via Brookings","https://www.brookings.edu/articles/extracurricular-involvement-in-high-school-is-not-a-level-playing-field/","About 860,000 applicants. Students listing more activities and leadership were more likely to be admitted to selective colleges (prior work it cites); activity profiles also track family income and school type, which is one reason we cap activities."],
     ["Erickson et al. (2014), Social Science Research, Add Health data, via Education Week","https://www.edweek.org/leadership/want-kids-to-go-to-college-pair-them-with-smart-peers-in-extracurriculars/2014/09","8,087 students: any extracurricular participation went with about 1.3x the odds of enrolling at a four-year college; academic activities added more, and more activities beyond that added nothing."],
     ["Chetty, Deming & Friedman, Diversifying Society's Leaders (NBER 31492)","https://www.nber.org/papers/w31492","At Ivy-Plus schools non-academic credentials carry real admissions weight, but not at flagship publics — which is why activities count most at the most selective schools."],
+    ["Common App, first-year Activities section","https://www.commonapp.org/apply/first-year-students","Applicants are told to list activities in the order of their importance to them, so the order you rank yours is read as a statement of priorities. The position weights we use are our own judgment, not Common App numbers.",SOURCE_CHECKED.commonapp],
     ["College Scorecard (U.S. Dept. of Education) and IPEDS","https://collegescorecard.ed.gov/data/","Our admit rates and SAT ranges. Federal data, public domain."]];
   el.innerHTML=`<div class="sauce">
     <div style="margin:8px 0"><button class="small ghost" data-sauce-back>← Back</button></div>
@@ -2932,6 +2933,8 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So the grades row is your plain GPA, and the rigor row credits the boost your courses earn (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0 — your rigor-adjusted GPA on your profile is plain GPA plus that boost). If your family gave a counselor-style 1–5 rating instead, we use that.</p>
     <h2>Why rigor and activities count at every school</h2>
     <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>a quarter weight at the rest</b> — that quarter-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. You can raise how much activities count (Higher or Highest, x1.5 or x2 their weight); that is <b>your own judgment</b>, labeled as such, not our scoring, and the cap still applies. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
+    <h2>Why the order of your activities matters</h2>
+    <p>Common App asks applicants to list activities in the order of their importance, and admissions readers pay the most attention to the first few. So we count your top-ranked activity most and the sixth least. Use the ↑ ↓ buttons in your profile to put your most important one first. The exact weights are our own judgment (the Common App publishes none), and a list of equally strong activities scores the same in any order.</p>
     <h2>Your meter vs your list</h2>
     <p>The Admit Power meter on your profile measures your whole profile against <b>all schools we have admissions data for</b>, so it only moves when your grades, rigor, activities or tests change. We separately show how many schools <i>on your list</i> you are at or above the typical admit. The two answer different questions — "how strong is this profile?" versus "how ambitious is this list?" — and a list heavy on reaches will always read lower than one heavy on safeties.</p>
     <h2>Test-optional, done honestly</h2>
@@ -2940,7 +2943,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <p>Essays, recommendations, interviews, legacy or athletic hooks, what a school needs this year, and who else applied. Harvard puts it plainly: it is impossible to predict individual admission decisions. We show a score and a band, never a "percent chance," because a percent would pretend to a precision nobody has.</p>
     <h2>Where it comes from</h2>
     <p class="muted" style="font-size:12.5px">The weights are our judgment, informed by the sources below. None of these sources endorses this model.</p>
-    <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}</li>`).join("")}</ul>
+    <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}${x[3]?` <span class="muted">(source checked ${esc(x[3])})</span>`:""}</li>`).join("")}</ul>
     <p class="muted" style="font-size:12px;margin-top:18px">Admit Power v2 · Oct 14, 2026 (v2: rigor credited from the course boost at every school; activities at a quarter weight at open schools; profile meter measured against all schools) · Spot a mistake? Tell us — this page is meant to be argued with.</p>
   </div>`; }
 function chanceMathHtml(c){
@@ -2991,10 +2994,16 @@ function actValue(a){
   return { v:(0.35+0.65*c)*m, c, lead, tot };
 }
 function actDepth(a){ return actValue(a).c; }   // kept for older callers
+const SOURCE_CHECKED={commonapp:"Oct 25, 2026"};   // shown next to the source; a weekly check refreshes it from source-checks.json when that file exists
+(async()=>{ try{ const r=await fetch("https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@live/source-checks.json"); if(!r.ok) return; const j=await r.json(); for(const k in (j.sources||{})) if(j.sources[k]&&j.sources[k].checked) SOURCE_CHECKED[k]=j.sources[k].checked; }catch(_){} })();
+const ACT_POS=[1.6,1.3,1.1,0.9,0.7,0.4];   // weight of the 1st..6th ranked activity (sum 6.0)
 function activityStrength(acts){
   if(!Array.isArray(acts) || !acts.length) return null;
-  const vs = acts.map(a=>actValue(a).v).sort((x,y)=>y-x).slice(0,6);
-  return Math.max(0, Math.min(1, vs.reduce((x,y)=>x+y,0)/5.5));
+  // Oct 25: the order the family ranks them in counts. Common App tells applicants to list activities "in the order of their importance to you",
+  // and readers weight the top entries most. The position weights below are OUR judgment (the Common App gives no numbers). They add up to 6.0,
+  // the same total room the old "best six" had, so a list of equally strong activities scores exactly as before; order only shifts the weight.
+  const vs = acts.slice(0,6).map(a=>actValue(a).v);
+  return Math.max(0, Math.min(1, vs.reduce((x,v,i)=>x+v*ACT_POS[i],0)/5.5));
 }
 function activityWhy(acts){
   if(!Array.isArray(acts)||!acts.length) return "";
