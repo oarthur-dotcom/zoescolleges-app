@@ -9,6 +9,9 @@
 <meta property="og:title" content="Zoe's Colleges">
 <meta property="og:description" content="A college-search board the whole family rates together — matches, honest chances, deadlines and visit trips.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://zoescolleges.com/media/zoe-social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zoescolleges.com/media/zoe-social.png">
 <meta name="theme-color" content="#0f7f80">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -17,7 +20,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://heppyuzvztjzhgfitrsb.supabase.co" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f7f80'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -47,6 +51,11 @@ header.app{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--pa
 header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1400px;margin:0 auto;width:100%}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
 header.app .logo span{color:var(--teal)}
+header.app .logo img{height:34px;width:auto;display:block}
+.lnd-logo{display:block;height:84px;width:auto;margin:0 0 14px}
+/* the logo is navy on transparent: show it white on dark backgrounds */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header.app .logo img,:root:not([data-theme="light"]) .lnd-logo{filter:brightness(0) invert(1)}}
+:root[data-theme="dark"] header.app .logo img,:root[data-theme="dark"] .lnd-logo{filter:brightness(0) invert(1)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1400px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -1503,7 +1512,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <body>
 <header class="app">
   <div class="hrow">
-    <div class="logo" id="logo-home">Zoe's <span>Colleges</span></div>
+    <div class="logo" id="logo-home" role="img" aria-label="Zoe's Colleges"><img src="/media/zoe-logo.webp" alt="" width="51" height="34" decoding="async"></div>
     <span class="beta">Beta</span>
     <div class="right">
       <span id="whoami" class="mono muted" style="font-size:12px"></span>
@@ -1564,6 +1573,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <a href="#" class="lnd-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
     <div class="lnd-hero lnd-mk">
       <div class="lnd-hero-txt">
+        <img class="lnd-logo" src="/media/zoe-logo.webp" alt="Zoe's Colleges — zoescolleges.com" width="126" height="84" decoding="async">
         <div class="lnd-eyebrow">For families with a high schooler · Free during the beta</div>
         <h1 class="lnd-h1">College, decided together.</h1>
         <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
