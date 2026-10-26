@@ -31,11 +31,12 @@ export async function handle(body, token, { env = process.env, fetchImpl = fetch
   const action = body && body.action;
 
   if (action === "overview") {
-    const [families, members, boards, photos, pending, visits] = await Promise.all([
+    const [families, members, boards, photos, pending, visits, waitlist] = await Promise.all([
       rest("families?select=id,name,plan,invite_code,created_at&order=created_at.desc"),
       rest("members?select=user_id,family_id,role,display_name,created_at"),
       restOpt("family_schools?select=family_id"), restOpt("photos?select=family_id"),
-      restOpt("pending_students?select=family_id,display_name"), restOpt("visits?select=family_id")]);
+      restOpt("pending_students?select=family_id,display_name"), restOpt("visits?select=family_id"),
+      restOpt("waitlist?select=email,created_at,invited_at&order=created_at.desc&limit=200")]);   // Oct 26: sign-up waitlist (migration 030; null until it exists)
     const ur = await fetchImpl(`${SB_URL}/auth/v1/admin/users?per_page=1000`, { headers: H });
     const users = ur.ok ? ((await ur.json()).users || []) : [];
     const count = (rows, fid) => rows ? rows.filter(r => r.family_id === fid).length : null;
@@ -45,10 +46,11 @@ export async function handle(body, token, { env = process.env, fetchImpl = fetch
       me: email, generated_at: new Date().toISOString(),
       totals: { families: families.length, accounts: users.length, active: userOut.filter(u => u.active).length,
         signedInLast7: userOut.filter(u => u.last_sign_in_at && Date.now() - new Date(u.last_sign_in_at) < 7 * 864e5).length,
+        newLast24h: userOut.filter(u => u.created_at && Date.now() - new Date(u.created_at) < 864e5).length, waitlist: waitlist ? waitlist.length : 0,
         byPlan: Object.fromEntries(PLANS.map(p => [p, families.filter(f => f.plan === p).length])) },
       families: families.map(f => ({ ...f, members: members.filter(m => m.family_id === f.id).map(m => ({ ...m, email: (users.find(u => u.id === m.user_id) || {}).email || null })),
         schools: count(boards, f.id), photos: count(photos, f.id), visits: count(visits, f.id), pendingStudent: (pending || []).find(p => p.family_id === f.id)?.display_name || null })),
-      accounts: userOut
+      accounts: userOut, waitlist: waitlist || []
     }];
   }
   if (action === "setPlan") {
