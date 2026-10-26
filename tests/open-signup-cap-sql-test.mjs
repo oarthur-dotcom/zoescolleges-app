@@ -1,0 +1,40 @@
+// Needs: npm i --no-save @electric-sql/pglite  (runs migrations 007 + 030 on an in-process Postgres). Run: node tests/open-signup-cap-sql-test.mjs
+
+import { PGlite } from '@electric-sql/pglite'; import fs from 'fs';
+const APP=new URL('../', import.meta.url).pathname;
+const db=new PGlite(); const res={}; let bad=0;
+const ok=(n,c)=>{res[n]=!!c; if(!c) bad++;};
+await db.exec(`create role anon; create role authenticated; create schema auth; create table auth.users(id serial primary key, email text, raw_user_meta_data jsonb default '{}'::jsonb);
+create table public.families(id serial primary key, invite_code text, referral_code text); insert into public.families(invite_code,referral_code) values ('famcode12','refcode34');`);
+await db.exec(fs.readFileSync(APP+'migration-007-server-beta-gate.sql','utf8'));
+await db.exec(`insert into private.beta_codes(code,note) values ('GOODCODE','t'),('OLDCODE','t'); update private.beta_codes set active=false where code='OLDCODE';`);
+await db.exec(fs.readFileSync(APP+'migration-030-open-signup-cap.sql','utf8'));
+await db.exec(fs.readFileSync(APP+'migration-030-open-signup-cap.sql','utf8')); ok('migration_runs_twice',true);
+const ins=async(meta)=>{ try{ await db.query(`insert into auth.users(email,raw_user_meta_data) values ('x@y.z',$1::jsonb)`,[JSON.stringify(meta)]); return 'ok'; }catch(e){ return e.message; } };
+ok('default_closed_no_code_refused', /BETA_GATE/.test(await ins({})));
+ok('code_ok', await ins({access_code:'goodcode'})==='ok');
+ok('retired_code_refused', /BETA_GATE/.test(await ins({access_code:'OLDCODE'})));
+ok('family_invite_ok', await ins({join_code:'famcode12'})==='ok');
+ok('referral_ok', await ins({ref_code:'refcode34'})==='ok');
+ok('default_cap_is_25', (await db.query(`select daily_cap, open from private.signup_settings`)).rows[0].daily_cap===25);
+await db.exec(`update private.signup_settings set open=true, daily_cap=3`);
+const r=[]; for(let i=0;i<4;i++) r.push(await ins({}));
+ok('first3_open_ok', r.slice(0,3).every(x=>x==='ok'));
+ok('4th_refused_SIGNUP_CAP', /SIGNUP_CAP/.test(r[3]));
+ok('invited_still_ok_after_cap', await ins({access_code:'GOODCODE'})==='ok' && await ins({join_code:'famcode12'})==='ok');
+ok('bad_code_after_cap_refused', /SIGNUP_CAP|BETA_GATE/.test(await ins({access_code:'NOPE'})));
+ok('counter_stops_at_cap', (await db.query(`select n from private.open_signups_by_day`)).rows[0].n===3);
+await db.exec(`update private.open_signups_by_day set day = day - 1`);  // pretend it is a new day
+ok('new_day_resets', await ins({})==='ok');
+await db.exec(`update private.signup_settings set open=false`);
+ok('closing_switch_works', /BETA_GATE/.test(await ins({})));
+const w=async(e)=> (await db.query(`select public.join_waitlist($1) as r`,[e])).rows[0].r;
+ok('waitlist_add', (await w('A@B.com')).ok===true);
+ok('waitlist_dupe_case_insens', (await w('a@b.COM')).ok===true && (await db.query(`select count(*)::int c from public.waitlist`)).rows[0].c===1);
+ok('waitlist_bad_email', (await w('nope')).ok===false && (await w('a b@c.d')).ok===false);
+await db.exec(`set role anon`);
+ok('anon_cannot_read_waitlist', await db.query(`select * from public.waitlist`).then(()=>false).catch(e=>/permission denied/.test(e.message)));
+ok('anon_cannot_insert_waitlist_directly', await db.query(`insert into public.waitlist(email) values ('z@z.zz')`).then(()=>false).catch(e=>/permission denied/.test(e.message)));
+ok('anon_can_call_join', await db.query(`select public.join_waitlist('c@d.org') r`).then(r=>r.rows[0].r.ok===true).catch(()=>false));
+await db.exec(`reset role`);
+console.log(JSON.stringify(res,null,1)); console.log(bad?`${bad} FAILED`:'ALL PASS'); process.exit(bad?1:0);
