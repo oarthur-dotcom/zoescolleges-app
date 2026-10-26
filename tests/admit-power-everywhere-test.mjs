@@ -43,7 +43,7 @@ for (const W of [390, 1280]) {
     const aPts = (s, i) => apCore(s, i).terms.find(t => t.k === 'acts');
     return { weakGated: aPts(sel, weak).gated != null && aPts(sel, weak).pts < apCore(sel, { ...weak, astr: 0.95, gpa: 3.0 }).terms.find(t => t.k === 'acts').w * 30 * 2.5 * 10,
       weakLessThanStrongCredit: aPts(sel, weak).pts < aPts(sel, strong).pts, strongNotGated: aPts(sel, strong).gated == null, openSchoolNotGated: aPts(mid, weak).gated == null,
-      weakActsNotRaised: apCore(sel, { ...weak, astr: 0.1 }).terms.find(t => t.k === 'acts').gated == null, capStill: Math.abs(aPts(sel, strong).pts) <= AP.ACT_CAP_PTS + 1e-9 }; });
+      weakActsNotRaised: (apCore(sel, { ...weak, astr: 0.1 }).terms.find(t => t.k === 'acts') || {}).gated == null   /* Oct 23: light activities no longer count against the student, so the term may be absent */, capStill: Math.abs(aPts(sel, strong).pts) <= AP.ACT_CAP_PTS + 1e-9 }; });
   for (const k of Object.keys(gt)) ok(t('gate.' + k), gt[k]);
   // board cards: big Admit Power cell
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);

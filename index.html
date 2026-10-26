@@ -9,6 +9,9 @@
 <meta property="og:title" content="Zoe's Colleges">
 <meta property="og:description" content="A college-search board the whole family rates together — matches, honest chances, deadlines and visit trips.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://zoescolleges.com/media/zoe-social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zoescolleges.com/media/zoe-social.png">
 <meta name="theme-color" content="#0f7f80">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -17,7 +20,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://heppyuzvztjzhgfitrsb.supabase.co" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f7f80'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -47,6 +51,11 @@ header.app{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--pa
 header.app .hrow{display:flex;align-items:center;gap:10px;max-width:1400px;margin:0 auto;width:100%}
 header.app .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;cursor:pointer}
 header.app .logo span{color:var(--teal)}
+header.app .logo img{height:34px;width:auto;display:block}
+.lnd-logo{display:block;height:84px;width:auto;margin:0 0 14px}
+/* the logo is navy on transparent: show it white on dark backgrounds */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header.app .logo img,:root:not([data-theme="light"]) .lnd-logo{filter:brightness(0) invert(1)}}
+:root[data-theme="dark"] header.app .logo img,:root[data-theme="dark"] .lnd-logo{filter:brightness(0) invert(1)}
 header.app .beta{font-family:var(--mono);font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:1px 7px;text-transform:uppercase}
 header.app .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .appnav{display:flex;gap:2px;margin:10px auto 0;max-width:1400px;width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -617,6 +626,12 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .calc-link:hover{text-decoration:underline}
 #dlg-calc h3{font-size:14px;margin:14px 0 0}
 /* Predictor trust: show-the-math + student anchor */
+.pf-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:60;display:flex;gap:12px;align-items:center;background:var(--card,#16232b);border:1px solid var(--warn,#e0a030);color:inherit;border-radius:999px;padding:8px 10px 8px 16px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-size:13.5px}
+.pf-savebar.ok{border-color:var(--teal,#2bb5a0)}
+.pf-check{border:1px solid var(--line,#2a3a44);border-radius:12px;padding:12px 14px;margin:0 0 12px}
+.pf-check h3{margin:0 0 8px;font-size:15px}
+.pf-check ul{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:4px;font-size:13.5px}
+.pf-check li.done{opacity:.65}
 .linklike{background:none;border:none;padding:0;color:var(--teal);cursor:pointer;font-size:12.5px;font:inherit;font-size:12.5px}
 .linklike:hover{text-decoration:underline}
 .why-band{margin:2px 0 6px}
@@ -1497,7 +1512,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 <body>
 <header class="app">
   <div class="hrow">
-    <div class="logo" id="logo-home">Zoe's <span>Colleges</span></div>
+    <div class="logo" id="logo-home" role="img" aria-label="Zoe's Colleges"><img src="/media/zoe-logo.webp" alt="" width="51" height="34" decoding="async"></div>
     <span class="beta">Beta</span>
     <div class="right">
       <span id="whoami" class="mono muted" style="font-size:12px"></span>
@@ -1558,7 +1573,8 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <a href="#" class="lnd-backlink" id="lp-unfocus">← What is Zoe's Colleges?</a>
     <div class="lnd-hero lnd-mk">
       <div class="lnd-hero-txt">
-        <div class="lnd-eyebrow">For families with a high schooler · Free during the beta</div>
+        <img class="lnd-logo" src="/media/zoe-logo.webp" alt="Zoe's Colleges — zoescolleges.com" width="126" height="84" decoding="async">
+        <div class="lnd-eyebrow">For families with a high schooler · Free for Beta Testers</div>
         <h1 class="lnd-h1">College, decided together.</h1>
         <p class="lnd-lede">One calm, shared place for your family's college search. See what each school will really cost you, where your student stands, and every deadline, and give everyone a say, from the first list to Decision Day.</p>
         <div class="lnd-ctas"><button id="demo-start" class="primary lnd-btn" type="button">See a sample family</button><button class="lnd-btn lnd-btn2" type="button" data-lp-account="signup">I have an invite code</button></div>
@@ -1632,7 +1648,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <div class="lnd-account" id="lp-account">
       <h2 class="lnd-h2 lnd-mk">Join the beta</h2>
       <h2 class="lnd-h2 lnd-fo" id="lp-fo-title"></h2>
-      <p class="lnd-acc-sub lnd-mk">Zoe's Colleges is invite-only and free while we build it. Have a code or a family invite? Create your account below.</p>
+      <p class="lnd-acc-sub lnd-mk">Zoe's Colleges is invite-only and <b>Free for Beta Testers</b>. Have a code or a family invite? Create your account below.</p>
     <div class="card lnd-card">
       <div class="row" id="auth-tabs" style="margin-bottom:4px">
         <button id="t-signin" class="small primary">Sign in</button>
@@ -1740,7 +1756,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
         <li>Your profile, ratings, school list, notes and photos are visible <b>only to your own family</b> — enforced at the database level, not just hidden in the app.</li>
         <li>We <b>don't sell your data</b> and we don't share it with colleges or advertisers.</li>
         <li>You can remove schools, photos and your account's data at any time.</li>
-        <li>It's an invite-only beta, free while we build it. For ages 13 and up.</li>
+        <li>It's an invite-only beta — Free for Beta Testers. For ages 13 and up.</li>
       </ul>
       <p class="muted" style="font-size:12px;margin-bottom:0">No online service can promise perfect security, but we keep your data minimal and family-scoped by design. Questions or a privacy request? <a href="#" id="trust-contact">Contact us</a>.</p>
     </div>
@@ -1793,7 +1809,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
             <button id="btn-report" class="menu-item">📄 College report (PDF)</button>
             <button id="btn-sharelist" class="menu-item">🔗 Share with family or counselor</button>
             <button id="btn-share" class="menu-item">📣 Tell another family</button>
-            <button id="btn-plans" class="menu-item">⚡ Plans &amp; upgrades</button>
+            <button id="btn-plans" class="menu-item">🎁 Free for Beta Testers</button>
           </div>
         </div>
       </div>
@@ -1857,9 +1873,11 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <h1 id="pf-h1">My profile</h1>
     <p class="sub">Your profile powers <b>admission chance</b>; your priorities power each school's <b>fit %</b> — for you. Everyone in the family has their own.</p>
     <div id="profile-scope" class="callout"></div>
+    <div id="pf-savebar" class="pf-savebar hidden" role="status" aria-live="polite"><span id="pf-savebar-msg"></span><button id="pf-savebar-btn" class="small primary" type="button">Save changes</button></div>
     <div id="pf-family-money"></div>
     <div class="pf-tabs" id="pf-tabs"><button data-ptab="acad" class="on">🎓 Academics &amp; Activities</button><button data-ptab="who">🧭 Who You Are</button></div>
     <div id="pf-acad" class="pf-group">
+    <div id="pf-checklist"></div>
     <div id="pf-summary" class="hidden"></div>
     <div id="pf-meter"></div>
     <div class="card" id="pf-form-card">
@@ -2105,7 +2123,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <h2 style="margin-top:0">Tell another family</h2>
   <div class="card" style="background:color-mix(in srgb,var(--amber) 10%,var(--surface));border-color:var(--amber);margin-top:0">
     <b style="font-size:14px">Your reward</b>
-    <p style="font-size:13px;margin:4px 0 8px">Every family that signs up with your personal link gets you <b>one free month</b> once paid plans begin after the beta.</p>
+    <p style="font-size:13px;margin:4px 0 8px">Every family that signs up with your personal link is counted here — thank you for spreading the word.</p>
     <div class="row" style="justify-content:space-between">
       <span class="mono" style="font-size:12px">Your code: <b id="sh-refcode">—</b></span>
       <span class="counter">Joined with your code: <b id="sh-refcount">0</b></span>
@@ -2123,25 +2141,10 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
   <div class="row" style="margin-top:10px;justify-content:flex-end"><button id="sh-close" class="small">Close</button></div>
 </dialog>
 
-<!-- PLANS DIALOG -->
+<!-- PLANS DIALOG (Oct 26: pricing removed; Free for Beta Testers) -->
 <dialog id="dlg-plans">
-  <h2 style="margin-top:0">Plans</h2>
-  <p class="muted" style="font-size:13px;margin-top:0">During the beta every family is on <b>Family+ free</b>. These are the plans for when the beta ends — you can try the checkout now in test mode.</p>
-  <div class="card" style="margin:10px 0">
-    <div class="row" style="justify-content:space-between"><b>Free</b><span class="mono">$0</span></div>
-    <div class="muted" style="font-size:13px">2 seats · 3 schools</div>
-  </div>
-  <div class="card" style="margin:10px 0">
-    <div class="row" style="justify-content:space-between"><b>Family</b><span class="mono">$12/mo</span></div>
-    <div class="muted" style="font-size:13px;margin-bottom:8px">Up to 25 schools · visit days · photos · dossiers</div>
-    <a class="plan-btn" href="https://buy.stripe.com/test_00w7sK65r1JbeSY8VJ9ws00" target="_blank" rel="noopener">Choose Family</a>
-  </div>
-  <div class="card" style="margin:10px 0;border-color:var(--teal)">
-    <div class="row" style="justify-content:space-between"><b>Family+</b><span class="mono">$20/mo</span></div>
-    <div class="muted" style="font-size:13px;margin-bottom:8px">Unlimited schools · everything in Family</div>
-    <a class="plan-btn" href="https://buy.stripe.com/test_aFabJ03Xj1Jb4ekeg39ws00" target="_blank" rel="noopener">Choose Family+</a>
-  </div>
-  <p class="muted" style="font-size:12px">Test mode — use card 4242 4242 4242 4242, any future date and CVC. No real charge.</p>
+  <h2 style="margin-top:0">Free for Beta Testers</h2>
+  <p class="muted" style="font-size:13px;margin-top:0">Every family in the beta gets the full product, free. Thank you for helping us build it.</p>
   <div class="row" style="justify-content:flex-end"><button id="plans-close" class="small">Close</button></div>
 </dialog>
 
@@ -2251,7 +2254,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 const SUPABASE_URL = "https://heppyuzvztjzhgfitrsb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8vIYFyziJ0S_xFBm6vFhWg_Xp6paOLx"; // publishable; data protected by RLS
 // #37: exact data release (jsDelivr's @live link lagged hours behind). Keep equal to netlify/lib/data-ref.mjs.
-const DATA_REF = "714eeb9";
+const DATA_REF = "df72850";
 const CATALOG_URL = `https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/colleges.json`;
 const APP_LINK = "https://zoescolleges.com/";
 // Beta sign-up gate is enforced on the server (migration 007): codes live in private.beta_codes.
@@ -2720,7 +2723,11 @@ function bandLabel(b){ return BAND_LABELS[b]||b; }
 // Typical unweighted GPA of admitted students, estimated from the school's SAT profile and admit rate (#80).
 // Real average GPA of enrolled first-years from each school's own Common Data Set (C12), 29 schools so far (Oct 16). Above-4.0 averages are weighted, so they are capped at 4.0 to compare fairly with the student's unweighted GPA.
 const CDS_GPA={"umass-amherst":4.05,"college-of-charleston":4.0,"sc-218663":3.68,"oregon-state-university":3.7,"sc-168281":3.7,"university-of-colorado-boulder":3.77,"sc-151351":3.8,"sc-163268":4.06,"sc-163286":4.41,"syracuse-university":3.71,"sc-110705":4.25,"sc-110592":3.21,"sc-130943":3.98,"sc-139931":3.46,"sc-139940":3.6,"sc-144892":3.35,"sc-153603":3.76,"sc-155317":3.71,"sc-168227":3.48,"sc-169248":3.48,"sc-169798":3.39,"sc-171571":3.48,"sc-191630":3.83,"sc-199139":3.56,"sc-200004":3.45,"sc-207388":3.59,"sc-207500":3.64,"university-of-new-hampshire":3.63,"university-of-rhode-island":3.59};
-function typicalGpa(s){ s=s||{}; if(s.id && CDS_GPA[s.id]!=null) return Math.min(4.0, CDS_GPA[s.id]); const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
+// Oct 25: Muse read each school's own Common Data Set (C12). Only these 3 state the average is UNWEIGHTED, so only these are compared to a student's unweighted GPA.
+// The other 26 in CDS_GPA are weighted (10) or do not say (16), so they stay on our estimate until a school states its basis. (cds-gpa-basis-check-2026-10-25.txt)
+const CDS_UNWEIGHTED={"oregon-state-university":3.70,"sc-168281":3.70,"sc-207500":3.64};
+function gpaFromCds(s){ const v=s&&s.id?CDS_UNWEIGHTED[s.id]:null; return typeof v==="number"?v:null; }   // above 4.0 means the school reported a WEIGHTED average: not comparable to an unweighted GPA, so we fall back to the estimate
+function typicalGpa(s){ s=s||{}; { const cg=gpaFromCds(s); if(cg!=null) return cg; } const sat = typeof s.sat25==="number"&&typeof s.sat75==="number" ? (s.sat25+s.sat75)/2 : (typeof s.satAvg==="number"?s.satAvg:null);
   const r=s.admissionRate; const fromRate = r<0.15?3.9 : r<0.3?3.75 : r<0.5?3.55 : r<0.7?3.35 : 3.15;
   if(sat==null) return fromRate; const fromSat=Math.max(2.8, Math.min(4.0, 2.9+(sat-1000)*0.0022)); return Math.round(((fromSat+fromRate)/2)*100)/100; }
 function astrWord(a){ return a==null?null:(a>=0.7?"strong":a>=0.4?"solid":"light"); }
@@ -2745,7 +2752,14 @@ function rigorBonus(p){ const r=(p&&p.rigor)||{}; const pts=(+r.honors||0)*0.5+(
   return base; }
 function apInputs(p){ return { gpa:p?parseFloat(p.gpa):NaN, rl:rigorLevel(p), rb:rigorBonus(p), astr:activityStrength(p&&p.activities), sat:studentSat(p), to:!!(p&&p.testOptional), major:majorIsImpacted(p), ab:Math.max(0,Math.min(2,Math.round(+(p&&p.act_boost)||0))) }; }
 // Pure score for one school and one set of inputs. Returns the ordered terms so the UI can draw the waterfall.
+// Oct 23: listing activities can never score below listing none. A light activity list used to pull Admit Power down (and 34-158 schools a band)
+// compared with leaving activities blank. Now, if counting the activities would lower the result, they simply don't count yet.
 function apCore(s, inp){
+  const r=apCoreRaw(s, inp);
+  if(inp.astr!=null){ const r0=apCoreRaw(s,{...inp,astr:null}); if(r0.g>r.g){ r0.actsNoEffect=true; return r0; } }
+  return r;
+}
+function apCoreRaw(s, inp){
   const rate=s.admissionRate; const hasRange=typeof s.sat25==="number"&&typeof s.sat75==="number";
   const raw=[];
   if(inp.gpa>0 && inp.gpa<=5){ const ref=typicalGpa(s), g=Math.min(inp.gpa,4.0); raw.push({k:"gpa", z:apClamp((g-ref)/AP.GPA_SD,-AP.ZCLAMP,AP.ZCLAMP), ref, g}); }
@@ -2791,7 +2805,9 @@ function chanceCompute(c, explain){
   const rate = s.admissionRate;
   const steps = explain ? [] : null;
   const log = (k,v,why)=>{ if(explain) steps.push({k,v,why,moved:/Reach|Target|Likely/.test(v)}); };
-  const p = studentProfile(); const inp=apInputs(p); const core=apCore(s,inp);
+  const p = studentProfile(); const inp=apInputs(p);
+  if(!(inp.gpa>0)) return null;   // Oct 23: no GPA, no chance label. Rigor and activities alone made everything look "Likely".
+  const core=apCore(s,inp);
   const hasRange = typeof s.sat25==="number" && typeof s.sat75==="number";
   const band0 = apBandFrom(rate,0); let band=apBandFrom(rate,core.g);
   if(explain){
@@ -2801,12 +2817,12 @@ function chanceCompute(c, explain){
       log(k, nb!==prev?bandLabel(nb):"no change", why); prev=nb; };
     const T=k=>core.terms.find(t=>t.k===k);
     { const t=T("gpa"); const gap=t?Math.round((t.g-t.ref)*100)/100:null; const adj=rigorAdjustedGpa(p);
-      step("Your GPA",t,!!t, t?`Unweighted GPA ${t.g.toFixed(2)} vs about ${t.ref.toFixed(1)} for a typical admitted student here (${gap>=0?"+":""}${gap.toFixed(2)})${adj&&adj!==inp.gpa?` · rigor-adjusted ${adj.toFixed(2)} is counted once, under rigor`:""}`:"No GPA in your profile"); }
+      step("Your GPA",t,!!t, t?`Unweighted GPA ${t.g.toFixed(2)} vs about ${t.ref.toFixed(1)} for a typical first-year student here (${gap>=0?"+":""}${gap.toFixed(2)}) — ${gpaFromCds(s)!=null?"the school's own Common Data Set average, which states it is unweighted":"our estimate, not the school's number"}${adj&&adj!==inp.gpa?` · rigor-adjusted ${adj.toFixed(2)} is counted once, under rigor`:""}`:"No GPA in your profile"); }
     { const t=T("rigor"); const rl=inp.rl; const heavy=rate<0.4;
       step("Rigor in context",t,!!t, t?(t.bonus!=null?`Your honors/AP/dual courses lift your grades by about +${t.bonus.toFixed(2)} GPA points (the rigor-adjusted GPA on your profile). Counted once, here, at every kind of school`:`Rated ${RIGOR_WORD[rl.lv]} by your family, counted at every kind of school`):"No course-rigor info in your profile");
       if(t && steps.length && steps[steps.length-1].moved && heavy) steps[steps.length-1].why+= t.z>=0?" — this selective school rewards a demanding schedule":" — a lighter schedule makes it tougher here"; }
     { const t=T("acts"); const w=apClamp((AP.ACT_ZERO_RATE-rate)/(AP.ACT_ZERO_RATE-AP.ACT_FULL_RATE),0,1);
-      step("Your activities",t,!!t, !t?"No activities in your profile":`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about a quarter weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
+      step("Your activities",t,!!t, !t?(core.actsNoEffect?"Your activities are light so far, so they are not counted against you. Add more time or a leadership role and they start to help":"No activities in your profile"):`A ${astrWord(inp.astr)} activity profile${inp.ab?` (you raised their weight, x${AP.ACT_BOOST[inp.ab]} — your own adjustment)`:""}${w>=0.5?", and this selective school weighs activities fully":" — counted at about a quarter weight at a school this open, capped so it can't cover a gap in grades"}${t&&t.gated!=null?` Because your grades/rigor/tests sit below the typical admitted student here, only ${Math.round(t.gated*100)}% of the credit for strong activities is counted (academic gate).`:""}`); }
     { const t=T("tests"); const sat=inp.sat;
       step("Your test scores",t,!!t, t? (hasRange?`Your ${sat} vs this school's ${s.sat25}–${s.sat75} SAT range — ${sat>=s.sat75?"above the school's 75th percentile":(sat<=s.sat25?"below the school's 25th percentile":"inside the school's middle-50% range")}`:`Your ${sat} vs the school's ${s.satAvg} average (${(sat-s.satAvg)>=0?"+":""}${sat-s.satAvg}) — only the average is on file for this school`)
         : (inp.to?"You're applying test-optional — no score is counted, and the other pieces carry more weight":((typeof s.satAvg!=="number"&&!hasRange)?"No scores on file for this school":"No test score in your profile"))); }
@@ -2889,6 +2905,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     ["Park & Kim (2023), extracurricular involvement on the Common App, via Brookings","https://www.brookings.edu/articles/extracurricular-involvement-in-high-school-is-not-a-level-playing-field/","About 860,000 applicants. Students listing more activities and leadership were more likely to be admitted to selective colleges (prior work it cites); activity profiles also track family income and school type, which is one reason we cap activities."],
     ["Erickson et al. (2014), Social Science Research, Add Health data, via Education Week","https://www.edweek.org/leadership/want-kids-to-go-to-college-pair-them-with-smart-peers-in-extracurriculars/2014/09","8,087 students: any extracurricular participation went with about 1.3x the odds of enrolling at a four-year college; academic activities added more, and more activities beyond that added nothing."],
     ["Chetty, Deming & Friedman, Diversifying Society's Leaders (NBER 31492)","https://www.nber.org/papers/w31492","At Ivy-Plus schools non-academic credentials carry real admissions weight, but not at flagship publics — which is why activities count most at the most selective schools."],
+    ["Common App, first-year Activities section","https://www.commonapp.org/apply/first-year-students","Applicants are told to list activities in the order of their importance to them, so the order you rank yours is read as a statement of priorities. The position weights we use are our own judgment, not Common App numbers.",SOURCE_CHECKED.commonapp],
     ["College Scorecard (U.S. Dept. of Education) and IPEDS","https://collegescorecard.ed.gov/data/","Our admit rates and SAT ranges. Federal data, public domain."]];
   el.innerHTML=`<div class="sauce">
     <div style="margin:8px 0"><button class="small ghost" data-sauce-back>← Back</button></div>
@@ -2899,7 +2916,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <ol>
       <li><b>Start at the school.</b> Its admit rate sets the starting band: under 40% starts at Reach, 40–70% at Target, over 70% at Likely.</li>
       <li><b>Measure each piece against that school's admitted students.</b> For each piece we ask "how far above or below the typical admitted student?" in standard deviations (a <i>z-score</i>): <b>grades</b> (your unweighted GPA vs about what admits there have), <b>course rigor</b> (the boost your honors/AP/IB/dual courses give your grades — the same +0.5 / +1.0 per course adjustment shown on your profile, counted once), <b>activities</b> (the 4-tier scale, with time and years behind each), and <b>test scores</b> (only if you send them).</li>
-      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about a quarter weight at open ones, and can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
+      <li><b>Blend them with fixed weights</b> (below), scale to points (×${AP.SCALE}), and add to 50. Rigor counts at every school. Activities count fully at the most selective schools and at about a quarter weight at open ones. Listing activities never scores you lower than listing none: a light list simply doesn't count yet. Activities can never move the score by more than ${AP.ACT_CAP_PTS} points, so they can't cover a gap in grades. At the most selective schools (admitting under ${Math.round(AP.GATE_RATE*100)}%) there is also an academic gate: when grades, rigor and tests sit below the typical admitted student, credit for above-average activities fades out completely once that gap reaches ${AP.GATE_FULL} points.</li>
       <li><b>Turn the gap into a band.</b> About ${AP.EASE1} points above typical moves you up a band, about ${-AP.STIFF1} below moves you down. Schools admitting under 25% are never Likely, and under 15% are always at least a Reach — a long shot for everyone.</li>
       <li><b>Say what would help most.</b> We re-score with one realistic improvement at a time (GPA +0.2, one rigor level, one activity tier, SAT +80) and show the biggest.</li>
     </ol>
@@ -2914,6 +2931,8 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <p>Schools publish unweighted averages. If we used a rigor-boosted GPA there <i>and</i> counted rigor again, your hard classes would be counted twice. So the grades row is your plain GPA, and the rigor row credits the boost your courses earn (Honors +0.5, AP/IB/dual +1.0 per course, spread over your course load, capped at +1.0 — your rigor-adjusted GPA on your profile is plain GPA plus that boost). If your family gave a counselor-style 1–5 rating instead, we use that.</p>
     <h2>Why rigor and activities count at every school</h2>
     <p><b>Rigor:</b> colleges rank strength of curriculum right behind grades (NACAC: 63.8% call it considerably important), and it isn't limited to selective schools, so it counts at full weight everywhere. If you tell us how many honors/AP/IB/dual courses your school offers, we credit the share of those you took (counted against the years you've been in school), so a small school isn't penalized; choose "Don't know" and we count the courses you took, as before. That option can only help, never lower your score. <b>Activities:</b> the evidence is thinner and mostly about selective schools. At Harvard, extracurricular and athletic ratings measurably moved admission odds in the litigation record; a Common App study of about 860,000 applicants found students listing more activities and leadership were more likely to be admitted to selective colleges; and a national study of 8,087 students found any extracurricular participation went with about 1.3x the odds of enrolling in a four-year college. We found no good evidence of a big effect at open-admission schools. So activities count fully at the most selective schools, and at about <b>a quarter weight at the rest</b> — that quarter-weight floor is <b>our judgment</b> (they help with honors programs, scholarships and placement), not a measured number. Activities are also capped, so a long list can't make up for weak grades. You can raise how much activities count (Higher or Highest, x1.5 or x2 their weight); that is <b>your own judgment</b>, labeled as such, not our scoring, and the cap still applies. Sustained commitments (hours and years) count for more than a long list of one-off ones.</p>
+    <h2>Why the order of your activities matters</h2>
+    <p>Common App asks applicants to list activities in the order of their importance, and admissions readers pay the most attention to the first few. So we count your top-ranked activity most and the sixth least. Use the ↑ ↓ buttons in your profile to put your most important one first. The exact weights are our own judgment (the Common App publishes none), and a list of equally strong activities scores the same in any order.</p>
     <h2>Your meter vs your list</h2>
     <p>The Admit Power meter on your profile measures your whole profile against <b>all schools we have admissions data for</b>, so it only moves when your grades, rigor, activities or tests change. We separately show how many schools <i>on your list</i> you are at or above the typical admit. The two answer different questions — "how strong is this profile?" versus "how ambitious is this list?" — and a list heavy on reaches will always read lower than one heavy on safeties.</p>
     <h2>Test-optional, done honestly</h2>
@@ -2922,7 +2941,7 @@ function renderSauce(){ const el=$("v-sauce"); if(!el) return;
     <p>Essays, recommendations, interviews, legacy or athletic hooks, what a school needs this year, and who else applied. Harvard puts it plainly: it is impossible to predict individual admission decisions. We show a score and a band, never a "percent chance," because a percent would pretend to a precision nobody has.</p>
     <h2>Where it comes from</h2>
     <p class="muted" style="font-size:12.5px">The weights are our judgment, informed by the sources below. None of these sources endorses this model.</p>
-    <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}</li>`).join("")}</ul>
+    <ul>${sources.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a> — ${esc(x[2])}${x[3]?` <span class="muted">(source checked ${esc(x[3])})</span>`:""}</li>`).join("")}</ul>
     <p class="muted" style="font-size:12px;margin-top:18px">Admit Power v2 · Oct 14, 2026 (v2: rigor credited from the course boost at every school; activities at a quarter weight at open schools; profile meter measured against all schools) · Spot a mistake? Tell us — this page is meant to be argued with.</p>
   </div>`; }
 function chanceMathHtml(c){
@@ -2973,10 +2992,16 @@ function actValue(a){
   return { v:(0.35+0.65*c)*m, c, lead, tot };
 }
 function actDepth(a){ return actValue(a).c; }   // kept for older callers
+const SOURCE_CHECKED={commonapp:"Oct 25, 2026"};   // shown next to the source; a weekly check refreshes it from source-checks.json when that file exists
+(async()=>{ try{ const r=await fetch(`https://cdn.jsdelivr.net/gh/oarthur-dotcom/zoescolleges-data@${DATA_REF}/source-checks.json`); if(!r.ok) return; const j=await r.json(); for(const k in (j.sources||{})) if(j.sources[k]&&j.sources[k].checked) SOURCE_CHECKED[k]=j.sources[k].checked; }catch(_){} })();
+const ACT_POS=[1.6,1.3,1.1,0.9,0.7,0.4];   // weight of the 1st..6th ranked activity (sum 6.0)
 function activityStrength(acts){
   if(!Array.isArray(acts) || !acts.length) return null;
-  const vs = acts.map(a=>actValue(a).v).sort((x,y)=>y-x).slice(0,6);
-  return Math.max(0, Math.min(1, vs.reduce((x,y)=>x+y,0)/5.5));
+  // Oct 25: the order the family ranks them in counts. Common App tells applicants to list activities "in the order of their importance to you",
+  // and readers weight the top entries most. The position weights below are OUR judgment (the Common App gives no numbers). They add up to 6.0,
+  // the same total room the old "best six" had, so a list of equally strong activities scores exactly as before; order only shifts the weight.
+  const vs = acts.slice(0,6).map(a=>actValue(a).v);
+  return Math.max(0, Math.min(1, vs.reduce((x,v,i)=>x+v*ACT_POS[i],0)/5.5));
 }
 function activityWhy(acts){
   if(!Array.isArray(acts)||!acts.length) return "";
@@ -3004,6 +3029,7 @@ function sanitizeCatalog(list){
   const drop=(o,k,why)=>{ if(o && typeof o[k]==="number"){ o[k]=null; n[why]=(n[why]||0)+1; } };
   for(const c of list){
     const s=c.scorecard, ip=c.ipeds;
+    if(s && c.id) s.id=c.id;   // scoring is handed c.scorecard, so the school id rides on it (needed to find the school's own Common Data Set GPA)
     if(s){
       if(typeof s.admissionRate==="number" && (s.admissionRate<=0 || s.admissionRate>1)) drop(s,"admissionRate","admit rate 0%");
       if(typeof s.gradRate==="number" && (s.gradRate<=0 || s.gradRate>1)) drop(s,"gradRate","grad rate 0%");
@@ -3053,7 +3079,7 @@ function catInfo(id){ return state.catalog.find(c => c.id === id); }
 function onboardDismissed(){ try{ return localStorage.getItem("zc_onboard_done")==="1"; }catch(e){ return false; } }
 function dismissOnboard(){ try{ localStorage.setItem("zc_onboard_done","1"); }catch(e){} }
 function openInvite(){ try{ const code=state.family&&state.family.invite_code; if(!code) return; const ic=$("invcode"); if(ic) ic.textContent=code;   // #67: one path for every invite button
-  const p=plan(); const left=p.seats-(state.members||[]).length; const sn=$("seatnote"); if(sn) sn.textContent = p.seats<99 ? `${Math.max(left,0)} seat${left===1?"":"s"} left on the ${p.label} plan.` : "";
+  const p=plan(); const left=p.seats-(state.members||[]).length; const sn=$("seatnote"); if(sn) sn.textContent = p.seats<99 ? `${Math.max(left,0)} seat${left===1?"":"s"} left.` : "";
   const m=$("inv-sendmsg"); if(m) m.textContent=""; const n=$("inv-name"); if(n && state.pending && !n.value) n.value=state.pending.display_name;
   $("dlg-invite").showModal(); }catch(e){} }
 function renderOnboard(){
@@ -3090,7 +3116,7 @@ function renderBoard(){
     `<span class="avatar" title="${esc(m.display_name)}">${esc(m.display_name[0]||"?")}</span><span class="mono muted" style="font-size:12px;margin-right:6px">${esc(m.display_name)}${m.role==="student"?" ✦":""}</span>`
   ).join("") + (pendingMode() ? `<span class="mono muted" style="font-size:12px">· ${esc(state.pending.display_name)} not joined yet</span>` : "");
   const p = plan();
-  $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · ${p.label} plan`;
+  $("schoolcount").innerHTML = `<b>${state.schools.length}</b> / ${p.schools>999?"∞":p.schools} schools · Free for Beta Testers`;
   const sortBy = $("board-sort").value;
   const w = myPrefs();
   const ranks = getRanks();
@@ -5960,8 +5986,8 @@ const REQ_URL = CATALOG_URL.replace(/colleges\.json$/,"requirements.json");
 // #69: each school's official admissions page (IPEDS HD2023 ADMINURL), so "Book a visit" goes to the school, not a search.
 const VISIT_URL = CATALOG_URL.replace(/colleges\.json$/,"visit-links.json");
 /* Oct 14: 711 saved deep links (a=admissions, n=net-price calculator, p=apply) returned 404/410 when checked; they are hidden so nobody lands on an error page.
-   The app falls back to the school's website. Muse re-pulls these in the next data refresh; then this list can shrink. */
-const DEAD_VISIT_LINKS={"sc-460464":"ap","sc-200192":"np","sc-180692":"n","sc-179548":"np","sc-177986":"np","sc-461032":"n","sc-433013":"pn","sc-157100":"na","sc-226091":"n","sc-437097":"p","sc-440794":"pa","sc-219718":"n","sc-217475":"pn","sc-207670":"anp","sc-449135":"n","sc-123800":"p","sc-434751":"n","college-of-charleston":"p","sc-211893":"n","sc-180373":"pa","sc-172866":"npa","sc-441900":"anp","sc-487153":"n","sc-198774":"an","sc-457402":"pan","sc-110574":"n","sc-199634":"pa","sc-177977":"n","sc-154518":"a","sc-475398":"n","sc-493822":"ap","sc-219277":"pn","sc-474863":"n","sc-222567":"n","sc-236638":"p","sc-181145":"ap","sc-234845":"n","sc-451103":"a","sc-225520":"a","sc-455178":"npa","sc-139311":"n","sc-203456":"n","sc-203483":"na","sc-107983":"n","sc-236753":"n","sc-204200":"n","sc-217925":"na","sc-189839":"n","sc-209409":"n","sc-180160":"n","sc-132408":"n","sc-214704":"n","sc-482468":"p","sc-243081":"p","sc-112394":"pna","sc-214810":"n","sc-177065":"np","sc-129242":"a","sc-482556":"p","sc-121707":"pna","sc-170620":"p","sc-461759":"na","sc-179946":"nap","sc-423643":"a","sc-224323":"n","sc-107044":"p","sc-147369":"n","sc-101648":"pn","sc-214698":"n","sc-443702":"anp","sc-457484":"n","sc-116226":"n","sc-233356":"p","sc-227304":"an","sc-151102":"np","sc-486284":"anp","sc-226134":"anp","sc-409315":"n","sc-106458":"n","sc-482547":"p","sc-202514":"n","sc-447759":"np","sc-153126":"n","sc-207263":"n","sc-233602":"pn","sc-194392":"a","sc-219347":"p","sc-237330":"p","sc-171304":"pna","sc-482936":"p","sc-203492":"n","sc-214652":"n","sc-218919":"anp","sc-117274":"pa","sc-224305":"nap","sc-147411":"na","sc-203474":"n","university-of-colorado-boulder":"p","sc-497462":"apn","sc-455770":"a","sc-180814":"pn","sc-196389":"n","sc-136145":"an","sc-119137":"a","sc-222877":"n","sc-166054":"p","sc-419244":"a","sc-240790":"p","sc-153472":"p","sc-184694":"n","sc-166452":"p","sc-196149":"n","sc-449658":"n","sc-194666":"n","sc-447698":"pa","sc-172264":"na","sc-482653":"p","sc-488332":"n","sc-190619":"a","sc-180106":"n","sc-154536":"a","sc-219091":"na","sc-152318":"n","sc-199281":"p","sc-150604":"pn","sc-243443":"ap","sc-214634":"n","sc-106412":"pna","sc-150400":"n","sc-153977":"n","sc-211343":"anp","sc-209074":"nap","sc-214625":"an","sc-214795":"n","sc-164216":"n","sc-188526":"p","sc-207661":"n","sc-443058":"n","sc-439190":"a","sc-262129":"n","sc-165981":"p","sc-221999":"n","sc-487603":"p","sc-177135":"an","sc-441104":"n","sc-237437":"na","sc-176770":"na","sc-175829":"np","sc-171881":"n","sc-240736":"an","sc-115001":"p","sc-232672":"p","sc-196653":"p","sc-219356":"n","sc-101028":"p","sc-237932":"n","sc-155812":"an","sc-488031":"n","sc-485403":"anp","sc-163657":"na","sc-217776":"pa","sc-444811":"na","sc-375939":"np","sc-475273":"ap","sc-216551":"nap","sc-131283":"n","sc-430704":"na","sc-180948":"n","sc-193830":"pa","sc-198923":"n","sc-240374":"n","sc-139463":"ap","sc-482459":"p","sc-229832":"ap","sc-496043":"pa","sc-200004":"n","sc-145336":"n","sc-140988":"pa","sc-197850":"n","sc-134510":"an","sc-114549":"n","sc-133650":"np","sc-194958":"na","sc-214591":"n","sc-233019":"pa","sc-142328":"p","sc-216524":"n","sc-139621":"na","sc-180203":"n","sc-137546":"n","sc-115861":"npa","sc-377546":"pa","sc-181765":"n","sc-243577":"p","sc-207209":"an","sc-448594":"n","sc-198011":"n","sc-167525":"n","sc-159993":"n","sc-204662":"pa","sc-498809":"n","sc-166887":"p","sc-196130":"n","sc-228981":"n","sc-182634":"n","sc-175139":"p","sc-137759":"n","sc-481401":"n","sc-481030":"a","sc-497657":"n","sc-455099":"ap","sc-139348":"p","sc-366340":"n","sc-218733":"n","sc-225991":"n","sc-205027":"n","sc-214607":"n","sc-155496":"n","sc-195030":"n","sc-237181":"n","sc-163532":"p","sc-203465":"n","sc-106245":"n","sc-146533":"pa","sc-469416":"n","sc-215585":"a","sc-137777":"np","sc-176336":"n","sc-444778":"pa","sc-203517":"n","sc-238193":"a","sc-217615":"na","sc-180054":"n","sc-189501":"a","sc-482574":"p","sc-101569":"nap","sc-237358":"a","sc-222992":"n","sc-221397":"n","sc-140571":"p","sc-115393":"ap","sc-219505":"n","sc-169442":"n","sc-409254":"n","sc-481094":"a","sc-420723":"p","sc-237312":"n","sc-227429":"anp","sc-173683":"pa","sc-439871":"n","sc-146977":"pa","sc-240657":"a","sc-399911":"a","sc-190114":"np","sc-225201":"n","sc-203447":"n","sc-220978":"n","sc-141060":"p","sc-230737":"n","sc-231554":"n","sc-170657":"pa","sc-207458":"n","sc-196264":"n","sc-408844":"n","sc-243638":"n","sc-225432":"n","sc-100724":"pn","sc-494737":"n","sc-147679":"n","sc-104425":"n","sc-240480":"n","sc-166823":"p","sc-101602":"p","sc-384306":"an","sc-461315":"n","sc-172635":"pna","sc-227377":"nap","sc-444398":"p","sc-497037":"p","sc-214740":"n","sc-147129":"a","sc-200253":"n","sc-438586":"n","sc-216542":"a","sc-207236":"pna","sc-214768":"n","sc-181534":"n","sc-484932":"a","sc-165495":"pn","sc-243142":"a","sc-444103":"p","sc-230807":"np","sc-212656":"n","sc-221351":"p","sc-441690":"p","sc-163295":"n","sc-413626":"a","sc-199838":"n","sc-198543":"n","sc-131520":"p","sc-141565":"p","sc-212133":"p","sc-190071":"an","sc-199139":"n","sc-118347":"np","sc-192785":"n","sc-204486":"p","sc-207449":"pan","sc-199731":"n","sc-216348":"a","sc-376224":"a","sc-479956":"n","sc-204440":"n","sc-144005":"p","sc-190752":"a","sc-457271":"p","sc-213321":"np","sc-187967":"n","sc-227881":"n","sc-123633":"npa","sc-205391":"apn","sc-186469":"n","sc-231095":"ap","sc-482422":"p","sc-177816":"n","sc-142276":"a","sc-414878":"n","sc-213358":"p","sc-205966":"n","sc-200305":"n","sc-112075":"n","sc-221759":"n","sc-175786":"n","sc-163338":"n","sc-133951":"n","sc-155335":"p","sc-475495":"p","sc-462044":"p","sc-195809":"n","sc-165167":"p","sc-176372":"n","sc-122658":"n","sc-198066":"n","sc-155177":"n","sc-220604":"n","sc-138947":"ap","sc-196006":"n","sc-433004":"n","sc-228042":"n","sc-165033":"n","sc-111966":"n","sc-183974":"n","sc-118693":"p","sc-482635":"p","sc-149505":"npa","sc-166911":"n","sc-174437":"p","sc-194028":"p","sc-214731":"n","sc-118976":"ap","sc-187897":"n","sc-130776":"n","sc-170301":"n","sc-366368":"p","sc-207290":"n","sc-154800":"n","sc-214786":"n","sc-220057":"n","sc-175430":"pa","sc-191302":"np","sc-188340":"a","oregon-state-university":"p","sc-198233":"an","sc-219602":"np","sc-166647":"n","sc-119067":"n","sc-102058":"n","sc-225308":"a","sc-203580":"n","sc-198118":"n","sc-230603":"p","sc-133979":"na","sc-220996":"n","sc-131973":"n","sc-236595":"a","sc-207281":"n","sc-179326":"n","sc-214670":"n","sc-193380":"n","sc-211079":"n","sc-173160":"n","sc-170091":"n","sc-214713":"n","sc-196565":"n","sc-153278":"a","sc-149310":"n","sc-454786":"n","sc-433660":"p","sc-132693":"pn","sc-440031":"a","sc-188058":"n","sc-207041":"n","sc-229267":"n","sc-207157":"n","sc-110246":"p","sc-446039":"n","sc-482413":"p","sc-126669":"p","sc-140960":"na","sc-236188":"an","sc-191621":"n","sc-165194":"na","sc-118930":"p","sc-220516":"n","sc-230782":"n","sc-247065":"p","sc-199476":"n","sc-140252":"a","sc-183062":"n","sc-121257":"p","sc-169327":"n","sc-162584":"n","sc-198987":"n","sc-167260":"p","sc-152567":"n","sc-236939":"n","sc-152798":"n","sc-150251":"pa","sc-179539":"na","sc-106306":"ap","sc-245625":"n","sc-420246":"p","sc-498562":"n","sc-176318":"na","sc-175573":"n","sc-142294":"an","sc-155201":"a","sc-124113":"a","sc-229160":"p","sc-184603":"n","sc-184205":"a","sc-225511":"a","sc-241216":"n","sc-115083":"a","sc-213303":"n","sc-217420":"n","sc-232256":"a","sc-461485":"n","sc-433387":"n","sc-199102":"p","sc-125170":"p","sc-228723":"p","sc-139968":"n","sc-147776":"p","sc-155520":"an","sc-177940":"p","sc-498906":"n","sc-236328":"n","sc-199971":"n","sc-418126":"n","sc-144865":"n","sc-106704":"n","sc-214643":"n","sc-184791":"na","sc-214759":"n","sc-170541":"p","sc-199272":"n","sc-203775":"n","sc-182290":"n","sc-210571":"ap","sc-490160":"n","sc-137096":"n","sc-497408":"n","sc-188304":"n","sc-119058":"p","sc-434432":"n","sc-220400":"p","sc-154350":"a","sc-376695":"p","sc-195191":"n","sc-493488":"n","sc-128780":"n","sc-241836":"n","sc-444334":"n","sc-232982":"n","sc-444565":"n","sc-219879":"n","sc-459824":"n","sc-156365":"n","sc-228529":"p","sc-184180":"n","sc-154749":"np","sc-237136":"n","sc-134079":"n","sc-206437":"n","sc-218654":"n","sc-167729":"n","sc-181303":"ap","sc-165802":"n","sc-487649":"p","sc-168546":"n","sc-177472":"p","sc-495059":"an","sc-214689":"n","sc-443562":"n","sc-129215":"p","sc-179557":"p","sc-214829":"n","sc-197674":"n","sc-102377":"p","sc-219408":"an","sc-218335":"n","sc-208275":"n","sc-207306":"n","sc-494986":"n","sc-143853":"a","sc-201061":"p","sc-183859":"n","sc-239628":"n","sc-204866":"a","sc-122755":"n","sc-221908":"n","sc-156125":"p","sc-445133":"n","sc-123527":"a","sc-122117":"a","sc-146816":"n","sc-169974":"n","sc-203526":"n","sc-219639":"p","sc-214777":"n","sc-159939":"n","sc-201177":"n","sc-225885":"a","sc-198251":"p","sc-190600":"p","sc-186432":"p","sc-196060":"n","sc-220075":"p","sc-113980":"a","sc-227401":"a","sc-377564":"p","montana-state-university":"p","sc-195216":"p","sc-232089":"p","sc-122296":"p","sc-439817":"n","sc-483595":"a","sc-214801":"n","sc-214023":"p","sc-120768":"a","sc-227863":"a"};
+   The app falls back to the school's website. Oct 25: 558 of them were replaced in the data release (fix/links-pins-1016) and are unhidden; 153 are still hidden. */
+const DEAD_VISIT_LINKS={"sc-461032":"n","sc-433013":"n","sc-449135":"n","sc-211893":"n","sc-441900":"p","sc-487153":"n","sc-457402":"n","sc-475398":"n","sc-181145":"a","sc-234845":"n","sc-455178":"na","sc-180160":"n","sc-423643":"a","sc-443702":"an","sc-486284":"n","sc-447759":"n","sc-153126":"n","sc-207263":"n","sc-233602":"n","sc-224305":"na","sc-147411":"n","sc-497462":"n","sc-455770":"a","sc-222877":"n","sc-447698":"pa","sc-172264":"na","sc-488332":"n","sc-154536":"a","sc-153977":"n","sc-209074":"n","sc-214625":"an","sc-441104":"n","sc-176770":"a","sc-240736":"n","sc-485403":"anp","sc-444811":"n","sc-475273":"ap","sc-430704":"a","sc-193830":"a","sc-496043":"a","sc-134510":"n","sc-114549":"n","sc-180203":"n","sc-207209":"n","sc-498809":"n","sc-175139":"p","sc-481401":"n","sc-481030":"a","sc-497657":"n","sc-455099":"a","sc-366340":"n","sc-225991":"n","sc-205027":"n","sc-214607":"n","sc-469416":"n","sc-137777":"n","sc-176336":"n","sc-217615":"n","sc-180054":"n","sc-189501":"a","sc-409254":"n","sc-481094":"a","sc-227429":"n","sc-173683":"a","sc-439871":"n","sc-146977":"a","sc-494737":"n","sc-384306":"an","sc-214740":"n","sc-438586":"n","sc-216542":"a","sc-165495":"n","sc-190071":"an","sc-199139":"n","sc-199731":"n","sc-216348":"a","sc-479956":"n","sc-204440":"n","sc-187967":"n","sc-227881":"n","sc-123633":"na","sc-205391":"apn","sc-231095":"ap","sc-177816":"n","sc-122658":"n","sc-220604":"n","sc-111966":"n","sc-149505":"npa","sc-214731":"n","sc-130776":"n","sc-198233":"n","sc-119067":"n","sc-102058":"n","sc-198118":"n","sc-133979":"n","sc-220996":"n","sc-131973":"n","sc-179326":"n","sc-214670":"n","sc-193380":"n","sc-214713":"n","sc-454786":"n","sc-440031":"a","sc-207157":"n","sc-446039":"n","sc-140960":"n","sc-220516":"n","sc-183062":"n","sc-236939":"n","sc-184603":"n","sc-241216":"n","sc-115083":"a","sc-155520":"n","sc-498906":"n","sc-199971":"n","sc-214643":"n","sc-184791":"n","sc-214759":"n","sc-490160":"n","sc-497408":"n","sc-434432":"n","sc-128780":"n","sc-459824":"n","sc-134079":"n","sc-206437":"n","sc-443562":"n","sc-197674":"n","sc-218335":"n","sc-207306":"n","sc-494986":"n","sc-143853":"a","sc-445133":"n","sc-122117":"a","sc-146816":"n","sc-214777":"n","sc-439817":"n"};
 const _DEAD_KEY={a:"admissions",n:"npc",p:"apply"};
 async function loadVisitLinks(){ try{ const r=await fetch(VISIT_URL); if(!r.ok) return; const j=await r.json(); const sc=j.schools||null;
   if(sc) for(const id in DEAD_VISIT_LINKS){ const v=sc[id]; if(!v) continue; for(const ch of DEAD_VISIT_LINKS[id]) delete v[_DEAD_KEY[ch]]; }
@@ -6449,6 +6475,7 @@ function renderProfile(){
   $("pf-notes").oninput=intReadout; intReadout();
   // rigor
   const rg = p.rigor||{}; $("pf-honors").value=rg.honors||""; $("pf-ap").value=rg.ap||""; $("pf-dual").value=rg.dual||""; if($("pf-actboost")) $("pf-actboost").value=String(Math.max(0,Math.min(2,Math.round(+p.act_boost||0))));
+  pfFormDirty=false;
   pfCourses=Array.isArray(rg.courses)?rg.courses.map(c=>({name:String(c.name||"").slice(0,80),level:c.level||"Regular",grade:String(c.grade||""),credits:c.credits==null?null:c.credits,year:c.year||null})):[]; pfCoursesLine();
   if($("pf-offered")){ const o=+rg.offered||0, opts=[2,6,11,19,28]; $("pf-offered").value=o>0?String(opts.reduce((m,x)=>Math.abs(x-o)<Math.abs(m-o)?x:m,2)):""; }
   const recalc=()=>{ const r={honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0};
@@ -6504,6 +6531,27 @@ function renderSliderImpact(){
     <p class="muted" style="font-size:11.5px;margin:8px 0 0">Share of every school's <b>fit %</b> driven by each factor, right now. Move a slider and it reshapes instantly. <span class="muted">(This is fit — separate from admission chance.)</span></p>`;
 }
 let pfEdit=false;
+// Oct 23: a plain checklist of what the profile still needs, each with one button. Nothing is shown as a number until its input exists.
+function pfChecklist(p, ro){ const el=$("pf-checklist"); if(!el) return; if(ro){ el.innerHTML=""; return; }
+  const rig=p.rigor||{}; const acts=Array.isArray(p.activities)?p.activities:[];
+  const items=[
+    { ok: parseFloat(p.gpa)>0, label:"GPA (unweighted)", next:"Add the GPA", go:"gpa" },
+    { ok: !!(+rig.honors||+rig.ap||+rig.dual), label:"Honors / AP / dual-enrollment courses", next:"Add course counts (or upload the transcript)", go:"gpa" },
+    { ok: acts.length>0, label:"Activities and work", next:"Add an activity", go:"acts" },
+    { ok: !!(p.testOptional||p.test_optional||p.sat||p.act), label:"Test scores, or tick test-optional", next:"Add scores or tick test-optional", go:"gpa" } ];
+  const todo=items.filter(i=>!i.ok); if(!todo.length){ el.innerHTML=""; return; }
+  el.innerHTML=`<div class="pf-check"><h3>${todo.length===items.length?"Let's build the profile":"Almost there"}: ${items.length-todo.length} of ${items.length} done</h3><ul>${items.map(i=>`<li class="${i.ok?"done":""}">${i.ok?"✓":"○"} ${esc(i.label)}</li>`).join("")}</ul><button class="small primary" id="pf-check-next" type="button">Next: ${esc(todo[0].next)}</button></div>`;
+  $("pf-check-next").onclick=()=>{ if(todo[0].go==="acts"){ const a=$("pf-acts-card"); if(a&&a.scrollIntoView) a.scrollIntoView({behavior:"smooth",block:"start"}); return; }
+    pfEdit=true; renderProfileView(); setTimeout(()=>{ try{ const f=$("pf-form-card"); if(f) f.scrollIntoView({behavior:"smooth",block:"start"}); const g=$("pf-gpa"); if(g&&!(parseFloat(p.gpa)>0)) g.focus(); }catch(e){} },50); }; }
+// One visible save state for the whole profile page: shows "Unsaved changes" with a Save button until the changes are saved.
+let pfFormDirty=false;
+function pfBarUpdate(){ const bar=$("pf-savebar"); if(!bar) return; const view=$("v-profile"); const on=view&&!view.classList.contains("hidden"); const dirty=pfFormDirty||actDirty;
+  if(!on||!dirty){ if(!bar.classList.contains("ok")) bar.classList.add("hidden"); return; }
+  bar.classList.remove("hidden","ok"); $("pf-savebar-msg").textContent="Unsaved changes"; $("pf-savebar-btn").classList.remove("hidden"); }
+function pfBarSaved(){ const bar=$("pf-savebar"); if(!bar) return; bar.classList.remove("hidden"); bar.classList.add("ok"); $("pf-savebar-msg").textContent="Saved ✓"; $("pf-savebar-btn").classList.add("hidden"); setTimeout(()=>{ bar.classList.remove("ok"); bar.classList.add("hidden"); pfBarUpdate(); },1800); }
+{ const fc=$("pf-form-card"); if(fc){ fc.addEventListener("input",()=>{ pfFormDirty=true; }); fc.addEventListener("change",()=>{ pfFormDirty=true; }); }
+  const bb=$("pf-savebar-btn"); if(bb) bb.onclick=async()=>{ bb.disabled=true; try{ await (pfFormDirty ? saveProfileForm() : saveProfileForm({ actsOnly:true })); }finally{ bb.disabled=false; } };
+  setInterval(pfBarUpdate,600); window.addEventListener("beforeunload",e=>{ if(pfFormDirty||actDirty){ e.preventDefault(); e.returnValue=""; } }); }
 function profileBuilt(p){ return !!(p && (String(p.gpa||"").trim()||String(p.sat||"").trim()||String(p.act||"").trim()||String(p.major||"").trim()||p.notes||(Array.isArray(p.activities)&&p.activities.length)||(p.rigor&&(+p.rigor.honors||+p.rigor.ap||+p.rigor.dual)))); }
 function choicePower(){
   const cat=(state.catalog||[]).filter(c=>c.scorecard && typeof c.scorecard.admissionRate==="number");
@@ -6514,7 +6562,7 @@ function choicePower(){
   return { n, likely:Math.round(bins.likely/n*100), target:Math.round(bins.target/n*100), reach:Math.round(bins.reach/n*100) };
 }
 function choicePowerHtml(){
-  const cp=choicePower(); if(!cp) return "";
+  const cp=choicePower(); if(!cp){ const sp=studentProfile(); return (sp && !(parseFloat(sp.gpa)>0)) ? `<div class="card cp-card"><div class="pv-head"><h2 style="margin:0">Your college power</h2></div><p class="muted" style="font-size:13px;margin:6px 0 0">Add the GPA in the profile form and tap <b>Save academic profile</b>. Reach, Target and Likely need grades, so nothing is shown until then.</p></div>` : ""; }
   const bar=(lab,cls,v)=>`<div class="cp-row"><span class="cp-lab">${lab}</span><div class="cp-track"><div class="cp-fill ${cls}" style="width:${v}%"></div></div><span class="cp-pct">${v}%</span></div>`;
   return `<div class="card cp-card">
     <div class="pv-head"><h2 style="margin:0">Your college power</h2><span class="muted" style="font-size:12px">${cp.n.toLocaleString()} schools</span></div>
@@ -6536,6 +6584,7 @@ function renderProfileView(){
   const p=(state.me&&state.profiles[ro?stuM.user_id:profKey()])||{}; const built=profileBuilt(p);
   const sum=$("pf-summary"), form=$("pf-form-card"); if(!sum||!form) return;
   { const ac=$("pf-acts-card"); if(ac) ac.classList.toggle("hidden", ro); }
+  pfChecklist(p, ro);
   if(ro && !built){ form.classList.add("hidden"); sum.classList.remove("hidden");
     sum.innerHTML=`<div class="card pv-card"><h2 style="margin:0 0 6px">${esc(stuM.display_name)}'s profile</h2><p class="muted" style="margin:0">${esc(stuM.display_name)} hasn't added grades yet. Only ${esc(stuM.display_name)} can edit ${esc(stuM.display_name)}'s profile; you'll see it here as soon as it's filled in.</p></div>`; return; }
   { const pm=$("pf-meter"); if(pm) pm.innerHTML = (!ro && (!built||pfEdit)) ? apMeterHtml(p) : ""; }
@@ -6580,22 +6629,28 @@ function profileProblems(p){
   if(p.home_state && !US_STATES.has(p.home_state)) return "Home state should be a 2-letter code like SC or MA.";
   return "";
 }
-async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
-  const p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
+async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true); const actsOnly = !!(opts && opts.actsOnly===true);
+  let p = { gpa:$("pf-gpa").value.trim(), sat:$("pf-sat").value.trim(), act:$("pf-act").value.trim(),
     major:[$("pf-major1").value, $("pf-major2").value].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(" + "), rank:$("pf-rank").value.trim(), home_state:$("pf-state").value.trim().toUpperCase(), notes:$("pf-notes").value.trim() };
-  const testOptional=$("pf-noTest").checked;
+  let testOptional=$("pf-noTest").checked;
   _intCache={notes:null,tags:[]}; // invalidate interest cache so fit % re-scores
-  const rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
+  let rigor = { honors:+$("pf-honors").value||0, ap:+$("pf-ap").value||0, dual:+$("pf-dual").value||0, offered:+($("pf-offered")&&$("pf-offered").value)||0, grade:+$("pf-grade").value||0 };
   if(pfCourses.length) rigor.courses=pfCourses.slice(0,40);
   const acts = profActs.map(normAct).map(a=>{ const o={name:actTitle(a), category:a.category, tier:+a.tier||4, hrs:a.hrs||"", yrs:a.grades.length?String(Math.min(4,a.grades.length)):(a.yrs||""), grades:a.grades, timing:a.timing||"During school year"};
     for(const k of ["sport","position","org","weeks","college","team","collegeLevel","desc"]) if(a[k]) o[k]=String(a[k]).trim().slice(0,k==="desc"?150:100); return o; });
-  const hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
+  let hs = { name:($("pf-hs").value||"").trim().slice(0,100) };
+  // Oct 23: "Save activities" saves ONLY activities (and the activity weight). Grades, scores, rigor and school come from what is already saved,
+  // so an unsaved or reset form can never blank the GPA (it did, once: a 4th activity wiped Zoe's GPA and her chances jumped to 90% Likely).
+  if(actsOnly){ const b = pendingMode() ? ((state.pending&&state.pending.profile)||{}) : (state.profiles[profKey()]||{});
+    if(b && (b.gpa||b.sat||b.act||b.rigor||b.home_state||b.major)){
+      p = { gpa:String(b.gpa||""), sat:String(b.sat||""), act:String(b.act||""), major:String(b.major||""), rank:String(b.rank||""), home_state:String(b.home_state||""), notes:String(b.notes||"") };
+      testOptional = !!(b.test_optional!=null ? b.test_optional : b.testOptional); if(b.rigor) rigor = b.rigor; if(b.hs) hs = b.hs; } }
   const bad = profileProblems(p);
   if(bad){ ["pf-savemsg","pf-savemsg2","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="⚠ "+bad+(id==="pf-savemsg2"?" (fix it in your academic profile above, then save again)":""); e.style.color="var(--warn)"; setTimeout(()=>{ e.textContent=""; e.style.color=""; },6000); } }); return false; }
   await saveProfile({...p, rigor, activities:acts, test_optional:testOptional, hs, act_boost:+(($("pf-actboost")||{}).value)||0});
   if(!pendingMode() && !editingStudentProfile()){ lsSet("rigor", rigor); lsSet("activities", acts); lsSet("testOptional", testOptional); lsSet("hs", hs); }
   if(state.me){ const k=profKey(); const prof=state.profiles[k]||(state.profiles[k]={}); prof.rigor=rigor; prof.activities=acts; prof.testOptional=testOptional; prof.hs=hs; }
-  profActs = acts.slice(); actDirty=false;
+  profActs = acts.slice(); actDirty=false; if(!actsOnly) pfFormDirty=false; pfBarSaved();
   if(stay){ renderProfileView(); return true; }
   ["pf-savemsg","pf-savemsg3"].forEach(id=>{ const e=$(id); if(e){ e.textContent="Saved ✓"; setTimeout(()=>{ e.textContent=""; },1500); } });
   actOpen=-1; renderActs();
@@ -6605,7 +6660,7 @@ async function saveProfileForm(opts){ const stay = !!(opts && opts.stay===true);
   return true;
 }
 $("pf-save").onclick = saveProfileForm;
-{ const b2=$("pf-save2"); if(b2) b2.onclick = saveProfileForm; }
+{ const b2=$("pf-save2"); if(b2) b2.onclick = () => saveProfileForm({ actsOnly:true }); }
 { const b3=$("pf-save3"); if(b3) b3.onclick = saveProfileForm; }
 /* ---- Transcript upload → AI read → review → fill (never auto-saves) ---- */
 function txStatus(html,kind){ const el=$("tx-status"); if(!el) return; if(kind==="hide"||!html){ el.classList.add("hidden"); el.innerHTML=""; return; } el.className="tx-status "+(kind==="err"?"err":kind==="busy"?"busy":"ok"); el.classList.remove("hidden"); el.innerHTML=html; }
@@ -6663,6 +6718,7 @@ function showTxPreview(f0, editing){
       if(f.sat!=null){ set("pf-sat", f.sat); const nt=$("pf-noTest"); if(nt&&nt.checked){ nt.checked=false; nt.dispatchEvent(new Event("change")); } }
       if(f.act!=null) set("pf-act", f.act);
       ["pf-gpa","pf-ap"].forEach(id=>{ const e=$(id); if(e) e.dispatchEvent(new Event("input")); });
+      pfFormDirty=true;
       pfCourses=f.courses.filter(c=>(c.name||"").trim()||(c.grade||"").trim()).map(c=>({name:(c.name||"").trim().slice(0,80),level:c.level,grade:String(c.grade||"").trim(),credits:(c.credits===""||c.credits==null)?null:Number(c.credits),year:c.year||null})); pfCoursesLine();
       el.classList.add("hidden"); el.innerHTML="";
       txStatus("✓ Filled in — review the numbers, then tap <b>Save academic profile</b>.","ok");
@@ -7033,7 +7089,7 @@ function moveAct(i,d){ const j=i+d; if(j<0||j>=profActs.length) return; [profAct
 function actStatus(msg,kind){ const el=$("pf-savemsg2"); if(!el) return;
   if(msg){ el.textContent=msg; el.className="act-status "+(kind||""); return; }
   el.textContent = actDirty ? "Unsaved changes — tap Done or Save activities" : ""; el.className="act-status "+(actDirty?"warn":""); }
-async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveProfileForm({stay:true}); if(okSave===false){ return; } actDirty=false; actStatus(`✓ Saved — ${profActs.length} activit${profActs.length===1?"y":"ies"} on your profile`,"ok"); }
+async function saveActs(){ actStatus("Saving…"); try{ const okSave=await saveProfileForm({stay:true, actsOnly:true}); if(okSave===false){ return; } actDirty=false; actStatus(`✓ Saved — ${profActs.length} activit${profActs.length===1?"y":"ies"} on your profile`,"ok"); }
   catch(e){ actStatus("Couldn't save — check your connection and try again.","err"); } }
 function updateActStrength(){ const el=$("pf-act-strength"); if(!el) return; const s=activityStrength(profActs);
   if(s==null){ el.textContent=""; return; }
@@ -7119,7 +7175,7 @@ $("exsearch").oninput = e => renderExList(e.target.value);
 
 /* ========== ADD SCHOOL ========== */
 $("fab-add").onclick = () => {
-  if (state.schools.length >= plan().schools){ msg("board-msg", `The ${plan().label} plan holds ${plan().schools} schools. Remove one, or upgrade when plans launch.`, "err"); try{ $("board-msg").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} return; }
+  if (state.schools.length >= plan().schools){ msg("board-msg", `Your board holds ${plan().schools} schools. Remove one to add another.`, "err"); try{ $("board-msg").scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} return; }
   clearmsg("board-msg"); renderPicklist(""); $("search").value=""; $("dlg-add").showModal();
 };
 $("dlg-close").onclick = () => $("dlg-add").close();
@@ -7133,7 +7189,7 @@ function renderPicklist(q){
   $("picklist").querySelectorAll("[data-pick]").forEach(el => el.onclick = () => addFromCatalog(el.dataset.pick));
 }
 async function addFromCatalog(id){
-  if (state.schools.length >= plan().schools){ try{ $("dlg-add").close(); }catch(e){} msg("board-msg", `School limit reached for the ${plan().label} plan.`); _addErr=`Your ${plan().label} plan holds ${plan().schools} schools — remove one to add another.`; return false; }
+  if (state.schools.length >= plan().schools){ try{ $("dlg-add").close(); }catch(e){} msg("board-msg", `School limit reached.`); _addErr=`Your board holds ${plan().schools} schools — remove one to add another.`; return false; }
   const c = state.catalog.find(x=>x.id===id); if (!c) return;
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: c.id, name: c.name, city: c.city, state: c.state, url: c.link, is_custom:false, added_by: state.me.user_id });
   if (error && !/duplicate/i.test(error.message)) return msg("board-msg", error.message);
@@ -7142,7 +7198,7 @@ async function addFromCatalog(id){
 let _addErr="";
 $("go-custom").onclick = async () => {
   const name = $("cname").value.trim(); let cs = $("ccity").value.trim(); if (!name) return;
-  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached for the ${plan().label} plan.`); }
+  if (state.schools.length >= plan().schools){ $("dlg-add").close(); return msg("board-msg", `School limit reached.`); }
   const [city, st] = cs.includes(",") ? [cs.split(",")[0].trim(), cs.split(",")[1].trim()] : [cs, ""];
   const sid = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
   const { error } = await sb.from("family_schools").insert({ family_id: state.family.id, school_id: sid, name, city, state: st, is_custom:true, added_by: state.me.user_id });
@@ -7227,7 +7283,7 @@ document.addEventListener("click", e => {
 $("copy-inv").onclick = async () => { try{ await navigator.clipboard.writeText(state.family.invite_code); $("copy-inv").textContent="Copied ✓"; setTimeout(()=>$("copy-inv").textContent="Copy code",1500);}catch(e){} };
 $("copy-link").onclick = async () => { try{ await navigator.clipboard.writeText(state.family&&state.family.invite_code? inviteLink() : APP_LINK); $("copy-link").textContent="Copied ✓"; setTimeout(()=>$("copy-link").textContent="Copy link",1500);}catch(e){} };
 function refLink(){ const code = state.family && state.family.referral_code; return code ? `${APP_LINK}?ref=${code}` : APP_LINK; }
-function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product, free while it's in beta).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — this link lets you in, no code needed\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
+function shareText(){ const from = state.family ? state.family.name : "our family"; return `Hi! We've been using Zoe's Colleges — a college-search board the whole family rates together. You're invited to the beta (full product — Free for Beta Testers).\n\nGetting started takes 2 minutes:\n1. Open ${refLink()}\n2. Create an account (one parent goes first) — this link lets you in, no code needed\n3. Tap "Start a new family", then share your family code so everyone else can join your board\n\n— ${from}`; }
 $("btn-share").onclick = async () => {
   $("shmsg").value = shareText(); $("shto").value="";
   $("sh-refcode").textContent = (state.family && state.family.referral_code) || "—"; $("sh-refcount").textContent = "…";
@@ -7248,7 +7304,7 @@ const ZOE_KB = [
   {q:["invite","family","join","add my","code"], a:"Tap <b>Invite</b> at the top of the app to get your invite code. They create an account, choose \"Join with an invite code\", and enter it — then everyone rates together."},
   {q:["photo","picture","visit","camera"], a:"Open a school on your board and tap <b>📷 Add photo</b> under Campus photos — great for visit days. Photos are resized automatically and saved with your family."},
   {q:["price","cost","afford","money","tuition","net"], a:"Each school shows <b>net price</b> (what families actually pay on average) and sticker cost, plus in/out-of-state tuition in the detail view. Filter by net price in <b>Explore</b>, and turn up the Affordability slider to weight cheaper schools in your match."},
-  {q:["plan","pay","subscri","price of app","upgrade"], a:"During the beta every family is on <b>Family+ free</b>. The paid plans (Family $12/mo, Family+ $20/mo) are shown under <b>Plans</b> and are in test mode for now."},
+  {q:["plan","pay","subscri","price of app","upgrade"], a:"Zoe's Colleges is <b>Free for Beta Testers</b>."},
   {q:["data","where does","where is the data","where do you get","source","accurate","official"], a:"School stats come from the <b>U.S. Dept. of Education College Scorecard</b> (official federal data): admission rate, SAT/ACT, cost, net price, tuition, graduation rate, 10-year earnings and size. Deadlines are curated — always confirm on the school's site."},
 ];
 /* Oct 13: canned answers are only for short, clear questions. Anything open-ended (essays, worries, comparisons,
@@ -7344,7 +7400,7 @@ const ZOE_SITE = [
   {re:/\b(sign ?out|log ?out|switch (account|user))\b/, a:"Tap <b>Sign out</b> in the top right of the app (on a phone it's under the menu).", go:"today"},
   {re:/\b(stars?|ratings?|rate (a|the|this|my) (school|college)|half star|tie.?break|rank (my )?schools?)\b/, a:"Tap stars on any school (half stars work). You only change your own rating; the board shows the family average. If schools tie, use <b>⇅ Rank schools (tiebreaker)</b> from the board's More menu.", go:"board"},
   {re:/\b(ask ai|chatgpt|claude|gemini|outside ai|ai buttons?|✨)\b/, a:"The <b>✨ Ask AI</b> button copies a ready-made question (with your grades and list, never income) and opens ChatGPT, Claude or Gemini in a new tab — just paste it in. Zoe answers questions about this site and its data; bigger open-ended questions go there.", go:"zoe"},
-  {re:/\b(price|pricing|plan|plans|subscription|how much does (this|the app|zoe|zoes? colleges?|the site)( cost)?|does (this|the app|zoes? colleges?) cost|free|upgrade|beta)\b.*\b(app|site|zoe|plan|cost|beta|free)?\b/, a:"During the beta every family is on <b>Family+ free</b>. Planned paid plans are Family $12/mo and Family+ $20/mo (not charging yet). If a school's price looks out of date, tap <b>Request updated pricing</b> on its page.", go:"today"},
+  {re:/\b(price|pricing|plan|plans|subscription|how much does (this|the app|zoe|zoes? colleges?|the site)( cost)?|does (this|the app|zoes? colleges?) cost|free|upgrade|beta)\b.*\b(app|site|zoe|plan|cost|beta|free)?\b/, a:"Zoe's Colleges is <b>Free for Beta Testers</b>. If a school's price looks out of date, tap <b>Request updated pricing</b> on its page.", go:"today"},
   {re:/\b(data|source|sources|where.*(numbers|stats|info)|accurate|official|college scorecard|ipeds)\b/, a:"School stats come from the U.S. Dept. of Education <b>College Scorecard</b> and IPEDS (admission rate, SAT range, cost, earnings, graduation, size), campus photos from Wikimedia Commons, and deadlines from each school's admissions pages. Numbers are planning estimates — always confirm with the school.", go:"sauce"},
   {re:/\b(how (does|do) (this|the) (site|app|website)|what can (you|zoe|this) do|what is (this|zoe'?s colleges)|help|tutorial|show me around|get started)\b/, a:"Zoe's Colleges is a family college-planning board: <b>Today</b> (what's next), <b>Schools</b> (My Board, Zoe Picks, Search, Compare, Pulse), <b>Plan</b> (Costs, Deadlines, Trips, Talk It Out, Journey, Memories, Decision Day), <b>Family</b> and <b>Profile</b>. Ask me about any page, any school or any number you see.", go:"today"},
   {re:/\bhow many (schools|colleges)\b.*\b(apply|applications?)\b|\bhow many should (i|we) apply\b/, a:"Most students apply to about <b>6–10</b> schools: 2–3 reaches, 3–4 targets and 1–2 likely schools you'd be happy to attend. Check <b>My Board</b> — it shows your mix.", go:"board"},
