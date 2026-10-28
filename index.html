@@ -1385,6 +1385,27 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 /* #68 grouped menu + section tabs */
 .subnav{display:flex;gap:6px;max-width:1400px;margin:8px auto 0;width:100%;overflow-x:auto;scrollbar-width:none;padding:0 0 2px}
 .subnav::-webkit-scrollbar{display:none}
+/* Oct 28 (product review): a scrollable tab strip must look scrollable. Fade at the cut-off edge + a › button; every tab stays reachable. */
+.subnav-wrap{position:relative;max-width:1400px;margin:8px auto 0;width:100%}.subnav-wrap .subnav{margin:0}
+.subnav-wrap.can-r .subnav{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent)}
+.subnav-wrap.can-l .subnav{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent)}
+.subnav-wrap.can-l.can-r .subnav{-webkit-mask-image:linear-gradient(to right,transparent,#000 24px,#000 calc(100% - 56px),transparent);mask-image:linear-gradient(to right,transparent,#000 24px,#000 calc(100% - 56px),transparent)}
+.sn-more{position:absolute;right:0;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);padding:0}
+/* Zoe button: three safe spots (right, left, docked at the edge), chosen so it never sits on a control */
+#zoe-fab{transition:transform .25s ease,opacity .25s ease,left .2s ease,right .2s ease}
+body.fab-left #zoe-fab{right:auto!important;left:14px!important}
+body.fab-peek #zoe-fab{transform:translateX(calc(100% + 2px));opacity:.92}   /* docked: a 12px tab in the page gutter, tap it to bring it back */
+body.fab-peek #zoe-fab::before{content:"";position:absolute;left:-12px;top:-4px;bottom:-4px;width:12px}
+body.fab-measure #zoe-fab{transform:none!important;transition:none!important}
+body.fab-peek.fab-tuck #zoe-fab{transform:translateY(140%)}
+/* keyboard open on a phone: give the typing area the room */
+body.kb-open #tabbar,body.kb-open #zoe-fab,body.kb-open .fab,body.kb-open #demo-bar{display:none!important}
+body.kb-open .wrap{padding-bottom:12px!important}
+body.kb-open #v-zoe .ztab-chat{min-height:0;height:calc(var(--vvh,100vh) - 78px)}
+body.kb-open #v-zoe .ztab-log{min-height:0;max-height:none;flex:1 1 auto}
+body.kb-open #v-zoe .ztab-chat .zsugg,body.kb-open #v-zoe #ztab-ai{display:none}
+body.kb-open #v-zoe #ztab-form{flex:0 0 auto}
+.ztab-log,.zmsg{overflow-wrap:anywhere}
 .sn-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;min-height:34px;display:inline-flex;align-items:center;gap:6px}
 .sn-tab.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .nav-count{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--teal);color:var(--on-teal);font-size:10.5px;font-weight:800;margin-left:6px}
@@ -1530,7 +1551,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
     <button class="navbtn nav-invite" data-invite type="button" aria-label="Invite family">👥 <span>Invite</span></button>
     <button class="navbtn nav-search" data-cmdk type="button" aria-label="Search or jump to anything">🔎 <span>Search</span> <kbd>⌘K</kbd></button>
   </nav>
-  <div id="subnav" class="subnav hidden" aria-label="Section"></div>
+  <div id="subnav-wrap" class="subnav-wrap hidden"><div id="subnav" class="subnav hidden" aria-label="Section"></div><button type="button" id="sn-more" class="sn-more hidden" aria-label="Show more sections" title="More sections">›</button></div>
 </header>
 <!-- Phone navigation (#40): 4 main tabs + More, at the bottom where thumbs reach. Desktop keeps the top nav. -->
 <div id="demo-bar" class="demo-bar hidden" role="status"><span>👀 You're exploring a <b>sample family</b> — nothing here is saved.</span><button class="linklike" id="demo-report">📄 See her report</button><button class="small primary" id="demo-join">Create my free account</button><button class="linklike" id="demo-exit">Exit</button></div>
@@ -2091,7 +2112,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
       <div id="ztab-log" class="ztab-log"></div>
       <div class="zsugg" id="ztab-sugg"></div>
       <div class="ai-row" id="ztab-ai" style="padding:6px 12px 0"></div>
-      <form id="ztab-form"><input id="ztab-in" type="text" placeholder="Ask Zoe anything about your college search…" autocomplete="off"><button class="primary" type="submit">Ask</button></form>
+      <form id="ztab-form"><input id="ztab-in" type="text" placeholder="Ask Zoe anything…" autocomplete="off"><button class="primary" type="submit">Ask</button></form>
     </div>
   </section>
 
@@ -2321,14 +2342,15 @@ const _grpLast = {};
 function groupOf(view){ if(view==="visit") return "plan"; if(view==="discover") return "schools";   /* Oct 12: swiping lives inside Zoe Picks */ for(const [g,d] of Object.entries(NAV_GROUPS)) if(d.views.some(v=>v[0]===view)) return g; return null; }
 function gotoGroup(g){ const d=NAV_GROUPS[g]; if(!d) return; goto(_grpLast[g] || d.views[0][0]); }
 function renderSubnav(tab){ const el=$("subnav"); if(!el) return; const g=groupOf(tab);
-  if(!g || !state.family){ el.classList.add("hidden"); el.innerHTML=""; return; } _grpLast[g]=tab==="visit"?"trip":tab;
+  if(!g || !state.family){ el.classList.add("hidden"); el.innerHTML=""; { const w=$("subnav-wrap"); if(w) w.classList.add("hidden"); } return; } _grpLast[g]=tab==="visit"?"trip":tab;
   const cur=tab==="visit"?"trip":tab==="discover"?"recommends":tab;
   el.innerHTML = (x=>x)(NAV_GROUPS[g].views.map(([v,l])=>`<button type="button" class="sn-tab ${v===cur?"on":""}" data-nav="${v}" title="${esc(NAV_TIPS[v]||l)}" ${v===cur?'aria-current="page"':""}>${esc(l)}${v==="pulse"?'<span class="nav-count hidden" data-sn-badge="pulse"></span>':v==="deadlines"?'<span class="nav-dot hidden" data-sn-dot="deadlines"></span>':""}</button>`).join(""));
-  el.classList.remove("hidden");
+  el.classList.remove("hidden"); { const w=$("subnav-wrap"); if(w) w.classList.remove("hidden"); }
   el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>goto(b.dataset.nav));
   try{ updateDlNav(); updatePulseBadge&&updatePulseBadge(); }catch(e){}
   try{ updateTripBadge(); }catch(e){}
-  const on=el.querySelector(".sn-tab.on"); if(on&&on.scrollIntoView){ try{ on.scrollIntoView({inline:"center",block:"nearest"}); }catch(e){} } }
+  const on=el.querySelector(".sn-tab.on"); if(on&&on.scrollIntoView){ try{ on.scrollIntoView({inline:"center",block:"nearest"}); }catch(e){} }
+  setTimeout(subnavCues,60); }
 function setNavActive(tab){ const g=groupOf(tab);
   document.querySelectorAll("#appnav .navbtn").forEach(b=>b.classList.toggle("active", b.dataset.nav ? b.dataset.nav===tab : (!!g && b.dataset.grp===g)));
   document.querySelectorAll("#tabbar .tb").forEach(b=>{ const on = b.dataset.nav ? b.dataset.nav===tab : b.dataset.grp ? b.dataset.grp===g : (tab==="zoe"||g==="me"); b.classList.toggle("active", on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
@@ -7785,6 +7807,33 @@ function zoeOpenForPage(){ _zoePage=zoePageNow(); const zp=$("zoe-page");
     $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } }
 function zoeOpenInner(){ if(!_zoePage) $("zoe-page").classList.add("hidden"); $("zoe-panel").classList.remove("hidden"); if(!$("zoe-log").dataset.greeted){ $("zoe-log").dataset.greeted="1"; zoeSay('<div class="zgreet">'+zoeAva()+"<div>Hey, I'm <b>Zoe</b> — totally your college-search sidekick (and yes, the Goose show in Boston changed my life). I know your profile and your board: ask about <b>reaches &amp; targets</b>, what to <b>work on</b>, or deadlines. Anything bigger, I'll hand to ChatGPT, Claude or Gemini.</div></div>"); $("zoe-sugg").innerHTML=ZOE_SUGG.map(s=>`<button class="small ghost">${esc(s)}</button>`).join(""); $("zoe-sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ $("zoe-in").value=b.textContent; $("zoe-form").requestSubmit(); }); } $("zoe-in").focus(); }
 $("zoe-fab").onclick=zoeOpenForPage;
+/* Oct 28 (product review): mobile layout helpers */
+function subnavCues(){ const el=$("subnav"), w=$("subnav-wrap"), b=$("sn-more"); if(!el||!w) return;
+  const canR=el.scrollLeft+el.clientWidth < el.scrollWidth-2, canL=el.scrollLeft>2;
+  w.classList.toggle("can-r",canR); w.classList.toggle("can-l",canL); if(b) b.classList.toggle("hidden",!canR); }
+{ const el=$("subnav"), b=$("sn-more"); if(el){ el.addEventListener("scroll",subnavCues,{passive:true}); window.addEventListener("resize",subnavCues); }
+  if(b) b.onclick=()=>{ const e=$("subnav"); e.scrollBy({left:Math.max(120,e.clientWidth*0.7),behavior:"smooth"}); }; }
+function fabOverlapsControl(){ const f=$("zoe-fab"); if(!f||f.classList.contains("hidden")||getComputedStyle(f).display==="none") return false; const r0=f.getBoundingClientRect(); if(!r0.width) return false; const r={left:Math.max(r0.left,0),right:Math.min(r0.right,innerWidth),top:r0.top,bottom:r0.bottom};
+  const q=".wrap button,.wrap a[href],.wrap input,.wrap select,.wrap textarea,.wrap summary,.wrap [role=checkbox],.wrap [role=button]";
+  for(const e of document.querySelectorAll(q)){ if(e.closest("#zoe-fab,.fab,#tabbar")) continue; const c=e.getBoundingClientRect(); if(c.width<2||c.height<2) continue;
+    if(c.bottom<0||c.top>innerHeight) continue; if(c.left<r.right+4 && c.right>r.left-4 && c.top<r.bottom+4 && c.bottom>r.top-4){ const cs=getComputedStyle(e); if(cs.visibility!=="hidden"&&cs.display!=="none"&&cs.opacity!=="0") return true; } }
+  return false; }
+function fabAvoid(){ const b=document.body; if(innerWidth>640){ b.classList.remove("fab-left","fab-peek"); return; }
+  b.classList.add("fab-measure"); b.classList.remove("fab-left","fab-peek");   /* measure where the button sits at rest, ignoring the scroll-tuck slide */
+  try{ if(!fabOverlapsControl()) return;
+    b.classList.add("fab-left"); if(!fabOverlapsControl()) return;
+    b.classList.remove("fab-left"); b.classList.add("fab-peek"); }
+  finally{ b.classList.remove("fab-measure"); } }
+{ let t; const later=()=>{ clearTimeout(t); t=setTimeout(fabAvoid,160); };
+  window.addEventListener("scroll",later,{passive:true}); window.addEventListener("resize",later); window.addEventListener("orientationchange",later);
+  new MutationObserver(later).observe(document.body,{subtree:true,childList:true}); document.addEventListener("click",later,true); setTimeout(later,600); }
+{ const vv=window.visualViewport; let kbT;
+  const setVV=()=>{ const h=vv?vv.height:innerHeight; document.documentElement.style.setProperty("--vvh",Math.round(h)+"px");
+    const small=innerWidth<=640; const typing=/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||"");
+    document.body.classList.toggle("kb-open", small && typing && (vv? vv.height<innerHeight*0.8 || innerHeight<520 : innerHeight<520)); };
+  if(vv){ vv.addEventListener("resize",setVV); vv.addEventListener("scroll",setVV); } window.addEventListener("resize",setVV);
+  document.addEventListener("focusin",e=>{ if(!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return; clearTimeout(kbT); kbT=setTimeout(()=>{ setVV(); if(document.body.classList.contains("kb-open")){ try{ e.target.scrollIntoView({block:"end",behavior:"auto"}); }catch(_){} } },250); });
+  document.addEventListener("focusout",()=>{ clearTimeout(kbT); kbT=setTimeout(setVV,250); }); setVV(); }
 /* #65: tuck floating buttons away while scrolling down, bring them back on scroll up or near the end */
 { let lastY=window.scrollY||0, tick=false;
   window.addEventListener("scroll",()=>{ if(tick) return; tick=true; requestAnimationFrame(()=>{ const y=window.scrollY||0, d=y-lastY;
