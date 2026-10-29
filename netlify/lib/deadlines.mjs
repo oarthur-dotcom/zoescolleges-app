@@ -18,16 +18,25 @@ export function kindOf(str, fallback){
   if (/priority/.test(t)) return "Priority";
   return fallback;
 }
-export function deadlineList(info, dl){
+// `chosen` (optional) is the plan a family recorded for this school, "Kind|YYYY-MM-DD" (same key the app writes as checklist._plan).
+// When it matches one of the school's dated rounds only that round is returned; no choice, or one that no longer matches, returns every round.
+function onlyChosen(list, chosen){
+  if (!chosen) return list;
+  const hit = list.filter(x => `${x.kind}|${x.date}` === chosen);
+  // A chosen round that has already closed must not hide the later rounds that are still open.
+  const today = new Date().toISOString().slice(0,10);
+  return hit.length && hit[0].date >= today ? hit : list;
+}
+export function deadlineList(info, dl, chosen){
   // 2026–27 rounds from deadlines-2026-27.json (sourced from each school's site) win when present.
   if (dl && Array.isArray(dl.rounds) && dl.rounds.length)
-    return dl.rounds.filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r.date)).map(r => ({ kind: r.kind, date: r.date, text: r.name || r.kind })).sort((a,b)=> a.date < b.date ? -1 : 1);
+    return onlyChosen(dl.rounds.filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r.date)).map(r => ({ kind: r.kind, date: r.date, text: r.name || r.kind })).sort((a,b)=> a.date < b.date ? -1 : 1), chosen);
   const md = (info && info.muse && info.muse.deadlines) || {};
   const raw = [[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey = new Map();
   for (const [str, fb] of raw){ const d = dateIn(str); if (!d) continue; const k = kindOf(str, fb); const key = fb + d;
     const prev = byKey.get(key); if (!prev || (prev.kind === fb && k !== fb)) byKey.set(key, { kind:k, date:d, text:String(str) }); }
-  return [...byKey.values()].sort((a,b)=> a.date < b.date ? -1 : 1);
+  return onlyChosen([...byKey.values()].sort((a,b)=> a.date < b.date ? -1 : 1), chosen);
 }
 // whole days from today (YYYY-MM-DD) to date (YYYY-MM-DD)
 export function daysBetween(today, date){ return Math.round((Date.parse(date+"T00:00:00Z") - Date.parse(today+"T00:00:00Z")) / 86400000); }

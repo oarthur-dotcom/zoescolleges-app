@@ -45,10 +45,12 @@ for (const W of [390, 1280]) {
       weakLessThanStrongCredit: aPts(sel, weak).pts < aPts(sel, strong).pts, strongNotGated: aPts(sel, strong).gated == null, openSchoolNotGated: aPts(mid, weak).gated == null,
       weakActsNotRaised: (apCore(sel, { ...weak, astr: 0.1 }).terms.find(t => t.k === 'acts') || {}).gated == null   /* Oct 23: light activities no longer count against the student, so the term may be absent */, capStill: Math.abs(aPts(sel, strong).pts) <= AP.ACT_CAP_PTS + 1e-9 }; });
   for (const k of Object.keys(gt)) ok(t('gate.' + k), gt[k]);
-  // board cards: big Admit Power cell
+  // board cards (Oct 28 redesign): three labelled questions on the card; the Admit Power number and its limits live under "More"
   await page.evaluate(() => { goto('board'); renderBoard(); }); await page.waitForTimeout(500);
-  const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .b3-ap').length, txt: [...document.querySelectorAll('#v-board .b3-ap')].map(e => e.innerText.replace(/\s+/g, ' ')).slice(0, 2), sortOpt: !!document.querySelector('#board-sort option[value=power]'), bothTiles: [...document.querySelectorAll('#v-board .b3-k')].some(e => e.textContent === 'Chance') && document.querySelectorAll('#v-board .b3-ap').length > 0 }));
-  ok(t('boardBigCells'), bd.cells > 0 && bd.sortOpt && bd.bothTiles);
+  const bd = await page.evaluate(() => ({ cells: document.querySelectorAll('#v-board .mk3').length, sortOpt: !!document.querySelector('#board-sort option[value=power]'),
+    threeQs: [...document.querySelectorAll('#v-board .mk3')].every(m => /can we get in\?/i.test(m.innerText) && /can we afford it\?/i.test(m.innerText) && /do we like it\?/i.test(m.innerText)),
+    apInDetail: [...document.querySelectorAll('#v-board .how3')].some(e => /Admit Power \d+/.test(e.textContent) && /not a prediction or a guarantee/.test(e.textContent)) }));
+  ok(t('boardBigCells'), bd.cells > 0 && bd.sortOpt && bd.threeQs && bd.apInDetail);
   await page.evaluate(() => { const s = document.getElementById('board-sort'); s.value = 'power'; s.onchange(); }); await page.waitForTimeout(400);
   const sorted = await page.evaluate(() => { const v = [...document.querySelectorAll('#v-board .b3-ap .b3-v')].map(e => parseInt(e.textContent)).filter(n => !isNaN(n)); return v.every((x, i) => i === 0 || v[i - 1] >= x); });
   ok(t('sortByPower'), sorted);

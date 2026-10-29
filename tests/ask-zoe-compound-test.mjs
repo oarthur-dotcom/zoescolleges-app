@@ -18,7 +18,7 @@ for (const W of [390,1280]) {
   ok(W+'_chance_plus_deadline', r.parts===2 && /Admit Power/.test(r.text) && /Oct 15, 2026/.test(r.text) && /Jan 1, 2027/.test(r.text), r.text.slice(0,300));
   // 3. board-wide: cheapest + next steps (previously the second part was a generic site blurb)
   r = await ask('Which of my schools are cheapest and what are the next steps before the deadlines?');
-  ok(W+'_board_cheapest_plus_steps', r.parts===2 && /Lowest net price on your board/.test(r.text) && /Your next deadlines and what is still open/.test(r.text) && /Still to do:/.test(r.text) && !/lets you add them to Google, Apple or Outlook/.test(r.text), r.text.slice(0,500));
+  ok(W+'_board_cheapest_plus_steps', r.parts===2 && /Lowest cost on your board/.test(r.text) && /Your next deadlines and what is still open/.test(r.text) && /Still to do:/.test(r.text) && !/lets you add them to Google, Apple or Outlook/.test(r.text), r.text.slice(0,500));
   ok(W+'_board_steps_say_confirm_with_school', /confirm with the school/.test(r.text));
   // 4. single-school affordability used to return unrelated community colleges
   r = await ask('Is Boston University affordable?');
