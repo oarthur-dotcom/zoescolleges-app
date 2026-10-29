@@ -1250,6 +1250,7 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dl-src{margin-top:3px}
 .dl-plans{margin-top:6px;display:flex;flex-direction:column;gap:3px}.dl-plan{display:grid;grid-template-columns:minmax(88px,auto) 1fr;align-items:center;column-gap:10px;font-size:13px}.dl-plan .pl-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.dl-plan-d{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}.dl-plan-k{font-weight:600}
 .plan-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}.plan-badge.binding{color:var(--warn);border-color:var(--warn)}
+.plan-pick{margin-top:8px}.pp-h{font-size:12.5px;font-weight:700;margin-bottom:5px}.pp-chips{display:flex;flex-wrap:wrap;gap:6px}.pp-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;min-height:34px}.pp-chip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}.pp-msg{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.45}
 .plan-note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}.plan-note a{color:var(--teal)}
 /* Campus Pulse v2 (Oct 11): a living picture of each school, from its own feeds */
 #pulse{scroll-margin-top:140px}
@@ -3558,7 +3559,7 @@ function ongoingStep(){
   const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
   if((state.schools||[]).some(s=>s.app_status==="accepted") && !decisionPost()) return {ic:"🎓", t:"Make the big decision together", d:"See offers side by side and hear everyone's pick before May 1.", cta:"Open Decision Day", go:()=>goto("decide")};
   const today=new Date(); today.setHours(0,0,0,0);
-  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
+  const ups=board.flatMap(x=>myDeadlines(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
   for(const u of ups.slice(0,3)){ const days=daysUntil(u.date); if(days>21) break; const TK=tasksFor(catInfo(u.id)); const chk=getChecklist(u.id); const left=TK.filter(t=>!chk[t.key]);
     if(left.length) return {k:"deadline", ic:"⏰", t:`Finish ${u.name} — ${kindShort(u)}`, d:`${days===0?"Due today":days===1?"Due tomorrow":`Due in ${days} days`} · still to do: ${left.slice(0,2).map(t=>t.label).join(", ")}${left.length>2?"…":""}`, cta:"Open checklist", go:()=>goto("deadlines"), urgent:days<=7}; }
   if(talkReady() && board.length>=2){ const mine=talk.posts.some(p=>isMe(p.user_id)&&!SYS_KINDS.includes(p.kind));
@@ -3749,7 +3750,7 @@ function renderJourney(){
   const out=$("jr-out"); if(!out) return; const ev=journeyEvents();
   const today=new Date(); today.setHours(0,0,0,0);
   const board=(state.schools||[]).map(s=>({s,info:catInfo(s.school_id)})).filter(x=>x.info);
-  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,name:x.s.name}))).sort((a,b)=>a.date-b.date).slice(0,4);
+  const ups=board.flatMap(x=>myDeadlines(x.info).filter(d=>d.date>=today).map(d=>({...d,name:x.s.name}))).sort((a,b)=>a.date-b.date).slice(0,4);
   const st=journeyStage(); const months={};
   ev.forEach(e=>{ const k=new Date(e.t).toLocaleDateString("en-US",{month:"long",year:"numeric"}); (months[k]=months[k]||[]).push(e); });
   out.innerHTML=`<div class="jr-stages">${STAGES.map((x,i)=>`<span class="${i<st?"done":i===st?"cur":""}">${x}</span>`).join("")}</div>
@@ -3934,7 +3935,7 @@ function renderReport(){
   const when=new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
   const labels={reach:"Reach",target:"Target",likely:"Likely"};
   const adj=rigorAdjustedGpa(p); const sat=studentSat(p); const acts=Array.isArray(p.activities)?p.activities:[];
-  const dls=rows.flatMap(r=>r.info?deadlineList(r.info).filter(d=>d.date>=today).map(d=>({...d,r})):[]).sort((a,b)=>a.date-b.date);
+  const dls=rows.flatMap(r=>r.info?myDeadlines(r.info).filter(d=>d.date>=today).map(d=>({...d,r})):[]).sort((a,b)=>a.date-b.date);
   const nx=dls[0];
   const take=reportTake(rows,bal,p);
   const small=(u,px)=>String(u).replace(/\/(\d{3,4})px-/,`/${px}px-`);
@@ -3974,7 +3975,7 @@ function renderReport(){
   </section>`;
   // 3 the list
   const list=`<section class="rp-page" id="rp-list"><h2>🎓 The list, school by school</h2>${rows.length?rows.map(r=>{ const sc=(r.info&&r.info.scorecard)||{}; const v=r.visit||{}; const n=net(r);
-      const chk=getChecklist(r.s.school_id); const TK=r.info?tasksFor(r.info):[]; const done=TK.filter(t=>chk[t.key]).length; const nd=r.info?deadlineList(r.info).filter(d=>d.date>=today)[0]:null;
+      const chk=getChecklist(r.s.school_id); const TK=r.info?tasksFor(r.info):[]; const done=TK.filter(t=>chk[t.key]).length; const nd=r.info?myDeadlines(r.info).filter(d=>d.date>=today)[0]:null;
       const stand=r.info?standBarHtml(r.info,true):""; const aid=r.info?schoolAidLine(r.info,true):"";
       return `<div class="rp-school">
         <div class="rp-sh">${thumb(r)}<div style="min-width:0;flex:1"><h3>${r.rank?`<span class="rp-rank">#${r.rank}</span> `:""}${esc(r.s.name)}</h3>
@@ -5140,7 +5141,7 @@ function renderToday(){
   $("td-sub").textContent = board.length ? `${state.family?state.family.name+" · ":""}${board.length} school${board.length>1?"s":""} on your board` : "Let's get your college list started.";
   // 1 Next deadline (+ checklist)
   const today=new Date(); today.setHours(0,0,0,0);
-  const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
+  const ups=board.flatMap(x=>myDeadlines(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
   const nx=ups[0];
   let dlCard;
   if(nx){ const days=daysUntil(nx.date); const chk=getChecklist(nx.id); const TK=tasksFor(catInfo(nx.id)); const done=TK.filter(t=>chk[t.key]).length; const left=TK.filter(t=>!chk[t.key]).map(t=>t.label);
@@ -6164,10 +6165,26 @@ function _kindOf(str, fallback){
 /* Binding vs non-binding (Oct 28). Early Decision and Early Decision II are binding; Early Action, Regular Decision, Priority and Rolling are not.
    Restrictive/single-choice Early Action is non-binding but limits where else you may apply early. Source: Common App, "Admission plan definitions" (based on NACAC). */
 const PLAN_DEFS_URL="https://membersupport.commonapp.org/s/article/Admission-plan-definitions";
+function planKey(kind,date){ const d=date instanceof Date?date:new Date(date); return String(kind)+"|"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function planIsBinding(kind){ return /^early decision/i.test(String(kind||"")); }
 function planTagged(p){ return p.kind+(p.binding?" (binding)":/restrictive/i.test(p.kind)?" (non-binding, with limits)":" (non-binding)"); }
 function planBadge(kind){ const b=planIsBinding(kind); return `<span class="plan-badge ${b?"binding":"open"}" title="${b?"Binding: if you are admitted you commit to enroll.":"Non-binding: you are not committed if admitted."}">${b?"Binding":"Non-binding"}</span>`; }
 function planName(p){ const n=String(p.name||"").replace(/\s*\((non-?binding|binding)\)\s*/ig," ").replace(/\s+/g," ").trim(); return n && n.toLowerCase().includes(String(p.kind).toLowerCase()) ? n : p.kind; }
+/* Which plan the family is applying under. Optional and shared; stored as checklist._plan (no database change). Unset = nothing assumed.
+   A saved choice that no longer matches the school's current dates is reported as such and never moves to another date by itself. */
+function planChoice(info){ const id=info&&info.id; if(!id) return {state:"none"}; const k=getChecklist(id)._plan; if(!k) return {state:"none"};
+  for(const row of deadlineList(info)) for(const p of (row.plans||[])) if(p.key===k) return {state:"chosen", plan:p, row, key:k};
+  return {state:"stale", key:k}; }
+function setPlanChoice(id,key){ const c=getChecklist(id); if(key) c._plan=key; else delete c._plan; setChecklist(id,c); }
+function myDeadlines(info){ const L=deadlineList(info); const ch=planChoice(info); if(ch.state!=="chosen") return L;
+  return L.filter(r=>r.date.getTime()===ch.row.date.getTime()).map(r=>({...r, kind:ch.plan.kind, kinds:[ch.plan.kind], plans:[ch.plan], text:ch.plan.name||ch.plan.kind, chosen:true})); }
+function planChooserHtml(info,id){ const L=deadlineList(info); const all=L.flatMap(r=>r.plans||[]); if(all.length<2) return ""; const ch=planChoice(info);
+  const chips=all.map(p=>`<button type="button" class="pp-chip ${ch.state==="chosen"&&ch.key===p.key?"on":""}" data-planpick="${esc(id)}|${esc(p.key)}" aria-pressed="${ch.state==="chosen"&&ch.key===p.key}">${esc(planName(p))} · ${esc(_fmtD(p.date))}${p.binding?" · binding":""}</button>`).join("");
+  const none=`<button type="button" class="pp-chip ${ch.state!=="chosen"?"on":""}" data-planpick="${esc(id)}|" aria-pressed="${ch.state!=="chosen"}">Not decided yet</button>`;
+  const msg = ch.state==="chosen" ? `Your family chose <b>${esc(planName(ch.plan))}</b> (${esc(_fmtD(ch.plan.date))}). The countdown, calendar and next step follow this plan; change it any time.`
+    : ch.state==="stale" ? `Your earlier choice isn't one of this school's current dates (they may have been updated), so we've gone back to showing all plans. Please choose again.`
+    : `Not chosen yet — we won't assume one. Pick the plan your family is applying under and the countdown follows it.`;
+  return `<div class="plan-pick" role="group" aria-label="Which plan are you applying under?"><div class="pp-h">Which plan are you applying under?</div><div class="pp-chips">${chips}${none}</div><div class="pp-msg">${msg}</div></div>`; }
 function kindShort(x){ return x&&x.plans&&x.plans.length>1 ? "choose a plan" : (x?x.kind:""); }
 function planNoteHtml(plans){ const hasB=plans.some(p=>p.binding), hasN=plans.some(p=>!p.binding);
   if(!hasB) return "";
@@ -6177,18 +6194,18 @@ function deadlineList(info){
   if(v){ const L=v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
     // #78: rounds due the same day stay ONE dated row (so counts, the next-deadline countdown and reminders count a school once),
     // but Oct 28 (product review): each plan keeps its own name and says whether it is binding. We never pick a plan for the family.
-    const out=[]; for(const x of L){ const prev=out[out.length-1]; if(prev && prev.date.getTime()===x.date.getTime()){ if(!prev.kinds.includes(x.kind)){ prev.kinds.push(x.kind); prev.plans.push({kind:x.kind, name:x.text, binding:planIsBinding(x.kind)}); } } else out.push({...x, kinds:[x.kind], plans:[{kind:x.kind, name:x.text, binding:planIsBinding(x.kind)}]}); }
+    const out=[]; for(const x of L){ const prev=out[out.length-1]; if(prev && prev.date.getTime()===x.date.getTime()){ if(!prev.kinds.includes(x.kind)){ prev.kinds.push(x.kind); prev.plans.push({kind:x.kind, name:x.text, binding:planIsBinding(x.kind), date:x.date, key:planKey(x.kind,x.date)}); } } else out.push({...x, kinds:[x.kind], plans:[{kind:x.kind, name:x.text, binding:planIsBinding(x.kind), date:x.date, key:planKey(x.kind,x.date)}]}); }
     for(const r of out){ if(r.kinds.length>1){ r.kind=r.plans.map(p=>planTagged(p)).join(" · "); r.text=r.kind; } }
     return out; }
   const md=(info.muse&&info.muse.deadlines)||{};
   const raw=[[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey=new Map();   // same date in two source fields = one deadline; keep the most specific label
   for(const [str,fb] of raw){ const d=_dateIn(str); if(!d) continue; const k=_kindOf(str,fb); const key=fb+d.toDateString();
-    const prev=byKey.get(key); if(!prev || (prev.kind===fb && k!==fb)) byKey.set(key,{kind:k, date:d, text:String(str), kinds:[k], plans:[{kind:k, name:String(str), binding:planIsBinding(k)}]}); }
+    const prev=byKey.get(key); if(!prev || (prev.kind===fb && k!==fb)) byKey.set(key,{kind:k, date:d, text:String(str), kinds:[k], plans:[{kind:k, name:String(str), binding:planIsBinding(k), date:d, key:planKey(k,d)}]}); }
   return [...byKey.values()].sort((a,b)=>a.date-b.date);
 }
 function nextDeadline(info){
-  const L=deadlineList(info); if(!L.length) return null;
+  const L=myDeadlines(info); if(!L.length) return null;
   const today=new Date(); today.setHours(0,0,0,0);
   return L.find(x=>x.date>=today) || L[L.length-1];   // nearest upcoming, else the most recent past one
 }
@@ -6202,7 +6219,7 @@ function icsDate(d){ return d.getFullYear()+String(d.getMonth()+1).padStart(2,"0
 function icsEsc(s){ return String(s||"").replace(/([,;\\])/g,"\\$1").replace(/\n/g,"\\n"); }
 function deadlineEvents(rows){ // one all-day event per selected, dated school
   const today=new Date(); today.setHours(0,0,0,0);
-  return rows.filter(r=>r._d && dlSel[r.rec.school_id]).flatMap(r=>deadlineList(r.info).filter(x=>x.date>=today).map(x=>({ title:`${r.rec.name} — ${x.kind} deadline`, date:x.date, desc:`${x.kind} application deadline (${x.text}). Always confirm on the school's admissions site. Tracked in Zoe's Colleges` })));
+  return rows.filter(r=>r._d && dlSel[r.rec.school_id]).flatMap(r=>myDeadlines(r.info).filter(x=>x.date>=today).map(x=>({ title:`${r.rec.name} — ${x.kind} deadline`, date:x.date, desc:`${x.kind} application deadline (${x.text}). Always confirm on the school's admissions site. Tracked in Zoe's Colleges` })));
 }
 function deadlinesICS(events){
   const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Zoe's Colleges//Deadlines//EN","CALSCALE:GREGORIAN"];
@@ -6302,7 +6319,7 @@ function renderDeadlines(){
       <span class="dl-thumb" ${th}></span>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
-        <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>${planLines?`<div class="dl-plans">${planLines}</div>${planNoteHtml(allPlans)}`:""}
+        <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>${planLines?`<div class="dl-plans">${planLines}</div>${planNoteHtml(allPlans)}${planChooserHtml(i,id)}`:""}
         <div class="dl-stage"><span class="st-pill st-${r.stage}">${esc(stageLabel(r.stage))}</span>${r.stage==="deciding"?"":r.stage==="applying"?`<button type="button" class="linklike" data-dlapply="${esc(id)}" data-on="0">Not applying after all</button>`:`<button type="button" class="small" data-dlapply="${esc(id)}" data-on="1">＋ We're applying</button>`}</div>
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
@@ -6319,6 +6336,7 @@ function renderDeadlines(){
     box.querySelectorAll("[data-task]").forEach(p=>{ p.onclick=()=>{ const o=getChecklist(id); o[p.dataset.task]=!o[p.dataset.task]; setChecklist(id,o); renderDeadlines(); };
       p.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); p.click(); } }; }); });
   out.querySelectorAll(".dl-chk").forEach(cb=>cb.onchange=()=>{ dlSel[cb.dataset.dlsel]=cb.checked; renderDeadlines(); });
+  out.querySelectorAll("[data-planpick]").forEach(b=>b.onclick=()=>{ const v=b.dataset.planpick, i=v.indexOf("|"), sid=v.slice(0,i), key=v.slice(i+1); setPlanChoice(sid,key||null);   /* the key itself contains "|" (plan|date) */ renderDeadlines(); });
   out.querySelectorAll("[data-dlapply]").forEach(b=>b.onclick=()=>{ setApplying(b.dataset.dlapply, b.dataset.on==="1"); renderDeadlines(); });
   wireDlStages(out, filt);
   const all=$("dl-all"); if(all) all.onchange=()=>{ dated.forEach(r=>{ dlSel[r.rec.school_id]=all.checked; }); renderDeadlines(); };
@@ -7494,11 +7512,11 @@ function zoeSchoolFact(q, c){
   parts.admit = ()=> typeof rate==="number" ? `${nm} admits about <b>${pct(rate)}</b> of applicants.${typeof s.satAvg==="number"?` Average SAT ${Math.round(s.satAvg)}.`:""}` : `${nm} doesn't report an admission rate in our data (common for open-admission schools).`;
   parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${ch.score!=null?`<b>Admit Power ${ch.score}</b> at ${nm} (50 = the typical admitted student) — a <b>${esc(ch.label)}</b> for you.`:`${nm} is a <b>${esc(ch.label)}</b> for you.`} ${esc(chanceWords(c)||"")}`; };
   parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
-  parts.steps = ()=>{ const id=c.id; const on=(state.schools||[]).some(x=>x.school_id===id); let L=[]; try{ L=deadlineList(c)||[]; }catch(e){}
+  parts.steps = ()=>{ const id=c.id; const on=(state.schools||[]).some(x=>x.school_id===id); let L=[]; try{ L=myDeadlines(c)||[]; }catch(e){}
     const today=new Date(); today.setHours(0,0,0,0); const nx=L.find(x=>x.date>=today)||null; const v=dl2627(c);
     const TK=tasksFor(c), chk=on?getChecklist(id):{}; const left=TK.filter(t=>!chk[t.key]&&t.key!=="Submitted"), done=TK.filter(t=>chk[t.key]);
     const lines=[];
-    if(nx){ const d=daysUntil(nx.date); lines.push(`The next date we have for ${nm} is <b>${esc(_fmtD(nx.date))}</b> (${d===0?"today":d===1?"tomorrow":"in "+d+" days"})${nx.plans&&nx.plans.length>1?`, shared by ${esc(nx.kind)} — <b>choose one plan</b>; Early Decision is binding`:`: ${esc(nx.kind)}`}.`); }
+    if(nx){ const d=daysUntil(nx.date); lines.push(`The next date we have for ${nm} is <b>${esc(_fmtD(nx.date))}</b> (${d===0?"today":d===1?"tomorrow":"in "+d+" days"})${nx.chosen?`: <b>${esc(nx.kind)}</b>, the plan your family chose`:nx.plans&&nx.plans.length>1?`, shared by ${esc(nx.kind)} — <b>choose one plan</b> (Early Decision is binding; you can record your choice on the Deadlines page)`:`: ${esc(nx.kind)}`}.`); }
     else lines.push(L.length?`Every date we have for ${nm} has passed — check its admissions page for what is still open.`:`I don't have a verified date for ${nm} yet, so I can't say what comes before it. Check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`);
     if(on){ lines.push(left.length?`Still to do on your checklist (${done.length} of ${TK.length} done): <b>${left.map(t=>esc(t.label)).join(", ")}</b>.`:`Your checklist for ${nm} has everything ticked except possibly <b>Submitted</b>.`); }
     else lines.push(`${nm} isn't on your board yet, so I can't see your progress. What this school asks for in our data: <b>${TK.filter(t=>t.key!=="Submitted").map(t=>esc(t.label)).join(", ")}</b>. Add it to your board to track it.`);
@@ -7637,7 +7655,7 @@ function zoePersonal(q){
     if(hit.length>=2){ const row=c=>{ const sc=c.scorecard||{}; const ch=chanceFor(c); const m=matchScore(c,w); return `• <b>${esc(c.name)}</b> — ${m!=null?m+"% match":"match n/a"}${ch?` · ${esc(ch.label)}`:""}${typeof sc.netPrice==="number"?` · net ~${money(sc.netPrice)}`:""}${typeof sc.admissionRate==="number"?` · admits ${Math.round(sc.admissionRate*100)}%`:""}`; };
       return "Side by side, from the app's data:<br>"+hit.map(row).join("<br>")+"<br><span class='muted'>Tap <b>Compare</b> on each school for the full table.</span>"; } }
   if(ZOE_BOARD_STEPS_RE.test(q)){ const today=new Date(); today.setHours(0,0,0,0);
-    const rows=board.map(x=>({x,n:deadlineList(x.info).find(d=>d.date>=today)})).filter(y=>y.n).sort((a,b)=>a.n.date-b.n.date).slice(0,3);
+    const rows=board.map(x=>({x,n:myDeadlines(x.info).find(d=>d.date>=today)})).filter(y=>y.n).sort((a,b)=>a.n.date-b.n.date).slice(0,3);
     if(!board.length) return "Your board is empty, so there are no deadlines to prepare for yet. Add schools from <b>Zoe Picks</b> or <b>Search</b> and I can list what is due and what is left.";
     if(!rows.length) return "I don't have an upcoming verified date for the schools on your board, so I can't say what comes first. Check each school's admissions page.";
     return "Your next deadlines and what is still open:<br>"+rows.map(y=>{ const chk=getChecklist(y.x.s.school_id); const left=tasksFor(y.x.info).filter(t=>!chk[t.key]&&t.key!=="Submitted").map(t=>t.label); const d=daysUntil(y.n.date);
