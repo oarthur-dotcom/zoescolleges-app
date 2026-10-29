@@ -1247,6 +1247,9 @@ select.tk-feelsel{width:auto;max-width:62%;border:0;background:none;color:var(--
 .dl27-d{font-weight:700;white-space:nowrap}
 .dl27-src,.dl-src{font-size:11.5px;color:var(--muted);margin-top:6px}
 .dl-src{margin-top:3px}
+.dl-plans{margin-top:6px;display:flex;flex-direction:column;gap:3px}.dl-plan{display:grid;grid-template-columns:minmax(88px,auto) 1fr;align-items:center;column-gap:10px;font-size:13px}.dl-plan .pl-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.dl-plan-d{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}.dl-plan-k{font-weight:600}
+.plan-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}.plan-badge.binding{color:var(--warn);border-color:var(--warn)}
+.plan-note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}.plan-note a{color:var(--teal)}
 /* Campus Pulse v2 (Oct 11): a living picture of each school, from its own feeds */
 #pulse{scroll-margin-top:140px}
 .pulse{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:14px 0;overflow:hidden}
@@ -3534,7 +3537,7 @@ function ongoingStep(){
   const today=new Date(); today.setHours(0,0,0,0);
   const ups=board.flatMap(x=>deadlineList(x.info).filter(d=>d.date>=today).map(d=>({...d,id:x.s.school_id,name:x.s.name}))).sort((a,b)=>a.date-b.date);
   for(const u of ups.slice(0,3)){ const days=daysUntil(u.date); if(days>21) break; const TK=tasksFor(catInfo(u.id)); const chk=getChecklist(u.id); const left=TK.filter(t=>!chk[t.key]);
-    if(left.length) return {k:"deadline", ic:"⏰", t:`Finish ${u.name} — ${u.kind}`, d:`${days===0?"Due today":days===1?"Due tomorrow":`Due in ${days} days`} · still to do: ${left.slice(0,2).map(t=>t.label).join(", ")}${left.length>2?"…":""}`, cta:"Open checklist", go:()=>goto("deadlines"), urgent:days<=7}; }
+    if(left.length) return {k:"deadline", ic:"⏰", t:`Finish ${u.name} — ${kindShort(u)}`, d:`${days===0?"Due today":days===1?"Due tomorrow":`Due in ${days} days`} · still to do: ${left.slice(0,2).map(t=>t.label).join(", ")}${left.length>2?"…":""}`, cta:"Open checklist", go:()=>goto("deadlines"), urgent:days<=7}; }
   if(talkReady() && board.length>=2){ const mine=talk.posts.some(p=>isMe(p.user_id)&&!SYS_KINDS.includes(p.kind));
     if(!mine){ const k=threadTopics()[0]; return {ic:"💬", t:`Share your voice on ${topicName(k)}`, d:"A sentence or two about what you love or what worries you. Nobody has to win.", cta:"Open Talk It Out", go:()=>openTalk({tab:"thread", school:k})}; }
     const r=ballot.res; if(r && !r.revealed && !ballot.mine) return {ic:"🗳", t:"Cast your family vote", d:"Rank your favorites privately — results show when everyone has voted.", cta:"Vote", go:()=>openTalk({tab:"vote"})}; }
@@ -5119,7 +5122,7 @@ function renderToday(){
   let dlCard;
   if(nx){ const days=daysUntil(nx.date); const chk=getChecklist(nx.id); const TK=tasksFor(catInfo(nx.id)); const done=TK.filter(t=>chk[t.key]).length; const left=TK.filter(t=>!chk[t.key]).map(t=>t.label);
     dlCard=`<div class="td-card td-next ${days<=14?"urgent":""}"><div class="td-h">⏰ Next deadline</div>
-      <div class="td-big">${esc(nx.name)}</div><div class="td-mid">${esc(nx.kind)} · ${esc(_fmtD(nx.date))} · <b>${days===0?"today":days===1?"tomorrow":"in "+days+" days"}</b></div>
+      <div class="td-big">${esc(nx.name)}</div><div class="td-mid">${esc(kindShort(nx))} · ${esc(_fmtD(nx.date))} · <b>${days===0?"today":days===1?"tomorrow":"in "+days+" days"}</b></div>
       <div class="dl-bar" style="margin:10px 0 6px"><i style="width:${Math.round(100*done/TK.length)}%"></i></div>
       <div class="muted" style="font-size:12.5px">${left.length?`Still to do: ${left.slice(0,3).map(esc).join(", ")}${left.length>3?"…":""}`:"Checklist complete ✓"}</div>
       ${ups.length>1?`<div class="td-more">Then: ${ups.slice(1,3).map(u=>`${esc(u.name)} · ${esc(_fmtD(u.date))}`).join(" · ")}</div>`:""}
@@ -5759,7 +5762,8 @@ function detailDeadlines(info,cell){
   const src=v.rounds[0].src;
   return `<div class="dl27"><div class="dl27-h">📅 Application deadlines 2026–27</div>
     ${v.rounds.map(r=>{ const d=_ymdDate(r.date); const n=daysUntil(d); const past=d<today;
-      return `<div class="dl27-row${past?" past":""}"><span class="dl27-k">${r.name&&r.name.toLowerCase().includes(String(r.kind).toLowerCase())?esc(r.name):esc(r.kind)+(r.name&&r.name!==r.kind?` <span class="muted">(${esc(r.name)})</span>`:"")}</span><span class="dl27-d">${esc(_fmtD(d))}</span><span class="dl-due ${dueClass(n)}"><span class="dot"></span>${esc(dueLabel(n))}</span></div>`; }).join("")}
+      return `<div class="dl27-row${past?" past":""}"><span class="dl27-k">${r.name&&r.name.toLowerCase().includes(String(r.kind).toLowerCase())?esc(r.name):esc(r.kind)+(r.name&&r.name!==r.kind?` <span class="muted">(${esc(r.name)})</span>`:"")}</span>${planBadge(r.kind)}<span class="dl27-d">${esc(_fmtD(d))}</span><span class="dl-due ${dueClass(n)}"><span class="dot"></span>${esc(dueLabel(n))}</span></div>`; }).join("")}
+    ${planNoteHtml(v.rounds.map(r=>({kind:r.kind,binding:planIsBinding(r.kind)})))}
     <div class="dl27-src">From the school's admissions site, checked ${esc(dlCheckedLabel(v))}${r_conf(v)} · <a href="${esc(src)}" target="_blank" rel="noopener">see the source ↗</a>. Always confirm before you apply.</div></div>`;
 }
 function r_conf(v){ return v.rounds.some(r=>r.conf==="medium")?" (some dates medium confidence)":""; }
@@ -6134,17 +6138,30 @@ function _kindOf(str, fallback){
   if(/priority/.test(t)) return "Priority";
   return fallback;
 }
+/* Binding vs non-binding (Oct 28). Early Decision and Early Decision II are binding; Early Action, Regular Decision, Priority and Rolling are not.
+   Restrictive/single-choice Early Action is non-binding but limits where else you may apply early. Source: Common App, "Admission plan definitions" (based on NACAC). */
+const PLAN_DEFS_URL="https://membersupport.commonapp.org/s/article/Admission-plan-definitions";
+function planIsBinding(kind){ return /^early decision/i.test(String(kind||"")); }
+function planTagged(p){ return p.kind+(p.binding?" (binding)":/restrictive/i.test(p.kind)?" (non-binding, with limits)":" (non-binding)"); }
+function planBadge(kind){ const b=planIsBinding(kind); return `<span class="plan-badge ${b?"binding":"open"}" title="${b?"Binding: if you are admitted you commit to enroll.":"Non-binding: you are not committed if admitted."}">${b?"Binding":"Non-binding"}</span>`; }
+function planName(p){ const n=String(p.name||"").replace(/\s*\((non-?binding|binding)\)\s*/ig," ").replace(/\s+/g," ").trim(); return n && n.toLowerCase().includes(String(p.kind).toLowerCase()) ? n : p.kind; }
+function kindShort(x){ return x&&x.plans&&x.plans.length>1 ? "choose a plan" : (x?x.kind:""); }
+function planNoteHtml(plans){ const hasB=plans.some(p=>p.binding), hasN=plans.some(p=>!p.binding);
+  if(!hasB) return "";
+  return `<div class="plan-note" role="note"><b>${hasN?"Choose one plan.":"This is a binding plan."}</b> Early Decision is <b>binding</b>: if you are admitted, you commit to enroll.${hasN?" The other plans listed are not binding.":""} Ask the school which plan you are in; the checklist below is the same either way. <a href="${PLAN_DEFS_URL}" target="_blank" rel="noopener">What the plans mean (Common App) ↗</a></div>`; }
 function deadlineList(info){
   const v=dl2627(info);
   if(v){ const L=v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
-    // #78: rounds due the same day are one deadline for the family ("Early Action or Early Decision I") — you apply in one round
-    const out=[]; for(const x of L){ const prev=out[out.length-1]; if(prev && prev.date.getTime()===x.date.getTime()){ prev.kinds.push(x.kind); prev.kind=prev.kinds.join(" or "); prev.text=prev.kind; } else out.push({...x, kinds:[x.kind]}); }
+    // #78: rounds due the same day stay ONE dated row (so counts, the next-deadline countdown and reminders count a school once),
+    // but Oct 28 (product review): each plan keeps its own name and says whether it is binding. We never pick a plan for the family.
+    const out=[]; for(const x of L){ const prev=out[out.length-1]; if(prev && prev.date.getTime()===x.date.getTime()){ if(!prev.kinds.includes(x.kind)){ prev.kinds.push(x.kind); prev.plans.push({kind:x.kind, name:x.text, binding:planIsBinding(x.kind)}); } } else out.push({...x, kinds:[x.kind], plans:[{kind:x.kind, name:x.text, binding:planIsBinding(x.kind)}]}); }
+    for(const r of out){ if(r.kinds.length>1){ r.kind=r.plans.map(p=>planTagged(p)).join(" · "); r.text=r.kind; } }
     return out; }
   const md=(info.muse&&info.muse.deadlines)||{};
   const raw=[[info.earlyDeadline,"Early"],[md.early_date,"Early"],[info.regularDeadline,"Regular"],[md.regular_date,"Regular"]];
   const byKey=new Map();   // same date in two source fields = one deadline; keep the most specific label
   for(const [str,fb] of raw){ const d=_dateIn(str); if(!d) continue; const k=_kindOf(str,fb); const key=fb+d.toDateString();
-    const prev=byKey.get(key); if(!prev || (prev.kind===fb && k!==fb)) byKey.set(key,{kind:k, date:d, text:String(str)}); }
+    const prev=byKey.get(key); if(!prev || (prev.kind===fb && k!==fb)) byKey.set(key,{kind:k, date:d, text:String(str), kinds:[k], plans:[{kind:k, name:String(str), binding:planIsBinding(k)}]}); }
   return [...byKey.values()].sort((a,b)=>a.date-b.date);
 }
 function nextDeadline(info){
@@ -6233,7 +6250,7 @@ function renderDeadlines(){
   const filterBar=`<div class="dl-stagebar" role="group" aria-label="Which schools to track"><span class="dl-sb-l">Tracking:</span>${SCHOOL_STAGES.map(([k,l])=>`<button type="button" class="dl-sb ${filt.includes(k)?"on":""}" data-dlstage="${k}" aria-pressed="${filt.includes(k)}">${filt.includes(k)?"✓ ":""}${l} <span>${counts[k]}</span></button>`).join("")}</div>
     ${!anyApplying?`<div class="dl-sb-hint">Tip: tap <b>We're applying</b> on a school to focus this page on the applications you're actually sending.</div>`:""}`;
   if(!rows.length){ out.innerHTML=`<div class="card">${filterBar}<p class="muted" style="margin:10px 0 0">No schools in the stages you picked. Tap a stage above to show its schools.</p></div>`; wireDlStages(out, filt); return; }
-  rows.forEach(r=>{ const nx=nextDeadline(r.info); r._d=nx?nx.date:null; r._kind=nx?nx.kind:""; r._n=daysUntil(r._d); });
+  rows.forEach(r=>{ const nx=nextDeadline(r.info); r._d=nx?nx.date:null; r._kind=nx?kindShort(nx):""; r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
   if(dlSel===null){ dlSel={}; rows.forEach(r=>{ if(r._d) dlSel[r.rec.school_id]=true; }); } // default: all dated selected
   const dated=rows.filter(r=>r._d);
@@ -6254,13 +6271,15 @@ function renderDeadlines(){
     const TK=tasksFor(i); const done=TK.filter(t=>chk[t.key]).length; const pctDone=Math.round(100*done/TK.length);
     const u=photoUrlFor(i); const th=u?`style="background-image:url('${esc(u)}')"`:`style="background:${phBg(r.rec.name,i&&i.state,"78%")}"`;
     const dls=deadlineList(i);
-    const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? dls.map(x=>`${x.kind} ${_fmtD(x.date)}`) : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
+    const bits=[ [i.city,i.state].filter(Boolean).join(", "), ...(dls.length? [] : [rd?("Regular: "+rd):"", ed?("Early: "+ed):""]) ].filter(Boolean).join(" · ");
+    const allPlans=dls.flatMap(x=>x.plans||[]);
+    const planLines=dls.map(x=>(x.plans||[]).map(p=>`<div class="dl-plan"><span class="dl-plan-d">${esc(_fmtD(x.date))}</span><span class="pl-r"><span class="dl-plan-k">${esc(planName(p))}</span>${planBadge(p.kind)}</span></div>`).join("")).join("");
     return `<div class="card"><div class="dl-row">
       ${r._d?`<label class="dl-chk-wrap" title="Include this school's deadlines when you add them to your calendar"><input type="checkbox" class="dl-chk" data-dlsel="${esc(id)}" ${dlSel[id]?"checked":""} aria-label="Include ${esc(r.rec.name)} in the calendar export"></label>`:`<span class="dl-chk-wrap"></span>`}
       <span class="dl-thumb" ${th}></span>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:15px">${esc(r.rec.name)}</b><span class="dl-due ${dueClass(r._n)}"><span class="dot"></span>${r._kind?esc(r._kind)+" · ":""}${esc(dueLabel(r._n))}</span></div>
-        <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>
+        <div class="tp-city" style="margin-top:2px">${esc(bits)}</div>${planLines?`<div class="dl-plans">${planLines}</div>${planNoteHtml(allPlans)}`:""}
         <div class="dl-stage"><span class="st-pill st-${r.stage}">${esc(stageLabel(r.stage))}</span>${r.stage==="deciding"?"":r.stage==="applying"?`<button type="button" class="linklike" data-dlapply="${esc(id)}" data-on="0">Not applying after all</button>`:`<button type="button" class="small" data-dlapply="${esc(id)}" data-on="1">＋ We're applying</button>`}</div>
         ${dl2627(i)?`<div class="dl-src">✓ From the school's site, checked ${esc(dlCheckedLabel(dl2627(i)))} · <a href="${esc(dl2627(i).rounds[0].src)}" target="_blank" rel="noopener">source ↗</a></div>`:""}
         <div class="dl-cl-h">Application checklist · ${done} of ${TK.length} done <span>— tick each one as you finish it; your family sees it</span></div>
@@ -7453,7 +7472,7 @@ function zoeSchoolFact(q, c){
   parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${ch.score!=null?`<b>Admit Power ${ch.score}</b> at ${nm} (50 = the typical admitted student) — a <b>${esc(ch.label)}</b> for you.`:`${nm} is a <b>${esc(ch.label)}</b> for you.`} ${esc(chanceWords(c)||"")}`; };
   parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
   parts.where = ()=> `${nm} is in <b>${esc(place||"—")}</b>${set?` (${set.toLowerCase()})`:""}.`;
-  parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).map(d=>`• ${esc(d.kind||"Deadline")} — ${esc(_fmtD(d.date))}`).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
+  parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).flatMap(d=>(d.plans&&d.plans.length?d.plans:[{kind:d.kind||"Deadline",binding:false}]).map(p=>`• ${esc(planTagged(p))} — ${esc(_fmtD(d.date))}`)).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
   parts.scores = ()=> (typeof s.sat25==="number"&&typeof s.sat75==="number")?`${nm}: middle half of admitted students scored <b>${s.sat25}–${s.sat75}</b> on the SAT${typeof s.satAvg==="number"?` (avg ${Math.round(s.satAvg)})`:""}.`:(typeof s.satAvg==="number"?`${nm}: average SAT <b>${Math.round(s.satAvg)}</b>${typeof s.actMid==="number"?`, ACT middle ${s.actMid}`:""}.`:`${nm} doesn't report test scores in our data (many are test-optional).`);
   parts.outcomes = ()=> `${nm}: ${typeof s.medianEarnings10yr==="number"?`median earnings 10 years after enrolling <b>${money(s.medianEarnings10yr)}</b>`:"earnings not reported"}${typeof s.gradRate==="number"?`, graduation rate <b>${pct(s.gradRate)}</b>`:""}.`;
   parts.sports = ()=>{ const a=athOf(c); return a?`${nm} plays <b>NCAA/${esc(String(a.level||"").replace(/^NCAA /,"")||"athletics")}</b>${a.conference?` in the ${esc(a.conference)}`:""}.`:`I don't have athletics info for ${nm}.`; };
