@@ -23,7 +23,9 @@ export function kindOf(str, fallback){
 function onlyChosen(list, chosen){
   if (!chosen) return list;
   const hit = list.filter(x => `${x.kind}|${x.date}` === chosen);
-  return hit.length ? hit : list;
+  // A chosen round that has already closed must not hide the later rounds that are still open.
+  const today = new Date().toISOString().slice(0,10);
+  return hit.length && hit[0].date >= today ? hit : list;
 }
 export function deadlineList(info, dl, chosen){
   // 2026–27 rounds from deadlines-2026-27.json (sourced from each school's site) win when present.
