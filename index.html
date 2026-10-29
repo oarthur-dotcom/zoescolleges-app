@@ -6268,7 +6268,7 @@ async function renderReminderCard(rows){
   el.innerHTML=`<div class="card dl-remind-card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
       <div style="min-width:0;flex:1 1 220px"><b>📬 Email reminders</b> <span class="muted" style="font-size:12.5px">${on?"On":"Off"}</span>
         <div class="muted" style="font-size:12.5px;margin-top:3px">${on?`We'll email <b>${esc(email)}</b> 30, 14 and 3 days before each deadline.`:`Get an email 30, 14 and 3 days before each deadline on your board.`}
-        Covers <b>${covered}</b> of your ${rows.length} school${rows.length===1?"":"s"} with a confirmed date${covered<rows.length?" — the rest say “check school site”":""}.</div></div>
+        Covers <b>${covered}</b> of your ${rows.length} school${rows.length===1?"":"s"} with a confirmed date${covered<rows.length?" — the rest say “check school site”":""}. For a school where your family chose a plan, reminders follow that plan; choose “Not decided yet” to get every date again.</div></div>
       <button class="small ${on?"ghost":"primary"}" id="dl-remind-btn">${on?"Turn off":"Turn on"}</button></div>
     <div id="dl-remind-msg" class="muted" style="font-size:12px;margin-top:6px"></div></div>`;
   $("dl-remind-btn").onclick=async()=>{ const b=$("dl-remind-btn"); b.disabled=true;
