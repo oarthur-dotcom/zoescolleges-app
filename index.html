@@ -3118,7 +3118,7 @@ function museSection(info){
 }
 
 /* ========== BOARD ========== */
-function plan(){ return PLAN_LIMITS[state.family?.plan] || PLAN_LIMITS.free; }
+function plan(){ const k=String(state.family?.plan||"").toLowerCase().replace(/[^a-z]/g,""); return PLAN_LIMITS[state.family?.plan] || (k==="familyplus"?PLAN_LIMITS.family_plus:null) || PLAN_LIMITS.free; }
 function blended(schoolId){ const rs = state.ratings.filter(r => r.school_id === schoolId && r.rating); if(!rs.length) return null; return (rs.reduce((a,r)=>a+r.rating,0)/rs.length); }
 function myPrefs(){ return (state.me && state.prefs[state.me.user_id]) || defaultPrefs(); }
 function catInfo(id){ return state.catalog.find(c => c.id === id); }
@@ -6187,12 +6187,15 @@ function planChoice(info){ const id=info&&info.id; if(!id) return {state:"none"}
   for(const row of deadlineList(info)) for(const p of (row.plans||[])) if(p.key===k) return {state:"chosen", plan:p, row, key:k};
   return {state:"stale", key:k}; }
 function setPlanChoice(id,key){ const c=getChecklist(id); if(key) c._plan=key; else delete c._plan; setChecklist(id,c); }
+function planPassed(ch){ const t=new Date(); t.setHours(0,0,0,0); return ch&&ch.state==="chosen"&&ch.row.date<t; }
 function myDeadlines(info){ const L=deadlineList(info); const ch=planChoice(info); if(ch.state!=="chosen") return L;
+  if(planPassed(ch)) return L;   // chosen round already closed: keep every round so later open deadlines still show (Clemson EA Oct 15 -> RD Jan 1)
   return L.filter(r=>r.date.getTime()===ch.row.date.getTime()).map(r=>({...r, kind:ch.plan.kind, kinds:[ch.plan.kind], plans:[ch.plan], text:ch.plan.name||ch.plan.kind, chosen:true})); }
 function planChooserHtml(info,id){ const L=deadlineList(info); const all=L.flatMap(r=>r.plans||[]); if(all.length<2) return ""; const ch=planChoice(info);
   const chips=all.map(p=>`<button type="button" class="pp-chip ${ch.state==="chosen"&&ch.key===p.key?"on":""}" data-planpick="${esc(id)}|${esc(p.key)}" aria-pressed="${ch.state==="chosen"&&ch.key===p.key}">${esc(planName(p))} · ${esc(_fmtD(p.date))}${p.binding?" · binding":""}</button>`).join("");
   const none=`<button type="button" class="pp-chip ${ch.state!=="chosen"?"on":""}" data-planpick="${esc(id)}|" aria-pressed="${ch.state!=="chosen"}">Not decided yet</button>`;
-  const msg = ch.state==="chosen" ? `Your family chose <b>${esc(planName(ch.plan))}</b> (${esc(_fmtD(ch.plan.date))}). The countdown, calendar and next step follow this plan; change it any time.`
+  const msg = planPassed(ch) ? `<b>${esc(planName(ch.plan))}</b> closed on ${esc(_fmtD(ch.plan.date))}, so we're showing the rounds that are still open. Pick one of those, or leave it as is.`
+    : ch.state==="chosen" ? `Your family chose <b>${esc(planName(ch.plan))}</b> (${esc(_fmtD(ch.plan.date))}). The countdown, calendar and next step follow this plan; change it any time.`
     : ch.state==="stale" ? `Your earlier choice isn't one of this school's current dates (they may have been updated), so we've gone back to showing all plans. Please choose again.`
     : `Not chosen yet — we won't assume one. Pick the plan your family is applying under and the countdown follows it.`;
   return `<div class="plan-pick" role="group" aria-label="Which plan are you applying under?"><div class="pp-h">Which plan are you applying under?</div><div class="pp-chips">${chips}${none}</div><div class="pp-msg">${msg}</div></div>`; }
@@ -7675,7 +7678,7 @@ function zoePersonal(q){
     return "Your next deadlines and what is still open:<br>"+rows.map(y=>{ const chk=getChecklist(y.x.s.school_id); const left=tasksFor(y.x.info).filter(t=>!chk[t.key]&&t.key!=="Submitted").map(t=>t.label); const d=daysUntil(y.n.date);
       return `• <b>${esc(y.x.s.name)}</b> — ${esc(_fmtD(y.n.date))} (${d===0?"today":d===1?"tomorrow":"in "+d+" days"})${y.n.plans&&y.n.plans.length>1?" · choose one plan":""}. Still to do: ${left.length?esc(left.slice(0,4).join(", "))+(left.length>4?"…":""):"nothing left but Submitted"}.`; }).join("<br>")+"<br><span class='muted'>Dates come from each school's site; confirm with the school before you apply.</span>"; }
   if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
-  if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
+  if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.map(x=>({x,c:offerCost(x.s.school_id)})).filter(r=>r.c&&typeof r.c.v==="number").sort((a,b)=>a.c.v-b.c.v).slice(0,5); return l.length?"Lowest cost on your board (net price per year, same basis as your Costs page; out-of-state tuition included for public schools outside your home state):<br>"+l.map(r=>`• <b>${esc(r.x.s.name)}</b> — ${money(r.c.v)}${/out-of-state/.test(r.c.src)?" (out-of-state)":""}`).join("<br>"):null; }
   if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
   if(/(how.*(balance|my list)|is my list|balanced)/.test(q)){ const c={reach:0,target:0,likely:0}; board.forEach(x=>{const ch=chanceFor(x.info); if(ch)c[ch.band]++;}); return `Your list: <b>${c.likely}</b> likely · <b>${c.target}</b> target · <b>${c.reach}</b> reach. A balanced list is roughly 2+ likely, 3+ target, 2+ reach.`; }
   return null;
@@ -8281,7 +8284,7 @@ function demoData(){
       {name:"Work (Paid) — Employee",category:"Work (Paid)",position:"Employee",org:"Ice cream shop",tier:4,hrs:"10",weeks:"20",grades:["11","12"],yrs:"2",timing:"During school break"},
       {name:"Student Govt./Politics — Treasurer",category:"Student Govt./Politics",position:"Treasurer",tier:3,hrs:"3",weeks:"36",grades:["11","12"],yrs:"2"}]};
   const photos=["sc-198516","college-of-charleston","sc-217882"].map((id,i)=>{ const c=catInfo(id); return c&&c.photo?{id:"demo-ph-"+i,family_id:DEMO_FID,school_id:id,user_id:DEMO_UID,url:c.photo.url,caption:["Our tour stop by the oaks","Randolph Hall at golden hour","Cooper Library pond"][i]+" (sample photo)",created_at:iso(9-i*2)}:null; }).filter(Boolean);
-  return { members:M, families:[{id:DEMO_FID,name:"The Rivera family (sample)",plan:"familyplus",invite_code:"sample",created_by:DEMO_UID,created_at:iso(30)}],
+  return { members:M, families:[{id:DEMO_FID,name:"The Rivera family (sample)",plan:"family_plus",invite_code:"sample",created_by:DEMO_UID,created_at:iso(30)}],
     family_schools:sch, ratings:rat, profiles:[prof], preferences:[], photos, binder_chats:[], reminder_prefs:[], reel_submissions:[],
     talk_posts:[
       {id:"dt1",family_id:DEMO_FID,user_id:DEMO_UID,school_id:"sc-198516",kind:"voice",feel:"love",body:"I could picture myself studying under those oak trees. It felt like me.",in_movie:true,created_at:iso(6)},
