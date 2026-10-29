@@ -33,9 +33,10 @@ export function buildEmail(items) {
   <table style="border-collapse:collapse;width:100%">${rows}</table>
   <p style="margin:16px 0 0"><a href="${SITE}" style="color:#0f7f80;font-weight:700">Open your Deadlines →</a></p>
   <p style="margin:18px 0 0;font-size:12px;color:#5f6982">Dates come from our research — always confirm on each school's admissions site before you apply.
+  If your family chose which plan you are applying under (Deadlines → "Which plan are you applying under?"), reminders for that school follow that plan; otherwise they cover every date.
   You're getting this because you turned on deadline reminders. Turn them off anytime in <b>Deadlines → Email reminders</b>.</p></div>`;
   const text = items.map(i => `${i.schoolName} — ${i.kind} deadline ${nice(i.date)} (${inDays(i.daysLeft)})`).join("\n") +
-    `\n\nOpen your Deadlines: ${SITE}\nAlways confirm dates on each school's admissions site. Turn reminders off in Deadlines → Email reminders.`;
+    `\n\nOpen your Deadlines: ${SITE}\nAlways confirm dates on each school's admissions site. Reminders follow the plan your family chose for a school (all dates if none). Turn reminders off in Deadlines → Email reminders.`;
   return { subject, html, text };
 }
 
@@ -61,7 +62,11 @@ export async function runReminders({ env = process.env, fetchImpl = fetch, now =
   let dlMap = {};   // 2026–27 deadlines file; if it isn't published yet, the catalog dates are used
   try { const r = await fetchImpl(DL_URL); if (r.ok) dlMap = (await r.json()).schools || {}; } catch (e) { log.error("[reminders] deadlines file", e && e.message); }
   const fams = [...new Set(prefs.map(p => p.family_id))];
-  const boards = await rest(`family_schools?family_id=in.(${fams.join(",")})&select=family_id,school_id,name`);
+  // Oct 28: when a family recorded which plan they are applying under (checklist._plan), remind only for that plan.
+  // If the checklist column can't be read, fall back to the old behaviour: every date.
+  let boards;
+  try { boards = await rest(`family_schools?family_id=in.(${fams.join(",")})&select=family_id,school_id,name,checklist`); }
+  catch (e) { log.error("[reminders] checklist not readable; reminding for every date", e && e.message); boards = await rest(`family_schools?family_id=in.(${fams.join(",")})&select=family_id,school_id,name`); }
 
   for (const p of prefs) {
     try {
@@ -72,7 +77,8 @@ export async function runReminders({ env = process.env, fetchImpl = fetch, now =
       const due = [];
       for (const s of boards.filter(b => b.family_id === p.family_id)) {
         const info = byId.get(s.school_id); if (!info) continue;
-        for (const dl of deadlineList(info, dlMap[s.school_id])) {
+        const chosen = s.checklist && typeof s.checklist === "object" ? s.checklist._plan : null;
+        for (const dl of deadlineList(info, dlMap[s.school_id], chosen)) {
           const n = daysBetween(summary.today, dl.date); const w = windowFor(n);
           if (w == null) continue;
           due.push({ user_id: p.user_id, family_id: p.family_id, school_id: s.school_id, kind: dl.kind, deadline_date: dl.date, days_before: w,
