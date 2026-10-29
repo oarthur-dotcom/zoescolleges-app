@@ -942,6 +942,7 @@ a.btnlike{display:inline-flex;align-items:center;border:1px solid var(--line);bo
 .ztab-chat .zsugg{padding:0 16px 10px}
 #ztab-form{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
 #ztab-form input{flex:1}
+.zpart{margin:0 0 4px;padding-bottom:8px;border-bottom:1px dashed var(--line)}.zpart:last-child{border-bottom:none;padding-bottom:0}
 /* Ambient coach */
 .coachwrap{display:flex;flex-direction:column;gap:8px;margin:10px 0 2px}
 .coach{display:flex;align-items:center;gap:11px;background:color-mix(in srgb,var(--teal) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--teal) 25%,var(--line));border-radius:14px;padding:10px 12px}
@@ -7493,6 +7494,16 @@ function zoeSchoolFact(q, c){
   parts.admit = ()=> typeof rate==="number" ? `${nm} admits about <b>${pct(rate)}</b> of applicants.${typeof s.satAvg==="number"?` Average SAT ${Math.round(s.satAvg)}.`:""}` : `${nm} doesn't report an admission rate in our data (common for open-admission schools).`;
   parts.chance = ()=>{ const ch=chanceFor(c); if(!ch) return `Add your grades on <b>Profile</b> and I can say how ${nm} looks for you.`; return `${ch.score!=null?`<b>Admit Power ${ch.score}</b> at ${nm} (50 = the typical admitted student) — a <b>${esc(ch.label)}</b> for you.`:`${nm} is a <b>${esc(ch.label)}</b> for you.`} ${esc(chanceWords(c)||"")}`; };
   parts.size = ()=> sz ? `${nm} has about <b>${sz.n?sz.n.toLocaleString():esc(sz.txt)}</b> students${sz.word?` (${sz.word.toLowerCase()})`:""}${set?`, in a ${set.toLowerCase()} setting`:""}.` : `I don't have an enrollment number for ${nm}.`;
+  parts.steps = ()=>{ const id=c.id; const on=(state.schools||[]).some(x=>x.school_id===id); let L=[]; try{ L=deadlineList(c)||[]; }catch(e){}
+    const today=new Date(); today.setHours(0,0,0,0); const nx=L.find(x=>x.date>=today)||null; const v=dl2627(c);
+    const TK=tasksFor(c), chk=on?getChecklist(id):{}; const left=TK.filter(t=>!chk[t.key]&&t.key!=="Submitted"), done=TK.filter(t=>chk[t.key]);
+    const lines=[];
+    if(nx){ const d=daysUntil(nx.date); lines.push(`The next date we have for ${nm} is <b>${esc(_fmtD(nx.date))}</b> (${d===0?"today":d===1?"tomorrow":"in "+d+" days"})${nx.plans&&nx.plans.length>1?`, shared by ${esc(nx.kind)} — <b>choose one plan</b>; Early Decision is binding`:`: ${esc(nx.kind)}`}.`); }
+    else lines.push(L.length?`Every date we have for ${nm} has passed — check its admissions page for what is still open.`:`I don't have a verified date for ${nm} yet, so I can't say what comes before it. Check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`);
+    if(on){ lines.push(left.length?`Still to do on your checklist (${done.length} of ${TK.length} done): <b>${left.map(t=>esc(t.label)).join(", ")}</b>.`:`Your checklist for ${nm} has everything ticked except possibly <b>Submitted</b>.`); }
+    else lines.push(`${nm} isn't on your board yet, so I can't see your progress. What this school asks for in our data: <b>${TK.filter(t=>t.key!=="Submitted").map(t=>esc(t.label)).join(", ")}</b>. Add it to your board to track it.`);
+    lines.push(`<span class="muted">${v?`Dates are from the school's site, checked ${esc(dlCheckedLabel(v))}. `:""}This list is general and the school's own page is the final word, so confirm requirements and dates with the school.</span>`);
+    return lines.join("<br>"); };
   parts.where = ()=> `${nm} is in <b>${esc(place||"—")}</b>${set?` (${set.toLowerCase()})`:""}.`;
   parts.deadline = ()=>{ let l=[]; try{ l=deadlineList(c)||[]; }catch(e){} return l.length?`${nm} deadlines:<br>`+l.slice(0,5).flatMap(d=>(d.plans&&d.plans.length?d.plans:[{kind:d.kind||"Deadline",binding:false}]).map(p=>`• ${esc(planTagged(p))} — ${esc(_fmtD(d.date))}`)).join("<br>")+"<br><span class='muted'>Always confirm on the school's site.</span>":`I don't have verified dates for ${nm} yet — check its admissions page${c.link?` (<a href="${esc(c.link)}" target="_blank" rel="noopener">official site</a>)`:""}.`; };
   parts.scores = ()=> (typeof s.sat25==="number"&&typeof s.sat75==="number")?`${nm}: middle half of admitted students scored <b>${s.sat25}–${s.sat75}</b> on the SAT${typeof s.satAvg==="number"?` (avg ${Math.round(s.satAvg)})`:""}.`:(typeof s.satAvg==="number"?`${nm}: average SAT <b>${Math.round(s.satAvg)}</b>${typeof s.actMid==="number"?`, ACT middle ${s.actMid}`:""}.`:`${nm} doesn't report test scores in our data (many are test-optional).`);
@@ -7500,13 +7511,14 @@ function zoeSchoolFact(q, c){
   parts.sports = ()=>{ const a=athOf(c); return a?`${nm} plays <b>NCAA/${esc(String(a.level||"").replace(/^NCAA /,"")||"athletics")}</b>${a.conference?` in the ${esc(a.conference)}`:""}.`:`I don't have athletics info for ${nm}.`; };
   if(/test.?(optional|blind|flexible)|require(s|d)? (the )?(sat|act)/.test(q)) return `I don't have ${nm}'s test policy in my data, and policies change by year, so check the "testing" page on its admissions site. In general <b>test-optional</b> means you can apply without SAT/ACT scores; tick <b>test-optional</b> on Profile and I'll stop comparing you to its score range.`+open;
   const want=[];
-  if(/\b(cost|price|pay|afford|tuition|expensive|cheap|net|sticker|how much)\b/.test(q)) want.push("cost");
+  if(/\b(cost|costs|price|pay|afford(able|ability)?|tuition|expensive|cheap|net|sticker|how much)\b/.test(q)) want.push("cost");
   if(/\b(admit|admission|accept(ance)?|acceptance rate|selective|get in rate)\b/.test(q)) want.push("admit");
   if(/\b(contact|phone|email|call|(how (do|can) i )?reach (out|the|them|admissions))\b/.test(q)&&!/chance|odds/.test(q)) return null;
   if(/\b(chance|chances|odds|get in|reach|target|likely|safety|am i|can i|could i|admit power|good enough|stack up|competitive|shot)\b/.test(q) || (/\b(gpa|sat|act)\b/.test(q) && !/\b(average|avg|middle|range|typical|median|score|scores)\b/.test(q))) want.push("chance");
   if(/\b(size|how big|how large|students|enrollment|population)\b/.test(q)) want.push("size");
   if(/\b(where is|located|location|what state|which state|what city|how far)\b/.test(q)) want.push("where");
   if(/\b(deadline|deadlines|due|apply by|early (decision|action))\b/.test(q)) want.push("deadline");
+  if(/\b(what (should|do|can|must) (we|i) do|next steps?|to.?do|before (the |its |their |that |our )?(application )?(deadline|due|apply)|get ready|prepare|what('| i)?s (left|needed|required)|what do (we|i) need|what.*need to (do|submit|send|finish))\b/.test(q)){ want.push("steps"); const di=want.indexOf("deadline"); if(di>=0) want.splice(di,1); }
   if(/\b(sat|act|test scores?|scores?)\b/.test(q)) want.push("scores");
   if(/\b(earn|earnings|salary|outcomes?|graduat(e|ion)|grad rate)\b/.test(q)) want.push("outcomes");
   if(/\b(sport|sports|athletics|division|d1|d2|d3|conference|team)\b/.test(q)) want.push("sports");
@@ -7521,6 +7533,7 @@ function zoeSite(qraw){
   if(sch.length>=2 && /\b(compare|vs|versus|or|difference|better|between)\b/.test(q)){
     const w=myPrefs(); const row=c=>{ const s=c.scorecard||{}; const ch=chanceFor(c); const m=matchScore(c,w); const y=yourNet(c); const price=y?Math.max(0,y.v):avgNet(c); return `• <b>${esc(c.name)}</b> — ${m!=null?m+"% fit":"fit n/a"}${ch?` · ${esc(ch.label)}${ch.score!=null?` (Admit Power ${ch.score})`:""}`:""} · admits ${pct(s.admissionRate)} · ${price!=null?money(price)+"/yr":"price n/a"} · ${s.size?s.size.toLocaleString()+" students":"size n/a"}`; };
     return "Side by side, from the app's data:<br>"+sch.slice(0,3).map(row).join("<br>")+"<br><span class='muted'>Tap <b>⇄ Compare</b> on each school for the full table.</span>"; }
+  if(sch.length>=2){ const fs=sch.slice(0,3).map(c=>zoeSchoolFact(q,c)).filter(Boolean); if(fs.length===sch.slice(0,3).length) return fs.join("<br><br>"); }   // Oct 28: "tell me about Elon and Clemson" answered only one school
   if(sch.length>=1){ const f=zoeSchoolFact(q, sch[0]); if(f) return f; }
   // my board: counts, priciest, and a state filter
   { const bd=(state.schools||[]).map(x=>({s:x,i:catInfo(x.school_id)})).filter(x=>x.i);
@@ -7566,6 +7579,7 @@ const ZOE_HANDOFF = [
 let _zoeHandoffAt=Math.floor(Math.random()*20);
 function zoeAnswerPlain(qraw){
   const q=(qraw||"").toLowerCase().trim();
+  if(ZOE_BOARD_STEPS_RE.test(q) && !zoeSchoolsInText(q).length){ const bs=zoePersonal(q); if(bs) return bs; }   // Oct 28: "next steps before the deadlines" is about the board, not the site's Deadlines page
   if(/^(how|where|can|show|which|what is|what.?s|what are|what does|is|does|tell me|who)\b/.test(q)){ const sx0=zoeSite(qraw||""); if(sx0) return sx0; }
   { const ch=zoeChips(q); if(ch) return ch; }
   { const sx=zoeSite(qraw||""); if(sx) return sx; }
@@ -7610,6 +7624,9 @@ function zoePersonal(q){
     if(!t.length) return "Your trip is empty right now. Add schools with the <b>🗺 Trip</b> button on any school, then open the <b>Trips</b> tab — I'll map an efficient route with stops for food and places to stay.";
     return `You've got <b>${t.length}</b> school${t.length>1?"s":""} on your trip:<br>`+t.slice(0,10).map(c=>`• <b>${esc(c.name)}</b> <span class="muted">${esc([c.city,c.state].filter(Boolean).join(", "))}</span>`).join("<br>")+`<br><span class='muted'>Open the <b>Trips</b> tab to build the route on a map — or ask me how to order the visits.</span>`;
   }
+  { const want=[/\breach(es)?\b/.test(q)&&"reach", /\btargets?\b/.test(q)&&"target", (/\b(likelies|likely (schools?|list|ones)|safeties|safety (schools?|list))\b/.test(q))&&"likely"].filter(Boolean);
+    if(want.length>=2 && !/\b(contact|email|call|phone|office|admissions?|counselor)\b/.test(q)){ const NM={reach:"reaches",target:"targets",likely:"likely schools"};   // Oct 28: "my reaches and targets" answered only the reaches
+      return want.map(b=>{ const l=bandList(b); return l.length?`Your <b>${NM[b]}</b> (${l.length}):<br>`+l.join("<br>"):`No ${NM[b]} on your board yet.`; }).join("<br><br>"); } }
   if(/\breach(es)?\b/.test(q) && !/\b(contact|email|call|phone|office|admissions?|counselor)\b/.test(q)){ const l=bandList("reach"); return l.length?`Your <b>reaches</b> (${l.length}):<br>`+l.join("<br>")+"<br><span class='muted'>2–3 reaches is a healthy amount.</span>":"No reaches on your board yet — want a few? Open <b>✨ Zoe Picks</b>."; }
   if(/\btargets?\b/.test(q)){ const l=bandList("target"); return l.length?`Your <b>targets</b> (${l.length}):<br>`+l.join("<br>"):"No targets yet — <b>✨ Zoe Picks</b> can find some that fit."; }
   if(/\b(likelies|likely (schools?|list|ones)|safeties|safety (schools?|list))\b/.test(q)){ const l=bandList("likely"); return l.length?`Your <b>likely</b> schools (${l.length}):<br>`+l.join("<br>"):"No likely schools yet — add a couple of safer bets so your list is balanced."; }
@@ -7619,6 +7636,12 @@ function zoePersonal(q){
   if(/\b(compare|versus|vs\.?|or)\b/.test(q)){ const n=_norm(q); const hit=state.catalog.filter(c=>{ const m=_norm(c.name); return m&&m.length>3&&n.includes(m); }).slice(0,3);
     if(hit.length>=2){ const row=c=>{ const sc=c.scorecard||{}; const ch=chanceFor(c); const m=matchScore(c,w); return `• <b>${esc(c.name)}</b> — ${m!=null?m+"% match":"match n/a"}${ch?` · ${esc(ch.label)}`:""}${typeof sc.netPrice==="number"?` · net ~${money(sc.netPrice)}`:""}${typeof sc.admissionRate==="number"?` · admits ${Math.round(sc.admissionRate*100)}%`:""}`; };
       return "Side by side, from the app's data:<br>"+hit.map(row).join("<br>")+"<br><span class='muted'>Tap <b>Compare</b> on each school for the full table.</span>"; } }
+  if(ZOE_BOARD_STEPS_RE.test(q)){ const today=new Date(); today.setHours(0,0,0,0);
+    const rows=board.map(x=>({x,n:deadlineList(x.info).find(d=>d.date>=today)})).filter(y=>y.n).sort((a,b)=>a.n.date-b.n.date).slice(0,3);
+    if(!board.length) return "Your board is empty, so there are no deadlines to prepare for yet. Add schools from <b>Zoe Picks</b> or <b>Search</b> and I can list what is due and what is left.";
+    if(!rows.length) return "I don't have an upcoming verified date for the schools on your board, so I can't say what comes first. Check each school's admissions page.";
+    return "Your next deadlines and what is still open:<br>"+rows.map(y=>{ const chk=getChecklist(y.x.s.school_id); const left=tasksFor(y.x.info).filter(t=>!chk[t.key]&&t.key!=="Submitted").map(t=>t.label); const d=daysUntil(y.n.date);
+      return `• <b>${esc(y.x.s.name)}</b> — ${esc(_fmtD(y.n.date))} (${d===0?"today":d===1?"tomorrow":"in "+d+" days"})${y.n.plans&&y.n.plans.length>1?" · choose one plan":""}. Still to do: ${left.length?esc(left.slice(0,4).join(", "))+(left.length>4?"…":""):"nothing left but Submitted"}.`; }).join("<br>")+"<br><span class='muted'>Dates come from each school's site; confirm with the school before you apply.</span>"; }
   if(/(deadline|due date|when.*(appl|due)|apply by)/.test(q)){ const rows=board.map(x=>({x,d:parseDeadlineDate(x.info)})).filter(y=>y.d).sort((a,b)=>a.d-b.d).slice(0,5); return rows.length?"Next deadlines on your board:<br>"+rows.map(y=>`• <b>${esc(y.x.s.name)}</b> — ${esc(nextDlText(y.x.info)||y.x.info.regularDeadline||"see site")}`).join("<br>")+"<br><span class='muted'>Full tracker + checklists under <b>Deadlines</b>.</span>":"I don't have dated deadlines for your board schools yet — check each school's page, and track them under <b>Deadlines</b>."; }
   if(/(cheap|afford|least expensive|lowest).*(board|list|mine)|my.*(cheap|afford)/.test(q)){ const l=board.filter(x=>x.info.scorecard&&typeof x.info.scorecard.netPrice==="number").sort((a,b)=>a.info.scorecard.netPrice-b.info.scorecard.netPrice).slice(0,5); return l.length?"Lowest net price on your board:<br>"+l.map(x=>`• <b>${esc(x.s.name)}</b> — ${money(x.info.scorecard.netPrice)}`).join("<br>"):null; }
   if(/(my match|best match|top match|best for me|best fit|my fit)/.test(q)){ const l=state.catalog.filter(c=>!isGradOnly(c)).map(c=>({c,m:matchScore(c,w)})).filter(x=>x.m!=null).sort((a,b)=>b.m-a.m).slice(0,6); return "Your top matches right now:<br>"+l.map(x=>`• <b>${esc(x.c.name)}</b> — ${x.m}%`).join("<br>")+"<br><span class='muted'>Tune these in My Profile → sliders.</span>"; }
@@ -7725,7 +7748,33 @@ function zoeVoice(html){ const t=String(html||""); if(!t || t.length<40 || /<but
   if(_zoeQ%3===1) return t;                                   // not every answer — keeps it fresh
   const pre=ZOE_PRE[(_zoeQ*5)%ZOE_PRE.length], post=ZOE_POST[(_zoeQ*7)%ZOE_POST.length];
   return _zoeQ%2? `${pre}${t}` : `${t}<br><span class="muted" style="font-size:12.5px">${post}</span>`; }
-function zoeAnswer(qraw){ const a=zoeAnswerPlain(qraw); return a===ZOE_FALLBACK? a : zoeVoice(a); }
+/* Oct 28 (product review): compound questions. Split into parts, answer each from the same sources as a single question,
+   say plainly which part could not be answered, and hand only that part to the big AIs (never income). */
+const ZOE_CUE="(?:what|when|which|how|where|who|why|can|could|should|would|is|are|do|does|did|will|tell|show|list|give|help|compare|plan|remind)";
+let _zoePending=null;
+const ZOE_BOARD_STEPS_RE=/\b(before|ahead of|get ready for|prepare for)\b.*\bdeadlines?\b|\bnext steps?\b.*\bdeadlines?\b|\bwhat\b.*\b(do|need)\b.*\bdeadlines?\b/;
+function zoeSplitParts(raw){
+  const t=String(raw||"").trim(); if(!t) return [t];
+  let a=t.split(/(?<=[?!])\s+|;\s+/).map(x=>x.trim()).filter(Boolean), out=[];
+  for(const seg of a){ out.push(...seg.split(new RegExp("\\s*,?\\s*(?:\\band\\b|&|\\bthen\\b|\\balso\\b|\\bplus\\b)\\s+(?="+ZOE_CUE+"\\b)","i")).flatMap(x=>x.split(new RegExp(",\\s+(?="+ZOE_CUE+"\\b)","i")))); }
+  out=out.map(x=>x.replace(/^[\s,.;]+|[\s,.;?]+$/g,"").trim()).filter(Boolean);
+  const merged=[]; for(const x of out){ if(merged.length && x.split(/\s+/).length<3) merged[merged.length-1]+=" "+x; else merged.push(x); }
+  while(merged.length>3){ const l=merged.pop(); merged[merged.length-1]+=" and "+l; }
+  return merged; }
+function zoeCompound(qraw){
+  const parts=zoeSplitParts(qraw); if(parts.length<2) return null;
+  let ctx=null; const BOARDWIDE=/\b(my|our)\s+(schools?|list|board|colleges?)\b|\b(each|every|all)\b|\bwhich of\b|\bdeadlines\b/i;
+  const res=parts.map(txt=>{ let q=txt; let sch=[]; try{ sch=zoeSchoolsInText(txt.toLowerCase()); }catch(e){}
+    if(sch.length) ctx=sch[0]; else if(ctx && !BOARDWIDE.test(txt)) q=txt+" at "+ctx.name;
+    let a=null; try{ a=zoeAnswerPlain(q); }catch(e){ a=null; }
+    const ok=!!a && a!==ZOE_FALLBACK; return { txt, q, ok, html:ok?a:"" }; });
+  if(!res.some(r=>r.ok)) return null;                         // nothing answerable here: the normal hand-off handles the whole question
+  const cap=x=>x.charAt(0).toUpperCase()+x.slice(1);
+  const unanswered=res.filter(r=>!r.ok);
+  const body=res.map((r,i)=>`<div class="zpart"><b>${i+1}. ${esc(cap(r.txt))}?</b><br>${r.ok?r.html:`I can't answer this part from this site, your board or the school data.${unanswered.length?" I've written it up for the big AIs below.":""}`}</div>`).join("<br>");
+  _zoePending = unanswered.length ? unanswered.map(r=>cap(r.txt)+"?").join(" ") : null;
+  return `You asked ${res.length} things, so here is each one:<br><br>`+body; }
+function zoeAnswer(qraw){ _zoePending=null; const c=zoeCompound(qraw); if(c) return c; const a=zoeAnswerPlain(qraw); return a===ZOE_FALLBACK? a : zoeVoice(a); }
 function zoeBoardLine(){ return (state.schools||[]).slice(0,25).map(sc=>{ const i=catInfo(sc.school_id); const ch=i&&chanceFor(i); return sc.name+(ch?` (${ch.label})`:""); }).join("; "); }
 function zoeBeyond(v){
   const prompt=`My family is planning college applications. ${aiProfileLine()} ${zoeBoardLine()?`Our list so far: ${zoeBoardLine()}.`:""} Question: ${v}`.replace(/\s+/g," ").trim().slice(0,3500);
@@ -7767,7 +7816,7 @@ async function zoeHandle(v){
   const pageQ = _zoePage && !DEMO && /\b(this|here|these)\b/i.test(v);
   const whyBand=!DEMO && zoeIsWhyBand(v);
   const ans=(pageQ||whyBand)?ZOE_FALLBACK:zoeAnswer(v);
-  if(ans!==ZOE_FALLBACK){ zoeSay(ans); return; }
+  if(ans!==ZOE_FALLBACK){ zoeSay(ans); if(_zoePending){ zoeSay(zoeBeyond(_zoePending)); _zoePending=null; } return; }
   if(zoeInFlight){ return; }
   zoeInFlight=true;
   const typing=zoeTyping();
@@ -7880,7 +7929,7 @@ $("zoe-form").onsubmit=(e)=>{ e.preventDefault(); const v=$("zoe-in").value.trim
 /* ---- Ask Zoe full tab (concept 2) ---- */
 function ztabSay(text,who){ const log=$("ztab-log"); if(!log) return; const d=document.createElement("div"); d.className="zmsg "+(who||"z"); d.innerHTML=text; log.appendChild(d); log.scrollTop=log.scrollHeight; }
 function ztabTyping(){ const log=$("ztab-log"); const d=document.createElement("div"); d.className="zmsg z ztyping"; d.innerHTML='<span class="zdot"></span><span class="zdot"></span><span class="zdot"></span>'; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
-async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); if(!opt && /\b(plan my week|this week|next 7 days|next week)\b/i.test(v)) opt={mode:"week"}; const whyBand=!opt && zoeIsWhyBand(v); if(whyBand) opt={ctx:{bandReasons:zoeBandReasons(v)}}; if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
+async function ztabAsk(v, opt, shown){ ztabSay(esc(shown||v),"me"); if(!opt && /\b(plan my week|this week|next 7 days|next week)\b/i.test(v)) opt={mode:"week"}; const whyBand=!opt && zoeIsWhyBand(v); if(whyBand) opt={ctx:{bandReasons:zoeBandReasons(v)}}; if(!opt){ const ans=zoeAnswer(v); if(ans!==ZOE_FALLBACK){ ztabSay(ans); zoeRemember("user",v); zoeRemember("zoe",zoePlain(ans)); if(_zoePending){ ztabSay(zoeBeyond(_zoePending)); _zoePending=null; } return; } } if(zoeInFlight){ return; } zoeInFlight=true; const t=ztabTyping(); try{ const html=await zoeFetchAI(v,opt); t.remove(); ztabSay(html); } finally{ zoeInFlight=false; } }
 /* #46 Zoe modes: Plan my week · Essay coach · Family huddle · How do I stack up */
 function zoeWeekCtx(){ const today=new Date(); today.setHours(0,0,0,0); const up=[], gaps=[];
   for(const s of state.schools||[]){ const info=catInfo(s.school_id); if(!info) continue;
