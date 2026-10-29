@@ -6190,6 +6190,7 @@ function planNoteHtml(plans){ const hasB=plans.some(p=>p.binding), hasN=plans.so
   if(!hasB) return "";
   return `<div class="plan-note" role="note"><b>${hasN?"Choose one plan.":"This is a binding plan."}</b> Early Decision is <b>binding</b>: if you are admitted, you commit to enroll.${hasN?" The other plans listed are not binding.":""} Ask the school which plan you are in; the checklist below is the same either way. <a href="${PLAN_DEFS_URL}" target="_blank" rel="noopener">What the plans mean (Common App) ↗</a></div>`; }
 function deadlineList(info){
+  if(!info) return [];   // a school added by hand has no catalog record (Oct 28: this crashed Today and the board)
   const v=dl2627(info);
   if(v){ const L=v.rounds.map(r=>({kind:r.kind, date:_ymdDate(r.date), text:r.name||r.kind, src:r.src, conf:r.conf})).filter(x=>x.date).sort((a,b)=>a.date-b.date);
     // #78: rounds due the same day stay ONE dated row (so counts, the next-deadline countdown and reminders count a school once),
@@ -6205,6 +6206,7 @@ function deadlineList(info){
   return [...byKey.values()].sort((a,b)=>a.date-b.date);
 }
 function nextDeadline(info){
+  if(!info) return null;
   const L=myDeadlines(info); if(!L.length) return null;
   const today=new Date(); today.setHours(0,0,0,0);
   return L.find(x=>x.date>=today) || L[L.length-1];   // nearest upcoming, else the most recent past one
@@ -6288,7 +6290,8 @@ function renderDeadlines(){
   const counts=Object.fromEntries(SCHOOL_STAGES.map(([k])=>[k, allRows.filter(r=>r.stage===k).length]));
   const rows=allRows.filter(r=>filt.includes(r.stage));
   const filterBar=`<div class="dl-stagebar" role="group" aria-label="Which schools to track"><span class="dl-sb-l">Tracking:</span>${SCHOOL_STAGES.map(([k,l])=>`<button type="button" class="dl-sb ${filt.includes(k)?"on":""}" data-dlstage="${k}" aria-pressed="${filt.includes(k)}">${filt.includes(k)?"✓ ":""}${l} <span>${counts[k]}</span></button>`).join("")}</div>
-    ${!anyApplying?`<div class="dl-sb-hint">Tip: tap <b>We're applying</b> on a school to focus this page on the applications you're actually sending.</div>`:""}`;
+    ${!anyApplying?`<div class="dl-sb-hint">Tip: tap <b>We're applying</b> on a school to focus this page on the applications you're actually sending.</div>`:""}
+    ${(()=>{ const hand=(state.schools||[]).filter(x=>!catInfo(x.school_id)); return hand.length?`<div class="dl-sb-hint" id="dl-hand">Not tracked here: <b>${hand.map(x=>esc(x.name)).join(", ")}</b> — added by hand, so we have no dates or checklist for ${hand.length>1?"them":"it"}. Check ${hand.length>1?"their":"its"} admissions site${hand.length>1?"s":""}. (If the school is in Search, adding it from there gives you dates.)</div>`:""; })()}`;
   if(!rows.length){ out.innerHTML=`<div class="card">${filterBar}<p class="muted" style="margin:10px 0 0">No schools in the stages you picked. Tap a stage above to show its schools.</p></div>`; wireDlStages(out, filt); return; }
   rows.forEach(r=>{ const nx=nextDeadline(r.info); r._d=nx?nx.date:null; r._kind=nx?kindShort(nx):""; r._n=daysUntil(r._d); });
   rows.sort((a,b)=>{ if(a._d&&b._d) return a._d-b._d; if(a._d) return -1; if(b._d) return 1; return a.rec.name.localeCompare(b.rec.name); });
